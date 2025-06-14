@@ -30,7 +30,7 @@ function UploadButton() {
           className="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 hover:scale-105 shadow-lg border border-gray-600 flex items-center space-x-2"
         >
           <span>📁</span>
-          <span>Upload Audio</span>
+          <span>Upload Tracks</span>
         </label>
       </div>
     </div>
