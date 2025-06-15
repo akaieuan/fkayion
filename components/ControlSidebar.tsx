@@ -55,6 +55,22 @@ export function ControlSidebar() {
           <h3 className="text-lg font-semibold text-white">Shape Controls</h3>
           
           <div className="space-y-2">
+            <label className="text-sm font-medium text-white">Base Shape</label>
+            <select
+              name="shape"
+              value={controls.shape}
+              onChange={(e) => handleControlChange({ target: { name: 'shape', value: e.target.value } } as any)}
+              className="w-full bg-white/10 text-white rounded-lg p-2 border border-white/20"
+            >
+              <option value="sphere">Sphere</option>
+              <option value="cube">Cube</option>
+              <option value="torus">Torus</option>
+              <option value="torusKnot">Torus Knot</option>
+              <option value="icosahedron">Icosahedron</option>
+            </select>
+          </div>
+
+          <div className="space-y-2">
             <div className="flex justify-between items-center">
               <label htmlFor="noiseScale" className="text-sm font-medium text-white">Spike Density</label>
               <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
@@ -115,30 +131,59 @@ export function ControlSidebar() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-white">Colors</label>
+            <label className="text-sm font-medium text-white">Color Scheme</label>
             <div className="grid grid-cols-3 gap-2">
-              <input
-                type="color"
-                name="color1"
-                value={controls.color1}
-                onChange={handleControlChange}
-                className="w-full h-8 rounded cursor-pointer"
-              />
-              <input
-                type="color"
-                name="color2"
-                value={controls.color2}
-                onChange={handleControlChange}
-                className="w-full h-8 rounded cursor-pointer"
-              />
-              <input
-                type="color"
-                name="color3"
-                value={controls.color3}
-                onChange={handleControlChange}
-                className="w-full h-8 rounded cursor-pointer"
-              />
+              <div className="space-y-1">
+                <label className="text-xs text-white/70">Primary</label>
+                <input
+                  type="color"
+                  name="color1"
+                  value={controls.color1}
+                  onChange={handleControlChange}
+                  className="w-full h-8 rounded cursor-pointer"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs text-white/70">Secondary</label>
+                <input
+                  type="color"
+                  name="color2"
+                  value={controls.color2}
+                  onChange={handleControlChange}
+                  className="w-full h-8 rounded cursor-pointer"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs text-white/70">Accent</label>
+                <input
+                  type="color"
+                  name="color3"
+                  value={controls.color3}
+                  onChange={handleControlChange}
+                  className="w-full h-8 rounded cursor-pointer"
+                />
+              </div>
             </div>
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex justify-between items-center">
+              <label htmlFor="colorBlend" className="text-sm font-medium text-white">Color Blend Speed</label>
+              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
+                {(controls.colorBlend || 0).toFixed(2)}
+              </span>
+            </div>
+            <input
+              id="colorBlend"
+              type="range"
+              name="colorBlend"
+              min="0.1"
+              max="2.0"
+              step="0.1"
+              value={controls.colorBlend}
+              onChange={handleControlChange}
+              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+            />
           </div>
         </div>
 
@@ -269,6 +314,26 @@ export function ControlSidebar() {
             />
           </div>
 
+          <div className="space-y-2">
+            <div className="flex justify-between items-center">
+              <label htmlFor="grainSize" className="text-sm font-medium text-white">Grain Size</label>
+              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
+                {(controls.grainSize || 0).toFixed(2)}
+              </span>
+            </div>
+            <input
+              id="grainSize"
+              type="range"
+              name="grainSize"
+              min="1"
+              max="20"
+              step="1"
+              value={controls.grainSize}
+              onChange={handleControlChange}
+              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+            />
+          </div>
+
           <div className="flex items-center space-x-2">
             <input
               id="wireframe"
@@ -279,6 +344,18 @@ export function ControlSidebar() {
               className="w-4 h-4 rounded border-white/20"
             />
             <label htmlFor="wireframe" className="text-sm font-medium text-white">Wireframe</label>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <input
+              id="dotMatrix"
+              type="checkbox"
+              name="dotMatrix"
+              checked={controls.dotMatrix}
+              onChange={handleControlChange}
+              className="w-4 h-4 rounded border-white/20"
+            />
+            <label htmlFor="dotMatrix" className="text-sm font-medium text-white">Dot Matrix</label>
           </div>
 
           <div className="flex items-center space-x-2">

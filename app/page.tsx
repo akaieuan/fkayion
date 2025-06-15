@@ -38,6 +38,10 @@ function UploadButton() {
 }
 
 function MainContent() {
+  const { audioSrc, isPlaying } = useAudio()
+
+  console.log('MainContent render:', { audioSrc, isPlaying })
+
   return (
     <div className="flex flex-col h-screen w-screen bg-black">
       <div className="relative flex flex-1 min-h-0 min-w-0 overflow-hidden">
@@ -48,8 +52,8 @@ function MainContent() {
             <UploadButton />
           </div>
           
-          <div className="flex-1 flex items-center justify-center min-w-0 min-h-0 p-8">
-            <div className="w-full max-w-[1800px] h-full">
+          <div className="flex-1 flex items-center justify-center min-w-0 min-h-0 p-8 bg-black/50">
+            <div className="w-full max-w-[1800px] h-full relative">
               <AudioVisualizer />
             </div>
           </div>
