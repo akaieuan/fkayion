@@ -7,7 +7,7 @@ import * as THREE from 'three'
 import { useAudio } from './AudioContext'
 
 export function GooeyBlob() {
-  const meshRef = useRef<THREE.Mesh>(null)
+  const meshRef = useRef<any>(null)
   const { frequencyData, controls, isPlaying } = useAudio()
   
   const material = useMemo(() => {
@@ -34,7 +34,9 @@ export function GooeyBlob() {
         wireframe: { value: controls.wireframe ? 1.0 : 0.0 },
         contrast: { value: controls.contrast },
         grain: { value: controls.grain },
+        grainSize: { value: controls.grainSize },
         bloom: { value: controls.bloom },
+        dotMatrix: { value: controls.dotMatrix ? 1.0 : 0.0 },
       },
       vertexShader: `
         uniform float time;
@@ -51,6 +53,7 @@ export function GooeyBlob() {
         uniform float split;
         uniform float glass;
         uniform float isPlaying;
+        uniform float dotMatrix;
         
         varying vec3 vNormal;
         varying vec3 vPosition;
@@ -127,11 +130,22 @@ export function GooeyBlob() {
             displacement += sin(position.x * 10.0 + time) * sin(position.y * 8.0 + time * 1.2) * glass * 0.2;
           }
           
+          if (dotMatrix > 0.5) {
+            displacement *= 1.5;
+          }
+          
           // Apply displacement along normal
           vec3 newPosition = position + normal * displacement;
           vec4 mvPosition = modelViewMatrix * vec4(newPosition, 1.0);
           vViewPosition = -mvPosition.xyz;
           gl_Position = projectionMatrix * mvPosition;
+
+          if (dotMatrix > 0.5) {
+            float audioInfluence = bass * 2.0 + mid + treble * 0.5;
+            float pointSize = 8.0 + audioInfluence * 25.0;
+            pointSize *= (1.0 / -mvPosition.z);
+            gl_PointSize = pointSize;
+          }
         }
       `,
       fragmentShader: `
@@ -144,12 +158,14 @@ export function GooeyBlob() {
         uniform float wireframe;
         uniform float contrast;
         uniform float grain;
+        uniform float grainSize;
         uniform float metallic;
         uniform float glass;
         uniform float bloom;
         uniform float time;
         uniform float goopiness;
         uniform float split;
+        uniform float dotMatrix;
         
         varying vec3 vNormal;
         varying vec3 vPosition;
@@ -166,24 +182,30 @@ export function GooeyBlob() {
         }
 
         void main() {
+          if (dotMatrix > 0.5) {
+            float dist = distance(gl_PointCoord, vec2(0.5));
+            if (dist > 0.5) {
+                discard;
+            }
+          }
+
           vec3 viewDirection = normalize(-vViewPosition);
           float fresnel = pow(1.0 - max(0.0, dot(normalize(vNormal), viewDirection)), 3.0);
-          
-          // Dynamic noise based on position and time
-          float noiseTime = time * goopiness * 0.5;
-          vec2 noiseCoord = vPosition.xy * 0.5 + vec2(noiseTime * 0.2, noiseTime * 0.3);
-          float dynamicNoise = noise(noiseCoord) * 2.0 - 1.0;
           
           // Audio-reactive color weights
           float bassWeight = bass * 1.5;
           float midWeight = mid * 1.2;
           float trebleWeight = treble * 0.8;
-          float audioMix = (bassWeight + midWeight + trebleWeight) * 0.5;
           
-          // Enhanced color mixing with metallic effect
-          vec3 baseColor = organicMix(color1, color2, fresnel + dynamicNoise * 0.3);
-          vec3 reflectColor = organicMix(color3, color2, fresnel * 2.0);
-          vec3 audioColor = organicMix(baseColor, reflectColor, audioMix);
+          // Tri-planar color blending for more distinct color zones
+          float blendX = smoothstep(-0.5, 0.5, sin(vPosition.x * 2.0 + time * 0.2 + bassWeight * 2.0));
+          float blendY = smoothstep(-0.5, 0.5, cos(vPosition.y * 2.0 + time * 0.3 + midWeight * 2.0));
+
+          vec3 baseColor = mix(color1, color2, blendX);
+          baseColor = mix(baseColor, color3, blendY);
+
+          // Add fresnel-based highlights with audio reactivity
+          vec3 audioColor = mix(baseColor, color3, fresnel * (1.0 + trebleWeight));
           
           // Metallic reflection
           float metallicFresnel = pow(fresnel, 1.0 + metallic * 2.0);
@@ -206,11 +228,12 @@ export function GooeyBlob() {
           
           // Grain effect
           if (grain > 0.0) {
-            float grainNoise = noise(vUv + vec2(time * 0.001)) * grain;
-            metallicColor = mix(metallicColor, metallicColor * (1.0 + grainNoise), 0.15);
+            float grainNoise = noise(vUv * grainSize + vec2(time * 0.001)) * grain;
+            metallicColor = mix(metallicColor, metallicColor * (1.0 + grainNoise), grain);
           }
           
           // Dynamic contrast based on audio
+          float audioMix = (bassWeight + midWeight + trebleWeight) * 0.5;
           float dynamicContrast = contrast * (1.0 + audioMix * 0.2);
           metallicColor = pow(metallicColor, vec3(dynamicContrast));
           
@@ -220,11 +243,25 @@ export function GooeyBlob() {
             metallicColor += vec3(edge) * 0.3;
           }
           
-          gl_FragColor = vec4(metallicColor, 1.0);
+          if (dotMatrix > 0.5) {
+            float dist = distance(gl_PointCoord, vec2(0.5));
+            
+            // Smooth alpha falloff for a soft-edged orb
+            float alpha = 1.0 - smoothstep(0.45, 0.5, dist);
+            if (alpha < 0.01) discard;
+
+            // Add a glowing core
+            float coreGlow = pow(1.0 - dist * 2.0, 4.0);
+            metallicColor += metallicColor * coreGlow * 1.2; // Make it glow more
+
+            gl_FragColor = vec4(metallicColor, alpha);
+          } else {
+            gl_FragColor = vec4(metallicColor, 1.0);
+          }
         }
       `,
       wireframe: controls.wireframe,
-      transparent: controls.glass > 0,
+      transparent: controls.glass > 0 || controls.dotMatrix,
     })
   }, [controls, isPlaying])
 
@@ -293,6 +330,15 @@ export function GooeyBlob() {
         case 'glass':
           uniform.value = controls.glass
           break
+        case 'dotMatrix':
+          uniform.value = controls.dotMatrix ? 1.0 : 0.0
+          break
+        case 'grain':
+          uniform.value = controls.grain
+          break
+        case 'grainSize':
+          uniform.value = controls.grainSize
+          break
         default:
           if (key in controls) {
             uniform.value = controls[key]
@@ -304,24 +350,30 @@ export function GooeyBlob() {
   })
 
   const geometry = useMemo(() => {
+    const highDef = controls.wireframe || controls.dotMatrix;
     switch (controls.shape) {
       case 'sphere':
-        return <sphereGeometry args={[1, controls.wireframe ? 64 : 32, controls.wireframe ? 32 : 16]} />
+        return <sphereGeometry args={[1, highDef ? 64 : 32, highDef ? 32 : 16]} />
       case 'cube':
         return <boxGeometry args={[1.5, 1.5, 1.5]} />
       case 'torus':
-        return <torusGeometry args={[1, 0.4, controls.wireframe ? 32 : 16, controls.wireframe ? 100 : 50]} />
+        return <torusGeometry args={[1, 0.4, highDef ? 32 : 16, highDef ? 100 : 50]} />
       default: // icosahedron
-        return <icosahedronGeometry args={[1, controls.wireframe ? 5 : 3]} />
+        return <icosahedronGeometry args={[1, highDef ? 5 : 3]} />
     }
-  }, [controls.shape, controls.wireframe])
+  }, [controls.shape, controls.wireframe, controls.dotMatrix])
 
-  return (
+  return controls.dotMatrix ? (
+    <points ref={meshRef}>
+      {geometry}
+      <primitive object={material} />
+    </points>
+  ) : (
     <mesh ref={meshRef}>
       {geometry}
       <primitive object={material} />
     </mesh>
-  )
+  );
 }
 
 export function AudioVisualizer() {

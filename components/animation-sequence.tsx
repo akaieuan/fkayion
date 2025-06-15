@@ -45,6 +45,8 @@ export type Controls = {
   bloom: number
   wireframe: boolean
   showParticles: boolean
+  dotMatrix: boolean
+  grainSize: number
   
   // Shape
   shape: string
@@ -60,6 +62,9 @@ export type Controls = {
   tension: number
   turbulence: number
   detail: number
+  split: number
+  metallic: number
+  glass: number
 }
 
 // Ambient goop sequences - now with spikier variations

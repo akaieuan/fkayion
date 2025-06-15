@@ -67,6 +67,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     color1: '#00f2ff',  // Primary color
     color2: '#ff00a8',  // Secondary color
     color3: '#7000ff',  // Accent color
+    colorBlend: 0.5,    // Color blend speed
     
     // Goop Character Controls
     complexity: 1.8,    // Affects overall noise complexity
@@ -83,26 +84,31 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     // Visual Enhancements
     contrast: 1.15,
     grain: 0.08,
-    bloom: 0.45,
+    grainSize: 5,
+    bloom: 0,
     wireframe: false,
+    dotMatrix: false,
     showParticles: true,
-    metallic: 0.5,      // Metallic surface effect
+    metallic: 0,      // Metallic surface effect
     glass: 0.3,         // Glass distortion effect
     
     // Shape
-    shape: 'icosahedron',
-
+    shape: 'sphere', // Changed default to sphere for better visibility
+    
     // Animation Controls
     sequenceSpeed: 1.0,
-    autoCycleShapes: false,
-    autoSequencing: false,
-    autoRandomizeParams: false,
+    autoCycleShapes: true,
+    autoSequencing: true,
+    autoRandomizeParams: true,
+    autoCycleColors: true,
   })
 
   // Dynamic animation state
   const lastShapeChangeRef = useRef(0)
   const lastRandomizeRef = useRef(0)
   const lastSequenceRef = useRef(0)
+  const lastVisualEffectRef = useRef(0)
+  const lastColorChangeRef = useRef(0)
   const baseParamsRef = useRef(controls)
   const currentSequenceRef = useRef(0)
   
@@ -116,15 +122,26 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     { name: 'Smooth Flow', noiseForce: 1.0, noiseScale: 1.2, split: 0.2, complexity: 0.8, tension: 0.8 },
   ]
 
+  const colorPalettes = [
+    { name: 'Neon Dreams', color1: '#ff71ce', color2: '#01cdfe', color3: '#05ffa1' },
+    { name: 'Cosmic Flare', color1: '#f5d300', color2: '#ff225e', color3: '#6a0dad' },
+    { name: 'Oceanic', color1: '#00c6ff', color2: '#0072ff', color3: '#fceabb' },
+    { name: 'Sunset', color1: '#ff8c00', color2: '#ff0080', color3: '#4b0082' },
+    { name: 'Forest Spirit', color1: '#a7ff83', color2: '#17bd9b', color3: '#027a74' },
+    { name: 'Fire and Ice', color1: '#ff4b1f', color2: '#1fddff', color3: '#ffffff' },
+  ];
+
   const shapes = ['icosahedron', 'sphere', 'cube', 'torus']
 
   const setupAudioContext = useCallback(async () => {
     if (audioRef.current && !analyserRef.current) {
       try {
-        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+        console.log('Setting up audio context...')
+        const audioContext = audioContextRef.current || new (window.AudioContext || (window as any).webkitAudioContext)()
         audioContextRef.current = audioContext
         
         if (audioContext.state === 'suspended') {
+          console.log('Audio context suspended, resuming...')
           await audioContext.resume()
         }
         
@@ -142,39 +159,63 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
         dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount)
         waveformArrayRef.current = new Uint8Array(analyser.fftSize)
         
-        console.log('Enhanced audio context setup complete')
+        console.log('Audio context setup complete', {
+          state: audioContext.state,
+          sampleRate: audioContext.sampleRate,
+          fftSize: analyser.fftSize,
+          frequencyBinCount: analyser.frequencyBinCount
+        })
       } catch (error) {
         console.error('Error setting up audio context:', error)
       }
     }
   }, [])
 
+  const play = useCallback(async () => {
+    if (audioRef.current) {
+      try {
+        if (!analyserRef.current) {
+          await setupAudioContext()
+        }
+        if (audioContextRef.current?.state === 'suspended') {
+          await audioContextRef.current.resume()
+        }
+        await audioRef.current.play()
+      } catch (error) {
+        console.error('Error playing audio:', error)
+        setIsPlaying(false)
+      }
+    }
+  }, [setupAudioContext])
+
   useEffect(() => {
     if (audioSrc) {
-      // Pause and cleanup previous audio if it exists
+      console.log('Audio source changed:', audioSrc)
       if (audioRef.current) {
         audioRef.current.pause()
-        audioRef.current.src = ''
-        audioRef.current.load()
       }
-      analyserRef.current = null; // Reset analyser
-
-      audioRef.current = new Audio(audioSrc)
-      audioRef.current.crossOrigin = 'anonymous'
       
-      const audio = audioRef.current
+      const audio = new Audio(audioSrc)
+      audio.crossOrigin = 'anonymous'
+      audioRef.current = audio
       
-      const handleMetadata = () => {
-        setDuration(audio.duration)
-        console.log('Audio loaded, duration:', audio.duration)
-      }
+      const handleMetadata = () => setDuration(audio.duration)
       const handleTimeUpdate = () => setCurrentTime(audio.currentTime)
       const handlePlay = () => setIsPlaying(true)
       const handlePause = () => setIsPlaying(false)
       const handleEnded = () => setIsPlaying(false)
-      const handleCanPlay = () => {
-        console.log('Audio can play')
-        setupAudioContext()
+      
+      const handleCanPlay = async () => {
+        console.log('Audio can play, attempting to play')
+        await play()
+      }
+      
+      const handleError = (e: ErrorEvent) => {
+        console.error('Audio error:', e)
+        if (audioSrc.startsWith('blob:')) {
+          URL.revokeObjectURL(audioSrc)
+        }
+        setAudioSrc('')
       }
 
       audio.addEventListener('loadedmetadata', handleMetadata)
@@ -183,6 +224,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
       audio.addEventListener('pause', handlePause)
       audio.addEventListener('ended', handleEnded)
       audio.addEventListener('canplay', handleCanPlay)
+      audio.addEventListener('error', handleError)
 
       return () => {
         audio.removeEventListener('loadedmetadata', handleMetadata)
@@ -191,13 +233,14 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
         audio.removeEventListener('pause', handlePause)
         audio.removeEventListener('ended', handleEnded)
         audio.removeEventListener('canplay', handleCanPlay)
-        
+        audio.removeEventListener('error', handleError)
+        audio.pause()
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current)
         }
       }
     }
-  }, [audioSrc, setupAudioContext])
+  }, [audioSrc, play])
   
   const animate = useCallback(() => {
     if (analyserRef.current && dataArrayRef.current && waveformArrayRef.current && isPlaying) {
@@ -234,6 +277,12 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
       const mid = Math.min(1.0, Math.sqrt(midSum / (midEnd - bassEnd)) / 128 * controls.midReactivity)
       const treble = Math.min(1.0, Math.sqrt(trebleSum / (trebleEnd - midEnd)) / 128 * controls.trebleReactivity)
       
+      // Spike tension on bass
+      if (baseParamsRef.current.tension) {
+        const tensionMultiplier = 1.0 + bass * 1.5;
+        setControls(prev => ({ ...prev, tension: baseParamsRef.current.tension * tensionMultiplier }));
+      }
+      
       setFrequencyData({
         bass,
         mid,
@@ -266,49 +315,86 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!isPlaying) return
 
+    const { autoCycleShapes, autoSequencing, autoRandomizeParams, sequenceSpeed, shape, autoCycleColors } = controls
+    if (!autoCycleShapes && !autoSequencing && !autoRandomizeParams && !autoCycleColors) return
+
     const interval = setInterval(() => {
       const now = Date.now()
-      const sequenceInterval = (8000 / controls.sequenceSpeed)
-      const shapeInterval = 15000
-      const randomizeInterval = 12000
 
-      if (controls.autoCycleShapes && now - lastShapeChangeRef.current > shapeInterval) {
-        const currentShapeIndex = shapes.indexOf(controls.shape)
-        const nextShapeIndex = (currentShapeIndex + 1) % shapes.length
-        setControls(prev => ({ ...prev, shape: shapes[nextShapeIndex] }))
-        lastShapeChangeRef.current = now
+      if (autoCycleShapes) {
+        const shapeInterval = 25000 // 25 seconds
+        if (now - lastShapeChangeRef.current > shapeInterval) {
+          const currentShapeIndex = shapes.indexOf(shape)
+          const nextShapeIndex = (currentShapeIndex + 1) % shapes.length
+          setControls(prev => ({ ...prev, shape: shapes[nextShapeIndex] }))
+          lastShapeChangeRef.current = now
+        }
       }
 
-      if (controls.autoSequencing && now - lastSequenceRef.current > sequenceInterval) {
-        const sequence = sequences[Math.floor(Math.random() * sequences.length)]
-        
-        setControls(prev => ({
-          ...prev,
-          noiseForce: sequence.noiseForce,
-          noiseScale: sequence.noiseScale,
-          split: sequence.split || prev.split,
-          complexity: sequence.complexity || prev.complexity,
-          tension: sequence.tension || prev.tension,
-          turbulence: sequence.turbulence || prev.turbulence,
-          metallic: sequence.metallic || prev.metallic,
-          glass: sequence.glass || prev.glass,
-        }))
-        
-        lastSequenceRef.current = now
+      if (autoCycleColors) {
+        const colorInterval = 10000 // 10 seconds
+        if (now - lastColorChangeRef.current > colorInterval) {
+          const palette = colorPalettes[Math.floor(Math.random() * colorPalettes.length)]
+          setControls(prev => ({
+            ...prev,
+            color1: palette.color1,
+            color2: palette.color2,
+            color3: palette.color3,
+          }))
+          lastColorChangeRef.current = now
+        }
       }
 
-      if (controls.autoRandomizeParams && now - lastRandomizeRef.current > randomizeInterval) {
-        setControls(prev => ({
-          ...prev,
-          detail: 0.8 + Math.random() * 1.4,
-          turbulence: 0.5 + Math.random() * 1.0,
-        }))
-        lastRandomizeRef.current = now
+      if (autoSequencing) {
+        const sequenceInterval = 8000 / sequenceSpeed
+        const visualEffectInterval = 10000 + 5000 * Math.random() // 10-15 seconds
+
+        if (now - lastSequenceRef.current > sequenceInterval) {
+          const sequence = sequences[Math.floor(Math.random() * sequences.length)]
+          
+          setControls(prev => ({
+            ...prev,
+            noiseForce: sequence.noiseForce,
+            noiseScale: sequence.noiseScale,
+            split: sequence.split ?? prev.split,
+            complexity: sequence.complexity ?? prev.complexity,
+            tension: sequence.tension ?? prev.tension,
+            turbulence: sequence.turbulence ?? prev.turbulence,
+            metallic: sequence.metallic ?? prev.metallic,
+            glass: sequence.glass ?? prev.glass,
+          }))
+          
+          lastSequenceRef.current = now
+        }
+        
+        if (now - lastVisualEffectRef.current > visualEffectInterval) {
+          const effectType = Math.random();
+          if (effectType < 0.33) {
+            setControls(prev => ({ ...prev, wireframe: true, dotMatrix: false }));
+          } else if (effectType < 0.66) {
+            setControls(prev => ({ ...prev, wireframe: false, dotMatrix: true }));
+          } else {
+            setControls(prev => ({ ...prev, wireframe: false, dotMatrix: false }));
+          }
+          lastVisualEffectRef.current = now;
+        }
+      }
+
+      if (autoRandomizeParams) {
+        const randomizeInterval = 12000
+        if (now - lastRandomizeRef.current > randomizeInterval) {
+          setControls(prev => ({
+            ...prev,
+            detail: 0.8 + Math.random() * 1.4,
+            turbulence: 0.5 + Math.random() * 1.0,
+          }))
+          lastRandomizeRef.current = now
+        }
       }
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [isPlaying, controls])
+  }, [isPlaying, controls.autoCycleShapes, controls.autoSequencing, controls.autoRandomizeParams, controls.sequenceSpeed, controls.shape, shapes, controls.autoCycleColors])
 
   // Store base parameters when user manually changes them
   useEffect(() => {
@@ -316,20 +402,6 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
       baseParamsRef.current = controls
     }
   }, [controls, isPlaying])
-
-  const play = async () => {
-    if (audioRef.current) {
-      try {
-        if (!analyserRef.current) {
-          await setupAudioContext()
-        }
-        await audioRef.current.play()
-        setIsPlaying(true)
-      } catch (error) {
-        console.error('Error playing audio:', error)
-      }
-    }
-  }
 
   const pause = () => {
     if (audioRef.current) {
@@ -358,12 +430,25 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
 
   const toggleSidebar = () => setIsSidebarOpen(prev => !prev)
 
-  const loadAudioFile = (file: File) => {
-    if (audioSrc) {
+  const loadAudioFile = useCallback((file: File) => {
+    console.log('Loading audio file:', file.name)
+    
+    if (audioSrc && audioSrc.startsWith('blob:')) {
+      console.log('Revoking previous audio URL')
       URL.revokeObjectURL(audioSrc)
     }
-    setAudioSrc(URL.createObjectURL(file))
-  }
+
+    // Reset state for new file
+    if(audioRef.current) audioRef.current.pause();
+    setIsPlaying(false)
+    setCurrentTime(0)
+    setDuration(0)
+    setFrequencyData(null)
+    
+    const newSrc = URL.createObjectURL(file)
+    console.log('Created new audio URL:', newSrc)
+    setAudioSrc(newSrc)
+  }, [audioSrc])
 
 
   const value = {
