@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState, useRef, useCallback, useEffect, ReactNode } from 'react'
+import { createContext, useContext, useState, useRef, useCallback, useEffect, ReactNode, useMemo } from 'react'
 
 interface AudioData {
   audioData: Uint8Array | null
@@ -11,6 +11,10 @@ interface AudioData {
     average: number
     peak: number
     waveform: Uint8Array | null
+    bassMax: number
+    bassAvg: number
+    trebleMax: number
+    trebleAvg: number
   } | null
   play: () => void
   pause: () => void
@@ -20,7 +24,42 @@ interface AudioData {
   duration: number
   currentTime: number
   volume: number
-  controls: any
+  controls: {
+    // Core shape & flow
+    shape: string
+    noiseScale: number
+    noiseForce: number
+    
+    // Deform effects
+    goopiness: number
+    liquidity: number
+    split: number
+    splitIntensity: number
+
+    // Audio reactivity
+    bassReactivity: number
+    midReactivity: number
+    trebleReactivity: number
+    
+    // Colors
+    color1: string
+    color2: string
+    color3: string
+    colorBlend: number
+    autoCycleColors: boolean
+
+    // Surface & post-processing
+    metallic: number
+    glass: number
+    contrast: number
+    bloom: number
+    grain: number
+    grainSize: number
+    
+    // Modes
+    wireframe: boolean
+    dotMatrix: boolean
+  }
   setControls: (controls: any) => void
   audioSrc: string
   setAudioSrc: (src: string) => void
@@ -43,6 +82,10 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     average: number
     peak: number
     waveform: Uint8Array | null
+    bassMax: number
+    bassAvg: number
+    trebleMax: number
+    trebleAvg: number
   } | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [duration, setDuration] = useState(0)
@@ -50,73 +93,73 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
   const [volume, setVolume] = useState(1)
   const [audioSrc, setAudioSrc] = useState('')
   const [bgColor, setBgColor] = useState('#000000')
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const analyserRef = useRef<AnalyserNode | null>(null)
   const dataArrayRef = useRef<Uint8Array | null>(null)
-  const waveformArrayRef = useRef<Uint8Array | null>(null)
   const animationFrameRef = useRef<number | null>(null)
   const audioContextRef = useRef<AudioContext | null>(null)
+  const lastFrameTimeRef = useRef(0)
 
+  // Helper function for audio processing
+  const modulate = (val: number, minVal: number, maxVal: number, outMin: number, outMax: number) => {
+    const fr = (val - minVal) / (maxVal - minVal)
+    const delta = outMax - outMin
+    return outMin + (fr * delta)
+  }
+
+  // Default controls that always exist
   const [controls, setControls] = useState({
-    // Core visualization parameters
-    noiseScale: 1.5,    // Base noise scale
-    noiseForce: 2.0,    // Base noise force
-    goopiness: 1.0,     // Base goopiness
-    color1: '#00f2ff',  // Primary color
-    color2: '#ff00a8',  // Secondary color
-    color3: '#7000ff',  // Accent color
-    
-    // Goop Character Controls
-    complexity: 1.8,    // Affects overall noise complexity
-    tension: 1.2,       // Affects spike sharpness
-    turbulence: 0.8,    // Adds chaotic movement
-    detail: 1.5,        // Affects fine detail level
-    split: 0.7,         // Controls goop splitting
-    
-    // Audio reactivity
-    bassReactivity: 2.0,
-    midReactivity: 1.0,
-    trebleReactivity: 0.5,
-    
-    // Visual Enhancements
-    contrast: 1.15,
-    grain: 0.08,
-    bloom: 0.45,
-    wireframe: false,
-    showParticles: true,
-    metallic: 0.5,      // Metallic surface effect
-    glass: 0.3,         // Glass distortion effect
-    
-    // Shape
+    // Core shape & flow
     shape: 'icosahedron',
+    noiseScale: 2.2,
+    noiseForce: 3.5,
+    
+    // Deform effects
+    goopiness: 1.5,
+    liquidity: 2.0,
+    split: 1.2,
+    splitIntensity: 1.0,
 
-    // Animation Controls
-    sequenceSpeed: 1.0,
-    autoCycleShapes: false,
-    autoSequencing: false,
-    autoRandomizeParams: false,
+    // Audio reactivity
+    bassReactivity: 4.0,
+    midReactivity: 2.5,
+    trebleReactivity: 1.8,
+    
+    // Colors
+    color1: '#00f2ff',
+    color2: '#ff00a8',
+    color3: '#7000ff',
+    colorBlend: 1.0,
+    autoCycleColors: false,
+
+    // Surface & post-processing
+    metallic: 0.6,
+    glass: 0.5,
+    contrast: 1.4,
+    bloom: 0.3,
+    grain: 0.12,
+    grainSize: 10,
+    
+    // Modes
+    wireframe: false,
+    dotMatrix: false,
   })
 
-  // Dynamic animation state
-  const lastShapeChangeRef = useRef(0)
-  const lastRandomizeRef = useRef(0)
-  const lastSequenceRef = useRef(0)
-  const baseParamsRef = useRef(controls)
-  const currentSequenceRef = useRef(0)
-  
-  // Goop sequences with more dramatic variations
-  const sequences = [
-    { name: 'Virus Spikes', noiseForce: 2.2, noiseScale: 3.0, split: 1.2, complexity: 2.0, tension: 1.8 },
-    { name: 'Crystal Form', noiseForce: 1.8, noiseScale: 2.5, split: 0.8, complexity: 1.5, tension: 2.2 },
-    { name: 'Liquid Metal', noiseForce: 1.5, noiseScale: 1.8, split: 0.5, complexity: 1.2, metallic: 0.8 },
-    { name: 'Glass Morph', noiseForce: 1.2, noiseScale: 2.0, split: 0.3, glass: 0.8, tension: 1.5 },
-    { name: 'Chaos Spikes', noiseForce: 2.5, noiseScale: 3.5, split: 1.5, turbulence: 1.2, tension: 2.5 },
-    { name: 'Smooth Flow', noiseForce: 1.0, noiseScale: 1.2, split: 0.2, complexity: 0.8, tension: 0.8 },
-  ]
+  // Color palettes for auto cycling
+  const colorPalettes = useMemo(() => [
+    { color1: '#ff71ce', color2: '#01cdfe', color3: '#05ffa1' },
+    { color1: '#f5d300', color2: '#ff225e', color3: '#6a0dad' },
+    { color1: '#00c6ff', color2: '#0072ff', color3: '#fceabb' },
+    { color1: '#ff8c00', color2: '#ff0080', color3: '#4b0082' },
+    { color1: '#a7ff83', color2: '#17bd9b', color3: '#027a74' },
+    { color1: '#ff4b1f', color2: '#1fddff', color3: '#ffffff' },
+    { color1: '#9d4edd', color2: '#f72585', color3: '#4cc9f0' },
+    { color1: '#39ff14', color2: '#ff073a', color3: '#00f5ff' },
+  ], [])
 
-  const shapes = ['icosahedron', 'sphere', 'cube', 'torus']
+  const lastColorChangeRef = useRef(0)
 
   const setupAudioContext = useCallback(async () => {
     if (audioRef.current && !analyserRef.current) {
@@ -131,50 +174,59 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
         const source = audioContext.createMediaElementSource(audioRef.current)
         const analyser = audioContext.createAnalyser()
         
-        // Enhanced analyzer settings for better frequency resolution
-        analyser.fftSize = 2048 // Increased from 512 for better resolution
-        analyser.smoothingTimeConstant = 0.6 // Reduced for more responsive analysis
+        analyser.fftSize = 512
+        analyser.smoothingTimeConstant = 0.6
         
         source.connect(analyser)
         analyser.connect(audioContext.destination)
         
         analyserRef.current = analyser
         dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount)
-        waveformArrayRef.current = new Uint8Array(analyser.fftSize)
-        
-        console.log('Enhanced audio context setup complete')
       } catch (error) {
         console.error('Error setting up audio context:', error)
       }
     }
   }, [])
 
+  const play = useCallback(async () => {
+    if (audioRef.current) {
+      try {
+        if (!analyserRef.current) {
+          await setupAudioContext()
+        }
+        if (audioContextRef.current?.state === 'suspended') {
+          await audioContextRef.current.resume()
+        }
+        await audioRef.current.play()
+      } catch (error) {
+        console.error('Error playing audio:', error)
+        setIsPlaying(false)
+      }
+    }
+  }, [setupAudioContext])
+
+  // Audio loading
   useEffect(() => {
     if (audioSrc) {
-      // Pause and cleanup previous audio if it exists
       if (audioRef.current) {
         audioRef.current.pause()
-        audioRef.current.src = ''
-        audioRef.current.load()
       }
-      analyserRef.current = null; // Reset analyser
-
-      audioRef.current = new Audio(audioSrc)
-      audioRef.current.crossOrigin = 'anonymous'
       
-      const audio = audioRef.current
+      const audio = new Audio(audioSrc)
+      audio.crossOrigin = 'anonymous'
+      audioRef.current = audio
       
-      const handleMetadata = () => {
-        setDuration(audio.duration)
-        console.log('Audio loaded, duration:', audio.duration)
-      }
+      const handleMetadata = () => setDuration(audio.duration)
       const handleTimeUpdate = () => setCurrentTime(audio.currentTime)
       const handlePlay = () => setIsPlaying(true)
       const handlePause = () => setIsPlaying(false)
       const handleEnded = () => setIsPlaying(false)
-      const handleCanPlay = () => {
-        console.log('Audio can play')
-        setupAudioContext()
+      const handleCanPlay = () => play()
+      const handleError = () => {
+        if (audioSrc.startsWith('blob:')) {
+          URL.revokeObjectURL(audioSrc)
+        }
+        setAudioSrc('')
       }
 
       audio.addEventListener('loadedmetadata', handleMetadata)
@@ -183,6 +235,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
       audio.addEventListener('pause', handlePause)
       audio.addEventListener('ended', handleEnded)
       audio.addEventListener('canplay', handleCanPlay)
+      audio.addEventListener('error', handleError)
 
       return () => {
         audio.removeEventListener('loadedmetadata', handleMetadata)
@@ -191,70 +244,79 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
         audio.removeEventListener('pause', handlePause)
         audio.removeEventListener('ended', handleEnded)
         audio.removeEventListener('canplay', handleCanPlay)
-        
-        if (animationFrameRef.current) {
-          cancelAnimationFrame(animationFrameRef.current)
-        }
+        audio.removeEventListener('error', handleError)
+        audio.pause()
       }
     }
-  }, [audioSrc, setupAudioContext])
+  }, [audioSrc, play])
   
+  // Audio analysis loop
   const animate = useCallback(() => {
-    if (analyserRef.current && dataArrayRef.current && waveformArrayRef.current && isPlaying) {
+    if (analyserRef.current && dataArrayRef.current) {
       analyserRef.current.getByteFrequencyData(dataArrayRef.current)
-      analyserRef.current.getByteTimeDomainData(waveformArrayRef.current)
       
       const bufferLength = dataArrayRef.current.length
-      const bassEnd = Math.floor(bufferLength * 0.15)    // More bass range
-      const midEnd = Math.floor(bufferLength * 0.5)      // Mids
-      const trebleEnd = bufferLength                     // Treble
       
-      let bassSum = 0, midSum = 0, trebleSum = 0
+      const bassRange = Math.floor(bufferLength * 0.1)
+      const midRange = Math.floor(bufferLength * 0.4)
+      const trebleRange = bufferLength - 1
       
-      // Enhanced bass detection
-      for (let i = 0; i < bassEnd; i++) {
-        const value = dataArrayRef.current[i]
-        bassSum += value * value * 1.5  // Square for more dramatic response
-      }
+      const bassArray = dataArrayRef.current.slice(0, bassRange)
+      const midArray = dataArrayRef.current.slice(bassRange, midRange)
+      const trebleArray = dataArrayRef.current.slice(midRange, trebleRange)
       
-      // Mid frequencies
-      for (let i = bassEnd; i < midEnd; i++) {
-        const value = dataArrayRef.current[i]
-        midSum += value * value
-      }
+      const bassMax = bassArray.length > 0 ? Math.max(...bassArray) / 255 : 0
+      const bassAvg = bassArray.length > 0 ? bassArray.reduce((sum, val) => sum + val, 0) / bassArray.length / 255 : 0
+      const midMax = midArray.length > 0 ? Math.max(...midArray) / 255 : 0
+      const midAvg = midArray.length > 0 ? midArray.reduce((sum, val) => sum + val, 0) / midArray.length / 255 : 0
+      const trebleMax = trebleArray.length > 0 ? Math.max(...trebleArray) / 255 : 0
+      const trebleAvg = trebleArray.length > 0 ? trebleArray.reduce((sum, val) => sum + val, 0) / trebleArray.length / 255 : 0
       
-      // High frequencies
-      for (let i = midEnd; i < trebleEnd; i++) {
-        const value = dataArrayRef.current[i]
-        trebleSum += value * value * 0.8  // Slightly reduce treble influence
-      }
+      const bassResponse = Math.pow(bassMax, 0.6) * controls.bassReactivity * 1.5
+      const midResponse = Math.pow(midAvg, 0.7) * controls.midReactivity * 1.2
+      const trebleResponse = Math.pow(trebleMax, 0.8) * controls.trebleReactivity * 1.1
       
-      // Normalize and apply reactivity settings
-      const bass = Math.min(1.0, Math.sqrt(bassSum / bassEnd) / 128 * controls.bassReactivity)
-      const mid = Math.min(1.0, Math.sqrt(midSum / (midEnd - bassEnd)) / 128 * controls.midReactivity)
-      const treble = Math.min(1.0, Math.sqrt(trebleSum / (trebleEnd - midEnd)) / 128 * controls.trebleReactivity)
+      const modulatedBass = modulate(bassResponse, 0, 1, 0, 1.5)
+      const modulatedMid = modulate(midResponse, 0, 1, 0, 1.2)
+      const modulatedTreble = modulate(trebleResponse, 0, 1, 0, 1.1)
+      
+      const overallMax = Math.max(bassMax, midMax, trebleMax)
+      const overallAvg = (bassAvg + midAvg + trebleAvg) / 3
+      const peak = Math.max(modulatedBass, modulatedMid, modulatedTreble)
       
       setFrequencyData({
-        bass,
-        mid,
-        treble,
-        average: (bass + mid + treble) / 3,
-        peak: Math.max(bass, mid, treble),
-        waveform: new Uint8Array(waveformArrayRef.current)
+        bass: modulatedBass,
+        mid: modulatedMid, 
+        treble: modulatedTreble,
+        average: overallAvg,
+        peak: peak,
+        waveform: null,
+        bassMax: bassMax * 1.8,
+        bassAvg: bassAvg * 1.4,
+        trebleMax: trebleMax * 1.6,
+        trebleAvg: trebleAvg * 1.2,
       })
     }
-    
-    animationFrameRef.current = requestAnimationFrame(animate)
-  }, [isPlaying, controls])
+  }, [controls.bassReactivity, controls.midReactivity, controls.trebleReactivity])
 
   useEffect(() => {
+    const loop = (timestamp: number) => {
+      if (timestamp - lastFrameTimeRef.current >= 1000 / 60) {
+        lastFrameTimeRef.current = timestamp
+        animate()
+      }
+      animationFrameRef.current = requestAnimationFrame(loop)
+    }
+
     if (isPlaying) {
-      animationFrameRef.current = requestAnimationFrame(animate)
+      animationFrameRef.current = requestAnimationFrame(loop)
     } else {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current)
+        animationFrameRef.current = null
       }
     }
+    
     return () => {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current)
@@ -262,74 +324,28 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [isPlaying, animate])
 
-  // Dynamic animation system
+  // Auto color cycling
   useEffect(() => {
-    if (!isPlaying) return
+    if (!controls.autoCycleColors) return
 
     const interval = setInterval(() => {
       const now = Date.now()
-      const sequenceInterval = (8000 / controls.sequenceSpeed)
-      const shapeInterval = 15000
-      const randomizeInterval = 12000
+      const colorInterval = 8000
 
-      if (controls.autoCycleShapes && now - lastShapeChangeRef.current > shapeInterval) {
-        const currentShapeIndex = shapes.indexOf(controls.shape)
-        const nextShapeIndex = (currentShapeIndex + 1) % shapes.length
-        setControls(prev => ({ ...prev, shape: shapes[nextShapeIndex] }))
-        lastShapeChangeRef.current = now
-      }
-
-      if (controls.autoSequencing && now - lastSequenceRef.current > sequenceInterval) {
-        const sequence = sequences[Math.floor(Math.random() * sequences.length)]
-        
+      if (now - lastColorChangeRef.current > colorInterval) {
+        const randomPalette = colorPalettes[Math.floor(Math.random() * colorPalettes.length)]
         setControls(prev => ({
           ...prev,
-          noiseForce: sequence.noiseForce,
-          noiseScale: sequence.noiseScale,
-          split: sequence.split || prev.split,
-          complexity: sequence.complexity || prev.complexity,
-          tension: sequence.tension || prev.tension,
-          turbulence: sequence.turbulence || prev.turbulence,
-          metallic: sequence.metallic || prev.metallic,
-          glass: sequence.glass || prev.glass,
+          color1: randomPalette.color1,
+          color2: randomPalette.color2,
+          color3: randomPalette.color3,
         }))
-        
-        lastSequenceRef.current = now
-      }
-
-      if (controls.autoRandomizeParams && now - lastRandomizeRef.current > randomizeInterval) {
-        setControls(prev => ({
-          ...prev,
-          detail: 0.8 + Math.random() * 1.4,
-          turbulence: 0.5 + Math.random() * 1.0,
-        }))
-        lastRandomizeRef.current = now
+        lastColorChangeRef.current = now
       }
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [isPlaying, controls])
-
-  // Store base parameters when user manually changes them
-  useEffect(() => {
-    if (!isPlaying) {
-      baseParamsRef.current = controls
-    }
-  }, [controls, isPlaying])
-
-  const play = async () => {
-    if (audioRef.current) {
-      try {
-        if (!analyserRef.current) {
-          await setupAudioContext()
-        }
-        await audioRef.current.play()
-        setIsPlaying(true)
-      } catch (error) {
-        console.error('Error playing audio:', error)
-      }
-    }
-  }
+  }, [controls.autoCycleColors, colorPalettes])
 
   const pause = () => {
     if (audioRef.current) {
@@ -358,15 +374,32 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
 
   const toggleSidebar = () => setIsSidebarOpen(prev => !prev)
 
-  const loadAudioFile = (file: File) => {
-    if (audioSrc) {
+  const loadAudioFile = useCallback((file: File) => {
+    if (audioRef.current) {
+      audioRef.current.pause()
+    }
+    if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
+      audioContextRef.current.close()
+    }
+
+    if (audioSrc && audioSrc.startsWith('blob:')) {
       URL.revokeObjectURL(audioSrc)
     }
-    setAudioSrc(URL.createObjectURL(file))
-  }
 
+    analyserRef.current = null
+    audioContextRef.current = null
+    audioRef.current = null
+    
+    setIsPlaying(false)
+    setCurrentTime(0)
+    setDuration(0)
+    setFrequencyData(null)
+    
+    const newSrc = URL.createObjectURL(file)
+    setAudioSrc(newSrc)
+  }, [audioSrc])
 
-  const value = {
+  const value: AudioData = {
     audioData,
     frequencyData,
     play,
