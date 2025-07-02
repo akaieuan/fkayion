@@ -442,6 +442,35 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
           return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
         }
         
+        // Add 3D noise functions for tri-color zones
+        float hash3d(float n) { 
+          return fract(sin(n) * 1e4); 
+        }
+        
+        float noise(vec3 x) {
+          const vec3 step = vec3(110, 241, 171);
+          vec3 i = floor(x);
+          vec3 f = fract(x);
+          f = f * f * (3.0 - 2.0 * f);
+          return mix(mix(mix( hash3d(dot(i, step)), hash3d(dot(i + vec3(1,0,0), step)), f.x),
+                         mix( hash3d(dot(i + vec3(0,1,0), step)), hash3d(dot(i + vec3(1,1,0), step)), f.x), f.y),
+                     mix(mix( hash3d(dot(i + vec3(0,0,1), step)), hash3d(dot(i + vec3(1,0,1), step)), f.x),
+                         mix( hash3d(dot(i + vec3(0,1,1), step)), hash3d(dot(i + vec3(1,1,1), step)), f.x), f.y), f.z);
+        }
+        
+        // Fractal noise for complex color zones
+        float fbm(vec3 p) {
+          float value = 0.0;
+          float amplitude = 0.5;
+          float frequency = 1.0;
+          for (int i = 0; i < 5; i++) {
+            value += amplitude * noise(p * frequency);
+            frequency *= 2.1;
+            amplitude *= 0.45;
+          }
+          return value;
+        }
+        
         float filmGrain(vec2 coord, float intensity, float size, float time) {
           vec2 scaledCoord = coord * size;
           float grain1 = hash(scaledCoord + vec2(sin(time * 0.1), cos(time * 0.13)) * 100.0);
