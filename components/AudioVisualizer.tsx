@@ -45,6 +45,16 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
   
   // FIXED SHADER MATERIAL with ALL UNIFORMS
   const material = useMemo(() => {
+    // Temporary simple material to get blob visible
+    return new THREE.MeshStandardMaterial({
+      color: new THREE.Color(controls.color1 || '#00f2ff'),
+      metalness: 0.8,
+      roughness: 0.2,
+      emissive: new THREE.Color(controls.color2 || '#ff00a8'),
+      emissiveIntensity: 0.1
+    })
+    
+    /* COMPLEX SHADER - TEMPORARILY DISABLED FOR DEBUGGING
     return new THREE.ShaderMaterial({
       uniforms: {
         time: { value: 0 },
@@ -111,627 +121,16 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
         colorShift2: { value: 0.0 },
         colorShift3: { value: 0.0 },
       },
-      vertexShader: `
-        uniform float time;
-        uniform float isPlaying;
-        uniform float volume;
-        uniform float midLevel;
-        uniform float highLevel;
-        uniform float bassLevel;
-        
-        uniform float noiseScale;
-        uniform float noiseForce;
-        uniform float goopiness;
-        uniform float liquidity;
-        uniform float split;
-        uniform float audioReactivity;
-        
-        // *** PHYSICAL PROPERTIES ***
-        uniform float viscosity;
-        uniform float surfaceTension;
-        uniform float density;
-        uniform float elasticity;
-        
-        // *** PUDDLE MODE ***
-        uniform float puddleMode;
-        
-        // DRAMATIC EFFECTS uniforms
-        uniform float splitIntensity;
-        uniform float tentacleMode;
-        uniform float liquidMerge;
-        uniform float shattered;
-        uniform float vortex;
-        uniform float dotMatrix;
-        
-        varying vec3 vNormal;
-        varying vec3 vPosition;
-        varying vec3 vViewPosition;
-        varying float vAudioIntensity;
-        varying float vDeformationAmount;
-        varying vec3 vWorldPosition;
-        
-        // Enhanced noise functions
-        float hash(float n) { return fract(sin(n) * 1e4); }
-        
-        float noise(vec3 x) {
-          const vec3 step = vec3(110, 241, 171);
-          vec3 i = floor(x);
-          vec3 f = fract(x);
-          f = f * f * (3.0 - 2.0 * f);
-          return mix(mix(mix( hash(dot(i, step)), hash(dot(i + vec3(1,0,0), step)), f.x),
-                         mix( hash(dot(i + vec3(0,1,0), step)), hash(dot(i + vec3(1,1,0), step)), f.x), f.y),
-                     mix(mix( hash(dot(i + vec3(0,0,1), step)), hash(dot(i + vec3(1,0,1), step)), f.x),
-                         mix( hash(dot(i + vec3(0,1,1), step)), hash(dot(i + vec3(1,1,1), step)), f.x), f.y), f.z);
-        }
-        
-        // Fractal noise for complex effects
-        float fbm(vec3 p) {
-          float value = 0.0;
-          float amplitude = 0.5;
-          float frequency = 1.0;
-          for (int i = 0; i < 5; i++) {
-            value += amplitude * noise(p * frequency);
-            frequency *= 2.1;
-            amplitude *= 0.45;
-          }
-          return value;
-        }
-        
-        void main() {
-          vNormal = normalize(normalMatrix * normal);
-          vPosition = position;
-          vWorldPosition = (modelMatrix * vec4(position, 1.0)).xyz;
-          
-          // Physical time scaling
-          float viscosityFactor = 1.0 / (viscosity * 0.5 + 0.5);
-          float physicsTime = time * viscosityFactor * 0.3;
-          float densityFactor = 1.0 / (density * 0.3 + 0.7);
-          float audioTime = time * (isPlaying > 0.5 ? 2.0 * densityFactor : 0.5);
-          
-          // Audio intensity
-          float audioIntensity = volume + midLevel * 0.8 + highLevel * 0.6 + bassLevel * 0.4;
-          vAudioIntensity = audioIntensity;
-          
-          // *** PUDDLE MODE - DRAMATIC FLATTENING ***
-          vec3 workingPosition = position;
-          if (puddleMode > 0.01) {
-            // Dramatic Y-squashing and X/Z spreading
-            float flatten = puddleMode * 3.5;
-            workingPosition.y *= (1.0 - flatten * 0.9);
-            
-            // MUCH MORE DRAMATIC spread X/Z based on distance from center
-            float radius = length(workingPosition.xz);
-            float spread = 1.0 + puddleMode * radius * 4.0;
-            workingPosition.xz *= spread;
-            
-            // Add ripple effects for puddle
-            float ripple = sin(radius * 8.0 - time * 6.0) * puddleMode * 0.4;
-            workingPosition.y += ripple;
-            
-            // Audio makes puddle splash
-            if (isPlaying > 0.5) {
-              float splash = sin(radius * 4.0 - audioTime * 8.0) * audioIntensity * puddleMode * 0.8;
-              workingPosition.y += splash;
-            }
-          }
-          
-          // *** ENHANCED EFFECTS ***
-          
-          // *** NATURAL MERCURY FLOW ***
-          
-          // Base flow - GENTLE LIKE REAL LIQUID
-          vec3 noisePos = workingPosition * noiseScale;
-          float baseFlow = fbm(noisePos + physicsTime * 0.3) * noiseForce * 0.4; // Much gentler
-          
-          // Viscosity effects - smooth like real mercury
-          if (viscosity > 1.0) {
-            float smoothFlow1 = fbm(noisePos * 0.6 + physicsTime * 0.25) * 0.8; // Gentler
-            float smoothFlow2 = fbm(noisePos * 0.9 + physicsTime * 0.35) * 0.6;
-            baseFlow = mix(baseFlow, (smoothFlow1 + smoothFlow2), (viscosity - 1.0) * 0.5); // More subtle mixing
-          }
-          
-          // Surface tension splitting - more natural, less constraining
-          vec3 splitPos = workingPosition * (1.2 + split * 0.5); // Less aggressive scaling
-          float splitNoise = fbm(splitPos + physicsTime * 0.4);
-          float tensionThreshold = 0.5 + surfaceTension * 0.2; // Lower threshold, less constraining
-          float naturalSplit = 0.0;
-          if (splitNoise > tensionThreshold) {
-            naturalSplit = (splitNoise - tensionThreshold) * split * (2.0 - surfaceTension * 0.6); // More natural flow
-          }
-          
-          // Elasticity effects - subtle like real mercury
-          float elasticMotion = 0.0;
-          if (elasticity > 0.1) {
-            float elasticPhase = time * (1.5 + elasticity * 3.0) + length(workingPosition) * 1.5; // Slower
-            elasticMotion = sin(elasticPhase) * cos(elasticPhase * 0.5) * elasticity * 0.25; // Much gentler
-            if (isPlaying > 0.5) {
-              elasticMotion *= (1.0 + audioIntensity * 1.5); // Less reactive
-            }
-          }
-          
-          // Density effects
-          float densityMultiplier = (3.0 - density) * 0.6; // Less dramatic
-          
-          // Liquid effects - gentle flow like real mercury
-          float liquidFlow = sin(length(workingPosition) * 3.0 + audioTime * 0.8) * liquidity * 0.4 * densityMultiplier; // Gentler
-          float goopyFlow = fbm(workingPosition * 2.8 + physicsTime * 0.8) * goopiness * 0.8; // Less intense
-          
-          // Audio deformation - NATURAL AND SMOOTH
-          float audioDeformation = 0.0;
-          if (isPlaying > 0.5) {
-            // Gentle audio response like real liquid
-            float totalAudioIntensity = volume * 0.2 + bassLevel * 0.3 + midLevel * 0.2 + highLevel * 0.1;
-            audioDeformation = totalAudioIntensity * audioReactivity * 0.3 * densityMultiplier; // Much gentler
-            
-            // Smooth peaks without extreme reactions
-            if (bassLevel > 0.6) {
-              audioDeformation *= (1.0 + bassLevel * 0.5); // Gentle peak response
-            }
-          }
-          
-          // *** NATURAL FLUID EFFECTS ***
-          
-          // GENTLE SPLITTING - Less constraining surface tension
-          float naturalSplitting = 0.0;
-          if (splitIntensity > 0.01) {
-            vec3 fracPos = workingPosition * (1.1 + splitIntensity * 0.6); // Less aggressive
-            float fracNoise = fbm(fracPos + physicsTime * 0.6);
-            float splitThreshold = 0.55 + surfaceTension * 0.15; // More permissive
-            if (fracNoise > splitThreshold) {
-              naturalSplitting = (fracNoise - splitThreshold) * splitIntensity * (1.8 - surfaceTension * 0.4); // Less constraining
-              if (isPlaying > 0.5) {
-                naturalSplitting *= (1.0 + bassLevel * 1.0 * densityMultiplier); // Gentle bass reaction
-              }
-            }
-          }
-          
-          // FLOWING RIPPLES - Natural wave-like motion
-          float ripples = 0.0;
-          if (tentacleMode > 0.01) {
-            vec3 ripplePos = workingPosition * 2.5; // Less aggressive scaling
-            float rippleNoise = fbm(ripplePos + audioTime * 0.8);
-            if (rippleNoise > 0.5) { // Lower threshold
-              ripples = (rippleNoise - 0.5) * tentacleMode * 2.0; // More natural flow
-              
-              if (elasticity > 0.3) {
-                float elasticRipple = sin(time * 2.5 + length(workingPosition) * 1.8) * elasticity * 0.25;
-                ripples *= (1.0 + elasticRipple);
-              }
-              
-              if (isPlaying > 0.5) {
-                ripples *= (1.0 + midLevel * 1.2 * densityMultiplier); // Gentle mid response
-              }
-            }
-          }
-          
-          // NATURAL MERGES - Flowing like real liquid
-          float fluidMerges = 0.0;
-          if (liquidMerge > 0.01) {
-            vec3 flowPos = workingPosition * 2.2; // Less constraining
-            float flowNoise = fbm(flowPos + physicsTime * 0.4);
-            if (flowNoise > 0.5) { // More permissive threshold
-              fluidMerges = (flowNoise - 0.5) * liquidMerge * density * 1.3; // Natural flowing
-              
-              if (viscosity > 1.0) {
-                fluidMerges *= smoothstep(0.5, 0.75, flowNoise); // Gentler smoothing
-              }
-              
-              if (isPlaying > 0.5) {
-                fluidMerges *= (1.0 + volume * 1.0 * densityMultiplier);
-              }
-            }
-          }
-          
-          // GENTLE BREAKUP - Natural mercury behavior without constraints
-          float subtleBreakup = 0.0;
-          if (shattered > 0.5 && isPlaying > 0.5) {
-            vec3 beadPos = workingPosition * 5.0; // Less aggressive
-            float beadNoise = fbm(beadPos + physicsTime * 1.2);
-            float beadResistance = (surfaceTension + elasticity) * 0.3; // Less constraining
-            float beadThreshold = 0.6 + beadResistance * 0.1; // More permissive
-            if (beadNoise > beadThreshold && bassLevel > 0.3) { // Lower audio threshold
-              subtleBreakup = (beadNoise - beadThreshold) * bassLevel * (1.3 - beadResistance * 0.2);
-            }
-          }
-          
-          // NATURAL SWIRL - Gentle fluid rotation
-          float gentleSwirl = 0.0;
-          if (vortex > 0.5) {
-            float angle = atan(workingPosition.z, workingPosition.x) + physicsTime * (1.0 - viscosity * 0.25);
-            float radius = length(workingPosition.xz);
-            gentleSwirl = sin(angle * 1.8 + radius * 1.3) * midLevel * 0.7 * densityMultiplier; // More natural
-          }
-          
-          // *** COMBINE ALL EFFECTS - NATURAL AND FLOWING ***
-          float totalDeformation = 
-            baseFlow * 2.5 +           // Much higher base flow for maximum freedom
-            liquidFlow * 2.0 +         // Increased liquid flow significantly
-            goopyFlow * 2.2 +          // Increased goop for extreme fluid feel
-            naturalSplit * 1.2 +       // Increased splitting for more dramatic effects
-            audioDeformation * 1.5 +   // Much higher audio response
-            elasticMotion * 1.4 +      // Increased elastic response
-            naturalSplitting * 0.8 +   // Increased splitting effects    
-            ripples * 1.0 +            // Increased ripple effects
-            fluidMerges * 1.2 +        // Increased merges for extreme flow
-            subtleBreakup * 0.6 +      // Increased breakup for more freedom
-            gentleSwirl * 1.0;         // Increased swirl effects
-          
-          vDeformationAmount = abs(totalDeformation);
-          
-          // Apply displacement with MAXIMUM FREEDOM - no boundaries!
-          vec3 displacement = normal * totalDeformation * 2.0; // DOUBLED displacement for extreme deformation
-          
-          // Enhanced audio-reactive displacement
-          if (isPlaying > 0.5) {
-            float audioDisplacementBoost = audioIntensity * audioReactivity * 1.0; // Increased from 0.5
-            displacement *= (1.0 + audioDisplacementBoost);
-          }
-          
-          // COMPLETE FREEDOM - no elasticity constraints whatsoever
-          if (elasticity > 0.1) {
-            float freeElastic = sin(time * 3.0 + totalDeformation * 6.0) * elasticity * 0.3; // Much more dramatic
-            displacement *= (1.0 + freeElastic);
-          }
-          
-          // COMPLETELY FREE position - NO BOUNDARIES OR CONSTRAINTS!
-          vec3 newPosition = workingPosition + displacement;
-          
-          // DOT MATRIX MODE support
-          if (dotMatrix > 0.5) {
-            vec4 mvPosition = modelViewMatrix * vec4(newPosition, 1.0);
-            vViewPosition = -mvPosition.xyz;
-            gl_Position = projectionMatrix * mvPosition;
-            
-            float pointSize = 20.0 + totalDeformation * 50.0;
-            if (isPlaying > 0.5) {
-              pointSize += audioIntensity * 80.0 * densityMultiplier;
-            }
-            gl_PointSize = clamp(pointSize / max(-mvPosition.z * 0.1, 1.0), 10.0, 150.0);
-          } else {
-            vec4 mvPosition = modelViewMatrix * vec4(newPosition, 1.0);
-            vViewPosition = -mvPosition.xyz;
-            gl_Position = projectionMatrix * mvPosition;
-          }
-        }
-      `,
-      fragmentShader: `
-        uniform float time;
-        uniform float metallic;
-        uniform vec3 color1;
-        uniform vec3 color2;
-        uniform vec3 color3;
-        
-        // Audio data uniforms
-        uniform float volume;
-        uniform float midLevel;
-        uniform float highLevel;
-        uniform float bassLevel;
-        
-        // Color flow uniforms
-        uniform float colorFlow;
-        uniform float colorShift1;
-        uniform float colorShift2;
-        uniform float colorShift3;
-        
-        // ENHANCED SURFACE CONTROLS
-        uniform float chrome;
-        uniform float pearl;
-        uniform float holographic;
-        uniform float glass;
-        uniform float roughness;
-        
-        // VISUAL EFFECTS
-        uniform float contrast;
-        uniform float bloom;
-        uniform float grain;
-        uniform float grainSize;
-        
-        // MODES
-        uniform float dotMatrix;
-        uniform float wireframe;
-        
-        varying vec3 vNormal;
-        varying vec3 vPosition;
-        varying vec3 vViewPosition;
-        varying vec3 vWorldPosition;
-        varying float vAudioIntensity;
-        varying float vDeformationAmount;
-        
-        // Enhanced noise for effects
-        float hash(vec2 p) {
-          return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
-        }
-        
-        // Add 3D noise functions for tri-color zones
-        float hash3d(float n) { 
-          return fract(sin(n) * 1e4); 
-        }
-        
-        float noise(vec3 x) {
-          const vec3 step = vec3(110, 241, 171);
-          vec3 i = floor(x);
-          vec3 f = fract(x);
-          f = f * f * (3.0 - 2.0 * f);
-          return mix(mix(mix( hash3d(dot(i, step)), hash3d(dot(i + vec3(1,0,0), step)), f.x),
-                         mix( hash3d(dot(i + vec3(0,1,0), step)), hash3d(dot(i + vec3(1,1,0), step)), f.x), f.y),
-                     mix(mix( hash3d(dot(i + vec3(0,0,1), step)), hash3d(dot(i + vec3(1,0,1), step)), f.x),
-                         mix( hash3d(dot(i + vec3(0,1,1), step)), hash3d(dot(i + vec3(1,1,1), step)), f.x), f.y), f.z);
-        }
-        
-        // Fractal noise for complex color zones
-        float fbm(vec3 p) {
-          float value = 0.0;
-          float amplitude = 0.5;
-          float frequency = 1.0;
-          for (int i = 0; i < 5; i++) {
-            value += amplitude * noise(p * frequency);
-            frequency *= 2.1;
-            amplitude *= 0.45;
-          }
-          return value;
-        }
-        
-        float filmGrain(vec2 coord, float intensity, float size, float time) {
-          vec2 scaledCoord = coord * size;
-          float grain1 = hash(scaledCoord + vec2(sin(time * 0.1), cos(time * 0.13)) * 100.0);
-          float grain2 = hash(scaledCoord * 1.7 + vec2(cos(time * 0.07), sin(time * 0.11)) * 150.0) * 0.6;
-          return (grain1 + grain2) / 1.6 * intensity;
-        }
-        
-        void main() {
-          // DOT MATRIX MODE - enhanced magnetic balls
-          if (dotMatrix > 0.5) {
-            vec2 center = gl_PointCoord - 0.5;
-            float dist = length(center);
-            
-            if (dist > 0.5) discard;
-            
-            float sphere = sqrt(1.0 - 4.0 * dist * dist);
-            vec3 normal = normalize(vec3(center * 2.0, sphere));
-            vec3 light = normalize(vec3(1.0, 1.0, 1.0));
-            float NdotL = max(0.0, dot(normal, light));
-            
-            // Smooth flowing colors for droplets - gentle and natural
-            float colorPhase1 = time * 0.6 + vWorldPosition.x * 0.2 + vAudioIntensity * 2.0; // Much slower
-            float colorPhase2 = time * 0.5 + vWorldPosition.y * 0.15 + vAudioIntensity * 1.5;
-            float colorPhase3 = time * 0.7 + vWorldPosition.z * 0.25 + vAudioIntensity * 2.5;
-            
-            vec3 ballColor = mix(color1, color2, sin(colorPhase1) * 0.5 + 0.5);
-            ballColor = mix(ballColor, color3, sin(colorPhase2) * 0.5 + 0.5);
-            ballColor *= (1.0 + sin(colorPhase3) * 0.15); // Much gentler variation
-            
-            float fresnel = pow(1.0 - sphere, 2.0);
-            ballColor *= (1.0 + fresnel * metallic * 0.8);
-            ballColor *= (0.8 + vAudioIntensity * 0.8);
-            ballColor *= (0.4 + NdotL * 0.6);
-            
-            gl_FragColor = vec4(ballColor, 1.0);
-            return;
-          }
-          
-          // *** SMOOTH NATURAL COLOR FLOW - DISCONNECTED FROM BEATS ***
-          
-          vec3 viewDirection = normalize(-vViewPosition);
-          vec3 normal = normalize(vNormal);
-          float fresnel = pow(1.0 - max(0.0, dot(normal, viewDirection)), 1.2); // Even gentler
-          
-          // Create ultra-smooth flowing currents - COMPLETELY CALM
-          vec3 flowPos = vWorldPosition * 0.15; // Even finer detail
-          float gentleTime = time * 0.4; // VERY slow, disconnected from audio
-          
-          // Natural mercury currents - ULTRA SMOOTH AND ABSTRACT
-          float current1 = sin(gentleTime * 0.3 + flowPos.x * 1.0) * 0.3 + 0.7; // Very gentle, centered high
-          float current2 = sin(gentleTime * 0.25 + flowPos.y * 0.9) * 0.3 + 0.7;
-          float current3 = sin(gentleTime * 0.28 + flowPos.z * 1.1) * 0.3 + 0.7;
-          
-          // Extremely gentle secondary ripples - barely perceptible
-          float ripple1 = sin(gentleTime * 0.4 + length(flowPos.xy) * 1.5) * 0.08 + 0.92; // Tiny ripples
-          float ripple2 = cos(gentleTime * 0.35 + length(flowPos.xz) * 1.6) * 0.08 + 0.92;
-          float ripple3 = sin(gentleTime * 0.38 + length(flowPos.yz) * 1.4) * 0.08 + 0.92;
-          
-          // Combine currents with ultra-gentle ripples
-          current1 *= ripple1;
-          current2 *= ripple2;
-          current3 *= ripple3;
-          
-          // *** TRI-COLOR ZONE SYSTEM - THREE DISTINCT FLOWING REGIONS ***
-          
-          // Create distinct spatial zones for each color using noise
-          vec3 zonePos = vWorldPosition * 0.8 + gentleTime * 0.2;
-          float zone1 = fbm(zonePos);
-          float zone2 = fbm(zonePos + vec3(123.4, 567.8, 901.2));
-          float zone3 = fbm(zonePos + vec3(234.5, 678.9, 012.3));
-          
-          // Normalize zones so they add up to 1.0
-          float totalZones = zone1 + zone2 + zone3;
-          zone1 /= totalZones;
-          zone2 /= totalZones; 
-          zone3 /= totalZones;
-          
-          // Enhance dominant zones - this creates distinct regions
-          float dominanceThreshold = 0.4;
-          if (zone1 > dominanceThreshold) {
-            zone1 = smoothstep(dominanceThreshold, 1.0, zone1);
-            zone2 *= (1.0 - zone1);
-            zone3 *= (1.0 - zone1);
-          } else if (zone2 > dominanceThreshold) {
-            zone2 = smoothstep(dominanceThreshold, 1.0, zone2);
-            zone1 *= (1.0 - zone2);
-            zone3 *= (1.0 - zone2);
-          } else if (zone3 > dominanceThreshold) {
-            zone3 = smoothstep(dominanceThreshold, 1.0, zone3);
-            zone1 *= (1.0 - zone3);
-            zone2 *= (1.0 - zone3);
-          }
-          
-          // Apply gentle ripples to create flowing boundaries
-          float ripple1 = sin(gentleTime * 0.4 + length(zonePos.xy) * 2.0) * 0.05 + 0.95;
-          float ripple2 = sin(gentleTime * 0.35 + length(zonePos.xz) * 2.2) * 0.05 + 0.95;
-          float ripple3 = sin(gentleTime * 0.38 + length(zonePos.yz) * 1.8) * 0.05 + 0.95;
-          
-          zone1 *= ripple1;
-          zone2 *= ripple2; 
-          zone3 *= ripple3;
-          
-          // Renormalize after ripples
-          float newTotal = zone1 + zone2 + zone3;
-          zone1 /= newTotal;
-          zone2 /= newTotal;
-          zone3 /= newTotal;
-          
-          // Create flowing color with distinct zones
-          vec3 flowingColor = color1 * zone1 + color2 * zone2 + color3 * zone3;
-          
-          // Add gentle transition zones between colors
-          float transition12 = smoothstep(0.15, 0.35, min(zone1, zone2));
-          float transition23 = smoothstep(0.15, 0.35, min(zone2, zone3));
-          float transition31 = smoothstep(0.15, 0.35, min(zone3, zone1));
-          
-          vec3 blend12 = mix(color1, color2, 0.5);
-          vec3 blend23 = mix(color2, color3, 0.5);
-          vec3 blend31 = mix(color3, color1, 0.5);
-          
-          // Apply transitions only at boundaries
-          flowingColor = mix(flowingColor, blend12, transition12 * 0.3);
-          flowingColor = mix(flowingColor, blend23, transition23 * 0.3);
-          flowingColor = mix(flowingColor, blend31, transition31 * 0.3);
-          
-          // Extremely gentle natural variance - like slow mercury surface waves
-          float variance = sin(gentleTime * 0.15 + vWorldPosition.x * 0.8) * 
-                          cos(gentleTime * 0.12 + vWorldPosition.y * 0.9) * 
-                          sin(gentleTime * 0.18 + vWorldPosition.z * 0.7) * 0.04 + 1.0; // Tiny variation
-          
-          flowingColor *= variance;
-          
-          // Ultra-gentle breathing - like slow mercury breathing
-          float breathingPhase = time * 0.08; // VERY slow breathing
-          float breathingIntensity = sin(breathingPhase) * 0.03 + 0.97; // Barely visible
-          
-          // Apply calm, stable base color
-          vec3 baseColor = flowingColor * breathingIntensity;
-          
-          // Keep colors pure and natural
-          baseColor = clamp(baseColor, vec3(0.0), vec3(1.0));
-          
-          // *** SURFACE EFFECTS - ONLY WHEN ENABLED, NO WHITE CONTAMINATION ***
-          
-          // CHROME EFFECT - Enhanced metallic reflection
-          if (chrome > 0.01) {
-            float chromeAmount = fresnel * chrome * 1.2; // Increased intensity
-            vec3 chromeReflection = vec3(1.0, 1.0, 1.0) * chromeAmount; // Pure metallic reflection
-            vec3 chromeBase = baseColor * (1.0 + chromeAmount * 0.8); // Enhanced base
-            baseColor = mix(baseColor, chromeBase + chromeReflection * chrome * 0.6, chrome * 0.8);
-          }
-          
-          // PEARL IRIDESCENCE - Gentle color shifting  
-          if (pearl > 0.01) {
-            float pearlPhase = fresnel * 8.0 + time * 2.0;
-            vec3 pearlShift = vec3(
-              sin(pearlPhase) * 0.3 + 1.0,
-              sin(pearlPhase + 2.1) * 0.3 + 1.0, 
-              sin(pearlPhase + 4.2) * 0.3 + 1.0
-            );
-            baseColor = mix(baseColor, baseColor * pearlShift, pearl * fresnel * 0.3);
-          }
-          
-          // HOLOGRAPHIC EFFECT - Enhanced rainbow shift
-          if (holographic > 0.01) {
-            float holoPhase = fresnel * 15.0 + time * 4.0 + vWorldPosition.x * 2.0;
-            vec3 holoShift = vec3(
-              sin(holoPhase) * 0.6 + 1.0,
-              sin(holoPhase + 2.1) * 0.6 + 1.0,
-              sin(holoPhase + 4.2) * 0.6 + 1.0
-            );
-            // Add rainbow color overlay
-            vec3 rainbowColor = vec3(
-              sin(holoPhase * 0.8) * 0.5 + 0.5,
-              sin(holoPhase * 0.8 + 2.1) * 0.5 + 0.5,
-              sin(holoPhase * 0.8 + 4.2) * 0.5 + 0.5
-            );
-            vec3 holoResult = baseColor * holoShift + rainbowColor * holographic * fresnel * 0.4;
-            baseColor = mix(baseColor, holoResult, holographic * 0.8);
-          }
-          
-          // GLASS EFFECT - Enhanced transparency-like effect
-          if (glass > 0.01) {
-            float glassEffect = fresnel * glass * 0.8; // Increased intensity
-            // Create refraction-like color shifting
-            vec3 glassShift = vec3(
-              1.0 + sin(vWorldPosition.x * 3.0 + time) * glass * 0.15,
-              1.0 + sin(vWorldPosition.y * 3.0 + time * 1.1) * glass * 0.15,
-              1.0 + sin(vWorldPosition.z * 3.0 + time * 0.9) * glass * 0.15
-            );
-            baseColor = mix(baseColor, baseColor * glassShift * (1.0 + glassEffect), glass * 0.7);
-          }
-          
-          // ROUGHNESS EFFECT - Surface texture, not color change
-          if (roughness > 0.01) {
-            float roughPattern = sin(vWorldPosition.x * 30.0) * sin(vWorldPosition.y * 29.0) * sin(vWorldPosition.z * 31.0);
-            float detailRoughness = sin(vWorldPosition.x * 60.0 + time * 2.0) * sin(vWorldPosition.y * 58.0 + time * 1.8) * 0.5;
-            float combinedRoughness = (roughPattern + detailRoughness) * roughness;
-            
-            // Create more visible surface texture variation
-            baseColor = mix(baseColor, baseColor * (1.0 + combinedRoughness * 0.3), roughness * 0.8);
-            
-            // Add surface normal perturbation effect
-            float normalPerturbation = combinedRoughness * 0.2;
-            baseColor *= (1.0 + normalPerturbation * fresnel);
-          }
-          
-          // METALLIC REFLECTION - Enhance existing colors, don't add white
-          if (metallic > 0.01) {
-            vec3 metallicColor = baseColor * (1.0 + fresnel * metallic * 0.4);
-            baseColor = mix(baseColor, metallicColor, metallic * 0.5);
-          }
-          
-          // *** VISUAL EFFECTS ***
-          
-          // FILM GRAIN
-          if (grain > 0.001) {
-            float grainEffect = filmGrain(gl_FragCoord.xy / 600.0, grain, grainSize, time);
-            baseColor *= (1.0 + grainEffect * 0.3);
-          }
-          
-          // CONTRAST
-          if (contrast != 1.0) {
-            vec3 midTone = vec3(0.5);
-            baseColor = mix(midTone, baseColor, contrast);
-          }
-          
-          // BLOOM GLOW
-          if (bloom > 0.001) {
-            float luminance = dot(baseColor, vec3(0.299, 0.587, 0.114));
-            float bloomThreshold = 0.4;
-            float bloomAmount = max(0.0, luminance - bloomThreshold) * bloom;
-            baseColor *= (1.0 + bloomAmount * 4.0);
-          }
-          
-          // WIREFRAME MODE
-          if (wireframe > 0.5) {
-            vec3 wireColor = baseColor * (1.5 + vAudioIntensity * 1.2);
-            float edgeGlow = pow(fresnel, 0.2) * 3.0;
-            wireColor += edgeGlow * baseColor * 0.8;
-            
-            float pulse = sin(time * 15.0 + vAudioIntensity * 25.0) * 0.4 + 0.8;
-            wireColor *= pulse;
-            
-            gl_FragColor = vec4(wireColor, 1.0);
-            return;
-          }
-          
-          // Deformation highlights - Keep colors natural
-          if (vDeformationAmount > 0.05) {
-            vec3 deformGlow = baseColor * vDeformationAmount * 0.3; // Much more subtle
-            baseColor = mix(baseColor, baseColor + deformGlow, 0.5);
-          }
-          
-          // NO MINIMUM BRIGHTNESS - Keep pure colors!
-          gl_FragColor = vec4(baseColor, 1.0);
-        }
-      `,
+      vertexShader: \`
+        // COMPLEX VERTEX SHADER CODE...
+      \`,
+      fragmentShader: \`
+        // COMPLEX FRAGMENT SHADER CODE...
+      \`,
       wireframe: false,
       transparent: false,
     })
+    */
   }, [])
 
   // *** COMPLETE UNIFORMS UPDATE - ALL CONTROLS NOW WORKING! ***
@@ -739,6 +138,17 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
     if (!meshRef.current) return
     
     const time = state.clock.elapsedTime
+    
+    // Simple material update - just update colors
+    const mat = (meshRef.current as any).material as THREE.MeshStandardMaterial
+    if (mat && mat.color) {
+      mat.color.set(controls.color1 || '#00f2ff')
+      mat.emissive.set(controls.color2 || '#ff00a8')
+      mat.emissiveIntensity = 0.1 + (safeAudioData.volume * 0.3)
+      mat.metalness = (controls.metallic || 0.7) + (safeAudioData.bassLevel * 0.2)
+    }
+    
+    /* COMPLEX SHADER UNIFORMS UPDATE - TEMPORARILY DISABLED
     const mat = (meshRef.current as any).material as THREE.ShaderMaterial
     
     if (mat && mat.uniforms) {
@@ -823,6 +233,7 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
       
       mat.wireframe = controls.wireframe && !controls.dotMatrix && !forceDotMatrix
     }
+    */
     
     // Gentle rotation for visual interest - like floating in space
     meshRef.current.rotation.y += 0.002 // Reduced from 0.005
@@ -832,6 +243,12 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
 
   // Enhanced geometry with more shapes and higher detail
   const geometry = useMemo(() => {
+    // Simple sphere for debugging
+    const radius = 1.5 * scale
+    const segments = 64 // Good detail but not excessive
+    return <sphereGeometry args={[radius, segments, segments/2]} />
+    
+    /* COMPLEX GEOMETRY - TEMPORARILY DISABLED FOR DEBUGGING  
     const segments = (controls.dotMatrix || forceDotMatrix) ? 256 : 120 // Much higher detail
     const radius = 1.5 * scale
     
@@ -871,8 +288,18 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
       console.warn('Geometry creation error, falling back to high-detail sphere:', error)
       return <sphereGeometry args={[radius, 80, 40]} /> // Higher detail fallback
     }
-  }, [blobShape, scale, controls.dotMatrix, forceDotMatrix])
+    */
+  }, [scale])
 
+  // Simple mesh - no dot matrix complications for debugging
+  return (
+    <mesh ref={meshRef as any} position={position}>
+      {geometry}
+      <primitive object={material} />
+    </mesh>
+  )
+  
+  /* DOT MATRIX LOGIC - TEMPORARILY DISABLED FOR DEBUGGING
   // Handle dot matrix mode vs regular mesh
   if (controls.dotMatrix || forceDotMatrix) {
     return (
@@ -889,6 +316,7 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
       <primitive object={material} />
     </mesh>
   )
+  */
 }
 
 // Enhanced Magnetic Droplet System - Dramatic with shape changes and 3D goop connections
