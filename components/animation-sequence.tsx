@@ -288,23 +288,58 @@ export function AnimationSequence() {
   // Store original controls when animation starts
   useEffect(() => {
     if (isPlaying && audioSrc && controls.autoEvolution && !originalControlsRef.current) {
-      originalControlsRef.current = { ...controls }
+      // Store a deep copy of original controls
+      originalControlsRef.current = { 
+        ...controls,
+        // Ensure these animation properties are excluded from backup
+        currentPhase: undefined,
+        currentPattern: undefined,
+        elapsedTime: undefined,
+        beatCount: undefined,
+        backgroundIntensity: controls.backgroundIntensity || 0.15
+      }
       startTimeRef.current = Date.now()
       lastPatternChangeRef.current = Date.now()
       beatCountRef.current = 0
       lastBeatTimeRef.current = Date.now()
       console.log('🎵 ENHANCED AUTO EVOLUTION ACTIVATED!')
-    } else if (!controls.autoEvolution) {
+    } else if (!controls.autoEvolution && originalControlsRef.current) {
       // IMMEDIATELY restore controls when auto evolution is disabled
-      if (originalControlsRef.current) {
-        console.log('🎵 Auto Evolution DISABLED - Restoring Manual Control')
-        setControls(originalControlsRef.current)
-        originalControlsRef.current = null
+      console.log('🎵 Auto Evolution DISABLED - Restoring Manual Control')
+      const restoredControls = { 
+        ...originalControlsRef.current,
+        autoEvolution: false, // Ensure this stays false
+        // Clear animation-specific properties
+        currentPhase: undefined,
+        currentPattern: undefined, 
+        elapsedTime: undefined,
+        beatCount: undefined
       }
+      setControls(restoredControls)
+      originalControlsRef.current = null
       startTimeRef.current = null
       beatCountRef.current = 0
     }
   }, [isPlaying, audioSrc, controls.autoEvolution, setControls])
+
+  // Cleanup effect - ensures proper restoration on unmount
+  useEffect(() => {
+    return () => {
+      if (originalControlsRef.current) {
+        console.log('🧹 AnimationSequence cleanup - restoring controls')
+        const restoredControls = { 
+          ...originalControlsRef.current,
+          autoEvolution: false,
+          currentPhase: undefined,
+          currentPattern: undefined,
+          elapsedTime: undefined,
+          beatCount: undefined
+        }
+        setControls(restoredControls)
+        originalControlsRef.current = null
+      }
+    }
+  }, [setControls])
 
   // Enhanced beat-responsive animation loop
   useEffect(() => {
@@ -390,6 +425,11 @@ export function AnimationSequence() {
       
       if (modifierSource) {
         Object.entries(modifierSource).forEach(([key, value]) => {
+          // Never modify color controls - they stay user-controlled
+          if (key === 'color1' || key === 'color2' || key === 'color3') {
+            return
+          }
+          
           if (typeof value === 'boolean') {
             evolvedControls[key] = value
           } else if (typeof value === 'number') {
