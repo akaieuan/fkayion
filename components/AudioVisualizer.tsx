@@ -543,10 +543,12 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
           
           // *** SURFACE EFFECTS - ONLY WHEN ENABLED, NO WHITE CONTAMINATION ***
           
-          // CHROME EFFECT - Subtle metallic reflection
+          // CHROME EFFECT - Enhanced metallic reflection
           if (chrome > 0.01) {
-            float chromeAmount = fresnel * chrome * 0.6; // Much more subtle
-            baseColor = mix(baseColor, baseColor * (1.0 + chromeAmount), chrome * 0.4);
+            float chromeAmount = fresnel * chrome * 1.2; // Increased intensity
+            vec3 chromeReflection = vec3(1.0, 1.0, 1.0) * chromeAmount; // Pure metallic reflection
+            vec3 chromeBase = baseColor * (1.0 + chromeAmount * 0.8); // Enhanced base
+            baseColor = mix(baseColor, chromeBase + chromeReflection * chrome * 0.6, chrome * 0.8);
           }
           
           // PEARL IRIDESCENCE - Gentle color shifting  
@@ -560,27 +562,48 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
             baseColor = mix(baseColor, baseColor * pearlShift, pearl * fresnel * 0.3);
           }
           
-          // HOLOGRAPHIC EFFECT - Gentle rainbow shift
+          // HOLOGRAPHIC EFFECT - Enhanced rainbow shift
           if (holographic > 0.01) {
-            float holoPhase = fresnel * 10.0 + time * 3.0;
+            float holoPhase = fresnel * 15.0 + time * 4.0 + vWorldPosition.x * 2.0;
             vec3 holoShift = vec3(
-              sin(holoPhase) * 0.2 + 1.0,
-              sin(holoPhase + 2.1) * 0.2 + 1.0,
-              sin(holoPhase + 4.2) * 0.2 + 1.0
+              sin(holoPhase) * 0.6 + 1.0,
+              sin(holoPhase + 2.1) * 0.6 + 1.0,
+              sin(holoPhase + 4.2) * 0.6 + 1.0
             );
-            baseColor = mix(baseColor, baseColor * holoShift, holographic * fresnel * 0.4);
+            // Add rainbow color overlay
+            vec3 rainbowColor = vec3(
+              sin(holoPhase * 0.8) * 0.5 + 0.5,
+              sin(holoPhase * 0.8 + 2.1) * 0.5 + 0.5,
+              sin(holoPhase * 0.8 + 4.2) * 0.5 + 0.5
+            );
+            vec3 holoResult = baseColor * holoShift + rainbowColor * holographic * fresnel * 0.4;
+            baseColor = mix(baseColor, holoResult, holographic * 0.8);
           }
           
-          // GLASS EFFECT - Subtle transparency-like effect
+          // GLASS EFFECT - Enhanced transparency-like effect
           if (glass > 0.01) {
-            float glassEffect = fresnel * glass * 0.3;
-            baseColor = mix(baseColor, baseColor * (1.0 + glassEffect), glass * 0.3);
+            float glassEffect = fresnel * glass * 0.8; // Increased intensity
+            // Create refraction-like color shifting
+            vec3 glassShift = vec3(
+              1.0 + sin(vWorldPosition.x * 3.0 + time) * glass * 0.15,
+              1.0 + sin(vWorldPosition.y * 3.0 + time * 1.1) * glass * 0.15,
+              1.0 + sin(vWorldPosition.z * 3.0 + time * 0.9) * glass * 0.15
+            );
+            baseColor = mix(baseColor, baseColor * glassShift * (1.0 + glassEffect), glass * 0.7);
           }
           
           // ROUGHNESS EFFECT - Surface texture, not color change
           if (roughness > 0.01) {
             float roughPattern = sin(vWorldPosition.x * 30.0) * sin(vWorldPosition.y * 29.0) * sin(vWorldPosition.z * 31.0);
-            baseColor = mix(baseColor, baseColor * (1.0 + roughPattern * 0.1), roughness * 0.5);
+            float detailRoughness = sin(vWorldPosition.x * 60.0 + time * 2.0) * sin(vWorldPosition.y * 58.0 + time * 1.8) * 0.5;
+            float combinedRoughness = (roughPattern + detailRoughness) * roughness;
+            
+            // Create more visible surface texture variation
+            baseColor = mix(baseColor, baseColor * (1.0 + combinedRoughness * 0.3), roughness * 0.8);
+            
+            // Add surface normal perturbation effect
+            float normalPerturbation = combinedRoughness * 0.2;
+            baseColor *= (1.0 + normalPerturbation * fresnel);
           }
           
           // METALLIC REFLECTION - Enhance existing colors, don't add white
