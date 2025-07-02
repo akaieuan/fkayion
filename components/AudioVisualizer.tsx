@@ -505,24 +505,67 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
           current2 *= ripple2;
           current3 *= ripple3;
           
-          // *** TRI-COLOR ZONE SYSTEM - THREE DISTINCT MOVING AREAS ***
+          // *** TRI-COLOR ZONE SYSTEM - THREE DISTINCT FLOWING REGIONS ***
           
-          // ABSTRACT COLOR MIXING - All three colors visible simultaneously
-          vec3 flowingColor = color1 * current1 + color2 * current2 + color3 * current3;
+          // Create distinct spatial zones for each color using noise
+          vec3 zonePos = vWorldPosition * 0.8 + gentleTime * 0.2;
+          float zone1 = fbm(zonePos);
+          float zone2 = fbm(zonePos + vec3(123.4, 567.8, 901.2));
+          float zone3 = fbm(zonePos + vec3(234.5, 678.9, 012.3));
           
-          // Normalize to prevent oversaturation while keeping all colors visible
-          float totalWeight = current1 + current2 + current3;
-          flowingColor = flowingColor / totalWeight;
+          // Normalize zones so they add up to 1.0
+          float totalZones = zone1 + zone2 + zone3;
+          zone1 /= totalZones;
+          zone2 /= totalZones; 
+          zone3 /= totalZones;
           
-          // Add gentle inter-color blending zones
-          vec3 blend12 = mix(color1, color2, smoothstep(0.3, 0.7, current1 + current2));
-          vec3 blend23 = mix(color2, color3, smoothstep(0.3, 0.7, current2 + current3));
-          vec3 blend31 = mix(color3, color1, smoothstep(0.3, 0.7, current3 + current1));
+          // Enhance dominant zones - this creates distinct regions
+          float dominanceThreshold = 0.4;
+          if (zone1 > dominanceThreshold) {
+            zone1 = smoothstep(dominanceThreshold, 1.0, zone1);
+            zone2 *= (1.0 - zone1);
+            zone3 *= (1.0 - zone1);
+          } else if (zone2 > dominanceThreshold) {
+            zone2 = smoothstep(dominanceThreshold, 1.0, zone2);
+            zone1 *= (1.0 - zone2);
+            zone3 *= (1.0 - zone2);
+          } else if (zone3 > dominanceThreshold) {
+            zone3 = smoothstep(dominanceThreshold, 1.0, zone3);
+            zone1 *= (1.0 - zone3);
+            zone2 *= (1.0 - zone3);
+          }
           
-          // Combine main colors with blend zones for rich, complex color
-          flowingColor = mix(flowingColor, 
-            (blend12 + blend23 + blend31) / 3.0, 
-            0.4); // 40% blend zones, 60% pure colors
+          // Apply gentle ripples to create flowing boundaries
+          float ripple1 = sin(gentleTime * 0.4 + length(zonePos.xy) * 2.0) * 0.05 + 0.95;
+          float ripple2 = sin(gentleTime * 0.35 + length(zonePos.xz) * 2.2) * 0.05 + 0.95;
+          float ripple3 = sin(gentleTime * 0.38 + length(zonePos.yz) * 1.8) * 0.05 + 0.95;
+          
+          zone1 *= ripple1;
+          zone2 *= ripple2; 
+          zone3 *= ripple3;
+          
+          // Renormalize after ripples
+          float newTotal = zone1 + zone2 + zone3;
+          zone1 /= newTotal;
+          zone2 /= newTotal;
+          zone3 /= newTotal;
+          
+          // Create flowing color with distinct zones
+          vec3 flowingColor = color1 * zone1 + color2 * zone2 + color3 * zone3;
+          
+          // Add gentle transition zones between colors
+          float transition12 = smoothstep(0.15, 0.35, min(zone1, zone2));
+          float transition23 = smoothstep(0.15, 0.35, min(zone2, zone3));
+          float transition31 = smoothstep(0.15, 0.35, min(zone3, zone1));
+          
+          vec3 blend12 = mix(color1, color2, 0.5);
+          vec3 blend23 = mix(color2, color3, 0.5);
+          vec3 blend31 = mix(color3, color1, 0.5);
+          
+          // Apply transitions only at boundaries
+          flowingColor = mix(flowingColor, blend12, transition12 * 0.3);
+          flowingColor = mix(flowingColor, blend23, transition23 * 0.3);
+          flowingColor = mix(flowingColor, blend31, transition31 * 0.3);
           
           // Extremely gentle natural variance - like slow mercury surface waves
           float variance = sin(gentleTime * 0.15 + vWorldPosition.x * 0.8) * 
