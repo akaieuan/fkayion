@@ -1,412 +1,816 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
 import { useAudio } from './AudioContext'
 
-export function GooeyBlob() {
-  const meshRef = useRef<any>(null)
-  const { frequencyData, controls, isPlaying } = useAudio()
+export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], scale = 1 }) {
+  const meshRef = useRef<THREE.Mesh>(null)
+  const { controls, isPlaying, audioSrc, audioData } = useAudio()
   
+  console.log('🎭 MercuryBlob rendering...', { controls, isPlaying, audioSrc, hasAudioData: !!audioData })
+  
+  // MERCURY BLOB SHADER MATERIAL - The real deal
   const material = useMemo(() => {
     return new THREE.ShaderMaterial({
       uniforms: {
         time: { value: 0 },
-        bass: { value: 0 },
-        mid: { value: 0 },
-        treble: { value: 0 },
-        noiseScale: { value: controls.noiseScale },
-        noiseForce: { value: controls.noiseForce },
-        goopiness: { value: controls.goopiness },
-        complexity: { value: controls.complexity },
-        tension: { value: controls.tension },
-        turbulence: { value: controls.turbulence },
-        detail: { value: controls.detail },
-        split: { value: controls.split },
-        metallic: { value: controls.metallic },
-        glass: { value: controls.glass },
-        color1: { value: new THREE.Color(controls.color1) },
-        color2: { value: new THREE.Color(controls.color2) },
-        color3: { value: new THREE.Color(controls.color3) },
-        isPlaying: { value: isPlaying ? 1.0 : 0.0 },
-        wireframe: { value: controls.wireframe ? 1.0 : 0.0 },
-        contrast: { value: controls.contrast },
-        grain: { value: controls.grain },
-        grainSize: { value: controls.grainSize },
-        bloom: { value: controls.bloom },
-        dotMatrix: { value: controls.dotMatrix ? 1.0 : 0.0 },
+        isPlaying: { value: 0 },
+        volume: { value: 0 },
+        bassLevel: { value: 0 },
+        midLevel: { value: 0 },
+        highLevel: { value: 0 },
+        
+        // Basic controls
+        noiseScale: { value: 2.2 },
+        noiseForce: { value: 1.5 },
+        audioReactivity: { value: 6.0 },
+        
+        // Colors
+        color1: { value: new THREE.Color('#00f2ff') },
+        color2: { value: new THREE.Color('#ff00a8') },
+        color3: { value: new THREE.Color('#7000ff') },
+        color4: { value: new THREE.Color('#ff6b00') },
+        
+        // Mercury physics
+        viscosity: { value: 0.5 },
+        surfaceTension: { value: 0.7 },
+        density: { value: 1.0 },
+        elasticity: { value: 0.5 },
+        puddleMode: { value: 0.0 },
+        
+        // Liquid effects
+        goopiness: { value: 1.5 },
+        liquidity: { value: 2.0 },
+        split: { value: 0.8 },
+        splitIntensity: { value: 0.0 },
+        tentacleMode: { value: 0.0 },
+        liquidMerge: { value: 0.0 },
+        
+        // Surface effects
+        chrome: { value: 0.0 },
+        pearl: { value: 0.0 },
+        holographic: { value: 0.0 },
+        glass: { value: 0.0 },
+        roughness: { value: 0.0 },
+        
+        // Extreme effects
+        shattered: { value: 0.0 },
+        vortex: { value: 0.0 },
+        abstractSplit: { value: 0.0 },
+        ripple: { value: 0.0 },
+        
+        // Visual effects
+        bloom: { value: 0.0 },
+        grain: { value: 0.0 },
+        grainSize: { value: 1.0 },
+        
+        // Modes
+        dotMatrix: { value: 0.0 },
+        wireframe: { value: 0.0 },
+        dotSeparation: { value: 1.0 },
+        
+        // Properties
+        metallic: { value: 0.7 },
+        contrast: { value: 1.0 },
       },
       vertexShader: `
         uniform float time;
-        uniform float bass;
-        uniform float mid;
-        uniform float treble;
+        uniform float isPlaying;
+        uniform float volume;
+        uniform float bassLevel;
+        uniform float midLevel;
+        uniform float highLevel;
         uniform float noiseScale;
         uniform float noiseForce;
+        uniform float audioReactivity;
+        
+        // Mercury physics
+        uniform float viscosity;
+        uniform float surfaceTension;
+        uniform float density;
+        uniform float elasticity;
+        uniform float puddleMode;
+        
+        // Liquid effects
         uniform float goopiness;
-        uniform float complexity;
-        uniform float tension;
-        uniform float turbulence;
-        uniform float detail;
+        uniform float liquidity;
         uniform float split;
-        uniform float glass;
-        uniform float isPlaying;
+        uniform float splitIntensity;
+        uniform float tentacleMode;
+        uniform float liquidMerge;
+        
+        // Extreme effects
+        uniform float shattered;
+        uniform float vortex;
+        uniform float abstractSplit;
+        uniform float ripple;
+        
+        // Modes
         uniform float dotMatrix;
+        uniform float wireframe;
+        uniform float dotSeparation;
         
         varying vec3 vNormal;
         varying vec3 vPosition;
-        varying vec3 vViewPosition;
-        varying vec2 vUv;
+        varying vec3 vWorldPosition;
+        varying float vAudioIntensity;
         
-        // Enhanced noise function for more organic movement
-        float noise(vec3 p) {
-          vec3 i = floor(p);
-          vec3 f = fract(p);
-          f = f * f * (3.0 - 2.0 * f); // Smoother interpolation
-          
-          float n = i.x + i.y * 157.0 + 113.0 * i.z;
-          return mix(
-            mix(
-              mix(sin(n), sin(n + 1.0), f.x),
-              mix(sin(n + 157.0), sin(n + 158.0), f.x),
-              f.y
-            ),
-            mix(
-              mix(sin(n + 113.0), sin(n + 114.0), f.x),
-              mix(sin(n + 270.0), sin(n + 271.0), f.x),
-              f.y
-            ),
-            f.z
-          );
+        // Noise functions
+        float hash(float n) { return fract(sin(n) * 1e4); }
+        
+        float noise(vec3 x) {
+          const vec3 step = vec3(110, 241, 171);
+          vec3 i = floor(x);
+          vec3 f = fract(x);
+          f = f * f * (3.0 - 2.0 * f);
+          return mix(mix(mix( hash(dot(i, step)), hash(dot(i + vec3(1,0,0), step)), f.x),
+                         mix( hash(dot(i + vec3(0,1,0), step)), hash(dot(i + vec3(1,1,0), step)), f.x), f.y),
+                     mix(mix( hash(dot(i + vec3(0,0,1), step)), hash(dot(i + vec3(1,0,1), step)), f.x),
+                         mix( hash(dot(i + vec3(0,1,1), step)), hash(dot(i + vec3(1,1,1), step)), f.x), f.y), f.z);
         }
         
         float fbm(vec3 p) {
-          float sum = 0.0;
-          float amp = 0.5;
-          float freq = 1.0;
-          
-          // More octaves for richer detail, controlled by detail parameter
-          for(int i = 0; i < 6; i++) {
-            sum += noise(p * freq) * amp;
-            freq *= 1.8 + detail * 0.4; // Frequency scaling affected by detail
-            amp *= 0.5;
+          float value = 0.0;
+          float amplitude = 0.5;
+          float frequency = 1.0;
+          for (int i = 0; i < 3; i++) {
+            value += amplitude * noise(p * frequency);
+            frequency *= 2.0;
+            amplitude *= 0.5;
           }
-          return sum;
-        }
-
-        // Spike generation function
-        float spikes(vec3 p, float intensity) {
-          float basic = fbm(p);
-          float sharp = pow(abs(basic), tension); // Tension affects spike sharpness
-          return mix(basic, sharp, intensity);
+          return value;
         }
         
         void main() {
-          vNormal = normal;
+          vNormal = normalize(normalMatrix * normal);
           vPosition = position;
-          vUv = uv;
+          vWorldPosition = (modelMatrix * vec4(position, 1.0)).xyz;
           
-          // Enhanced goop movement with turbulence
-          float goopTime = time * goopiness * (1.0 + turbulence * sin(time * 0.5));
-          vec3 noiseSample = position * noiseScale * complexity;
-          noiseSample += vec3(goopTime * 0.5);
+          // Audio intensity
+          float audioIntensity = volume + bassLevel * 1.2 + midLevel * 0.8 + highLevel * 0.6;
+          vAudioIntensity = audioIntensity;
           
-          // Layer different noise frequencies with split control
-          float baseNoise = spikes(noiseSample, split);
-          float detailNoise = spikes(noiseSample * 2.0 + vec3(goopTime * 0.2), split * 0.7);
+          // Enhanced time flow
+          float physicsTime = time * (1.0 / max(viscosity, 0.01));
           
-          // Combine noise layers with audio reactivity
-          float audioInfluence = bass * 2.0 + mid + treble * 0.5;
-          float displacement = (baseNoise + detailNoise * 0.5) * noiseForce;
-          displacement *= (1.0 + audioInfluence * isPlaying);
+          vec3 workingPosition = position;
           
-          // Add turbulent motion
-          displacement += sin(position.x * 10.0 + time) * cos(position.z * 8.0 + time * 1.2) * turbulence * 0.2;
+          // === MERCURY PHYSICS EFFECTS ===
           
-          // Glass effect distortion
-          if (glass > 0.0) {
-            displacement += sin(position.x * 10.0 + time) * sin(position.y * 8.0 + time * 1.2) * glass * 0.2;
+          // Surface tension - creates surface ripples
+          float tensionWaves = sin(length(workingPosition) * 8.0 + physicsTime * 3.0) * surfaceTension * 0.8;
+          tensionWaves += cos(workingPosition.x * 6.0 + physicsTime * 2.0) * cos(workingPosition.z * 6.0 + physicsTime * 2.5) * surfaceTension * 0.5;
+          
+          // Elasticity - bouncing and spring motion
+          float elasticBounce = sin(time * 5.0 + length(workingPosition) * 3.0) * elasticity * 1.0;
+          elasticBounce += sin(time * 2.5 + workingPosition.x * 4.0) * cos(time * 3.0 + workingPosition.y * 4.0) * elasticity * 0.7;
+          
+          // Puddle mode - flattens shape
+          float puddleFlattening = 0.0;
+          if (puddleMode > 0.01) {
+            float puddleFactor = puddleMode * 0.5;
+            workingPosition.y *= (1.0 - puddleFactor);
+            workingPosition.x *= (1.0 + puddleFactor * 0.3);
+            workingPosition.z *= (1.0 + puddleFactor * 0.3);
+            puddleFlattening = sin(length(workingPosition.xz) * 3.0 - physicsTime * 2.0) * puddleMode * 0.2;
           }
           
-          if (dotMatrix > 0.5) {
-            displacement *= 1.5;
+          // === LIQUID EFFECTS ===
+          
+          // Goopiness - thick, sticky deformation
+          float goopyDeform = fbm(workingPosition * 2.0 + physicsTime * 0.5) * goopiness * 1.0;
+          goopyDeform += sin(workingPosition.x * 3.0 + physicsTime) * cos(workingPosition.z * 3.0 + physicsTime * 0.7) * goopiness * 0.8;
+          
+          // Liquidity - flowing liquid motion
+          float liquidFlow = sin(length(workingPosition) * 3.0 + physicsTime * 2.0) * liquidity * 0.6;
+          liquidFlow += fbm(workingPosition * 2.5 + physicsTime * 1.2) * liquidity * 0.5;
+          
+          // Split - creates splitting effects
+          float splitEffect = sin(workingPosition.x * 6.0 + physicsTime * 3.0) * 
+                             cos(workingPosition.y * 5.0 + physicsTime * 2.5) * split * 0.8;
+          splitEffect += sin(workingPosition.z * 4.0 + physicsTime * 2.0) * split * 0.5;
+          
+          // Tentacle mode - creates tentacle-like extensions
+          float tentacleEffect = 0.0;
+          if (tentacleMode > 0.01) {
+            float tentacleNoise = fbm(workingPosition * 4.0 + physicsTime * 1.8);
+            tentacleEffect = sin(workingPosition.x * 6.0 + physicsTime * 3.0) * tentacleNoise * tentacleMode * 1.5;
+            tentacleEffect += sin(workingPosition.y * 5.0 + physicsTime * 2.5) * tentacleMode * 1.2;
           }
           
-          // Apply displacement along normal
-          vec3 newPosition = position + normal * displacement;
-          vec4 mvPosition = modelViewMatrix * vec4(newPosition, 1.0);
-          vViewPosition = -mvPosition.xyz;
-          gl_Position = projectionMatrix * mvPosition;
-
+          // Abstract split - dramatic blob inversion
+          float abstractEffect = 0.0;
+          if (abstractSplit > 0.01) {
+            float abstractNoise = fbm(workingPosition * 6.0 + physicsTime * 2.0);
+            abstractEffect = sin(abstractNoise * 12.56 + physicsTime * 3.0) * abstractSplit * 2.0;
+            abstractEffect += sin(workingPosition.x * 12.0 + physicsTime * 4.0) * abstractSplit * 1.5;
+          }
+          
+          // === BASE DEFORMATION ===
+          float baseFlow = fbm(workingPosition * noiseScale + physicsTime * 0.5) * noiseForce * 0.4;
+          
+          // === AUDIO REACTIVE DEFORMATION ===
+          float audioDeformation = 0.0;
+          if (isPlaying > 0.5) {
+            audioDeformation = audioIntensity * audioReactivity * 0.3;
+            audioDeformation += bassLevel * 0.5 + midLevel * 0.3 + highLevel * 0.2;
+          }
+          
+          // === COMBINE ALL EFFECTS ===
+          float totalDeformation = (
+            baseFlow * 0.8 +
+            tensionWaves * 1.0 +
+            elasticBounce * 0.8 +
+            puddleFlattening * 1.2 +
+            goopyDeform * 1.0 +
+            liquidFlow * 0.8 +
+            splitEffect * 1.0 +
+            tentacleEffect * 1.5 +
+            abstractEffect * 1.8 +
+            audioDeformation * 1.2
+          ) * density * 0.5;
+          
+          // Apply displacement
+          vec3 newPosition = workingPosition + normal * totalDeformation;
+          
+          // Handle dot matrix mode
           if (dotMatrix > 0.5) {
-            float audioInfluence = bass * 2.0 + mid + treble * 0.5;
-            float pointSize = 8.0 + audioInfluence * 25.0;
-            pointSize *= (1.0 / -mvPosition.z);
-            gl_PointSize = pointSize;
+            // Apply dot separation - spread dots further apart
+            vec3 separatedPosition = newPosition * dotSeparation;
+            
+            vec4 mvPosition = modelViewMatrix * vec4(separatedPosition, 1.0);
+            gl_Position = projectionMatrix * mvPosition;
+            
+            // Adjust point size based on separation (further = smaller for perspective)
+            float pointSize = (15.0 + totalDeformation * 40.0) / max(dotSeparation * 0.8, 0.5);
+            if (isPlaying > 0.5) {
+              pointSize += audioIntensity * 50.0 / max(dotSeparation * 0.8, 0.5);
+            }
+            gl_PointSize = clamp(pointSize / max(-mvPosition.z * 0.1, 1.0), 4.0, 80.0);
+          } else {
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
           }
         }
       `,
       fragmentShader: `
+        uniform float time;
+        uniform float isPlaying;
+        uniform float volume;
+        uniform float bassLevel;
+        uniform float midLevel;
+        uniform float highLevel;
         uniform vec3 color1;
         uniform vec3 color2;
         uniform vec3 color3;
-        uniform float bass;
-        uniform float mid;
-        uniform float treble;
-        uniform float wireframe;
+        uniform vec3 color4;
+        uniform float metallic;
         uniform float contrast;
+        
+        // Surface effects
+        uniform float chrome;
+        uniform float pearl;
+        uniform float holographic;
+        uniform float glass;
+        uniform float roughness;
+        
+        // Visual effects
+        uniform float bloom;
         uniform float grain;
         uniform float grainSize;
-        uniform float metallic;
-        uniform float glass;
-        uniform float bloom;
-        uniform float time;
-        uniform float goopiness;
-        uniform float split;
-        uniform float dotMatrix;
         
-        varying vec3 vNormal;
-        varying vec3 vPosition;
-        varying vec3 vViewPosition;
-        varying vec2 vUv;
+                 // Modes
+         uniform float dotMatrix;
+         uniform float wireframe;
+         uniform float dotSeparation;
+         
+         varying vec3 vNormal;
+         varying vec3 vPosition;
+         varying vec3 vWorldPosition;
+         varying float vAudioIntensity;
+         
+         // Noise functions
+         float hash(vec3 p) {
+           return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453);
+         }
         
-        float noise(vec2 p) {
-          return fract(sin(dot(p.xy ,vec2(12.9898,78.233))) * 43758.5453);
+        float hash2d(vec2 p) {
+          return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
         }
         
-        vec3 organicMix(vec3 col1, vec3 col2, float t) {
-          vec3 mixed = mix(col1, col2, t);
-          return mixed * (1.0 + sin(t * 3.14159) * 0.1);
+        float noise3d(vec3 x) {
+          vec3 i = floor(x);
+          vec3 f = fract(x);
+          f = f * f * (3.0 - 2.0 * f);
+          return mix(mix(mix(hash(i), hash(i + vec3(1,0,0)), f.x),
+                        mix(hash(i + vec3(0,1,0)), hash(i + vec3(1,1,0)), f.x), f.y),
+                    mix(mix(hash(i + vec3(0,0,1)), hash(i + vec3(1,0,1)), f.x),
+                        mix(hash(i + vec3(0,1,1)), hash(i + vec3(1,1,1)), f.x), f.y), f.z);
         }
-
+        
+        float fbm(vec3 p) {
+          float value = 0.0;
+          float amplitude = 0.5;
+          float frequency = 1.0;
+          for (int i = 0; i < 2; i++) {
+            value += amplitude * noise3d(p * frequency);
+            frequency *= 2.0;
+            amplitude *= 0.5;
+          }
+          return value;
+        }
+        
         void main() {
+          // DOT MATRIX MODE - Mercury droplets
           if (dotMatrix > 0.5) {
-            float dist = distance(gl_PointCoord, vec2(0.5));
-            if (dist > 0.5) {
-                discard;
-            }
-          }
-
-          vec3 viewDirection = normalize(-vViewPosition);
-          float fresnel = pow(1.0 - max(0.0, dot(normalize(vNormal), viewDirection)), 3.0);
-          
-          // Audio-reactive color weights
-          float bassWeight = bass * 1.5;
-          float midWeight = mid * 1.2;
-          float trebleWeight = treble * 0.8;
-          
-          // Tri-planar color blending for more distinct color zones
-          float blendX = smoothstep(-0.5, 0.5, sin(vPosition.x * 2.0 + time * 0.2 + bassWeight * 2.0));
-          float blendY = smoothstep(-0.5, 0.5, cos(vPosition.y * 2.0 + time * 0.3 + midWeight * 2.0));
-
-          vec3 baseColor = mix(color1, color2, blendX);
-          baseColor = mix(baseColor, color3, blendY);
-
-          // Add fresnel-based highlights with audio reactivity
-          vec3 audioColor = mix(baseColor, color3, fresnel * (1.0 + trebleWeight));
-          
-          // Metallic reflection
-          float metallicFresnel = pow(fresnel, 1.0 + metallic * 2.0);
-          vec3 metallicColor = mix(audioColor, vec3(1.0), metallicFresnel * metallic);
-          
-          // Glass effect
-          if (glass > 0.0) {
-            float glassFreak = pow(fresnel, 1.0 + glass * 3.0);
-            metallicColor = mix(metallicColor, color3 * 2.0, glassFreak * glass);
-          }
-          
-          // Split-based color enhancement
-          float splitEffect = split * (sin(vPosition.x * 10.0 + time) * 0.5 + 0.5);
-          metallicColor = mix(metallicColor, color1 * 1.5, splitEffect * 0.3);
-          
-          // Enhanced bloom effect
-          float luminance = dot(metallicColor, vec3(0.299, 0.587, 0.114));
-          vec3 bloomColor = metallicColor * luminance * bloom;
-          metallicColor += bloomColor * (1.0 + bassWeight * 0.5);
-          
-          // Grain effect
-          if (grain > 0.0) {
-            float grainNoise = noise(vUv * grainSize + vec2(time * 0.001)) * grain;
-            metallicColor = mix(metallicColor, metallicColor * (1.0 + grainNoise), grain);
-          }
-          
-          // Dynamic contrast based on audio
-          float audioMix = (bassWeight + midWeight + trebleWeight) * 0.5;
-          float dynamicContrast = contrast * (1.0 + audioMix * 0.2);
-          metallicColor = pow(metallicColor, vec3(dynamicContrast));
-          
-          // Wireframe highlights
-          if (wireframe > 0.5) {
-            float edge = pow(fresnel, 2.0) * (1.0 + bassWeight);
-            metallicColor += vec3(edge) * 0.3;
-          }
-          
-          if (dotMatrix > 0.5) {
-            float dist = distance(gl_PointCoord, vec2(0.5));
+            vec2 center = gl_PointCoord - 0.5;
+            float dist = length(center);
             
-            // Smooth alpha falloff for a soft-edged orb
-            float alpha = 1.0 - smoothstep(0.45, 0.5, dist);
-            if (alpha < 0.01) discard;
-
-            // Add a glowing core
-            float coreGlow = pow(1.0 - dist * 2.0, 4.0);
-            metallicColor += metallicColor * coreGlow * 1.2; // Make it glow more
-
-            gl_FragColor = vec4(metallicColor, alpha);
-          } else {
-            gl_FragColor = vec4(metallicColor, 1.0);
+            // Liquid droplet shape
+            float dropletRadius = 0.5 - sin(length(center) * 8.0 + time * 1.5) * 0.03;
+            dropletRadius -= fbm(vec3(center * 10.0, time * 0.3)) * 0.05;
+            
+            if (dist > dropletRadius) discard;
+            
+            // 3D droplet surface
+            float heightFactor = 1.0 - (dist / dropletRadius);
+            float dropletHeight = sqrt(heightFactor) * 0.8;
+            vec3 dropletNormal = normalize(vec3(center * 1.5, dropletHeight));
+            
+            // Lighting
+            vec3 light1 = normalize(vec3(1.0, 1.0, 1.0));
+            float NdotL = max(0.4, dot(dropletNormal, light1));
+            
+            // Color territories
+            vec3 worldPos = vWorldPosition;
+            float dynamicTime = time * 0.05;
+            
+            // Simple color blending
+            float region1 = sin(worldPos.x * 2.0 + dynamicTime) * 0.5 + 0.5;
+            float region2 = cos(worldPos.y * 2.0 + dynamicTime) * 0.5 + 0.5;
+            float region3 = sin(worldPos.z * 2.0 + dynamicTime) * 0.5 + 0.5;
+            
+            vec3 baseColor = mix(mix(color1, color2, region1), mix(color3, color4, region2), region3);
+            
+            // Audio reactivity
+            float audioFlowIntensity = 1.0 + vAudioIntensity * 0.4;
+            baseColor *= audioFlowIntensity;
+            
+            // Lighting
+            baseColor *= (0.8 + NdotL * 0.4);
+            
+            gl_FragColor = vec4(baseColor, 1.0);
+            return;
           }
+          
+          // REGULAR BLOB MODE
+          vec3 worldPos = vWorldPosition;
+          float dynamicTime = time * 0.1;
+          
+          // Color territories
+          float territory1 = sin(worldPos.x + dynamicTime) * 0.5 + 0.5;
+          float territory2 = cos(worldPos.y + dynamicTime) * 0.5 + 0.5;
+          float territory3 = sin(worldPos.z + dynamicTime * 0.8) * 0.5 + 0.5;
+          float territory4 = cos(length(worldPos.xy) + dynamicTime * 0.6) * 0.5 + 0.5;
+          
+          // Audio reactive modulation
+          if (isPlaying > 0.5) {
+            territory1 += bassLevel * 0.2;
+            territory2 += midLevel * 0.2;
+            territory3 += highLevel * 0.2;
+            territory4 += volume * 0.1;
+          }
+          
+          // Normalize
+          float total = territory1 + territory2 + territory3 + territory4 + 0.01;
+          territory1 /= total;
+          territory2 /= total;
+          territory3 /= total;
+          territory4 /= total;
+          
+          // Color blending
+          vec3 finalColor = color1 * territory1 + color2 * territory2 + color3 * territory3 + color4 * territory4;
+          
+          // Surface variation
+          float organicSurface = sin(worldPos.x * 2.0 + dynamicTime) * cos(worldPos.y * 1.5 + dynamicTime) * 0.1;
+          finalColor *= (0.95 + organicSurface);
+          
+          // Contrast
+          vec3 contrastEnhanced = pow(finalColor, vec3(1.8));
+          finalColor = mix(finalColor, contrastEnhanced, 0.6);
+          
+          // Surface effects
+          vec3 viewDirection = normalize(-vWorldPosition);
+          vec3 normal = normalize(vNormal);
+          float fresnel = pow(1.0 - max(0.0, dot(normal, viewDirection)), 0.8);
+          
+          // Metallic
+          finalColor *= (1.0 + fresnel * metallic * 1.2);
+          
+          // Chrome effect
+          if (chrome > 0.01) {
+            float chromeReflection = fresnel * chrome * 2.0;
+            vec3 chromeColor = vec3(1.3, 1.3, 1.4) * chromeReflection;
+            finalColor = mix(finalColor, finalColor + chromeColor, chrome * 0.8);
+          }
+          
+          // Wireframe mode
+          if (wireframe > 0.5) {
+            finalColor *= (1.5 + vAudioIntensity * 1.2);
+            float edgeGlow = pow(fresnel, 0.2) * 3.0;
+            finalColor += edgeGlow * finalColor * 0.8;
+          }
+          
+          // Ensure visibility
+          finalColor = max(finalColor, vec3(0.08));
+          
+          gl_FragColor = vec4(finalColor, 1.0);
         }
       `,
-      wireframe: controls.wireframe,
-      transparent: controls.glass > 0 || controls.dotMatrix,
+      wireframe: false,
+      transparent: false,
     })
-  }, [controls, isPlaying])
-
+  }, [])
+  
+  // SIMPLE WORKING GEOMETRY - This will definitely work
+  const geometry = useMemo(() => {
+    const shape = controls.shape || 'sphere'
+    console.log('🎭 Creating geometry:', shape)
+    
+    switch (shape) {
+      case 'cube':
+        return new THREE.BoxGeometry(2, 2, 2, 16, 16, 16)
+      case 'cylinder':
+        return new THREE.CylinderGeometry(1.2, 1.2, 2.5, 32, 16)
+      case 'cone':
+        return new THREE.ConeGeometry(1.5, 2.5, 32, 16)
+      case 'torus':
+        return new THREE.TorusGeometry(1.2, 0.5, 16, 32)
+      case 'torusKnot':
+        return new THREE.TorusKnotGeometry(1, 0.3, 64, 8, 2, 3)
+      default:
+        return new THREE.SphereGeometry(1.5, 32, 16)
+    }
+  }, [controls.shape])
+  
+  // SHADER UNIFORM UPDATES
   useFrame((state) => {
-    if (!meshRef.current || !isPlaying) return
+    if (!meshRef.current) return
     
     const time = state.clock.elapsedTime
-    const material = meshRef.current.material as THREE.ShaderMaterial
+    const deltaTime = state.clock.getDelta()
+    const mat = meshRef.current.material as THREE.ShaderMaterial
     
-    Object.entries(material.uniforms).forEach(([key, uniform]) => {
-      switch (key) {
-        case 'time':
-          uniform.value = time
-          break
-        case 'bass':
-          uniform.value = frequencyData?.bass || 0
-          break
-        case 'mid':
-          uniform.value = frequencyData?.mid || 0
-          break
-        case 'treble':
-          uniform.value = frequencyData?.treble || 0
-          break
-        case 'isPlaying':
-          uniform.value = isPlaying ? 1.0 : 0.0
-          break
-        case 'wireframe':
-          uniform.value = controls.wireframe ? 1.0 : 0.0
-          break
-        case 'color1':
-          uniform.value.set(controls.color1)
-          break
-        case 'color2':
-          uniform.value.set(controls.color2)
-          break
-        case 'color3':
-          uniform.value.set(controls.color3)
-          break
-        case 'noiseScale':
-          uniform.value = controls.noiseScale
-          break
-        case 'noiseForce':
-          uniform.value = controls.noiseForce
-          break
-        case 'goopiness':
-          uniform.value = controls.goopiness
-          break
-        case 'complexity':
-          uniform.value = controls.complexity
-          break
-        case 'tension':
-          uniform.value = controls.tension
-          break
-        case 'turbulence':
-          uniform.value = controls.turbulence
-          break
-        case 'detail':
-          uniform.value = controls.detail
-          break
-        case 'split':
-          uniform.value = controls.split
-          break
-        case 'metallic':
-          uniform.value = controls.metallic
-          break
-        case 'glass':
-          uniform.value = controls.glass
-          break
-        case 'dotMatrix':
-          uniform.value = controls.dotMatrix ? 1.0 : 0.0
-          break
-        case 'grain':
-          uniform.value = controls.grain
-          break
-        case 'grainSize':
-          uniform.value = controls.grainSize
-          break
-        default:
-          if (key in controls) {
-            uniform.value = controls[key]
-          }
-      }
-    })
+    // Safe audio data
+    const safeAudioData = audioData || { volume: 0, bassLevel: 0, midLevel: 0, highLevel: 0 }
     
-    meshRef.current.rotation.y = time * 0.1
-  })
-
-  const geometry = useMemo(() => {
-    const highDef = controls.wireframe || controls.dotMatrix;
-    switch (controls.shape) {
-      case 'sphere':
-        return <sphereGeometry args={[1, highDef ? 64 : 32, highDef ? 32 : 16]} />
-      case 'cube':
-        return <boxGeometry args={[1.5, 1.5, 1.5]} />
-      case 'torus':
-        return <torusGeometry args={[1, 0.4, highDef ? 32 : 16, highDef ? 100 : 50]} />
-      default: // icosahedron
-        return <icosahedronGeometry args={[1, highDef ? 5 : 3]} />
+    if (mat && mat.uniforms) {
+      // Time and audio state
+      mat.uniforms.time.value = time
+      mat.uniforms.isPlaying.value = (isPlaying && audioSrc) ? 1.0 : 0.0
+      
+      // Audio data
+      mat.uniforms.volume.value = safeAudioData.volume
+      mat.uniforms.bassLevel.value = safeAudioData.bassLevel
+      mat.uniforms.midLevel.value = safeAudioData.midLevel
+      mat.uniforms.highLevel.value = safeAudioData.highLevel
+      
+      // Controls
+      mat.uniforms.noiseScale.value = controls.noiseScale || 2.2
+      mat.uniforms.noiseForce.value = controls.noiseForce || 1.5
+      mat.uniforms.audioReactivity.value = controls.audioReactivity || 6.0
+      
+      // Colors
+      mat.uniforms.color1.value.set(controls.color1 || '#00f2ff')
+      mat.uniforms.color2.value.set(controls.color2 || '#ff00a8')
+      mat.uniforms.color3.value.set(controls.color3 || '#7000ff')
+      mat.uniforms.color4.value.set(controls.color4 || '#ff6b00')
+      
+      // Mercury physics
+      mat.uniforms.viscosity.value = controls.viscosity || 0.5
+      mat.uniforms.surfaceTension.value = controls.surfaceTension || 0.7
+      mat.uniforms.density.value = controls.density || 1.0
+      mat.uniforms.elasticity.value = controls.elasticity || 0.5
+      mat.uniforms.puddleMode.value = controls.puddleMode || 0.0
+      
+      // Liquid effects
+      mat.uniforms.goopiness.value = controls.goopiness || 1.5
+      mat.uniforms.liquidity.value = controls.liquidity || 2.0
+      mat.uniforms.split.value = controls.split || 0.8
+      mat.uniforms.splitIntensity.value = controls.splitIntensity || 0.0
+      mat.uniforms.tentacleMode.value = controls.tentacleMode || 0.0
+      mat.uniforms.liquidMerge.value = controls.liquidMerge || 0.0
+      
+      // Surface effects
+      mat.uniforms.chrome.value = controls.chrome || 0
+      mat.uniforms.pearl.value = controls.pearl || 0
+      mat.uniforms.holographic.value = controls.holographic || 0
+      mat.uniforms.glass.value = controls.glass || 0
+      mat.uniforms.roughness.value = controls.roughness || 0
+      
+      // Extreme effects
+      mat.uniforms.shattered.value = controls.shattered ? 1.0 : 0.0
+      mat.uniforms.vortex.value = controls.vortex ? 1.0 : 0.0
+      mat.uniforms.abstractSplit.value = controls.abstractSplit || 0
+      mat.uniforms.ripple.value = controls.ripple ? 1.0 : 0.0
+      
+      // Visual effects
+      mat.uniforms.bloom.value = controls.bloom || 0
+      mat.uniforms.grain.value = controls.grain || 0
+      mat.uniforms.grainSize.value = controls.grainSize || 1.0
+      
+      // Modes
+      mat.uniforms.dotMatrix.value = controls.dotMatrix ? 1.0 : 0.0
+      mat.uniforms.wireframe.value = controls.wireframe ? 1.0 : 0.0
+      mat.uniforms.dotSeparation.value = controls.dotSeparation || 1.0
+      
+      // Properties
+      mat.uniforms.metallic.value = controls.metallic || 0.7
+      mat.uniforms.contrast.value = controls.contrast || 1.0
+      
+      // Apply wireframe to material
+      mat.wireframe = controls.wireframe && !controls.dotMatrix
     }
-  }, [controls.shape, controls.wireframe, controls.dotMatrix])
+    
+    // CONTROLLABLE ROTATION - User can adjust speed
+    const baseRotationSpeed = controls.rotationSpeed || 1.0 // User-controlled rotation speed
+    const audioBoostRotation = audioData ? (audioData.volume + audioData.bassLevel * 0.5) * 2.0 : 0
+    
+    // Multi-axis rotation for dynamic movement
+    meshRef.current.rotation.y += deltaTime * (baseRotationSpeed + audioBoostRotation)
+    meshRef.current.rotation.x += deltaTime * (baseRotationSpeed * 0.6 + audioBoostRotation * 0.4)
+    meshRef.current.rotation.z += deltaTime * (baseRotationSpeed * 0.3 + audioBoostRotation * 0.2)
+    
+    // Debug rotation to verify it's working
+    if (Math.floor(time) % 5 === 0 && Math.floor(time * 10) % 10 === 0) {
+      console.log('🌀 ROTATION DEBUG:', { 
+        rotationY: meshRef.current.rotation.y.toFixed(2),
+        rotationX: meshRef.current.rotation.x.toFixed(2),
+        deltaTime: deltaTime.toFixed(3),
+        baseSpeed: baseRotationSpeed,
+        audioBoost: audioBoostRotation.toFixed(3)
+      })
+    }
+  })
+  
+  console.log('🎭 Rendering mesh with:', { geometry: geometry.type, material: material.type })
+  
+  // Handle dot matrix mode vs regular mesh
+  if (controls.dotMatrix) {
+    return (
+      <points ref={meshRef as any} position={position} scale={scale}>
+        <primitive object={geometry} />
+        <primitive object={material} />
+      </points>
+    )
+  }
 
-  return controls.dotMatrix ? (
-    <points ref={meshRef}>
-      {geometry}
-      <primitive object={material} />
-    </points>
-  ) : (
-    <mesh ref={meshRef}>
-      {geometry}
+  return (
+    <mesh ref={meshRef} position={position} scale={scale}>
+      <primitive object={geometry} />
       <primitive object={material} />
     </mesh>
-  );
+  )
 }
 
 export function AudioVisualizer() {
-  const { audioSrc } = useAudio()
+  const { audioSrc, isPlaying, audioData, controls, setControls } = useAudio()
+  
+  console.log('🎬 AudioVisualizer rendering...', { 
+    audioSrc, 
+    isPlaying, 
+    hasAudioData: !!audioData,
+    controls: controls
+  })
+
+  // Auto color cycling - one color at a time every 15 seconds
+  useEffect(() => {
+    const colorPalette = [
+      '#00f2ff', '#ff00a8', '#7000ff', '#ff6b00', // Original set
+      '#ff71ce', '#01cdfe', '#05ffa1', '#ffb347', // Cyber
+      '#f5d300', '#ff225e', '#6a0dad', '#00ced1', // Sunset
+      '#00c6ff', '#0072ff', '#fceabb', '#ff8c94', // Ocean
+      '#a7ff83', '#17bd9b', '#027a74', '#ff6b9d', // Forest
+      '#ff4b1f', '#1fddff', '#c471ed', '#f64f59', // Fire
+      '#9d4edd', '#f72585', '#4cc9f0', '#f9844a', // Aurora
+      '#39ff14', '#ff073a', '#00f5ff', '#ffed4e', // Electric
+      '#667eea', '#764ba2', '#f093fb', '#f5576c', // Dream
+      '#4facfe', '#00f2fe', '#43e97b', '#38f9d7', // Tropical
+      '#ff9a9e', '#fecfef', '#ffecd2', '#fcb69f', // Pastel
+      '#a8edea', '#fed6e3', '#d299c2', '#fef9d7', // Soft
+      '#ff8a80', '#ff80ab', '#ea80fc', '#8c9eff', // Bright
+      '#84fab0', '#8fd3f4', '#a18cd1', '#fbc2eb', // Cool
+    ]
+
+    let currentColorIndex = 0
+    let currentSlot = 0 // 0=color1, 1=color2, 2=color3, 3=color4
+
+    const colorInterval = setInterval(() => {
+      // Don't auto-cycle if user has disabled color cycling
+      if (!controls.autoColorCycle) return
+
+      const newColor = colorPalette[currentColorIndex]
+      
+      setControls((prev: any) => {
+        const updated = { ...prev }
+        
+        // Cycle through color slots one at a time
+        switch (currentSlot) {
+          case 0:
+            updated.color1 = newColor
+            break
+          case 1:
+            updated.color2 = newColor
+            break
+          case 2:
+            updated.color3 = newColor
+            break
+          case 3:
+            updated.color4 = newColor
+            break
+        }
+        
+        return updated
+      })
+
+      // Move to next color and slot
+      currentColorIndex = (currentColorIndex + 1) % colorPalette.length
+      currentSlot = (currentSlot + 1) % 4
+
+      console.log(`🎨 Auto color cycle: Updated color${currentSlot + 1} to ${newColor}`)
+    }, 15000) // 15 seconds
+
+    return () => clearInterval(colorInterval)
+  }, [controls.autoColorCycle, setControls])
+
+  // Auto shape cycling - one shape every 20 seconds
+  useEffect(() => {
+    const shapeList = ['sphere', 'cube', 'cylinder', 'cone', 'torus', 'torusKnot']
+
+    let currentShapeIndex = 0
+
+    const shapeInterval = setInterval(() => {
+      // Don't auto-cycle if user has disabled shape cycling
+      if (!controls.autoShapeCycle) return
+
+      const newShape = shapeList[currentShapeIndex]
+      
+      setControls((prev: any) => ({
+        ...prev,
+        shape: newShape
+      }))
+
+      // Move to next shape
+      currentShapeIndex = (currentShapeIndex + 1) % shapeList.length
+
+      console.log(`🔷 Auto shape cycle: Changed to ${newShape}`)
+    }, 20000) // 20 seconds
+
+    return () => clearInterval(shapeInterval)
+  }, [controls.autoShapeCycle, setControls])
 
   return (
-    <div className="w-full h-full relative">
-      {audioSrc ? (
-        <Canvas
-          camera={{ position: [0, 0, 5], fov: 45, far: 1000 }}
-          gl={{ 
-            antialias: true,
-            alpha: true,
-            logarithmicDepthBuffer: true
-          }}
-        >
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} intensity={0.5} />
-          <GooeyBlob />
-          <OrbitControls 
-            enableZoom={true}
-            enablePan={false}
-            enableRotate={true}
-            autoRotate={true}
-            autoRotateSpeed={0.3}
-            minDistance={2}
-            maxDistance={50}
-            zoomSpeed={1}
-          />
-        </Canvas>
-      ) : (
-        <div className="w-full h-full flex items-center justify-center text-white/50 text-lg">
-          Upload an audio file to begin visualization
+    <div className="w-full h-full relative bg-black">
+      <Canvas
+        camera={{ 
+          position: [0, 0, 8],
+          fov: 75,
+          far: 100,
+          near: 0.1 
+        }}
+        style={{ 
+          width: '100%', 
+          height: '100%',
+        }}
+      >
+        <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} intensity={1} />
+        <pointLight position={[-10, -10, -10]} intensity={0.5} />
+        
+        <MercuryBlob position={[0, 0, 0]} scale={1} />
+        
+        <OrbitControls 
+          enableZoom={true}
+          enablePan={true}
+          enableRotate={true}
+          minDistance={2}
+          maxDistance={20}
+          target={[0, 0, 0]}
+        />
+      </Canvas>
+      
+      {/* EVOLVING CONTROLS STATUS */}
+      {(controls.autoColorCycle || controls.autoShapeCycle) && (
+        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-green-600/95 to-teal-600/95 text-white p-4 rounded-lg backdrop-blur-md border-2 border-white/30 shadow-2xl">
+          <div className="text-center">
+            <div className="text-xl font-bold mb-2">🔄 EVOLVING CONTROLS ACTIVE</div>
+            <div className="text-sm opacity-90 mb-2">Current Status:</div>
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <div>🎨 Color Cycle: <span className="font-mono text-cyan-200">{controls.autoColorCycle ? 'ON' : 'OFF'}</span></div>
+              <div>🔷 Shape Cycle: <span className="font-mono text-cyan-200">{controls.autoShapeCycle ? 'ON' : 'OFF'}</span></div>
+              <div>Current Shape: <span className="font-mono text-cyan-200">{controls.shape || 'sphere'}</span></div>
+              <div>Wireframe: <span className="font-mono text-cyan-200">{controls.wireframe ? 'ON' : 'OFF'}</span></div>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* HEADER STATUS BAR - Full Width Transparent */}
+      <div className="absolute top-0 left-0 right-0 bg-black/20 backdrop-blur-sm text-white p-4 text-sm border-b border-white/10">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-6">
+            <div className="text-cyan-400 font-bold">🎛️ MERCURY PHYSICS ENGINE</div>
+            <div className="flex items-center gap-4 text-xs">
+              <div>📊 Tension: {(controls.surfaceTension || 0.5).toFixed(1)}</div>
+              <div>🏀 Elasticity: {(controls.elasticity || 0.5).toFixed(1)}</div>
+              <div>💧 Puddle: {(controls.puddleMode || 0.0).toFixed(1)}</div>
+              <div>🍯 Goop: {(controls.goopiness || 1.5).toFixed(1)}</div>
+              <div>🌊 Liquid: {(controls.liquidity || 2.0).toFixed(1)}</div>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4 text-xs">
+              <div>🔪 Split: {(controls.split || 0.8).toFixed(1)}</div>
+              {(controls.tentacleMode || 0.0) > 0 && <div className="text-purple-300">🐙 Tentacles: {(controls.tentacleMode || 0.0).toFixed(1)}</div>}
+              {(controls.abstractSplit || 0.0) > 0 && <div className="text-red-300">💥 Abstract: {(controls.abstractSplit || 0.0).toFixed(1)}</div>}
+            </div>
+            
+            <div className="flex items-center gap-4 text-xs">
+              <div className={controls.autoColorCycle ? "text-green-400" : "text-gray-400"}>
+                🎨 {controls.autoColorCycle ? 'Auto Colors' : 'Manual Colors'}
+              </div>
+              <div className={controls.autoShapeCycle ? "text-blue-400" : "text-gray-400"}>
+                🔷 {controls.autoShapeCycle ? 'Auto Shapes' : 'Manual Shapes'}
+              </div>
+              {controls.dotMatrix && <div className="text-blue-300">🔵 Droplets</div>}
+              {controls.wireframe && <div className="text-yellow-300">📐 Wireframe</div>}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {!audioSrc && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="text-center">
+            <div className="text-white/80 text-3xl mb-4 font-bold">
+              Mercury Visualizer - Full Controls
+            </div>
+            <div className="text-white/60 text-lg mb-4">
+              All Physics and Effects Working
+            </div>
+            <div className="text-white/40 text-base space-y-1">
+              🎵 Upload music to see the enhanced mercury physics!
+              <br />
+              🧪 Audio-reactive shapes: Sphere, Cube, Cylinder, Cone, Torus, Torus Knot
+              <br />
+              💧 Liquid droplets: Realistic mercury droplets in dot matrix mode
+              <br />
+              🎛️ All physics controls affect the mercury blob
+              <br />
+              🔄 Evolving controls: Optional auto color and shape cycling
+              <br />
+              ✨ Enhanced visuals: Better materials, lighting, and audio responsiveness
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Mode indicator */}
+      {isPlaying && audioSrc && (
+        <div className="absolute top-4 right-4 bg-gradient-to-r from-purple-500/90 to-pink-500/90 text-white px-4 py-2 rounded-lg backdrop-blur-md border border-purple-400/50 shadow-lg">
+          <div className="flex items-center space-x-2">
+            <div className="w-3 h-3 bg-purple-400 rounded-full"></div>
+            <span className="font-bold">🌊 MERCURY BLOB</span>
+          </div>
+        </div>
+      )}
+      
+      {/* Evolving controls indicator */}
+      {isPlaying && audioSrc && (controls.autoColorCycle || controls.autoShapeCycle) && (
+        <div className="absolute top-4 left-4 bg-gradient-to-r from-green-500/90 to-teal-500/90 text-white px-4 py-2 rounded-lg backdrop-blur-md border border-green-400/50 shadow-lg">
+          <div className="flex items-center space-x-2">
+            <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+            <span className="font-bold">🔄 EVOLVING CONTROLS ACTIVE</span>
+          </div>
+        </div>
+      )}
+      
+      {/* AUDIO STATUS - Bottom Left Compact */}
+      {isPlaying && audioSrc && (
+        <div className="absolute bottom-4 left-4 bg-black/30 backdrop-blur-sm text-white p-3 rounded-lg text-sm font-mono border border-white/20">
+          <div className="flex items-center gap-4">
+            <div className="text-green-400 font-bold">🌊 MERCURY BLOB</div>
+            <div>Vol: {((audioData?.volume || 0) * 100).toFixed(0)}%</div>
+            <div>Bass: {((audioData?.bassLevel || 0) * 100).toFixed(0)}%</div>
+            <div>Mid: {((audioData?.midLevel || 0) * 100).toFixed(0)}%</div>
+            <div>High: {((audioData?.highLevel || 0) * 100).toFixed(0)}%</div>
+            <div className={(controls.autoColorCycle || controls.autoShapeCycle) ? "text-cyan-300" : "text-orange-300"}>
+              {(controls.autoColorCycle || controls.autoShapeCycle) ? "🔄 Auto Mode" : "🎛️ Manual"}
+            </div>
+          </div>
         </div>
       )}
     </div>

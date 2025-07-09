@@ -1,19 +1,161 @@
 'use client'
 
 import { useAudio } from './AudioContext'
-import { Controls } from './animation-sequence'
+import { useState } from 'react'
+
+// Enhanced controls type with NEW PUDDLE MODE
+type Controls = {
+  noiseScale: number
+  noiseForce: number
+  color1: string
+  color2: string
+  color3: string
+  color4: string
+  audioReactivity: number
+  wireframe: boolean
+  
+  // REAL PHYSICAL MERCURY PROPERTIES
+  viscosity: number
+  surfaceTension: number
+  density: number
+  elasticity: number
+  
+  // *** NEW: PUDDLE MODE ***
+  puddleMode: number  // 0.0-3.0 for dramatic liquid spreading
+  
+  // Enhanced visual controls
+  grain: number
+  contrast: number
+  metallic: number
+  split: number
+  glass: number
+  autoCycleColors: boolean
+  shape: string
+  
+  // Additional effects
+  bloom: number
+  grainSize: number
+  colorBlend: number
+  dotMatrix: boolean
+  goopiness: number
+  liquidity: number
+  splitIntensity: number
+  
+  // Enhanced texture effects
+  chrome: number
+  pearl: number
+  holographic: number
+  roughness: number  // NEW CONTROL
+  
+  // Visual modes
+  kaleidoscope: number
+  melting: number
+  crystalline: number
+  plasma: number
+  shattered: boolean
+  ripple: boolean
+  vortex: boolean
+  tentacleMode: number
+  bubbleMode: number
+  spiralMode: number
+  webMode: number
+  crystalGrowth: number
+  liquidMerge: number
+  dotSeparation: number
+  
+  // *** NEW: ABSTRACT INVERSION EFFECT ***
+  abstractSplit: number  // 0.0-3.0 for dramatic blob inversion/splitting
+  
+  // *** NEW: EVOLVING CONTROLS ***
+  autoColorCycle: boolean
+  autoShapeCycle: boolean
+  
+  // *** NEW: ROTATION CONTROL ***
+  rotationSpeed: number
+
+
+
+  // *** NEW: AMBIENT SPACE MODE CONTROLS ***
+  ambientSpaceMode: boolean
+  ambientIntensity: number
+  ambientWaveCount: number
+  ambientFlowSpeed: number
+  ambientDepth: number
+}
+
+// Collapsible Section Component
+function CollapsibleSection({ 
+  title, 
+  children, 
+  defaultOpen = false, 
+  bgColor = "bg-white/10",
+  borderColor = "border-white/20",
+  titleColor = "text-white"
+}: { 
+  title: string
+  children: React.ReactNode
+  defaultOpen?: boolean
+  bgColor?: string
+  borderColor?: string
+  titleColor?: string
+}) {
+  const [isOpen, setIsOpen] = useState(defaultOpen)
+
+  return (
+    <div className={`space-y-4 p-4 ${bgColor} backdrop-blur-md rounded-lg border ${borderColor}`}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={`flex items-center justify-between w-full text-left ${titleColor} hover:opacity-80 transition-opacity`}
+      >
+        <h3 className="text-lg font-semibold">{title}</h3>
+        <svg 
+          className={`w-5 h-5 transform transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {isOpen && (
+        <div className="space-y-4 animate-in slide-in-from-top-2 duration-200">
+          {children}
+        </div>
+      )}
+    </div>
+  )
+}
 
 export function ControlSidebar() {
-  const { controls, setControls, isSidebarOpen, toggleSidebar } = useAudio()
+  const { controls, setControls, isSidebarOpen, toggleSidebar, audioData } = useAudio()
 
-  const handleControlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleControlChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target
-    const newValue = type === 'checkbox' ? e.target.checked : value
+    let newValue: any = value
     
-    setControls((prev: Controls) => ({
+    if (type === 'checkbox') {
+      newValue = (e.target as HTMLInputElement).checked
+    } else if (type === 'number' || type === 'range') {
+      newValue = parseFloat(value)
+    }
+    
+    console.log(`🎛️ MANUAL CONTROL CHANGE: ${name} = ${newValue}`)
+    
+    setControls((prev: any) => ({
       ...prev,
-      [name]: type === 'number' || type === 'range' ? parseFloat(newValue as string) : newValue
+      [name]: newValue
     }))
+  }
+
+  // Safe audio data
+  const safeAudioData = audioData || {
+    volume: 0,
+    peakVolume: 0,
+    averageVolume: 0,
+    dbLevel: -60,
+    bassLevel: 0,
+    midLevel: 0,
+    highLevel: 0,
   }
 
   if (!isSidebarOpen) {
@@ -40,485 +182,852 @@ export function ControlSidebar() {
   }
 
   return (
-    <div className={`fixed right-0 top-0 h-[calc(100vh-7rem)] w-80 bg-black/50 backdrop-blur-xl transform transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+    <div className={`fixed inset-y-0 right-0 z-50 w-80 bg-black/90 backdrop-blur-xl border-l border-white/20 transform transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}>
       <button
         onClick={toggleSidebar}
-        className="absolute left-0 top-1/2 transform -translate-x-full -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white px-2 py-4 rounded-l-lg backdrop-blur-md"
+        className="absolute left-0 top-1/2 transform -translate-x-full -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white px-2 py-4 rounded-l-lg backdrop-blur-md border border-white/20 border-r-0"
       >
-        {isSidebarOpen ? '→' : '←'}
+        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
       </button>
 
-      <div className="h-full overflow-y-auto p-4 space-y-6 pb-8">
-        <h2 className="text-xl font-bold text-white">Visualizer Controls</h2>
+      <div className="h-full overflow-y-auto p-6 space-y-4">
+        <h2 className="text-2xl font-bold text-white mb-6">🌊 Mercury Controls</h2>
 
-        <div className="space-y-4 p-4 bg-white/5 backdrop-blur-md rounded-lg border border-white/10">
-          <h3 className="text-lg font-semibold text-white">Shape Controls</h3>
+        {/* 🎵 AUDIO REACTIVITY - Always visible and first */}
+        <CollapsibleSection title="🎵 Audio Reactivity" defaultOpen={true} bgColor="bg-gradient-to-br from-blue-900/20 to-purple-900/20" borderColor="border-blue-400/30" titleColor="text-blue-100">
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-blue-100">Master Audio Reactivity</label>
+              <span className="text-xs text-blue-200 font-mono bg-blue-900/30 px-2 py-1 rounded">
+                {(controls.audioReactivity || 0).toFixed(1)}
+              </span>
+            </div>
+            <input
+              type="range"
+              name="audioReactivity"
+              min="0.0"
+              max="15.0"
+              step="0.1"
+              value={controls.audioReactivity}
+              onChange={handleControlChange}
+              className="w-full h-3 bg-blue-900/30 rounded-lg appearance-none cursor-pointer slider"
+            />
+            <div className="text-xs text-blue-200/70 mt-1">
+              🎛️ Master multiplier for all audio-reactive effects
+            </div>
+          </div>
           
+          {/* Live Audio Display */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-white">Base Shape</label>
+            <div className="flex justify-between items-center">
+              <span className="text-xs text-blue-200">Volume</span>
+              <span className="text-xs text-blue-200 font-mono">{(safeAudioData.volume * 100).toFixed(0)}%</span>
+            </div>
+            <div className="w-full bg-blue-900/50 rounded-full h-2">
+              <div 
+                className="bg-gradient-to-r from-blue-400 to-cyan-300 h-2 rounded-full transition-all duration-100"
+                style={{ width: `${safeAudioData.volume * 100}%` }}
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-2">
+            <div className="text-center">
+              <div className="text-xs text-blue-200 mb-1">Bass</div>
+              <div className="w-full bg-blue-900/50 rounded-full h-2">
+                <div 
+                  className="bg-gradient-to-t from-red-500 to-red-300 h-2 rounded-full transition-all duration-100"
+                  style={{ width: `${safeAudioData.bassLevel * 100}%` }}
+                />
+              </div>
+              <div className="text-xs text-blue-300 font-mono mt-1">{(safeAudioData.bassLevel * 100).toFixed(0)}%</div>
+            </div>
+            
+            <div className="text-center">
+              <div className="text-xs text-blue-200 mb-1">Mid</div>
+              <div className="w-full bg-blue-900/50 rounded-full h-2">
+                <div 
+                  className="bg-gradient-to-t from-green-500 to-green-300 h-2 rounded-full transition-all duration-100"
+                  style={{ width: `${safeAudioData.midLevel * 100}%` }}
+                />
+              </div>
+              <div className="text-xs text-blue-300 font-mono mt-1">{(safeAudioData.midLevel * 100).toFixed(0)}%</div>
+            </div>
+            
+            <div className="text-center">
+              <div className="text-xs text-blue-200 mb-1">High</div>
+              <div className="w-full bg-blue-900/50 rounded-full h-2">
+                <div 
+                  className="bg-gradient-to-t from-purple-500 to-purple-300 h-2 rounded-full transition-all duration-100"
+                  style={{ width: `${safeAudioData.highLevel * 100}%` }}
+                />
+              </div>
+              <div className="text-xs text-blue-300 font-mono mt-1">{(safeAudioData.highLevel * 100).toFixed(0)}%</div>
+            </div>
+          </div>
+        </CollapsibleSection>
+
+        {/* 🌊 CORE MERCURY SHAPE */}
+        <CollapsibleSection title="🌊 Core Shape & Flow" defaultOpen={true}>
+          <div>
+            <label className="text-sm font-medium text-white block mb-2">Base Shape</label>
+            {controls.autoShapeCycle && (
+              <div className="text-xs text-yellow-300/80 mb-2 p-2 bg-yellow-900/20 rounded border border-yellow-400/30">
+                ⚠️ Auto Shape Cycle Active - Shape controlled automatically
+              </div>
+            )}
             <select
               name="shape"
               value={controls.shape}
-              onChange={(e) => handleControlChange({ target: { name: 'shape', value: e.target.value } } as any)}
-              className="w-full bg-white/10 text-white rounded-lg p-2 border border-white/20"
+              onChange={handleControlChange}
+              className={`w-full text-white rounded-lg p-2 border ${
+                controls.autoShapeCycle 
+                  ? 'bg-yellow-900/20 border-yellow-400/30 text-yellow-200' 
+                  : 'bg-white/10 border-white/20'
+              }`}
+              disabled={controls.autoShapeCycle}
             >
-              <option value="sphere">Sphere</option>
-              <option value="cube">Cube</option>
-              <option value="torus">Torus</option>
-              <option value="torusKnot">Torus Knot</option>
-              <option value="icosahedron">Icosahedron</option>
+              <option value="sphere">🌑 Sphere</option>
+              <option value="cube">🎲 Cube</option>
+              <option value="cylinder">🗽 Cylinder</option>
+              <option value="cone">🔺 Cone</option>
+              <option value="torus">🍩 Torus</option>
+              <option value="torusKnot">🌀 Torus Knot</option>
             </select>
           </div>
 
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="noiseScale" className="text-sm font-medium text-white">Spike Density</label>
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-white">Surface Detail</label>
               <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
-                {(controls.noiseScale || 0).toFixed(2)}
+                {(controls.noiseScale || 0).toFixed(1)}
               </span>
             </div>
             <input
-              id="noiseScale"
               type="range"
               name="noiseScale"
-              min="0.3"
-              max="4.0"
+              min="2.0"
+              max="20.0"
               step="0.1"
               value={controls.noiseScale}
               onChange={handleControlChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
             />
+            <div className="text-xs text-white/60 mt-1">
+              🎵 ENHANCED: Higher values = EXTREME surface detail and bassline response
+            </div>
           </div>
 
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="goopiness" className="text-sm font-medium text-white">Spike Sharpness</label>
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-white">Flow Intensity</label>
               <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
-                {(controls.goopiness || 0).toFixed(2)}
+                {(controls.noiseForce || 0).toFixed(1)}
               </span>
             </div>
             <input
-              id="goopiness"
-              type="range"
-              name="goopiness"
-              min="0.1"
-              max="3.0"
-              step="0.1"
-              value={controls.goopiness}
-              onChange={handleControlChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="noiseForce" className="text-sm font-medium text-white">Base Force</label>
-              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
-                {(controls.noiseForce || 0).toFixed(2)}
-              </span>
-            </div>
-            <input
-              id="noiseForce"
               type="range"
               name="noiseForce"
-              min="0.5"
-              max="5.0"
+              min="1.5"
+              max="20.0"
               step="0.1"
               value={controls.noiseForce}
               onChange={handleControlChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
             />
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-white">Color Scheme</label>
-            <div className="grid grid-cols-3 gap-2">
-              <div className="space-y-1">
-                <label className="text-xs text-white/70">Primary</label>
-                <input
-                  type="color"
-                  name="color1"
-                  value={controls.color1}
-                  onChange={handleControlChange}
-                  className="w-full h-8 rounded cursor-pointer"
-                />
-              </div>
-              <div className="space-y-1">
-                <label className="text-xs text-white/70">Secondary</label>
-                <input
-                  type="color"
-                  name="color2"
-                  value={controls.color2}
-                  onChange={handleControlChange}
-                  className="w-full h-8 rounded cursor-pointer"
-                />
-              </div>
-              <div className="space-y-1">
-                <label className="text-xs text-white/70">Accent</label>
-                <input
-                  type="color"
-                  name="color3"
-                  value={controls.color3}
-                  onChange={handleControlChange}
-                  className="w-full h-8 rounded cursor-pointer"
-                />
-              </div>
+            <div className="text-xs text-white/60 mt-1">
+              🎵 ENHANCED: Higher values = EXTREME deformation and bassline reactivity
             </div>
           </div>
 
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="colorBlend" className="text-sm font-medium text-white">Color Blend Speed</label>
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-white">🌀 Rotation Speed</label>
               <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
-                {(controls.colorBlend || 0).toFixed(2)}
+                {(controls.rotationSpeed || 1.0).toFixed(1)}
               </span>
             </div>
             <input
-              id="colorBlend"
               type="range"
-              name="colorBlend"
-              min="0.1"
-              max="2.0"
+              name="rotationSpeed"
+              min="0.0"
+              max="5.0"
               step="0.1"
-              value={controls.colorBlend}
+              value={controls.rotationSpeed || 1.0}
               onChange={handleControlChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
             />
+            <div className="text-xs text-white/60 mt-1">
+              Controls how fast the blob spins (0 = no rotation, 5 = very fast)
+            </div>
           </div>
-        </div>
+        </CollapsibleSection>
 
-        <div className="space-y-4 p-4 bg-white/5 backdrop-blur-md rounded-lg border border-white/10">
-          <h3 className="text-lg font-semibold text-white">Audio Reactivity</h3>
-          
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="bassReactivity" className="text-sm font-medium text-white">Bass Response</label>
-              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
-                {(controls.bassReactivity || 0).toFixed(2)}
+        {/* 💧 PUDDLE MODE */}
+        <CollapsibleSection title="💧 Puddle Mode" bgColor="bg-gradient-to-br from-cyan-900/20 to-blue-900/20" borderColor="border-cyan-400/30" titleColor="text-cyan-100">
+          <div className="text-xs text-cyan-200/70 mb-3">
+            Transform into a liquid puddle that spreads and ripples!
+          </div>
+
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-cyan-100">Puddle Spread</label>
+              <span className="text-xs text-cyan-200 font-mono bg-cyan-900/30 px-2 py-1 rounded">
+                {(controls.puddleMode || 0).toFixed(2)}
               </span>
             </div>
             <input
-              id="bassReactivity"
               type="range"
-              name="bassReactivity"
+              name="puddleMode"
+              min="0.0"
+              max="3.0"
+              step="0.05"
+              value={controls.puddleMode || 0}
+              onChange={handleControlChange}
+              className="w-full h-3 bg-cyan-900/30 rounded-lg appearance-none cursor-pointer slider"
+            />
+            <div className="text-xs text-cyan-200/70 mt-1">
+              0.0 = normal shape • 3.0 = complete liquid puddle with ripples
+            </div>
+          </div>
+        </CollapsibleSection>
+
+        {/* 🎨 COLORS */}
+        <CollapsibleSection title="🎨 Mercury Colors" defaultOpen={true}>
+          <div className="grid grid-cols-2 gap-3 mb-4">
+            <div className="text-center">
+              <label className="text-xs text-white/70 block mb-1">Color 1</label>
+              <input
+                type="color"
+                name="color1"
+                value={controls.color1}
+                onChange={handleControlChange}
+                className="w-full h-12 rounded-lg cursor-pointer border-2 border-white/20"
+              />
+            </div>
+            <div className="text-center">
+              <label className="text-xs text-white/70 block mb-1">Color 2</label>
+              <input
+                type="color"
+                name="color2"
+                value={controls.color2}
+                onChange={handleControlChange}
+                className="w-full h-12 rounded-lg cursor-pointer border-2 border-white/20"
+              />
+            </div>
+            <div className="text-center">
+              <label className="text-xs text-white/70 block mb-1">Color 3</label>
+              <input
+                type="color"
+                name="color3"
+                value={controls.color3}
+                onChange={handleControlChange}
+                className="w-full h-12 rounded-lg cursor-pointer border-2 border-white/20"
+              />
+            </div>
+            <div className="text-center">
+              <label className="text-xs text-white/70 block mb-1">Color 4</label>
+              <input
+                type="color"
+                name="color4"
+                value={controls.color4}
+                onChange={handleControlChange}
+                className="w-full h-12 rounded-lg cursor-pointer border-2 border-white/20"
+              />
+            </div>
+          </div>
+        </CollapsibleSection>
+
+        {/* 🧪 MERCURY PHYSICS */}
+        <CollapsibleSection title="🧪 Mercury Physics" bgColor="bg-gradient-to-br from-purple-900/20 to-blue-900/20" borderColor="border-purple-400/30" titleColor="text-purple-100">
+          <div className="text-xs text-purple-200/70 mb-3">
+            Physical properties that multiply with audio reactivity!
+          </div>
+
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-purple-100">Viscosity</label>
+              <span className="text-xs text-purple-200 font-mono bg-purple-900/30 px-2 py-1 rounded">
+                {(controls.viscosity || 0.5).toFixed(2)}
+              </span>
+            </div>
+            <input
+              type="range"
+              name="viscosity"
+              min="0.05"
+              max="4.0"
+              step="0.05"
+              value={controls.viscosity || 0.5}
+              onChange={handleControlChange}
+              className="w-full h-3 bg-purple-900/30 rounded-lg appearance-none cursor-pointer slider"
+            />
+          </div>
+
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-purple-100">Surface Tension</label>
+              <span className="text-xs text-purple-200 font-mono bg-purple-900/30 px-2 py-1 rounded">
+                {(controls.surfaceTension || 0.7).toFixed(2)}
+              </span>
+            </div>
+            <input
+              type="range"
+              name="surfaceTension"
+              min="0.05"
+              max="3.0"
+              step="0.05"
+              value={controls.surfaceTension || 0.7}
+              onChange={handleControlChange}
+              className="w-full h-3 bg-purple-900/30 rounded-lg appearance-none cursor-pointer slider"
+            />
+          </div>
+
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-purple-100">Density</label>
+              <span className="text-xs text-purple-200 font-mono bg-purple-900/30 px-2 py-1 rounded">
+                {(controls.density || 1.0).toFixed(2)}
+              </span>
+            </div>
+            <input
+              type="range"
+              name="density"
               min="0.1"
               max="4.0"
-              step="0.1"
-              value={controls.bassReactivity}
+              step="0.05"
+              value={controls.density || 1.0}
               onChange={handleControlChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-3 bg-purple-900/30 rounded-lg appearance-none cursor-pointer slider"
             />
           </div>
 
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="midReactivity" className="text-sm font-medium text-white">Mid Response</label>
-              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
-                {(controls.midReactivity || 0).toFixed(2)}
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-purple-100">Elasticity</label>
+              <span className="text-xs text-purple-200 font-mono bg-purple-900/30 px-2 py-1 rounded">
+                {(controls.elasticity || 0.5).toFixed(2)}
               </span>
             </div>
             <input
-              id="midReactivity"
               type="range"
-              name="midReactivity"
-              min="0.1"
-              max="4.0"
-              step="0.1"
-              value={controls.midReactivity}
-              onChange={handleControlChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="trebleReactivity" className="text-sm font-medium text-white">Treble Response</label>
-              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
-                {(controls.trebleReactivity || 0).toFixed(2)}
-              </span>
-            </div>
-            <input
-              id="trebleReactivity"
-              type="range"
-              name="trebleReactivity"
-              min="0.1"
-              max="4.0"
-              step="0.1"
-              value={controls.trebleReactivity}
-              onChange={handleControlChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
-        </div>
-
-        <div className="space-y-4 p-4 bg-white/5 backdrop-blur-md rounded-lg border border-white/10">
-          <h3 className="text-lg font-semibold text-white">Visual Effects</h3>
-          
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="contrast" className="text-sm font-medium text-white">Contrast</label>
-              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
-                {(controls.contrast || 0).toFixed(2)}
-              </span>
-            </div>
-            <input
-              id="contrast"
-              type="range"
-              name="contrast"
-              min="0.5"
+              name="elasticity"
+              min="0.05"
               max="2.0"
               step="0.05"
-              value={controls.contrast}
+              value={controls.elasticity || 0.5}
               onChange={handleControlChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-3 bg-purple-900/30 rounded-lg appearance-none cursor-pointer slider"
             />
           </div>
+        </CollapsibleSection>
 
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="bloom" className="text-sm font-medium text-white">Bloom</label>
+        {/* 🌀 LIQUID EFFECTS */}
+        <CollapsibleSection title="🌀 Liquid Effects">
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-white">Goopiness</label>
               <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
-                {(controls.bloom || 0).toFixed(2)}
+                {(controls.goopiness || 0).toFixed(1)}
               </span>
             </div>
             <input
-              id="bloom"
               type="range"
-              name="bloom"
-              min="0"
-              max="1"
-              step="0.05"
-              value={controls.bloom}
+              name="goopiness"
+              min="0.0"
+              max="5.0"
+              step="0.1"
+              value={controls.goopiness}
               onChange={handleControlChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
             />
           </div>
 
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="grain" className="text-sm font-medium text-white">Grain</label>
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-white">Liquidity</label>
               <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
-                {(controls.grain || 0).toFixed(2)}
+                {(controls.liquidity || 0).toFixed(1)}
               </span>
             </div>
             <input
-              id="grain"
               type="range"
-              name="grain"
-              min="0"
-              max="0.5"
-              step="0.01"
-              value={controls.grain}
-              onChange={handleControlChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="grainSize" className="text-sm font-medium text-white">Grain Size</label>
-              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
-                {(controls.grainSize || 0).toFixed(2)}
-              </span>
-            </div>
-            <input
-              id="grainSize"
-              type="range"
-              name="grainSize"
-              min="1"
-              max="20"
-              step="1"
-              value={controls.grainSize}
-              onChange={handleControlChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <input
-              id="wireframe"
-              type="checkbox"
-              name="wireframe"
-              checked={controls.wireframe}
-              onChange={handleControlChange}
-              className="w-4 h-4 rounded border-white/20"
-            />
-            <label htmlFor="wireframe" className="text-sm font-medium text-white">Wireframe</label>
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <input
-              id="dotMatrix"
-              type="checkbox"
-              name="dotMatrix"
-              checked={controls.dotMatrix}
-              onChange={handleControlChange}
-              className="w-4 h-4 rounded border-white/20"
-            />
-            <label htmlFor="dotMatrix" className="text-sm font-medium text-white">Dot Matrix</label>
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <input
-              id="showParticles"
-              type="checkbox"
-              name="showParticles"
-              checked={controls.showParticles}
-              onChange={handleControlChange}
-              className="w-4 h-4 rounded border-white/20"
-            />
-            <label htmlFor="showParticles" className="text-sm font-medium text-white">Show Particles</label>
-          </div>
-        </div>
-
-        <div className="space-y-4 p-4 bg-white/5 backdrop-blur-md rounded-lg border border-white/10">
-          <h3 className="text-lg font-semibold text-white">Goop Character</h3>
-          
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="complexity" className="text-sm font-medium text-white">Complexity</label>
-              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
-                {(controls.complexity || 0).toFixed(2)}
-              </span>
-            </div>
-            <input
-              id="complexity"
-              type="range"
-              name="complexity"
+              name="liquidity"
               min="0.5"
-              max="3.0"
+              max="6.0"
               step="0.1"
-              value={controls.complexity}
+              value={controls.liquidity}
               onChange={handleControlChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
             />
           </div>
 
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="tension" className="text-sm font-medium text-white">Spike Tension</label>
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-white">Split Effect</label>
               <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
-                {(controls.tension || 0).toFixed(2)}
+                {(controls.split || 0).toFixed(1)}
               </span>
             </div>
             <input
-              id="tension"
-              type="range"
-              name="tension"
-              min="0.5"
-              max="3.0"
-              step="0.1"
-              value={controls.tension}
-              onChange={handleControlChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="turbulence" className="text-sm font-medium text-white">Turbulence</label>
-              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
-                {(controls.turbulence || 0).toFixed(2)}
-              </span>
-            </div>
-            <input
-              id="turbulence"
-              type="range"
-              name="turbulence"
-              min="0"
-              max="2.0"
-              step="0.1"
-              value={controls.turbulence}
-              onChange={handleControlChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="detail" className="text-sm font-medium text-white">Detail Level</label>
-              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
-                {(controls.detail || 0).toFixed(2)}
-              </span>
-            </div>
-            <input
-              id="detail"
-              type="range"
-              name="detail"
-              min="0.5"
-              max="2.5"
-              step="0.1"
-              value={controls.detail}
-              onChange={handleControlChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="split" className="text-sm font-medium text-white">Goop Split</label>
-              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
-                {(controls.split || 0).toFixed(2)}
-              </span>
-            </div>
-            <input
-              id="split"
               type="range"
               name="split"
-              min="0"
-              max="2.0"
+              min="0.0"
+              max="5.0"
               step="0.1"
               value={controls.split}
               onChange={handleControlChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
             />
           </div>
-        </div>
+        </CollapsibleSection>
 
-        <div className="space-y-4 p-4 bg-white/5 backdrop-blur-md rounded-lg border border-white/10">
-          <h3 className="text-lg font-semibold text-white">Surface Effects</h3>
-          
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="metallic" className="text-sm font-medium text-white">Metallic</label>
+        {/* ✨ SURFACE EFFECTS */}
+        <CollapsibleSection title="✨ Surface Effects">
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-white">Metallic</label>
               <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
-                {(controls.metallic || 0).toFixed(2)}
+                {(controls.metallic || 0).toFixed(1)}
               </span>
             </div>
             <input
-              id="metallic"
               type="range"
               name="metallic"
-              min="0"
+              min="0.0"
               max="1.0"
               step="0.05"
               value={controls.metallic}
               onChange={handleControlChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
             />
           </div>
-
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="glass" className="text-sm font-medium text-white">Glass</label>
+          
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-white">Chrome</label>
               <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
-                {(controls.glass || 0).toFixed(2)}
+                {(controls.chrome || 0).toFixed(1)}
               </span>
             </div>
             <input
-              id="glass"
               type="range"
-              name="glass"
-              min="0"
+              name="chrome"
+              min="0.0"
               max="1.0"
               step="0.05"
-              value={controls.glass}
+              value={controls.chrome || 0}
               onChange={handleControlChange}
-              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
             />
           </div>
-        </div>
+
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-white">Pearl</label>
+              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
+                {(controls.pearl || 0).toFixed(1)}
+              </span>
+            </div>
+            <input
+              type="range"
+              name="pearl"
+              min="0.0"
+              max="1.0"
+              step="0.05"
+              value={controls.pearl || 0}
+              onChange={handleControlChange}
+              className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
+            />
+          </div>
+
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-white">Holographic</label>
+              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
+                {(controls.holographic || 0).toFixed(1)}
+              </span>
+            </div>
+            <input
+              type="range"
+              name="holographic"
+              min="0.0"
+              max="1.0"
+              step="0.05"
+              value={controls.holographic || 0}
+              onChange={handleControlChange}
+              className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
+            />
+          </div>
+
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-white">Glass</label>
+              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
+                {(controls.glass || 0).toFixed(1)}
+              </span>
+            </div>
+            <input
+              type="range"
+              name="glass"
+              min="0.0"
+              max="1.0"
+              step="0.05"
+              value={controls.glass || 0}
+              onChange={handleControlChange}
+              className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
+            />
+          </div>
+
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-white">Roughness</label>
+              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
+                {(controls.roughness || 0).toFixed(2)}
+              </span>
+            </div>
+            <input
+              type="range"
+              name="roughness"
+              min="0.0"
+              max="1.0"
+              step="0.05"
+              value={controls.roughness || 0}
+              onChange={handleControlChange}
+              className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
+            />
+            <div className="text-xs text-white/60 mt-1">
+              Surface texture detail and variation
+            </div>
+          </div>
+        </CollapsibleSection>
+
+        {/* 💥 EXTREME EFFECTS */}
+        <CollapsibleSection title="💥 Extreme Effects" bgColor="bg-gradient-to-br from-red-900/20 to-orange-900/20" borderColor="border-red-400/30" titleColor="text-red-100">
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-red-100">Split Intensity</label>
+              <span className="text-xs text-red-200 font-mono bg-red-900/30 px-2 py-1 rounded">
+                {(controls.splitIntensity || 0).toFixed(1)}
+              </span>
+            </div>
+            <input
+              type="range"
+              name="splitIntensity"
+              min="0.0"
+              max="5.0"
+              step="0.1"
+              value={controls.splitIntensity || 0}
+              onChange={handleControlChange}
+              className="w-full h-3 bg-red-900/30 rounded-lg appearance-none cursor-pointer slider"
+            />
+          </div>
+
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-red-100">Tentacle Mode</label>
+              <span className="text-xs text-red-200 font-mono bg-red-900/30 px-2 py-1 rounded">
+                {(controls.tentacleMode || 0).toFixed(1)}
+              </span>
+            </div>
+            <input
+              type="range"
+              name="tentacleMode"
+              min="0.0"
+              max="3.0"
+              step="0.1"
+              value={controls.tentacleMode || 0}
+              onChange={handleControlChange}
+              className="w-full h-3 bg-red-900/30 rounded-lg appearance-none cursor-pointer slider"
+            />
+          </div>
+
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-red-100">Liquid Merge</label>
+              <span className="text-xs text-red-200 font-mono bg-red-900/30 px-2 py-1 rounded">
+                {(controls.liquidMerge || 0).toFixed(1)}
+              </span>
+            </div>
+            <input
+              type="range"
+              name="liquidMerge"
+              min="0.0"
+              max="3.0"
+              step="0.1"
+              value={controls.liquidMerge || 0}
+              onChange={handleControlChange}
+              className="w-full h-3 bg-red-900/30 rounded-lg appearance-none cursor-pointer slider"
+            />
+          </div>
+
+          <div className="flex items-center space-x-3">
+            <input
+              id="shattered"
+              type="checkbox"
+              name="shattered"
+              checked={controls.shattered || false}
+              onChange={handleControlChange}
+              className="w-5 h-5 rounded border-2 border-red-400/40"
+            />
+            <label htmlFor="shattered" className="text-sm font-medium text-red-100">Shatter Mode</label>
+          </div>
+
+          <div className="flex items-center space-x-3">
+            <input
+              id="vortex"
+              type="checkbox"
+              name="vortex"
+              checked={controls.vortex || false}
+              onChange={handleControlChange}
+              className="w-5 h-5 rounded border-2 border-red-400/40"
+            />
+            <label htmlFor="vortex" className="text-sm font-medium text-red-100">Vortex Mode</label>
+          </div>
+
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-red-100">🔥 Abstract Split</label>
+              <span className="text-xs text-red-200 font-mono bg-red-900/30 px-2 py-1 rounded">
+                {(controls.abstractSplit || 0).toFixed(1)}
+              </span>
+            </div>
+            <input
+              type="range"
+              name="abstractSplit"
+              min="0.0"
+              max="3.0"
+              step="0.1"
+              value={controls.abstractSplit || 0}
+              onChange={handleControlChange}
+              className="w-full h-3 bg-red-900/30 rounded-lg appearance-none cursor-pointer slider"
+            />
+            <div className="text-xs text-red-200/70 mt-1">
+              0.0 = normal blob • 3.0 = complete abstract inversion/splitting
+            </div>
+          </div>
+        </CollapsibleSection>
+
+
+
+        {/* 🎛️ VISUAL MODES */}
+        <CollapsibleSection title="🎛️ Visual Modes">
+
+          <div className="bg-gradient-to-br from-indigo-900/20 to-purple-900/20 p-3 rounded-lg mb-4 border border-indigo-400/30">
+            <div className="flex items-center space-x-3 mb-2">
+              <input
+                id="ambientSpaceMode"
+                type="checkbox"
+                name="ambientSpaceMode"
+                checked={controls.ambientSpaceMode || false}
+                onChange={handleControlChange}
+                className="w-5 h-5 rounded border-2 border-indigo-400/40"
+              />
+              <label htmlFor="ambientSpaceMode" className="text-sm font-medium text-indigo-100">🌌 Ambient Space Mode</label>
+              <div className={`px-2 py-1 rounded text-xs font-mono ${
+                controls.ambientSpaceMode ? 'bg-indigo-600/30 text-indigo-200' : 'bg-gray-600/30 text-gray-300'
+              }`}>
+                {controls.ambientSpaceMode ? 'ACTIVE' : 'OFF'}
+              </div>
+            </div>
+            <div className="text-xs text-indigo-200/70 space-y-1">
+              <div>• Enhanced 3D immersive environment with realistic depth</div>
+              <div>• Uses ALL physics controls: viscosity, goopiness, liquidity, split, etc.</div>
+              <div>• Same mercury physics simulation as main blob but in ambient space</div>
+              <div>• Full audio reactivity with 3D depth effects and enhanced visuals</div>
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-3 mb-4">
+            <input
+              id="wireframe"
+              type="checkbox"
+              name="wireframe"
+              checked={controls.wireframe || false}
+              onChange={handleControlChange}
+              className="w-5 h-5 rounded border-2 border-white/40"
+            />
+            <label htmlFor="wireframe" className="text-sm font-medium text-white">Wireframe Mode</label>
+          </div>
+
+          <div className="flex items-center space-x-3">
+            <input
+              id="dotMatrix"
+              type="checkbox"
+              name="dotMatrix"
+              checked={controls.dotMatrix || false}
+              onChange={handleControlChange}
+              className="w-5 h-5 rounded border-2 border-white/40"
+            />
+            <label htmlFor="dotMatrix" className="text-sm font-medium text-white">Dot Matrix Mode</label>
+          </div>
+
+          {controls.dotMatrix && (
+            <div className="ml-4 mt-2 p-3 bg-blue-900/20 rounded-lg border border-blue-400/30">
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <label className="text-sm font-medium text-blue-100">Dot Separation</label>
+                  <span className="text-xs text-blue-200 font-mono bg-blue-900/30 px-2 py-1 rounded">
+                    {(controls.dotSeparation || 1.0).toFixed(1)}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  name="dotSeparation"
+                  min="0.5"
+                  max="3.0"
+                  step="0.1"
+                  value={controls.dotSeparation || 1.0}
+                  onChange={handleControlChange}
+                  className="w-full h-3 bg-blue-900/30 rounded-lg appearance-none cursor-pointer slider"
+                />
+                <div className="text-xs text-blue-200/70 mt-1">
+                  Controls spacing between mercury droplets (higher = more separated)
+                </div>
+              </div>
+            </div>
+          )}
+        </CollapsibleSection>
+
+        {/* 🔄 EVOLVING CONTROLS */}
+        <CollapsibleSection title="🔄 Evolving Controls" bgColor="bg-gradient-to-br from-green-900/20 to-teal-900/20" borderColor="border-green-400/30" titleColor="text-green-100">
+          <div className="text-xs text-green-200/70 mb-3">
+            Simple automatic changes to keep visuals fresh and dynamic
+          </div>
+
+          <div className="space-y-4">
+            <div className="flex items-center space-x-3">
+              <input
+                id="autoColorCycle"
+                type="checkbox"
+                name="autoColorCycle"
+                checked={controls.autoColorCycle || false}
+                onChange={handleControlChange}
+                className="w-5 h-5 rounded border-2 border-green-400/40"
+              />
+              <label htmlFor="autoColorCycle" className="text-sm font-medium text-green-100">🎨 Auto Color Cycling</label>
+              <div className={`px-2 py-1 rounded text-xs font-mono ${
+                controls.autoColorCycle ? 'bg-green-600/30 text-green-200' : 'bg-gray-600/30 text-gray-300'
+              }`}>
+                {controls.autoColorCycle ? 'ACTIVE' : 'OFF'}
+              </div>
+            </div>
+            <div className="text-xs text-green-200/70 ml-8">
+              One color changes every 15 seconds through a curated palette
+            </div>
+
+            <div className="flex items-center space-x-3">
+              <input
+                id="autoShapeCycle"
+                type="checkbox"
+                name="autoShapeCycle"
+                checked={controls.autoShapeCycle || false}
+                onChange={handleControlChange}
+                className="w-5 h-5 rounded border-2 border-green-400/40"
+              />
+              <label htmlFor="autoShapeCycle" className="text-sm font-medium text-green-100">🔷 Auto Shape Cycling</label>
+              <div className={`px-2 py-1 rounded text-xs font-mono ${
+                controls.autoShapeCycle ? 'bg-green-600/30 text-green-200' : 'bg-gray-600/30 text-gray-300'
+              }`}>
+                {controls.autoShapeCycle ? 'ACTIVE' : 'OFF'}
+              </div>
+            </div>
+            <div className="text-xs text-green-200/70 ml-8">
+              Shape changes every 20 seconds through all available forms
+            </div>
+          </div>
+        </CollapsibleSection>
+
+        {/* 💡 MERCURY BLOB BRIGHTNESS */}
+        {!controls.ambientSpaceMode && (
+          <CollapsibleSection title="💡 Mercury Blob Brightness" bgColor="bg-gradient-to-br from-yellow-900/20 to-orange-900/20" borderColor="border-yellow-400/30" titleColor="text-yellow-100">
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <label className="text-sm font-medium text-yellow-100">Overall Brightness</label>
+                <span className="text-xs text-yellow-200 font-mono bg-yellow-900/30 px-2 py-1 rounded">
+                  {(controls.contrast || 1.0).toFixed(1)}
+                </span>
+              </div>
+              <input
+                type="range"
+                name="contrast"
+                min="0.3"
+                max="3.0"
+                step="0.1"
+                value={controls.contrast || 1.0}
+                onChange={handleControlChange}
+                className="w-full h-3 bg-yellow-900/30 rounded-lg appearance-none cursor-pointer slider"
+              />
+              <div className="text-xs text-yellow-200/70 mt-1">
+                Controls how bright the mercury blob appears
+              </div>
+            </div>
+          </CollapsibleSection>
+        )}
+
+        {/* 🌌 AMBIENT SPACE CONTROLS - DISABLED (USER HATES IT) */}
+
+        {/* 🎨 POST-PROCESSING */}
+        <CollapsibleSection title="🎨 Post-Processing">
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-white">Contrast</label>
+              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
+                {(controls.contrast || 1.0).toFixed(1)}
+              </span>
+            </div>
+            <input
+              type="range"
+              name="contrast"
+              min="0.3"
+              max="3.0"
+              step="0.05"
+              value={controls.contrast || 1.0}
+              onChange={handleControlChange}
+              className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
+            />
+          </div>
+
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-white">Bloom</label>
+              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
+                {((controls.bloom || 0) * 100).toFixed(0)}%
+              </span>
+            </div>
+            <input
+              type="range"
+              name="bloom"
+              min="0.0"
+              max="0.8"
+              step="0.01"
+              value={controls.bloom || 0}
+              onChange={handleControlChange}
+              className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
+            />
+          </div>
+
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-white">Film Grain</label>
+              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
+                {((controls.grain || 0) * 100).toFixed(0)}%
+              </span>
+            </div>
+            <input
+              type="range"
+              name="grain"
+              min="0.0"
+              max="0.25"
+              step="0.005"
+              value={controls.grain || 0}
+              onChange={handleControlChange}
+              className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
+            />
+          </div>
+        </CollapsibleSection>
       </div>
     </div>
   )
-} 
+}
