@@ -58,6 +58,7 @@ interface AudioData {
     color1: string
     color2: string
     color3: string
+    color4: string
     colorBlend: number
     autoCycleColors: boolean
 
@@ -78,6 +79,8 @@ interface AudioData {
     // Modes
     wireframe: boolean
     dotMatrix: boolean
+    dotSeparation: number
+    rotationSpeed: number
     
     // Creative Shape Transformations
     tentacleMode: number
@@ -116,7 +119,8 @@ interface AudioData {
     colorShift1?: number
     colorShift2?: number
     colorShift3?: number
-    autoEvolution?: boolean  // NEW: Controls whether animation sequence is active
+    autoColorCycle?: boolean  // NEW: Controls whether color cycling is active
+  autoShapeCycle?: boolean  // NEW: Controls whether shape cycling is active
     beatCount?: number       // NEW: Beat count for animation sequence
     
     // *** MERCURY DROPLET CONTROLS ***
@@ -144,6 +148,16 @@ interface AudioData {
     dropletCrystalline: number         // Crystalline faceted appearance
     dropletPlasma: number              // Plasma energy effects
     dropletHologram: number            // Holographic transparency effects
+    
+    // *** NEW: AMBIENT SPACE MODE CONTROLS ***
+    ambientSpaceMode?: boolean         // Toggle ambient space mode
+    ambientIntensity?: number          // Overall ambient intensity
+    ambientWaveCount?: number          // Number of wave patterns
+    ambientFlowSpeed?: number          // Speed of wave motion
+    ambientDepth?: number              // 3D depth of waves
+    
+    // *** NEW: ABSTRACT INVERSION EFFECT ***
+    abstractSplit?: number             // 0.0-3.0 for dramatic blob inversion/splitting
   }
   setControls: (controls: any) => void
   
@@ -211,40 +225,41 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     color1: '#00f2ff',
     color2: '#ff00a8', 
     color3: '#7000ff',
+    color4: '#ff6b00',
     
     // Enhanced audio reactivity
-    audioReactivity: 4.0, // Reduced from 2.0 for better response but not seizure-inducing
+    audioReactivity: 6.0, // Good balance for visibility
     
-    // AUDIO-DRIVEN DEFORMATION MULTIPLIERS (was: REAL PHYSICAL MERCURY PROPERTIES)
-    viscosity: 0.6,        // Slightly reduced for more fluid feel
-    surfaceTension: 0.5,   // Reduced for more freedom 
-    density: 0.6,          // Lighter feel
-    elasticity: 0.6,       // Slightly more bouncy
+    // MERCURY PHYSICS - Better defaults for testing effects
+    viscosity: 0.8,        // Higher for more visible effect
+    surfaceTension: 1.0,   // Higher for more visible ripples
+    density: 1.2,          // Higher for more deformation
+    elasticity: 1.0,       // Higher for more bounce
     
     // *** NEW: PUDDLE MODE ***
     puddleMode: 0.0,  // NEW CONTROL: 0.0-3.0 for liquid spreading
     
     // Enhanced visual controls
     grain: 0.02,      // Reduced grain for cleaner look
-    contrast: 1.1,    // Slightly reduced contrast
-    metallic: 0.8,    // Increased for better mercury feel
-    split: 0.6,       // Reduced for less harsh splitting
-    glass: 0.2,       // Slight glass effect
+    contrast: 1.0,    // Reduced contrast for less white shine
+    metallic: 0.4,    // Significantly reduced for less shiny
+    split: 0.8,       // Good visible splitting
+    glass: 0.1,       // Reduced glass effect
     autoCycleColors: false,
     shape: 'sphere',
     
-    // Additional effects - NATURAL SETTINGS
-    bloom: 0.03,     // Reduced bloom for less overwhelming effect
+    // Additional effects - Better defaults for testing
+    bloom: 0.02,     // Further reduced bloom for less overwhelming effect
     grainSize: 0.8,  // Smaller grain
     colorBlend: 1.0,
     dotMatrix: false,
-    goopiness: 0.8,  // More reasonable goopiness
-    liquidity: 1.2,  // Good balance
-    splitIntensity: 0.6, // Less intense splitting
+    goopiness: 1.8,  // Higher for more visible goopiness
+    liquidity: 2.5,  // Higher for more visible liquidity
+    splitIntensity: 0.8, // Higher for more visible splitting
     
     // Enhanced texture effects
-    chrome: 0.2,
-    pearl: 0.1,
+    chrome: 0.05,    // Significantly reduced chrome
+    pearl: 0.05,     // Reduced pearl
     holographic: 0.0,
     roughness: 0.15,  // NEW CONTROL
     
@@ -272,6 +287,8 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     
     // Display modes
     wireframe: false,
+    dotSeparation: 1.0,
+    rotationSpeed: 1.0,
     
     // *** ANIMATION SEQUENCE PROPERTIES ***
     backgroundIntensity: undefined,
@@ -282,7 +299,8 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     colorShift1: undefined,
     colorShift2: undefined,
     colorShift3: undefined,
-    autoEvolution: false,  // DISABLED BY DEFAULT - users can enable for automatic evolution
+    autoColorCycle: false,  // DISABLED BY DEFAULT - user can enable manually
+    autoShapeCycle: false,  // DISABLED BY DEFAULT - user can enable manually
     beatCount: undefined,  // NEW: Beat count for animation sequence
     
     // *** MERCURY DROPLET CONTROLS ***
@@ -310,6 +328,16 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     dropletCrystalline: 0.0,         // Crystalline faceted appearance
     dropletPlasma: 0.0,              // Plasma energy effects
     dropletHologram: 0.0,            // Holographic transparency effects
+    
+    // *** NEW: AMBIENT SPACE MODE CONTROLS ***
+    ambientSpaceMode: false,         // Toggle ambient space mode
+    ambientIntensity: 1.0,           // Overall ambient intensity
+    ambientWaveCount: 8,             // Number of wave patterns
+    ambientFlowSpeed: 1.0,           // Speed of wave motion
+    ambientDepth: 1.0,               // 3D depth of waves
+    
+    // *** NEW: ABSTRACT INVERSION EFFECT ***
+    abstractSplit: 0.0,              // 0.0-3.0 for dramatic blob inversion/splitting
   })
 
   // Color palettes for auto cycling
@@ -641,28 +669,94 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [audioSrc, play, cleanupAudioAnalysis])
 
-  // Auto color cycling effect
+  // Smooth color morphing system - independent of audio tempo
+  const colorMorphingRef = useRef({
+    startTime: Date.now(),
+    currentPaletteIndex: 0,
+    nextPaletteIndex: 1,
+    morphProgress: 0,
+    morphDuration: 45000, // 45 seconds per color transition - much calmer
+  })
+
+  // Extended color palettes for more variety
+  const extendedColorPalettes = useMemo(() => [
+    { color1: '#00f2ff', color2: '#ff00a8', color3: '#7000ff', color4: '#ff6b00' }, // Original
+    { color1: '#ff71ce', color2: '#01cdfe', color3: '#05ffa1', color4: '#ffb347' }, // Cyber
+    { color1: '#f5d300', color2: '#ff225e', color3: '#6a0dad', color4: '#00ced1' }, // Sunset
+    { color1: '#00c6ff', color2: '#0072ff', color3: '#fceabb', color4: '#ff8c94' }, // Ocean
+    { color1: '#a7ff83', color2: '#17bd9b', color3: '#027a74', color4: '#ff6b9d' }, // Forest
+    { color1: '#ff4b1f', color2: '#1fddff', color3: '#c471ed', color4: '#f64f59' }, // Fire
+    { color1: '#9d4edd', color2: '#f72585', color3: '#4cc9f0', color4: '#f9844a' }, // Aurora
+    { color1: '#39ff14', color2: '#ff073a', color3: '#00f5ff', color4: '#ffed4e' }, // Electric
+    { color1: '#667eea', color2: '#764ba2', color3: '#f093fb', color4: '#f5576c' }, // Dream
+    { color1: '#4facfe', color2: '#00f2fe', color3: '#43e97b', color4: '#38f9d7' }, // Tropical
+  ], [])
+
+  // Color interpolation helper function
+  const interpolateColor = useCallback((color1: string, color2: string, progress: number): string => {
+    const hex1 = color1.replace('#', '')
+    const hex2 = color2.replace('#', '')
+    
+    const r1 = parseInt(hex1.substr(0, 2), 16)
+    const g1 = parseInt(hex1.substr(2, 2), 16)
+    const b1 = parseInt(hex1.substr(4, 2), 16)
+    
+    const r2 = parseInt(hex2.substr(0, 2), 16)
+    const g2 = parseInt(hex2.substr(2, 2), 16)
+    const b2 = parseInt(hex2.substr(4, 2), 16)
+    
+    const r = Math.round(r1 + (r2 - r1) * progress)
+    const g = Math.round(g1 + (g2 - g1) * progress)
+    const b = Math.round(b1 + (b2 - b1) * progress)
+    
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
+  }, [])
+
+  // Smooth color morphing effect - calm and independent of audio
   useEffect(() => {
     if (!controls.autoCycleColors) return
 
-    const interval = setInterval(() => {
+    const morphColors = () => {
       const now = Date.now()
-      const colorInterval = 8000
-
-      if (now - lastColorChangeRef.current > colorInterval) {
-        const randomPalette = colorPalettes[Math.floor(Math.random() * colorPalettes.length)]
-        setControls(prev => ({
-          ...prev,
-          color1: randomPalette.color1,
-          color2: randomPalette.color2,
-          color3: randomPalette.color3,
-        }))
-        lastColorChangeRef.current = now
+      const morphing = colorMorphingRef.current
+      const elapsed = now - morphing.startTime
+      
+      // Calculate smooth progress using easing function for more natural transitions
+      const rawProgress = Math.min(elapsed / morphing.morphDuration, 1)
+      const easedProgress = 0.5 - 0.5 * Math.cos(rawProgress * Math.PI) // Smooth ease in/out
+      
+      const currentPalette = extendedColorPalettes[morphing.currentPaletteIndex]
+      const nextPalette = extendedColorPalettes[morphing.nextPaletteIndex]
+      
+      // Interpolate between current and next palette
+      const morphedColors = {
+        color1: interpolateColor(currentPalette.color1, nextPalette.color1, easedProgress),
+        color2: interpolateColor(currentPalette.color2, nextPalette.color2, easedProgress),
+        color3: interpolateColor(currentPalette.color3, nextPalette.color3, easedProgress),
+        color4: interpolateColor(currentPalette.color4, nextPalette.color4, easedProgress),
       }
-    }, 1000)
+      
+      setControls(prev => ({
+        ...prev,
+        ...morphedColors
+      }))
+      
+      // When transition is complete, move to next palette
+      if (rawProgress >= 1) {
+        morphing.currentPaletteIndex = morphing.nextPaletteIndex
+        morphing.nextPaletteIndex = (morphing.nextPaletteIndex + 1) % extendedColorPalettes.length
+        morphing.startTime = now
+        
+        // Vary the duration slightly for more organic feel (35-55 seconds)
+        morphing.morphDuration = 35000 + Math.random() * 20000
+      }
+    }
 
+    // Update colors at 60fps for smooth transitions
+    const interval = setInterval(morphColors, 16) // ~60fps
+    
     return () => clearInterval(interval)
-  }, [controls.autoCycleColors, colorPalettes])
+  }, [controls.autoCycleColors, extendedColorPalettes, interpolateColor])
 
   // File loading
   const loadAudioFile = useCallback((file: File) => {

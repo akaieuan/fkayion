@@ -1,999 +1,818 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
 import { useAudio } from './AudioContext'
-import { AnimationSequence } from './animation-sequence'
 
-export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], scale = 1, blobId = 0, forceDotMatrix = false }) {
-  const meshRef = useRef<THREE.Object3D>(null)
+export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], scale = 1 }) {
+  const meshRef = useRef<THREE.Mesh>(null)
   const { controls, isPlaying, audioSrc, audioData } = useAudio()
   
-  // Safe audio data with defaults
-  const safeAudioData = audioData || {
-    volume: 0,
-    peakVolume: 0,
-    averageVolume: 0,
-    dbLevel: -60,
-    bassLevel: 0,
-    midLevel: 0,
-    highLevel: 0,
-  }
+  console.log('🎭 MercuryBlob rendering...', { controls, isPlaying, audioSrc, hasAudioData: !!audioData })
   
-  // Get the shape for this specific blob
-  const getBlobShape = () => {
-    const allShapes = [
-      'sphere', 'icosahedron', 'cube', 'torus', 'octahedron', 
-      'dodecahedron', 'tetrahedron', 'cylinder', 'cone', 
-      'torusKnot', 'ring', 'capsule', 'prism', 'pyramid',
-      'star', 'heart', 'mobius', 'klein'
-    ]
-    
-    if (blobId === 0) {
-      return controls.shape || 'sphere'
-    } else {
-      const availableShapes = allShapes.filter(shape => shape !== (controls.shape || 'sphere'))
-      const seedValue = blobId * 7 + (controls.shape || 'sphere').length
-      const shapeIndex = Math.floor(seedValue * 2.34567) % availableShapes.length
-      return availableShapes[shapeIndex]
-    }
-  }
-  
-  const blobShape = getBlobShape()
-  
-  // FIXED SHADER MATERIAL with ALL UNIFORMS
+  // MERCURY BLOB SHADER MATERIAL - The real deal
   const material = useMemo(() => {
-    // Temporary simple material to get blob visible
-    return new THREE.MeshStandardMaterial({
-      color: new THREE.Color(controls.color1 || '#00f2ff'),
-      metalness: 0.8,
-      roughness: 0.2,
-      emissive: new THREE.Color(controls.color2 || '#ff00a8'),
-      emissiveIntensity: 0.1
-    })
-    
-    /* COMPLEX SHADER - TEMPORARILY DISABLED FOR DEBUGGING
     return new THREE.ShaderMaterial({
       uniforms: {
         time: { value: 0 },
         isPlaying: { value: 0 },
-        
-        // Audio data
         volume: { value: 0 },
+        bassLevel: { value: 0 },
         midLevel: { value: 0 },
         highLevel: { value: 0 },
-        bassLevel: { value: 0 },
         
-        // Visual controls
+        // Basic controls
         noiseScale: { value: 2.2 },
         noiseForce: { value: 1.5 },
-        goopiness: { value: 1.5 },
-        liquidity: { value: 2.0 },
-        split: { value: 0.8 },
-        metallic: { value: 0.7 },
+        audioReactivity: { value: 6.0 },
         
         // Colors
         color1: { value: new THREE.Color('#00f2ff') },
         color2: { value: new THREE.Color('#ff00a8') },
         color3: { value: new THREE.Color('#7000ff') },
+        color4: { value: new THREE.Color('#ff6b00') },
         
-        // Audio reactivity
-        audioReactivity: { value: 6.0 },
-        
-        // *** REAL PHYSICAL PROPERTIES ***
+        // Mercury physics
         viscosity: { value: 0.5 },
         surfaceTension: { value: 0.7 },
         density: { value: 1.0 },
         elasticity: { value: 0.5 },
-        
-        // *** PUDDLE MODE - FIXED! ***
         puddleMode: { value: 0.0 },
         
-        // DRAMATIC EFFECTS
+        // Liquid effects
+        goopiness: { value: 1.5 },
+        liquidity: { value: 2.0 },
+        split: { value: 0.8 },
         splitIntensity: { value: 0.0 },
         tentacleMode: { value: 0.0 },
         liquidMerge: { value: 0.0 },
-        shattered: { value: 0.0 },
-        vortex: { value: 0.0 },
         
-        // SURFACE CONTROLS - FIXED!
+        // Surface effects
         chrome: { value: 0.0 },
         pearl: { value: 0.0 },
         holographic: { value: 0.0 },
         glass: { value: 0.0 },
-        roughness: { value: 0.0 },    // MISSING UNIFORM ADDED!
+        roughness: { value: 0.0 },
         
-        // VISUAL EFFECTS
-        contrast: { value: 1.0 },
+        // Extreme effects
+        shattered: { value: 0.0 },
+        vortex: { value: 0.0 },
+        abstractSplit: { value: 0.0 },
+        ripple: { value: 0.0 },
+        
+        // Visual effects
         bloom: { value: 0.0 },
         grain: { value: 0.0 },
         grainSize: { value: 1.0 },
         
-        // MODES
+        // Modes
         dotMatrix: { value: 0.0 },
         wireframe: { value: 0.0 },
+        dotSeparation: { value: 1.0 },
         
-        // COLOR FLOW UNIFORMS
-        colorFlow: { value: 0.0 },
-        colorShift1: { value: 0.0 },
-        colorShift2: { value: 0.0 },
-        colorShift3: { value: 0.0 },
+        // Properties
+        metallic: { value: 0.7 },
+        contrast: { value: 1.0 },
       },
-      vertexShader: \`
-        // COMPLEX VERTEX SHADER CODE...
-      \`,
-      fragmentShader: \`
-        // COMPLEX FRAGMENT SHADER CODE...
-      \`,
+      vertexShader: `
+        uniform float time;
+        uniform float isPlaying;
+        uniform float volume;
+        uniform float bassLevel;
+        uniform float midLevel;
+        uniform float highLevel;
+        uniform float noiseScale;
+        uniform float noiseForce;
+        uniform float audioReactivity;
+        
+        // Mercury physics
+        uniform float viscosity;
+        uniform float surfaceTension;
+        uniform float density;
+        uniform float elasticity;
+        uniform float puddleMode;
+        
+        // Liquid effects
+        uniform float goopiness;
+        uniform float liquidity;
+        uniform float split;
+        uniform float splitIntensity;
+        uniform float tentacleMode;
+        uniform float liquidMerge;
+        
+        // Extreme effects
+        uniform float shattered;
+        uniform float vortex;
+        uniform float abstractSplit;
+        uniform float ripple;
+        
+        // Modes
+        uniform float dotMatrix;
+        uniform float wireframe;
+        uniform float dotSeparation;
+        
+        varying vec3 vNormal;
+        varying vec3 vPosition;
+        varying vec3 vWorldPosition;
+        varying float vAudioIntensity;
+        
+        // Noise functions
+        float hash(float n) { return fract(sin(n) * 1e4); }
+        
+        float noise(vec3 x) {
+          const vec3 step = vec3(110, 241, 171);
+          vec3 i = floor(x);
+          vec3 f = fract(x);
+          f = f * f * (3.0 - 2.0 * f);
+          return mix(mix(mix( hash(dot(i, step)), hash(dot(i + vec3(1,0,0), step)), f.x),
+                         mix( hash(dot(i + vec3(0,1,0), step)), hash(dot(i + vec3(1,1,0), step)), f.x), f.y),
+                     mix(mix( hash(dot(i + vec3(0,0,1), step)), hash(dot(i + vec3(1,0,1), step)), f.x),
+                         mix( hash(dot(i + vec3(0,1,1), step)), hash(dot(i + vec3(1,1,1), step)), f.x), f.y), f.z);
+        }
+        
+        float fbm(vec3 p) {
+          float value = 0.0;
+          float amplitude = 0.5;
+          float frequency = 1.0;
+          for (int i = 0; i < 3; i++) {
+            value += amplitude * noise(p * frequency);
+            frequency *= 2.0;
+            amplitude *= 0.5;
+          }
+          return value;
+        }
+        
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          vPosition = position;
+          vWorldPosition = (modelMatrix * vec4(position, 1.0)).xyz;
+          
+          // Audio intensity
+          float audioIntensity = volume + bassLevel * 1.2 + midLevel * 0.8 + highLevel * 0.6;
+          vAudioIntensity = audioIntensity;
+          
+          // Enhanced time flow
+          float physicsTime = time * (1.0 / max(viscosity, 0.01));
+          
+          vec3 workingPosition = position;
+          
+          // === MERCURY PHYSICS EFFECTS ===
+          
+          // Surface tension - creates surface ripples
+          float tensionWaves = sin(length(workingPosition) * 8.0 + physicsTime * 3.0) * surfaceTension * 0.8;
+          tensionWaves += cos(workingPosition.x * 6.0 + physicsTime * 2.0) * cos(workingPosition.z * 6.0 + physicsTime * 2.5) * surfaceTension * 0.5;
+          
+          // Elasticity - bouncing and spring motion
+          float elasticBounce = sin(time * 5.0 + length(workingPosition) * 3.0) * elasticity * 1.0;
+          elasticBounce += sin(time * 2.5 + workingPosition.x * 4.0) * cos(time * 3.0 + workingPosition.y * 4.0) * elasticity * 0.7;
+          
+          // Puddle mode - flattens shape
+          float puddleFlattening = 0.0;
+          if (puddleMode > 0.01) {
+            float puddleFactor = puddleMode * 0.5;
+            workingPosition.y *= (1.0 - puddleFactor);
+            workingPosition.x *= (1.0 + puddleFactor * 0.3);
+            workingPosition.z *= (1.0 + puddleFactor * 0.3);
+            puddleFlattening = sin(length(workingPosition.xz) * 3.0 - physicsTime * 2.0) * puddleMode * 0.2;
+          }
+          
+          // === LIQUID EFFECTS ===
+          
+          // Goopiness - thick, sticky deformation
+          float goopyDeform = fbm(workingPosition * 2.0 + physicsTime * 0.5) * goopiness * 1.0;
+          goopyDeform += sin(workingPosition.x * 3.0 + physicsTime) * cos(workingPosition.z * 3.0 + physicsTime * 0.7) * goopiness * 0.8;
+          
+          // Liquidity - flowing liquid motion
+          float liquidFlow = sin(length(workingPosition) * 3.0 + physicsTime * 2.0) * liquidity * 0.6;
+          liquidFlow += fbm(workingPosition * 2.5 + physicsTime * 1.2) * liquidity * 0.5;
+          
+          // Split - creates splitting effects
+          float splitEffect = sin(workingPosition.x * 6.0 + physicsTime * 3.0) * 
+                             cos(workingPosition.y * 5.0 + physicsTime * 2.5) * split * 0.8;
+          splitEffect += sin(workingPosition.z * 4.0 + physicsTime * 2.0) * split * 0.5;
+          
+          // Tentacle mode - creates tentacle-like extensions
+          float tentacleEffect = 0.0;
+          if (tentacleMode > 0.01) {
+            float tentacleNoise = fbm(workingPosition * 4.0 + physicsTime * 1.8);
+            tentacleEffect = sin(workingPosition.x * 6.0 + physicsTime * 3.0) * tentacleNoise * tentacleMode * 1.5;
+            tentacleEffect += sin(workingPosition.y * 5.0 + physicsTime * 2.5) * tentacleMode * 1.2;
+          }
+          
+          // Abstract split - dramatic blob inversion
+          float abstractEffect = 0.0;
+          if (abstractSplit > 0.01) {
+            float abstractNoise = fbm(workingPosition * 6.0 + physicsTime * 2.0);
+            abstractEffect = sin(abstractNoise * 12.56 + physicsTime * 3.0) * abstractSplit * 2.0;
+            abstractEffect += sin(workingPosition.x * 12.0 + physicsTime * 4.0) * abstractSplit * 1.5;
+          }
+          
+          // === BASE DEFORMATION ===
+          float baseFlow = fbm(workingPosition * noiseScale + physicsTime * 0.5) * noiseForce * 0.4;
+          
+          // === AUDIO REACTIVE DEFORMATION ===
+          float audioDeformation = 0.0;
+          if (isPlaying > 0.5) {
+            audioDeformation = audioIntensity * audioReactivity * 0.3;
+            audioDeformation += bassLevel * 0.5 + midLevel * 0.3 + highLevel * 0.2;
+          }
+          
+          // === COMBINE ALL EFFECTS ===
+          float totalDeformation = (
+            baseFlow * 0.8 +
+            tensionWaves * 1.0 +
+            elasticBounce * 0.8 +
+            puddleFlattening * 1.2 +
+            goopyDeform * 1.0 +
+            liquidFlow * 0.8 +
+            splitEffect * 1.0 +
+            tentacleEffect * 1.5 +
+            abstractEffect * 1.8 +
+            audioDeformation * 1.2
+          ) * density * 0.5;
+          
+          // Apply displacement
+          vec3 newPosition = workingPosition + normal * totalDeformation;
+          
+          // Handle dot matrix mode
+          if (dotMatrix > 0.5) {
+            // Apply dot separation - spread dots further apart
+            vec3 separatedPosition = newPosition * dotSeparation;
+            
+            vec4 mvPosition = modelViewMatrix * vec4(separatedPosition, 1.0);
+            gl_Position = projectionMatrix * mvPosition;
+            
+            // Adjust point size based on separation (further = smaller for perspective)
+            float pointSize = (15.0 + totalDeformation * 40.0) / max(dotSeparation * 0.8, 0.5);
+            if (isPlaying > 0.5) {
+              pointSize += audioIntensity * 50.0 / max(dotSeparation * 0.8, 0.5);
+            }
+            gl_PointSize = clamp(pointSize / max(-mvPosition.z * 0.1, 1.0), 4.0, 80.0);
+          } else {
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
+          }
+        }
+      `,
+      fragmentShader: `
+        uniform float time;
+        uniform float isPlaying;
+        uniform float volume;
+        uniform float bassLevel;
+        uniform float midLevel;
+        uniform float highLevel;
+        uniform vec3 color1;
+        uniform vec3 color2;
+        uniform vec3 color3;
+        uniform vec3 color4;
+        uniform float metallic;
+        uniform float contrast;
+        
+        // Surface effects
+        uniform float chrome;
+        uniform float pearl;
+        uniform float holographic;
+        uniform float glass;
+        uniform float roughness;
+        
+        // Visual effects
+        uniform float bloom;
+        uniform float grain;
+        uniform float grainSize;
+        
+                 // Modes
+         uniform float dotMatrix;
+         uniform float wireframe;
+         uniform float dotSeparation;
+         
+         varying vec3 vNormal;
+         varying vec3 vPosition;
+         varying vec3 vWorldPosition;
+         varying float vAudioIntensity;
+         
+         // Noise functions
+         float hash(vec3 p) {
+           return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453);
+         }
+        
+        float hash2d(vec2 p) {
+          return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+        }
+        
+        float noise3d(vec3 x) {
+          vec3 i = floor(x);
+          vec3 f = fract(x);
+          f = f * f * (3.0 - 2.0 * f);
+          return mix(mix(mix(hash(i), hash(i + vec3(1,0,0)), f.x),
+                        mix(hash(i + vec3(0,1,0)), hash(i + vec3(1,1,0)), f.x), f.y),
+                    mix(mix(hash(i + vec3(0,0,1)), hash(i + vec3(1,0,1)), f.x),
+                        mix(hash(i + vec3(0,1,1)), hash(i + vec3(1,1,1)), f.x), f.y), f.z);
+        }
+        
+        float fbm(vec3 p) {
+          float value = 0.0;
+          float amplitude = 0.5;
+          float frequency = 1.0;
+          for (int i = 0; i < 2; i++) {
+            value += amplitude * noise3d(p * frequency);
+            frequency *= 2.0;
+            amplitude *= 0.5;
+          }
+          return value;
+        }
+        
+        void main() {
+          // DOT MATRIX MODE - Mercury droplets
+          if (dotMatrix > 0.5) {
+            vec2 center = gl_PointCoord - 0.5;
+            float dist = length(center);
+            
+            // Liquid droplet shape
+            float dropletRadius = 0.5 - sin(length(center) * 8.0 + time * 1.5) * 0.03;
+            dropletRadius -= fbm(vec3(center * 10.0, time * 0.3)) * 0.05;
+            
+            if (dist > dropletRadius) discard;
+            
+            // 3D droplet surface
+            float heightFactor = 1.0 - (dist / dropletRadius);
+            float dropletHeight = sqrt(heightFactor) * 0.8;
+            vec3 dropletNormal = normalize(vec3(center * 1.5, dropletHeight));
+            
+            // Lighting
+            vec3 light1 = normalize(vec3(1.0, 1.0, 1.0));
+            float NdotL = max(0.4, dot(dropletNormal, light1));
+            
+            // Color territories
+            vec3 worldPos = vWorldPosition;
+            float dynamicTime = time * 0.05;
+            
+            // Simple color blending
+            float region1 = sin(worldPos.x * 2.0 + dynamicTime) * 0.5 + 0.5;
+            float region2 = cos(worldPos.y * 2.0 + dynamicTime) * 0.5 + 0.5;
+            float region3 = sin(worldPos.z * 2.0 + dynamicTime) * 0.5 + 0.5;
+            
+            vec3 baseColor = mix(mix(color1, color2, region1), mix(color3, color4, region2), region3);
+            
+            // Audio reactivity
+            float audioFlowIntensity = 1.0 + vAudioIntensity * 0.4;
+            baseColor *= audioFlowIntensity;
+            
+            // Lighting
+            baseColor *= (0.8 + NdotL * 0.4);
+            
+            gl_FragColor = vec4(baseColor, 1.0);
+            return;
+          }
+          
+          // REGULAR BLOB MODE
+          vec3 worldPos = vWorldPosition;
+          float dynamicTime = time * 0.1;
+          
+          // Color territories
+          float territory1 = sin(worldPos.x + dynamicTime) * 0.5 + 0.5;
+          float territory2 = cos(worldPos.y + dynamicTime) * 0.5 + 0.5;
+          float territory3 = sin(worldPos.z + dynamicTime * 0.8) * 0.5 + 0.5;
+          float territory4 = cos(length(worldPos.xy) + dynamicTime * 0.6) * 0.5 + 0.5;
+          
+          // Audio reactive modulation
+          if (isPlaying > 0.5) {
+            territory1 += bassLevel * 0.2;
+            territory2 += midLevel * 0.2;
+            territory3 += highLevel * 0.2;
+            territory4 += volume * 0.1;
+          }
+          
+          // Normalize
+          float total = territory1 + territory2 + territory3 + territory4 + 0.01;
+          territory1 /= total;
+          territory2 /= total;
+          territory3 /= total;
+          territory4 /= total;
+          
+          // Color blending
+          vec3 finalColor = color1 * territory1 + color2 * territory2 + color3 * territory3 + color4 * territory4;
+          
+          // Surface variation
+          float organicSurface = sin(worldPos.x * 2.0 + dynamicTime) * cos(worldPos.y * 1.5 + dynamicTime) * 0.1;
+          finalColor *= (0.95 + organicSurface);
+          
+          // Contrast
+          vec3 contrastEnhanced = pow(finalColor, vec3(1.8));
+          finalColor = mix(finalColor, contrastEnhanced, 0.6);
+          
+          // Surface effects
+          vec3 viewDirection = normalize(-vWorldPosition);
+          vec3 normal = normalize(vNormal);
+          float fresnel = pow(1.0 - max(0.0, dot(normal, viewDirection)), 0.8);
+          
+          // Metallic
+          finalColor *= (1.0 + fresnel * metallic * 1.2);
+          
+          // Chrome effect
+          if (chrome > 0.01) {
+            float chromeReflection = fresnel * chrome * 2.0;
+            vec3 chromeColor = vec3(1.3, 1.3, 1.4) * chromeReflection;
+            finalColor = mix(finalColor, finalColor + chromeColor, chrome * 0.8);
+          }
+          
+          // Wireframe mode
+          if (wireframe > 0.5) {
+            finalColor *= (1.5 + vAudioIntensity * 1.2);
+            float edgeGlow = pow(fresnel, 0.2) * 3.0;
+            finalColor += edgeGlow * finalColor * 0.8;
+          }
+          
+          // Ensure visibility
+          finalColor = max(finalColor, vec3(0.08));
+          
+          gl_FragColor = vec4(finalColor, 1.0);
+        }
+      `,
       wireframe: false,
       transparent: false,
     })
-    */
   }, [])
-
-  // *** COMPLETE UNIFORMS UPDATE - ALL CONTROLS NOW WORKING! ***
+  
+  // SIMPLE WORKING GEOMETRY - This will definitely work
+  const geometry = useMemo(() => {
+    const shape = controls.shape || 'sphere'
+    console.log('🎭 Creating geometry:', shape)
+    
+    switch (shape) {
+      case 'cube':
+        return new THREE.BoxGeometry(2, 2, 2, 16, 16, 16)
+      case 'cylinder':
+        return new THREE.CylinderGeometry(1.2, 1.2, 2.5, 32, 16)
+      case 'cone':
+        return new THREE.ConeGeometry(1.5, 2.5, 32, 16)
+      case 'torus':
+        return new THREE.TorusGeometry(1.2, 0.5, 16, 32)
+      case 'torusKnot':
+        return new THREE.TorusKnotGeometry(1, 0.3, 64, 8, 2, 3)
+      default:
+        return new THREE.SphereGeometry(1.5, 32, 16)
+    }
+  }, [controls.shape])
+  
+  // SHADER UNIFORM UPDATES
   useFrame((state) => {
     if (!meshRef.current) return
     
     const time = state.clock.elapsedTime
+    const deltaTime = state.clock.getDelta()
+    const mat = meshRef.current.material as THREE.ShaderMaterial
     
-    // Simple material update - just update colors
-    const mat = (meshRef.current as any).material as THREE.MeshStandardMaterial
-    if (mat && mat.color) {
-      mat.color.set(controls.color1 || '#00f2ff')
-      mat.emissive.set(controls.color2 || '#ff00a8')
-      mat.emissiveIntensity = 0.1 + (safeAudioData.volume * 0.3)
-      mat.metalness = (controls.metallic || 0.7) + (safeAudioData.bassLevel * 0.2)
-    }
-    
-    /* COMPLEX SHADER UNIFORMS UPDATE - TEMPORARILY DISABLED
-    const mat = (meshRef.current as any).material as THREE.ShaderMaterial
+    // Safe audio data
+    const safeAudioData = audioData || { volume: 0, bassLevel: 0, midLevel: 0, highLevel: 0 }
     
     if (mat && mat.uniforms) {
+      // Time and audio state
       mat.uniforms.time.value = time
-      mat.uniforms.isPlaying.value = isPlaying && audioSrc ? 1.0 : 0.0
+      mat.uniforms.isPlaying.value = (isPlaying && audioSrc) ? 1.0 : 0.0
       
       // Audio data
       mat.uniforms.volume.value = safeAudioData.volume
+      mat.uniforms.bassLevel.value = safeAudioData.bassLevel
       mat.uniforms.midLevel.value = safeAudioData.midLevel
       mat.uniforms.highLevel.value = safeAudioData.highLevel
-      mat.uniforms.bassLevel.value = safeAudioData.bassLevel
       
-      // ENHANCED AUDIO-DRIVEN CONTROLS - Physical properties auto-connected to audio
-      const audioReactivity = controls.audioReactivity || 6.0
-      const volumeIntensity = safeAudioData.volume
-      const bassIntensity = safeAudioData.bassLevel
-      const midIntensity = safeAudioData.midLevel
-      
-      // Auto-connect flow intensity to audio with user control as multiplier
-      const audioFlowIntensity = (controls.noiseForce || 1.5) * (1.0 + volumeIntensity * audioReactivity * 0.3)
-      
-      // Auto-connect physical properties to audio with user controls as deformation intensity multipliers
-      const audioViscosity = (controls.viscosity || 0.5) * (1.0 + bassIntensity * audioReactivity * 0.2)
-      const audioSurfaceTension = (controls.surfaceTension || 0.7) * (1.0 + midIntensity * audioReactivity * 0.15)
-      const audioDensity = (controls.density || 1.0) * (1.0 + volumeIntensity * audioReactivity * 0.25)
-      const audioElasticity = (controls.elasticity || 0.5) * (1.0 + (bassIntensity + midIntensity) * audioReactivity * 0.3)
-      
-      // CORE CONTROLS - now audio-enhanced
+      // Controls
       mat.uniforms.noiseScale.value = controls.noiseScale || 2.2
-      mat.uniforms.noiseForce.value = audioFlowIntensity // Audio-driven flow intensity
-      mat.uniforms.goopiness.value = controls.goopiness || 1.5
-      mat.uniforms.liquidity.value = controls.liquidity || 2.0
-      mat.uniforms.split.value = controls.split || 0.8
-      mat.uniforms.metallic.value = controls.metallic || 0.7
+      mat.uniforms.noiseForce.value = controls.noiseForce || 1.5
+      mat.uniforms.audioReactivity.value = controls.audioReactivity || 6.0
       
-      // COLORS
+      // Colors
       mat.uniforms.color1.value.set(controls.color1 || '#00f2ff')
       mat.uniforms.color2.value.set(controls.color2 || '#ff00a8')
       mat.uniforms.color3.value.set(controls.color3 || '#7000ff')
+      mat.uniforms.color4.value.set(controls.color4 || '#ff6b00')
       
-      // AUDIO REACTIVITY
-      mat.uniforms.audioReactivity.value = audioReactivity
-      
-      // *** AUDIO-DRIVEN PHYSICAL PROPERTIES ***
-      mat.uniforms.viscosity.value = audioViscosity
-      mat.uniforms.surfaceTension.value = audioSurfaceTension
-      mat.uniforms.density.value = audioDensity
-      mat.uniforms.elasticity.value = audioElasticity
-      
-      // *** PUDDLE MODE - NOW WORKING! ***
+      // Mercury physics
+      mat.uniforms.viscosity.value = controls.viscosity || 0.5
+      mat.uniforms.surfaceTension.value = controls.surfaceTension || 0.7
+      mat.uniforms.density.value = controls.density || 1.0
+      mat.uniforms.elasticity.value = controls.elasticity || 0.5
       mat.uniforms.puddleMode.value = controls.puddleMode || 0.0
       
-      // DRAMATIC EFFECTS
-      mat.uniforms.splitIntensity.value = controls.splitIntensity || 0
-      mat.uniforms.tentacleMode.value = controls.tentacleMode || 0
-      mat.uniforms.liquidMerge.value = controls.liquidMerge || 0
-      mat.uniforms.shattered.value = controls.shattered ? 1.0 : 0.0
-      mat.uniforms.vortex.value = controls.vortex ? 1.0 : 0.0
+      // Liquid effects
+      mat.uniforms.goopiness.value = controls.goopiness || 1.5
+      mat.uniforms.liquidity.value = controls.liquidity || 2.0
+      mat.uniforms.split.value = controls.split || 0.8
+      mat.uniforms.splitIntensity.value = controls.splitIntensity || 0.0
+      mat.uniforms.tentacleMode.value = controls.tentacleMode || 0.0
+      mat.uniforms.liquidMerge.value = controls.liquidMerge || 0.0
       
-      // ENHANCED SURFACE CONTROLS
+      // Surface effects
       mat.uniforms.chrome.value = controls.chrome || 0
       mat.uniforms.pearl.value = controls.pearl || 0
       mat.uniforms.holographic.value = controls.holographic || 0
       mat.uniforms.glass.value = controls.glass || 0
       mat.uniforms.roughness.value = controls.roughness || 0
       
-      // VISUAL EFFECTS
-      mat.uniforms.contrast.value = controls.contrast || 1.0
+      // Extreme effects
+      mat.uniforms.shattered.value = controls.shattered ? 1.0 : 0.0
+      mat.uniforms.vortex.value = controls.vortex ? 1.0 : 0.0
+      mat.uniforms.abstractSplit.value = controls.abstractSplit || 0
+      mat.uniforms.ripple.value = controls.ripple ? 1.0 : 0.0
+      
+      // Visual effects
       mat.uniforms.bloom.value = controls.bloom || 0
       mat.uniforms.grain.value = controls.grain || 0
       mat.uniforms.grainSize.value = controls.grainSize || 1.0
       
-      // MODES
-      mat.uniforms.dotMatrix.value = (controls.dotMatrix || forceDotMatrix) ? 1.0 : 0.0
+      // Modes
+      mat.uniforms.dotMatrix.value = controls.dotMatrix ? 1.0 : 0.0
       mat.uniforms.wireframe.value = controls.wireframe ? 1.0 : 0.0
+      mat.uniforms.dotSeparation.value = controls.dotSeparation || 1.0
       
-      // COLOR FLOW VALUES
-      mat.uniforms.colorFlow.value = controls.colorFlow || 0.0
-      mat.uniforms.colorShift1.value = controls.colorShift1 || 0.0
-      mat.uniforms.colorShift2.value = controls.colorShift2 || 0.0
-      mat.uniforms.colorShift3.value = controls.colorShift3 || 0.0
+      // Properties
+      mat.uniforms.metallic.value = controls.metallic || 0.7
+      mat.uniforms.contrast.value = controls.contrast || 1.0
       
-      mat.wireframe = controls.wireframe && !controls.dotMatrix && !forceDotMatrix
+      // Apply wireframe to material
+      mat.wireframe = controls.wireframe && !controls.dotMatrix
     }
-    */
     
-    // Gentle rotation for visual interest - like floating in space
-    meshRef.current.rotation.y += 0.002 // Reduced from 0.005
-    meshRef.current.rotation.x += 0.001 // Reduced from 0.002
-    meshRef.current.rotation.z += 0.0005 // Reduced from 0.001
+    // CONTROLLABLE ROTATION - User can adjust speed
+    const baseRotationSpeed = controls.rotationSpeed || 1.0 // User-controlled rotation speed
+    const audioBoostRotation = audioData ? (audioData.volume + audioData.bassLevel * 0.5) * 2.0 : 0
+    
+    // Multi-axis rotation for dynamic movement
+    meshRef.current.rotation.y += deltaTime * (baseRotationSpeed + audioBoostRotation)
+    meshRef.current.rotation.x += deltaTime * (baseRotationSpeed * 0.6 + audioBoostRotation * 0.4)
+    meshRef.current.rotation.z += deltaTime * (baseRotationSpeed * 0.3 + audioBoostRotation * 0.2)
+    
+    // Debug rotation to verify it's working
+    if (Math.floor(time) % 5 === 0 && Math.floor(time * 10) % 10 === 0) {
+      console.log('🌀 ROTATION DEBUG:', { 
+        rotationY: meshRef.current.rotation.y.toFixed(2),
+        rotationX: meshRef.current.rotation.x.toFixed(2),
+        deltaTime: deltaTime.toFixed(3),
+        baseSpeed: baseRotationSpeed,
+        audioBoost: audioBoostRotation.toFixed(3)
+      })
+    }
   })
-
-  // Enhanced geometry with more shapes and higher detail
-  const geometry = useMemo(() => {
-    // Simple sphere for debugging
-    const radius = 1.5 * scale
-    const segments = 64 // Good detail but not excessive
-    return <sphereGeometry args={[radius, segments, segments/2]} />
-    
-    /* COMPLEX GEOMETRY - TEMPORARILY DISABLED FOR DEBUGGING  
-    const segments = (controls.dotMatrix || forceDotMatrix) ? 256 : 120 // Much higher detail
-    const radius = 1.5 * scale
-    
-    try {
-      switch (blobShape) {
-        case 'cube':
-          return <boxGeometry args={[2 * scale, 2 * scale, 2 * scale, 32, 32, 32]} /> // Much higher subdivision
-        case 'torus':
-          return <torusGeometry args={[1.2 * scale, 0.6 * scale, 32, segments]} />
-        case 'icosahedron':
-          return <icosahedronGeometry args={[radius, 6]} /> // Higher subdivision for smoother surface
-        case 'octahedron':
-          return <octahedronGeometry args={[radius, 5]} />
-        case 'dodecahedron':
-          return <dodecahedronGeometry args={[radius, 4]} />
-        case 'tetrahedron':
-          return <tetrahedronGeometry args={[radius, 4]} />
-        case 'cylinder':
-          return <cylinderGeometry args={[radius, radius, radius * 2, segments, 20]} /> // Radial and height segments
-        case 'cone':
-          return <coneGeometry args={[radius, radius * 2, segments, 15]} />
-        case 'torusKnot':
-          return <torusKnotGeometry args={[radius * 0.8, radius * 0.3, segments, 24]} />
-        case 'ring':
-          return <ringGeometry args={[radius * 0.5, radius, 16, segments]} />
-        case 'capsule':
-          return <capsuleGeometry args={[radius * 0.6, radius * 1.2, 12, segments/2]} />
-        case 'pyramid':
-          return <coneGeometry args={[radius, radius * 1.5, 8]} /> // More faces for smoother pyramid
-        case 'prism':
-          return <cylinderGeometry args={[radius, radius, radius * 1.5, 8, 10]} />
-        case 'sphere':
-        default:
-          return <sphereGeometry args={[radius, segments, segments/2]} /> // Much higher detail sphere
-      }
-    } catch (error) {
-      console.warn('Geometry creation error, falling back to high-detail sphere:', error)
-      return <sphereGeometry args={[radius, 80, 40]} /> // Higher detail fallback
-    }
-    */
-  }, [scale])
-
-  // Simple mesh - no dot matrix complications for debugging
-  return (
-    <mesh ref={meshRef as any} position={position}>
-      {geometry}
-      <primitive object={material} />
-    </mesh>
-  )
   
-  /* DOT MATRIX LOGIC - TEMPORARILY DISABLED FOR DEBUGGING
+  console.log('🎭 Rendering mesh with:', { geometry: geometry.type, material: material.type })
+  
   // Handle dot matrix mode vs regular mesh
-  if (controls.dotMatrix || forceDotMatrix) {
+  if (controls.dotMatrix) {
     return (
-      <points ref={meshRef as any} position={position}>
-      {geometry}
-      <primitive object={material} />
-    </points>
+      <points ref={meshRef as any} position={position} scale={scale}>
+        <primitive object={geometry} />
+        <primitive object={material} />
+      </points>
     )
   }
 
   return (
-    <mesh ref={meshRef as any} position={position}>
-      {geometry}
+    <mesh ref={meshRef} position={position} scale={scale}>
+      <primitive object={geometry} />
       <primitive object={material} />
     </mesh>
-  )
-  */
-}
-
-// Enhanced Magnetic Droplet System - Dramatic with shape changes and 3D goop connections
-function MagneticDroplets({ backgroundIntensity = 0.15 }: { backgroundIntensity?: number }) {
-  const { audioData, isPlaying, controls } = useAudio()
-  const groupRef = useRef<THREE.Group>(null)
-  const dropletRefs = useRef<THREE.Mesh[]>([])
-  const connectionRefs = useRef<THREE.Mesh[]>([]) // Changed from Line to Mesh for 3D tubes
-  const lastBeatTimeRef = useRef(0)
-  const lastConnectionEventRef = useRef(0)
-  const formationStateRef = useRef<'together' | 'breaking' | 'scattered' | 'reforming' | 'dramatic'>('together')
-  const breakStartTimeRef = useRef(0)
-  
-  const dropletPositions = useRef<Array<{
-    formationPos: [number, number, number]
-    scatterPos: [number, number, number]
-    currentPos: [number, number, number]
-    velocity: [number, number, number]
-    phase: number
-    connections: number[]
-    energy: number
-    shape: 'sphere' | 'cube' | 'tetrahedron' | 'octahedron'
-    targetShape: 'sphere' | 'cube' | 'tetrahedron' | 'octahedron'
-    shapeTransition: number
-    scale: [number, number, number]
-    rotation: [number, number, number]
-    rotationSpeed: [number, number, number]
-    dramIntensity: number
-    lastBeatResponse: number
-  }>>([])
-  
-  // Enhanced droplet controls
-  const dropletCount = Math.min(Math.floor((controls.dropletCount || 8) * (0.6 + backgroundIntensity * 0.4)), 15)
-  const dropletSize = (controls.dropletSize || 0.8) * 0.8
-  const dropletSpeed = (controls.dropletSpeed || 0.8) * 2.0 // More dramatic movement
-  const dropletSpread = (controls.dropletSpread || 100) * 1.5 // Increased multiplier and fixed default
-  const dropletMagnetic = (controls.dropletMagnetic || 0.3) * 2.5 // Much stronger magnetic forces
-  const dramIntensity = controls.dropletDramIntensity || 0.7
-  const allowShapeChange = controls.dropletShapeChange !== false
-  const connectionThickness = controls.dropletConnectionThickness || 0.5
-  const connectionOpacity = controls.dropletConnectionOpacity || 0.6
-  const rotationSpeed = controls.dropletRotationSpeed || 1.0
-  const scaleReactivity = controls.dropletScaleReactivity || 0.8
-  
-  // *** NEW ENHANCED ABSTRACT DROPLET CONTROLS ***
-  const dropletBrightness = controls.dropletBrightness || 1.5
-  const dropletGlow = controls.dropletGlow || 0.8
-  const dropletMetallic = controls.dropletMetallic || 0.9
-  const dropletRoughness = controls.dropletRoughness || 0.1
-  const dropletIridescence = controls.dropletIridescence || 0.3
-  const dropletPulse = controls.dropletPulse || 0.5
-  const dropletFluid = controls.dropletFluid || 0.7
-  
-  // Initialize enhanced droplet positions
-  if (dropletPositions.current.length !== dropletCount) {
-    dropletPositions.current = []
-    // Make center radius responsive to spread setting - MUCH more dramatic
-    const centerRadius = Math.max(8, dropletSpread * 0.3) // Now responsive to droplet spread!
-    
-    for (let i = 0; i < dropletCount; i++) {
-      const angle = (i / dropletCount) * Math.PI * 2
-      const radius = centerRadius + Math.random() * (dropletSpread * 0.15) // Vary radius based on spread
-      const height = (Math.random() - 0.5) * (dropletSpread * 0.2) // Height also spread-dependent
-      
-      const shapes: Array<'sphere' | 'cube' | 'tetrahedron' | 'octahedron'> = ['sphere', 'cube', 'tetrahedron', 'octahedron']
-      const initialShape = shapes[Math.floor(Math.random() * shapes.length)]
-      
-      dropletPositions.current.push({
-        formationPos: [Math.cos(angle) * radius, height, Math.sin(angle) * radius],
-        scatterPos: [(Math.random() - 0.5) * dropletSpread * 1.5, (Math.random() - 0.5) * dropletSpread * 1.0, (Math.random() - 0.5) * dropletSpread * 1.5], // Increased scatter
-        currentPos: [Math.cos(angle) * radius, height, Math.sin(angle) * radius],
-        velocity: [0, 0, 0],
-        phase: Math.random() * Math.PI * 2,
-        connections: [],
-        energy: 0.5 + Math.random() * 0.5,
-        shape: initialShape,
-        targetShape: initialShape,
-        shapeTransition: 0.0,
-        scale: [1, 1, 1],
-        rotation: [Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2],
-        rotationSpeed: [(Math.random() - 0.5) * 0.2, (Math.random() - 0.5) * 0.2, (Math.random() - 0.5) * 0.2],
-        dramIntensity: Math.random() * 0.5 + 0.5,
-        lastBeatResponse: 0
-      })
-    }
-  }
-  
-  useFrame((state) => {
-    if (!groupRef.current || !isPlaying) return
-    
-    const time = state.clock.elapsedTime
-    const audioIntensity = audioData ? audioData.volume : 0
-    const bassLevel = audioData ? audioData.bassLevel : 0
-    const midLevel = audioData ? audioData.midLevel : 0
-    const highLevel = audioData ? audioData.highLevel : 0
-    const beatDetected = audioData ? audioData.beatDetected : false
-    
-    // DRAMATIC EVENT-DRIVEN STATE CHANGES
-    if (beatDetected && time - lastBeatTimeRef.current > 1.0) {
-      if (formationStateRef.current === 'together' && bassLevel > 0.5) {
-        formationStateRef.current = 'dramatic'
-        breakStartTimeRef.current = time
-        lastBeatTimeRef.current = time
-        
-        // Dramatic scatter with more force
-        dropletPositions.current.forEach((data, i) => {
-          const dramaticForce = 2.0 + bassLevel * 4.0 // Increased base force and bass multiplier
-          data.scatterPos = [
-            (Math.random() - 0.5) * dropletSpread * dramaticForce * 1.5, // Added extra multiplier
-            (Math.random() - 0.5) * dropletSpread * 1.2, // Increased Y spread
-            (Math.random() - 0.5) * dropletSpread * dramaticForce * 1.5 // Added extra multiplier
-          ]
-          
-          // Trigger shape changes on beats
-          const shapes: Array<'sphere' | 'cube' | 'tetrahedron' | 'octahedron'> = ['sphere', 'cube', 'tetrahedron', 'octahedron']
-          if (allowShapeChange) {
-            data.targetShape = shapes[Math.floor(Math.random() * shapes.length)]
-          }
-          data.lastBeatResponse = time
-        })
-      }
-    }
-    
-    // Connection events on strong audio
-    if ((beatDetected && bassLevel > 0.7) || (midLevel > 0.6 && time - lastConnectionEventRef.current > 0.5)) {
-      lastConnectionEventRef.current = time
-    }
-    
-    const timeSinceBreak = time - breakStartTimeRef.current
-    switch (formationStateRef.current) {
-      case 'dramatic': if (timeSinceBreak > 1.5) formationStateRef.current = 'scattered'; break
-      case 'scattered': if (timeSinceBreak > 5.0) formationStateRef.current = 'reforming'; break
-      case 'reforming': if (timeSinceBreak > 8.0) formationStateRef.current = 'together'; break
-    }
-    
-    // Update droplets with dramatic behavior + MERCURY PHYSICS
-    dropletPositions.current.forEach((data, i) => {
-      let targetPos = data.formationPos
-      let lerpSpeed = 0.03 * dropletSpeed
-      
-      // Apply mercury physics controls to droplet behavior
-      const viscosityEffect = controls.viscosity || 0.6 // Affects movement smoothness
-      const surfaceTensionEffect = controls.surfaceTension || 0.5 // Affects cohesion
-      const densityEffect = controls.density || 0.6 // Affects weight/momentum
-      const elasticityEffect = controls.elasticity || 0.6 // Affects bounce/collision
-      const puddleModeEffect = controls.puddleMode || 0.0 // Affects flattening
-      
-      // Dramatic movement based on state with physics modifications
-      switch (formationStateRef.current) {
-        case 'dramatic':
-          targetPos = data.scatterPos
-          lerpSpeed = 0.15 * (1 + bassLevel * 2) * (1.0 / viscosityEffect) // Higher viscosity = slower movement
-          break
-        case 'scattered':
-          targetPos = data.scatterPos
-          lerpSpeed = 0.02 * (1.0 / viscosityEffect)
-          break
-        case 'reforming':
-          targetPos = data.formationPos
-          lerpSpeed = 0.08 * dropletSpeed * surfaceTensionEffect // Surface tension helps reformation
-          break
-      }
-      
-      // Enhanced floating motion with physics-based behavior
-      const physicsFloat = audioIntensity * 2.0 * data.dramIntensity * dramIntensity * (1.0 / densityEffect) // Density affects responsiveness
-      const floatOffset = [
-        Math.sin(time * 0.4 * viscosityEffect + data.phase) * (1.5 + physicsFloat), // Viscosity affects oscillation speed
-        Math.cos(time * 0.3 * viscosityEffect + data.phase) * (1.0 + physicsFloat * 0.6),
-        Math.sin(time * 0.35 * viscosityEffect + data.phase) * (1.5 + physicsFloat)
-      ]
-      
-      // Apply puddle mode flattening to droplets
-      if (puddleModeEffect > 0.01) {
-        floatOffset[1] *= (1.0 - puddleModeEffect * 0.8) // Flatten Y movement
-        // Spread X/Z movement for puddle effect
-        floatOffset[0] *= (1.0 + puddleModeEffect * 0.5)
-        floatOffset[2] *= (1.0 + puddleModeEffect * 0.5)
-      }
-      
-      // Mercury-physics magnetic forces with surface tension
-      let magneticX = 0, magneticY = 0, magneticZ = 0
-      data.connections = []
-      
-      if (dropletMagnetic > 0.1) {
-        dropletPositions.current.forEach((other, j) => {
-          if (i !== j) {
-            const dx = other.currentPos[0] - data.currentPos[0]
-            const dy = other.currentPos[1] - data.currentPos[1]
-            const dz = other.currentPos[2] - data.currentPos[2]
-            const distance = Math.sqrt(dx*dx + dy*dy + dz*dz)
-            
-            // Surface tension affects connection threshold - higher surface tension = stronger cohesion
-            const connectionThreshold = Math.max(8, dropletSpread * 0.15) + audioIntensity * 6 + surfaceTensionEffect * 8
-            if (distance < connectionThreshold) {
-              data.connections.push(j)
-              
-              if (distance > 1.0) { // Closer for mercury-like behavior
-                const force = dropletMagnetic * surfaceTensionEffect * 0.08 / (distance * distance) // Surface tension enhances magnetic force
-                const audioBoost = 1.0 + (bassLevel + midLevel) * 1.2
-                magneticX += dx * force * audioBoost
-                magneticY += dy * force * audioBoost
-                magneticZ += dz * force * audioBoost
-              } else {
-                // Very close droplets should merge behavior (influenced by surface tension)
-                const mergeForce = surfaceTensionEffect * 0.1
-                magneticX += dx * mergeForce
-                magneticY += dy * mergeForce
-                magneticZ += dz * mergeForce
-              }
-            }
-          }
-        })
-      }
-      
-      // Mercury-physics energy and scale changes with elasticity
-      const beatResponse = time - data.lastBeatResponse < 0.5 ? 1.0 - (time - data.lastBeatResponse) * 2.0 : 0.0
-      data.energy = 0.4 + audioIntensity * 0.8 + midLevel * 0.6 + beatResponse * 0.5
-      
-      // Physics-based scale changes with elasticity and surface tension
-      const physicsScaleBase = 0.8 + data.energy * 0.6 * scaleReactivity + beatResponse * 0.4 * scaleReactivity
-      const elasticScale = 1.0 + Math.sin(time * 3.0 + data.phase) * elasticityEffect * 0.15 // Elastic breathing
-      const tensionScale = 1.0 - surfaceTensionEffect * 0.1 // Higher surface tension = slightly smaller (more cohesive)
-      const scaleMultiplier = physicsScaleBase * elasticScale * tensionScale
-      
-      // Apply puddle mode scaling
-      if (puddleModeEffect > 0.01) {
-        data.scale = [
-          scaleMultiplier * (1.0 + puddleModeEffect * 0.3), // Wider in X
-          scaleMultiplier * (1.0 - puddleModeEffect * 0.6), // Flatter in Y
-          scaleMultiplier * (1.0 + puddleModeEffect * 0.3)  // Wider in Z
-        ]
-      } else {
-        data.scale = [scaleMultiplier, scaleMultiplier, scaleMultiplier]
-      }
-      
-      // Shape morphing with physics influence
-      if (data.shape !== data.targetShape && allowShapeChange) {
-        data.shapeTransition += 0.05 * (1.0 / viscosityEffect) // Viscosity affects morphing speed
-        if (data.shapeTransition >= 1.0) {
-          data.shape = data.targetShape
-          data.shapeTransition = 0.0
-        }
-      }
-      
-      // Update position with mercury physics momentum
-      const finalTargetX = targetPos[0] + floatOffset[0] + magneticX * 25 * dramIntensity * surfaceTensionEffect
-      const finalTargetY = targetPos[1] + floatOffset[1] + magneticY * 25 * dramIntensity * surfaceTensionEffect
-      const finalTargetZ = targetPos[2] + floatOffset[2] + magneticZ * 25 * dramIntensity * surfaceTensionEffect
-      
-      // Enhanced physics with density and elasticity
-      const physicsDamping = 0.88 - audioIntensity * 0.1 * dramIntensity + viscosityEffect * 0.05 // Viscosity increases damping
-      const momentumFactor = densityEffect * 0.3 // Density affects momentum
-      
-      data.velocity[0] += (finalTargetX - data.currentPos[0]) * lerpSpeed * momentumFactor
-      data.velocity[1] += (finalTargetY - data.currentPos[1]) * lerpSpeed * momentumFactor
-      data.velocity[2] += (finalTargetZ - data.currentPos[2]) * lerpSpeed * momentumFactor
-      
-      // Apply elasticity for bounce effects when energy is high
-      if (beatResponse > 0.3 && elasticityEffect > 0.3) {
-        const bounceForce = elasticityEffect * beatResponse * 0.2
-        data.velocity[0] += (Math.random() - 0.5) * bounceForce
-        data.velocity[1] += Math.abs(Math.random()) * bounceForce * 0.5 // Mostly upward bounce
-        data.velocity[2] += (Math.random() - 0.5) * bounceForce
-      }
-      
-      data.velocity[0] *= physicsDamping
-      data.velocity[1] *= physicsDamping
-      data.velocity[2] *= physicsDamping
-      
-      data.currentPos[0] += data.velocity[0]
-      data.currentPos[1] += data.velocity[1]
-      data.currentPos[2] += data.velocity[2]
-      
-      // Enhanced rotation with physics - viscosity slows rotation
-      const audioRotationBoost = 1.0 + audioIntensity * 3.0 * rotationSpeed * (1.0 / viscosityEffect)
-      data.rotation[0] += data.rotationSpeed[0] * audioRotationBoost
-      data.rotation[1] += data.rotationSpeed[1] * audioRotationBoost
-      data.rotation[2] += data.rotationSpeed[2] * audioRotationBoost
-      
-      // Update mesh
-      const mesh = dropletRefs.current[i]
-      if (mesh) {
-        mesh.position.set(data.currentPos[0], data.currentPos[1], data.currentPos[2])
-        mesh.scale.set(data.scale[0] * dropletSize, data.scale[1] * dropletSize, data.scale[2] * dropletSize)
-        mesh.rotation.set(data.rotation[0], data.rotation[1], data.rotation[2])
-        
-        // Enhanced material updates - CALM COLORS, REACTIVE MOVEMENT
-        const material = mesh.material as THREE.MeshStandardMaterial
-        material.emissiveIntensity = data.energy * dropletGlow * dropletBrightness
-        material.roughness = dropletRoughness * (1.0 - data.energy * 0.3)
-        material.metalness = dropletMetallic + data.energy * 0.1
-        
-        // Gentle pulsing brightness - NO beat reactivity for colors
-        const gentlePulse = 1.0 + Math.sin(time * 0.8 + i * 0.3) * 0.1 * dropletPulse // Slow, natural pulse
-        
-        // Gentle iridescent color shifting - SLOW AND NATURAL
-        if (dropletIridescence > 0.01) {
-          const iridPhase = time * 0.6 + i * 0.8 // Much slower color shifts
-          const hue = (Math.sin(iridPhase) * 0.5 + 0.5) * 360
-          const iridColor = new THREE.Color().setHSL(hue / 360, 0.6, 0.7) // Gentler saturation
-          
-          material.color = new THREE.Color(controls.color2 || '#ff00a8').lerp(iridColor, dropletIridescence * 0.7) // Reduced blend
-        } else {
-          material.color.set(controls.color2 || '#ff00a8')
-        }
-        
-        // Apply gentle brightness - no beat flashing
-        material.color.multiplyScalar(dropletBrightness * gentlePulse)
-        material.emissive.set(controls.color3 || '#7000ff').multiplyScalar(dropletGlow * gentlePulse)
-      }
-    })
-    
-    // Create 3D GOOP CONNECTIONS instead of lines
-    connectionRefs.current.forEach(tube => {
-      if (tube.parent) {
-        tube.parent.remove(tube)
-      }
-    })
-    connectionRefs.current = []
-    
-    if (groupRef.current) {
-      const connectionEventBoost = time - lastConnectionEventRef.current < 1.0 ? 
-        1.0 - (time - lastConnectionEventRef.current) : 0.3
-      
-      dropletPositions.current.forEach((data, i) => {
-        data.connections.forEach(j => {
-          if (j > i) { // Avoid duplicate connections
-            const other = dropletPositions.current[j]
-            const distance = Math.sqrt(
-              Math.pow(data.currentPos[0] - other.currentPos[0], 2) +
-              Math.pow(data.currentPos[1] - other.currentPos[1], 2) +
-              Math.pow(data.currentPos[2] - other.currentPos[2], 2)
-            )
-            
-            if (distance < 20) {
-              // Create 3D tube geometry for goop connection
-              const tubeGeometry = new THREE.CylinderGeometry(
-                0.1 * connectionThickness + connectionEventBoost * 0.3 * connectionThickness, // Start radius
-                0.1 * connectionThickness + connectionEventBoost * 0.3 * connectionThickness, // End radius  
-                distance, // Height
-                8, // Radial segments
-                1 // Height segments
-              )
-              
-              const tubeMaterial = new THREE.MeshStandardMaterial({
-                color: new THREE.Color(controls.color1 || '#00f2ff').multiplyScalar(dropletBrightness),
-                opacity: Math.max(0.2, (1.0 - distance / 20) * 0.8 * connectionEventBoost * connectionOpacity),
-                transparent: true,
-                emissive: new THREE.Color(controls.color2 || '#ff00a8').multiplyScalar(dropletGlow * dropletBrightness),
-                emissiveIntensity: connectionEventBoost * 0.6 * dropletBrightness,
-                metalness: dropletMetallic,
-                roughness: dropletRoughness
-              })
-              
-              const tube = new THREE.Mesh(tubeGeometry, tubeMaterial)
-              
-              // Position and orient the tube
-              const midPoint = [
-                (data.currentPos[0] + other.currentPos[0]) / 2,
-                (data.currentPos[1] + other.currentPos[1]) / 2,
-                (data.currentPos[2] + other.currentPos[2]) / 2
-              ]
-              
-              tube.position.set(midPoint[0], midPoint[1], midPoint[2])
-              
-              // Orient tube towards connection
-              const direction = new THREE.Vector3(
-                other.currentPos[0] - data.currentPos[0],
-                other.currentPos[1] - data.currentPos[1], 
-                other.currentPos[2] - data.currentPos[2]
-              ).normalize()
-              
-              tube.lookAt(
-                midPoint[0] + direction.x,
-                midPoint[1] + direction.y,
-                midPoint[2] + direction.z
-              )
-              tube.rotateX(Math.PI / 2) // Align with cylinder axis
-              
-              if (groupRef.current) {
-                groupRef.current.add(tube)
-              }
-              connectionRefs.current.push(tube)
-            }
-          }
-        })
-      })
-    }
-  })
-  
-  if (!isPlaying || backgroundIntensity < 0.01) return null
-  
-  // Create enhanced droplet meshes with shape variations - MORE LIQUID-LIKE
-  const droplets = dropletPositions.current.map((data, i) => {
-    let geometry
-    
-    // FLUID LIQUID-LIKE GEOMETRY with more organic shapes
-    switch (data.shape) {
-      case 'cube':
-        // Softer, more rounded cube
-        geometry = <sphereGeometry args={[0.7, 16, 16]} />
-        break
-      case 'tetrahedron':
-        // Droplet-like tetrahedron
-        geometry = <sphereGeometry args={[0.6, 12, 8]} />
-        break
-      case 'octahedron':
-        // Liquid octahedron
-        geometry = <sphereGeometry args={[0.65, 14, 10]} />
-        break
-      default: // sphere - most liquid-like
-        // Perfect mercury droplet
-        geometry = <sphereGeometry args={[0.6, 20, 20]} />
-    }
-    
-    return (
-      <mesh
-        key={i}
-        ref={(ref) => {
-          if (ref) dropletRefs.current[i] = ref
-        }}
-        position={data.currentPos as [number, number, number]}
-      >
-        {geometry}
-        <meshStandardMaterial
-          color={new THREE.Color(controls.color2 || '#ff00a8').multiplyScalar(dropletBrightness)}
-          metalness={dropletMetallic}
-          roughness={dropletRoughness}
-          emissive={new THREE.Color(controls.color3 || '#7000ff').multiplyScalar(dropletGlow)}
-          emissiveIntensity={dropletGlow * dropletBrightness}
-          transparent={true}
-          opacity={0.95} // Slightly more opaque for better liquid feel
-        />
-      </mesh>
-    )
-  })
-  
-  return (
-    <group ref={groupRef}>
-      {droplets}
-    </group>
   )
 }
 
 export function AudioVisualizer() {
-  const { audioSrc, isPlaying, audioData, controls } = useAudio()
+  const { audioSrc, isPlaying, audioData, controls, setControls } = useAudio()
   
-  // Safe audio data
-  const safeAudioData = audioData || {
-    volume: 0,
-    peakVolume: 0,
-    averageVolume: 0,
-    dbLevel: -60,
-    bassLevel: 0,
-    midLevel: 0,
-    highLevel: 0,
-    beatDetected: false,
-    tempo: 0,
-    beatStrength: 0,
-    halfTempoBeat: false,
-    beatCount: 0,
-  }
+  console.log('🎬 AudioVisualizer rendering...', { 
+    audioSrc, 
+    isPlaying, 
+    hasAudioData: !!audioData,
+    controls: controls
+  })
+
+  // Auto color cycling - one color at a time every 15 seconds
+  useEffect(() => {
+    const colorPalette = [
+      '#00f2ff', '#ff00a8', '#7000ff', '#ff6b00', // Original set
+      '#ff71ce', '#01cdfe', '#05ffa1', '#ffb347', // Cyber
+      '#f5d300', '#ff225e', '#6a0dad', '#00ced1', // Sunset
+      '#00c6ff', '#0072ff', '#fceabb', '#ff8c94', // Ocean
+      '#a7ff83', '#17bd9b', '#027a74', '#ff6b9d', // Forest
+      '#ff4b1f', '#1fddff', '#c471ed', '#f64f59', // Fire
+      '#9d4edd', '#f72585', '#4cc9f0', '#f9844a', // Aurora
+      '#39ff14', '#ff073a', '#00f5ff', '#ffed4e', // Electric
+      '#667eea', '#764ba2', '#f093fb', '#f5576c', // Dream
+      '#4facfe', '#00f2fe', '#43e97b', '#38f9d7', // Tropical
+      '#ff9a9e', '#fecfef', '#ffecd2', '#fcb69f', // Pastel
+      '#a8edea', '#fed6e3', '#d299c2', '#fef9d7', // Soft
+      '#ff8a80', '#ff80ab', '#ea80fc', '#8c9eff', // Bright
+      '#84fab0', '#8fd3f4', '#a18cd1', '#fbc2eb', // Cool
+    ]
+
+    let currentColorIndex = 0
+    let currentSlot = 0 // 0=color1, 1=color2, 2=color3, 3=color4
+
+    const colorInterval = setInterval(() => {
+      // Don't auto-cycle if user has disabled color cycling
+      if (!controls.autoColorCycle) return
+
+      const newColor = colorPalette[currentColorIndex]
+      
+      setControls((prev: any) => {
+        const updated = { ...prev }
+        
+        // Cycle through color slots one at a time
+        switch (currentSlot) {
+          case 0:
+            updated.color1 = newColor
+            break
+          case 1:
+            updated.color2 = newColor
+            break
+          case 2:
+            updated.color3 = newColor
+            break
+          case 3:
+            updated.color4 = newColor
+            break
+        }
+        
+        return updated
+      })
+
+      // Move to next color and slot
+      currentColorIndex = (currentColorIndex + 1) % colorPalette.length
+      currentSlot = (currentSlot + 1) % 4
+
+      console.log(`🎨 Auto color cycle: Updated color${currentSlot + 1} to ${newColor}`)
+    }, 15000) // 15 seconds
+
+    return () => clearInterval(colorInterval)
+  }, [controls.autoColorCycle, setControls])
+
+  // Auto shape cycling - one shape every 20 seconds
+  useEffect(() => {
+    const shapeList = ['sphere', 'cube', 'cylinder', 'cone', 'torus', 'torusKnot']
+
+    let currentShapeIndex = 0
+
+    const shapeInterval = setInterval(() => {
+      // Don't auto-cycle if user has disabled shape cycling
+      if (!controls.autoShapeCycle) return
+
+      const newShape = shapeList[currentShapeIndex]
+      
+      setControls((prev: any) => ({
+        ...prev,
+        shape: newShape
+      }))
+
+      // Move to next shape
+      currentShapeIndex = (currentShapeIndex + 1) % shapeList.length
+
+      console.log(`🔷 Auto shape cycle: Changed to ${newShape}`)
+    }, 20000) // 20 seconds
+
+    return () => clearInterval(shapeInterval)
+  }, [controls.autoShapeCycle, setControls])
 
   return (
     <div className="w-full h-full relative bg-black">
-      {/* Auto Animation Sequence */}
-      <AnimationSequence />
-      
       <Canvas
         camera={{ 
-          position: [0, 0, 15],
-          fov: 50,
-          far: 1000,
+          position: [0, 0, 8],
+          fov: 75,
+          far: 100,
           near: 0.1 
         }}
-        gl={{ 
-          antialias: true, 
-          alpha: true
+        style={{ 
+          width: '100%', 
+          height: '100%',
         }}
-        style={{ width: '100%', height: '100%' }}
       >
-        {/* ENHANCED LIGHTING */}
-        <ambientLight intensity={0.8} />
-        <pointLight position={[10, 10, 10]} intensity={1.2} />
-        <pointLight position={[-10, -10, -10]} intensity={1.0} />
-        <pointLight position={[0, 10, -10]} intensity={0.8} />
-        <pointLight position={[0, -10, 10]} intensity={0.6} />
+        <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} intensity={1} />
+        <pointLight position={[-10, -10, -10]} intensity={0.5} />
         
-        {/* DYNAMIC EVOLVING BACKGROUND */}
-        <MagneticDroplets backgroundIntensity={controls.backgroundIntensity || 0.15} />
-        
-        {/* MAIN MERCURY BLOB */}
-        <MercuryBlob position={[0, 0, 0] as [number, number, number]} scale={1.0} blobId={0} />
-        
-        {/* SMALL BASS OBJECTS */}
-        {isPlaying && audioSrc && (
-          <BassSpheres audioData={safeAudioData} />
-        )}
+        <MercuryBlob position={[0, 0, 0]} scale={1} />
         
         <OrbitControls 
           enableZoom={true}
           enablePan={true}
           enableRotate={true}
-          autoRotate={false}
-          minDistance={2}     // Closer zoom allowed
-          maxDistance={300}   // Further zoom allowed
+          minDistance={2}
+          maxDistance={20}
           target={[0, 0, 0]}
-          zoomSpeed={1.5}     // Faster zoom for better control
-          rotateSpeed={0.6}   // Slightly faster rotation
-          panSpeed={1.0}      // Good pan speed
-          enableDamping={true}
-          dampingFactor={0.08} // Slightly snappier damping
-          mouseButtons={{
-            LEFT: THREE.MOUSE.ROTATE,
-            MIDDLE: THREE.MOUSE.DOLLY, // Ensure middle mouse zoom works
-            RIGHT: THREE.MOUSE.PAN
-          }}
-          touches={{
-            ONE: THREE.TOUCH.ROTATE,
-            TWO: THREE.TOUCH.DOLLY_PAN // Touch zoom and pan
-          }}
         />
       </Canvas>
       
-      {!audioSrc && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+      {/* EVOLVING CONTROLS STATUS */}
+      {(controls.autoColorCycle || controls.autoShapeCycle) && (
+        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-green-600/95 to-teal-600/95 text-white p-4 rounded-lg backdrop-blur-md border-2 border-white/30 shadow-2xl">
           <div className="text-center">
-            <div className="text-white/80 text-3xl mb-4 font-bold">Mercury Ultra Visualizer</div>
-            <div className="text-white/60 text-lg mb-4">Calm Colors • Reactive Movement</div>
-            <div className="text-white/40 text-base space-y-1">
-              🎵 Auto Evolution: shapes and movement sync to beats
-              <br />
-              🌈 Calm color flow: gentle, natural transitions disconnected from audio
-              <br />
-              🧲 Reactive droplets: movement responds to music while colors stay smooth
-              <br />
-              🌊 Fluid deformation: mercury blob morphs dramatically with beats
-              <br />
-              🔍 Full zoom control: scroll to zoom, drag to rotate and pan
-              <br />
-              ⚙️ Upload music to see the enhanced beat-reactive movement!
+            <div className="text-xl font-bold mb-2">🔄 EVOLVING CONTROLS ACTIVE</div>
+            <div className="text-sm opacity-90 mb-2">Current Status:</div>
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <div>🎨 Color Cycle: <span className="font-mono text-cyan-200">{controls.autoColorCycle ? 'ON' : 'OFF'}</span></div>
+              <div>🔷 Shape Cycle: <span className="font-mono text-cyan-200">{controls.autoShapeCycle ? 'ON' : 'OFF'}</span></div>
+              <div>Current Shape: <span className="font-mono text-cyan-200">{controls.shape || 'sphere'}</span></div>
+              <div>Wireframe: <span className="font-mono text-cyan-200">{controls.wireframe ? 'ON' : 'OFF'}</span></div>
             </div>
           </div>
         </div>
       )}
       
-      {/* PROMINENT AUTO EVOLUTION INDICATOR - Only show when actually active */}
-      {isPlaying && audioSrc && controls.autoEvolution && controls.currentPhase && (
-        <div className="absolute top-4 left-4 bg-gradient-to-r from-cyan-500/90 to-purple-500/90 text-white px-4 py-2 rounded-lg backdrop-blur-md border border-cyan-400/50 shadow-lg">
+      {/* HEADER STATUS BAR - Full Width Transparent */}
+      <div className="absolute top-0 left-0 right-0 bg-black/20 backdrop-blur-sm text-white p-4 text-sm border-b border-white/10">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-6">
+            <div className="text-cyan-400 font-bold">🎛️ MERCURY PHYSICS ENGINE</div>
+            <div className="flex items-center gap-4 text-xs">
+              <div>📊 Tension: {(controls.surfaceTension || 0.5).toFixed(1)}</div>
+              <div>🏀 Elasticity: {(controls.elasticity || 0.5).toFixed(1)}</div>
+              <div>💧 Puddle: {(controls.puddleMode || 0.0).toFixed(1)}</div>
+              <div>🍯 Goop: {(controls.goopiness || 1.5).toFixed(1)}</div>
+              <div>🌊 Liquid: {(controls.liquidity || 2.0).toFixed(1)}</div>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4 text-xs">
+              <div>🔪 Split: {(controls.split || 0.8).toFixed(1)}</div>
+              {(controls.tentacleMode || 0.0) > 0 && <div className="text-purple-300">🐙 Tentacles: {(controls.tentacleMode || 0.0).toFixed(1)}</div>}
+              {(controls.abstractSplit || 0.0) > 0 && <div className="text-red-300">💥 Abstract: {(controls.abstractSplit || 0.0).toFixed(1)}</div>}
+            </div>
+            
+            <div className="flex items-center gap-4 text-xs">
+              <div className={controls.autoColorCycle ? "text-green-400" : "text-gray-400"}>
+                🎨 {controls.autoColorCycle ? 'Auto Colors' : 'Manual Colors'}
+              </div>
+              <div className={controls.autoShapeCycle ? "text-blue-400" : "text-gray-400"}>
+                🔷 {controls.autoShapeCycle ? 'Auto Shapes' : 'Manual Shapes'}
+              </div>
+              {controls.dotMatrix && <div className="text-blue-300">🔵 Droplets</div>}
+              {controls.wireframe && <div className="text-yellow-300">📐 Wireframe</div>}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {!audioSrc && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="text-center">
+            <div className="text-white/80 text-3xl mb-4 font-bold">
+              Mercury Visualizer - Full Controls
+            </div>
+            <div className="text-white/60 text-lg mb-4">
+              All Physics and Effects Working
+            </div>
+            <div className="text-white/40 text-base space-y-1">
+              🎵 Upload music to see the enhanced mercury physics!
+              <br />
+              🧪 Audio-reactive shapes: Sphere, Cube, Cylinder, Cone, Torus, Torus Knot
+              <br />
+              💧 Liquid droplets: Realistic mercury droplets in dot matrix mode
+              <br />
+              🎛️ All physics controls affect the mercury blob
+              <br />
+              🔄 Evolving controls: Optional auto color and shape cycling
+              <br />
+              ✨ Enhanced visuals: Better materials, lighting, and audio responsiveness
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Mode indicator */}
+      {isPlaying && audioSrc && (
+        <div className="absolute top-4 right-4 bg-gradient-to-r from-purple-500/90 to-pink-500/90 text-white px-4 py-2 rounded-lg backdrop-blur-md border border-purple-400/50 shadow-lg">
+          <div className="flex items-center space-x-2">
+            <div className="w-3 h-3 bg-purple-400 rounded-full"></div>
+            <span className="font-bold">🌊 MERCURY BLOB</span>
+          </div>
+        </div>
+      )}
+      
+      {/* Evolving controls indicator */}
+      {isPlaying && audioSrc && (controls.autoColorCycle || controls.autoShapeCycle) && (
+        <div className="absolute top-4 left-4 bg-gradient-to-r from-green-500/90 to-teal-500/90 text-white px-4 py-2 rounded-lg backdrop-blur-md border border-green-400/50 shadow-lg">
           <div className="flex items-center space-x-2">
             <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="font-bold">🎵 AUTO EVOLUTION ACTIVE</span>
-          </div>
-          <div className="text-xs text-cyan-100 mt-1">
-            {controls.currentPhase} • {controls.currentPattern}
+            <span className="font-bold">🔄 EVOLVING CONTROLS ACTIVE</span>
           </div>
         </div>
       )}
       
-      {/* Manual Control Indicator */}
-      {isPlaying && audioSrc && !controls.autoEvolution && (
-        <div className="absolute top-4 left-4 bg-gradient-to-r from-orange-500/90 to-red-500/90 text-white px-4 py-2 rounded-lg backdrop-blur-md border border-orange-400/50 shadow-lg">
-          <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 bg-orange-400 rounded-full"></div>
-            <span className="font-bold">🎛️ MANUAL CONTROL</span>
-          </div>
-          <div className="text-xs text-orange-100 mt-1">
-            All settings under your control
-          </div>
-        </div>
-      )}
-      
-      {/* Enhanced debug info with animation progress */}
+      {/* AUDIO STATUS - Bottom Left Compact */}
       {isPlaying && audioSrc && (
-        <div className="absolute bottom-4 left-4 bg-black/80 text-white p-3 rounded text-sm font-mono space-y-1">
-          <div className="text-green-400 font-bold">🌊 Mercury Ultra Active</div>
-          <div>Volume: {(safeAudioData.volume * 100).toFixed(0)}% | Bass: {(safeAudioData.bassLevel * 100).toFixed(0)}%</div>
-          <div>Mid: {(safeAudioData.midLevel * 100).toFixed(0)}% | High: {(safeAudioData.highLevel * 100).toFixed(0)}%</div>
-          <div className={controls.autoEvolution ? "text-cyan-300" : "text-orange-300"}>
-            Mode: {controls.autoEvolution ? "🎵 Auto Evolution" : "🎛️ Manual Control"}
-          </div>
-          {controls.currentPhase && controls.autoEvolution && (
-            <div className="text-cyan-300">Phase: {controls.currentPhase}</div>
-          )}
-          {controls.currentPattern && controls.autoEvolution && (
-            <div className="text-purple-300">Pattern: {controls.currentPattern}</div>
-          )}
-          {controls.elapsedTime && controls.autoEvolution && (
-            <div className="text-yellow-300">Time: {Math.floor(controls.elapsedTime)}s</div>
-          )}
-          {controls.beatCount && controls.autoEvolution && (
-            <div className="text-pink-300">Beats: {controls.beatCount}</div>
-          )}
-          <div className="text-blue-300">
-            Droplets: {controls.dropletCount || 8} | Brightness: {((controls.dropletBrightness || 1.5) * 100).toFixed(0)}%
+        <div className="absolute bottom-4 left-4 bg-black/30 backdrop-blur-sm text-white p-3 rounded-lg text-sm font-mono border border-white/20">
+          <div className="flex items-center gap-4">
+            <div className="text-green-400 font-bold">🌊 MERCURY BLOB</div>
+            <div>Vol: {((audioData?.volume || 0) * 100).toFixed(0)}%</div>
+            <div>Bass: {((audioData?.bassLevel || 0) * 100).toFixed(0)}%</div>
+            <div>Mid: {((audioData?.midLevel || 0) * 100).toFixed(0)}%</div>
+            <div>High: {((audioData?.highLevel || 0) * 100).toFixed(0)}%</div>
+            <div className={(controls.autoColorCycle || controls.autoShapeCycle) ? "text-cyan-300" : "text-orange-300"}>
+              {(controls.autoColorCycle || controls.autoShapeCycle) ? "🔄 Auto Mode" : "🎛️ Manual"}
+            </div>
           </div>
         </div>
       )}
     </div>
   )
-}
-
-// Enhanced bass spheres
-function BassSpheres({ audioData }: { audioData: any }) {
-  const sphereRefs = useRef<THREE.Mesh[]>([])
-  
-  const sphereData = useMemo(() => {
-    const data = []
-    for (let i = 0; i < 8; i++) {
-      data.push({
-        initialPos: [
-          (Math.random() - 0.5) * 40,
-          (Math.random() - 0.5) * 25,
-          (Math.random() - 0.5) * 40
-        ],
-        velocity: [
-          (Math.random() - 0.5) * 0.8,
-          (Math.random() - 0.5) * 0.5,
-          (Math.random() - 0.5) * 0.8
-        ],
-        phase: Math.random() * Math.PI * 2,
-        speed: 0.4 + Math.random() * 0.6
-      })
-    }
-    return data
-  }, [])
-  
-  useFrame((state) => {
-    const time = state.clock.elapsedTime
-    const bassLevel = audioData.bassLevel
-    
-    sphereRefs.current.forEach((sphere, i) => {
-      if (!sphere || !sphereData[i]) return
-      
-      const data = sphereData[i]
-      const slowTime = time * data.speed * 0.2
-      
-      const x = data.initialPos[0] + Math.sin(slowTime + data.phase) * 4 + Math.cos(slowTime * 0.7) * 3
-      const y = data.initialPos[1] + Math.cos(slowTime * 0.8 + data.phase) * 3 + Math.sin(slowTime * 0.5) * 2
-      const z = data.initialPos[2] + Math.sin(slowTime * 0.6 + data.phase) * 3.5 + Math.cos(slowTime * 0.9) * 2.5
-      
-      sphere.position.set(x, y, z)
-      
-      const baseScale = 0.2 + bassLevel * 0.15
-      sphere.scale.setScalar(baseScale)
-      
-      sphere.rotation.x += 0.004 * data.speed
-      sphere.rotation.y += 0.003 * data.speed
-      sphere.rotation.z += 0.002 * data.speed
-      
-      const material = sphere.material as THREE.MeshStandardMaterial
-      if (material && material.emissiveIntensity !== undefined) {
-        material.emissiveIntensity = bassLevel * 0.4
-      }
-    })
-  })
-  
-  const spheres = sphereData.map((data, i) => (
-    <mesh
-      key={i}
-      ref={(ref) => {
-        if (ref) sphereRefs.current[i] = ref
-      }}
-      position={data.initialPos as [number, number, number]}
-    >
-      <sphereGeometry args={[0.2, 16, 16]} />
-      <meshStandardMaterial 
-        color="#00f2ff" 
-        metalness={0.8} 
-        roughness={0.2}
-        emissive="#002244"
-        emissiveIntensity={0.2}
-        transparent={true}
-        opacity={0.8}
-      />
-    </mesh>
-  ))
-  
-  return <>{spheres}</>
 } 
