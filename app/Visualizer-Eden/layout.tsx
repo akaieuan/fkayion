@@ -4,8 +4,8 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  
-  description: 'An immersive digital experience featuring audio visualization, music, and creative connections.',
+  title: '3D Audio Visualizer',
+  description: 'Goopy liquid audio visualization with Three.js',
 }
 
 export default function RootLayout({
@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full">
-      <body className={`${inter.className} bg-black text-white h-full overflow-x-hidden antialiased`}>
+      <body className={`${inter.className} bg-black text-white h-full overflow-hidden`}>
         {children}
       </body>
     </html>
