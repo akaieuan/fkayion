@@ -73,14 +73,20 @@ type Controls = {
   // *** NEW: ROTATION CONTROL ***
   rotationSpeed: number
 
-
-
-  // *** NEW: AMBIENT SPACE MODE CONTROLS ***
-  ambientSpaceMode: boolean
-  ambientIntensity: number
-  ambientWaveCount: number
-  ambientFlowSpeed: number
-  ambientDepth: number
+  // *** NEW: ADVANCED VISUAL MODES ***
+  oceanMode: boolean
+  energyFieldMode: boolean
+  tornadoMode: boolean
+  plasmaMode: boolean
+  galaxyMode: boolean
+  crystalMode: boolean
+  dnaMode: boolean
+  atomicMode: boolean
+  
+  // Advanced mode properties
+  modeIntensity: number
+  modeSpeed: number
+  modeComplexity: number
 }
 
 // Collapsible Section Component
@@ -360,7 +366,7 @@ export function ControlSidebar() {
               className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
             />
             <div className="text-xs text-white/60 mt-1">
-              Controls how fast the blob spins (0 = no rotation, 5 = very fast)
+              Controls blob spinning AND camera auto-rotation (0 = no rotation, 5 = very fast)
             </div>
           </div>
         </CollapsibleSection>
@@ -786,6 +792,18 @@ export function ControlSidebar() {
             <label htmlFor="vortex" className="text-sm font-medium text-red-100">Vortex Mode</label>
           </div>
 
+          <div className="flex items-center space-x-3">
+            <input
+              id="ripple"
+              type="checkbox"
+              name="ripple"
+              checked={controls.ripple || false}
+              onChange={handleControlChange}
+              className="w-5 h-5 rounded border-2 border-red-400/40"
+            />
+            <label htmlFor="ripple" className="text-sm font-medium text-red-100">Ripple Mode</label>
+          </div>
+
           <div>
             <div className="flex justify-between items-center mb-2">
               <label className="text-sm font-medium text-red-100">🔥 Abstract Split</label>
@@ -814,30 +832,7 @@ export function ControlSidebar() {
         {/* 🎛️ VISUAL MODES */}
         <CollapsibleSection title="🎛️ Visual Modes">
 
-          <div className="bg-gradient-to-br from-indigo-900/20 to-purple-900/20 p-3 rounded-lg mb-4 border border-indigo-400/30">
-            <div className="flex items-center space-x-3 mb-2">
-              <input
-                id="ambientSpaceMode"
-                type="checkbox"
-                name="ambientSpaceMode"
-                checked={controls.ambientSpaceMode || false}
-                onChange={handleControlChange}
-                className="w-5 h-5 rounded border-2 border-indigo-400/40"
-              />
-              <label htmlFor="ambientSpaceMode" className="text-sm font-medium text-indigo-100">🌌 Ambient Space Mode</label>
-              <div className={`px-2 py-1 rounded text-xs font-mono ${
-                controls.ambientSpaceMode ? 'bg-indigo-600/30 text-indigo-200' : 'bg-gray-600/30 text-gray-300'
-              }`}>
-                {controls.ambientSpaceMode ? 'ACTIVE' : 'OFF'}
-              </div>
-            </div>
-            <div className="text-xs text-indigo-200/70 space-y-1">
-              <div>• Enhanced 3D immersive environment with realistic depth</div>
-              <div>• Uses ALL physics controls: viscosity, goopiness, liquidity, split, etc.</div>
-              <div>• Same mercury physics simulation as main blob but in ambient space</div>
-              <div>• Full audio reactivity with 3D depth effects and enhanced visuals</div>
-            </div>
-          </div>
+
 
           <div className="flex items-center space-x-3 mb-4">
             <input
@@ -890,6 +885,198 @@ export function ControlSidebar() {
           )}
         </CollapsibleSection>
 
+        {/* 🚀 ADVANCED VISUAL MODES */}
+        <CollapsibleSection title="🚀 Advanced Visual Modes" bgColor="bg-gradient-to-br from-purple-900/20 to-pink-900/20" borderColor="border-purple-400/30" titleColor="text-purple-100">
+          <div className="text-xs text-purple-200/70 mb-4">
+            Immersive 3D environments that transform the entire visualization experience
+          </div>
+
+          {/* Mode Selection Grid */}
+          <div className="grid grid-cols-2 gap-3 mb-4">
+            <div className="flex items-center space-x-2">
+              <input
+                id="oceanMode"
+                type="checkbox"
+                name="oceanMode"
+                checked={controls.oceanMode || false}
+                onChange={handleControlChange}
+                className="w-4 h-4 rounded border-2 border-blue-400/40"
+              />
+              <label htmlFor="oceanMode" className="text-xs font-medium text-blue-300">🌊 Ocean</label>
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <input
+                id="energyFieldMode"
+                type="checkbox"
+                name="energyFieldMode"
+                checked={controls.energyFieldMode || false}
+                onChange={handleControlChange}
+                className="w-4 h-4 rounded border-2 border-yellow-400/40"
+              />
+              <label htmlFor="energyFieldMode" className="text-xs font-medium text-yellow-300">⚡ Energy Field</label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                id="tornadoMode"
+                type="checkbox"
+                name="tornadoMode"
+                checked={controls.tornadoMode || false}
+                onChange={handleControlChange}
+                className="w-4 h-4 rounded border-2 border-gray-400/40"
+              />
+              <label htmlFor="tornadoMode" className="text-xs font-medium text-gray-300">🌪️ Tornado</label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                id="plasmaMode"
+                type="checkbox"
+                name="plasmaMode"
+                checked={controls.plasmaMode || false}
+                onChange={handleControlChange}
+                className="w-4 h-4 rounded border-2 border-red-400/40"
+              />
+              <label htmlFor="plasmaMode" className="text-xs font-medium text-red-300">🔥 Plasma</label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                id="galaxyMode"
+                type="checkbox"
+                name="galaxyMode"
+                checked={controls.galaxyMode || false}
+                onChange={handleControlChange}
+                className="w-4 h-4 rounded border-2 border-purple-400/40"
+              />
+              <label htmlFor="galaxyMode" className="text-xs font-medium text-purple-300">🌌 Galaxy</label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                id="crystalMode"
+                type="checkbox"
+                name="crystalMode"
+                checked={controls.crystalMode || false}
+                onChange={handleControlChange}
+                className="w-4 h-4 rounded border-2 border-cyan-400/40"
+              />
+              <label htmlFor="crystalMode" className="text-xs font-medium text-cyan-300">💎 Crystal</label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                id="dnaMode"
+                type="checkbox"
+                name="dnaMode"
+                checked={controls.dnaMode || false}
+                onChange={handleControlChange}
+                className="w-4 h-4 rounded border-2 border-green-400/40"
+              />
+              <label htmlFor="dnaMode" className="text-xs font-medium text-green-300">🧬 DNA</label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <input
+                id="atomicMode"
+                type="checkbox"
+                name="atomicMode"
+                checked={controls.atomicMode || false}
+                onChange={handleControlChange}
+                className="w-4 h-4 rounded border-2 border-orange-400/40"
+              />
+              <label htmlFor="atomicMode" className="text-xs font-medium text-orange-300">⚛️ Atomic</label>
+            </div>
+          </div>
+
+          {/* Advanced Mode Controls - Only show if any mode is active */}
+          {(controls.oceanMode || controls.energyFieldMode || controls.tornadoMode || controls.plasmaMode || 
+            controls.galaxyMode || controls.crystalMode || controls.dnaMode || controls.atomicMode) && (
+            <div className="mt-4 p-3 bg-purple-900/20 rounded-lg border border-purple-400/30 space-y-4">
+              <div className="text-xs text-purple-200/90 mb-2 font-semibold">Advanced Mode Settings</div>
+              
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <label className="text-sm font-medium text-purple-100">Mode Intensity</label>
+                  <span className="text-xs text-purple-200 font-mono bg-purple-900/30 px-2 py-1 rounded">
+                    {(controls.modeIntensity || 1.0).toFixed(1)}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  name="modeIntensity"
+                  min="0.1"
+                  max="3.0"
+                  step="0.1"
+                  value={controls.modeIntensity || 1.0}
+                  onChange={handleControlChange}
+                  className="w-full h-3 bg-purple-900/30 rounded-lg appearance-none cursor-pointer slider"
+                />
+                <div className="text-xs text-purple-200/70 mt-1">
+                  Overall intensity and visibility of the active mode
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <label className="text-sm font-medium text-purple-100">Animation Speed</label>
+                  <span className="text-xs text-purple-200 font-mono bg-purple-900/30 px-2 py-1 rounded">
+                    {(controls.modeSpeed || 1.0).toFixed(1)}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  name="modeSpeed"
+                  min="0.1"
+                  max="5.0"
+                  step="0.1"
+                  value={controls.modeSpeed || 1.0}
+                  onChange={handleControlChange}
+                  className="w-full h-3 bg-purple-900/30 rounded-lg appearance-none cursor-pointer slider"
+                />
+                <div className="text-xs text-purple-200/70 mt-1">
+                  Speed of mode animations and transformations
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <label className="text-sm font-medium text-purple-100">Complexity</label>
+                  <span className="text-xs text-purple-200 font-mono bg-purple-900/30 px-2 py-1 rounded">
+                    {(controls.modeComplexity || 1.0).toFixed(1)}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  name="modeComplexity"
+                  min="0.5"
+                  max="3.0"
+                  step="0.1"
+                  value={controls.modeComplexity || 1.0}
+                  onChange={handleControlChange}
+                  className="w-full h-3 bg-purple-900/30 rounded-lg appearance-none cursor-pointer slider"
+                />
+                <div className="text-xs text-purple-200/70 mt-1">
+                  Detail level and complexity of the visual mode
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Mode Descriptions */}
+          <div className="mt-4 space-y-2 text-xs text-purple-200/70">
+            {controls.oceanMode && <div>🌊 <strong>Ocean:</strong> Realistic ocean waves with dynamic water physics</div>}
+            {controls.energyFieldMode && <div>⚡ <strong>Energy Field:</strong> Electric field visualization with lightning effects</div>}
+            {controls.tornadoMode && <div>🌪️ <strong>Tornado:</strong> Swirling vortex with particles and debris</div>}
+            {controls.plasmaMode && <div>🔥 <strong>Plasma:</strong> Hot plasma with electric arcs and energy streams</div>}
+            {controls.galaxyMode && <div>🌌 <strong>Galaxy:</strong> Spiral galaxy with rotating arms and star formation</div>}
+            {controls.crystalMode && <div>💎 <strong>Crystal:</strong> Growing crystalline structures that react to audio</div>}
+            {controls.dnaMode && <div>🧬 <strong>DNA:</strong> Double helix structure that twists and morphs</div>}
+            {controls.atomicMode && <div>⚛️ <strong>Atomic:</strong> Atomic nucleus with orbiting electrons</div>}
+          </div>
+        </CollapsibleSection>
+
         {/* 🔄 EVOLVING CONTROLS */}
         <CollapsibleSection title="🔄 Evolving Controls" bgColor="bg-gradient-to-br from-green-900/20 to-teal-900/20" borderColor="border-green-400/30" titleColor="text-green-100">
           <div className="text-xs text-green-200/70 mb-3">
@@ -940,31 +1127,29 @@ export function ControlSidebar() {
         </CollapsibleSection>
 
         {/* 💡 MERCURY BLOB BRIGHTNESS */}
-        {!controls.ambientSpaceMode && (
-          <CollapsibleSection title="💡 Mercury Blob Brightness" bgColor="bg-gradient-to-br from-yellow-900/20 to-orange-900/20" borderColor="border-yellow-400/30" titleColor="text-yellow-100">
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <label className="text-sm font-medium text-yellow-100">Overall Brightness</label>
-                <span className="text-xs text-yellow-200 font-mono bg-yellow-900/30 px-2 py-1 rounded">
-                  {(controls.contrast || 1.0).toFixed(1)}
-                </span>
-              </div>
-              <input
-                type="range"
-                name="contrast"
-                min="0.3"
-                max="3.0"
-                step="0.1"
-                value={controls.contrast || 1.0}
-                onChange={handleControlChange}
-                className="w-full h-3 bg-yellow-900/30 rounded-lg appearance-none cursor-pointer slider"
-              />
-              <div className="text-xs text-yellow-200/70 mt-1">
-                Controls how bright the mercury blob appears
-              </div>
+        <CollapsibleSection title="💡 Mercury Blob Brightness" bgColor="bg-gradient-to-br from-yellow-900/20 to-orange-900/20" borderColor="border-yellow-400/30" titleColor="text-yellow-100">
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-yellow-100">Overall Brightness</label>
+              <span className="text-xs text-yellow-200 font-mono bg-yellow-900/30 px-2 py-1 rounded">
+                {(controls.contrast || 1.0).toFixed(1)}
+              </span>
             </div>
-          </CollapsibleSection>
-        )}
+            <input
+              type="range"
+              name="contrast"
+              min="0.3"
+              max="3.0"
+              step="0.1"
+              value={controls.contrast || 1.0}
+              onChange={handleControlChange}
+              className="w-full h-3 bg-yellow-900/30 rounded-lg appearance-none cursor-pointer slider"
+            />
+            <div className="text-xs text-yellow-200/70 mt-1">
+              Controls how bright the mercury blob appears
+            </div>
+          </div>
+        </CollapsibleSection>
 
         {/* 🌌 AMBIENT SPACE CONTROLS - DISABLED (USER HATES IT) */}
 
@@ -1025,6 +1210,28 @@ export function ControlSidebar() {
               onChange={handleControlChange}
               className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
             />
+          </div>
+
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-white">Grain Size</label>
+              <span className="text-xs text-white/70 font-mono bg-white/20 px-2 py-1 rounded">
+                {(controls.grainSize || 1.0).toFixed(1)}
+              </span>
+            </div>
+            <input
+              type="range"
+              name="grainSize"
+              min="0.1"
+              max="3.0"
+              step="0.1"
+              value={controls.grainSize || 1.0}
+              onChange={handleControlChange}
+              className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
+            />
+            <div className="text-xs text-white/60 mt-1">
+              Size/scale of film grain texture
+            </div>
           </div>
         </CollapsibleSection>
       </div>

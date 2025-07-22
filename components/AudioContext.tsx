@@ -149,15 +149,25 @@ interface AudioData {
     dropletPlasma: number              // Plasma energy effects
     dropletHologram: number            // Holographic transparency effects
     
-    // *** NEW: AMBIENT SPACE MODE CONTROLS ***
-    ambientSpaceMode?: boolean         // Toggle ambient space mode
-    ambientIntensity?: number          // Overall ambient intensity
-    ambientWaveCount?: number          // Number of wave patterns
-    ambientFlowSpeed?: number          // Speed of wave motion
-    ambientDepth?: number              // 3D depth of waves
+
     
     // *** NEW: ABSTRACT INVERSION EFFECT ***
     abstractSplit?: number             // 0.0-3.0 for dramatic blob inversion/splitting
+    
+    // *** NEW: ADVANCED VISUAL MODES ***
+    oceanMode?: boolean                // Ocean waves with realistic water physics
+    energyFieldMode?: boolean          // Electric field visualization with lightning
+    tornadoMode?: boolean              // Swirling vortex with particles and debris  
+    plasmaMode?: boolean               // Hot plasma with electric arcs and energy streams
+    galaxyMode?: boolean               // Spiral galaxy with rotating arms and star formation
+    crystalMode?: boolean              // Growing crystalline structures that react to audio
+    dnaMode?: boolean                  // Double helix structure that twists and morphs
+    atomicMode?: boolean               // Atomic nucleus with orbiting electrons
+    
+    // Advanced mode properties
+    modeIntensity?: number             // Overall intensity for advanced modes
+    modeSpeed?: number                 // Animation speed for advanced modes
+    modeComplexity?: number            // Complexity/detail level for advanced modes
   }
   setControls: (controls: any) => void
   
@@ -329,15 +339,25 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     dropletPlasma: 0.0,              // Plasma energy effects
     dropletHologram: 0.0,            // Holographic transparency effects
     
-    // *** NEW: AMBIENT SPACE MODE CONTROLS ***
-    ambientSpaceMode: false,         // Toggle ambient space mode
-    ambientIntensity: 1.0,           // Overall ambient intensity
-    ambientWaveCount: 8,             // Number of wave patterns
-    ambientFlowSpeed: 1.0,           // Speed of wave motion
-    ambientDepth: 1.0,               // 3D depth of waves
+
     
     // *** NEW: ABSTRACT INVERSION EFFECT ***
     abstractSplit: 0.0,              // 0.0-3.0 for dramatic blob inversion/splitting
+    
+    // *** NEW: ADVANCED VISUAL MODES ***
+    oceanMode: false,                // Ocean waves with realistic water physics
+    energyFieldMode: false,          // Electric field visualization with lightning
+    tornadoMode: false,              // Swirling vortex with particles and debris  
+    plasmaMode: false,               // Hot plasma with electric arcs and energy streams
+    galaxyMode: false,               // Spiral galaxy with rotating arms and star formation
+    crystalMode: false,              // Growing crystalline structures that react to audio
+    dnaMode: false,                  // Double helix structure that twists and morphs
+    atomicMode: false,               // Atomic nucleus with orbiting electrons
+    
+    // Advanced mode properties
+    modeIntensity: 1.0,              // Overall intensity for advanced modes
+    modeSpeed: 1.0,                  // Animation speed for advanced modes
+    modeComplexity: 1.0,             // Complexity/detail level for advanced modes
   })
 
   // Color palettes for auto cycling
