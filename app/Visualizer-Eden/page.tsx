@@ -1,9 +1,9 @@
 'use client'
 
-import { AudioProvider, useAudio } from '../../components/AudioContext'
-import { AudioVisualizer } from '../../components/AudioVisualizer'
-import { ControlSidebar } from '../../components/ControlSidebar'
-import { AudioBar } from '../../components/AudioBar'
+import { AudioProvider, useAudio } from '../../components/Vis-Eden-Comp/AudioContext'
+import { AudioVisualizer } from '../../components/Vis-Eden-Comp/AudioVisualizer'
+import { ControlSidebar } from '../../components/Vis-Eden-Comp/ControlSidebar'
+import { AudioBar } from '../../components/Vis-Eden-Comp/AudioBar'
 
 function UploadButton() {
   const { loadAudioFile, audioSrc, play, pause, isPlaying } = useAudio()
@@ -96,6 +96,8 @@ function UploadButton() {
     </div>
   )
 }
+
+
 
 // Simple WAV encoder for test audio
 function audioBufferToWav(buffer: AudioBuffer): ArrayBuffer {

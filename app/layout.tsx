@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full">
-      <body className={`${inter.className} bg-black text-white h-full overflow-x-hidden antialiased`}>
+      <body className={`${inter.className} bg-black text-white h-full antialiased`} style={{ overflow: 'visible' }}>
         {children}
       </body>
     </html>
