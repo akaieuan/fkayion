@@ -66,6 +66,7 @@ interface AudioData {
     metallic: number
     glass: number
     contrast: number
+    brightness: number
     bloom: number
     grain: number
     grainSize: number
@@ -74,7 +75,7 @@ interface AudioData {
     chrome: number
     pearl: number
     holographic: number
-    roughness: number  // NEW CONTROL
+    roughness: number
     
     // Modes
     wireframe: boolean
@@ -101,16 +102,16 @@ interface AudioData {
     ripple: boolean
     vortex: boolean
 
-    // AUDIO-DRIVEN DEFORMATION MULTIPLIERS (was: REAL PHYSICAL MERCURY PROPERTIES)
+    // REAL PHYSICAL MERCURY PROPERTIES
     viscosity: number
     surfaceTension: number
     density: number
     elasticity: number
     
-    // *** NEW: PUDDLE MODE ***
-    puddleMode: number  // NEW CONTROL: 0.0-3.0 for liquid spreading
+    // NEW: PUDDLE MODE
+    puddleMode: number
     
-    // *** ANIMATION SEQUENCE PROPERTIES ***
+    // ANIMATION SEQUENCE PROPERTIES
     backgroundIntensity?: number
     currentPhase?: string
     currentPattern?: string
@@ -119,55 +120,45 @@ interface AudioData {
     colorShift1?: number
     colorShift2?: number
     colorShift3?: number
-    autoColorCycle?: boolean  // NEW: Controls whether color cycling is active
-  autoShapeCycle?: boolean  // NEW: Controls whether shape cycling is active
-    beatCount?: number       // NEW: Beat count for animation sequence
+    autoColorCycle?: boolean
+    autoShapeCycle?: boolean
+    beatCount?: number
     
-    // *** MERCURY DROPLET CONTROLS ***
-    dropletCount?: number     // Number of mercury droplets
-    dropletSize?: number      // Base size of droplets
-    dropletSpeed?: number     // Movement speed multiplier
-    dropletSpread?: number    // How spread out across the page
-    dropletMagnetic?: number  // Magnetic attraction strength between droplets
-    dropletDramIntensity?: number // How dramatic their movements are
-    dropletShapeChange?: boolean   // Allow shape morphing on beats
-    dropletConnectionThickness?: number // Thickness of 3D goop connections
-    dropletConnectionOpacity?: number   // Opacity of connections
-    dropletRotationSpeed?: number       // Rotation speed multiplier
-    dropletScaleReactivity?: number     // How much they scale with audio
+    // MERCURY DROPLET CONTROLS
+    dropletCount?: number
+    dropletSize?: number
+    dropletSpeed?: number
+    dropletSpread?: number
+    dropletMagnetic?: number
+    dropletDramIntensity?: number
+    dropletShapeChange?: boolean
+    dropletConnectionThickness?: number
+    dropletConnectionOpacity?: number
+    dropletRotationSpeed?: number
+    dropletScaleReactivity?: number
     
-    // *** ENHANCED ABSTRACT DROPLET CONTROLS ***
-    dropletBrightness: number          // Overall brightness multiplier
-    dropletGlow: number                // Emissive glow intensity
-    dropletMetallic: number            // Metallic surface property
-    dropletRoughness: number           // Surface roughness (0=mirror, 1=rough)
-    dropletIridescence: number         // Rainbow color shifting
-    dropletPulse: number               // Beat-reactive pulsing intensity
-    dropletTrails: boolean            // Leave glowing trails behind movement
-    dropletFluid: number               // How fluid/liquid they appear
-    dropletCrystalline: number         // Crystalline faceted appearance
-    dropletPlasma: number              // Plasma energy effects
-    dropletHologram: number            // Holographic transparency effects
+    // ENHANCED ABSTRACT DROPLET CONTROLS
+    dropletBrightness: number
+    dropletGlow: number
+    dropletMetallic: number
+    dropletRoughness: number
+    dropletIridescence: number
+    dropletPulse: number
+    dropletTrails: boolean
+    dropletFluid: number
+    dropletCrystalline: number
+    dropletPlasma: number
+    dropletHologram: number
     
-
+    // AMBIENT SPACE MODE CONTROLS
+    ambientSpaceMode?: boolean
+    ambientIntensity?: number
+    ambientWaveCount?: number
+    ambientFlowSpeed?: number
+    ambientDepth?: number
     
-    // *** NEW: ABSTRACT INVERSION EFFECT ***
-    abstractSplit?: number             // 0.0-3.0 for dramatic blob inversion/splitting
-    
-    // *** NEW: ADVANCED VISUAL MODES ***
-    oceanMode?: boolean                // Ocean waves with realistic water physics
-    energyFieldMode?: boolean          // Electric field visualization with lightning
-    tornadoMode?: boolean              // Swirling vortex with particles and debris  
-    plasmaMode?: boolean               // Hot plasma with electric arcs and energy streams
-    galaxyMode?: boolean               // Spiral galaxy with rotating arms and star formation
-    crystalMode?: boolean              // Growing crystalline structures that react to audio
-    dnaMode?: boolean                  // Double helix structure that twists and morphs
-    atomicMode?: boolean               // Atomic nucleus with orbiting electrons
-    
-    // Advanced mode properties
-    modeIntensity?: number             // Overall intensity for advanced modes
-    modeSpeed?: number                 // Animation speed for advanced modes
-    modeComplexity?: number            // Complexity/detail level for advanced modes
+    // ABSTRACT INVERSION EFFECT
+    abstractSplit?: number
   }
   setControls: (controls: any) => void
   
@@ -246,12 +237,13 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     density: 1.2,          // Higher for more deformation
     elasticity: 1.0,       // Higher for more bounce
     
-    // *** NEW: PUDDLE MODE ***
+    // NEW: PUDDLE MODE
     puddleMode: 0.0,  // NEW CONTROL: 0.0-3.0 for liquid spreading
     
     // Enhanced visual controls
-    grain: 0.02,      // Reduced grain for cleaner look
-    contrast: 1.0,    // Reduced contrast for less white shine
+    grain: 0.08,      // Default film grain for texture
+    contrast: 1.8,    // Strong contrast for vivid colors
+    brightness: 1.2,  // Default brightness
     metallic: 0.4,    // Significantly reduced for less shiny
     split: 0.8,       // Good visible splitting
     glass: 0.1,       // Reduced glass effect
@@ -259,8 +251,8 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     shape: 'sphere',
     
     // Additional effects - Better defaults for testing
-    bloom: 0.02,     // Further reduced bloom for less overwhelming effect
-    grainSize: 0.8,  // Smaller grain
+    bloom: 0.15,     // Strong bloom for emotional glow
+    grainSize: 1.2,  // Default grain size
     colorBlend: 1.0,
     dotMatrix: false,
     goopiness: 1.8,  // Higher for more visible goopiness
@@ -271,7 +263,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     chrome: 0.05,    // Significantly reduced chrome
     pearl: 0.05,     // Reduced pearl
     holographic: 0.0,
-    roughness: 0.15,  // NEW CONTROL
+    roughness: 0.15,
     
     // Enhanced visual modes
     kaleidoscope: 0.0,
@@ -300,7 +292,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     dotSeparation: 1.0,
     rotationSpeed: 1.0,
     
-    // *** ANIMATION SEQUENCE PROPERTIES ***
+    // ANIMATION SEQUENCE PROPERTIES
     backgroundIntensity: undefined,
     currentPhase: undefined,
     currentPattern: undefined,
@@ -313,7 +305,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     autoShapeCycle: false,  // DISABLED BY DEFAULT - user can enable manually
     beatCount: undefined,  // NEW: Beat count for animation sequence
     
-    // *** MERCURY DROPLET CONTROLS ***
+    // MERCURY DROPLET CONTROLS
     dropletCount: 8,
     dropletSize: 0.8,
     dropletSpeed: 0.8,
@@ -326,7 +318,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     dropletRotationSpeed: 1.0,       // Rotation speed multiplier
     dropletScaleReactivity: 0.8,     // How much they scale with audio
     
-    // *** ENHANCED ABSTRACT DROPLET CONTROLS ***
+    // ENHANCED ABSTRACT DROPLET CONTROLS
     dropletBrightness: 1.5,          // Overall brightness multiplier
     dropletGlow: 0.8,                // Emissive glow intensity
     dropletMetallic: 0.9,            // Metallic surface property
@@ -339,25 +331,15 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     dropletPlasma: 0.0,              // Plasma energy effects
     dropletHologram: 0.0,            // Holographic transparency effects
     
-
+    // AMBIENT SPACE MODE CONTROLS
+    ambientSpaceMode: false,         // Toggle ambient space mode
+    ambientIntensity: 1.0,           // Overall ambient intensity
+    ambientWaveCount: 8,             // Number of wave patterns
+    ambientFlowSpeed: 1.0,           // Speed of wave motion
+    ambientDepth: 1.0,               // 3D depth of waves
     
-    // *** NEW: ABSTRACT INVERSION EFFECT ***
+    // ABSTRACT INVERSION EFFECT
     abstractSplit: 0.0,              // 0.0-3.0 for dramatic blob inversion/splitting
-    
-    // *** NEW: ADVANCED VISUAL MODES ***
-    oceanMode: false,                // Ocean waves with realistic water physics
-    energyFieldMode: false,          // Electric field visualization with lightning
-    tornadoMode: false,              // Swirling vortex with particles and debris  
-    plasmaMode: false,               // Hot plasma with electric arcs and energy streams
-    galaxyMode: false,               // Spiral galaxy with rotating arms and star formation
-    crystalMode: false,              // Growing crystalline structures that react to audio
-    dnaMode: false,                  // Double helix structure that twists and morphs
-    atomicMode: false,               // Atomic nucleus with orbiting electrons
-    
-    // Advanced mode properties
-    modeIntensity: 1.0,              // Overall intensity for advanced modes
-    modeSpeed: 1.0,                  // Animation speed for advanced modes
-    modeComplexity: 1.0,             // Complexity/detail level for advanced modes
   })
 
   // Color palettes for auto cycling

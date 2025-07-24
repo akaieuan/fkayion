@@ -6,67 +6,70 @@ const linksData = [
   { 
     label: 'Ubik Studio', 
     url: 'https://ubik.studio',
-    type: 'melting' as const,
-    shape: 'sphere' as const
+    color: '#ff4422',
+    hoverColor: '#ff6644'
   },
   { 
     label: 'App Ubik Studio', 
     url: 'https://app.ubik.studio',
-    type: 'fracturing' as const,
-    shape: 'cube' as const
+    color: '#4488ff',
+    hoverColor: '#66aaff'
   },
   { 
     label: 'Instagram', 
     url: 'https://instagram.com/akaieuan',
-    type: 'flowing' as const,
-    shape: 'cylinder' as const
+    color: '#22dd88',
+    hoverColor: '#44ffaa'
   },
   { 
     label: 'Spotify', 
     url: 'https://open.spotify.com/artist/yourartist',
-    type: 'melting' as const,
-    shape: 'cone' as const
+    color: '#ffaa22',
+    hoverColor: '#ffcc44'
   },
   { 
     label: 'SoundCloud', 
     url: 'https://soundcloud.com/youraccount',
-    type: 'fracturing' as const,
-    shape: 'torus' as const
+    color: '#aa22ff',
+    hoverColor: '#cc44ff'
   },
   { 
     label: 'Bandcamp', 
     url: 'https://yourname.bandcamp.com',
-    type: 'flowing' as const,
-    shape: 'torusKnot' as const
+    color: '#22aaff',
+    hoverColor: '#44ccff'
   },
   { 
     label: 'YouTube', 
     url: 'https://youtube.com/yourchannel',
-    type: 'melting' as const,
-    shape: 'octahedron' as const
+    color: '#ff2288',
+    hoverColor: '#ff44aa'
   },
   { 
     label: 'Contact', 
     url: 'mailto:hello@ubik.studio',
-    type: 'fracturing' as const,
-    shape: 'dodecahedron' as const
+    color: '#88ff22',
+    hoverColor: '#aaff44'
   }
 ]
 
-// Server-side static configuration
-const sceneConfig = {
-  camera: { position: [0, 0, 28] as [number, number, number], fov: 85 },
-  lighting: {
-    ambient: { intensity: 0.3, color: "#ffffff" },
-    directional: { position: [15, 12, 8] as [number, number, number], intensity: 0.5, color: "#ffffff" }
+// Server-side 2D layout configuration
+const layoutConfig = {
+  fog: {
+    particleCount: 120,
+    colors: ['#1a1a2e', '#16213e', '#0f3460', '#533483', '#7209b7'],
+    mouseInfluence: 150,
+    viscosity: 0.92
   },
-  cubes: {
-    count: 8,
-    sizeRange: [1.4, 2.2] as [number, number],
+  links: {
+    containerWidth: '90%',
+    maxWidth: '1200px',
+    gridCols: 4,
+    spacing: '2rem',
     positions: [
-      [-16, 4, 1], [18, 5, -2], [-12, -4, 4], [14, -5, -3],
-      [-6, 5, -1], [10, 2, 2], [0, 1, 0], [6, -2, 3]
-    ] as [number, number, number][]
+      { x: 20, y: 25 }, { x: 40, y: 20 }, { x: 60, y: 25 }, { x: 80, y: 20 },
+      { x: 25, y: 60 }, { x: 45, y: 70 }, { x: 65, y: 55 }, { x: 85, y: 85 }
+    ]
   }
 }
 
@@ -78,7 +81,7 @@ export const metadata = {
 
 export default function LinksPage() {
   return (
-    <div className="h-screen w-screen relative overflow-hidden bg-black">
+    <div className="h-screen w-screen relative bg-black" style={{ overflow: 'visible' }}>
       <Suspense fallback={
         <div className="h-screen w-screen flex items-center justify-center bg-black">
           <div className="text-white text-xl">Loading experience...</div>
@@ -86,7 +89,7 @@ export default function LinksPage() {
       }>
         <LinksClient 
           linksData={linksData}
-          sceneConfig={sceneConfig}
+          layoutConfig={layoutConfig}
         />
       </Suspense>
     </div>

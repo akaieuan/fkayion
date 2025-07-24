@@ -89,7 +89,8 @@ a:focus {
 /* Hide canvas overflow */
 canvas {
   display: block;
-  max-width: 100%;
+  max-width: none;
+  overflow: visible;
 }
 
 /* Smooth font rendering */

@@ -32,7 +32,7 @@ const orbsData = [
     size: 1.3
   },
   {
-    id: 'music',
+    id: '4UH.NYC',
     component: 'LiquidMorphOrb',
     position: [4.5, -1, 0] as [number, number, number],
     colors: {
@@ -41,8 +41,8 @@ const orbsData = [
       rim: '#66cc99'
     },
     route: '/Music',
-    label: 'Music',
-    description: 'My Music (released and unreleased)',
+    label: '4UH.NYC',
+    description: '4UH.NYC releases, unreleased, and other health related content',
     size: 1.0
   }
 ]

@@ -179,19 +179,19 @@ export function HomeClient({ orbsData, sceneConfig }: HomeClientProps) {
       
       {/* Orb Labels - Only show when hovered */}
       {hoveredOrbData && (
-        <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 z-20 text-center transition-all duration-500">
-          <h3 className="text-4xl font-bold text-white mb-3 tracking-wider">
+        <div className="absolute bottom-40 left-1/2 transform -translate-x-1/2 z-20 text-center transition-all duration-500">
+          <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 tracking-wider">
             {hoveredOrbData.label}
           </h3>
-          <p className="text-xl text-white/60">
+          <p className="text-base md:text-lg text-white/60 max-w-md">
             {hoveredOrbData.description}
           </p>
         </div>
       )}
       
       {/* Instructions */}
-      <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20 text-center">
-        <p className="text-lg text-white/30">
+      <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 z-20 text-center">
+        <p className="text-sm md:text-base text-white/30">
           {hoveredOrb ? 'Click to enter' : 'Hover to see the transformation'}
         </p>
       </div>

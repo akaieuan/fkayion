@@ -1,330 +1,214 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useRef, useState, useEffect } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import * as THREE from 'three'
-
-import { MeltingCube } from '../../components/link-comps/melting-cube'
-import { FracturingCube } from '../../components/link-comps/fracturing-cube'
-import { FlowingCube } from '../../components/link-comps/flowing-cube'
-import { MeltingSphere } from '../../components/link-comps/melting-sphere'
-import { FracturingCylinder } from '../../components/link-comps/fracturing-cylinder'
-import { FlowingCone } from '../../components/link-comps/flowing-cone'
-import { MeltingTorus } from '../../components/link-comps/melting-torus'
-import { FlowingTorusKnot } from '../../components/link-comps/flowing-torus-knot'
-import { FracturingOctahedron } from '../../components/link-comps/fracturing-octahedron'
-import { MeltingDodecahedron } from '../../components/link-comps/melting-dodecahedron'
+import { useState } from 'react'
+import { DynamicFogBackground } from '../../components/link-comps/dynamic-fog-background'
+import { AnimatedLinkObject } from '../../components/link-comps/animated-link-object'
+import { PerformanceProvider, usePerformance } from '../../components/link-comps/performance-controller'
 
 // Types for server data
 interface LinkData {
   label: string
   url: string
-  type: 'melting' | 'fracturing' | 'flowing'
-  shape: 'sphere' | 'cube' | 'cylinder' | 'cone' | 'torus' | 'torusKnot' | 'octahedron' | 'dodecahedron'
+  color: string
+  hoverColor: string
 }
 
-interface SceneConfig {
-  camera: { position: [number, number, number], fov: number }
-  lighting: {
-    ambient: { intensity: number, color: string }
-    directional: { position: [number, number, number], intensity: number, color: string }
+interface LayoutConfig {
+  fog: {
+    particleCount: number
+    colors: string[]
+    mouseInfluence: number
+    viscosity: number
   }
-  cubes: {
-    count: number
-    sizeRange: [number, number]
-    positions: [number, number, number][]
+  links: {
+    containerWidth: string
+    maxWidth: string
+    gridCols: number
+    spacing: string
+    positions: { x: number, y: number }[]
   }
 }
 
 interface LinksClientProps {
   linksData: LinkData[]
-  sceneConfig: SceneConfig
+  layoutConfig: LayoutConfig
 }
 
-// Animated typing text component
-function TypingText({ text, isVisible }: { text: string, isVisible: boolean }) {
-  const [displayText, setDisplayText] = useState('')
-  const [currentIndex, setCurrentIndex] = useState(0)
+// Removed RevealButton component - using simple top button instead
 
-  useEffect(() => {
-    if (!isVisible) {
-      setDisplayText('')
-      setCurrentIndex(0)
-      return
-    }
-
-    if (currentIndex < text.length) {
-      const timer = setTimeout(() => {
-        setDisplayText(prev => prev + text[currentIndex])
-        setCurrentIndex(prev => prev + 1)
-      }, 80) // Typing speed
-
-      return () => clearTimeout(timer)
-    }
-  }, [text, isVisible, currentIndex])
-
-  if (!isVisible) return null
-
+// Instructions component
+function Instructions({ isRevealed }: { isRevealed: boolean }) {
   return (
-    <div className="absolute top-8 left-1/2 transform -translate-x-1/2 z-20 text-center">
-      <h2 className="text-2xl md:text-3xl font-bold text-white tracking-wide">
-        {displayText}
-        <span className="animate-pulse">|</span>
-      </h2>
+    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 text-center">
+      <p className="text-xs md:text-sm text-white/60">
+        {isRevealed ? 'Click on any link to visit' : 'Click goopd to reveal all links'}
+      </p>
     </div>
   )
 }
 
-// Abstract particles component
-function AbstractParticles() {
-  const count = 80
-  const particles = useRef<THREE.Points>(null)
+// Performance indicator component
+function PerformanceIndicator() {
+  const { frameRate, isPerformanceMode, config } = usePerformance()
   
-  const positions = new Float32Array(count * 3)
-  const colors = new Float32Array(count * 3)
-  const sizes = new Float32Array(count)
-  const velocities = new Float32Array(count * 3)
-  
-  for (let i = 0; i < count; i++) {
-    positions[i * 3] = (Math.random() - 0.5) * 50
-    positions[i * 3 + 1] = (Math.random() - 0.5) * 40
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 40
-    
-    velocities[i * 3] = (Math.random() - 0.5) * 0.008
-    velocities[i * 3 + 1] = (Math.random() - 0.5) * 0.006
-    velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.005
-    
-    const blueVariation = Math.random()
-    if (blueVariation < 0.4) {
-      colors[i * 3] = 0.4; colors[i * 3 + 1] = 0.7; colors[i * 3 + 2] = 1.0
-    } else if (blueVariation < 0.7) {
-      colors[i * 3] = 0.2; colors[i * 3 + 1] = 0.8; colors[i * 3 + 2] = 0.9
-    } else {
-      colors[i * 3] = 0.6; colors[i * 3 + 1] = 0.4; colors[i * 3 + 2] = 1.0
-    }
-    
-    sizes[i] = Math.random() * 0.12 + 0.04
-  }
-  
-  useFrame((state) => {
-    if (!particles.current) return
-    
-    const time = state.clock.elapsedTime
-    const positions = particles.current.geometry.attributes.position
-    
-    for (let i = 0; i < count; i++) {
-      const i3 = i * 3
-      
-      positions.array[i3] += velocities[i3] + Math.sin(time * 0.3 + i) * 0.003
-      positions.array[i3 + 1] += velocities[i3 + 1] + Math.cos(time * 0.25 + i) * 0.002
-      positions.array[i3 + 2] += velocities[i3 + 2] + Math.sin(time * 0.4 + i) * 0.001
-      
-      if (Math.abs(positions.array[i3]) > 25) {
-        positions.array[i3] = -positions.array[i3] * 0.5
-        velocities[i3] *= -0.8
-      }
-      if (Math.abs(positions.array[i3 + 1]) > 20) {
-        positions.array[i3 + 1] = -positions.array[i3 + 1] * 0.5
-        velocities[i3 + 1] *= -0.8
-      }
-      if (Math.abs(positions.array[i3 + 2]) > 20) {
-        positions.array[i3 + 2] = -positions.array[i3 + 2] * 0.5
-        velocities[i3 + 2] *= -0.8
-      }
-    }
-    
-    positions.needsUpdate = true
-  })
-
   return (
-    <points ref={particles}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
-        <bufferAttribute attach="attributes-color" count={count} array={colors} itemSize={3} />
-        <bufferAttribute attach="attributes-size" count={count} array={sizes} itemSize={1} />
-      </bufferGeometry>
-      <pointsMaterial 
-        size={0.1} transparent opacity={0.4} sizeAttenuation vertexColors
-        blending={THREE.AdditiveBlending}
-      />
-    </points>
+    <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white p-2 rounded text-xs font-mono">
+      <div>FPS: {frameRate}</div>
+      <div>Quality: {config.animationQuality}</div>
+      {isPerformanceMode && <div className="text-yellow-400">⚡ Performance Mode</div>}
+    </div>
   )
 }
 
-// Scene component
-function BlueAbstractScene({ config }: { config: SceneConfig['lighting'] }) {
-  const lightsRef = useRef<THREE.Group>(null)
-  
-  useFrame((state) => {
-    if (!lightsRef.current) return
-    
-    const time = state.clock.elapsedTime
-    lightsRef.current.rotation.y = time * 0.02
-    lightsRef.current.rotation.x = Math.sin(time * 0.1) * 0.03
-  })
-  
-  return (
-    <>
-      <ambientLight intensity={config.ambient.intensity} color={config.ambient.color} />
-      
-      <group ref={lightsRef}>
-        <pointLight position={[-10, 8, 6]} intensity={3.5} color="#ff4400" distance={25} />
-        <pointLight position={[10, -6, 7]} intensity={3.0} color="#44aaff" distance={22} />
-        <pointLight position={[0, 10, -8]} intensity={3.2} color="#22ddaa" distance={20} />
-        <pointLight position={[8, 0, 10]} intensity={2.5} color="#ffffff" distance={18} />
-        <pointLight position={[-8, -8, 5]} intensity={2.8} color="#ffaa44" distance={20} />
-      </group>
-      
-      <directionalLight 
-        position={config.directional.position}
-        intensity={config.directional.intensity}
-        color={config.directional.color}
-        castShadow
-      />
-      
-      <AbstractParticles />
-    </>
-  )
-}
-
-// Enhanced shape component with hover states
-function HoverableLinkShape({ 
-  position, 
-  size, 
-  type, 
-  shape,
-  link, 
-  onHover, 
-  isHovered 
-}: {
-  position: [number, number, number]
-  size: number
-  type: 'melting' | 'fracturing' | 'flowing'
-  shape: 'sphere' | 'cube' | 'cylinder' | 'cone' | 'torus' | 'torusKnot' | 'octahedron' | 'dodecahedron'
-  link: LinkData
-  onHover: (hovered: boolean) => void
-  isHovered: boolean
-}) {
-  const handleClick = () => {
-    if (link.url.startsWith('mailto:')) {
-      window.location.href = link.url
-    } else {
-      window.open(link.url, '_blank')
-    }
-  }
-
-  // Map type + shape to component
-  const getShapeComponent = () => {
-    const key = `${type}-${shape}`
-    switch (key) {
-      case 'melting-sphere': return MeltingSphere
-      case 'fracturing-cube': return FracturingCube
-      case 'flowing-cylinder': return FracturingCylinder // Use fracturing logic for cylinder
-      case 'melting-cone': return FlowingCone // Use flowing logic for cone
-      case 'fracturing-torus': return MeltingTorus // Use melting logic for torus
-      case 'flowing-torusKnot': return FlowingTorusKnot
-      case 'melting-octahedron': return FracturingOctahedron // Use fracturing logic for octahedron
-      case 'fracturing-dodecahedron': return MeltingDodecahedron // Use melting logic for dodecahedron
-      // Fallbacks
-      default:
-        if (type === 'melting') return MeltingCube
-        if (type === 'fracturing') return FracturingCube
-        return FlowingCube
-    }
-  }
-
-  const ShapeComponent = getShapeComponent()
-
-  return (
-    <group
-      onPointerEnter={() => onHover(true)}
-      onPointerLeave={() => onHover(false)}
-      onClick={handleClick}
-    >
-      <ShapeComponent
-        position={position}
-        size={size}
-        intensity={isHovered ? 1.0 : 0.3}
-        isActive={isHovered}
-      />
-    </group>
-  )
-}
-
-export function LinksClient({ linksData, sceneConfig }: LinksClientProps) {
+function LinksClientInner({ linksData, layoutConfig }: LinksClientProps) {
   const router = useRouter()
-  const [hoveredCube, setHoveredCube] = useState<number | null>(null)
-  
-  const hoveredLink = hoveredCube !== null ? linksData[hoveredCube] : null
-  
-  // Generate shape data from server config
-  const shapes = sceneConfig.cubes.positions.map((position, index) => ({
-    position,
-    size: sceneConfig.cubes.sizeRange[0] + 
-          (Math.random() * (sceneConfig.cubes.sizeRange[1] - sceneConfig.cubes.sizeRange[0])),
-    type: linksData[index % linksData.length].type,
-    shape: linksData[index % linksData.length].shape,
-    link: linksData[index % linksData.length]
-  }))
+  const [isRevealed, setIsRevealed] = useState(false)
+  const [hoveredLink, setHoveredLink] = useState<number | null>(null)
+  const [isDotMatrix, setIsDotMatrix] = useState(false)
+  const [currentColors, setCurrentColors] = useState(linksData)
+  const [fogColors, setFogColors] = useState(layoutConfig.fog.colors)
+  const { config } = usePerformance()
+
+  const toggleReveal = () => {
+    setIsRevealed(!isRevealed)
+  }
+
+  const toggleDotMatrix = () => {
+    console.log('Toggling dot matrix mode, current:', isDotMatrix) // Debug log
+    setIsDotMatrix(!isDotMatrix)
+  }
+
+  // Helper function to convert HSL to hex
+  const hslToHex = (h: number, s: number, l: number) => {
+    l /= 100
+    const a = s * Math.min(l, 1 - l) / 100
+    const f = (n: number) => {
+      const k = (n + h / 30) % 12
+      const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1)
+      return Math.round(255 * color).toString(16).padStart(2, '0')
+    }
+    return `#${f(0)}${f(8)}${f(4)}`
+  }
+
+  const randomizeColors = () => {
+    console.log('Randomizing colors...') // Debug log
+    
+    // Generate random colors for links
+    const newColors = linksData.map(link => {
+      const baseHue = Math.random() * 360
+      const saturation = 70 + Math.random() * 30 // 70-100%
+      const lightness = 45 + Math.random() * 20 // 45-65%
+      const hoverLightness = Math.min(85, lightness + 20)
+      
+      const color = hslToHex(baseHue, saturation, lightness)
+      const hoverColor = hslToHex(baseHue, saturation, hoverLightness)
+      
+      return {
+        ...link,
+        color,
+        hoverColor
+      }
+    })
+    setCurrentColors(newColors)
+
+    // Generate random fog colors
+    const newFogColors = Array.from({ length: 5 }, () => {
+      const hue = Math.random() * 360
+      const saturation = 40 + Math.random() * 40 // 40-80%
+      const lightness = 15 + Math.random() * 25 // 15-40%
+      return hslToHex(hue, saturation, lightness)
+    })
+    setFogColors(newFogColors)
+    
+    console.log('New colors:', newColors) // Debug log
+    console.log('New fog colors:', newFogColors) // Debug log
+  }
 
   return (
-    <>
+    <div className="relative w-full h-full" style={{ overflow: 'visible' }}>
+      {/* Dynamic fog background (performance optimized) */}
+      <DynamicFogBackground 
+        particleCount={Math.floor(layoutConfig.fog.particleCount * config.geometryDetail)}
+        colors={fogColors}
+        mouseInfluence={layoutConfig.fog.mouseInfluence * config.shaderComplexity}
+        viscosity={layoutConfig.fog.viscosity}
+      />
+
+      {/* Performance indicator */}
+      <PerformanceIndicator />
+
       {/* Back button */}
       <button
         onClick={() => router.push('/')}
-        className="absolute top-6 left-6 z-20 px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-lg transition-all duration-300 text-white text-sm"
+        className="absolute top-6 left-6 z-30 px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-lg transition-all duration-300 text-white text-sm"
       >
         ← Home
       </button>
 
-      {/* Animated typing text - centered */}
-      <TypingText 
-        text={hoveredLink?.label || ''} 
-        isVisible={hoveredLink !== null} 
-      />
-
-      {/* Instructions at bottom - centered */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 text-center">
-        <p className="text-sm text-white/40">
-          {hoveredLink ? 'Click to visit' : 'Hover over shapes to explore'}
-        </p>
-      </div>
-      
-      {/* 3D Scene - full width */}
-      <Canvas
-        camera={sceneConfig.camera}
-        style={{ 
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          zIndex: 10
-        }}
-        gl={{ 
-          antialias: true,
-          alpha: true,
-          toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.1
-        }}
-        shadows
+      {/* Magnt button - left of goopd */}
+      <button
+        onClick={toggleDotMatrix}
+        className={`absolute top-6 left-1/2 transform -translate-x-1/2 translate-x-[-120px] z-30 px-4 py-3 backdrop-blur-sm border rounded-lg transition-all duration-300 text-white text-sm font-medium ${
+          isDotMatrix 
+            ? 'bg-white/30 border-white/40 text-white' 
+            : 'bg-white/10 hover:bg-white/20 border-white/20'
+        }`}
       >
-        <BlueAbstractScene config={sceneConfig.lighting} />
-        
-        {shapes.map((shape, index) => (
-          <HoverableLinkShape
-            key={index}
-            position={shape.position}
-            size={shape.size}
-            type={shape.type}
-            shape={shape.shape}
-            link={shape.link}
-            onHover={(hovered) => setHoveredCube(hovered ? index : null)}
-            isHovered={hoveredCube === index}
+        magnt
+      </button>
+
+      {/* Top goopd button */}
+      <button
+        onClick={toggleReveal}
+        className="absolute top-6 left-1/2 transform -translate-x-1/2 z-30 px-4 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-lg transition-all duration-300 text-white text-sm font-medium"
+      >
+        goopd
+      </button>
+
+      {/* Color swap button - right of goopd */}
+      <button
+        onClick={randomizeColors}
+        className="absolute top-6 left-1/2 transform -translate-x-1/2 translate-x-[120px] z-30 px-4 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-lg transition-all duration-300 text-white text-sm font-medium"
+      >
+        colrswap
+      </button>
+
+      {/* Instructions */}
+      <Instructions isRevealed={isRevealed} />
+
+      {/* Link objects container */}
+      <div className="absolute inset-0 z-20" style={{ overflow: 'visible' }}>
+        {currentColors.map((link, index) => (
+          <AnimatedLinkObject
+            key={`${link.label}-${link.color}-${index}`}
+            label={link.label}
+            url={link.url}
+            color={link.color}
+            hoverColor={link.hoverColor}
+            position={layoutConfig.links.positions[index]}
+            onHover={(hovered) => setHoveredLink(hovered ? index : null)}
+            isHovered={isRevealed || hoveredLink === index}
+            isDotMatrix={isDotMatrix}
           />
         ))}
-      </Canvas>
-    </>
+      </div>
+
+      {/* Subtle gradient overlay for depth */}
+      <div 
+        className="absolute inset-0 pointer-events-none z-10"
+        style={{
+          background: 'radial-gradient(circle at 50% 50%, transparent 20%, rgba(0,0,0,0.3) 100%)'
+        }}
+      />
+    </div>
+  )
+}
+
+export function LinksClient({ linksData, layoutConfig }: LinksClientProps) {
+  return (
+    <PerformanceProvider>
+      <LinksClientInner linksData={linksData} layoutConfig={layoutConfig} />
+    </PerformanceProvider>
   )
 } 
