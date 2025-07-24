@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-  /* config options here */
+  transpilePackages: ["@betting-chatbot/ui"],
 }
 
-module.exports = nextConfig
+module.exports = nextConfig 
