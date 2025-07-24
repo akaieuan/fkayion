@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import React, { Suspense } from 'react'
 import { HomeClient } from './home-client'
 
 // Server-side static data
@@ -40,7 +40,7 @@ const orbsData = [
       secondary: '#44ddaa',
       rim: '#66cc99'
     },
-    route: '/Music',
+    route: '/4UH',
     label: '4UH.NYC',
     description: '4UH.NYC releases, unreleased, and other health related content',
     size: 1.0
