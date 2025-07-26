@@ -6,7 +6,7 @@ const orbsData = [
   {
     id: 'links',
     component: 'MetallicMeltingOrb',
-    position: [-4.5, 1, 0] as [number, number, number],
+    position: [0, 1.5, 0] as [number, number, number], // Main focus - center position, elevated
     colors: {
       primary: '#cc3333',
       secondary: '#ff6644',
@@ -15,12 +15,12 @@ const orbsData = [
     route: '/Links',
     label: 'Links',
     description: 'Other Stuff 4U',
-    size: 1.1
+    size: 1.3 // Larger size for main focus
   },
   {
     id: 'visualizer',
     component: 'CrystallineShatterOrb',
-    position: [0, 0, 0] as [number, number, number],
+    position: [-4.5, 0, 0] as [number, number, number], // Moved to left, centered height
     colors: {
       primary: '#2266bb',
       secondary: '#44aaff',
@@ -29,12 +29,12 @@ const orbsData = [
     route: '/Visualizer-Eden',
     label: 'Visualizer Eden',
     description: 'upload your music and visualize it (still in development)',
-    size: 1.3
+    size: 1.1 // Slightly smaller as supporting element
   },
   {
     id: '4UH.NYC',
     component: 'LiquidMorphOrb',
-    position: [4.5, -1, 0] as [number, number, number],
+    position: [4.5, 0, 0] as [number, number, number], // Moved to right side, centered height
     colors: {
       primary: '#228866',
       secondary: '#44ddaa',
@@ -43,7 +43,7 @@ const orbsData = [
     route: '/4UH',
     label: '4UH.NYC',
     description: '4UH.NYC releases, unreleased, and other health related content',
-    size: 1.0
+    size: 1.0 // Smallest as supporting element
   }
 ]
 

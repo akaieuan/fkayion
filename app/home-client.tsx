@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
@@ -154,11 +154,44 @@ function Scene({ config }: { config: SceneConfig }) {
   )
 }
 
+// Hook for detecting mobile screen size
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768) // md breakpoint
+    }
+    
+    checkIsMobile()
+    window.addEventListener('resize', checkIsMobile)
+    
+    return () => window.removeEventListener('resize', checkIsMobile)
+  }, [])
+
+  return isMobile
+}
+
 export function HomeClient({ orbsData, sceneConfig }: HomeClientProps) {
   const router = useRouter()
   const [hoveredOrb, setHoveredOrb] = useState<string | null>(null)
+  const [currentMobileOrbIndex, setCurrentMobileOrbIndex] = useState(0)
+  const isMobile = useIsMobile()
   
-  const hoveredOrbData = orbsData.find(orb => orb.id === hoveredOrb)
+  // Auto-switch orbs on mobile every 5 seconds
+  useEffect(() => {
+    if (!isMobile) return
+    
+    const interval = setInterval(() => {
+      setCurrentMobileOrbIndex((prev) => (prev + 1) % orbsData.length)
+    }, 5000)
+    
+    return () => clearInterval(interval)
+  }, [isMobile, orbsData.length])
+
+  // Set active orb based on mobile state
+  const activeOrbId = isMobile ? orbsData[currentMobileOrbIndex].id : hoveredOrb
+  const activeOrbData = orbsData.find(orb => orb.id === activeOrbId)
   
   // Component mapping
   const getOrbComponent = (componentName: string) => {
@@ -170,29 +203,94 @@ export function HomeClient({ orbsData, sceneConfig }: HomeClientProps) {
     }
   }
 
+  // Mobile navigation functions
+  const goToPrevOrb = () => {
+    setCurrentMobileOrbIndex((prev) => (prev - 1 + orbsData.length) % orbsData.length)
+  }
+
+  const goToNextOrb = () => {
+    setCurrentMobileOrbIndex((prev) => (prev + 1) % orbsData.length)
+  }
+
+  const goToOrb = (index: number) => {
+    setCurrentMobileOrbIndex(index)
+  }
+
   return (
     <>
-      {/* Title */}
-      <div className="absolute top-20 left-1/2 transform -translate-x-1/2 z-20 text-center">
-         
-      </div>
+      {/* Mobile Navigation Arrows - Only visible on mobile */}
+      {isMobile && (
+        <>
+          {/* Left Arrow */}
+          <button
+            onClick={goToPrevOrb}
+            className="absolute bottom-20 left-8 z-30 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center transition-all duration-300"
+          >
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          {/* Right Arrow */}
+          <button
+            onClick={goToNextOrb}
+            className="absolute bottom-20 right-8 z-30 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center transition-all duration-300"
+          >
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          {/* Dot indicators */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30 flex space-x-3">
+            {orbsData.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToOrb(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === currentMobileOrbIndex 
+                    ? 'bg-white scale-125' 
+                    : 'bg-white/40 hover:bg-white/60'
+                }`}
+              />
+            ))}
+          </div>
+        </>
+      )}
       
-      {/* Orb Labels - Only show when hovered */}
-      {hoveredOrbData && (
-        <div className="absolute bottom-40 left-1/2 transform -translate-x-1/2 z-20 text-center transition-all duration-500">
-          <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 tracking-wider">
-            {hoveredOrbData.label}
+      {/* Orb Labels - Smaller text and positioned higher to avoid overlap */}
+      {activeOrbData && (
+        <div className={`absolute z-20 text-center transition-all duration-500 ${
+          isMobile 
+            ? 'bottom-40 left-1/2 transform -translate-x-1/2' 
+            : 'bottom-32 left-1/2 transform -translate-x-1/2'
+        }`}>
+          <h3 className={`font-bold text-white mb-1 tracking-wider ${
+            isMobile ? 'text-lg' : 'text-xl md:text-2xl'
+          }`}>
+            {activeOrbData.label}
           </h3>
-          <p className="text-base md:text-lg text-white/60 max-w-md">
-            {hoveredOrbData.description}
+          <p className={`text-white/60 max-w-sm px-4 ${
+            isMobile ? 'text-sm' : 'text-sm md:text-base'
+          }`}>
+            {activeOrbData.description}
           </p>
         </div>
       )}
       
-      {/* Instructions */}
-      <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 z-20 text-center">
-        <p className="text-sm md:text-base text-white/30">
-          {hoveredOrb ? 'Click to enter' : 'Hover to see the transformation'}
+      {/* Instructions - Smaller and positioned higher */}
+      <div className={`absolute z-20 text-center ${
+        isMobile 
+          ? 'bottom-2 left-1/2 transform -translate-x-1/2' 
+          : 'bottom-8 left-1/2 transform -translate-x-1/2'
+      }`}>
+        <p className={`text-white/30 ${
+          isMobile ? 'text-xs' : 'text-xs md:text-sm'
+        }`}>
+          {isMobile 
+            ? 'Tap arrows to navigate • Touch center to enter' 
+            : (activeOrbId ? 'Click to enter' : 'Hover to see the transformation')
+          }
         </p>
       </div>
       
@@ -217,17 +315,26 @@ export function HomeClient({ orbsData, sceneConfig }: HomeClientProps) {
       >
         <Scene config={sceneConfig} />
         
-        {orbsData.map((orb) => {
+        {orbsData.map((orb, index) => {
           const OrbComponent = getOrbComponent(orb.component)
+          
+          // On mobile, only show the current orb
+          if (isMobile && index !== currentMobileOrbIndex) {
+            return null
+          }
+          
+          // Mobile positioning: all orbs at same height and higher up
+          const mobilePosition: [number, number, number] = [0, 1, 0] // Centered and elevated
+          
           return (
             <OrbComponent
               key={orb.id}
-              position={orb.position}
+              position={isMobile ? mobilePosition : orb.position}
               colors={orb.colors}
-              size={orb.size}
+              size={isMobile ? orb.size * 1.2 : orb.size} // Slightly larger on mobile
               onClick={() => router.push(orb.route)}
-              isHovered={hoveredOrb === orb.id}
-              onHover={(hovered) => setHoveredOrb(hovered ? orb.id : null)}
+              isHovered={activeOrbId === orb.id}
+              onHover={(hovered) => !isMobile && setHoveredOrb(hovered ? orb.id : null)}
             />
           )
         })}

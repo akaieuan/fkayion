@@ -1,13 +1,10 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { DynamicFogBackground } from '../../components/link-comps/dynamic-fog-background'
-import { AnimatedLinkObject } from '../../components/link-comps/animated-link-object'
-import { PerformanceProvider, usePerformance } from '../../components/link-comps/performance-controller'
+import { useState, useEffect } from 'react'
+import { UnifiedDynamicOrb } from '../../components/link-comps/unified-dynamic-orb'
 
-// Types for server data
-interface LinkData {
+interface Link {
   label: string
   url: string
   color: string
@@ -15,200 +12,215 @@ interface LinkData {
 }
 
 interface LayoutConfig {
-  fog: {
-    particleCount: number
-    colors: string[]
-    mouseInfluence: number
-    viscosity: number
+  mobileView: {
+    linksPerPage: number
+    autoSwitchInterval: number
   }
-  links: {
-    containerWidth: string
-    maxWidth: string
-    gridCols: number
-    spacing: string
-    positions: { x: number, y: number }[]
+  fog: {
+    colors: string[]
   }
 }
 
 interface LinksClientProps {
-  linksData: LinkData[]
+  linksData: Link[]
   layoutConfig: LayoutConfig
 }
 
-// Removed RevealButton component - using simple top button instead
+// Custom hook for mobile detection
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false)
 
-// Instructions component
-function Instructions({ isRevealed }: { isRevealed: boolean }) {
-  return (
-    <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 text-center">
-      <p className="text-xs md:text-sm text-white/60">
-        {isRevealed ? 'Click on any link to visit' : 'Click goopd to reveal all links'}
-      </p>
-    </div>
-  )
-}
-
-// Performance indicator component
-function PerformanceIndicator() {
-  const { frameRate, isPerformanceMode, config } = usePerformance()
-  
-  return (
-    <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white p-2 rounded text-xs font-mono">
-      <div>FPS: {frameRate}</div>
-      <div>Quality: {config.animationQuality}</div>
-      {isPerformanceMode && <div className="text-yellow-400">⚡ Performance Mode</div>}
-    </div>
-  )
-}
-
-function LinksClientInner({ linksData, layoutConfig }: LinksClientProps) {
-  const router = useRouter()
-  const [isRevealed, setIsRevealed] = useState(false)
-  const [hoveredLink, setHoveredLink] = useState<number | null>(null)
-  const [isDotMatrix, setIsDotMatrix] = useState(false)
-  const [currentColors, setCurrentColors] = useState(linksData)
-  const [fogColors, setFogColors] = useState(layoutConfig.fog.colors)
-  const { config } = usePerformance()
-
-  const toggleReveal = () => {
-    setIsRevealed(!isRevealed)
-  }
-
-  const toggleDotMatrix = () => {
-    console.log('Toggling dot matrix mode, current:', isDotMatrix) // Debug log
-    setIsDotMatrix(!isDotMatrix)
-  }
-
-  // Helper function to convert HSL to hex
-  const hslToHex = (h: number, s: number, l: number) => {
-    l /= 100
-    const a = s * Math.min(l, 1 - l) / 100
-    const f = (n: number) => {
-      const k = (n + h / 30) % 12
-      const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1)
-      return Math.round(255 * color).toString(16).padStart(2, '0')
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
     }
-    return `#${f(0)}${f(8)}${f(4)}`
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  return isMobile
+}
+
+export function LinksClient({ linksData, layoutConfig }: LinksClientProps) {
+  const router = useRouter()
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null)
+  const [currentMobileLinkIndex, setCurrentMobileLinkIndex] = useState(0)
+  const isMobile = useIsMobile()
+
+  // Auto-switch for mobile
+  useEffect(() => {
+    if (!isMobile) return
+
+    const interval = setInterval(() => {
+      setCurrentMobileLinkIndex((prev) => (prev + 1) % linksData.length)
+    }, layoutConfig.mobileView.autoSwitchInterval)
+
+    return () => clearInterval(interval)
+  }, [isMobile, linksData.length, layoutConfig.mobileView.autoSwitchInterval])
+
+  const handleLinkClick = (url: string) => {
+    window.open(url, '_blank')
   }
 
-  const randomizeColors = () => {
-    console.log('Randomizing colors...') // Debug log
-    
-    // Generate random colors for links
-    const newColors = linksData.map(link => {
-      const baseHue = Math.random() * 360
-      const saturation = 70 + Math.random() * 30 // 70-100%
-      const lightness = 45 + Math.random() * 20 // 45-65%
-      const hoverLightness = Math.min(85, lightness + 20)
-      
-      const color = hslToHex(baseHue, saturation, lightness)
-      const hoverColor = hslToHex(baseHue, saturation, hoverLightness)
-      
-      return {
-        ...link,
-        color,
-        hoverColor
-      }
-    })
-    setCurrentColors(newColors)
-
-    // Generate random fog colors
-    const newFogColors = Array.from({ length: 5 }, () => {
-      const hue = Math.random() * 360
-      const saturation = 40 + Math.random() * 40 // 40-80%
-      const lightness = 15 + Math.random() * 25 // 15-40%
-      return hslToHex(hue, saturation, lightness)
-    })
-    setFogColors(newFogColors)
-    
-    console.log('New colors:', newColors) // Debug log
-    console.log('New fog colors:', newFogColors) // Debug log
+  const handleLinkHover = (linkLabel: string | null) => {
+    setHoveredLink(linkLabel)
   }
+
+  const navigateToLink = (direction: 'prev' | 'next') => {
+    const currentIndex = currentMobileLinkIndex
+    const newIndex = direction === 'next' 
+      ? (currentIndex + 1) % linksData.length 
+      : (currentIndex - 1 + linksData.length) % linksData.length
+    setCurrentMobileLinkIndex(newIndex)
+  }
+
+  // Get current colors based on mobile state
+  const currentLink = isMobile ? linksData[currentMobileLinkIndex] : null
+  const orbColor = hoveredLink 
+    ? linksData.find(link => link.label === hoveredLink)?.color || '#6655cc'
+    : currentLink?.color || '#6655cc'
+  const orbHoverColor = hoveredLink 
+    ? linksData.find(link => link.label === hoveredLink)?.hoverColor || '#aa88ff'
+    : currentLink?.hoverColor || '#aa88ff'
 
   return (
-    <div className="relative w-full h-full" style={{ overflow: 'visible' }}>
-      {/* Dynamic fog background (performance optimized) */}
-      <DynamicFogBackground 
-        particleCount={Math.floor(layoutConfig.fog.particleCount * config.geometryDetail)}
-        colors={fogColors}
-        mouseInfluence={layoutConfig.fog.mouseInfluence * config.shaderComplexity}
-        viscosity={layoutConfig.fog.viscosity}
-      />
+    <div className="h-screen w-screen relative overflow-hidden bg-black">
+      {/* FIXED HEADER with proper padding to avoid browser header cutoff */}
+      <div className="absolute top-0 left-0 right-0 z-40 pt-16 px-6">
+        <div className="flex items-center justify-between">
+          {/* Back button */}
+          <button
+            onClick={() => router.push('/')}
+            className="text-white hover:text-gray-300 transition-colors duration-200 p-2 rounded-lg bg-black/20 backdrop-blur-sm border border-white/10 hover:border-white/20"
+          >
+            ← Home
+          </button>
+          
+          {/* Page Title */}
+          <h1 className="text-4xl md:text-5xl font-bold text-white tracking-wider">
+            LINKS
+          </h1>
+          
+          <div className="w-20" /> {/* Spacer for centering */}
+        </div>
+      </div>
 
-      {/* Performance indicator */}
-      <PerformanceIndicator />
+      {/* Mobile Navigation - Only visible on mobile */}
+      {isMobile && (
+        <>
+          {/* Mobile link indicator */}
+          <div className="absolute top-32 left-0 right-0 z-30 text-center">
+            <h2 className="text-xl font-semibold text-white mb-2">{currentLink?.label}</h2>
+            <div className="flex justify-center space-x-2">
+              {linksData.map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    index === currentMobileLinkIndex ? 'bg-white' : 'bg-white/30'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
 
-      {/* Back button */}
-      <button
-        onClick={() => router.push('/')}
-        className="absolute top-6 left-6 z-30 px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-lg transition-all duration-300 text-white text-sm"
-      >
-        ← Home
-      </button>
+          {/* Mobile navigation arrows */}
+          <div className="absolute bottom-8 left-0 right-0 z-30 flex justify-center space-x-8">
+            <button
+              onClick={() => navigateToLink('prev')}
+              className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all duration-200"
+            >
+              ←
+            </button>
+            <button
+              onClick={() => handleLinkClick(currentLink?.url || '')}
+              className="px-6 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-200"
+            >
+              Visit Link
+            </button>
+            <button
+              onClick={() => navigateToLink('next')}
+              className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all duration-200"
+            >
+              →
+            </button>
+          </div>
+        </>
+      )}
 
-      {/* Magnt button - left of goopd */}
-      <button
-        onClick={toggleDotMatrix}
-        className={`absolute top-6 left-1/2 transform -translate-x-1/2 translate-x-[-120px] z-30 px-4 py-3 backdrop-blur-sm border rounded-lg transition-all duration-300 text-white text-sm font-medium ${
-          isDotMatrix 
-            ? 'bg-white/30 border-white/40 text-white' 
-            : 'bg-white/10 hover:bg-white/20 border-white/20'
-        }`}
-      >
-        magnt
-      </button>
+      {/* Desktop Layout */}
+      {!isMobile && (
+        <div className="absolute inset-0 z-20 flex">
+          {/* Left side - Links list without scroll */}
+          <div className="w-1/2 flex flex-col justify-center px-16">
+            <div className="space-y-3">
+              <h2 className="text-2xl font-bold text-white mb-6 opacity-80">Links</h2>
+              {linksData.map((link, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleLinkClick(link.url)}
+                  onMouseEnter={() => handleLinkHover(link.label)}
+                  onMouseLeave={() => handleLinkHover(null)}
+                  className="w-full text-left py-3 px-5 rounded-xl bg-gray-900/60 backdrop-blur-sm border border-gray-700/50 text-white hover:bg-gray-800/70 hover:border-gray-600/70 transition-all duration-300 group"
+                  style={{
+                    background: hoveredLink === link.label 
+                      ? `linear-gradient(135deg, ${link.color}20, ${link.hoverColor}10)`
+                      : undefined,
+                    borderColor: hoveredLink === link.label ? `${link.color}60` : undefined
+                  }}
+                >
+                  <span className="text-lg font-medium group-hover:text-opacity-100 text-opacity-90">
+                    {link.label}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
 
-      {/* Top goopd button */}
-      <button
-        onClick={toggleReveal}
-        className="absolute top-6 left-1/2 transform -translate-x-1/2 z-30 px-4 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-lg transition-all duration-300 text-white text-sm font-medium"
-      >
-        goopd
-      </button>
+          {/* Right side - Dynamic orb */}
+          <div className="w-1/2 relative">
+            <UnifiedDynamicOrb
+              activeLink={hoveredLink}
+              color={orbColor}
+              hoverColor={orbHoverColor}
+              size={3.5}
+            />
+          </div>
+        </div>
+      )}
 
-      {/* Color swap button - right of goopd */}
-      <button
-        onClick={randomizeColors}
-        className="absolute top-6 left-1/2 transform -translate-x-1/2 translate-x-[120px] z-30 px-4 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-lg transition-all duration-300 text-white text-sm font-medium"
-      >
-        colrswap
-      </button>
+      {/* Mobile Layout - Enhanced orb display */}
+      {isMobile && (
+        <div className="absolute inset-0 z-20 flex items-center justify-center">
+          <div className="w-full h-full relative pt-16 pb-32">
+            <UnifiedDynamicOrb
+              activeLink={hoveredLink}
+              color={orbColor}
+              hoverColor={orbHoverColor}
+              size={3.2}
+            />
+          </div>
+        </div>
+      )}
 
-      {/* Instructions */}
-      <Instructions isRevealed={isRevealed} />
-
-      {/* Link objects container */}
-      <div className="absolute inset-0 z-20" style={{ overflow: 'visible' }}>
-        {currentColors.map((link, index) => (
-          <AnimatedLinkObject
-            key={`${link.label}-${link.color}-${index}`}
-            label={link.label}
-            url={link.url}
-            color={link.color}
-            hoverColor={link.hoverColor}
-            position={layoutConfig.links.positions[index]}
-            onHover={(hovered) => setHoveredLink(hovered ? index : null)}
-            isHovered={isRevealed || hoveredLink === index}
-            isDotMatrix={isDotMatrix}
-          />
-        ))}
+      {/* Instructions - Updated for mobile */}
+      <div className="absolute bottom-4 left-4 right-4 z-30 text-center">
+        <p className="text-white/60 text-sm">
+          {isMobile 
+            ? 'Tap arrows to navigate • Tap "Visit Link" to open'
+            : 'Hover over links to see dynamic animations • Click to visit'
+          }
+        </p>
       </div>
 
       {/* Subtle gradient overlay for depth */}
       <div 
-        className="absolute inset-0 pointer-events-none z-10"
+        className="absolute inset-0 z-10 pointer-events-none"
         style={{
-          background: 'radial-gradient(circle at 50% 50%, transparent 20%, rgba(0,0,0,0.3) 100%)'
+          background: `radial-gradient(circle at center, transparent 20%, rgba(0,0,0,0.3) 100%)`
         }}
       />
     </div>
-  )
-}
-
-export function LinksClient({ linksData, layoutConfig }: LinksClientProps) {
-  return (
-    <PerformanceProvider>
-      <LinksClientInner linksData={linksData} layoutConfig={layoutConfig} />
-    </PerformanceProvider>
   )
 } 
