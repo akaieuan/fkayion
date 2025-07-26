@@ -1,13 +1,12 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import { useRouter } from 'next/navigation'
 import { Canvas } from '@react-three/fiber'
 import { LiquidMorphOrb } from '../../components/main-page/orb-3'
 
 export default function MusicPage() {
   const router = useRouter()
-  const [isHovered, setIsHovered] = useState(false)
   
   const handleNavigation = () => {
     router.push('/')
@@ -19,14 +18,14 @@ export default function MusicPage() {
       <nav className="absolute top-4 left-4 z-20">
         <button
           onClick={handleNavigation}
-          className="px-4 py-2 md:px-6 md:py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-lg transition-all duration-300 flex items-center space-x-2"
+          className="py-3 px-5 rounded-xl bg-gray-900/60 backdrop-blur-sm border border-gray-700/50 text-white hover:bg-gray-800/70 hover:border-gray-600/70 transition-all duration-300 group flex items-center space-x-2"
         >
-          <span className="text-lg">←</span>
-          <span className="text-sm md:text-base">Back to Home</span>
+          <span className="text-lg group-hover:text-opacity-100 text-opacity-90">←</span>
+          <span className="text-base font-medium group-hover:text-opacity-100 text-opacity-90">Back to Home</span>
         </button>
       </nav>
       
-      {/* 3D Orb Scene */}
+      {/* 3D Orb Scene - Always animated like a frame */}
       <div className="w-96 h-96 mb-8">
         <Canvas
           camera={{ position: [0, 0, 5], fov: 45 }}
@@ -44,20 +43,17 @@ export default function MusicPage() {
               rim: '#66cc99'
             }}
             onClick={() => {}}
-            isHovered={isHovered}
-            onHover={setIsHovered}
+            isHovered={true}
+            onHover={() => {}}
             size={2}
           />
         </Canvas>
       </div>
       
-      {/* Text */}
-      <div className="text-center space-y-4">
-        <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-          4UH.NYC
-        </h1>
-        <p className="text-lg md:text-xl text-white/70 animate-pulse">
-          in dev coming soon
+      {/* Simple text */}
+      <div className="text-center">
+        <p className="text-sm text-white/60">
+          in dev
         </p>
       </div>
     </div>

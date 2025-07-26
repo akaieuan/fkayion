@@ -198,21 +198,11 @@ export function ControlSidebar() {
           <h2 className="text-xl font-bold text-white">Mercury Controls</h2>
           <button
             onClick={() => router.push('/')}
-            className="w-10 h-10 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-xl shadow-lg hover:scale-105 transition-all duration-300 border border-white/20 flex items-center justify-center group"
+            className="py-3 px-5 rounded-xl bg-gray-900/60 backdrop-blur-sm border border-gray-700/50 text-white hover:bg-gray-800/70 hover:border-gray-600/70 transition-all duration-300 group flex items-center space-x-2"
             aria-label="Back to Home"
           >
-            <svg 
-              width="18" 
-              height="18" 
-              fill="none" 
-              stroke="currentColor" 
-              strokeWidth="2" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-              className="group-hover:scale-110 transition-transform duration-200"
-            >
-              <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-            </svg>
+            <span className="text-lg group-hover:text-opacity-100 text-opacity-90">←</span>
+            <span className="text-base font-medium group-hover:text-opacity-100 text-opacity-90">Home</span>
           </button>
         </div>
 
