@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react'
 import { HomeClient } from './home-client'
+import { NavigationSidebar } from '@/components/ui/navigation-sidebar'
 
 // Server-side static data
 const orbsData = [
@@ -70,17 +71,33 @@ export const metadata = {
 
 export default function HomePage() {
   return (
-    <div className="h-screen w-screen relative overflow-hidden bg-black">
-      <Suspense fallback={
-        <div className="h-screen w-screen flex items-center justify-center bg-black">
-          <div className="text-white text-xl">Loading experience...</div>
-        </div>
-      }>
-        <HomeClient 
-          orbsData={orbsData}
-          sceneConfig={sceneConfig}
-        />
-      </Suspense>
+    <div className="h-screen w-screen relative overflow-hidden bg-black flex flex-col">
+      {/* Navigation Sidebar */}
+      <NavigationSidebar />
+
+      {/* Transparent Header - for layout structure */}
+      <header className="relative z-50 h-16 bg-transparent">
+        {/* Empty header for spacing and potential future nav */}
+      </header>
+
+      {/* Main Content Area - Flex grow to fill space */}
+      <main className="flex-1 relative overflow-hidden">
+        <Suspense fallback={
+          <div className="h-full w-full flex items-center justify-center bg-black">
+            <div className="text-white text-xl">Loading experience...</div>
+          </div>
+        }>
+          <HomeClient 
+            orbsData={orbsData}
+            sceneConfig={sceneConfig}
+          />
+        </Suspense>
+      </main>
+
+      {/* Transparent Footer - for layout structure */}
+      <footer className="relative z-50 h-16 bg-transparent">
+        {/* Empty footer for spacing and potential future content */}
+      </footer>
     </div>
   )
 }

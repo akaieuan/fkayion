@@ -51,16 +51,21 @@ export function MetallicMeltingTorus({
         
         vec3 pos = position;
         
-        // Strong animated mercury flow
-        float wave1 = sin(pos.x * 8.0 + time * 3.0) * 0.2;
-        float wave2 = sin(pos.y * 6.0 + time * 2.5) * 0.18;
-        float wave3 = sin(pos.z * 10.0 + time * 4.0) * 0.22;
+        // DRAMATIC mercury melting and dripping
+        float meltFactor = sin(time * 1.0) * 0.5 + 0.5;
         
-        pos += normal * (wave1 + wave2 + wave3) * splitLevel;
+        // Heavy dripping downward
+        if (pos.y < 0.0) {
+          pos.y -= meltFactor * 0.8;
+        }
         
-        // Strong pulsing
-        float pulse = sin(time * 2.5) * 0.15;
-        pos += normal * pulse;
+        // Liquid mercury stretching
+        float stretch = sin(pos.x * 4.0 + time * 2.0) * sin(pos.z * 4.0 + time * 1.5);
+        pos.y -= abs(stretch) * meltFactor * 0.6;
+        
+        // Mercury blob deformation
+        float blob = sin(pos.x * 6.0 + time * 3.0) * sin(pos.y * 5.0 + time * 2.0) * sin(pos.z * 7.0 + time * 2.5);
+        pos += normal * blob * 0.3;
         
         gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
       }

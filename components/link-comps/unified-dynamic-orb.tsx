@@ -8,6 +8,7 @@ import * as THREE from 'three'
 import { MetallicMeltingTorus } from './metallic-melting-torus'
 import { CrystallineShatterTorus } from './crystalline-shatter-torus'
 import { LiquidMorphTorus } from './liquid-morph-torus'
+import { PulsatingSoundTetrahedron } from './pulsating-sound-tetrahedron'
 
 interface UnifiedDynamicOrbProps {
   activeLink: string | null
@@ -144,43 +145,68 @@ function DefaultTorus({ size = 1 }) {
   )
 }
 
-export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1 }: UnifiedDynamicOrbProps) {
+export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2 }: UnifiedDynamicOrbProps) {
   const isMobile = useIsMobile()
   
   const getControlledSize = () => {
-    return isMobile ? 1.5 : 2.0
+    return isMobile ? 2.0 : 2.2 // Increased to compensate for farther camera
   }
 
-  const renderActiveOrb = () => {
+  // Render the appropriate orb based on active link
+  function renderActiveOrb() {
     if (!activeLink) {
       return <DefaultTorus size={getControlledSize()} />
     }
 
-    const orbProps = {
-      position: [0, 0, 0] as [number, number, number],
-      color,
-      hoverColor,
-      onClick: () => {},
-      isHovered: true,
-      onHover: () => {},
-      size: getControlledSize()
-    }
-
     switch (activeLink) {
       case 'Ubik Studio':
-        return <MetallicMeltingTorus {...orbProps} />
       case 'App Ubik Studio':
-        return <LiquidMorphTorus {...orbProps} />
+        return (
+          <MetallicMeltingTorus
+            position={[0, 0, 0]}
+            color={color}
+            hoverColor={hoverColor}
+            onClick={() => {}}
+            isHovered={true}
+            onHover={() => {}}
+            size={getControlledSize()}
+          />
+        )
       case 'Instagram':
-        return <CrystallineShatterTorus {...orbProps} />
-      case 'SoundCloud':
-        return <MetallicMeltingTorus {...orbProps} />
-      case 'Bandcamp':
-        return <LiquidMorphTorus {...orbProps} />
-      case 'YouTube':
-        return <CrystallineShatterTorus {...orbProps} />
       case 'Contact':
-        return <MetallicMeltingTorus {...orbProps} />
+        return (
+          <CrystallineShatterTorus
+            position={[0, 0, 0]}
+            color={color}
+            hoverColor={hoverColor}
+            onClick={() => {}}
+            isHovered={true}
+            onHover={() => {}}
+            size={getControlledSize()}
+          />
+        )
+      case 'Spotify':
+        return (
+          <PulsatingSoundTetrahedron
+            color={color}
+            hoverColor={hoverColor}
+            size={getControlledSize()}
+          />
+        )
+      case 'SoundCloud':
+      case 'Bandcamp':
+      case 'YouTube':
+        return (
+          <LiquidMorphTorus
+            position={[0, 0, 0]}
+            color={color}
+            hoverColor={hoverColor}
+            onClick={() => {}}
+            isHovered={true}
+            onHover={() => {}}
+            size={getControlledSize()}
+          />
+        )
       default:
         return <DefaultTorus size={getControlledSize()} />
     }
@@ -189,37 +215,52 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1 }: U
   return (
     <div className="w-full h-full relative">
       <Canvas
-        camera={{ position: [0, 0, 4], fov: 50, near: 0.1, far: 100 }}
+        camera={{ position: [0, 0, 12], fov: 45, near: 0.1, far: 100 }}
         style={{ 
           width: '100%', 
           height: '100%',
-          overflow: 'hidden'
+          display: 'block'
         }}
         gl={{ 
           antialias: true,
           alpha: true,
           toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 0.7,
+          toneMappingExposure: 1.0,
           preserveDrawingBuffer: true
         }}
         frameloop="always"
         dpr={[1, 2]}
         performance={{ min: 0.5 }}
+        resize={{ scroll: false, debounce: { scroll: 50, resize: 0 } }}
+        shadows
       >
-        {/* Clean lighting */}
-        <ambientLight intensity={0.5} color="#ffffff" />
-        <pointLight position={[2, 2, 2]} intensity={1.0} color="#ffffff" />
-        <pointLight position={[-2, -1, 2]} intensity={0.8} color={activeLink ? hoverColor : "#6655cc"} />
-        <directionalLight position={[3, 3, 3]} intensity={0.4} color="#ffffff" />
+        {/* Enhanced lighting matching main page */}
+        <ambientLight intensity={0.15} />
+        
+        {/* Colored point lights like main page */}
+        <pointLight position={[-6, 2, 3]} intensity={2.5} color="#ff4400" distance={15} />
+        <pointLight position={[0, 3, 3]} intensity={2.0} color="#44aaff" distance={15} />
+        <pointLight position={[6, -1, 3]} intensity={2.3} color="#44ddaa" distance={15} />
+        <pointLight position={[0, -8, -5]} intensity={1.0} color="#ffffff" distance={20} />
+        <pointLight position={[8, 8, -8]} intensity={0.8} color="#ffddaa" distance={25} />
+        <pointLight position={[-8, 4, -6]} intensity={0.6} color="#aaddff" distance={20} />
+        
+        {/* Directional light for definition */}
+        <directionalLight 
+          position={[10, 10, 5]} 
+          intensity={0.25} 
+          color="#ffffff"
+          castShadow
+        />
         
         {renderActiveOrb()}
       </Canvas>
 
       {/* Active link indicator - Only show on desktop */}
       {activeLink && !isMobile && (
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-center z-10">
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center z-10">
           <span 
-            className="text-base font-medium px-3 py-2 rounded-lg backdrop-blur-sm border whitespace-nowrap"
+            className="text-sm font-medium px-3 py-2 rounded-lg backdrop-blur-sm border whitespace-nowrap"
             style={{
               color: hoverColor,
               borderColor: `${color}40`,

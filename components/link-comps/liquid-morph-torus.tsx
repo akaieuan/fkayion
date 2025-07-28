@@ -50,16 +50,21 @@ export function LiquidMorphTorus({
         
         vec3 pos = position;
         
-        // Strong liquid flow
-        float flow1 = sin(pos.x * 10.0 + time * 4.0) * 0.25;
-        float flow2 = sin(pos.y * 8.0 + time * 3.5) * 0.22;
-        float flow3 = sin(pos.z * 12.0 + time * 4.5) * 0.28;
+        // DRAMATIC liquid flowing and morphing
+        float wave1 = sin(pos.x * 3.0 + time * 4.0) * 0.6;
+        float wave2 = sin(pos.y * 2.5 + time * 3.0) * 0.5;
+        float wave3 = sin(pos.z * 4.0 + time * 5.0) * 0.7;
         
-        pos += normal * (flow1 + flow2 + flow3) * flowIntensity;
+        // Liquid bulging and contracting
+        pos += normal * (wave1 + wave2 + wave3) * flowIntensity * 0.4;
         
-        // Strong liquid breathing
-        float breathe = sin(time * 2.8) * 0.18;
-        pos += normal * breathe;
+        // Liquid dripping effect
+        float drip = max(0.0, -pos.y + 0.2) * sin(time * 2.0 + pos.x * 5.0);
+        pos.y -= drip * 0.5;
+        
+        // Viscous stretching
+        float stretch = sin(time * 1.5 + pos.y * 8.0) * 0.3;
+        pos += normal * stretch;
         
         gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
       }
