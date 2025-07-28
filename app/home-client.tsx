@@ -8,6 +8,7 @@ import * as THREE from 'three'
 import { MetallicMeltingOrb } from '../components/main-page/orb-1'
 import { CrystallineShatterOrb } from '../components/main-page/orb-2'
 import { LiquidMorphOrb } from '../components/main-page/orb-3'
+import { Button } from '@/components/ui/button'
 
 // Types for server data
 interface OrbData {
@@ -178,16 +179,7 @@ export function HomeClient({ orbsData, sceneConfig }: HomeClientProps) {
   const [currentMobileOrbIndex, setCurrentMobileOrbIndex] = useState(0)
   const isMobile = useIsMobile()
   
-  // Auto-switch orbs on mobile every 5 seconds
-  useEffect(() => {
-    if (!isMobile) return
-    
-    const interval = setInterval(() => {
-      setCurrentMobileOrbIndex((prev) => (prev + 1) % orbsData.length)
-    }, 5000)
-    
-    return () => clearInterval(interval)
-  }, [isMobile, orbsData.length])
+  // Removed auto-switching - user controls navigation manually
 
   // Set active orb based on mobile state
   const activeOrbId = isMobile ? orbsData[currentMobileOrbIndex].id : hoveredOrb
@@ -218,47 +210,52 @@ export function HomeClient({ orbsData, sceneConfig }: HomeClientProps) {
 
   return (
     <>
-      {/* Mobile Navigation Arrows - Only visible on mobile */}
+      {/* More Accessible Mobile Navigation - Using Button components */}
       {isMobile && (
         <>
-          {/* Left Arrow */}
-          <button
-            onClick={goToPrevOrb}
-            className="absolute bottom-20 left-8 z-30 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center transition-all duration-300"
-          >
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
+          {/* Navigation container like links-client.tsx */}
+          <div className="absolute bottom-16 left-0 right-0 z-30 px-6">
+            <div className="flex justify-between items-center">
+              {/* Left Arrow */}
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={goToPrevOrb}
+                className="w-12 h-12 rounded-full bg-transparent border-white/40 text-white hover:bg-white/20 hover:border-white/60"
+              >
+                ←
+              </Button>
 
-          {/* Right Arrow */}
-          <button
-            onClick={goToNextOrb}
-            className="absolute bottom-20 right-8 z-30 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center transition-all duration-300"
-          >
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
+              {/* Dot indicators */}
+              <div className="flex space-x-4">
+                {orbsData.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToOrb(index)}
+                    className={`w-4 h-4 rounded-full transition-all duration-300 border-2 ${
+                      index === currentMobileOrbIndex 
+                        ? 'bg-white border-white scale-125' 
+                        : 'bg-white/20 border-white/40 hover:bg-white/40 hover:border-white/60'
+                    }`}
+                  />
+                ))}
+              </div>
 
-          {/* Dot indicators */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30 flex space-x-3">
-            {orbsData.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToOrb(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === currentMobileOrbIndex 
-                    ? 'bg-white scale-125' 
-                    : 'bg-white/40 hover:bg-white/60'
-                }`}
-              />
-            ))}
+              {/* Right Arrow */}
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={goToNextOrb}
+                className="w-12 h-12 rounded-full bg-transparent border-white/40 text-white hover:bg-white/20 hover:border-white/60"
+              >
+                →
+              </Button>
+            </div>
           </div>
         </>
       )}
       
-      {/* Orb Labels - Smaller text and positioned higher to avoid overlap */}
+      {/* Orb Labels - Adjusted positioning for new navigation layout */}
       {activeOrbData && (
         <div className={`absolute z-20 text-center transition-all duration-500 ${
           isMobile 
@@ -266,29 +263,29 @@ export function HomeClient({ orbsData, sceneConfig }: HomeClientProps) {
             : 'bottom-32 left-1/2 transform -translate-x-1/2'
         }`}>
           <h3 className={`font-bold text-white mb-1 tracking-wider ${
-            isMobile ? 'text-lg' : 'text-xl md:text-2xl'
+            isMobile ? 'text-xl' : 'text-xl md:text-2xl'
           }`}>
             {activeOrbData.label}
           </h3>
           <p className={`text-white/60 max-w-sm px-4 ${
-            isMobile ? 'text-sm' : 'text-sm md:text-base'
+            isMobile ? 'text-base' : 'text-sm md:text-base'
           }`}>
             {activeOrbData.description}
           </p>
         </div>
       )}
       
-      {/* Instructions - Smaller and positioned higher */}
+      {/* Instructions - Updated positioning */}
       <div className={`absolute z-20 text-center ${
         isMobile 
-          ? 'bottom-2 left-1/2 transform -translate-x-1/2' 
+          ? 'bottom-4 left-1/2 transform -translate-x-1/2' 
           : 'bottom-8 left-1/2 transform -translate-x-1/2'
       }`}>
         <p className={`text-white/30 ${
-          isMobile ? 'text-xs' : 'text-xs md:text-sm'
+          isMobile ? 'text-sm' : 'text-xs md:text-sm'
         }`}>
           {isMobile 
-            ? 'Tap arrows to navigate • Touch center to enter' 
+            ? 'Use arrows or dots to navigate • Touch center to enter' 
             : (activeOrbId ? 'Click to enter' : 'Hover to see the transformation')
           }
         </p>
