@@ -149,7 +149,7 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2 }:
   const isMobile = useIsMobile()
   
   const getControlledSize = () => {
-    return isMobile ? 2.0 : 2.2 // Increased to compensate for farther camera
+    return isMobile ? 3.2 : 2.2 // Even larger mobile size for maximum impact
   }
 
   // Render the appropriate orb based on active link
