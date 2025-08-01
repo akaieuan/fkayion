@@ -12,12 +12,6 @@ const linksData = [
     hoverColor: '#ff6644'
   },
   { 
-    label: 'App Ubik Studio', 
-    url: 'https://app.ubik.studio',
-    color: '#4488ff',
-    hoverColor: '#66aaff'
-  },
-  { 
     label: 'Instagram', 
     url: 'https://instagram.com/aka.ieuan/',
     color: '#ff6b9d',
@@ -48,8 +42,8 @@ const linksData = [
     hoverColor: '#ff44aa'
   },
   { 
-    label: 'Contact', 
-    url: 'mailto:ieuan@ubik.studio',
+    label: 'aka.write', 
+    url: 'https://substack.com/@akaieuan?utm_source=user-menu',
     color: '#88ff22',
     hoverColor: '#aaff44'
   }

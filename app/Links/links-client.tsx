@@ -100,12 +100,12 @@ export function LinksClient({ linksData, layoutConfig }: LinksClientProps) {
 
           {/* Mobile orb display - floating on whole page */}
           <div className="absolute inset-0 z-20 flex items-center justify-center pt-20 pb-32">
-            <div className="w-full h-full max-w-sm max-h-96 flex items-center justify-center">
+            <div className="w-full h-full max-w-lg max-h-[500px] flex items-center justify-center">
               <UnifiedDynamicOrb
                 activeLink={currentLink?.label || null}
                 color={orbColor}
                 hoverColor={orbHoverColor}
-                size={1.3}
+                size={1.8}
               />
             </div>
           </div>
@@ -146,10 +146,10 @@ export function LinksClient({ linksData, layoutConfig }: LinksClientProps) {
         <>
           {/* Desktop content - no title, more space for orb */}
           <div className="absolute inset-0 z-20 flex">
-            {/* Left side - Compact links list */}
-            <div className="w-1/3 flex flex-col justify-center px-6 py-8">
-              <div className="space-y-2">
-                <h2 className="text-lg font-bold text-white mb-4 opacity-80">Navigate</h2>
+            {/* Left side - Compact links list positioned away from sidebar */}
+            <div className="w-1/4 flex flex-col justify-center pl-20 pr-4 py-8">
+              <div className="space-y-2 max-w-xs">
+                <h2 className="text-lg font-bold text-white mb-4 opacity-80">My Links</h2>
                 {linksData.map((link, index) => (
                   <button
                     key={index}
@@ -173,7 +173,7 @@ export function LinksClient({ linksData, layoutConfig }: LinksClientProps) {
             </div>
 
             {/* Right side - Dynamic orb taking more space, floating freely */}
-            <div className="w-2/3 relative flex items-center justify-center">
+            <div className="w-3/4 relative flex items-center justify-center">
               <div className="w-full h-full flex items-center justify-center">
                 <UnifiedDynamicOrb
                   activeLink={hoveredLink}
