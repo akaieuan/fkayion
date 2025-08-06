@@ -140,7 +140,7 @@ export function ControlSidebar() {
       newValue = parseFloat(value)
     }
     
-    console.log(`🎛️ MANUAL CONTROL CHANGE: ${name} = ${newValue}`)
+    console.log(`MANUAL CONTROL CHANGE: ${name} = ${newValue}`)
     
     setControls((prev: any) => ({
       ...prev,
@@ -195,7 +195,7 @@ export function ControlSidebar() {
 
       <div className="h-full overflow-y-auto p-6 space-y-4">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-white">Mercury Controls</h2>
+          <h2 className="text-xl font-bold text-white">Visualizer Eden Controls</h2>
           <button
             onClick={() => router.push('/')}
             className="py-3 px-5 rounded-xl bg-gray-900/60 backdrop-blur-sm border border-gray-700/50 text-white hover:bg-gray-800/70 hover:border-gray-600/70 transition-all duration-300 group flex items-center space-x-2"
@@ -286,7 +286,7 @@ export function ControlSidebar() {
             <label className="text-sm font-medium text-white block mb-2">Base Shape</label>
             {controls.autoShapeCycle && (
               <div className="text-xs text-yellow-300/80 mb-2 p-2 bg-yellow-900/20 rounded border border-yellow-400/30">
-                ⚠️ Auto Shape Cycle Active - Shape controlled automatically
+                WARNING: Auto Shape Cycle Active - Shape controlled automatically
               </div>
             )}
             <select
@@ -371,7 +371,7 @@ export function ControlSidebar() {
               className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
             />
             <div className="text-xs text-white/60 mt-1">
-              Controls how fast the blob spins (0 = no rotation, 5 = very fast)
+              Controls base rotation speed (0 = no rotation, 5 = very fast) - adds to audio reactivity
             </div>
           </div>
         </CollapsibleSection>
@@ -406,7 +406,7 @@ export function ControlSidebar() {
         </CollapsibleSection>
 
         {/* COLORS */}
-        <CollapsibleSection title="Mercury Colors" defaultOpen={true}>
+        <CollapsibleSection title="Visualizer Colors" defaultOpen={true}>
           <div className="grid grid-cols-2 gap-3 mb-4">
             <div className="text-center">
               <label className="text-xs text-white/70 block mb-1">Color 1</label>
@@ -451,8 +451,8 @@ export function ControlSidebar() {
           </div>
         </CollapsibleSection>
 
-        {/* MERCURY PHYSICS */}
-        <CollapsibleSection title="Mercury Physics" bgColor="bg-gradient-to-br from-purple-900/20 to-blue-900/20" borderColor="border-purple-400/30" titleColor="text-purple-100">
+        {/* PHYSICS */}
+        <CollapsibleSection title="Physics Properties" bgColor="bg-gradient-to-br from-purple-900/20 to-blue-900/20" borderColor="border-purple-400/30" titleColor="text-purple-100">
           <div className="text-xs text-purple-200/70 mb-3">
             Physical properties that multiply with audio reactivity!
           </div>
@@ -534,8 +534,8 @@ export function ControlSidebar() {
           </div>
         </CollapsibleSection>
 
-        {/* 🌀 LIQUID EFFECTS */}
-        <CollapsibleSection title="🌀 Liquid Effects">
+        {/* LIQUID EFFECTS */}
+        <CollapsibleSection title="Liquid Effects">
           <div>
             <div className="flex justify-between items-center mb-2">
               <label className="text-sm font-medium text-white">Goopiness</label>
@@ -594,8 +594,8 @@ export function ControlSidebar() {
           </div>
         </CollapsibleSection>
 
-        {/* ✨ SURFACE EFFECTS */}
-        <CollapsibleSection title="✨ Surface Effects">
+        {/* SURFACE EFFECTS */}
+        <CollapsibleSection title="Surface Effects">
           <div>
             <div className="flex justify-between items-center mb-2">
               <label className="text-sm font-medium text-white">Metallic</label>
@@ -717,8 +717,8 @@ export function ControlSidebar() {
           </div>
         </CollapsibleSection>
 
-        {/* 💥 EXTREME EFFECTS */}
-        <CollapsibleSection title="💥 Extreme Effects" bgColor="bg-gradient-to-br from-red-900/20 to-orange-900/20" borderColor="border-red-400/30" titleColor="text-red-100">
+        {/* EXTREME EFFECTS */}
+        <CollapsibleSection title="Extreme Effects" bgColor="bg-gradient-to-br from-red-900/20 to-orange-900/20" borderColor="border-red-400/30" titleColor="text-red-100">
           <div>
             <div className="flex justify-between items-center mb-2">
               <label className="text-sm font-medium text-red-100">Split Intensity</label>
@@ -802,7 +802,7 @@ export function ControlSidebar() {
 
           <div>
             <div className="flex justify-between items-center mb-2">
-              <label className="text-sm font-medium text-red-100">🔥 Abstract Split</label>
+              <label className="text-sm font-medium text-red-100">Abstract Split</label>
               <span className="text-xs text-red-200 font-mono bg-red-900/30 px-2 py-1 rounded">
                 {(controls.abstractSplit || 0).toFixed(1)}
               </span>
@@ -823,8 +823,8 @@ export function ControlSidebar() {
           </div>
         </CollapsibleSection>
 
-        {/* 🎛️ VISUAL MODES */}
-        <CollapsibleSection title="🎛️ Visual Modes">
+        {/* VISUAL MODES */}
+        <CollapsibleSection title="Visual Modes">
 
           <div className="bg-gradient-to-br from-indigo-900/20 to-purple-900/20 p-3 rounded-lg mb-4 border border-indigo-400/30">
             <div className="flex items-center space-x-3 mb-2">
@@ -836,7 +836,7 @@ export function ControlSidebar() {
                 onChange={handleControlChange}
                 className="w-5 h-5 rounded border-2 border-indigo-400/40"
               />
-              <label htmlFor="ambientSpaceMode" className="text-sm font-medium text-indigo-100">🌌 Ambient Space Mode</label>
+              <label htmlFor="ambientSpaceMode" className="text-sm font-medium text-indigo-100">Ambient Space Mode</label>
               <div className={`px-2 py-1 rounded text-xs font-mono ${
                 controls.ambientSpaceMode ? 'bg-indigo-600/30 text-indigo-200' : 'bg-gray-600/30 text-gray-300'
               }`}>
@@ -844,10 +844,10 @@ export function ControlSidebar() {
               </div>
             </div>
             <div className="text-xs text-indigo-200/70 space-y-1">
-              <div>• Enhanced 3D immersive environment with realistic depth</div>
-              <div>• Uses ALL physics controls: viscosity, goopiness, liquidity, split, etc.</div>
-              <div>• Same mercury physics simulation as main blob but in ambient space</div>
-              <div>• Full audio reactivity with 3D depth effects and enhanced visuals</div>
+              <div>Enhanced 3D immersive environment with realistic depth</div>
+              <div>Uses ALL physics controls: viscosity, goopiness, liquidity, split, etc.</div>
+              <div>Same physics simulation as main blob but in ambient space</div>
+              <div>Full audio reactivity with 3D depth effects and enhanced visuals</div>
             </div>
           </div>
 
@@ -895,15 +895,15 @@ export function ControlSidebar() {
                   className="w-full h-3 bg-blue-900/30 rounded-lg appearance-none cursor-pointer slider"
                 />
                 <div className="text-xs text-blue-200/70 mt-1">
-                  Controls spacing between mercury droplets (higher = more separated)
+                  Controls spacing between droplets (higher = more separated)
                 </div>
               </div>
             </div>
           )}
         </CollapsibleSection>
 
-        {/* 🔄 EVOLVING CONTROLS */}
-        <CollapsibleSection title="🔄 Evolving Controls" bgColor="bg-gradient-to-br from-green-900/20 to-teal-900/20" borderColor="border-green-400/30" titleColor="text-green-100">
+        {/* EVOLVING CONTROLS */}
+        <CollapsibleSection title="Evolving Controls" bgColor="bg-gradient-to-br from-green-900/20 to-teal-900/20" borderColor="border-green-400/30" titleColor="text-green-100">
           <div className="text-xs text-green-200/70 mb-3">
             Simple automatic changes to keep visuals fresh and dynamic
           </div>
@@ -918,7 +918,7 @@ export function ControlSidebar() {
                 onChange={handleControlChange}
                 className="w-5 h-5 rounded border-2 border-green-400/40"
               />
-              <label htmlFor="autoColorCycle" className="text-sm font-medium text-green-100">🎨 Auto Color Cycling</label>
+              <label htmlFor="autoColorCycle" className="text-sm font-medium text-green-100">Auto Color Cycling</label>
               <div className={`px-2 py-1 rounded text-xs font-mono ${
                 controls.autoColorCycle ? 'bg-green-600/30 text-green-200' : 'bg-gray-600/30 text-gray-300'
               }`}>
@@ -938,7 +938,7 @@ export function ControlSidebar() {
                 onChange={handleControlChange}
                 className="w-5 h-5 rounded border-2 border-green-400/40"
               />
-              <label htmlFor="autoShapeCycle" className="text-sm font-medium text-green-100">🔷 Auto Shape Cycling</label>
+              <label htmlFor="autoShapeCycle" className="text-sm font-medium text-green-100">Auto Shape Cycling</label>
               <div className={`px-2 py-1 rounded text-xs font-mono ${
                 controls.autoShapeCycle ? 'bg-green-600/30 text-green-200' : 'bg-gray-600/30 text-gray-300'
               }`}>
@@ -951,10 +951,10 @@ export function ControlSidebar() {
           </div>
         </CollapsibleSection>
 
-        {/* 🎨 BASICS - Core Visual Controls */}
-        <CollapsibleSection title="🎨 Basics" defaultOpen={true} bgColor="bg-gradient-to-br from-yellow-900/20 to-orange-900/20" borderColor="border-yellow-400/30" titleColor="text-yellow-100">
+        {/* BASICS - Core Visual Controls */}
+        <CollapsibleSection title="Basics" defaultOpen={true} bgColor="bg-gradient-to-br from-yellow-900/20 to-orange-900/20" borderColor="border-yellow-400/30" titleColor="text-yellow-100">
           <div className="text-xs text-yellow-200/70 mb-3">
-            Essential visual controls for strong, emotional mercury blob appearance
+            Essential visual controls for strong, emotional visualizer appearance
           </div>
 
           <div>
