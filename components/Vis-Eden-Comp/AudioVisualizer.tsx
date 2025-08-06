@@ -6,13 +6,13 @@ import { OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
 import { useAudio } from './AudioContext'
 
-export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], scale = 1 }) {
+export function VisualizerBlob({ position = [0, 0, 0] as [number, number, number], scale = 1 }) {
   const meshRef = useRef<THREE.Mesh>(null)
   const { controls, isPlaying, audioSrc, audioData } = useAudio()
   
-  console.log('🎭 MercuryBlob rendering...', { controls, isPlaying, audioSrc, hasAudioData: !!audioData })
+  console.log('VisualizerBlob rendering...', { controls, isPlaying, audioSrc, hasAudioData: !!audioData })
   
-  // MERCURY BLOB SHADER MATERIAL - The real deal
+  // VISUALIZER BLOB SHADER MATERIAL - The real deal
   const material = useMemo(() => {
     return new THREE.ShaderMaterial({
       uniforms: {
@@ -34,7 +34,7 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
         color3: { value: new THREE.Color('#7000ff') },
         color4: { value: new THREE.Color('#ff6b00') },
         
-        // Mercury physics
+        // Physics properties
         viscosity: { value: 0.5 },
         surfaceTension: { value: 0.7 },
         density: { value: 1.0 },
@@ -88,7 +88,7 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
         uniform float noiseForce;
         uniform float audioReactivity;
         
-        // Mercury physics
+        // Physics properties
         uniform float viscosity;
         uniform float surfaceTension;
         uniform float density;
@@ -159,7 +159,7 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
           
           vec3 workingPosition = position;
           
-          // === MERCURY PHYSICS EFFECTS ===
+          // === PHYSICS EFFECTS ===
           
           // Surface tension - creates surface ripples
           float tensionWaves = sin(length(workingPosition) * 8.0 + physicsTime * 3.0) * surfaceTension * 0.8;
@@ -338,7 +338,7 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
         }
         
         void main() {
-          // DOT MATRIX MODE - Mercury droplets
+          // DOT MATRIX MODE - Liquid droplets
           if (dotMatrix > 0.5) {
             vec2 center = gl_PointCoord - 0.5;
             float dist = length(center);
@@ -544,7 +544,7 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
   // SIMPLE WORKING GEOMETRY - This will definitely work
   const geometry = useMemo(() => {
     const shape = controls.shape || 'sphere'
-    console.log('🎭 Creating geometry:', shape)
+    console.log('Creating geometry:', shape)
     
     switch (shape) {
       case 'cube':
@@ -568,6 +568,7 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
     
     const time = state.clock.elapsedTime
     const deltaTime = state.clock.getDelta()
+    
     const mat = meshRef.current.material as THREE.ShaderMaterial
     
     // Safe audio data
@@ -640,7 +641,7 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
       
       // Debug logging for controls
       if (Math.floor(time) % 3 === 0 && Math.floor(time * 10) % 10 === 0) {
-        console.log('🎛️ Control values:', {
+        console.log('Control values:', {
           brightness: controls.brightness,
           contrast: controls.contrast,
           bloom: controls.bloom,
@@ -660,27 +661,31 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
     }
     
     // CONTROLLABLE ROTATION - User can adjust speed
-    const baseRotationSpeed = (controls.rotationSpeed || 1.0) * 0.5 // User-controlled rotation speed
-    const audioBoostRotation = audioData ? (audioData.volume + audioData.bassLevel * 0.5) * 1.0 : 0
+    const baseRotationSpeed = (controls.rotationSpeed || 1.0) * 0.3 // User-controlled rotation speed
+    const audioBoostRotation = (isPlaying && audioData) ? (audioData.volume + audioData.bassLevel * 0.5) * 0.8 : 0
+    
+    // Apply rotation - always use base speed, add audio boost when playing
+    const totalRotationSpeed = baseRotationSpeed + audioBoostRotation
     
     // Multi-axis rotation for dynamic movement
-    meshRef.current.rotation.y += deltaTime * (baseRotationSpeed + audioBoostRotation)
-    meshRef.current.rotation.x += deltaTime * (baseRotationSpeed * 0.6 + audioBoostRotation * 0.4)
-    meshRef.current.rotation.z += deltaTime * (baseRotationSpeed * 0.3 + audioBoostRotation * 0.2)
+    meshRef.current.rotation.y += deltaTime * totalRotationSpeed
+    meshRef.current.rotation.x += deltaTime * (totalRotationSpeed * 0.6)
+    meshRef.current.rotation.z += deltaTime * (totalRotationSpeed * 0.3)
     
     // Debug rotation to verify it's working
     if (Math.floor(time) % 5 === 0 && Math.floor(time * 10) % 10 === 0) {
-      console.log('🌀 ROTATION DEBUG:', { 
+      console.log('ROTATION DEBUG:', { 
         rotationY: meshRef.current.rotation.y.toFixed(2),
         rotationX: meshRef.current.rotation.x.toFixed(2),
         deltaTime: deltaTime.toFixed(3),
         baseSpeed: baseRotationSpeed,
-        audioBoost: audioBoostRotation.toFixed(3)
+        audioBoost: audioBoostRotation.toFixed(3),
+        totalSpeed: totalRotationSpeed.toFixed(3)
       })
     }
   })
   
-  console.log('🎭 Rendering mesh with:', { geometry: geometry.type, material: material.type })
+  console.log('Rendering mesh with:', { geometry: geometry.type, material: material.type })
   
   // Handle dot matrix mode vs regular mesh
   if (controls.dotMatrix) {
@@ -703,7 +708,7 @@ export function MercuryBlob({ position = [0, 0, 0] as [number, number, number], 
 export function AudioVisualizer() {
   const { audioSrc, isPlaying, audioData, controls, setControls } = useAudio()
   
-  console.log('🎬 AudioVisualizer rendering...', { 
+  console.log('AudioVisualizer rendering...', { 
     audioSrc, 
     isPlaying, 
     hasAudioData: !!audioData,
@@ -764,7 +769,7 @@ export function AudioVisualizer() {
       currentColorIndex = (currentColorIndex + 1) % colorPalette.length
       currentSlot = (currentSlot + 1) % 4
 
-      console.log(`🎨 Auto color cycle: Updated color${currentSlot + 1} to ${newColor}`)
+      console.log(`Auto color cycle: Updated color${currentSlot + 1} to ${newColor}`)
     }, 15000) // 15 seconds
 
     return () => clearInterval(colorInterval)
@@ -790,7 +795,7 @@ export function AudioVisualizer() {
       // Move to next shape
       currentShapeIndex = (currentShapeIndex + 1) % shapeList.length
 
-      console.log(`🔷 Auto shape cycle: Changed to ${newShape}`)
+      console.log(`Auto shape cycle: Changed to ${newShape}`)
     }, 20000) // 20 seconds
 
     return () => clearInterval(shapeInterval)
@@ -814,7 +819,7 @@ export function AudioVisualizer() {
         <pointLight position={[10, 10, 10]} intensity={1} />
         <pointLight position={[-10, -10, -10]} intensity={0.5} />
         
-        <MercuryBlob position={[0, 0, 0]} scale={1} />
+        <VisualizerBlob position={[0, 0, 0]} scale={1} />
           
           <OrbitControls 
             enableZoom={true}
@@ -830,11 +835,11 @@ export function AudioVisualizer() {
       {(controls.autoColorCycle || controls.autoShapeCycle) && (
         <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-green-600/95 to-teal-600/95 text-white p-4 rounded-lg backdrop-blur-md border-2 border-white/30 shadow-2xl">
           <div className="text-center">
-            <div className="text-xl font-bold mb-2">🔄 EVOLVING CONTROLS ACTIVE</div>
+            <div className="text-xl font-bold mb-2">EVOLVING CONTROLS ACTIVE</div>
             <div className="text-sm opacity-90 mb-2">Current Status:</div>
             <div className="grid grid-cols-2 gap-2 text-xs">
-              <div>🎨 Color Cycle: <span className="font-mono text-cyan-200">{controls.autoColorCycle ? 'ON' : 'OFF'}</span></div>
-              <div>🔷 Shape Cycle: <span className="font-mono text-cyan-200">{controls.autoShapeCycle ? 'ON' : 'OFF'}</span></div>
+              <div>Color Cycle: <span className="font-mono text-cyan-200">{controls.autoColorCycle ? 'ON' : 'OFF'}</span></div>
+              <div>Shape Cycle: <span className="font-mono text-cyan-200">{controls.autoShapeCycle ? 'ON' : 'OFF'}</span></div>
               <div>Current Shape: <span className="font-mono text-cyan-200">{controls.shape || 'sphere'}</span></div>
               <div>Wireframe: <span className="font-mono text-cyan-200">{controls.wireframe ? 'ON' : 'OFF'}</span></div>
             </div>
@@ -848,23 +853,23 @@ export function AudioVisualizer() {
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="text-center">
             <div className="text-white/80 text-3xl mb-4 font-bold">
-              Mercury Visualizer - Full Controls
+              Visualizer Eden - Full Controls
             </div>
             <div className="text-white/60 text-lg mb-4">
               All Physics and Effects Working
             </div>
             <div className="text-white/40 text-base space-y-1">
-              🎵 Upload music to see the enhanced mercury physics!
+              Upload music to see the enhanced physics!
               <br />
-              🧪 Audio-reactive shapes: Sphere, Cube, Cylinder, Cone, Torus, Torus Knot
+              Audio-reactive shapes: Sphere, Cube, Cylinder, Cone, Torus, Torus Knot
               <br />
-              💧 Liquid droplets: Realistic mercury droplets in dot matrix mode
+              Liquid droplets: Realistic droplets in dot matrix mode
               <br />
-              🎛️ All physics controls affect the mercury blob
+              All physics controls affect the visualizer blob
               <br />
-              🔄 Evolving controls: Optional auto color and shape cycling
+              Evolving controls: Optional auto color and shape cycling
               <br />
-              ✨ Enhanced visuals: Better materials, lighting, and audio responsiveness
+              Enhanced visuals: Better materials, lighting, and audio responsiveness
             </div>
           </div>
         </div>
@@ -875,7 +880,7 @@ export function AudioVisualizer() {
         <div className="absolute top-4 right-4 bg-gradient-to-r from-purple-500/90 to-pink-500/90 text-white px-4 py-2 rounded-lg backdrop-blur-md border border-purple-400/50 shadow-lg">
           <div className="flex items-center space-x-2">
             <div className="w-3 h-3 bg-purple-400 rounded-full"></div>
-            <span className="font-bold">🌊 MERCURY BLOB</span>
+            <span className="font-bold">VISUALIZER BLOB</span>
           </div>
         </div>
       )}
@@ -885,7 +890,7 @@ export function AudioVisualizer() {
         <div className="absolute top-4 left-4 bg-gradient-to-r from-green-500/90 to-teal-500/90 text-white px-4 py-2 rounded-lg backdrop-blur-md border border-green-400/50 shadow-lg">
           <div className="flex items-center space-x-2">
             <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="font-bold">🔄 EVOLVING CONTROLS ACTIVE</span>
+            <span className="font-bold">EVOLVING CONTROLS ACTIVE</span>
           </div>
         </div>
       )}
@@ -894,13 +899,13 @@ export function AudioVisualizer() {
       {isPlaying && audioSrc && (
         <div className="absolute bottom-4 left-4 bg-black/30 backdrop-blur-sm text-white p-3 rounded-lg text-sm font-mono border border-white/20">
           <div className="flex items-center gap-4">
-            <div className="text-green-400 font-bold">🌊 MERCURY BLOB</div>
+            <div className="text-green-400 font-bold">VISUALIZER BLOB</div>
             <div>Vol: {((audioData?.volume || 0) * 100).toFixed(0)}%</div>
             <div>Bass: {((audioData?.bassLevel || 0) * 100).toFixed(0)}%</div>
             <div>Mid: {((audioData?.midLevel || 0) * 100).toFixed(0)}%</div>
             <div>High: {((audioData?.highLevel || 0) * 100).toFixed(0)}%</div>
             <div className={(controls.autoColorCycle || controls.autoShapeCycle) ? "text-cyan-300" : "text-orange-300"}>
-              {(controls.autoColorCycle || controls.autoShapeCycle) ? "🔄 Auto Mode" : "🎛️ Manual"}
+              {(controls.autoColorCycle || controls.autoShapeCycle) ? "Auto Mode" : "Manual"}
             </div>
           </div>
         </div>

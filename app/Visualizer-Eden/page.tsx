@@ -17,7 +17,7 @@ function UploadButton() {
 
   // Test audio generation
   const generateTestAudio = () => {
-    console.log('🧪 Generating test audio...')
+    console.log('Generating test audio...')
     
     // Create a simple test audio with bass frequencies
     const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
@@ -41,7 +41,7 @@ function UploadButton() {
     const blob = new Blob([wavBuffer], { type: 'audio/wav' })
     const url = URL.createObjectURL(blob)
     
-    console.log('✅ Test audio generated, loading...')
+    console.log('Test audio generated, loading...')
     
     // Load the test audio
     if (audioSrc && audioSrc.startsWith('blob:')) {
@@ -69,7 +69,7 @@ function UploadButton() {
           htmlFor="audio-upload"
           className="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 hover:scale-105 shadow-lg border border-gray-600 flex items-center space-x-2"
         >
-          <span>📁</span>
+          <span>FILE</span>
           <span>{audioSrc ? 'File Loaded' : 'Upload Audio'}</span>
         </label>
       </div>
@@ -79,7 +79,7 @@ function UploadButton() {
         onClick={generateTestAudio}
         className="w-full px-6 py-3 bg-blue-800 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 shadow-lg border border-blue-600 flex items-center space-x-2"
       >
-        <span>🧪</span>
+        <span>TEST</span>
         <span>Test Audio</span>
       </button>
       
@@ -89,7 +89,7 @@ function UploadButton() {
           onClick={isPlaying ? pause : play}
           className="w-full px-6 py-3 bg-green-800 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 shadow-lg border border-green-600 flex items-center space-x-2"
         >
-          <span>{isPlaying ? '⏸️' : '▶️'}</span>
+          <span>{isPlaying ? 'PAUSE' : 'PLAY'}</span>
           <span>{isPlaying ? 'Pause' : 'Play'}</span>
         </button>
       )}

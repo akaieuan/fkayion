@@ -390,11 +390,11 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
       analyserRef.current = analyser
       dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount)
       
-      console.log('✅ Audio analysis setup complete')
+      console.log('Audio analysis setup complete')
       startAudioAnalysis()
       
     } catch (error) {
-      console.error('❌ Error setting up audio analysis:', error)
+      console.error('Error setting up audio analysis:', error)
     }
   }, [])
 
@@ -558,9 +558,9 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
               await tempContext.resume()
             }
             await tempContext.close()
-            console.log('✅ Audio context test passed')
+            console.log('Audio context test passed')
           } catch (contextError) {
-            console.warn('⚠️ Audio context test failed:', contextError)
+            console.warn('Audio context test failed:', contextError)
           }
         }
         
@@ -578,7 +578,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
 
   const pause = useCallback(() => {
     if (audioRef.current) {
-      console.log('⏸️ PAUSE CALLED:', { element: !!audioRef.current })
+              console.log('PAUSE CALLED:', { element: !!audioRef.current })
       audioRef.current.pause()
       setIsPlaying(false)
       cleanupAudioAnalysis()
@@ -602,7 +602,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
   // Audio loading effect
   useEffect(() => {
     if (audioSrc) {
-      console.log('🔄 CREATING NEW AUDIO ELEMENT:', { audioSrc })
+              console.log('CREATING NEW AUDIO ELEMENT:', { audioSrc })
       
       if (audioRef.current) {
         audioRef.current.pause()
@@ -615,29 +615,29 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
       setAudioElement(audio)
       
       const handleMetadata = () => {
-        console.log('📊 AUDIO METADATA LOADED:', { duration: audio.duration })
+        console.log('AUDIO METADATA LOADED:', { duration: audio.duration })
         setDuration(audio.duration)
       }
       const handleTimeUpdate = () => setCurrentTime(audio.currentTime)
       const handlePlay = () => {
-        console.log('▶️ AUDIO STARTED PLAYING')
+        console.log('AUDIO STARTED PLAYING')
         setIsPlaying(true)
       }
       const handlePause = () => {
-        console.log('⏸️ AUDIO PAUSED')
+        console.log('AUDIO PAUSED')
         setIsPlaying(false)
       }
       const handleEnded = () => {
-        console.log('🔚 AUDIO ENDED')
+        console.log('AUDIO ENDED')
         setIsPlaying(false)
         cleanupAudioAnalysis()
       }
       const handleCanPlay = () => {
-        console.log('✅ AUDIO CAN PLAY - AUTO STARTING')
+        console.log('AUDIO CAN PLAY - AUTO STARTING')
         play()
       }
       const handleError = (e: any) => {
-        console.error('❌ AUDIO ERROR:', e)
+        console.error('AUDIO ERROR:', e)
         if (audioSrc.startsWith('blob:')) {
           URL.revokeObjectURL(audioSrc)
         }
@@ -762,7 +762,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
 
   // File loading
   const loadAudioFile = useCallback((file: File) => {
-    console.log('📁 LOADING AUDIO FILE:', { name: file.name, type: file.type, size: file.size })
+    console.log('LOADING AUDIO FILE:', { name: file.name, type: file.type, size: file.size })
     
     if (audioRef.current) {
       audioRef.current.pause()
