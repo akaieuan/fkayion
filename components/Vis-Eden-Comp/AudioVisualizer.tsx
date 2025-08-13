@@ -1,16 +1,18 @@
 'use client'
 
 import { useRef, useMemo, useEffect } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
 import { useAudio } from './AudioContext'
+
+const DEBUG = false
 
 export function VisualizerBlob({ position = [0, 0, 0] as [number, number, number], scale = 1 }) {
   const meshRef = useRef<THREE.Mesh>(null)
   const { controls, isPlaying, audioSrc, audioData } = useAudio()
   
-  console.log('VisualizerBlob rendering...', { controls, isPlaying, audioSrc, hasAudioData: !!audioData })
+  if (DEBUG) console.log('VisualizerBlob rendering...', { controls, isPlaying, audioSrc, hasAudioData: !!audioData })
   
   // VISUALIZER BLOB SHADER MATERIAL - The real deal
   const material = useMemo(() => {
@@ -544,30 +546,38 @@ export function VisualizerBlob({ position = [0, 0, 0] as [number, number, number
   // SIMPLE WORKING GEOMETRY - This will definitely work
   const geometry = useMemo(() => {
     const shape = controls.shape || 'sphere'
-    console.log('Creating geometry:', shape)
+    if (DEBUG) console.log('Creating geometry:', shape)
     
     switch (shape) {
       case 'cube':
-        return new THREE.BoxGeometry(2, 2, 2, 16, 16, 16)
+        return new THREE.BoxGeometry(2, 2, 2, 12, 12, 12)
       case 'cylinder':
-        return new THREE.CylinderGeometry(1.2, 1.2, 2.5, 32, 16)
+        return new THREE.CylinderGeometry(1.2, 1.2, 2.5, 24, 12)
       case 'cone':
-        return new THREE.ConeGeometry(1.5, 2.5, 32, 16)
+        return new THREE.ConeGeometry(1.5, 2.5, 24, 12)
       case 'torus':
-        return new THREE.TorusGeometry(1.2, 0.5, 16, 32)
+        return new THREE.TorusGeometry(1.2, 0.5, 12, 24)
       case 'torusKnot':
-        return new THREE.TorusKnotGeometry(1, 0.3, 64, 8, 2, 3)
+        return new THREE.TorusKnotGeometry(1, 0.3, 48, 8, 2, 3)
       default:
-        return new THREE.SphereGeometry(1.5, 32, 16)
+        return new THREE.SphereGeometry(1.5, 24, 12)
     }
   }, [controls.shape])
+
+  // Local, jank-free dot-separation animation to avoid React re-renders
+  const dotSepRef = useRef<number>(controls.dotSeparation ?? 1.0)
+  const dotSepDirRef = useRef<number>(1)
+  useEffect(() => {
+    dotSepRef.current = controls.dotSeparation ?? 1.0
+    dotSepDirRef.current = 1
+  }, [controls.dotMatrix])
   
   // SHADER UNIFORM UPDATES
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if (!meshRef.current) return
     
     const time = state.clock.elapsedTime
-    const deltaTime = state.clock.getDelta()
+    const deltaTime = delta
     
     const mat = meshRef.current.material as THREE.ShaderMaterial
     
@@ -586,9 +596,9 @@ export function VisualizerBlob({ position = [0, 0, 0] as [number, number, number
       mat.uniforms.highLevel.value = safeAudioData.highLevel
       
       // Controls
-      mat.uniforms.noiseScale.value = controls.noiseScale || 2.2
-      mat.uniforms.noiseForce.value = controls.noiseForce || 1.5
-      mat.uniforms.audioReactivity.value = controls.audioReactivity || 6.0
+      mat.uniforms.noiseScale.value = controls.noiseScale ?? 2.2
+      mat.uniforms.noiseForce.value = controls.noiseForce ?? 1.5
+      mat.uniforms.audioReactivity.value = controls.audioReactivity ?? 6.0
       
       // Colors
       mat.uniforms.color1.value.set(controls.color1 || '#00f2ff')
@@ -597,63 +607,83 @@ export function VisualizerBlob({ position = [0, 0, 0] as [number, number, number
       mat.uniforms.color4.value.set(controls.color4 || '#ff6b00')
       
       // Mercury physics
-      mat.uniforms.viscosity.value = controls.viscosity || 0.5
-      mat.uniforms.surfaceTension.value = controls.surfaceTension || 0.7
-      mat.uniforms.density.value = controls.density || 1.0
-      mat.uniforms.elasticity.value = controls.elasticity || 0.5
-      mat.uniforms.puddleMode.value = controls.puddleMode || 0.0
+      mat.uniforms.viscosity.value = controls.viscosity ?? 0.5
+      mat.uniforms.surfaceTension.value = controls.surfaceTension ?? 0.7
+      mat.uniforms.density.value = controls.density ?? 1.0
+      mat.uniforms.elasticity.value = controls.elasticity ?? 0.5
+      mat.uniforms.puddleMode.value = controls.puddleMode ?? 0.0
       
       // Liquid effects
-      mat.uniforms.goopiness.value = controls.goopiness || 1.5
-      mat.uniforms.liquidity.value = controls.liquidity || 2.0
-      mat.uniforms.split.value = controls.split || 0.8
-      mat.uniforms.splitIntensity.value = controls.splitIntensity || 0.0
-      mat.uniforms.tentacleMode.value = controls.tentacleMode || 0.0
-      mat.uniforms.liquidMerge.value = controls.liquidMerge || 0.0
+      mat.uniforms.goopiness.value = controls.goopiness ?? 1.5
+      mat.uniforms.liquidity.value = controls.liquidity ?? 2.0
+      mat.uniforms.split.value = controls.split ?? 0.8
+      mat.uniforms.splitIntensity.value = controls.splitIntensity ?? 0.0
+      mat.uniforms.tentacleMode.value = controls.tentacleMode ?? 0.0
+      mat.uniforms.liquidMerge.value = controls.liquidMerge ?? 0.0
       
       // Surface effects - Enhanced
-      mat.uniforms.chrome.value = controls.chrome || 0
-      mat.uniforms.pearl.value = controls.pearl || 0
-      mat.uniforms.holographic.value = controls.holographic || 0
-      mat.uniforms.glass.value = controls.glass || 0
-      mat.uniforms.roughness.value = controls.roughness || 0
+      mat.uniforms.chrome.value = controls.chrome ?? 0
+      mat.uniforms.pearl.value = controls.pearl ?? 0
+      mat.uniforms.holographic.value = controls.holographic ?? 0
+      mat.uniforms.glass.value = controls.glass ?? 0
+      mat.uniforms.roughness.value = controls.roughness ?? 0
       
       // Extreme effects
       mat.uniforms.shattered.value = controls.shattered ? 1.0 : 0.0
       mat.uniforms.vortex.value = controls.vortex ? 1.0 : 0.0
-      mat.uniforms.abstractSplit.value = controls.abstractSplit || 0
+      mat.uniforms.abstractSplit.value = controls.abstractSplit ?? 0
       mat.uniforms.ripple.value = controls.ripple ? 1.0 : 0.0
       
       // Visual effects - Enhanced
-      mat.uniforms.brightness.value = controls.brightness || 1.2
-      mat.uniforms.bloom.value = controls.bloom || 0.15
-      mat.uniforms.grain.value = controls.grain || 0.08
-      mat.uniforms.grainSize.value = controls.grainSize || 1.2
+      mat.uniforms.brightness.value = controls.brightness ?? 1.2
+      mat.uniforms.bloom.value = controls.bloom ?? 0.15
+      mat.uniforms.grain.value = controls.grain ?? 0.08
+      mat.uniforms.grainSize.value = controls.grainSize ?? 1.2
       
       // Modes
       mat.uniforms.dotMatrix.value = controls.dotMatrix ? 1.0 : 0.0
       mat.uniforms.wireframe.value = controls.wireframe ? 1.0 : 0.0
-      mat.uniforms.dotSeparation.value = controls.dotSeparation || 1.0
+      // Animate dot separation locally when in dot matrix mode to avoid state churn
+      if (controls.dotMatrix) {
+        const min = 0.5
+        const max = 3.0
+        const speed = 1.2 // units per second across range
+        const next = dotSepRef.current + dotSepDirRef.current * speed * deltaTime
+        if (next >= max) {
+          dotSepRef.current = max
+          dotSepDirRef.current = -1
+        } else if (next <= min) {
+          dotSepRef.current = min
+          dotSepDirRef.current = 1
+        } else {
+          dotSepRef.current = next
+        }
+        mat.uniforms.dotSeparation.value = dotSepRef.current
+      } else {
+        mat.uniforms.dotSeparation.value = controls.dotSeparation ?? 1.0
+      }
       
       // Properties
-      mat.uniforms.metallic.value = controls.metallic || 0.7
-      mat.uniforms.contrast.value = controls.contrast || 1.0
+      mat.uniforms.metallic.value = controls.metallic ?? 0.7
+      mat.uniforms.contrast.value = controls.contrast ?? 1.0
       
       // Debug logging for controls
-      if (Math.floor(time) % 3 === 0 && Math.floor(time * 10) % 10 === 0) {
-        console.log('Control values:', {
-          brightness: controls.brightness,
-          contrast: controls.contrast,
-          bloom: controls.bloom,
-          grain: controls.grain,
-          rotationSpeed: controls.rotationSpeed,
-          chrome: controls.chrome,
-          pearl: controls.pearl,
-          holographic: controls.holographic,
-          glass: controls.glass,
-          roughness: controls.roughness,
-          metallic: controls.metallic
-        })
+      if (DEBUG) {
+        if (Math.floor(time) % 3 === 0 && Math.floor(time * 10) % 10 === 0) {
+          console.log('Control values:', {
+            brightness: controls.brightness,
+            contrast: controls.contrast,
+            bloom: controls.bloom,
+            grain: controls.grain,
+            rotationSpeed: controls.rotationSpeed,
+            chrome: controls.chrome,
+            pearl: controls.pearl,
+            holographic: controls.holographic,
+            glass: controls.glass,
+            roughness: controls.roughness,
+            metallic: controls.metallic
+          })
+        }
       }
       
       // Apply wireframe to material
@@ -661,7 +691,7 @@ export function VisualizerBlob({ position = [0, 0, 0] as [number, number, number
     }
     
     // CONTROLLABLE ROTATION - User can adjust speed
-    const baseRotationSpeed = (controls.rotationSpeed || 1.0) * 0.3 // User-controlled rotation speed
+    const baseRotationSpeed = (controls.rotationSpeed ?? 1.0) * 0.3 // User-controlled rotation speed
     const audioBoostRotation = (isPlaying && audioData) ? (audioData.volume + audioData.bassLevel * 0.5) * 0.8 : 0
     
     // Apply rotation - always use base speed, add audio boost when playing
@@ -673,34 +703,203 @@ export function VisualizerBlob({ position = [0, 0, 0] as [number, number, number
     meshRef.current.rotation.z += deltaTime * (totalRotationSpeed * 0.3)
     
     // Debug rotation to verify it's working
-    if (Math.floor(time) % 5 === 0 && Math.floor(time * 10) % 10 === 0) {
-      console.log('ROTATION DEBUG:', { 
-        rotationY: meshRef.current.rotation.y.toFixed(2),
-        rotationX: meshRef.current.rotation.x.toFixed(2),
-        deltaTime: deltaTime.toFixed(3),
-        baseSpeed: baseRotationSpeed,
-        audioBoost: audioBoostRotation.toFixed(3),
-        totalSpeed: totalRotationSpeed.toFixed(3)
-      })
+    if (DEBUG) {
+      if (Math.floor(time) % 5 === 0 && Math.floor(time * 10) % 10 === 0) {
+        console.log('ROTATION DEBUG:', { 
+          rotationY: meshRef.current.rotation.y.toFixed(2),
+          rotationX: meshRef.current.rotation.x.toFixed(2),
+          deltaTime: deltaTime.toFixed(3),
+          baseSpeed: baseRotationSpeed,
+          audioBoost: audioBoostRotation.toFixed(3),
+          totalSpeed: totalRotationSpeed.toFixed(3)
+        })
+      }
     }
   })
   
-  console.log('Rendering mesh with:', { geometry: geometry.type, material: material.type })
+  if (DEBUG) console.log('Rendering mesh with:', { geometry: geometry.type, material: material.type })
   
   // Handle dot matrix mode vs regular mesh
   if (controls.dotMatrix) {
     return (
-      <points ref={meshRef as any} position={position} scale={scale}>
-        <primitive object={geometry} />
-        <primitive object={material} />
+      <points key={`points-${controls.shape}`} ref={meshRef as any} position={position} scale={scale}>
+        <primitive object={geometry} attach="geometry" />
+        <primitive object={material} attach="material" />
       </points>
     )
   }
 
   return (
-    <mesh ref={meshRef} position={position} scale={scale}>
-      <primitive object={geometry} />
-      <primitive object={material} />
+    <mesh key={`mesh-${controls.shape}`} ref={meshRef} position={position} scale={scale}>
+      <primitive object={geometry} attach="geometry" />
+      <primitive object={material} attach="material" />
+    </mesh>
+  )
+}
+
+// Fullscreen ambient liquid background for Ambient Space Mode
+function AmbientSpace() {
+  const meshRef = useRef<THREE.Mesh>(null)
+  const { isPlaying, audioData, controls } = useAudio()
+  const { camera, viewport: vpHelper, size } = useThree()
+
+  const material = useMemo(() => {
+    return new THREE.ShaderMaterial({
+      uniforms: {
+        u_time: { value: 0 },
+        u_intensity: { value: 1.0 },
+        u_audio: { value: 0.0 },
+        u_bass: { value: 0.0 },
+        u_mid: { value: 0.0 },
+        u_high: { value: 0.0 },
+        // Color controls
+        u_color1: { value: new THREE.Color('#00f2ff') },
+        u_color2: { value: new THREE.Color('#ff00a8') },
+        u_color3: { value: new THREE.Color('#7000ff') },
+        u_color4: { value: new THREE.Color('#ff6b00') },
+        // Physics controls
+        u_viscosity: { value: 0.5 },
+        u_surfaceTension: { value: 0.7 },
+        u_density: { value: 1.0 },
+        u_goopiness: { value: 1.5 },
+        u_liquidity: { value: 2.0 },
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        varying vec2 vUv;
+        uniform float u_time;
+        uniform float u_intensity;
+        uniform float u_audio;
+        uniform float u_bass;
+        uniform float u_mid;
+        uniform float u_high;
+        uniform vec3 u_color1;
+        uniform vec3 u_color2;
+        uniform vec3 u_color3;
+        uniform vec3 u_color4;
+        uniform float u_viscosity;
+        uniform float u_surfaceTension;
+        uniform float u_density;
+        uniform float u_goopiness;
+        uniform float u_liquidity;
+
+        float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453123); }
+        float noise(vec2 p){
+          vec2 i = floor(p);
+          vec2 f = fract(p);
+          vec2 u = f*f*(3.0-2.0*f);
+          return mix(mix(hash(i + vec2(0.0,0.0)), hash(i + vec2(1.0,0.0)), u.x),
+                     mix(hash(i + vec2(0.0,1.0)), hash(i + vec2(1.0,1.0)), u.x), u.y);
+        }
+        float fbm(vec2 p){
+          float v = 0.0;
+          float a = 0.5;
+          for(int i=0;i<5;i++){
+            v += a * noise(p);
+            p *= 2.0;
+            a *= 0.5;
+          }
+          return v;
+        }
+
+        float contour(float h, float lines, float thickness){
+          float f = fract(h * lines);
+          float d = abs(f - 0.5);
+          return smoothstep(0.5 - thickness, 0.5, 0.5 - d);
+        }
+
+        void main(){
+          vec2 uv = vUv * 2.0 - 1.0;
+          float t = u_time * (1.0 / max(u_viscosity, 0.1)); // viscosity affects flow speed
+          
+          // Physics controls affect flow
+          float flow = (0.15 + u_audio * 0.6) * u_liquidity * 0.3;
+          float scale = (1.5 + u_mid * 2.0) * u_density;
+          vec2 p = uv * scale;
+          
+          // Goopiness affects warping
+          vec2 warp = vec2(
+            fbm(p + vec2(t*flow, 0.0)),
+            fbm(p + vec2(0.0, t*flow))
+          );
+          p += (warp - 0.5) * (0.8 + u_bass * 1.2) * u_goopiness * 0.5;
+
+          // Surface tension creates ripples
+          float ripples = sin(length(p) * 8.0 + t * 3.0) * u_surfaceTension * 0.1;
+          
+          float h = fbm(p + t * flow) + ripples;
+          h += 0.5 * fbm(p * 2.0 - t * (flow * 0.7));
+          h += 0.25 * fbm(p * 4.0 + t * (flow * 0.45));
+
+          // Use visualizer colors instead of fixed colors
+          vec3 low = u_color1 * 0.3;
+          vec3 mid = mix(u_color2, u_color3, 0.5) * 0.6;
+          vec3 high = u_color4 * 0.9;
+          vec3 base = mix(low, mid, smoothstep(0.1, 0.6, h));
+          base = mix(base, high, smoothstep(0.4, 0.95, h));
+
+          // Contours with physics influence
+          float lines = 12.0 + u_high * 24.0 + u_surfaceTension * 8.0;
+          float thickness = 0.06 - u_high * 0.03;
+          float c = contour(h, lines, thickness);
+
+          float highlight = smoothstep(0.75, 1.0, h) * (0.15 + 0.6 * u_audio);
+          
+          vec3 color = base + vec3(c) * (0.15 + 0.5 * u_intensity) + highlight;
+          color *= 0.85 + 0.3 * u_intensity;
+
+          gl_FragColor = vec4(color, 1.0);
+        }
+      `,
+      transparent: false,
+    })
+  }, [])
+
+  useFrame((state) => {
+    if (!meshRef.current) return
+    const mat = meshRef.current.material as THREE.ShaderMaterial
+    const safe = audioData || { volume: 0, bassLevel: 0, midLevel: 0, highLevel: 0 }
+    if (mat && mat.uniforms) {
+      mat.uniforms.u_time.value = state.clock.elapsedTime
+      mat.uniforms.u_audio.value = (isPlaying ? safe.volume : 0)
+      mat.uniforms.u_bass.value = safe.bassLevel
+      mat.uniforms.u_mid.value = safe.midLevel
+      mat.uniforms.u_high.value = safe.highLevel
+      mat.uniforms.u_intensity.value = controls.ambientIntensity ?? 1.0
+      
+      // Connect to visualizer colors
+      mat.uniforms.u_color1.value.set(controls.color1 || '#00f2ff')
+      mat.uniforms.u_color2.value.set(controls.color2 || '#ff00a8')
+      mat.uniforms.u_color3.value.set(controls.color3 || '#7000ff')
+      mat.uniforms.u_color4.value.set(controls.color4 || '#ff6b00')
+      
+      // Connect to physics controls
+      mat.uniforms.u_viscosity.value = controls.viscosity ?? 0.5
+      mat.uniforms.u_surfaceTension.value = controls.surfaceTension ?? 0.7
+      mat.uniforms.u_density.value = controls.density ?? 1.0
+      mat.uniforms.u_goopiness.value = controls.goopiness ?? 1.5
+      mat.uniforms.u_liquidity.value = controls.liquidity ?? 2.0
+    }
+  })
+
+  // Scale plane to fill viewport at Z=0
+  useEffect(() => {
+    const vp = vpHelper.getCurrentViewport(camera, [0, 0, 0])
+    if (meshRef.current) {
+      meshRef.current.scale.set(vp.width, vp.height, 1)
+    }
+  }, [camera, size, vpHelper])
+
+  return (
+    <mesh ref={meshRef} position={[0, 0, 0]}>
+      <planeGeometry args={[1, 1, 1, 1]} />
+      <primitive object={material} attach="material" />
     </mesh>
   )
 }
@@ -779,79 +978,68 @@ export function AudioVisualizer() {
   useEffect(() => {
     const shapeList = ['sphere', 'cube', 'cylinder', 'cone', 'torus', 'torusKnot']
 
-    let currentShapeIndex = 0
+    let currentShapeIndex = (shapeList.indexOf(controls.shape) + 1) % shapeList.length
 
     const shapeInterval = setInterval(() => {
-      // Don't auto-cycle if user has disabled shape cycling
       if (!controls.autoShapeCycle) return
 
       const newShape = shapeList[currentShapeIndex]
-      
       setControls((prev: any) => ({
         ...prev,
         shape: newShape
       }))
 
-      // Move to next shape
       currentShapeIndex = (currentShapeIndex + 1) % shapeList.length
-
       console.log(`Auto shape cycle: Changed to ${newShape}`)
-    }, 20000) // 20 seconds
+    }, 20000)
 
     return () => clearInterval(shapeInterval)
-  }, [controls.autoShapeCycle, setControls])
+  }, [controls.shape, controls.autoShapeCycle, setControls])
+
+  // Auto dot separation animation while Dot Matrix mode is active
+  // Remove React interval dot animation to reduce re-renders (replaced by frame-based above)
 
   return (
     <div className="w-full h-full relative bg-black">
         <Canvas
         camera={{ 
           position: [0, 0, 8],
-          fov: 75,
-          far: 100,
-          near: 0.1 
+          fov: 70,
+          far: 80,
+          near: 0.5 
           }}
-          style={{ 
-            width: '100%',
-          height: '100%',
-        }}
+          dpr={[1, 1.5]}
+          gl={{ antialias: false, powerPreference: 'high-performance' }}
+          style={{ width: '100%', height: '100%' }}
       >
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1} />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} />
-        
-        <VisualizerBlob position={[0, 0, 0]} scale={1} />
+        {controls.ambientSpaceMode && <AmbientSpace />}
+        <ambientLight intensity={0.4} />
+        <pointLight position={[6, 6, 6]} intensity={0.8} />
+        <pointLight position={[-6, -6, -6]} intensity={0.4} />
+        {!controls.ambientSpaceMode && (
+          <VisualizerBlob position={[0, 0, 0]} scale={1} />
+        )}
           
           <OrbitControls 
-            enableZoom={true}
-          enablePan={true}
+            enableZoom={false}
+            enablePan={false}
             enableRotate={true}
             minDistance={2}
-          maxDistance={20}
-          target={[0, 0, 0]}
+            maxDistance={20}
+            target={[0, 0, 0]}
           />
         </Canvas>
       
       {/* EVOLVING CONTROLS STATUS */}
       {(controls.autoColorCycle || controls.autoShapeCycle) && (
-        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-green-600/95 to-teal-600/95 text-white p-4 rounded-lg backdrop-blur-md border-2 border-white/30 shadow-2xl">
-          <div className="text-center">
-            <div className="text-xl font-bold mb-2">EVOLVING CONTROLS ACTIVE</div>
-            <div className="text-sm opacity-90 mb-2">Current Status:</div>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              <div>Color Cycle: <span className="font-mono text-cyan-200">{controls.autoColorCycle ? 'ON' : 'OFF'}</span></div>
-              <div>Shape Cycle: <span className="font-mono text-cyan-200">{controls.autoShapeCycle ? 'ON' : 'OFF'}</span></div>
-              <div>Current Shape: <span className="font-mono text-cyan-200">{controls.shape || 'sphere'}</span></div>
-              <div>Wireframe: <span className="font-mono text-cyan-200">{controls.wireframe ? 'ON' : 'OFF'}</span></div>
-            </div>
-          </div>
-        </div>
+        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-green-600/95 to-teal-600/95 text-white p-4 rounded-lg backdrop-blur-md border-2 border-white/30 shadow-2xl"></div>
       )}
       
 
       
       {!audioSrc && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="text-center">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center pointer-events-auto">
             <div className="text-white/80 text-3xl mb-4 font-bold">
               Visualizer Eden - Full Controls
             </div>
@@ -859,17 +1047,15 @@ export function AudioVisualizer() {
               All Physics and Effects Working
             </div>
             <div className="text-white/40 text-base space-y-1">
-              Upload music to see the enhanced physics!
-              <br />
-              Audio-reactive shapes: Sphere, Cube, Cylinder, Cone, Torus, Torus Knot
-              <br />
-              Liquid droplets: Realistic droplets in dot matrix mode
-              <br />
-              All physics controls affect the visualizer blob
-              <br />
-              Evolving controls: Optional auto color and shape cycling
-              <br />
-              Enhanced visuals: Better materials, lighting, and audio responsiveness
+              Upload WAV files to see the mercury blob dance!
+            </div>
+            <div className="mt-6 flex items-center justify-center gap-4">
+              <button
+                onClick={() => setControls((prev: any) => ({ ...prev, dotMatrix: !prev.dotMatrix }))}
+                className="px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-colors"
+              >
+                {controls.dotMatrix ? 'Disable Dot Matrix' : 'Enable Dot Matrix'}
+              </button>
             </div>
           </div>
         </div>

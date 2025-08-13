@@ -366,7 +366,7 @@ export function ControlSidebar() {
               min="0.0"
               max="5.0"
               step="0.1"
-              value={controls.rotationSpeed || 1.0}
+              value={controls.rotationSpeed ?? 1.0}
               onChange={handleControlChange}
               className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
             />
@@ -849,6 +849,28 @@ export function ControlSidebar() {
               <div>Same physics simulation as main blob but in ambient space</div>
               <div>Full audio reactivity with 3D depth effects and enhanced visuals</div>
             </div>
+            {controls.ambientSpaceMode && (
+              <div className="mt-3 grid grid-cols-1 gap-3">
+                <div>
+                  <div className="flex justify-between items-center mb-1">
+                    <label className="text-xs text-indigo-100">Ambient Intensity</label>
+                    <span className="text-2xs text-indigo-200 font-mono bg-indigo-900/30 px-2 py-0.5 rounded">
+                      {(controls.ambientIntensity ?? 1.0).toFixed(2)}
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    name="ambientIntensity"
+                    min="0.0"
+                    max="3.0"
+                    step="0.05"
+                    value={controls.ambientIntensity ?? 1.0}
+                    onChange={handleControlChange}
+                    className="w-full h-3 bg-indigo-900/30 rounded-lg appearance-none cursor-pointer slider"
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="flex items-center space-x-3 mb-4">
