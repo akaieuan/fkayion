@@ -2,6 +2,8 @@
 
 import { createContext, useContext, useState, useRef, useCallback, useEffect, ReactNode, useMemo } from 'react'
 
+const DEBUG = false
+
 interface AudioData {
   // Audio playback
   play: () => void
@@ -399,9 +401,18 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
   }, [])
 
   // Audio analysis loop
+  const lastAnalysisTimeRef = useRef(0)
   const startAudioAnalysis = useCallback(() => {
     const analyzeAudio = () => {
       if (!analyserRef.current || !dataArrayRef.current) return
+      
+      // Throttle to ~30fps for performance
+      const now = performance.now()
+      if (now - lastAnalysisTimeRef.current < 33) {
+        animationFrameRef.current = requestAnimationFrame(analyzeAudio)
+        return
+      }
+      lastAnalysisTimeRef.current = now
       
       analyserRef.current.getByteFrequencyData(dataArrayRef.current)
       const frequencyData = dataArrayRef.current
@@ -578,12 +589,16 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
 
   const pause = useCallback(() => {
     if (audioRef.current) {
-              console.log('PAUSE CALLED:', { element: !!audioRef.current })
+      console.log('PAUSE CALLED:', { element: !!audioRef.current })
       audioRef.current.pause()
       setIsPlaying(false)
-      cleanupAudioAnalysis()
+      // Stop analysis loop but keep audio nodes/context so resume is seamless
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current)
+        animationFrameRef.current = undefined
+      }
     }
-  }, [cleanupAudioAnalysis])
+  }, [])
 
   const setAudioVolume = useCallback((vol: number) => {
     if (audioRef.current) {
@@ -594,10 +609,25 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
 
   const setAudioTime = useCallback((time: number) => {
     if (audioRef.current) {
+      const wasPlaying = !audioRef.current.paused
+      // temporarily pause the analysis loop while seeking to avoid spikes
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current)
+        animationFrameRef.current = undefined
+      }
       audioRef.current.currentTime = time
       setCurrentTime(time)
+      // resume analysis if it was playing
+      if (wasPlaying) {
+        requestAnimationFrame(() => {
+          if (audioRef.current) {
+            // restart analysis loop using existing nodes
+            startAudioAnalysis()
+          }
+        })
+      }
     }
-  }, [])
+  }, [startAudioAnalysis])
 
   // Audio loading effect
   useEffect(() => {
@@ -632,10 +662,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
         setIsPlaying(false)
         cleanupAudioAnalysis()
       }
-      const handleCanPlay = () => {
-        console.log('AUDIO CAN PLAY - AUTO STARTING')
-        play()
-      }
+      // Removed auto-play to reduce initial load
       const handleError = (e: any) => {
         console.error('AUDIO ERROR:', e)
         if (audioSrc.startsWith('blob:')) {
@@ -650,7 +677,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
       audio.addEventListener('play', handlePlay)
       audio.addEventListener('pause', handlePause)
       audio.addEventListener('ended', handleEnded)
-      audio.addEventListener('canplay', handleCanPlay)
+      // No auto-play listener
       audio.addEventListener('error', handleError)
 
       return () => {
@@ -660,7 +687,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
         audio.removeEventListener('play', handlePlay)
         audio.removeEventListener('pause', handlePause)
         audio.removeEventListener('ended', handleEnded)
-        audio.removeEventListener('canplay', handleCanPlay)
+        // No auto-play listener to remove
         audio.removeEventListener('error', handleError)
         audio.pause()
         cleanupAudioAnalysis()
