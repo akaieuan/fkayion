@@ -5,6 +5,9 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
 import { useAudio } from './AudioContext'
+import { useRouter } from 'next/navigation'
+import { Button } from '@/components/ui/button'
+import { Home } from 'lucide-react'
 
 const DEBUG = false
 
@@ -906,6 +909,7 @@ function AmbientSpace() {
 
 export function AudioVisualizer() {
   const { audioSrc, isPlaying, audioData, controls, setControls } = useAudio()
+  const router = useRouter()
   
   console.log('AudioVisualizer rendering...', { 
     audioSrc, 
@@ -1001,7 +1005,18 @@ export function AudioVisualizer() {
 
   return (
     <div className="w-full h-full relative bg-black">
-        <Canvas
+      {/* Home Button - Top Left */}
+      <Button
+        size="sm"
+        variant="ghost"
+        onClick={() => router.push('/')}
+        className="fixed top-2 left-2 z-50 h-7 px-2 text-[10px] bg-black/40 backdrop-blur-sm hover:bg-black/60 text-white/80 hover:text-white border border-white/20 hover:border-white/30 rounded flex items-center gap-1"
+      >
+        <Home className="h-3 w-3" />
+        Home
+      </Button>
+
+      <Canvas
         camera={{ 
           position: [0, 0, 8],
           fov: 70,
@@ -1041,21 +1056,13 @@ export function AudioVisualizer() {
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center pointer-events-auto">
             <div className="text-white/80 text-3xl mb-4 font-bold">
-              Visualizer Eden - Full Controls
+              Visualizer Eden
             </div>
             <div className="text-white/60 text-lg mb-4">
-              All Physics and Effects Working
+              Customize your visualizer with the controls below
             </div>
             <div className="text-white/40 text-base space-y-1">
-              Upload WAV files to see the mercury blob dance!
-            </div>
-            <div className="mt-6 flex items-center justify-center gap-4">
-              <button
-                onClick={() => setControls((prev: any) => ({ ...prev, dotMatrix: !prev.dotMatrix }))}
-                className="px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-colors"
-              >
-                {controls.dotMatrix ? 'Disable Dot Matrix' : 'Enable Dot Matrix'}
-              </button>
+              Upload audio files to see the visualizer respond to your music!
             </div>
           </div>
         </div>
