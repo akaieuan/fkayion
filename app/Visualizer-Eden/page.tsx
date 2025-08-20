@@ -2,11 +2,13 @@
 
 import { AudioProvider, useAudio } from '../../components/Vis-Eden-Comp/AudioContext'
 import { AudioVisualizer } from '../../components/Vis-Eden-Comp/AudioVisualizer'
-import { ControlSidebar } from '../../components/Vis-Eden-Comp/ControlSidebar'
+import { ControlDrawer } from '../../components/Vis-Eden-Comp/ControlDrawer'
 import { AudioBar } from '../../components/Vis-Eden-Comp/AudioBar'
+import { Button } from '@/components/ui/button'
+import { Upload } from 'lucide-react'
 
 function UploadButton() {
-  const { loadAudioFile, audioSrc, play, pause, isPlaying } = useAudio()
+  const { loadAudioFile, audioSrc } = useAudio()
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -15,47 +17,8 @@ function UploadButton() {
     }
   }
 
-  // Test audio generation
-  const generateTestAudio = () => {
-    console.log('Generating test audio...')
-    
-    // Create a simple test audio with bass frequencies
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
-    const duration = 10 // 10 seconds
-    const sampleRate = 44100
-    const arrayBuffer = audioContext.createBuffer(1, sampleRate * duration, sampleRate)
-    const channelData = arrayBuffer.getChannelData(0)
-    
-    // Generate test signal with bass frequencies
-    for (let i = 0; i < channelData.length; i++) {
-      const time = i / sampleRate
-      // Mix of bass frequencies that should trigger the visualizer
-      const bass = Math.sin(2 * Math.PI * 60 * time) * 0.3  // 60Hz bass
-      const kick = Math.sin(2 * Math.PI * 80 * time) * 0.4  // 80Hz kick
-      const pulse = Math.sin(2 * Math.PI * 2 * time) > 0 ? 1 : 0 // 2Hz pulse
-      channelData[i] = (bass + kick) * pulse * 0.5
-    }
-    
-    // Convert to WAV blob
-    const wavBuffer = audioBufferToWav(arrayBuffer)
-    const blob = new Blob([wavBuffer], { type: 'audio/wav' })
-    const url = URL.createObjectURL(blob)
-    
-    console.log('Test audio generated, loading...')
-    
-    // Load the test audio
-    if (audioSrc && audioSrc.startsWith('blob:')) {
-      URL.revokeObjectURL(audioSrc)
-    }
-    
-    // Create audio element manually for test
-    const audio = new Audio(url)
-    audio.crossOrigin = 'anonymous'
-    loadAudioFile(new File([blob], 'test-audio.wav', { type: 'audio/wav' }))
-  }
-
   return (
-    <div className="absolute top-6 right-6 z-40 space-y-2">
+    <div className="absolute top-4 right-4 z-40">
       <div className="relative">
         <input 
           type="file" 
@@ -65,77 +28,20 @@ function UploadButton() {
           id="audio-upload"
           multiple={false}
         />
-        <label 
-          htmlFor="audio-upload"
-          className="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 hover:scale-105 shadow-lg border border-gray-600 flex items-center space-x-2"
+        <Button 
+          size="sm"
+          variant="ghost"
+          asChild
+          className="h-8 px-3 text-xs bg-black/40 backdrop-blur-sm hover:bg-black/60 text-white/80 hover:text-white border border-white/20 hover:border-white/30 rounded flex items-center gap-2"
         >
-          <span>FILE</span>
-          <span>{audioSrc ? 'File Loaded' : 'Upload Audio'}</span>
-        </label>
+          <label htmlFor="audio-upload" className="cursor-pointer">
+            <Upload className="h-3 w-3" />
+            {audioSrc ? 'Audio Loaded' : 'Upload Audio File'}
+          </label>
+        </Button>
       </div>
-      
-      {/* Test Audio Button */}
-      <button
-        onClick={generateTestAudio}
-        className="w-full px-6 py-3 bg-blue-800 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 shadow-lg border border-blue-600 flex items-center space-x-2"
-      >
-        <span>TEST</span>
-        <span>Test Audio</span>
-      </button>
-      
-      {/* Play/Pause for testing */}
-      {audioSrc && (
-        <button
-          onClick={isPlaying ? pause : play}
-          className="w-full px-6 py-3 bg-green-800 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 shadow-lg border border-green-600 flex items-center space-x-2"
-        >
-          <span>{isPlaying ? 'PAUSE' : 'PLAY'}</span>
-          <span>{isPlaying ? 'Pause' : 'Play'}</span>
-        </button>
-      )}
     </div>
   )
-}
-
-
-
-// Simple WAV encoder for test audio
-function audioBufferToWav(buffer: AudioBuffer): ArrayBuffer {
-  const length = buffer.length
-  const arrayBuffer = new ArrayBuffer(44 + length * 2)
-  const view = new DataView(arrayBuffer)
-  const channelData = buffer.getChannelData(0)
-  
-  // WAV header
-  const writeString = (offset: number, string: string) => {
-    for (let i = 0; i < string.length; i++) {
-      view.setUint8(offset + i, string.charCodeAt(i))
-    }
-  }
-  
-  writeString(0, 'RIFF')
-  view.setUint32(4, 36 + length * 2, true)
-  writeString(8, 'WAVE')
-  writeString(12, 'fmt ')
-  view.setUint32(16, 16, true)
-  view.setUint16(20, 1, true)
-  view.setUint16(22, 1, true)
-  view.setUint32(24, buffer.sampleRate, true)
-  view.setUint32(28, buffer.sampleRate * 2, true)
-  view.setUint16(32, 2, true)
-  view.setUint16(34, 16, true)
-  writeString(36, 'data')
-  view.setUint32(40, length * 2, true)
-  
-  // Convert float samples to 16-bit PCM
-  let offset = 44
-  for (let i = 0; i < length; i++) {
-    const sample = Math.max(-1, Math.min(1, channelData[i]))
-    view.setInt16(offset, sample * 0x7FFF, true)
-    offset += 2
-  }
-  
-  return arrayBuffer
 }
 
 function MainContent() {
@@ -146,8 +52,8 @@ function MainContent() {
       {/* Upload button */}
       <UploadButton />
       
-      {/* Control sidebar */}
-      <ControlSidebar />
+      {/* Control drawer */}
+      <ControlDrawer />
       
       {/* Main visualizer area */}
       <div className="absolute inset-0 flex flex-col">
