@@ -367,12 +367,27 @@ export function VisualizerBlob({ position = [0, 0, 0] as [number, number, number
             vec3 worldPos = vWorldPosition;
             float dynamicTime = time * 0.05;
             
-            // Simple color blending
-            float region1 = sin(worldPos.x * 2.0 + dynamicTime) * 0.5 + 0.5;
-            float region2 = cos(worldPos.y * 2.0 + dynamicTime) * 0.5 + 0.5;
-            float region3 = sin(worldPos.z * 2.0 + dynamicTime) * 0.5 + 0.5;
+            // Enhanced color blending for droplets - all 4 colors visible
+            float region1 = sin(worldPos.x * 2.5 + dynamicTime) * 0.5 + 0.5;
+            float region2 = cos(worldPos.y * 2.5 + dynamicTime * 1.2) * 0.5 + 0.5;
+            float region3 = sin(worldPos.z * 2.5 + dynamicTime * 0.8) * 0.5 + 0.5;
+            float region4 = sin(worldPos.x * 1.2 + worldPos.y * 1.2 + dynamicTime * 1.3) * 0.5 + 0.5;
             
-            vec3 baseColor = mix(mix(color1, color2, region1), mix(color3, color4, region2), region3);
+            // Ensure minimum representation for each color
+            float minRep = 0.2;
+            region1 = max(region1, minRep);
+            region2 = max(region2, minRep);
+            region3 = max(region3, minRep);
+            region4 = max(region4, minRep);
+            
+            // Normalize
+            float regionTotal = region1 + region2 + region3 + region4 + 0.01;
+            region1 /= regionTotal;
+            region2 /= regionTotal;
+            region3 /= regionTotal;
+            region4 /= regionTotal;
+            
+            vec3 baseColor = color1 * region1 + color2 * region2 + color3 * region3 + color4 * region4;
             
             // Audio reactivity
             float audioFlowIntensity = 1.0 + vAudioIntensity * 0.4;
@@ -411,11 +426,11 @@ export function VisualizerBlob({ position = [0, 0, 0] as [number, number, number
           vec3 worldPos = vWorldPosition;
           float dynamicTime = time * 0.1;
           
-          // Color territories
-          float territory1 = sin(worldPos.x + dynamicTime) * 0.5 + 0.5;
-          float territory2 = cos(worldPos.y + dynamicTime) * 0.5 + 0.5;
-          float territory3 = sin(worldPos.z + dynamicTime * 0.8) * 0.5 + 0.5;
-          float territory4 = cos(length(worldPos.xy) + dynamicTime * 0.6) * 0.5 + 0.5;
+          // Enhanced color territories - better distribution for all 4 colors
+          float territory1 = sin(worldPos.x * 1.5 + dynamicTime) * 0.5 + 0.5;
+          float territory2 = cos(worldPos.y * 1.5 + dynamicTime * 1.2) * 0.5 + 0.5;
+          float territory3 = sin(worldPos.z * 1.5 + dynamicTime * 0.8) * 0.5 + 0.5;
+          float territory4 = sin(worldPos.x * 0.8 + worldPos.y * 0.8 + dynamicTime * 1.5) * 0.5 + 0.5;
           
           // Audio reactive modulation
           if (isPlaying > 0.5) {
@@ -425,7 +440,14 @@ export function VisualizerBlob({ position = [0, 0, 0] as [number, number, number
             territory4 += volume * 0.1;
           }
           
-          // Normalize
+          // Enhanced normalization with minimum representation for each color
+          float minRepresentation = 0.15; // Ensure each color gets at least 15% representation
+          territory1 = max(territory1, minRepresentation);
+          territory2 = max(territory2, minRepresentation);
+          territory3 = max(territory3, minRepresentation);
+          territory4 = max(territory4, minRepresentation);
+          
+          // Normalize with better balance
           float total = territory1 + territory2 + territory3 + territory4 + 0.01;
           territory1 /= total;
           territory2 /= total;
@@ -571,9 +593,10 @@ export function VisualizerBlob({ position = [0, 0, 0] as [number, number, number
   const dotSepRef = useRef<number>(controls.dotSeparation ?? 1.0)
   const dotSepDirRef = useRef<number>(1)
   useEffect(() => {
+    // Initialize animation from user's current setting when dot matrix mode changes
     dotSepRef.current = controls.dotSeparation ?? 1.0
     dotSepDirRef.current = 1
-  }, [controls.dotMatrix])
+  }, [controls.dotMatrix, controls.dotSeparation])
   
   // SHADER UNIFORM UPDATES
   useFrame((state, delta) => {
@@ -646,12 +669,18 @@ export function VisualizerBlob({ position = [0, 0, 0] as [number, number, number
       // Modes
       mat.uniforms.dotMatrix.value = controls.dotMatrix ? 1.0 : 0.0
       mat.uniforms.wireframe.value = controls.wireframe ? 1.0 : 0.0
-      // Animate dot separation locally when in dot matrix mode to avoid state churn
+      // Handle dot separation - combine manual control with automatic animation
       if (controls.dotMatrix) {
-        const min = 0.5
-        const max = 3.0
+        // Use manual control as base value, add automatic animation on top
+        const userBase = controls.dotSeparation ?? 1.0
+        const animationRange = 0.4 // +/- 0.4 units around user's base setting
         const speed = 1.2 // units per second across range
         const next = dotSepRef.current + dotSepDirRef.current * speed * deltaTime
+        
+        // Animate within range around user's base setting
+        const min = Math.max(0.3, userBase - animationRange)
+        const max = Math.min(4.0, userBase + animationRange)
+        
         if (next >= max) {
           dotSepRef.current = max
           dotSepDirRef.current = -1
@@ -972,11 +1001,11 @@ export function AudioVisualizer() {
       currentColorIndex = (currentColorIndex + 1) % colorPalette.length
       currentSlot = (currentSlot + 1) % 4
 
-      console.log(`Auto color cycle: Updated color${currentSlot + 1} to ${newColor}`)
-    }, 15000) // 15 seconds
+      // Removed console.log to avoid indicators when active
+    }, ((controls as any).colorCycleSpeed || 15) * 1000) // Use user-controlled speed
 
     return () => clearInterval(colorInterval)
-  }, [controls.autoColorCycle, setControls])
+  }, [controls.autoColorCycle, (controls as any).colorCycleSpeed, setControls])
 
   // Auto shape cycling - one shape every 20 seconds
   useEffect(() => {
@@ -994,11 +1023,11 @@ export function AudioVisualizer() {
       }))
 
       currentShapeIndex = (currentShapeIndex + 1) % shapeList.length
-      console.log(`Auto shape cycle: Changed to ${newShape}`)
-    }, 20000)
+      // Removed console.log to avoid indicators when active
+    }, ((controls as any).shapeCycleSpeed || 20) * 1000) // Use user-controlled speed
 
     return () => clearInterval(shapeInterval)
-  }, [controls.shape, controls.autoShapeCycle, setControls])
+  }, [controls.shape, controls.autoShapeCycle, (controls as any).shapeCycleSpeed, setControls])
 
   // Auto dot separation animation while Dot Matrix mode is active
   // Remove React interval dot animation to reduce re-renders (replaced by frame-based above)
@@ -1018,9 +1047,9 @@ export function AudioVisualizer() {
 
       <Canvas
         camera={{ 
-          position: [0, 0, 8],
-          fov: 70,
-          far: 80,
+          position: [0, 0, 12],
+          fov: 65,
+          far: 100,
           near: 0.5 
           }}
           dpr={[1, 1.5]}
@@ -1039,16 +1068,13 @@ export function AudioVisualizer() {
             enableZoom={false}
             enablePan={false}
             enableRotate={true}
-            minDistance={2}
-            maxDistance={20}
+            minDistance={4}
+            maxDistance={25}
             target={[0, 0, 0]}
           />
         </Canvas>
       
-      {/* EVOLVING CONTROLS STATUS */}
-      {(controls.autoColorCycle || controls.autoShapeCycle) && (
-        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-green-600/95 to-teal-600/95 text-white p-4 rounded-lg backdrop-blur-md border-2 border-white/30 shadow-2xl"></div>
-      )}
+
       
 
       
@@ -1068,41 +1094,11 @@ export function AudioVisualizer() {
         </div>
       )}
       
-      {/* Mode indicator */}
-      {isPlaying && audioSrc && (
-        <div className="absolute top-4 right-4 bg-gradient-to-r from-purple-500/90 to-pink-500/90 text-white px-4 py-2 rounded-lg backdrop-blur-md border border-purple-400/50 shadow-lg">
-          <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 bg-purple-400 rounded-full"></div>
-            <span className="font-bold">VISUALIZER BLOB</span>
-          </div>
-        </div>
-      )}
+
       
-      {/* Evolving controls indicator */}
-      {isPlaying && audioSrc && (controls.autoColorCycle || controls.autoShapeCycle) && (
-        <div className="absolute top-4 left-4 bg-gradient-to-r from-green-500/90 to-teal-500/90 text-white px-4 py-2 rounded-lg backdrop-blur-md border border-green-400/50 shadow-lg">
-          <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="font-bold">EVOLVING CONTROLS ACTIVE</span>
-          </div>
-        </div>
-      )}
+
       
-      {/* AUDIO STATUS - Bottom Left Compact */}
-      {isPlaying && audioSrc && (
-        <div className="absolute bottom-4 left-4 bg-black/30 backdrop-blur-sm text-white p-3 rounded-lg text-sm font-mono border border-white/20">
-          <div className="flex items-center gap-4">
-            <div className="text-green-400 font-bold">VISUALIZER BLOB</div>
-            <div>Vol: {((audioData?.volume || 0) * 100).toFixed(0)}%</div>
-            <div>Bass: {((audioData?.bassLevel || 0) * 100).toFixed(0)}%</div>
-            <div>Mid: {((audioData?.midLevel || 0) * 100).toFixed(0)}%</div>
-            <div>High: {((audioData?.highLevel || 0) * 100).toFixed(0)}%</div>
-            <div className={(controls.autoColorCycle || controls.autoShapeCycle) ? "text-cyan-300" : "text-orange-300"}>
-              {(controls.autoColorCycle || controls.autoShapeCycle) ? "Auto Mode" : "Manual"}
-            </div>
-          </div>
-        </div>
-      )}
+
     </div>
   )
 } 

@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useRef, useState, useEffect } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
 import { MetallicMeltingOrb } from '../components/main-page/orb-1'
@@ -118,6 +118,67 @@ function EnhancedParticles({ config }: { config: SceneConfig['particles'] }) {
   )
 }
 
+// Animated Orb Wrapper for smooth position transitions
+function AnimatedOrbWrapper({ 
+  children, 
+  targetPosition, 
+  isActive 
+}: { 
+  children: React.ReactNode
+  targetPosition: [number, number, number]
+  isActive: boolean 
+}) {
+  const groupRef = useRef<THREE.Group>(null)
+  const currentPosition = useRef(new THREE.Vector3(...targetPosition))
+
+  useFrame(() => {
+    if (!groupRef.current) return
+    
+    // Smooth position interpolation
+    const target = new THREE.Vector3(...targetPosition)
+    currentPosition.current.lerp(target, 0.08)
+    groupRef.current.position.copy(currentPosition.current)
+    
+    // Subtle scale animation for active orb
+    const targetScale = isActive ? 1 : 0.85
+    const currentScale = groupRef.current.scale.x
+    const newScale = THREE.MathUtils.lerp(currentScale, targetScale, 0.06)
+    groupRef.current.scale.setScalar(newScale)
+    
+    // Subtle opacity for inactive orbs
+    groupRef.current.traverse((child) => {
+      if (child instanceof THREE.Mesh && child.material) {
+        const material = child.material as THREE.Material
+        if ('opacity' in material) {
+          const targetOpacity = isActive ? 1.0 : 0.6
+          material.opacity = THREE.MathUtils.lerp(material.opacity || 1, targetOpacity, 0.05)
+          material.transparent = true
+        }
+      }
+    })
+  })
+
+  return <group ref={groupRef}>{children}</group>
+}
+
+// Camera controller for smooth transitions
+function CameraController({ currentOrbIndex }: { currentOrbIndex: number }) {
+  const { camera } = useThree()
+
+  useFrame(() => {
+    // Keep camera centered but allow slight movement for depth
+    const targetX = 0
+    const targetY = 0.2 // Slightly elevated to better view the higher orbs
+    const targetZ = 12
+    
+    // Smooth camera positioning
+    camera.position.lerp(new THREE.Vector3(targetX, targetY, targetZ), 0.03)
+    camera.lookAt(0, 2, 0) // Look at the higher orb positions
+  })
+
+  return null
+}
+
 // Enhanced lighting with server config
 function Scene({ config }: { config: SceneConfig }) {
   const lightsRef = useRef<THREE.Group>(null)
@@ -176,14 +237,14 @@ function useIsMobile() {
 export function HomeClient({ orbsData, sceneConfig }: HomeClientProps) {
   const router = useRouter()
   const [hoveredOrb, setHoveredOrb] = useState<string | null>(null)
-  const [currentMobileOrbIndex, setCurrentMobileOrbIndex] = useState(0)
+  const [currentOrbIndex, setCurrentOrbIndex] = useState(0) // Unified for both mobile and desktop
   const isMobile = useIsMobile()
   
-  // Removed auto-switching - user controls navigation manually
+  // No auto-switching - user controls navigation manually
 
-  // Set active orb based on mobile state
-  const activeOrbId = isMobile ? orbsData[currentMobileOrbIndex].id : hoveredOrb
-  const activeOrbData = orbsData.find(orb => orb.id === activeOrbId)
+  // Both mobile and desktop now use the same carousel behavior
+  const activeOrbId = orbsData[currentOrbIndex].id
+  const activeOrbData = orbsData[currentOrbIndex]
   
   // Component mapping
   const getOrbComponent = (componentName: string) => {
@@ -195,17 +256,17 @@ export function HomeClient({ orbsData, sceneConfig }: HomeClientProps) {
     }
   }
 
-  // Mobile navigation functions
+  // Navigation functions for both mobile and desktop
   const goToPrevOrb = () => {
-    setCurrentMobileOrbIndex((prev) => (prev - 1 + orbsData.length) % orbsData.length)
+    setCurrentOrbIndex((prev) => (prev - 1 + orbsData.length) % orbsData.length)
   }
 
   const goToNextOrb = () => {
-    setCurrentMobileOrbIndex((prev) => (prev + 1) % orbsData.length)
+    setCurrentOrbIndex((prev) => (prev + 1) % orbsData.length)
   }
 
   const goToOrb = (index: number) => {
-    setCurrentMobileOrbIndex(index)
+    setCurrentOrbIndex(index)
   }
 
   return (
@@ -213,8 +274,8 @@ export function HomeClient({ orbsData, sceneConfig }: HomeClientProps) {
       {/* More Accessible Mobile Navigation - Using Button components */}
       {isMobile && (
         <>
-          {/* Navigation container like links-client.tsx */}
-          <div className="absolute bottom-16 left-0 right-0 z-30 px-6">
+          {/* Navigation container - reduced bottom padding */}
+          <div className="absolute bottom-8 left-0 right-0 z-30 px-6">
             <div className="flex justify-between items-center">
               {/* Left Arrow */}
               <Button
@@ -233,7 +294,7 @@ export function HomeClient({ orbsData, sceneConfig }: HomeClientProps) {
                     key={index}
                     onClick={() => goToOrb(index)}
                     className={`w-4 h-4 rounded-full transition-all duration-300 border-2 ${
-                      index === currentMobileOrbIndex 
+                      index === currentOrbIndex 
                         ? 'bg-white border-white scale-125' 
                         : 'bg-white/20 border-white/40 hover:bg-white/40 hover:border-white/60'
                     }`}
@@ -254,13 +315,55 @@ export function HomeClient({ orbsData, sceneConfig }: HomeClientProps) {
           </div>
         </>
       )}
+
+      {/* Desktop Navigation - reduced bottom padding */}
+      {!isMobile && (
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30">
+          <div className="flex items-center space-x-6">
+            {/* Left Arrow */}
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={goToPrevOrb}
+              className="w-10 h-10 rounded-full bg-transparent border-white/40 text-white hover:bg-white/20 hover:border-white/60"
+            >
+              ←
+            </Button>
+
+            {/* Dot indicators */}
+            <div className="flex space-x-3">
+              {orbsData.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToOrb(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 border-2 ${
+                    index === currentOrbIndex 
+                      ? 'bg-white border-white scale-125' 
+                      : 'bg-white/20 border-white/40 hover:bg-white/40 hover:border-white/60'
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Right Arrow */}
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={goToNextOrb}
+              className="w-10 h-10 rounded-full bg-transparent border-white/40 text-white hover:bg-white/20 hover:border-white/60"
+            >
+              →
+            </Button>
+          </div>
+        </div>
+      )}
       
-      {/* Orb Labels - Adjusted positioning for new navigation layout */}
+      {/* Orb Labels - moved up with reduced bottom padding */}
       {activeOrbData && (
         <div className={`absolute z-20 text-center transition-all duration-500 ${
           isMobile 
-            ? 'bottom-40 left-1/2 transform -translate-x-1/2' 
-            : 'bottom-32 left-1/2 transform -translate-x-1/2'
+            ? 'bottom-32 left-1/2 transform -translate-x-1/2' 
+            : 'bottom-24 left-1/2 transform -translate-x-1/2'
         }`}>
           <h3 className={`font-bold text-white mb-1 tracking-wider ${
             isMobile ? 'text-xl' : 'text-xl md:text-2xl'
@@ -275,11 +378,11 @@ export function HomeClient({ orbsData, sceneConfig }: HomeClientProps) {
         </div>
       )}
       
-      {/* Instructions - Updated positioning */}
+      {/* Instructions - reduced bottom padding */}
       <div className={`absolute z-20 text-center ${
         isMobile 
-          ? 'bottom-4 left-1/2 transform -translate-x-1/2' 
-          : 'bottom-8 left-1/2 transform -translate-x-1/2'
+          ? 'bottom-2 left-1/2 transform -translate-x-1/2' 
+          : 'bottom-4 left-1/2 transform -translate-x-1/2'
       }`}>
         <p className={`text-white/30 ${
           isMobile ? 'text-sm' : 'text-xs md:text-sm'
@@ -310,29 +413,40 @@ export function HomeClient({ orbsData, sceneConfig }: HomeClientProps) {
         }}
         shadows
       >
+        <CameraController currentOrbIndex={currentOrbIndex} />
         <Scene config={sceneConfig} />
         
         {orbsData.map((orb, index) => {
           const OrbComponent = getOrbComponent(orb.component)
           
-          // On mobile, only show the current orb
-          if (isMobile && index !== currentMobileOrbIndex) {
-            return null
-          }
+          // Calculate position based on index and current active orb
+          const isActive = index === currentOrbIndex
           
-          // Mobile positioning: all orbs at same height and higher up
-          const mobilePosition: [number, number, number] = [0, 1, 0] // Centered and elevated
+          // Create a horizontal carousel layout - moved up
+          const offsetX = (index - currentOrbIndex) * 6 // 6 units apart horizontally
+          const baseY = isActive ? 2.0 : 1.6 // Active orb higher up, inactive orbs also higher
+          const baseZ = isActive ? 0 : -1.5 // Inactive orbs slightly back
+          
+          const position: [number, number, number] = [offsetX, baseY, baseZ]
+          
+          // Size: active orb normal size, inactive smaller
+          const orbSize = orb.size * (isActive ? (isMobile ? 1.2 : 1.1) : 0.8)
           
           return (
-            <OrbComponent
+            <AnimatedOrbWrapper 
               key={orb.id}
-              position={isMobile ? mobilePosition : orb.position}
-              colors={orb.colors}
-              size={isMobile ? orb.size * 1.2 : orb.size} // Slightly larger on mobile
-              onClick={() => router.push(orb.route)}
-              isHovered={activeOrbId === orb.id}
-              onHover={(hovered) => !isMobile && setHoveredOrb(hovered ? orb.id : null)}
-            />
+              targetPosition={position}
+              isActive={isActive}
+            >
+              <OrbComponent
+                position={[0, 0, 0]} // Position handled by wrapper
+                colors={orb.colors}
+                size={orbSize}
+                onClick={() => router.push(orb.route)}
+                isHovered={isActive} // Only active orb is animated
+                onHover={(hovered) => setHoveredOrb(hovered ? orb.id : null)}
+              />
+            </AnimatedOrbWrapper>
           )
         })}
       </Canvas>
