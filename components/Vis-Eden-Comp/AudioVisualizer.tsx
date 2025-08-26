@@ -573,19 +573,19 @@ export function VisualizerBlob({ position = [0, 0, 0] as [number, number, number
     const shape = controls.shape || 'sphere'
     if (DEBUG) console.log('Creating geometry:', shape)
     
-    switch (shape) {
+            switch (shape) {
       case 'cube':
-        return new THREE.BoxGeometry(2, 2, 2, 12, 12, 12)
+        return new THREE.BoxGeometry(2, 2, 2, 8, 8, 8) // Reduced segments for mobile
       case 'cylinder':
-        return new THREE.CylinderGeometry(1.2, 1.2, 2.5, 24, 12)
+        return new THREE.CylinderGeometry(1.2, 1.2, 2.5, 16, 8) // Reduced segments
       case 'cone':
-        return new THREE.ConeGeometry(1.5, 2.5, 24, 12)
+        return new THREE.ConeGeometry(1.5, 2.5, 16, 8) // Reduced segments
       case 'torus':
-        return new THREE.TorusGeometry(1.2, 0.5, 12, 24)
+        return new THREE.TorusGeometry(1.2, 0.5, 8, 16) // Reduced segments
       case 'torusKnot':
-        return new THREE.TorusKnotGeometry(1, 0.3, 48, 8, 2, 3)
+        return new THREE.TorusKnotGeometry(1, 0.3, 32, 6, 2, 3) // Reduced segments
       default:
-        return new THREE.SphereGeometry(1.5, 24, 12)
+        return new THREE.SphereGeometry(1.5, 16, 8) // Reduced segments for mobile
     }
   }, [controls.shape])
 
@@ -1052,9 +1052,16 @@ export function AudioVisualizer() {
           far: 100,
           near: 0.5 
           }}
-          dpr={[1, 1.5]}
-          gl={{ antialias: false, powerPreference: 'high-performance' }}
+          dpr={[1, 1.5]} // Limit pixel ratio for mobile performance
+          gl={{ 
+            antialias: false, // Disabled for mobile performance
+            powerPreference: 'high-performance',
+            alpha: true,
+            stencil: false,
+            depth: true
+          }}
           style={{ width: '100%', height: '100%' }}
+          performance={{ min: 0.5 }} // Reduce quality when framerate drops
       >
         {controls.ambientSpaceMode && <AmbientSpace />}
         <ambientLight intensity={0.4} />

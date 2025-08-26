@@ -51,13 +51,13 @@ function EnhancedParticles({ config }: { config: SceneConfig['particles'] }) {
   const velocities = new Float32Array(config.count * 3)
   
   for (let i = 0; i < config.count; i++) {
-    positions[i * 3] = (Math.random() - 0.5) * 40
-    positions[i * 3 + 1] = (Math.random() - 0.5) * 40
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 40
+    positions[i * 3] = (Math.random() - 0.5) * 32
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 32
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 32
     
-    velocities[i * 3] = (Math.random() - 0.5) * 0.01
-    velocities[i * 3 + 1] = (Math.random() - 0.5) * 0.01
-    velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.01
+    velocities[i * 3] = (Math.random() - 0.5) * 0.008
+    velocities[i * 3 + 1] = (Math.random() - 0.5) * 0.008
+    velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.008
     
     // Use server config for color distribution
     const colorChoice = Math.random()
@@ -134,16 +134,16 @@ function AnimatedOrbWrapper({
   useFrame(() => {
     if (!groupRef.current) return
     
-    // Smooth position interpolation
-    const target = new THREE.Vector3(...targetPosition)
-    currentPosition.current.lerp(target, 0.08)
-    groupRef.current.position.copy(currentPosition.current)
-    
-    // Subtle scale animation for active orb
-    const targetScale = isActive ? 1 : 0.85
-    const currentScale = groupRef.current.scale.x
-    const newScale = THREE.MathUtils.lerp(currentScale, targetScale, 0.06)
-    groupRef.current.scale.setScalar(newScale)
+          // Smooth position interpolation - optimized for mobile
+      const target = new THREE.Vector3(...targetPosition)
+      currentPosition.current.lerp(target, 0.12) // Faster interpolation
+      groupRef.current.position.copy(currentPosition.current)
+      
+      // Subtle scale animation for active orb - optimized
+      const targetScale = isActive ? 1 : 0.85
+      const currentScale = groupRef.current.scale.x
+      const newScale = THREE.MathUtils.lerp(currentScale, targetScale, 0.1) // Faster scaling
+      groupRef.current.scale.setScalar(newScale)
     
     // Subtle opacity for inactive orbs
     groupRef.current.traverse((child) => {
@@ -168,12 +168,12 @@ function CameraController({ currentOrbIndex }: { currentOrbIndex: number }) {
   useFrame(() => {
     // Keep camera centered but allow slight movement for depth
     const targetX = 0
-    const targetY = 0.2 // Slightly elevated to better view the higher orbs
+    const targetY = 0 // Centered camera position
     const targetZ = 12
     
     // Smooth camera positioning
     camera.position.lerp(new THREE.Vector3(targetX, targetY, targetZ), 0.03)
-    camera.lookAt(0, 2, 0) // Look at the higher orb positions
+    camera.lookAt(0, 0, 0) // Look at center to better frame the orbs
   })
 
   return null
@@ -196,12 +196,12 @@ function Scene({ config }: { config: SceneConfig }) {
       <ambientLight intensity={0.15} />
       
       <group ref={lightsRef}>
-        <pointLight position={[-6, 2, 3]} intensity={3} color="#ff4400" distance={15} />
-        <pointLight position={[0, 3, 3]} intensity={2.5} color="#44aaff" distance={15} />
+        <pointLight position={[-6, 1, 3]} intensity={3} color="#ff4400" distance={15} />
+        <pointLight position={[0, 2, 3]} intensity={2.5} color="#44aaff" distance={15} />
         <pointLight position={[6, -1, 3]} intensity={2.8} color="#44ddaa" distance={15} />
-        <pointLight position={[0, -8, -5]} intensity={1.2} color="#ffffff" distance={20} />
-        <pointLight position={[8, 8, -8]} intensity={1} color="#ffddaa" distance={25} />
-        <pointLight position={[-8, 4, -6]} intensity={0.8} color="#aaddff" distance={20} />
+        <pointLight position={[0, -6, -5]} intensity={1.2} color="#ffffff" distance={20} />
+        <pointLight position={[8, 6, -8]} intensity={1} color="#ffddaa" distance={25} />
+        <pointLight position={[-8, 2, -6]} intensity={0.8} color="#aaddff" distance={20} />
       </group>
       
       <directionalLight 
@@ -216,29 +216,54 @@ function Scene({ config }: { config: SceneConfig }) {
   )
 }
 
-// Hook for detecting mobile screen size
+// Hook for detecting mobile screen size and device capabilities
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false)
+  const [isLowEndDevice, setIsLowEndDevice] = useState(false)
 
   useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 768) // md breakpoint
+    const checkDevice = () => {
+      const width = window.innerWidth
+      const isMobileSize = width < 768 // md breakpoint
+      setIsMobile(isMobileSize)
+      
+      // Detect low-end devices for additional performance optimizations
+      const isLowEnd = (
+        isMobileSize && (
+          navigator.hardwareConcurrency <= 4 || // 4 or fewer CPU cores
+          (navigator as any).deviceMemory <= 4 || // 4GB or less RAM (if available)
+          width <= 414 // Very small screens (iPhone SE, etc.)
+        )
+      )
+      setIsLowEndDevice(isLowEnd)
     }
     
-    checkIsMobile()
-    window.addEventListener('resize', checkIsMobile)
+    checkDevice()
+    window.addEventListener('resize', checkDevice)
     
-    return () => window.removeEventListener('resize', checkIsMobile)
+    return () => window.removeEventListener('resize', checkDevice)
   }, [])
 
-  return isMobile
+  return { isMobile, isLowEndDevice }
 }
 
 export function HomeClient({ orbsData, sceneConfig }: HomeClientProps) {
   const router = useRouter()
   const [hoveredOrb, setHoveredOrb] = useState<string | null>(null)
   const [currentOrbIndex, setCurrentOrbIndex] = useState(0) // Unified for both mobile and desktop
-  const isMobile = useIsMobile()
+  const { isMobile, isLowEndDevice } = useIsMobile()
+  
+  // Adjust scene config for low-end devices
+  const optimizedSceneConfig = {
+    ...sceneConfig,
+    particles: {
+      ...sceneConfig.particles,
+      count: isLowEndDevice ? 30 : sceneConfig.particles.count, // Even fewer particles for low-end devices
+      boundarySize: isLowEndDevice 
+        ? { x: 12, y: 12, z: 12 } 
+        : sceneConfig.particles.boundarySize
+    }
+  }
   
   // No auto-switching - user controls navigation manually
 
@@ -406,15 +431,17 @@ export function HomeClient({ orbsData, sceneConfig }: HomeClientProps) {
           zIndex: 10
         }}
         gl={{ 
-          antialias: true,
+          antialias: false, // Disabled for better mobile performance
           alpha: true,
+          powerPreference: 'high-performance',
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: sceneConfig.lighting.toneMappingExposure
         }}
+        dpr={isLowEndDevice ? [0.75, 1] : [1, 1.5]} // Even lower DPR for low-end devices
         shadows
       >
         <CameraController currentOrbIndex={currentOrbIndex} />
-        <Scene config={sceneConfig} />
+        <Scene config={optimizedSceneConfig} />
         
         {orbsData.map((orb, index) => {
           const OrbComponent = getOrbComponent(orb.component)
@@ -422,9 +449,9 @@ export function HomeClient({ orbsData, sceneConfig }: HomeClientProps) {
           // Calculate position based on index and current active orb
           const isActive = index === currentOrbIndex
           
-          // Create a horizontal carousel layout - moved up
+          // Create a horizontal carousel layout - centered vertically
           const offsetX = (index - currentOrbIndex) * 6 // 6 units apart horizontally
-          const baseY = isActive ? 2.0 : 1.6 // Active orb higher up, inactive orbs also higher
+          const baseY = isActive ? 0.5 : 0.2 // Center the orbs vertically on screen
           const baseZ = isActive ? 0 : -1.5 // Inactive orbs slightly back
           
           const position: [number, number, number] = [offsetX, baseY, baseZ]

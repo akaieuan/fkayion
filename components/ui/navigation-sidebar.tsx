@@ -110,14 +110,6 @@ export function NavigationSidebar({ className }: NavigationSidebarProps) {
       <Separator className="bg-white/10" />
 
       {/* Footer with additional info */}
-      <div className="p-6 text-center space-y-2">
-        <p className="text-xs text-white/50">
-          Navigate between experiences
-        </p>
-        <p className="text-xs text-white/30">
-          Built with React & Three.js
-        </p>
-      </div>
     </div>
   )
 
@@ -137,4 +129,4 @@ export function NavigationSidebar({ className }: NavigationSidebarProps) {
       </Sheet>
     </>
   )
-} 
+}
