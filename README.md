@@ -64,7 +64,7 @@ A 3D audio visualizer built with Next.js, React Three Fiber, and custom shaders 
 
 - `AudioContext.tsx` - Manages audio processing and global state
 - `AudioVisualizer.tsx` - 3D scene with mercury blob and shaders
-- `ControlSidebar.tsx` - Interactive controls panel
+- `ControlDrawer.tsx` - Interactive controls panel
 - `AudioBar.tsx` - Playback controls and progress bar
 
 The visualizer always shows the animated shape so users can experiment with controls even without audio loaded.
