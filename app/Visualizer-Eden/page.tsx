@@ -29,8 +29,8 @@ const demoSongs = [
       liquidity: 5.2,
       viscosity: 3.8,
       density: 0.6,
-      brightness: 0.3, // Darker
-      contrast: 0.5, // Deep contrast
+      brightness: 3.5, // Darker
+      contrast: 0.7, // Deep contrast
       bloom: 0.35,
       grain: 0.45, // Harsh film grain
       grainSize: 3.2,
