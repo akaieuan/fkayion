@@ -152,15 +152,30 @@ interface AudioData {
     dropletPlasma: number
     dropletHologram: number
     
-    // AMBIENT SPACE MODE CONTROLS
-    ambientSpaceMode?: boolean
-    ambientIntensity?: number
-    ambientWaveCount?: number
-    ambientFlowSpeed?: number
-    ambientDepth?: number
-    
     // ABSTRACT INVERSION EFFECT
     abstractSplit?: number
+    
+    // STRANGE ATTRACTOR MODE
+    strangeAttractorMode?: boolean
+    strangeAttractorType?: string
+    strangeAttractorParticles?: number
+    strangeAttractorParticleSize?: number
+    strangeAttractorTrailLength?: number
+    strangeAttractorConnections?: boolean
+    strangeAttractorConnectionRadius?: number
+    strangeAttractorChaos?: number
+    strangeAttractorAudioReactivity?: number
+    strangeAttractorTrailOpacity?: number
+    strangeAttractorOverlay?: boolean
+    saColor1?: string
+    saColor2?: string
+    saColor3?: string
+    saColor4?: string
+    // Reactivity extras
+    beatSwitchEnabled?: boolean
+    depthWarpStrength?: number
+    scaleWarpStrength?: number
+    trailGhostEnabled?: boolean
   }
   setControls: (controls: any) => void
   
@@ -210,6 +225,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
   const audioContextRef = useRef<AudioContext | null>(null)
   const analyserRef = useRef<AnalyserNode | null>(null)
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null)
+  const sourceElementRef = useRef<HTMLAudioElement | null>(null)
   const dataArrayRef = useRef<Uint8Array | null>(null)
   const animationFrameRef = useRef<number>()
   const volumeHistoryRef = useRef<number[]>([])
@@ -333,15 +349,29 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     dropletPlasma: 0.0,              // Plasma energy effects
     dropletHologram: 0.0,            // Holographic transparency effects
     
-    // AMBIENT SPACE MODE CONTROLS
-    ambientSpaceMode: false,         // Toggle ambient space mode
-    ambientIntensity: 1.0,           // Overall ambient intensity
-    ambientWaveCount: 8,             // Number of wave patterns
-    ambientFlowSpeed: 1.0,           // Speed of wave motion
-    ambientDepth: 1.0,               // 3D depth of waves
-    
     // ABSTRACT INVERSION EFFECT
     abstractSplit: 0.0,              // 0.0-3.0 for dramatic blob inversion/splitting
+    
+    // STRANGE ATTRACTOR MODE
+    strangeAttractorMode: false,     // Toggle strange attractor mode
+    strangeAttractorType: 'thomas',  // 'thomas', 'lorenz', 'rossler', 'aizawa'
+    strangeAttractorParticles: 40000,// Number of particles (1000-50000)
+    strangeAttractorParticleSize: 0.5, // Particle size multiplier
+    strangeAttractorTrailLength: 0,  // Trail length in frames (0-100)
+    strangeAttractorConnections: false, // Show particle connections
+    strangeAttractorConnectionRadius: 5.0, // Connection radius
+    strangeAttractorChaos: 1.0,      // Chaos level (0.1-3.0)
+    strangeAttractorAudioReactivity: 0.3, // Audio sensitivity (0.0-3.0)
+    strangeAttractorTrailOpacity: 0.8,  // Trail opacity (0.0-1.0)
+    strangeAttractorOverlay: false,
+    saColor1: undefined,
+    saColor2: undefined,
+    saColor3: undefined,
+    saColor4: undefined,
+    beatSwitchEnabled: true,
+    depthWarpStrength: 0.6,
+    scaleWarpStrength: 0.5,
+    trailGhostEnabled: true
   })
 
   // Color palettes for auto cycling
@@ -370,27 +400,38 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
       const audioContext = audioContextRef.current
       
       if (audioContext.state === 'suspended') {
-        audioContext.resume()
+        audioContext.resume().catch(() => {})
       }
       
-      if (sourceRef.current) {
-        sourceRef.current.disconnect()
+      // Create or reuse analyser
+      if (!analyserRef.current) {
+        const analyser = audioContext.createAnalyser()
+        analyser.fftSize = 512
+        analyser.smoothingTimeConstant = 0.3
+        analyser.minDecibels = -90
+        analyser.maxDecibels = -10
+        analyserRef.current = analyser
       }
       
-      const source = audioContext.createMediaElementSource(audioElement)
-      const analyser = audioContext.createAnalyser()
+      // Create source only once per HTMLAudioElement for this AudioContext
+      if (!sourceRef.current || sourceElementRef.current !== audioElement) {
+        if (sourceRef.current) {
+          try { sourceRef.current.disconnect() } catch {}
+        }
+        const source = audioContext.createMediaElementSource(audioElement)
+        sourceRef.current = source
+        sourceElementRef.current = audioElement
+      }
       
-      analyser.fftSize = 512
-      analyser.smoothingTimeConstant = 0.3
-      analyser.minDecibels = -90
-      analyser.maxDecibels = -10
+      // Reconnect graph safely
+      try { sourceRef.current.disconnect() } catch {}
+      try { analyserRef.current.disconnect() } catch {}
+      sourceRef.current.connect(analyserRef.current!)
+      analyserRef.current!.connect(audioContext.destination)
       
-      source.connect(analyser)
-      analyser.connect(audioContext.destination)
-      
-      sourceRef.current = source
-      analyserRef.current = analyser
-      dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount)
+      if (!dataArrayRef.current || dataArrayRef.current.length !== analyserRef.current!.frequencyBinCount) {
+        dataArrayRef.current = new Uint8Array(analyserRef.current!.frequencyBinCount)
+      }
       
       console.log('Audio analysis setup complete')
       startAudioAnalysis()
@@ -521,18 +562,24 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
       cancelAnimationFrame(animationFrameRef.current)
     }
     
-    if (sourceRef.current) {
-      sourceRef.current.disconnect()
-      sourceRef.current = null
-    }
-    
-    if (audioContextRef.current) {
-      audioContextRef.current.close()
-      audioContextRef.current = null
-    }
-    
+    // Disconnect nodes but keep a single AudioContext alive
+    try {
+      if (sourceRef.current) {
+        sourceRef.current.disconnect()
+      }
+      if (analyserRef.current) {
+        analyserRef.current.disconnect()
+      }
+    } catch {}
+    sourceRef.current = null
+    sourceElementRef.current = null
     analyserRef.current = null
     dataArrayRef.current = null
+    
+    if (audioContextRef.current && audioContextRef.current.state === 'running') {
+      audioContextRef.current.suspend().catch(() => {})
+    }
+    
     volumeHistoryRef.current = []
     
     beatHistoryRef.current = []
@@ -561,6 +608,12 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     if (audioRef.current) {
       try {
         console.log('🎵 PLAY CALLED:', { element: !!audioRef.current, src: audioRef.current.src })
+        
+        // If ended, rewind so play works
+        if (!isNaN(audioRef.current.duration) && audioRef.current.currentTime >= (audioRef.current.duration - 0.01)) {
+          audioRef.current.currentTime = 0
+          setCurrentTime(0)
+        }
         
         if (typeof window !== 'undefined') {
           try {
@@ -660,7 +713,14 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
       const handleEnded = () => {
         console.log('AUDIO ENDED')
         setIsPlaying(false)
-        cleanupAudioAnalysis()
+        // Reset to start for immediate replay
+        try { audio.currentTime = 0 } catch {}
+        setCurrentTime(0)
+        // Stop analysis frame but keep graph intact
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current)
+          animationFrameRef.current = undefined
+        }
       }
       // Removed auto-play to reduce initial load
       const handleError = (e: any) => {
@@ -820,6 +880,10 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     return () => {
       cleanupAudioAnalysis()
+      if (audioContextRef.current) {
+        try { audioContextRef.current.close() } catch {}
+        audioContextRef.current = null
+      }
     }
   }, [cleanupAudioAnalysis])
 

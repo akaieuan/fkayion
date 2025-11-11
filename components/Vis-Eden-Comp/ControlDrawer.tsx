@@ -162,19 +162,18 @@ export function ControlDrawer() {
       color3: '#e6e6fa',
       color4: '#f5f5dc'
     },
-    'Ambient Space': {
-      ambientSpaceMode: true,
-      viscosity: 2.0,
-      surfaceTension: 1.5,
-      goopiness: 2.2,
-      liquidity: 3.5,
-      brightness: 1.3,
-      contrast: 1.8,
-      bloom: 0.2,
-      color1: '#191970',
-      color2: '#4b0082',
-      color3: '#8b008b',
-      color4: '#9400d3'
+    'Strange Attractor': {
+      strangeAttractorMode: true,
+      strangeAttractorType: 'thomas',
+      strangeAttractorParticles: 50000,
+      strangeAttractorParticleSize: 0.3,
+      strangeAttractorChaos: 1.0,
+      strangeAttractorAudioReactivity: 0.5,
+      brightness: 2.0,
+      color1: '#00f2ff',
+      color2: '#ff00a8',
+      color3: '#7000ff',
+      color4: '#00ff88'
     }
   }
 
@@ -595,17 +594,213 @@ export function ControlDrawer() {
                   )}
                   <div className="flex items-center space-x-0.5">
                     <input
-                      id="ambient-dr"
+                      id="strangeAttractor-dr"
                       type="checkbox"
-                      name="ambientSpaceMode"
-                      checked={controls.ambientSpaceMode || false}
+                      name="strangeAttractorMode"
+                      checked={controls.strangeAttractorMode || false}
                       onChange={handleControlChange}
                       className="w-2.5 h-2.5 rounded border border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-400 focus:shadow-none"
                     />
-                    <label htmlFor="ambient-dr" className="text-[8px] text-gray-300">Ambient Space</label>
+                    <label htmlFor="strangeAttractor-dr" className="text-[8px] text-gray-300">Strange Attractor</label>
+                  </div>
+                  <div className="flex items-center space-x-0.5">
+                    <input
+                      id="sa-overlay-dr"
+                      type="checkbox"
+                      name="strangeAttractorOverlay"
+                      checked={controls.strangeAttractorOverlay || false}
+                      onChange={handleControlChange}
+                      className="w-2.5 h-2.5 rounded border border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-400 focus:shadow-none"
+                    />
+                    <label htmlFor="sa-overlay-dr" className="text-[8px] text-gray-300">Overlay Blob + Attractor</label>
                   </div>
                 </div>
             </CollapsibleSection>
+
+            {/* Strange Attractor Section - Only visible when mode is active */}
+            {controls.strangeAttractorMode && (
+              <CollapsibleSection title="Strange Attractor" defaultOpen={true}>
+                <div className="space-y-0.5">
+                  <select
+                    name="strangeAttractorType"
+                    value={controls.strangeAttractorType || 'thomas'}
+                    onChange={handleControlChange}
+                    className="w-full bg-gray-700/60 text-gray-200 rounded px-1 py-0.5 text-[9px] border border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-400 focus:shadow-none"
+                  >
+                    <option value="thomas">Thomas</option>
+                    <option value="lorenz">Lorenz</option>
+                    <option value="rossler">Rössler</option>
+                    <option value="aizawa">Aizawa</option>
+                    <option value="halvorsen">Halvorsen</option>
+                    <option value="chen">Chen</option>
+                    <option value="dadras">Dadras</option>
+                  </select>
+                  {/* Optional attractor-specific colors */}
+                  <div className="grid grid-cols-2 gap-0.5">
+                    <div>
+                      <label className="text-[8px] text-gray-300 block mb-0.5">SA Color 1</label>
+                      <input
+                        type="color"
+                        name="saColor1"
+                        value={controls.saColor1 || controls.color1}
+                        onChange={handleControlChange}
+                        className="w-full h-6 rounded cursor-pointer border border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-400"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[8px] text-gray-300 block mb-0.5">SA Color 2</label>
+                      <input
+                        type="color"
+                        name="saColor2"
+                        value={controls.saColor2 || controls.color2}
+                        onChange={handleControlChange}
+                        className="w-full h-6 rounded cursor-pointer border border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-400"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[8px] text-gray-300 block mb-0.5">SA Color 3</label>
+                      <input
+                        type="color"
+                        name="saColor3"
+                        value={controls.saColor3 || controls.color3}
+                        onChange={handleControlChange}
+                        className="w-full h-6 rounded cursor-pointer border border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-400"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[8px] text-gray-300 block mb-0.5">SA Color 4</label>
+                      <input
+                        type="color"
+                        name="saColor4"
+                        value={controls.saColor4 || controls.color4}
+                        onChange={handleControlChange}
+                        className="w-full h-6 rounded cursor-pointer border border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-400"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-0.5">
+                    <div className="flex items-center space-x-0.5">
+                      <input
+                        id="beatSwitch-dr"
+                        type="checkbox"
+                        name="beatSwitchEnabled"
+                        checked={controls.beatSwitchEnabled || false}
+                        onChange={handleControlChange}
+                        className="w-2.5 h-2.5 rounded border border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-400 focus:shadow-none"
+                      />
+                      <label htmlFor="beatSwitch-dr" className="text-[8px] text-gray-300">Switch on beat</label>
+                    </div>
+                    <div className="flex items-center space-x-0.5">
+                      <input
+                        id="trailGhost-dr"
+                        type="checkbox"
+                        name="trailGhostEnabled"
+                        checked={controls.trailGhostEnabled || false}
+                        onChange={handleControlChange}
+                        className="w-2.5 h-2.5 rounded border border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-400 focus:shadow-none"
+                      />
+                      <label htmlFor="trailGhost-dr" className="text-[8px] text-gray-300">Ghost trails</label>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between mb-0">
+                      <label className="text-[9px] text-gray-300">Depth Warp</label>
+                      <span className="text-[9px] text-gray-400 font-mono">{(controls.depthWarpStrength || 0.6).toFixed(2)}</span>
+                    </div>
+                    <input
+                      type="range"
+                      name="depthWarpStrength"
+                      min="0.0"
+                      max="2.0"
+                      step="0.05"
+                      value={controls.depthWarpStrength || 0.6}
+                      onChange={handleControlChange}
+                      className="w-full h-1 bg-gray-600/50 rounded appearance-none cursor-pointer focus:outline-none focus:ring-0 focus:border-none [&::-webkit-slider-thumb]:focus:outline-none [&::-webkit-slider-thumb]:focus:ring-0 [&::-moz-range-thumb]:focus:outline-none [&::-moz-range-thumb]:focus:ring-0"
+                    />
+                  </div>
+                  <div>
+                    <div className="flex justify-between mb-0">
+                      <label className="text-[9px] text-gray-300">Scale Warp</label>
+                      <span className="text-[9px] text-gray-400 font-mono">{(controls.scaleWarpStrength || 0.5).toFixed(2)}</span>
+                    </div>
+                    <input
+                      type="range"
+                      name="scaleWarpStrength"
+                      min="0.0"
+                      max="2.0"
+                      step="0.05"
+                      value={controls.scaleWarpStrength || 0.5}
+                      onChange={handleControlChange}
+                      className="w-full h-1 bg-gray-600/50 rounded appearance-none cursor-pointer focus:outline-none focus:ring-0 focus:border-none [&::-webkit-slider-thumb]:focus:outline-none [&::-webkit-slider-thumb]:focus:ring-0 [&::-moz-range-thumb]:focus:outline-none [&::-moz-range-thumb]:focus:ring-0"
+                    />
+                  </div>
+                  <div>
+                    <div className="flex justify-between mb-0">
+                      <label className="text-[9px] text-gray-300">Particles</label>
+                      <span className="text-[9px] text-gray-400 font-mono">{(controls.strangeAttractorParticles || 10000).toLocaleString()}</span>
+                    </div>
+                    <input
+                      type="range"
+                      name="strangeAttractorParticles"
+                      min="1000"
+                      max="50000"
+                      step="1000"
+                      value={controls.strangeAttractorParticles || 10000}
+                      onChange={handleControlChange}
+                      className="w-full h-1 bg-gray-600/50 rounded appearance-none cursor-pointer focus:outline-none focus:ring-0 focus:border-none [&::-webkit-slider-thumb]:focus:outline-none [&::-webkit-slider-thumb]:focus:ring-0 [&::-moz-range-thumb]:focus:outline-none [&::-moz-range-thumb]:focus:ring-0"
+                    />
+                  </div>
+                  <div>
+                    <div className="flex justify-between mb-0">
+                      <label className="text-[9px] text-gray-300">Particle Size</label>
+                      <span className="text-[9px] text-gray-400 font-mono">{(controls.strangeAttractorParticleSize || 1.0).toFixed(1)}</span>
+                    </div>
+                    <input
+                      type="range"
+                      name="strangeAttractorParticleSize"
+                      min="0.1"
+                      max="3.0"
+                      step="0.1"
+                      value={controls.strangeAttractorParticleSize || 1.0}
+                      onChange={handleControlChange}
+                      className="w-full h-1 bg-gray-600/50 rounded appearance-none cursor-pointer focus:outline-none focus:ring-0 focus:border-none [&::-webkit-slider-thumb]:focus:outline-none [&::-webkit-slider-thumb]:focus:ring-0 [&::-moz-range-thumb]:focus:outline-none [&::-moz-range-thumb]:focus:ring-0"
+                    />
+                  </div>
+                  <div>
+                    <div className="flex justify-between mb-0">
+                      <label className="text-[9px] text-gray-300">Chaos Level</label>
+                      <span className="text-[9px] text-gray-400 font-mono">{(controls.strangeAttractorChaos || 1.0).toFixed(1)}</span>
+                    </div>
+                    <input
+                      type="range"
+                      name="strangeAttractorChaos"
+                      min="0.1"
+                      max="3.0"
+                      step="0.1"
+                      value={controls.strangeAttractorChaos || 1.0}
+                      onChange={handleControlChange}
+                      className="w-full h-1 bg-gray-600/50 rounded appearance-none cursor-pointer focus:outline-none focus:ring-0 focus:border-none [&::-webkit-slider-thumb]:focus:outline-none [&::-webkit-slider-thumb]:focus:ring-0 [&::-moz-range-thumb]:focus:outline-none [&::-moz-range-thumb]:focus:ring-0"
+                    />
+                  </div>
+                  <div>
+                    <div className="flex justify-between mb-0">
+                      <label className="text-[9px] text-gray-300">Audio React</label>
+                      <span className="text-[9px] text-gray-400 font-mono">{(controls.strangeAttractorAudioReactivity || 1.0).toFixed(1)}</span>
+                    </div>
+                    <input
+                      type="range"
+                      name="strangeAttractorAudioReactivity"
+                      min="0.0"
+                      max="3.0"
+                      step="0.1"
+                      value={controls.strangeAttractorAudioReactivity || 1.0}
+                      onChange={handleControlChange}
+                      className="w-full h-1 bg-gray-600/50 rounded appearance-none cursor-pointer focus:outline-none focus:ring-0 focus:border-none [&::-webkit-slider-thumb]:focus:outline-none [&::-webkit-slider-thumb]:focus:ring-0 [&::-moz-range-thumb]:focus:outline-none [&::-moz-range-thumb]:focus:ring-0"
+                    />
+                  </div>
+                </div>
+              </CollapsibleSection>
+            )}
 
             {/* Physics Section */}
             <CollapsibleSection title="Physics" defaultOpen={false}>
