@@ -769,170 +769,337 @@ export function VisualizerBlob({ position = [0, 0, 0] as [number, number, number
   )
 }
 
-// Fullscreen ambient liquid background for Ambient Space Mode
-function AmbientSpace() {
-  const meshRef = useRef<THREE.Mesh>(null)
-  const { isPlaying, audioData, controls } = useAudio()
-  const { camera, viewport: vpHelper, size } = useThree()
+// Strange Attractor Component - CPU particles (robust fallback)
+function StrangeAttractor({ position = [0, 0, 0] as [number, number, number], scale = 1 }) {
+  const { controls, audioData, isPlaying, audioSrc, setControls } = useAudio()
+  const pointsRef = useRef<THREE.Points>(null)
+  const ghostRef = useRef<THREE.Points>(null)
+
+  // Particle count
+  const particleCount = Math.max(1000, Math.min(controls.strangeAttractorParticles || 20000, 60000))
+
+  // Position/color buffers
+  const positions = useMemo(() => new Float32Array(particleCount * 3), [particleCount])
+  const colors = useMemo(() => new Float32Array(particleCount * 3), [particleCount])
+  const ghostPositions = useMemo(() => new Float32Array(particleCount * 3), [particleCount])
+
+  // Initialize particles near origin (best for Thomas)
+  useEffect(() => {
+    for (let i = 0; i < particleCount; i++) {
+      const i3 = i * 3
+      positions[i3 + 0] = (Math.random() - 0.5) * 2
+      positions[i3 + 1] = (Math.random() - 0.5) * 2
+      positions[i3 + 2] = (Math.random() - 0.5) * 2
+      colors[i3 + 0] = 1
+      colors[i3 + 1] = 1
+      colors[i3 + 2] = 1
+      ghostPositions[i3 + 0] = positions[i3 + 0]
+      ghostPositions[i3 + 1] = positions[i3 + 1]
+      ghostPositions[i3 + 2] = positions[i3 + 2]
+    }
+  }, [particleCount, positions, colors, ghostPositions])
+
+  // Geometry + material
+  const geometry = useMemo(() => {
+    const geo = new THREE.BufferGeometry()
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+    return geo
+  }, [positions, colors])
+
+  // Ghost geometry/material for cheap trails
+  const ghostGeometry = useMemo(() => {
+    const geo = new THREE.BufferGeometry()
+    geo.setAttribute('position', new THREE.BufferAttribute(ghostPositions, 3))
+    return geo
+  }, [ghostPositions])
 
   const material = useMemo(() => {
-    return new THREE.ShaderMaterial({
-      uniforms: {
-        u_time: { value: 0 },
-        u_intensity: { value: 1.0 },
-        u_audio: { value: 0.0 },
-        u_bass: { value: 0.0 },
-        u_mid: { value: 0.0 },
-        u_high: { value: 0.0 },
-        // Color controls
-        u_color1: { value: new THREE.Color('#00f2ff') },
-        u_color2: { value: new THREE.Color('#ff00a8') },
-        u_color3: { value: new THREE.Color('#7000ff') },
-        u_color4: { value: new THREE.Color('#ff6b00') },
-        // Physics controls
-        u_viscosity: { value: 0.5 },
-        u_surfaceTension: { value: 0.7 },
-        u_density: { value: 1.0 },
-        u_goopiness: { value: 1.5 },
-        u_liquidity: { value: 2.0 },
-      },
-      vertexShader: `
-        varying vec2 vUv;
-        void main() {
-          vUv = uv;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        varying vec2 vUv;
-        uniform float u_time;
-        uniform float u_intensity;
-        uniform float u_audio;
-        uniform float u_bass;
-        uniform float u_mid;
-        uniform float u_high;
-        uniform vec3 u_color1;
-        uniform vec3 u_color2;
-        uniform vec3 u_color3;
-        uniform vec3 u_color4;
-        uniform float u_viscosity;
-        uniform float u_surfaceTension;
-        uniform float u_density;
-        uniform float u_goopiness;
-        uniform float u_liquidity;
-
-        float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453123); }
-        float noise(vec2 p){
-          vec2 i = floor(p);
-          vec2 f = fract(p);
-          vec2 u = f*f*(3.0-2.0*f);
-          return mix(mix(hash(i + vec2(0.0,0.0)), hash(i + vec2(1.0,0.0)), u.x),
-                     mix(hash(i + vec2(0.0,1.0)), hash(i + vec2(1.0,1.0)), u.x), u.y);
-        }
-        float fbm(vec2 p){
-          float v = 0.0;
-          float a = 0.5;
-          for(int i=0;i<5;i++){
-            v += a * noise(p);
-            p *= 2.0;
-            a *= 0.5;
-          }
-          return v;
-        }
-
-        float contour(float h, float lines, float thickness){
-          float f = fract(h * lines);
-          float d = abs(f - 0.5);
-          return smoothstep(0.5 - thickness, 0.5, 0.5 - d);
-        }
-
-        void main(){
-          vec2 uv = vUv * 2.0 - 1.0;
-          float t = u_time * (1.0 / max(u_viscosity, 0.1)); // viscosity affects flow speed
-          
-          // Physics controls affect flow
-          float flow = (0.15 + u_audio * 0.6) * u_liquidity * 0.3;
-          float scale = (1.5 + u_mid * 2.0) * u_density;
-          vec2 p = uv * scale;
-          
-          // Goopiness affects warping
-          vec2 warp = vec2(
-            fbm(p + vec2(t*flow, 0.0)),
-            fbm(p + vec2(0.0, t*flow))
-          );
-          p += (warp - 0.5) * (0.8 + u_bass * 1.2) * u_goopiness * 0.5;
-
-          // Surface tension creates ripples
-          float ripples = sin(length(p) * 8.0 + t * 3.0) * u_surfaceTension * 0.1;
-          
-          float h = fbm(p + t * flow) + ripples;
-          h += 0.5 * fbm(p * 2.0 - t * (flow * 0.7));
-          h += 0.25 * fbm(p * 4.0 + t * (flow * 0.45));
-
-          // Use visualizer colors instead of fixed colors
-          vec3 low = u_color1 * 0.3;
-          vec3 mid = mix(u_color2, u_color3, 0.5) * 0.6;
-          vec3 high = u_color4 * 0.9;
-          vec3 base = mix(low, mid, smoothstep(0.1, 0.6, h));
-          base = mix(base, high, smoothstep(0.4, 0.95, h));
-
-          // Contours with physics influence
-          float lines = 12.0 + u_high * 24.0 + u_surfaceTension * 8.0;
-          float thickness = 0.06 - u_high * 0.03;
-          float c = contour(h, lines, thickness);
-
-          float highlight = smoothstep(0.75, 1.0, h) * (0.15 + 0.6 * u_audio);
-          
-          vec3 color = base + vec3(c) * (0.15 + 0.5 * u_intensity) + highlight;
-          color *= 0.85 + 0.3 * u_intensity;
-
-          gl_FragColor = vec4(color, 1.0);
-        }
-      `,
-      transparent: false,
+    return new THREE.PointsMaterial({
+      size: Math.max(0.05, (controls.strangeAttractorParticleSize || 0.35) * 0.5),
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.85,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      sizeAttenuation: true,
     })
-  }, [])
+  }, [controls.strangeAttractorParticleSize])
 
-  useFrame((state) => {
-    if (!meshRef.current) return
-    const mat = meshRef.current.material as THREE.ShaderMaterial
+  const ghostMaterial = useMemo(() => {
+    return new THREE.PointsMaterial({
+      size: Math.max(0.03, (controls.strangeAttractorParticleSize || 0.35) * 0.45),
+      color: new THREE.Color(controls.saColor1 || controls.color1 || '#00f2ff'),
+      transparent: true,
+      opacity: controls.trailGhostEnabled ? 0.18 : 0.0,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      sizeAttenuation: true,
+    })
+  }, [controls.strangeAttractorParticleSize, controls.trailGhostEnabled, controls.saColor1, controls.color1])
+
+  const lastBeatRef = useRef(0)
+  const chaosKeyframeRef = useRef({ target: controls.strangeAttractorChaos ?? 1.0 })
+
+  // Integrator per frame
+  useFrame((_, delta) => {
+    if (!pointsRef.current) return
     const safe = audioData || { volume: 0, bassLevel: 0, midLevel: 0, highLevel: 0 }
-    if (mat && mat.uniforms) {
-      mat.uniforms.u_time.value = state.clock.elapsedTime
-      mat.uniforms.u_audio.value = (isPlaying ? safe.volume : 0)
-      mat.uniforms.u_bass.value = safe.bassLevel
-      mat.uniforms.u_mid.value = safe.midLevel
-      mat.uniforms.u_high.value = safe.highLevel
-      mat.uniforms.u_intensity.value = controls.ambientIntensity ?? 1.0
-      
-      // Connect to visualizer colors
-      mat.uniforms.u_color1.value.set(controls.color1 || '#00f2ff')
-      mat.uniforms.u_color2.value.set(controls.color2 || '#ff00a8')
-      mat.uniforms.u_color3.value.set(controls.color3 || '#7000ff')
-      mat.uniforms.u_color4.value.set(controls.color4 || '#ff6b00')
-      
-      // Connect to physics controls
-      mat.uniforms.u_viscosity.value = controls.viscosity ?? 0.5
-      mat.uniforms.u_surfaceTension.value = controls.surfaceTension ?? 0.7
-      mat.uniforms.u_density.value = controls.density ?? 1.0
-      mat.uniforms.u_goopiness.value = controls.goopiness ?? 1.5
-      mat.uniforms.u_liquidity.value = controls.liquidity ?? 2.0
+
+    // Audio-modulated parameters
+    const reactivity = controls.strangeAttractorAudioReactivity ?? 0.6
+    const dt = Math.min(delta, 0.02) * (1 + safe.volume * reactivity * 0.5)
+
+    const type = controls.strangeAttractorType || 'thomas'
+    // Slight slow time drift + audio for Thomas parameter
+    const timeDrift = Date.now() * 0.00005
+    const bThomas = (0.18 + Math.sin(timeDrift) * 0.02) + safe.bassLevel * reactivity * 0.06 * (controls.strangeAttractorChaos ?? 1.0)
+
+    // Colors from controls (prefer SA colors if set)
+    const col1 = new THREE.Color(controls.saColor1 || controls.color1 || '#00f2ff')
+    const col2 = new THREE.Color(controls.saColor2 || controls.color2 || '#ff00a8')
+    const col3 = new THREE.Color(controls.saColor3 || controls.color3 || '#7000ff')
+    const col4 = new THREE.Color(controls.saColor4 || controls.color4 || '#ff6b00')
+    const brightness = controls.brightness ?? 1.2
+    const contrast = controls.contrast ?? 1.0
+    const bloom = controls.bloom ?? 0.0
+    const metallic = controls.metallic ?? 0.0
+    const chrome = controls.chrome ?? 0.0
+    const glass = controls.glass ?? 0.0
+    const pearl = controls.pearl ?? 0.0
+    const holographic = controls.holographic ?? 0.0
+
+    for (let i = 0; i < particleCount; i++) {
+      const i3 = i * 3
+      let x = positions[i3 + 0]
+      let y = positions[i3 + 1]
+      let z = positions[i3 + 2]
+
+      let dx = 0, dy = 0, dz = 0
+      if (type === 'lorenz') {
+        const sigma = 10
+        const rho = 28
+        const beta = 8 / 3
+        dx = sigma * (y - x)
+        dy = x * (rho - z) - y
+        dz = x * y - beta * z
+        dx *= 0.06; dy *= 0.06; dz *= 0.06
+      } else if (type === 'rossler') {
+        const a = 0.2, b = 0.2, c = 5.7
+        dx = -y - z
+        dy = x + a * y
+        dz = b + z * (x - c)
+        dx *= 0.09; dy *= 0.09; dz *= 0.09
+      } else if (type === 'aizawa') {
+        const a = 0.95 + safe.midLevel * 0.2 * reactivity
+        const b = 0.7
+        const c = 0.6 + safe.highLevel * 0.2 * reactivity
+        const d = 3.5
+        const e = 0.25
+        const f = 0.1
+        dx = (z - b) * x - d * y
+        dy = d * x + (z - b) * y
+        dz = c + a * z - (z * z * z) / 3 - (x * x + y * y) * (1 + e * z) + f * z * x * x * x
+        dx *= 0.06; dy *= 0.06; dz *= 0.06
+      } else if (type === 'halvorsen') {
+        // Halvorsen attractor
+        const a = 1.4 + safe.bassLevel * 0.4 * reactivity
+        dx = -a * x - 4 * y - 4 * z - y * y
+        dy = -a * y - 4 * z - 4 * x - z * z
+        dz = -a * z - 4 * x - 4 * y - x * x
+        dx *= 0.03; dy *= 0.03; dz *= 0.03
+      } else if (type === 'chen') {
+        // Chen attractor
+        const a = 40 + safe.midLevel * 20 * reactivity
+        const b = 3
+        const c = 28 + safe.highLevel * 10 * reactivity
+        dx = a * (y - x)
+        dy = (c - a) * x - x * z + c * y
+        dz = x * y - b * z
+        dx *= 0.04; dy *= 0.04; dz *= 0.04
+      } else if (type === 'dadras') {
+        // Dadras attractor
+        const a = 3 + safe.bassLevel * 1.0 * reactivity
+        const b = 2.7
+        const c = 1.7 + safe.midLevel * 0.7 * reactivity
+        const d = 2
+        const e = 9 + safe.highLevel * 3.0 * reactivity
+        dx = a * y - b * x + y * z
+        dy = c * y - x * z + z
+        dz = d * x * y - e * z
+        dx *= 0.05; dy *= 0.05; dz *= 0.05
+      } else {
+        // Thomas (default)
+        dx = -bThomas * x + Math.sin(y)
+        dy = -bThomas * y + Math.sin(z)
+        dz = -bThomas * z + Math.sin(x)
+        dx *= 0.1; dy *= 0.1; dz *= 0.1
+      }
+
+      // Audio perturbations per band (more reactive)
+      const bass = safe.bassLevel * (0.8 * reactivity)
+      const mid = safe.midLevel * (0.6 * reactivity)
+      const high = safe.highLevel * (0.5 * reactivity)
+      const vol = safe.volume * (0.8 * reactivity)
+      dx += Math.sin(y + bass * 2.0) * (0.02 + bass * 0.04) + vol * 0.02
+      dy += Math.cos(z + mid * 2.0) * (0.02 + mid * 0.04) + vol * 0.02
+      dz += Math.sin(x + high * 2.0) * (0.02 + high * 0.04) + vol * 0.02
+
+      x += dx * dt * 60
+      y += dy * dt * 60
+      z += dz * dt * 60
+
+      // Keep within bounds and reset if needed
+      const radius = Math.sqrt(x * x + y * y + z * z)
+      if (radius > 40) {
+        x = (Math.random() - 0.5) * 2
+        y = (Math.random() - 0.5) * 2
+        z = (Math.random() - 0.5) * 2
+      }
+
+      positions[i3 + 0] = x
+      positions[i3 + 1] = y
+      positions[i3 + 2] = z
+
+      // Blend 4 user colors with spatial weights
+      const w1 = 0.25 + 0.25 * Math.sin(x * 0.12 + y * 0.07)
+      const w2 = 0.25 + 0.25 * Math.cos(y * 0.11 + z * 0.06)
+      const w3 = 0.25 + 0.25 * Math.sin(z * 0.13 + x * 0.04)
+      const w4 = 1.0 - (w1 + w2 + w3)
+      let r = col1.r * w1 + col2.r * w2 + col3.r * w3 + col4.r * w4
+      let g = col1.g * w1 + col2.g * w2 + col3.g * w3 + col4.g * w4
+      let b = col1.b * w1 + col2.b * w2 + col3.b * w3 + col4.b * w4
+
+      // Approx fresnel using view dir ~ Z
+      const len = Math.sqrt(x * x + y * y + z * z) || 1
+      const nz = Math.abs(z) / len
+      const fresnel = Math.pow(1 - Math.min(1, nz), 0.8)
+
+      // Surface effects approximations for particles
+      if (metallic > 0) {
+        const m = fresnel * metallic * 0.8
+        r *= 1 + m; g *= 1 + m; b *= 1 + m
+      }
+      if (chrome > 0) {
+        const c = fresnel * chrome * 0.6
+        r = r * (1 + c) + 0.04 * c
+        g = g * (1 + c) + 0.04 * c
+        b = b * (1 + c) + 0.05 * c
+      }
+      if (glass > 0) {
+        const gl = Math.pow(fresnel, 1.5) * glass * 0.7
+        r *= 1 + gl; g *= 1 + gl; b *= 1 + gl
+      }
+      if (pearl > 0) {
+        const shift = Math.sin((x + y + z) * 0.2 + timeDrift) * 0.5 + 0.5
+        r = r * (1 - pearl * 0.3) + (r * 1.08) * pearl * shift * 0.3
+        g = g * (1 - pearl * 0.3) + (g * 0.96) * pearl * (1 - shift) * 0.3
+        b = b * (1 - pearl * 0.3) + (b * 1.02) * pearl * 0.3
+      }
+      if (holographic > 0) {
+        const fade = (1 - fresnel) * holographic * 0.4
+        r *= 1 - fade; g *= 1 - fade; b *= 1 - fade
+      }
+
+      // Audio-reactive brightness
+      const dynamicBrightness = (brightness) * (1 + safe.volume * 0.8 + bass * 0.4)
+
+      // Bloom-ish boost
+      if (bloom > 0) {
+        const lum = 0.299 * r + 0.587 * g + 0.114 * b
+        r += r * lum * bloom * 0.6
+        g += g * lum * bloom * 0.6
+        b += b * lum * bloom * 0.6
+      }
+
+      // Contrast + brightness
+      r = Math.pow(Math.max(0, r * dynamicBrightness), contrast)
+      g = Math.pow(Math.max(0, g * dynamicBrightness), contrast)
+      b = Math.pow(Math.max(0, b * dynamicBrightness), contrast)
+
+      colors[i3 + 0] = r
+      colors[i3 + 1] = g
+      colors[i3 + 2] = b
+    }
+
+    const geo = pointsRef.current.geometry as THREE.BufferGeometry
+    ;(geo.attributes.position as THREE.BufferAttribute).needsUpdate = true
+    ;(geo.attributes.color as THREE.BufferAttribute).needsUpdate = true
+
+    // Ghost trail positions (cheap afterimage)
+    if (ghostRef.current && controls.trailGhostEnabled) {
+      const gAttr = ghostRef.current.geometry.getAttribute('position') as THREE.BufferAttribute
+      const gp = gAttr.array as Float32Array
+      for (let i = 0; i < particleCount * 3; i++) {
+        gp[i] = gp[i] * 0.88 + positions[i] * 0.12
+      }
+      gAttr.needsUpdate = true
+    }
+
+    // Global point size modulation with audio
+    const mat = pointsRef.current.material as THREE.PointsMaterial
+    const baseSize = Math.max(0.03, (controls.strangeAttractorParticleSize || 0.35) * 0.5)
+    mat.size = baseSize * (1 + safe.volume * 0.6)
+
+    // Rotation like blob
+    const baseRotationSpeed = (controls.rotationSpeed ?? 1.0) * 0.25
+    const audioBoostRotation = (isPlaying && audioSrc) ? (safe.volume + safe.bassLevel * 0.5) * 0.7 : 0
+    const totalRotationSpeed = baseRotationSpeed + audioBoostRotation
+    pointsRef.current.rotation.y += delta * totalRotationSpeed
+    pointsRef.current.rotation.x += delta * (totalRotationSpeed * 0.5)
+    pointsRef.current.rotation.z += delta * (totalRotationSpeed * 0.25)
+
+    // Band-specific depth/scale warps
+    const depthWarp = controls.depthWarpStrength ?? 0.6
+    const scaleWarp = controls.scaleWarpStrength ?? 0.5
+    pointsRef.current.position.z = (safe.bassLevel - safe.highLevel) * depthWarp * 3.0
+    const scalePulse = 1 + safe.volume * scaleWarp * 0.6 + safe.midLevel * scaleWarp * 0.4
+    pointsRef.current.scale.set(scalePulse, scalePulse, scalePulse)
+    if (ghostRef.current) {
+      ghostRef.current.position.z = pointsRef.current.position.z
+      ghostRef.current.scale.copy(pointsRef.current.scale)
+      ghostRef.current.rotation.copy(pointsRef.current.rotation)
+    }
+
+    // Parameter keyframes (slow drift), gated by audio
+    const now = performance.now()
+    if (!chaosKeyframeRef.current) chaosKeyframeRef.current = { target: controls.strangeAttractorChaos ?? 1.0 }
+    const chaosCurrent = controls.strangeAttractorChaos ?? 1.0
+    const chaosTarget = chaosKeyframeRef.current.target
+    const lerpedChaos = chaosCurrent + (chaosTarget - chaosCurrent) * 0.02 * (1 + safe.volume * 0.5)
+    if (Math.abs(lerpedChaos - chaosCurrent) > 0.0001) {
+      setControls((prev: any) => ({ ...prev, strangeAttractorChaos: lerpedChaos }))
+    }
+    // Every ~8s, pick a new target slightly around 1.0–2.0
+    if (Math.floor(now / 8000) !== Math.floor((now - delta * 1000) / 8000)) {
+      chaosKeyframeRef.current.target = 0.8 + Math.random() * 1.6
+    }
+
+    // Switch attractor on beat with cooldown
+    if (controls.beatSwitchEnabled && (audioData as any)?.beatDetected) {
+      if (now - lastBeatRef.current > 600) {
+        lastBeatRef.current = now
+        const types = ['thomas', 'lorenz', 'rossler', 'aizawa', 'halvorsen', 'chen', 'dadras']
+        const currentIdx = types.indexOf(controls.strangeAttractorType || 'thomas')
+        const nextIdx = (currentIdx + 1) % types.length
+        setControls((prev: any) => ({ ...prev, strangeAttractorType: types[nextIdx] }))
+      }
     }
   })
 
-  // Scale plane to fill viewport at Z=0
-  useEffect(() => {
-    const vp = vpHelper.getCurrentViewport(camera, [0, 0, 0])
-    if (meshRef.current) {
-      meshRef.current.scale.set(vp.width, vp.height, 1)
-    }
-  }, [camera, size, vpHelper])
-
   return (
-    <mesh ref={meshRef} position={[0, 0, 0]}>
-      <planeGeometry args={[1, 1, 1, 1]} />
-      <primitive object={material} attach="material" />
-    </mesh>
+    <>
+      {controls.trailGhostEnabled && (
+        <points ref={ghostRef} position={position} scale={scale}>
+          <primitive object={ghostGeometry} attach="geometry" />
+          <primitive object={ghostMaterial} attach="material" />
+        </points>
+      )}
+      <points ref={pointsRef} position={position} scale={scale}>
+        <primitive object={geometry} attach="geometry" />
+        <primitive object={material} attach="material" />
+      </points>
+    </>
   )
 }
 
@@ -1029,6 +1196,22 @@ export function AudioVisualizer() {
     return () => clearInterval(shapeInterval)
   }, [controls.shape, controls.autoShapeCycle, (controls as any).shapeCycleSpeed, setControls])
 
+  // Auto cycle attractor types when Strange Attractor mode + autoShapeCycle are enabled
+  useEffect(() => {
+    if (!controls.strangeAttractorMode) return
+    const attractorList = ['thomas', 'lorenz', 'rossler', 'aizawa', 'halvorsen', 'chen', 'dadras']
+    let currentIndex = (attractorList.indexOf(controls.strangeAttractorType || 'thomas') + 1) % attractorList.length
+
+    const cycle = setInterval(() => {
+      if (!controls.autoShapeCycle || !controls.strangeAttractorMode) return
+      const nextType = attractorList[currentIndex]
+      setControls((prev: any) => ({ ...prev, strangeAttractorType: nextType }))
+      currentIndex = (currentIndex + 1) % attractorList.length
+    }, ((controls as any).shapeCycleSpeed || 20) * 1000)
+
+    return () => clearInterval(cycle)
+  }, [controls.strangeAttractorMode, controls.strangeAttractorType, controls.autoShapeCycle, (controls as any).shapeCycleSpeed, setControls])
+
   // Auto dot separation animation while Dot Matrix mode is active
   // Remove React interval dot animation to reduce re-renders (replaced by frame-based above)
 
@@ -1063,20 +1246,28 @@ export function AudioVisualizer() {
           style={{ width: '100%', height: '100%' }}
           performance={{ min: 0.5 }} // Reduce quality when framerate drops
       >
-        {controls.ambientSpaceMode && <AmbientSpace />}
         <ambientLight intensity={0.4} />
         <pointLight position={[6, 6, 6]} intensity={0.8} />
         <pointLight position={[-6, -6, -6]} intensity={0.4} />
-        {!controls.ambientSpaceMode && (
+        {controls.strangeAttractorMode ? (
+          controls.strangeAttractorOverlay ? (
+            <>
+              <VisualizerBlob position={[0, 0, 0]} scale={1} />
+              <StrangeAttractor position={[0, 0, 0]} scale={1} />
+            </>
+          ) : (
+            <StrangeAttractor position={[0, 0, 0]} scale={1} />
+          )
+        ) : (
           <VisualizerBlob position={[0, 0, 0]} scale={1} />
         )}
           
           <OrbitControls 
-            enableZoom={false}
-            enablePan={false}
+            enableZoom={true}
+            enablePan={true}
             enableRotate={true}
-            minDistance={4}
-            maxDistance={25}
+            minDistance={2}
+            maxDistance={100}
             target={[0, 0, 0]}
           />
         </Canvas>
