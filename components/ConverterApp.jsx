@@ -2,6 +2,7 @@ import React, { useState, useRef, useMemo, useEffect, useCallback } from 'react'
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { toBlobURL, fetchFile } from '@ffmpeg/util';
 import JSZip from 'jszip';
+import CropModal from './CropModal';
 
 // Icons
 const Icons = {
@@ -61,6 +62,11 @@ const Icons = {
       <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
     </svg>
   ),
+  Crop: () => (
+    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 3.75H6A2.25 2.25 0 003.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0120.25 6v1.5m0 9V18A2.25 2.25 0 0118 20.25h-1.5m-9 0H6A2.25 2.25 0 013.75 18v-1.5M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
+  ),
 };
 
 // Format configuration
@@ -91,26 +97,63 @@ const targetOptions = {
   ],
 };
 
-// FFmpeg command builders
-const buildFFmpegArgs = (inputName, outputName, sourceType, targetFormat) => {
+// FFmpeg command builders - now with crop support
+const buildFFmpegArgs = (inputName, outputName, sourceType, targetFormat, cropData = null) => {
   const targetConfig = targetOptions[sourceType]?.find(t => t.value === targetFormat);
   if (!targetConfig) return ['-y', '-i', inputName, outputName];
 
+  // Build crop filter string if crop data exists
+  const buildCropFilter = (crop) => {
+    if (!crop) return null;
+    // FFmpeg crop filter: crop=width:height:x:y
+    let filter = `crop=${crop.width}:${crop.height}:${crop.x}:${crop.y}`;
+    // Add rotation if needed (FFmpeg uses transpose or rotate filter)
+    if (crop.rotation && crop.rotation !== 0) {
+      const rotation = crop.rotation % 360;
+      if (rotation === 90 || rotation === -270) {
+        filter = `transpose=1,${filter}`;
+      } else if (rotation === 180 || rotation === -180) {
+        filter = `transpose=1,transpose=1,${filter}`;
+      } else if (rotation === 270 || rotation === -90) {
+        filter = `transpose=2,${filter}`;
+      } else if (rotation !== 0) {
+        // For arbitrary rotation angles
+        filter = `rotate=${rotation}*PI/180,${filter}`;
+      }
+    }
+    return filter;
+  };
+
+  const cropFilter = buildCropFilter(cropData);
+
   if (sourceType === 'video') {
     if (targetFormat === 'gif') {
-      return ['-y', '-i', inputName, '-vf', 'split[s0][s1];[s0]palettegen=max_colors=256[p];[s1][p]paletteuse', '-loop', '0', outputName];
+      // GIF with optional crop
+      const paletteFilter = 'split[s0][s1];[s0]palettegen=max_colors=256[p];[s1][p]paletteuse';
+      const vf = cropFilter ? `${cropFilter},${paletteFilter}` : paletteFilter;
+      return ['-y', '-i', inputName, '-vf', vf, '-loop', '0', outputName];
     }
     if (targetFormat === 'webm') {
-      return ['-y', '-i', inputName, '-c:v', 'libvpx', '-crf', '10', '-b:v', '1M', outputName];
+      const args = ['-y', '-i', inputName];
+      if (cropFilter) args.push('-vf', cropFilter);
+      args.push('-c:v', 'libvpx', '-crf', '10', '-b:v', '1M', outputName);
+      return args;
     }
     if (targetFormat === 'mov') {
-      return ['-y', '-i', inputName, '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-pix_fmt', 'yuv420p', outputName];
+      const args = ['-y', '-i', inputName];
+      if (cropFilter) args.push('-vf', cropFilter);
+      args.push('-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-pix_fmt', 'yuv420p', outputName);
+      return args;
     }
     // MP4 (H.264)
-    return ['-y', '-i', inputName, '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-pix_fmt', 'yuv420p', outputName];
+    const args = ['-y', '-i', inputName];
+    if (cropFilter) args.push('-vf', cropFilter);
+    args.push('-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-pix_fmt', 'yuv420p', outputName);
+    return args;
   }
 
   if (sourceType === 'audio') {
+    // Audio doesn't need cropping
     if (targetFormat === 'mp3') {
       return ['-y', '-i', inputName, '-c:a', 'libmp3lame', '-q:a', '0', '-b:a', '320k', outputName];
     }
@@ -127,24 +170,34 @@ const buildFFmpegArgs = (inputName, outputName, sourceType, targetFormat) => {
 
   if (sourceType === 'image') {
     if (targetFormat === 'jpg') {
-      // Maximum JPEG quality (q:v 1 is highest, range 1-31)
-      // -frames:v 1 ensures only one frame is output
-      return ['-y', '-i', inputName, '-frames:v', '1', '-q:v', '1', outputName];
+      const args = ['-y', '-i', inputName];
+      if (cropFilter) args.push('-vf', cropFilter);
+      args.push('-frames:v', '1', '-q:v', '1', outputName);
+      return args;
     }
     if (targetFormat === 'webp') {
-      // High quality WebP (lossless can cause issues, using quality 100 instead)
-      return ['-y', '-i', inputName, '-frames:v', '1', '-quality', '100', outputName];
+      const args = ['-y', '-i', inputName];
+      if (cropFilter) args.push('-vf', cropFilter);
+      args.push('-frames:v', '1', '-quality', '100', outputName);
+      return args;
     }
     if (targetFormat === 'png') {
-      // PNG lossless
-      return ['-y', '-i', inputName, '-frames:v', '1', outputName];
+      const args = ['-y', '-i', inputName];
+      if (cropFilter) args.push('-vf', cropFilter);
+      args.push('-frames:v', '1', outputName);
+      return args;
     }
     if (targetFormat === 'gif') {
-      // Single frame GIF from image
-      return ['-y', '-i', inputName, '-frames:v', '1', outputName];
+      const args = ['-y', '-i', inputName];
+      if (cropFilter) args.push('-vf', cropFilter);
+      args.push('-frames:v', '1', outputName);
+      return args;
     }
     // Default image conversion
-    return ['-y', '-i', inputName, '-frames:v', '1', outputName];
+    const args = ['-y', '-i', inputName];
+    if (cropFilter) args.push('-vf', cropFilter);
+    args.push('-frames:v', '1', outputName);
+    return args;
   }
 
   return ['-y', '-i', inputName, outputName];
@@ -159,6 +212,10 @@ export default function ConverterApp() {
   const [target, setTarget] = useState('webm');
   const [logs, setLogs] = useState([]);
   const [dragOver, setDragOver] = useState(false);
+  
+  // Crop modal state
+  const [cropModalOpen, setCropModalOpen] = useState(false);
+  const [activeCropFile, setActiveCropFile] = useState(null);
   
   const fileInputRef = useRef(null);
   const ffmpegRef = useRef(null);
@@ -180,8 +237,6 @@ export default function ConverterApp() {
     
     try {
       const ffmpeg = new FFmpeg();
-      
-      // NO event handlers - they cause bugs in 0.12.x
 
       const baseURL = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/esm';
       await ffmpeg.load({
@@ -223,12 +278,43 @@ export default function ConverterApp() {
       outputUrl: null,
       outputSize: 0,
       error: null,
+      // Crop support
+      previewUrl: URL.createObjectURL(f),
+      cropData: null, // { x, y, width, height, rotation }
     }));
     setFiles(prev => [...prev, ...items]);
     log(`Added ${validFiles.length} file(s)`, 'success');
   };
 
-  // MediaRecorder-based WebM conversion (reliable, browser-native)
+  // Open crop modal for a file
+  const openCropModal = (item) => {
+    setActiveCropFile(item);
+    setCropModalOpen(true);
+  };
+
+  // Handle crop save
+  const handleCropSave = (cropData) => {
+    if (activeCropFile) {
+      setFiles(prev => prev.map(f => 
+        f.id === activeCropFile.id ? { ...f, cropData } : f
+      ));
+      if (cropData) {
+        log(`Crop applied: ${cropData.width}×${cropData.height}px`, 'success');
+      } else {
+        log('Crop removed', 'info');
+      }
+    }
+    setCropModalOpen(false);
+    setActiveCropFile(null);
+  };
+
+  // Handle crop cancel
+  const handleCropCancel = () => {
+    setCropModalOpen(false);
+    setActiveCropFile(null);
+  };
+
+  // MediaRecorder-based WebM conversion (reliable, browser-native) - with crop support
   const convertWithMediaRecorder = async (item) => {
     const video = document.createElement('video');
     const canvas = document.createElement('canvas');
@@ -252,13 +338,25 @@ export default function ConverterApp() {
         else video.oncanplaythrough = resolve;
       });
 
-      const width = video.videoWidth;
-      const height = video.videoHeight;
+      const videoWidth = video.videoWidth;
+      const videoHeight = video.videoHeight;
       const duration = video.duration || 1;
-      log(`Video: ${width}x${height}, ${duration.toFixed(1)}s`, 'info');
+      
+      // Determine output dimensions based on crop
+      const crop = item.cropData;
+      const outputWidth = crop ? crop.width : videoWidth;
+      const outputHeight = crop ? crop.height : videoHeight;
+      const cropX = crop ? crop.x : 0;
+      const cropY = crop ? crop.y : 0;
+      
+      if (crop) {
+        log(`Video: ${videoWidth}x${videoHeight} → Cropped: ${outputWidth}x${outputHeight}, ${duration.toFixed(1)}s`, 'info');
+      } else {
+        log(`Video: ${videoWidth}x${videoHeight}, ${duration.toFixed(1)}s`, 'info');
+      }
 
-      canvas.width = width;
-      canvas.height = height;
+      canvas.width = outputWidth;
+      canvas.height = outputHeight;
       const ctx = canvas.getContext('2d', { alpha: false });
       const stream = canvas.captureStream(30);
 
@@ -277,7 +375,31 @@ export default function ConverterApp() {
 
       const drawFrame = () => {
         if (video.ended || video.paused) return;
-        ctx.drawImage(video, 0, 0, width, height);
+        
+        // Apply crop during canvas drawing
+        if (crop) {
+          // Handle rotation if present
+          if (crop.rotation && crop.rotation !== 0) {
+            ctx.save();
+            ctx.translate(outputWidth / 2, outputHeight / 2);
+            ctx.rotate((crop.rotation * Math.PI) / 180);
+            ctx.translate(-outputWidth / 2, -outputHeight / 2);
+          }
+          
+          // Draw cropped region: source rect from video, dest rect fills canvas
+          ctx.drawImage(
+            video,
+            cropX, cropY, outputWidth, outputHeight,  // Source rectangle
+            0, 0, outputWidth, outputHeight           // Destination rectangle
+          );
+          
+          if (crop.rotation && crop.rotation !== 0) {
+            ctx.restore();
+          }
+        } else {
+          ctx.drawImage(video, 0, 0, outputWidth, outputHeight);
+        }
+        
         const progress = Math.min(95, (video.currentTime / duration) * 100);
         setFiles(prev => prev.map(f => f.id === item.id ? { ...f, progress: Math.round(progress) } : f));
         animationId = requestAnimationFrame(drawFrame);
@@ -342,11 +464,11 @@ export default function ConverterApp() {
       const inputData = await fetchFile(item.file);
       await ffmpeg.writeFile(inputName, inputData);
       
-      const args = buildFFmpegArgs(inputName, outputName, source, target);
+      // Pass crop data to FFmpeg args builder
+      const args = buildFFmpegArgs(inputName, outputName, source, target, item.cropData);
       log(`Running: ffmpeg ${args.join(' ')}`, 'info');
       
-      const exitCode = await ffmpeg.exec(args);
-      if (exitCode !== 0) throw new Error(`FFmpeg exited with code ${exitCode}`);
+      await ffmpeg.exec(args);
       
       const data = await ffmpeg.readFile(outputName);
       if (!data || data.length === 0) throw new Error('Output file is empty');
@@ -448,12 +570,16 @@ export default function ConverterApp() {
     setFiles(prev => {
       const file = prev.find(f => f.id === id);
       if (file?.outputUrl) URL.revokeObjectURL(file.outputUrl);
+      if (file?.previewUrl) URL.revokeObjectURL(file.previewUrl);
       return prev.filter(f => f.id !== id);
     });
   };
 
   const clearAll = () => {
-    files.forEach(f => { if (f.outputUrl) URL.revokeObjectURL(f.outputUrl); });
+    files.forEach(f => { 
+      if (f.outputUrl) URL.revokeObjectURL(f.outputUrl);
+      if (f.previewUrl) URL.revokeObjectURL(f.previewUrl);
+    });
     setFiles([]);
     setLogs([]);
   };
@@ -478,18 +604,7 @@ export default function ConverterApp() {
 
       <div className="relative max-w-3xl mx-auto px-4 py-8">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-black tracking-tight mb-3 bg-gradient-to-r from-white via-white to-[#1db954] bg-clip-text text-transparent">
-            CNVRT-4UH
-          </h1>
-          <p className="text-[#a0a0a0] text-lg">
-            convert high-quality img/vid/aud - built by akaieuan-4uh001 
-          </p>
-          <div className="inline-flex items-center gap-2 px-3 py-2 bg-[#1db954]/10 border border-[#1db954]/20 rounded-full text-[#1db954] text-xs font-medium mb-6">
-            <Icons.Zap />
-            Powered by Health
-          </div>
-        </div>
+        
 
         {/* FFmpeg Status */}
         {!ffmpegLoaded && (
@@ -633,6 +748,11 @@ export default function ConverterApp() {
                       <p className="text-sm font-medium text-white truncate">{item.file.name}</p>
                       <p className="text-xs text-[#606060]">
                         {(item.file.size / 1024 / 1024).toFixed(1)} MB
+                        {item.cropData && (
+                          <span className="text-[#1db954] ml-2">
+                            ✂ {item.cropData.width}×{item.cropData.height}
+                          </span>
+                        )}
                         {item.status === 'converting' && <span className="text-blue-400 ml-2">{item.progress}%</span>}
                         {item.status === 'done' && <span className="text-[#1db954] ml-2">→ {(item.outputSize / 1024 / 1024).toFixed(1)} MB</span>}
                         {item.status === 'error' && <span className="text-red-400 ml-2">{item.error}</span>}
@@ -645,6 +765,20 @@ export default function ConverterApp() {
                     </div>
 
                     <div className="flex items-center gap-2">
+                      {/* Crop button - only for images and videos in pending state */}
+                      {item.status === 'pending' && (source === 'image' || source === 'video') && !converting && (
+                        <button
+                          onClick={() => openCropModal(item)}
+                          className={`p-2 rounded-lg transition-colors ${
+                            item.cropData 
+                              ? 'bg-[#1db954]/20 text-[#1db954] hover:bg-[#1db954]/30' 
+                              : 'bg-[#282828] text-[#808080] hover:bg-[#3a3a3a] hover:text-white'
+                          }`}
+                          title={item.cropData ? 'Edit crop' : 'Crop media'}
+                        >
+                          <Icons.Crop />
+                        </button>
+                      )}
                       {item.status === 'done' && (
                         <button
                           onClick={() => downloadFile(item)}
@@ -759,6 +893,18 @@ export default function ConverterApp() {
           All conversions happen locally in your browser. No files are uploaded.
         </p>
       </div>
+
+      {/* Crop Modal */}
+      {cropModalOpen && activeCropFile && (
+        <CropModal
+          file={activeCropFile.file}
+          mediaType={source}
+          previewUrl={activeCropFile.previewUrl}
+          initialCrop={activeCropFile.cropData}
+          onSave={handleCropSave}
+          onCancel={handleCropCancel}
+        />
+      )}
     </div>
   );
 }
