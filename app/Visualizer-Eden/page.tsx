@@ -28,8 +28,6 @@ const demoSongs = [
       density: 0.6,
       brightness: 3.5,
       contrast: 0.7,
-      brightness: 3.5, // Darker
-      contrast: 0.7, // Deep contrast
       bloom: 0.35,
       grain: 0.45,
       grainSize: 3.2,
@@ -52,35 +50,39 @@ const demoSongs = [
 ]
 
 function DemoSongSelector() {
-  const { setAudioSrc, setControls } = useAudio()
+  const { setAudioSrc, setControls, play } = useAudio()
   const [isOpen, setIsOpen] = useState(false)
 
-  const handleDemoSelect = (song: typeof demoSongs[0]) => {
+  const handleDemoSelect = async (song: typeof demoSongs[0]) => {
     setAudioSrc(song.url)
     setControls((prev: any) => ({
       ...prev,
       ...song.preset
     }))
     setIsOpen(false)
+    // Give the audio element time to load before playing
+    setTimeout(() => {
+      play()
+    }, 100)
   }
 
   return (
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="text-xs text-white/50 hover:text-white/80 transition-colors duration-200"
+        className="text-sm font-light tracking-wide text-white/40 hover:text-white/70 transition-colors duration-200"
       >
         Demo
       </button>
       
       {isOpen && (
         <div className="absolute top-8 right-0 w-56 bg-black/90 backdrop-blur-sm border border-white/10 rounded-lg p-3 space-y-2">
-          <div className="text-xs text-white/40 mb-2">Demo songs:</div>
+          <div className="text-xs font-light tracking-wide text-white/25 mb-2">Demo songs:</div>
           {demoSongs.map((song) => (
             <button
               key={song.id}
               onClick={() => handleDemoSelect(song)}
-              className="w-full text-left p-2 hover:bg-white/10 rounded text-xs text-white/70 hover:text-white transition-colors"
+              className="w-full text-left p-2 hover:bg-white/10 rounded text-sm font-light tracking-wide text-white/60 hover:text-white/80 transition-colors"
             >
               {song.title}
             </button>
@@ -112,7 +114,7 @@ function UploadButton() {
       />
       <label 
         htmlFor="audio-upload" 
-        className="text-xs text-white/50 hover:text-white/80 transition-colors duration-200 cursor-pointer flex items-center gap-1"
+        className="text-sm font-light tracking-wide text-white/40 hover:text-white/70 transition-colors duration-200 cursor-pointer flex items-center gap-2"
       >
         <Upload className="h-3 w-3" />
         {audioSrc ? 'Loaded' : 'Upload'}
@@ -127,7 +129,7 @@ function ControlsToggle() {
   return (
     <button
       onClick={toggleSidebar}
-      className="text-xs text-white/50 hover:text-white/80 transition-colors duration-200 flex items-center gap-1"
+      className="text-sm font-light tracking-wide text-white/40 hover:text-white/70 transition-colors duration-200 flex items-center gap-2"
     >
       <Settings className="h-3 w-3" />
       Controls

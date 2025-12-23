@@ -84,14 +84,14 @@ export function LinksClient({ linksData, layoutConfig }: LinksClientProps) {
         <>
           {/* Mobile link title and indicator - higher up to be visible */}
           <div className="absolute top-4 left-0 right-0 z-40 text-center px-4">
-            <h2 className="text-2xl font-bold text-white mb-3">{currentLink?.label}</h2>
+            <h2 className="text-xl font-light tracking-wide text-white/80 mb-3">{currentLink?.label}</h2>
             <div className="flex justify-center space-x-3">
               {linksData.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentMobileLinkIndex(index)}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentMobileLinkIndex ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/60'
+                    index === currentMobileLinkIndex ? 'bg-white/80 scale-125' : 'bg-white/30 hover:bg-white/50'
                   }`}
                 />
               ))}
@@ -144,26 +144,23 @@ export function LinksClient({ linksData, layoutConfig }: LinksClientProps) {
       {/* Desktop Layout */}
       {!isMobile && (
         <>
-          {/* Desktop content - no title, more space for orb */}
+          {/* Desktop content - aligned with header margins */}
           <div className="absolute inset-0 z-20 flex">
-            {/* Left side - Compact links list positioned away from sidebar */}
-            <div className="w-1/4 flex flex-col justify-center pl-20 pr-4 py-8">
-              <div className="space-y-2 max-w-xs">
+            {/* Left side - Links list aligned with header */}
+            <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 py-8">
+              <div className="space-y-1">
                 {linksData.map((link, index) => (
                   <button
                     key={index}
                     onClick={() => handleLinkClick(link.url)}
                     onMouseEnter={() => handleLinkHover(link.label)}
                     onMouseLeave={() => handleLinkHover(null)}
-                    className="w-full text-left py-2 px-4 rounded-lg bg-gray-900/40 backdrop-blur-sm border border-gray-700/30 text-white hover:bg-gray-800/50 hover:border-gray-600/50 transition-all duration-300 group"
+                    className="w-full text-left py-3 pr-2 transition-all duration-200 group"
                     style={{
-                      background: hoveredLink === link.label 
-                        ? `linear-gradient(135deg, ${link.color}20, ${link.hoverColor}10)`
-                        : undefined,
-                      borderColor: hoveredLink === link.label ? `${link.color}60` : undefined
+                      color: hoveredLink === link.label ? link.color : 'rgba(255,255,255,0.6)'
                     }}
                   >
-                    <span className="text-sm font-medium group-hover:text-opacity-100 text-opacity-90">
+                    <span className="text-sm font-light tracking-wide">
                       {link.label}
                     </span>
                   </button>
@@ -171,8 +168,8 @@ export function LinksClient({ linksData, layoutConfig }: LinksClientProps) {
               </div>
             </div>
 
-            {/* Right side - Dynamic orb taking more space, floating freely */}
-            <div className="w-3/4 relative flex items-center justify-center">
+            {/* Right side - Dynamic orb taking remaining space */}
+            <div className="flex-1 relative flex items-center justify-center">
               <div className="w-full h-full flex items-center justify-center">
                 <UnifiedDynamicOrb
                   activeLink={hoveredLink}
@@ -189,8 +186,8 @@ export function LinksClient({ linksData, layoutConfig }: LinksClientProps) {
       {/* Instructions - mobile only (desktop handled inside orb area) */}
       {isMobile && (
         <div className="absolute bottom-2 left-4 right-4 z-30 text-center">
-          <p className="text-white/50 text-xs">
-            Tap arrows to navigate • Tap dots to jump • Tap Visit to open
+          <p className="text-white/25 text-xs font-light tracking-wide">
+            Tap arrows to navigate · Tap dots to jump · Tap Visit to open
           </p>
         </div>
       )}

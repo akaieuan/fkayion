@@ -41,7 +41,7 @@ const linksData = [
   },
   { 
     label: 'aka.write', 
-    url: 'https://substack.com/@akaieuan?utm_source=user-menu',
+    url: 'https://kraa.io/akaieuan',
     color: '#88ff22',
     hoverColor: '#aaff44'
   }
