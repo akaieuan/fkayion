@@ -5,6 +5,11 @@ import { useFrame } from '@react-three/fiber'
 import { Float, Sphere } from '@react-three/drei'
 import * as THREE from 'three'
 
+interface MousePos {
+  x: number
+  y: number
+}
+
 interface MetallicMeltingOrbProps {
   position: [number, number, number]
   colors: { primary: string, secondary: string, rim: string }
@@ -12,6 +17,7 @@ interface MetallicMeltingOrbProps {
   isHovered: boolean
   onHover: (hovered: boolean) => void
   size?: number
+  mousePos?: MousePos
 }
 
 export function MetallicMeltingOrb({ 
@@ -20,19 +26,21 @@ export function MetallicMeltingOrb({
   onClick, 
   isHovered, 
   onHover,
-  size = 1
+  size = 1,
+  mousePos = { x: 0, y: 0 }
 }: MetallicMeltingOrbProps) {
   const groupRef = useRef<THREE.Group>(null)
   const mainOrbRef = useRef<THREE.Mesh>(null)
   const meltRef = useRef<THREE.Mesh>(null)
   const heatGlowRef = useRef<THREE.Mesh>(null)
   
-  // Enhanced goopy melting shader with film grain
+  // Enhanced goopy melting shader with film grain and cursor reactivity
   const meltMaterial = new THREE.ShaderMaterial({
     uniforms: {
       time: { value: 0 },
-      heatLevel: { value: 0 },
-      meltIntensity: { value: 0 },
+      heatLevel: { value: 0.7 }, // Always animated at base level
+      meltIntensity: { value: 0.6 }, // Always melting slightly
+      mousePos: { value: new THREE.Vector2(mousePos.x, mousePos.y) },
       baseColor: { value: new THREE.Color('#cc2222') }, // Red metallic base
       hotColor: { value: new THREE.Color('#ff2200') }, // Bright molten red
       glowColor: { value: new THREE.Color('#ffaa00') }, // Hot orange glow
@@ -41,6 +49,7 @@ export function MetallicMeltingOrb({
       uniform float time;
       uniform float heatLevel;
       uniform float meltIntensity;
+      uniform vec2 mousePos;
       
       varying vec3 vNormal;
       varying vec3 vPosition;
@@ -89,33 +98,42 @@ export function MetallicMeltingOrb({
         
         vec3 pos = position;
         
-        // Enhanced goopy melting effect
+        // Enhanced goopy melting effect - ALWAYS ACTIVE
         float meltFactor = smoothstep(0.0, 1.0, heatLevel);
         vMeltFactor = meltFactor;
         
-        // More dramatic deformation when melting
-        if (meltIntensity > 0.0) {
-          // Gravity-based dripping - much more pronounced
-          float gravity = max(0.0, -pos.y + 0.3) * meltFactor * meltIntensity;
-          pos.y -= gravity * 1.5;
+        // Always animate melting deformation
+        // Gravity-based dripping
+        float gravity = max(0.0, -pos.y + 0.3) * meltFactor * meltIntensity;
+        pos.y -= gravity * 1.2;
+        
+        // Goopy stretching with noise
+        float goop = fbm(pos * 3.0 + time * 0.8) * meltFactor * meltIntensity;
+        pos.y -= abs(goop) * 0.6;
+        
+        // Viscous bulging
+        float bulge = fbm(pos * 2.0 + time * 0.5) * meltFactor;
+        pos += normal * bulge * 0.3;
+        
+        // Surface tension effects
+        float tension = sin(pos.x * 8.0 + time * 2.0) * sin(pos.z * 6.0 + time * 1.5);
+        pos += normal * tension * meltFactor * 0.15;
+        
+        // Cursor attraction - only when hovered (mousePos will be zeroed when not hovered)
+        float mouseMagnitude = length(mousePos);
+        if (mouseMagnitude > 0.01) {
+          float cursorDist = distance(pos.xy, mousePos * 2.5);
+          float cursorInfluence = smoothstep(3.0, 0.0, cursorDist) * 0.5;
+          vec2 toMouse = normalize(mousePos * 2.5 - pos.xy + 0.001);
+          pos.xy += toMouse * cursorInfluence;
           
-          // Goopy stretching with noise
-          float goop = fbm(pos * 3.0 + time * 0.8) * meltFactor * meltIntensity;
-          pos.y -= abs(goop) * 0.8;
+          // Bulge near cursor
+          float bulgeNearCursor = smoothstep(2.2, 0.0, cursorDist) * 0.25;
+          pos += normal * bulgeNearCursor;
           
-          // Viscous bulging
-          float bulge = fbm(pos * 2.0 + time * 0.5) * meltFactor;
-          pos += normal * bulge * 0.4;
-          
-          // Surface tension effects
-          float tension = sin(pos.x * 8.0 + time * 2.0) * sin(pos.z * 6.0 + time * 1.5);
-          pos += normal * tension * meltFactor * 0.2;
-          
-          // Extreme deformation at high heat
-          if (meltFactor > 0.7) {
-            float extreme = fbm(pos * 4.0 + time * 1.2) * (meltFactor - 0.7) * 3.0;
-            pos.y -= abs(extreme) * 0.6;
-          }
+          // Ripple from cursor
+          float ripple = sin(cursorDist * 4.0 - time * 3.0) * smoothstep(3.0, 0.0, cursorDist) * 0.1;
+          pos += normal * ripple;
         }
         
         gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
@@ -195,25 +213,27 @@ export function MetallicMeltingOrb({
     
     // Update material uniforms
     meltMaterial.uniforms.time.value = time
+    meltMaterial.uniforms.mousePos.value.set(mousePos.x, mousePos.y)
     
-    // Heat level animation - faster response
-    const targetHeat = isHovered ? 1.0 : 0.0
+    // Heat level - always animated, increases more when hovered
+    const baseHeat = 0.7
+    const targetHeat = isHovered ? 1.0 : baseHeat
     const currentHeat = meltMaterial.uniforms.heatLevel.value
     meltMaterial.uniforms.heatLevel.value = THREE.MathUtils.lerp(currentHeat, targetHeat, 0.08)
     
-    // Melt intensity follows heat level with slight delay
-    const targetMelt = isHovered ? 1.0 : 0.0
+    // Melt intensity - always animated, increases more when hovered
+    const baseMelt = 0.6
+    const targetMelt = isHovered ? 1.0 : baseMelt
     const currentMelt = meltMaterial.uniforms.meltIntensity.value
     meltMaterial.uniforms.meltIntensity.value = THREE.MathUtils.lerp(currentMelt, targetMelt, 0.04)
     
-    // Gentle floating
-    groupRef.current.position.y = position[1] + Math.sin(time * 0.8) * 0.1
+    // Gentle floating - always active
+    groupRef.current.position.y = position[1] + Math.sin(time * 0.8) * 0.12
     
-    // Rotation slows down when melting (more viscous)
-    const rotationSpeed = isHovered ? 0.1 : 0.5
-    groupRef.current.rotation.y = time * rotationSpeed
-    
-    // No longer using heat glow effect
+    // Rotation - always rotating
+    groupRef.current.rotation.y = time * 0.4
+    groupRef.current.rotation.x = Math.sin(time * 1.2) * 0.15
+    groupRef.current.rotation.z = Math.cos(time * 0.9) * 0.08
   })
 
   return (
@@ -230,38 +250,34 @@ export function MetallicMeltingOrb({
           <primitive object={meltMaterial} />
         </Sphere>
         
-        {/* Enhanced molten drips effect */}
-        {isHovered && (
-          <>
-            <Sphere args={[size * 0.18, 16, 16]} position={[0.4, -size * 1.3, 0]}>
-              <meshStandardMaterial 
-                color="#aa1100" 
-                emissive="#ff3300"
-                emissiveIntensity={0.6}
-                metalness={0.9}
-                roughness={0.1}
-              />
-            </Sphere>
-            <Sphere args={[size * 0.12, 16, 16]} position={[-0.3, -size * 1.5, 0.2]}>
-              <meshStandardMaterial 
-                color="#aa1100" 
-                emissive="#ff3300"
-                emissiveIntensity={0.6}
-                metalness={0.9}
-                roughness={0.1}
-              />
-            </Sphere>
-            <Sphere args={[size * 0.08, 16, 16]} position={[0.1, -size * 1.7, -0.1]}>
-              <meshStandardMaterial 
-                color="#aa1100" 
-                emissive="#ff3300"
-                emissiveIntensity={0.6}
-                metalness={0.9}
-                roughness={0.1}
-              />
-            </Sphere>
-          </>
-        )}
+        {/* Molten drips effect - always visible */}
+        <Sphere args={[size * 0.15, 16, 16]} position={[0.4, -size * 1.2, 0]}>
+          <meshStandardMaterial 
+            color="#aa1100" 
+            emissive="#ff3300"
+            emissiveIntensity={0.5}
+            metalness={0.9}
+            roughness={0.1}
+          />
+        </Sphere>
+        <Sphere args={[size * 0.1, 16, 16]} position={[-0.3, -size * 1.4, 0.2]}>
+          <meshStandardMaterial 
+            color="#aa1100" 
+            emissive="#ff3300"
+            emissiveIntensity={0.5}
+            metalness={0.9}
+            roughness={0.1}
+          />
+        </Sphere>
+        <Sphere args={[size * 0.07, 16, 16]} position={[0.1, -size * 1.6, -0.1]}>
+          <meshStandardMaterial 
+            color="#aa1100" 
+            emissive="#ff3300"
+            emissiveIntensity={0.5}
+            metalness={0.9}
+            roughness={0.1}
+          />
+        </Sphere>
       </group>
     </Float>
   )

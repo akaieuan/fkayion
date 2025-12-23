@@ -3,7 +3,7 @@
 import { useAudio } from './AudioContext'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { ChevronDown, Menu } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 
 // Ultra-compact Collapsible Section Component
 function CollapsibleSection({ 
@@ -199,22 +199,11 @@ export function ControlDrawer() {
   }
 
   if (!isSidebarOpen) {
-    // Always show controls button now - positioned top right for mobile access
-    return (
-      <Button
-        size="sm"
-        variant="ghost"
-        className="fixed top-28 right-4 z-50 h-8 px-3 text-xs bg-black/30 backdrop-blur-sm hover:bg-black/50 text-white/80 hover:text-white border border-white/15 hover:border-white/25 rounded flex items-center gap-2 focus:outline-none focus:ring-0 focus:shadow-none"
-        onClick={toggleSidebar}
-      >
-        <Menu className="h-3 w-3" />
-        Controls
-      </Button>
-    )
+    return null
   }
 
   return (
-    <div className={`fixed top-36 right-2 z-40 w-[calc(100vw-1rem)] sm:w-56 max-w-xs h-[calc(100vh-12rem)] bg-transparent backdrop-blur-md transform transition-all duration-500 rounded-lg border border-gray-600/20 shadow-2xl ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+    <div className={`fixed top-24 right-2 z-40 w-[calc(100vw-1rem)] sm:w-56 max-w-xs h-[calc(100vh-8rem)] bg-black/80 backdrop-blur-md transform transition-all duration-300 rounded-lg border border-white/10 shadow-2xl ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}>
       {/* Close button */}
       <Button
         size="sm"

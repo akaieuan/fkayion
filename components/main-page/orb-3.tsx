@@ -5,6 +5,11 @@ import { useFrame } from '@react-three/fiber'
 import { Float, Sphere } from '@react-three/drei'
 import * as THREE from 'three'
 
+interface MousePos {
+  x: number
+  y: number
+}
+
 interface LiquidMorphOrbProps {
   position: [number, number, number]
   colors: { primary: string, secondary: string, rim: string }
@@ -12,6 +17,7 @@ interface LiquidMorphOrbProps {
   isHovered: boolean
   onHover: (hovered: boolean) => void
   size?: number
+  mousePos?: MousePos
 }
 
 export function LiquidMorphOrb({ 
@@ -20,18 +26,20 @@ export function LiquidMorphOrb({
   onClick, 
   isHovered, 
   onHover,
-  size = 1
+  size = 1,
+  mousePos = { x: 0, y: 0 }
 }: LiquidMorphOrbProps) {
   const groupRef = useRef<THREE.Group>(null)
   const mainOrbRef = useRef<THREE.Mesh>(null)
   const liquidRef = useRef<THREE.Mesh>(null)
   
-    // Enhanced liquid morphing shader with film grain and high contrast
+    // Enhanced liquid morphing shader with film grain, high contrast and cursor reactivity
   const liquidMaterial = new THREE.ShaderMaterial({
     uniforms: {
       time: { value: 0 },
-      flowIntensity: { value: 0 },
-      viscosity: { value: 0 },
+      flowIntensity: { value: 0.6 }, // Always flowing at base level
+      viscosity: { value: 0.5 }, // Always viscous
+      mousePos: { value: new THREE.Vector2(mousePos.x, mousePos.y) },
       baseColor: { value: new THREE.Color('#226644') }, // Visible teal base
       liquidColor: { value: new THREE.Color('#44ddaa') },
       foamColor: { value: new THREE.Color('#ffffff') },
@@ -41,6 +49,7 @@ export function LiquidMorphOrb({
       uniform float time;
       uniform float flowIntensity;
       uniform float viscosity;
+      uniform vec2 mousePos;
       
       varying vec3 vNormal;
       varying vec3 vPosition;
@@ -89,28 +98,41 @@ export function LiquidMorphOrb({
         
         vec3 pos = position;
         
-        // Dramatic liquid deformation when flowing
-        if (flowIntensity > 0.0) {
-          // Extreme wave-like motion
-          float wave1 = sin(pos.x * 8.0 + time * 4.0) * flowIntensity * 0.4;
-          float wave2 = sin(pos.z * 6.0 + time * 3.5) * flowIntensity * 0.3;
-          float wave3 = sin(pos.y * 10.0 + time * 5.0) * flowIntensity * 0.2;
+        // Liquid deformation - ALWAYS ACTIVE
+        // Wave-like motion
+        float wave1 = sin(pos.x * 8.0 + time * 4.0) * flowIntensity * 0.3;
+        float wave2 = sin(pos.z * 6.0 + time * 3.5) * flowIntensity * 0.25;
+        float wave3 = sin(pos.y * 10.0 + time * 5.0) * flowIntensity * 0.15;
+        
+        pos += normal * (wave1 + wave2 + wave3);
+        
+        // Liquid bulging and contracting
+        float bulge = fbm(pos * 2.5 + time * 2.0) * flowIntensity;
+        pos += normal * bulge * 0.45;
+        
+        // Viscous stretching
+        float stretch = sin(time * 3.0 + pos.y * 5.0) * viscosity * 0.6;
+        pos.y += stretch * flowIntensity;
+        
+        // Subtle chaos
+        float chaos = fbm(pos * 4.0 + time * 3.0) * flowIntensity * 0.2;
+        pos += normal * chaos * 0.25;
+        
+        // Cursor attraction - only when hovered (mousePos will be zeroed when not hovered)
+        float mouseMagnitude = length(mousePos);
+        if (mouseMagnitude > 0.01) {
+          float cursorDist = distance(pos.xy, mousePos * 2.5);
+          float cursorInfluence = smoothstep(3.0, 0.0, cursorDist) * 0.5;
+          vec2 toMouse = normalize(mousePos * 2.5 - pos.xy + 0.001);
+          pos.xy += toMouse * cursorInfluence;
           
-          pos += normal * (wave1 + wave2 + wave3);
+          // Bulge near cursor
+          float bulgeNearCursor = smoothstep(2.2, 0.0, cursorDist) * 0.25;
+          pos += normal * bulgeNearCursor;
           
-          // Dramatic liquid bulging and contracting
-          float bulge = fbm(pos * 2.5 + time * 2.0) * flowIntensity;
-          pos += normal * bulge * 0.6;
-          
-          // Extreme viscous stretching
-          float stretch = sin(time * 3.0 + pos.y * 5.0) * viscosity * 0.8;
-          pos.y += stretch * flowIntensity;
-          
-          // Chaotic liquid behavior at high flow
-          if (flowIntensity > 0.6) {
-            float chaos = fbm(pos * 4.0 + time * 3.0) * (flowIntensity - 0.6) * 2.5;
-            pos += normal * chaos * 0.4;
-          }
+          // Ripple from cursor
+          float ripple = sin(cursorDist * 4.0 - time * 3.0) * smoothstep(3.0, 0.0, cursorDist) * 0.1;
+          pos += normal * ripple;
         }
         
         vFlow = flowIntensity;
@@ -194,33 +216,34 @@ export function LiquidMorphOrb({
     
     // Update material uniforms
     liquidMaterial.uniforms.time.value = time
+    liquidMaterial.uniforms.mousePos.value.set(mousePos.x, mousePos.y)
     
-    // Flow intensity animation - more responsive
-    const targetFlow = isHovered ? 1.0 : 0.0
+    // Flow intensity - always animated, increases more when hovered
+    const baseFlow = 0.6
+    const targetFlow = isHovered ? 1.0 : baseFlow
     const currentFlow = liquidMaterial.uniforms.flowIntensity.value
     liquidMaterial.uniforms.flowIntensity.value = THREE.MathUtils.lerp(currentFlow, targetFlow, 0.1)
     
-    // Viscosity animation - faster response
-    const targetViscosity = isHovered ? 1.0 : 0.0
+    // Viscosity - always active
+    const baseViscosity = 0.5
+    const targetViscosity = isHovered ? 1.0 : baseViscosity
     const currentViscosity = liquidMaterial.uniforms.viscosity.value
     liquidMaterial.uniforms.viscosity.value = THREE.MathUtils.lerp(currentViscosity, targetViscosity, 0.06)
     
-    // More dramatic liquid-like floating motion
-    const flowLevel = currentFlow
+    // Always animate liquid-like floating motion
     groupRef.current.position.y = position[1] + 
-      Math.sin(time * 2.0) * 0.2 * (1 + flowLevel) +
-      Math.sin(time * 3.2) * 0.08 * flowLevel +
-      Math.sin(time * 1.8) * 0.05 * flowLevel
+      Math.sin(time * 2.0) * 0.15 +
+      Math.sin(time * 3.2) * 0.06 +
+      Math.sin(time * 1.8) * 0.04
     
-    // Rotation becomes much more chaotic when flowing
-    const rotationMultiplier = 1 + flowLevel * 3
-    groupRef.current.rotation.y = time * 0.6 * rotationMultiplier
-    groupRef.current.rotation.x = Math.sin(time * 1.8) * 0.3 * rotationMultiplier
-    groupRef.current.rotation.z = Math.cos(time * 1.2) * 0.2 * flowLevel
+    // Always rotating
+    groupRef.current.rotation.y = time * 0.5
+    groupRef.current.rotation.x = Math.sin(time * 1.8) * 0.2
+    groupRef.current.rotation.z = Math.cos(time * 1.2) * 0.1
     
-    // More dramatic scale pulsing like a liquid blob
-    const scale = 1 + Math.sin(time * 4.0) * 0.08 * flowLevel + 
-                     Math.sin(time * 6.0) * 0.04 * flowLevel
+    // Always pulsing like a liquid blob
+    const scale = 1 + Math.sin(time * 4.0) * 0.05 + 
+                     Math.sin(time * 6.0) * 0.03
     groupRef.current.scale.setScalar(scale)
   })
 
@@ -238,59 +261,43 @@ export function LiquidMorphOrb({
           <primitive object={liquidMaterial} />
         </Sphere>
         
-        {/* Enhanced liquid droplets when flowing */}
-        {isHovered && (
-          <>
-            <Sphere args={[size * 0.15, 16, 16]} position={[size * 0.9, -size * 0.4, 0]}>
-              <meshPhysicalMaterial 
-                color="#225544"
-                transmission={0.9}
-                thickness={0.08}
-                roughness={0.05}
-                metalness={0.0}
-                ior={1.33}
-                transparent
-                opacity={0.95}
-              />
-            </Sphere>
-            <Sphere args={[size * 0.11, 16, 16]} position={[-size * 0.7, size * 0.5, size * 0.4]}>
-              <meshPhysicalMaterial 
-                color="#225544"
-                transmission={0.9}
-                thickness={0.08}
-                roughness={0.05}
-                metalness={0.0}
-                ior={1.33}
-                transparent
-                opacity={0.95}
-              />
-            </Sphere>
-            <Sphere args={[size * 0.08, 16, 16]} position={[size * 0.3, size * 0.8, -size * 0.5]}>
-              <meshPhysicalMaterial 
-                color="#225544"
-                transmission={0.9}
-                thickness={0.08}
-                roughness={0.05}
-                metalness={0.0}
-                ior={1.33}
-                transparent
-                opacity={0.95}
-              />
-            </Sphere>
-            <Sphere args={[size * 0.06, 16, 16]} position={[-size * 0.2, -size * 0.9, size * 0.2]}>
-              <meshPhysicalMaterial 
-                color="#225544"
-                transmission={0.9}
-                thickness={0.08}
-                roughness={0.05}
-                metalness={0.0}
-                ior={1.33}
-                transparent
-                opacity={0.95}
-              />
-            </Sphere>
-          </>
-        )}
+        {/* Liquid droplets - always visible */}
+        <Sphere args={[size * 0.12, 16, 16]} position={[size * 0.8, -size * 0.3, 0]}>
+          <meshPhysicalMaterial 
+            color="#225544"
+            transmission={0.9}
+            thickness={0.08}
+            roughness={0.05}
+            metalness={0.0}
+            ior={1.33}
+            transparent
+            opacity={0.85}
+          />
+        </Sphere>
+        <Sphere args={[size * 0.09, 16, 16]} position={[-size * 0.6, size * 0.4, size * 0.3]}>
+          <meshPhysicalMaterial 
+            color="#225544"
+            transmission={0.9}
+            thickness={0.08}
+            roughness={0.05}
+            metalness={0.0}
+            ior={1.33}
+            transparent
+            opacity={0.85}
+          />
+        </Sphere>
+        <Sphere args={[size * 0.06, 16, 16]} position={[size * 0.25, size * 0.7, -size * 0.4]}>
+          <meshPhysicalMaterial 
+            color="#225544"
+            transmission={0.9}
+            thickness={0.08}
+            roughness={0.05}
+            metalness={0.0}
+            ior={1.33}
+            transparent
+            opacity={0.85}
+          />
+        </Sphere>
       </group>
     </Float>
   )

@@ -13,6 +13,8 @@ interface CrystallineShatterTorusProps {
   isHovered: boolean
   onHover: (hovered: boolean) => void
   size?: number
+  variant?: number
+  baseGeometry?: 'icosa' | 'tetra' | 'octa'
 }
 
 export function CrystallineShatterTorus({ 
@@ -22,18 +24,26 @@ export function CrystallineShatterTorus({
   onClick, 
   isHovered, 
   onHover,
-  size = 1
+  size = 1,
+  variant = 0,
+  baseGeometry = 'icosa'
 }: CrystallineShatterTorusProps) {
   const groupRef = useRef<THREE.Group>(null)
   const tetraRef = useRef<THREE.Mesh>(null)
   const fragmentsRef = useRef<THREE.Group>(null)
   
+  const variantFactor = 0.9 + (variant % 8) * 0.035
+  const speed = 2.5 * (0.9 + ((variant * 3) % 5) * 0.03)
+  const rotIntensity = 0.5 * (0.9 + ((variant * 5) % 5) * 0.03)
+  const floatIntensity = 0.7 * (0.9 + ((variant * 7) % 5) * 0.03)
+  const fragmentCount = 9 + (variant % 5)
+
   // Enhanced flowing crystal shader - like orb-2.tsx but with liquid flow
   const crystalMaterial = new THREE.ShaderMaterial({
     uniforms: {
       time: { value: 0 },
-      fractureLevel: { value: 0.6 }, // Always fractured and flowing
-      flowIntensity: { value: 0.8 }, // Added flow like other torus
+      fractureLevel: { value: 0.6 * variantFactor }, // Always fractured and flowing
+      flowIntensity: { value: 0.8 * variantFactor }, // Added flow like other torus
       baseColor: { value: new THREE.Color(color) },
       crystalColor: { value: new THREE.Color(hoverColor) },
     },
@@ -56,7 +66,7 @@ export function CrystallineShatterTorus({
       }
       
       float fracture(vec3 pos) {
-        // Flowing organic fracture patterns (from orb-2.tsx)
+        // Flowing organic fracture patterns
         float f1 = sin(pos.x * 20.0 + time * 2.0) * sin(pos.y * 18.0 + time * 1.5);
         float f2 = sin(pos.z * 25.0 + time * 2.5) * sin(pos.x * 12.0 + time * 1.8);
         float f3 = sin(pos.y * 30.0 + time * 3.0) * sin(pos.z * 15.0 + time * 2.2);
@@ -78,23 +88,23 @@ export function CrystallineShatterTorus({
         float fracturePattern = fracture(pos + time * 0.1);
         vFracture = fracturePattern;
         
-        // FLOWING liquid-like crystal waves (like other torus)
-        float wave1 = sin(pos.x * 4.0 + time * 3.0) * flowIntensity * 0.3;
-        float wave2 = sin(pos.y * 3.5 + time * 2.5) * flowIntensity * 0.25;
-        float wave3 = sin(pos.z * 5.0 + time * 4.0) * flowIntensity * 0.2;
+        // FLOWING liquid-like crystal waves
+        float wave1 = sin(pos.x * 4.0 + time * 3.0) * flowIntensity * 0.32;
+        float wave2 = sin(pos.y * 3.5 + time * 2.5) * flowIntensity * 0.28;
+        float wave3 = sin(pos.z * 5.0 + time * 4.0) * flowIntensity * 0.22;
         
         pos += normal * (wave1 + wave2 + wave3);
         
         // Crystal growth and contraction (flowing)
         float growth = sin(time * 2.0) * 0.5 + 0.5;
-        pos += normal * fracturePattern * growth * 0.4;
+        pos += normal * fracturePattern * growth * 0.42;
         
         // Flowing crystal breathing
-        float breath = sin(time * 1.8 + pos.x * 3.0) * 0.15;
+        float breath = sin(time * 1.8 + pos.x * 3.0) * 0.16;
         pos += normal * breath;
         
         // Crystal liquid stretching
-        float stretch = sin(time * 2.5 + pos.y * 6.0) * 0.2;
+        float stretch = sin(time * 2.5 + pos.y * 6.0) * 0.22;
         pos.y += stretch * flowIntensity;
         
         gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
@@ -168,17 +178,22 @@ export function CrystallineShatterTorus({
     rotation: [number, number, number]
     scale: number
   }> = []
-  for (let i = 0; i < 10; i++) {
-    const angle = (i / 10) * Math.PI * 2
-    const radius = size * (0.5 + Math.random() * 0.4)
+  // simple deterministic pseudo-random based on variant and index
+  const seeded = (i: number) => {
+    const s = (variant + 1) * 9301 + i * 49297
+    return ((s % 233280) / 233280)
+  }
+  for (let i = 0; i < fragmentCount; i++) {
+    const angle = (i / fragmentCount) * Math.PI * 2
+    const radius = size * (0.5 + seeded(i) * 0.4)
     fragments.push({
       position: [
         Math.cos(angle) * radius,
-        (Math.random() - 0.5) * size * 1.0,
+        (seeded(i + 13) - 0.5) * size * 1.0,
         Math.sin(angle) * radius
       ] as [number, number, number],
-      rotation: [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI] as [number, number, number],
-      scale: 0.05 + Math.random() * 0.12
+      rotation: [seeded(i + 29) * Math.PI, seeded(i + 47) * Math.PI, seeded(i + 71) * Math.PI] as [number, number, number],
+      scale: 0.05 + seeded(i + 91) * 0.12
     })
   }
   
@@ -191,18 +206,18 @@ export function CrystallineShatterTorus({
     crystalMaterial.uniforms.time.value = time
     
     // Flowing rotation like liquid crystal (similar to other torus)
-    groupRef.current.rotation.y = time * 1.0
-    groupRef.current.rotation.x = Math.sin(time * 1.5) * 0.25
-    groupRef.current.rotation.z = Math.cos(time * 1.2) * 0.15
+    groupRef.current.rotation.y = time * (1.0 * variantFactor)
+    groupRef.current.rotation.x = Math.sin(time * (1.5 * variantFactor)) * 0.25
+    groupRef.current.rotation.z = Math.cos(time * (1.2 * variantFactor)) * 0.15
     
     // Flowing floating motion (like other torus)
     groupRef.current.position.y = position[1] + 
-      Math.sin(time * 2.2) * 0.12 +
-      Math.sin(time * 3.8) * 0.06
+      Math.sin(time * (2.2 * variantFactor)) * 0.12 +
+      Math.sin(time * (3.8 * variantFactor)) * 0.06
     
     // Flowing scale pulsing (like crystal breathing)
-    const scale = 1 + Math.sin(time * 3.5) * 0.08 + 
-                     Math.sin(time * 5.2) * 0.04
+    const scale = 1 + Math.sin(time * (3.5 * variantFactor)) * 0.08 + 
+                     Math.sin(time * (5.2 * variantFactor)) * 0.04
     groupRef.current.scale.setScalar(scale)
     
     // Smooth flowing fragment animation
@@ -211,8 +226,8 @@ export function CrystallineShatterTorus({
         const mesh = fragment as THREE.Mesh
         
         // Smooth flowing orbital motion
-        const angle = (i / 10) * Math.PI * 2 + time * 1.5
-        const radius = 1.0 + Math.sin(time * 2.0 + i * 0.5) * 0.2
+        const angle = (i / fragmentCount) * Math.PI * 2 + time * (1.5 * variantFactor)
+        const radius = 1.0 + Math.sin(time * (2.0 * variantFactor) + i * 0.5) * 0.2
         
         mesh.position.x = fragments[i].position[0] * radius + Math.cos(angle) * 0.1
         mesh.position.y = fragments[i].position[1] * radius + Math.sin(time * 1.8 + i) * 0.15
@@ -230,7 +245,7 @@ export function CrystallineShatterTorus({
   })
 
   return (
-    <Float speed={2.5} rotationIntensity={0.5} floatIntensity={0.7}>
+    <Float speed={speed} rotationIntensity={rotIntensity} floatIntensity={floatIntensity}>
       <group 
         ref={groupRef} 
         position={position}
@@ -239,7 +254,15 @@ export function CrystallineShatterTorus({
         onClick={onClick}
       >
         <mesh ref={tetraRef}>
-          <tetrahedronGeometry args={[size * 0.6, 5]} />
+          {baseGeometry === 'icosa' && (
+            <icosahedronGeometry args={[size * 0.8, 2]} />
+          )}
+          {baseGeometry === 'tetra' && (
+            <tetrahedronGeometry args={[size * 0.8, 3]} />
+          )}
+          {baseGeometry === 'octa' && (
+            <octahedronGeometry args={[size * 0.8, 2]} />
+          )}
           <primitive object={crystalMaterial} />
         </mesh>
         

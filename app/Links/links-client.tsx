@@ -149,7 +149,6 @@ export function LinksClient({ linksData, layoutConfig }: LinksClientProps) {
             {/* Left side - Compact links list positioned away from sidebar */}
             <div className="w-1/4 flex flex-col justify-center pl-20 pr-4 py-8">
               <div className="space-y-2 max-w-xs">
-                <h2 className="text-lg font-bold text-white mb-4 opacity-80">My Links</h2>
                 {linksData.map((link, index) => (
                   <button
                     key={index}
@@ -187,15 +186,14 @@ export function LinksClient({ linksData, layoutConfig }: LinksClientProps) {
         </>
       )}
 
-      {/* Instructions - responsive */}
-      <div className="absolute bottom-2 left-4 right-4 z-30 text-center">
-        <p className="text-white/50 text-xs">
-          {isMobile 
-            ? 'Tap arrows to navigate • Tap dots to jump • Tap Visit to open'
-            : 'Hover over links to see animations • Click to visit'
-          }
-        </p>
-      </div>
+      {/* Instructions - mobile only (desktop handled inside orb area) */}
+      {isMobile && (
+        <div className="absolute bottom-2 left-4 right-4 z-30 text-center">
+          <p className="text-white/50 text-xs">
+            Tap arrows to navigate • Tap dots to jump • Tap Visit to open
+          </p>
+        </div>
+      )}
     </div>
   )
 } 

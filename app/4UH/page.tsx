@@ -4,7 +4,6 @@ import React from 'react'
 import { useRouter } from 'next/navigation'
 import { Canvas } from '@react-three/fiber'
 import { LiquidMorphOrb } from '../../components/main-page/orb-3'
-import { NavigationSidebar } from '@/components/ui/navigation-sidebar'
 
 export default function MusicPage() {
   const router = useRouter()
@@ -15,9 +14,6 @@ export default function MusicPage() {
   
   return (
     <div className="h-screen w-screen relative bg-black overflow-hidden flex flex-col">
-      {/* Navigation Sidebar */}
-      <NavigationSidebar />
-
       {/* Transparent Header - for layout structure */}
       <header className="relative z-50 h-16 bg-transparent">
         {/* Empty header for spacing and potential future nav */}

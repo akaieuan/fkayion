@@ -5,6 +5,11 @@ import { useFrame } from '@react-three/fiber'
 import { Float, Sphere } from '@react-three/drei'
 import * as THREE from 'three'
 
+interface MousePos {
+  x: number
+  y: number
+}
+
 interface CrystallineShatterOrbProps {
   position: [number, number, number]
   colors: { primary: string, secondary: string, rim: string }
@@ -12,6 +17,7 @@ interface CrystallineShatterOrbProps {
   isHovered: boolean
   onHover: (hovered: boolean) => void
   size?: number
+  mousePos?: MousePos
 }
 
 export function CrystallineShatterOrb({ 
@@ -20,17 +26,19 @@ export function CrystallineShatterOrb({
   onClick, 
   isHovered, 
   onHover,
-  size = 1
+  size = 1,
+  mousePos = { x: 0, y: 0 }
 }: CrystallineShatterOrbProps) {
   const groupRef = useRef<THREE.Group>(null)
   const mainOrbRef = useRef<THREE.Mesh>(null)
   const fragmentsRef = useRef<THREE.Group>(null)
   
-  // Enhanced crystal fracture shader with film grain and high contrast
+  // Enhanced crystal fracture shader with film grain, high contrast and cursor reactivity
   const crystalMaterial = new THREE.ShaderMaterial({
     uniforms: {
       time: { value: 0 },
-      fractureLevel: { value: 0 },
+      fractureLevel: { value: 0.5 }, // Always fractured at base level
+      mousePos: { value: new THREE.Vector2(mousePos.x, mousePos.y) },
       baseColor: { value: new THREE.Color('#001133') }, // Dark blue base
       crystalColor: { value: new THREE.Color('#88ddff') },
       glowColor: { value: new THREE.Color('#ffffff') },
@@ -39,6 +47,7 @@ export function CrystallineShatterOrb({
     vertexShader: `
       uniform float time;
       uniform float fractureLevel;
+      uniform vec2 mousePos;
       
       varying vec3 vNormal;
       varying vec3 vPosition;
@@ -54,10 +63,10 @@ export function CrystallineShatterOrb({
       }
       
       float fracture(vec3 pos) {
-        // More dramatic fracture patterns
-        float f1 = sin(pos.x * 20.0) * sin(pos.y * 18.0);
-        float f2 = sin(pos.z * 25.0) * sin(pos.x * 12.0);
-        float f3 = sin(pos.y * 30.0) * sin(pos.z * 15.0);
+        // More dramatic fracture patterns - animated
+        float f1 = sin(pos.x * 20.0 + time * 0.5) * sin(pos.y * 18.0 + time * 0.3);
+        float f2 = sin(pos.z * 25.0 + time * 0.7) * sin(pos.x * 12.0 + time * 0.4);
+        float f3 = sin(pos.y * 30.0 + time * 0.6) * sin(pos.z * 15.0 + time * 0.5);
         float combined = (f1 + f2 + f3) * 0.33;
         
         // Sharp fracture lines
@@ -72,24 +81,37 @@ export function CrystallineShatterOrb({
         
         vec3 pos = position;
         
-        // Calculate dramatic fracture pattern
+        // Calculate dramatic fracture pattern - ALWAYS ACTIVE
         float fracturePattern = fracture(pos);
         vFracture = fracturePattern;
         
-        // Extreme displacement when fracturing
-        if (fractureLevel > 0.0) {
-          vec3 displacement = normal * fracturePattern * fractureLevel * 0.8;
-          pos += displacement;
+        // Always animate displacement
+        vec3 displacement = normal * fracturePattern * fractureLevel * 0.6;
+        pos += displacement;
+        
+        // Create gaps between fractures
+        float gap = step(0.3, abs(fracturePattern)) * fractureLevel;
+        pos += normal * gap * 0.2;
+        
+        // Subtle chaos effect
+        float chaos = hash(pos + time * 0.5) * 2.0 - 1.0;
+        pos += normal * chaos * fractureLevel * 0.15;
+        
+        // Cursor attraction - only when hovered (mousePos will be zeroed when not hovered)
+        float mouseMagnitude = length(mousePos);
+        if (mouseMagnitude > 0.01) {
+          float cursorDist = distance(pos.xy, mousePos * 2.5);
+          float cursorInfluence = smoothstep(3.0, 0.0, cursorDist) * 0.5;
+          vec2 toMouse = normalize(mousePos * 2.5 - pos.xy + 0.001);
+          pos.xy += toMouse * cursorInfluence;
           
-          // Create deep gaps between fractures
-          float gap = step(0.3, abs(fracturePattern)) * fractureLevel;
-          pos += normal * gap * 0.3;
+          // Bulge near cursor
+          float bulgeNearCursor = smoothstep(2.2, 0.0, cursorDist) * 0.25;
+          pos += normal * bulgeNearCursor;
           
-          // Chaos effect at high fracture levels
-          if (fractureLevel > 0.7) {
-            float chaos = hash(pos + time * 0.5) * 2.0 - 1.0;
-            pos += normal * chaos * (fractureLevel - 0.7) * 0.5;
-          }
+          // Ripple from cursor
+          float ripple = sin(cursorDist * 4.0 - time * 3.0) * smoothstep(3.0, 0.0, cursorDist) * 0.1;
+          pos += normal * ripple;
         }
         
         gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
@@ -195,31 +217,38 @@ export function CrystallineShatterOrb({
     
     // Update material uniforms
     crystalMaterial.uniforms.time.value = time
+    crystalMaterial.uniforms.mousePos.value.set(mousePos.x, mousePos.y)
     
-    // Fracture level animation - faster and more dramatic
-    const targetFracture = isHovered ? 1.0 : 0.0
+    // Fracture level - always animated, increases more when hovered
+    const baseFracture = 0.5
+    const targetFracture = isHovered ? 1.0 : baseFracture
     const currentFracture = crystalMaterial.uniforms.fractureLevel.value
     crystalMaterial.uniforms.fractureLevel.value = THREE.MathUtils.lerp(currentFracture, targetFracture, 0.12)
     
-    // Gentle rotation with crystal-like precision
-    groupRef.current.rotation.y = time * 0.3
-    groupRef.current.rotation.x = Math.sin(time * 0.5) * 0.1
+    // Always rotating with crystal-like precision
+    groupRef.current.rotation.y = time * 0.35
+    groupRef.current.rotation.x = Math.sin(time * 0.5) * 0.12
+    groupRef.current.rotation.z = Math.cos(time * 0.4) * 0.08
     
-    // Animate fragments when hovering - more chaotic
-    if (fragmentsRef.current && isHovered) {
+    // Always animate fragments
+    if (fragmentsRef.current) {
       fragmentsRef.current.children.forEach((fragment, i) => {
         const mesh = fragment as THREE.Mesh
         
-        // More dramatic scattering
-        const scatterIntensity = currentFracture * 0.8
+        // Scattering - always active, more intense on hover
+        const scatterIntensity = currentFracture * 0.6
         mesh.position.x = fragments[i].position[0] * (1 + scatterIntensity)
-        mesh.position.y = fragments[i].position[1] * (1 + scatterIntensity * 0.7)
+        mesh.position.y = fragments[i].position[1] * (1 + scatterIntensity * 0.5)
         mesh.position.z = fragments[i].position[2] * (1 + scatterIntensity)
         
-        // Faster, more chaotic rotation
-        mesh.rotation.x = fragments[i].rotation[0] + time * (0.8 + i * 0.15)
-        mesh.rotation.y = fragments[i].rotation[1] + time * (0.6 + i * 0.12)
-        mesh.rotation.z = fragments[i].rotation[2] + time * (0.7 + i * 0.18)
+        // Always rotating
+        mesh.rotation.x = fragments[i].rotation[0] + time * (0.6 + i * 0.1)
+        mesh.rotation.y = fragments[i].rotation[1] + time * (0.5 + i * 0.08)
+        mesh.rotation.z = fragments[i].rotation[2] + time * (0.55 + i * 0.12)
+        
+        // Update opacity - always visible
+        const material = mesh.material as THREE.MeshPhysicalMaterial
+        material.opacity = 0.6 + currentFracture * 0.3
       })
     }
   })
@@ -258,7 +287,7 @@ export function CrystallineShatterOrb({
                 clearcoatRoughness={0.0}
                 ior={2.8}
                 transparent
-                opacity={isHovered ? 0.9 : 0}
+                opacity={0.6}
               />
             </mesh>
           ))}

@@ -1,12 +1,13 @@
 import React from 'react'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { SiteHeader } from '@/components/ui/site-header'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Fkayion - Audio & Visual Experience',
-  description: 'An immersive digital experience featuring audio visualization, music, and creative connections.',
+  title: 'aka4uh | akaieuan',
+  description: 'akaieuan is a front-end developer, designer, and artist',
 }
 
 export default function RootLayout({
@@ -16,9 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full">
-      <body className={`${inter.className} bg-black text-white h-full antialiased`} style={{ overflow: 'visible' }}>
+      <body className={`${inter.className} bg-black text-white h-full antialiased`}>
+        <SiteHeader />
         {children}
       </body>
     </html>
   )
-} 
+}

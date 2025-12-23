@@ -13,6 +13,8 @@ interface MetallicMeltingTorusProps {
   isHovered: boolean
   onHover: (hovered: boolean) => void
   size?: number
+  variant?: number
+  baseGeometry?: 'torusKnot' | 'torus' | 'tetrahedron' | 'sphere'
 }
 
 export function MetallicMeltingTorus({ 
@@ -22,17 +24,25 @@ export function MetallicMeltingTorus({
   onClick, 
   isHovered, 
   onHover,
-  size = 1
+  size = 1,
+  variant = 0,
+  baseGeometry = 'torusKnot'
 }: MetallicMeltingTorusProps) {
   const groupRef = useRef<THREE.Group>(null)
   const tetraRef = useRef<THREE.Mesh>(null)
   const dropletsRef = useRef<THREE.Group>(null)
   
+  const variantFactor = 0.9 + (variant % 8) * 0.035
+  const speed = 2.0 * (0.9 + ((variant * 3) % 5) * 0.03)
+  const rotIntensity = 0.3 * (0.9 + ((variant * 5) % 5) * 0.03)
+  const floatIntensity = 0.5 * (0.9 + ((variant * 7) % 5) * 0.03)
+  const dropletCount = 5 + (variant % 4)
+
   // Contrasty film grain mercury shader - no shine, strong blacks
   const mercuryMaterial = new THREE.ShaderMaterial({
     uniforms: {
       time: { value: 0 },
-      splitLevel: { value: 0.6 }, // Always animated
+      splitLevel: { value: 0.6 * variantFactor }, // Always animated with variant
       baseColor: { value: new THREE.Color(color) },
       mercuryColor: { value: new THREE.Color(hoverColor) },
     },
@@ -51,21 +61,21 @@ export function MetallicMeltingTorus({
         
         vec3 pos = position;
         
-        // DRAMATIC mercury melting and dripping
+        // Mercury melting and dripping
         float meltFactor = sin(time * 1.0) * 0.5 + 0.5;
         
-        // Heavy dripping downward
+        // Dripping downward
         if (pos.y < 0.0) {
-          pos.y -= meltFactor * 0.8;
+          pos.y -= meltFactor * 0.85;
         }
         
         // Liquid mercury stretching
         float stretch = sin(pos.x * 4.0 + time * 2.0) * sin(pos.z * 4.0 + time * 1.5);
-        pos.y -= abs(stretch) * meltFactor * 0.6;
+        pos.y -= abs(stretch) * meltFactor * 0.65;
         
         // Mercury blob deformation
         float blob = sin(pos.x * 6.0 + time * 3.0) * sin(pos.y * 5.0 + time * 2.0) * sin(pos.z * 7.0 + time * 2.5);
-        pos += normal * blob * 0.3;
+        pos += normal * blob * 0.35;
         
         gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
       }
@@ -131,19 +141,19 @@ export function MetallicMeltingTorus({
     mercuryMaterial.uniforms.time.value = time
     
     // Always animated rotation and floating
-    groupRef.current.rotation.y = time * 0.8
-    groupRef.current.rotation.x = Math.sin(time * 1.2) * 0.2
-    groupRef.current.rotation.z = Math.cos(time * 0.9) * 0.1
+    groupRef.current.rotation.y = time * (0.8 * variantFactor)
+    groupRef.current.rotation.x = Math.sin(time * (1.2 * variantFactor)) * 0.2
+    groupRef.current.rotation.z = Math.cos(time * (0.9 * variantFactor)) * 0.1
     
     // Floating motion
-    groupRef.current.position.y = position[1] + Math.sin(time * 2.0) * 0.1
+    groupRef.current.position.y = position[1] + Math.sin(time * (2.0 * variantFactor)) * 0.1
     
     // Always animate mercury droplets
     if (dropletsRef.current) {
       dropletsRef.current.children.forEach((droplet, i) => {
         const mesh = droplet as THREE.Mesh
-        const angle = (i / 6) * Math.PI * 2 + time * 2
-        const distance = 0.6 + Math.sin(time * 3 + i) * 0.2
+        const angle = (i / Math.max(1, dropletCount)) * Math.PI * 2 + time * (2 * variantFactor)
+        const distance = 0.6 + Math.sin(time * (3 * variantFactor) + i) * 0.2
         
         mesh.position.x = Math.cos(angle) * distance
         mesh.position.y = Math.sin(time * 4 + i) * 0.4
@@ -155,7 +165,7 @@ export function MetallicMeltingTorus({
   })
 
   return (
-    <Float speed={2.0} rotationIntensity={0.3} floatIntensity={0.5}>
+    <Float speed={speed} rotationIntensity={rotIntensity} floatIntensity={floatIntensity}>
       <group 
         ref={groupRef} 
         position={position}
@@ -164,13 +174,24 @@ export function MetallicMeltingTorus({
         onClick={onClick}
       >
         <mesh ref={tetraRef}>
-          <tetrahedronGeometry args={[size * 0.6, 5]} />
+          {baseGeometry === 'torusKnot' && (
+            <torusKnotGeometry args={[size * 0.45, size * 0.16, 140, 18, 2, 3]} />
+          )}
+          {baseGeometry === 'torus' && (
+            <torusGeometry args={[size * 0.8, size * 0.18, 64, 96]} />
+          )}
+          {baseGeometry === 'tetrahedron' && (
+            <tetrahedronGeometry args={[size * 0.75, 2]} />
+          )}
+          {baseGeometry === 'sphere' && (
+            <sphereGeometry args={[size * 0.65, 48, 36]} />
+          )}
           <primitive object={mercuryMaterial} />
         </mesh>
         
         {/* Always visible mercury droplets - contrasty, no shine */}
         <group ref={dropletsRef}>
-          {Array.from({ length: 6 }).map((_, i) => (
+          {Array.from({ length: dropletCount }).map((_, i) => (
             <mesh key={i}>
               <sphereGeometry args={[size * 0.08, 16, 16]} />
               <meshStandardMaterial 

@@ -9,22 +9,28 @@ interface PulsatingSoundTetrahedronProps {
   color: string
   hoverColor: string
   size?: number
+  variant?: number
+  baseGeometry?: 'tetra' | 'icosa'
 }
 
 export function PulsatingSoundTetrahedron({ 
   color, 
   hoverColor, 
-  size = 1 
+  size = 1,
+  variant = 0,
+  baseGeometry = 'tetra'
 }: PulsatingSoundTetrahedronProps) {
   const groupRef = useRef<THREE.Group>(null)
   const tetraRef = useRef<THREE.Mesh>(null)
+  
+  const variantFactor = 0.9 + (variant % 8) * 0.035
 
   // Enhanced liquid morphing shader (adapted from orb-3.tsx) - controlled for Spotify
   const liquidMaterial = new THREE.ShaderMaterial({
     uniforms: {
       time: { value: 0 },
-      flowIntensity: { value: 0.6 }, // Reduced from 1.0 - more controlled
-      viscosity: { value: 0.4 }, // Reduced from 0.8 - less viscous
+      flowIntensity: { value: 0.6 * variantFactor }, // Reduced from 1.0 - more controlled
+      viscosity: { value: 0.4 * variantFactor }, // Reduced from 0.8 - less viscous
       baseColor: { value: new THREE.Color(color) },
       liquidColor: { value: new THREE.Color(hoverColor) },
       foamColor: { value: new THREE.Color('#ffffff') },
@@ -193,26 +199,35 @@ export function PulsatingSoundTetrahedron({
     liquidMaterial.uniforms.time.value = time
     
     // Gentle controlled flow for Spotify (like main page orbs)
-    const flowLevel = 0.6 // Reduce from 1.0 to be less intense
+    const flowLevel = 0.6 * variantFactor // Reduce from 1.0 to be less intense
     
     // Gentle floating motion like main page orbs
-    groupRef.current.position.y = Math.sin(time * 0.8) * 0.1
+    groupRef.current.position.y = Math.sin(time * (0.8 * variantFactor)) * 0.1
     
     // Much slower, controlled rotation like main page orbs
-    groupRef.current.rotation.y = time * 0.3 // Much slower rotation
-    groupRef.current.rotation.x = Math.sin(time * 0.5) * 0.1 // Gentle oscillation
-    groupRef.current.rotation.z = Math.cos(time * 0.4) * 0.05 // Very subtle
+    groupRef.current.rotation.y = time * (0.3 * variantFactor) // Much slower rotation
+    groupRef.current.rotation.x = Math.sin(time * (0.5 * variantFactor)) * 0.1 // Gentle oscillation
+    groupRef.current.rotation.z = Math.cos(time * (0.4 * variantFactor)) * 0.05 // Very subtle
     
     // Gentle scale pulsing like main page orbs
-    const scale = 1 + Math.sin(time * 1.2) * 0.05 // Much more subtle
+    const scale = 1 + Math.sin(time * (1.2 * variantFactor)) * 0.05 // Much more subtle
     groupRef.current.scale.setScalar(scale)
   })
 
   return (
-    <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.3}>
+    <Float 
+      speed={1.5 * (0.9 + ((variant * 3) % 5) * 0.03)} 
+      rotationIntensity={0.1 * (0.9 + ((variant * 5) % 5) * 0.03)} 
+      floatIntensity={0.3 * (0.9 + ((variant * 7) % 5) * 0.03)}
+    >
       <group ref={groupRef}>
         <mesh ref={tetraRef}>
-          <tetrahedronGeometry args={[size * 0.6, 5]} />
+          {baseGeometry === 'tetra' && (
+            <tetrahedronGeometry args={[size * 0.6, 4 + (variant % 4)]} />
+          )}
+          {baseGeometry === 'icosa' && (
+            <icosahedronGeometry args={[size * 0.8, 1]} />
+          )}
           <primitive object={liquidMaterial} />
         </mesh>
         

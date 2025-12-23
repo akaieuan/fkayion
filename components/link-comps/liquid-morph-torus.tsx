@@ -13,6 +13,9 @@ interface LiquidMorphTorusProps {
   isHovered: boolean
   onHover: (hovered: boolean) => void
   size?: number
+  variant?: number
+  baseGeometry?: 'octa' | 'dodeca' | 'tetra' | 'icosa' | 'torusKnot' | 'torus'
+  shatterMode?: boolean
 }
 
 export function LiquidMorphTorus({ 
@@ -22,16 +25,39 @@ export function LiquidMorphTorus({
   onClick, 
   isHovered, 
   onHover,
-  size = 1
+  size = 1,
+  variant = 0,
+  baseGeometry = 'octa',
+  shatterMode = false
 }: LiquidMorphTorusProps) {
   const groupRef = useRef<THREE.Group>(null)
   const tetraRef = useRef<THREE.Mesh>(null)
+  const fragmentsRef = useRef<THREE.Group>(null)
   
+  const variantFactor = 0.85 + (variant % 8) * 0.04
+  const floatSpeed = 3.0 * (0.9 + ((variant * 3) % 5) * 0.03)
+  const rotIntensity = 0.6 * (0.9 + ((variant * 5) % 5) * 0.03)
+  const floatIntensity = 0.8 * (0.9 + ((variant * 7) % 5) * 0.03)
+  const fragmentCount = shatterMode ? 10 + (variant % 4) : 0
+  
+  // Generate fragment data for shatter mode
+  const seeded = (i: number) => {
+    const s = (variant + 1) * 9301 + i * 49297
+    return ((s % 233280) / 233280)
+  }
+  const fragments = shatterMode ? Array.from({ length: fragmentCount }, (_, i) => ({
+    baseAngle: (i / fragmentCount) * Math.PI * 2,
+    baseRadius: size * (0.4 + seeded(i) * 0.3),
+    baseY: (seeded(i + 13) - 0.5) * size * 0.8,
+    rotationOffset: [seeded(i + 29) * Math.PI, seeded(i + 47) * Math.PI, seeded(i + 71) * Math.PI] as [number, number, number],
+    scale: 0.06 + seeded(i + 91) * 0.08
+  })) : []
+
   // Contrasty film grain liquid shader - no shine, strong blacks
   const liquidMaterial = new THREE.ShaderMaterial({
     uniforms: {
       time: { value: 0 },
-      flowIntensity: { value: 0.8 }, // Always flowing
+      flowIntensity: { value: 0.85 * variantFactor }, // Slightly increased
       baseColor: { value: new THREE.Color(color) },
       liquidColor: { value: new THREE.Color(hoverColor) },
     },
@@ -50,20 +76,20 @@ export function LiquidMorphTorus({
         
         vec3 pos = position;
         
-        // DRAMATIC liquid flowing and morphing
-        float wave1 = sin(pos.x * 3.0 + time * 4.0) * 0.6;
-        float wave2 = sin(pos.y * 2.5 + time * 3.0) * 0.5;
-        float wave3 = sin(pos.z * 4.0 + time * 5.0) * 0.7;
+        // Smooth liquid flowing and morphing
+        float wave1 = sin(pos.x * 3.0 + time * 3.5) * 0.65;
+        float wave2 = sin(pos.y * 2.5 + time * 2.8) * 0.55;
+        float wave3 = sin(pos.z * 4.0 + time * 4.2) * 0.75;
         
         // Liquid bulging and contracting
-        pos += normal * (wave1 + wave2 + wave3) * flowIntensity * 0.4;
+        pos += normal * (wave1 + wave2 + wave3) * flowIntensity * 0.42;
         
         // Liquid dripping effect
-        float drip = max(0.0, -pos.y + 0.2) * sin(time * 2.0 + pos.x * 5.0);
-        pos.y -= drip * 0.5;
+        float drip = max(0.0, -pos.y + 0.2) * sin(time * 1.8 + pos.x * 5.0);
+        pos.y -= drip * 0.55;
         
-        // Viscous stretching
-        float stretch = sin(time * 1.5 + pos.y * 8.0) * 0.3;
+        // Viscous stretching with surface tension
+        float stretch = sin(time * 1.4 + pos.y * 8.0) * 0.32;
         pos += normal * stretch;
         
         gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
@@ -99,8 +125,8 @@ export function LiquidMorphTorus({
         color = mix(vec3(0.0), color, edge * 0.6 + 0.4);
         
         // Strong liquid ripple patterns
-        float ripple = sin(vPosition.x * 25.0 + time * 8.0) * 
-                      sin(vPosition.z * 20.0 + time * 6.0) * 0.6;
+        float ripple = sin(vPosition.x * 25.0 + time * 7.0) * 
+                      sin(vPosition.z * 20.0 + time * 5.5) * 0.6;
         color += ripple * liquidColor * 0.7;
         
         // Heavy film grain
@@ -131,23 +157,57 @@ export function LiquidMorphTorus({
     liquidMaterial.uniforms.time.value = time
     
     // Always animated chaotic rotation
-    groupRef.current.rotation.y = time * 1.2
-    groupRef.current.rotation.x = Math.sin(time * 2.5) * 0.3
-    groupRef.current.rotation.z = Math.cos(time * 1.8) * 0.2
+    groupRef.current.rotation.y = time * (1.2 * variantFactor)
+    groupRef.current.rotation.x = Math.sin(time * (2.5 * variantFactor)) * 0.3
+    groupRef.current.rotation.z = Math.cos(time * (1.8 * variantFactor)) * 0.2
     
     // Constant floating motion
     groupRef.current.position.y = position[1] + 
-      Math.sin(time * 2.5) * 0.15 +
-      Math.sin(time * 4.2) * 0.08
+      Math.sin(time * (2.5 * variantFactor)) * 0.15 +
+      Math.sin(time * (4.2 * variantFactor)) * 0.08
     
     // Constant scale pulsing
-    const scale = 1 + Math.sin(time * 5.0) * 0.1 + 
-                     Math.sin(time * 7.0) * 0.05
+    const scale = 1 + Math.sin(time * (5.0 * variantFactor)) * 0.1 + 
+                     Math.sin(time * (7.0 * variantFactor)) * 0.05
     groupRef.current.scale.setScalar(scale)
+    
+    // Animate shatter fragments - they separate and reform dynamically
+    if (shatterMode && fragmentsRef.current) {
+      fragmentsRef.current.children.forEach((fragment, i) => {
+        const mesh = fragment as THREE.Mesh
+        const frag = fragments[i]
+        if (!frag) return
+        
+        // Separation/reform cycle - fragments move outward and back
+        const separateCycle = Math.sin(time * 1.5 + i * 0.7) * 0.5 + 0.5 // 0 to 1
+        const separateDistance = separateCycle * 0.8 // max separation
+        
+        // Orbital motion with separation
+        const angle = frag.baseAngle + time * (1.2 + i * 0.15)
+        const radius = frag.baseRadius + separateDistance
+        
+        mesh.position.x = Math.cos(angle) * radius
+        mesh.position.y = frag.baseY + Math.sin(time * 2.5 + i) * 0.2 + separateDistance * 0.3
+        mesh.position.z = Math.sin(angle) * radius
+        
+        // Chaotic rotation
+        mesh.rotation.x = frag.rotationOffset[0] + time * (1.5 + i * 0.2)
+        mesh.rotation.y = frag.rotationOffset[1] + time * (1.2 + i * 0.15)
+        mesh.rotation.z = frag.rotationOffset[2] + time * (1.8 + i * 0.25)
+        
+        // Scale pulses with separation
+        const fragScale = frag.scale * (1 + separateCycle * 0.3)
+        mesh.scale.setScalar(fragScale)
+        
+        // Opacity changes with separation
+        const material = mesh.material as THREE.MeshStandardMaterial
+        material.opacity = 0.6 + separateCycle * 0.3
+      })
+    }
   })
 
   return (
-    <Float speed={3.0} rotationIntensity={0.6} floatIntensity={0.8}>
+    <Float speed={floatSpeed} rotationIntensity={rotIntensity} floatIntensity={floatIntensity}>
       <group 
         ref={groupRef} 
         position={position}
@@ -156,9 +216,53 @@ export function LiquidMorphTorus({
         onClick={onClick}
       >
         <mesh ref={tetraRef}>
-          <tetrahedronGeometry args={[size * 0.6, 5]} />
+          {baseGeometry === 'octa' && (
+            <octahedronGeometry args={[size * 0.7, 2 + (variant % 2)]} />
+          )}
+          {baseGeometry === 'dodeca' && (
+            <dodecahedronGeometry args={[size * 0.8, 0]} />
+          )}
+          {baseGeometry === 'tetra' && (
+            <tetrahedronGeometry args={[size * 0.8, 2]} />
+          )}
+          {baseGeometry === 'icosa' && (
+            <icosahedronGeometry args={[size * 0.8, 1]} />
+          )}
+          {baseGeometry === 'torusKnot' && (
+            <torusKnotGeometry args={[size * 0.4, size * 0.12, 100, 16, 2, 3]} />
+          )}
+          {baseGeometry === 'torus' && (
+            <torusGeometry args={[size * 0.55, size * 0.22, 32, 64]} />
+          )}
           <primitive object={liquidMaterial} />
         </mesh>
+        
+        {/* Shatter mode fragments - dynamically separate and reform */}
+        {shatterMode && (
+          <group ref={fragmentsRef}>
+            {fragments.map((frag, i) => (
+              <mesh
+                key={i}
+                position={[
+                  Math.cos(frag.baseAngle) * frag.baseRadius,
+                  frag.baseY,
+                  Math.sin(frag.baseAngle) * frag.baseRadius
+                ]}
+                rotation={frag.rotationOffset}
+                scale={frag.scale}
+              >
+                <tetrahedronGeometry args={[size * 0.15, 1]} />
+                <meshStandardMaterial
+                  color={hoverColor}
+                  metalness={0.0}
+                  roughness={0.8}
+                  transparent
+                  opacity={0.7}
+                />
+              </mesh>
+            ))}
+          </group>
+        )}
       </group>
     </Float>
   )

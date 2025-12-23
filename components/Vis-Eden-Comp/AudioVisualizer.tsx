@@ -6,8 +6,6 @@ import { OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
 import { useAudio } from './AudioContext'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Home } from 'lucide-react'
 
 const DEBUG = false
 
@@ -1217,17 +1215,6 @@ export function AudioVisualizer() {
 
   return (
     <div className="w-full h-full relative bg-black">
-      {/* Home Button - Top Left */}
-      <Button
-        size="sm"
-        variant="ghost"
-        onClick={() => router.push('/')}
-        className="fixed top-2 left-2 z-50 h-7 px-2 text-[10px] bg-black/40 backdrop-blur-sm hover:bg-black/60 text-white/80 hover:text-white border border-white/20 hover:border-white/30 rounded flex items-center gap-1"
-      >
-        <Home className="h-3 w-3" />
-        Home
-      </Button>
-
       <Canvas
         camera={{ 
           position: [0, 0, 12],

@@ -1,7 +1,5 @@
 import { Suspense } from 'react'
 import { LinksClient } from './links-client'
-import { NavigationSidebar } from '@/components/ui/navigation-sidebar'
-import { Button } from "@/components/ui/button"
 
 // Server-side static data for links with optimized mapping
 const linksData = [
@@ -31,7 +29,7 @@ const linksData = [
   },
   { 
     label: 'Bandcamp', 
-    url: 'https://yi0n.bandcamp.com/',
+    url: 'https://akaieuan.bandcamp.com/',
     color: '#22aaff',
     hoverColor: '#44ccff'
   },
@@ -49,7 +47,7 @@ const linksData = [
   }
 ]
 
-// Server-side layout configuration optimized for list + orb design with mobile support
+// Server-side layout configuration
 const layoutConfig = {
   mobileView: {
     linksPerPage: 1
@@ -61,39 +59,23 @@ const layoutConfig = {
 
 // Server-side metadata
 export const metadata = {
-  title: 'Links | FKAYION',
-  description: 'Explore connections and dynamic visual experiences'
+  title: 'Links | aka4uh',
+  description: 'Social links and connections'
 }
 
 export default function LinksPage() {
   return (
-    <div className="h-screen w-screen relative bg-black overflow-hidden flex flex-col">
-      {/* Navigation Sidebar */}
-      <NavigationSidebar />
-
-      {/* Transparent Header - for layout structure */}
-      <header className="relative z-50 h-16 bg-transparent">
-        {/* Empty header for spacing and potential future nav */}
-      </header>
-
-      {/* Main Content Area - Flex grow to fill space */}
-      <main className="flex-1 relative overflow-hidden">
-        <Suspense fallback={
-          <div className="h-full w-full flex items-center justify-center bg-black">
-            <div className="text-white text-xl">Loading experience...</div>
-          </div>
-        }>
-          <LinksClient 
-            linksData={linksData}
-            layoutConfig={layoutConfig}
-          />
-        </Suspense>
-      </main>
-
-      {/* Transparent Footer - for layout structure */}
-      <footer className="relative z-50 h-16 bg-transparent">
-        {/* Empty footer for spacing and potential future content */}
-      </footer>
+    <div className="h-screen w-screen relative bg-black overflow-hidden pt-16">
+      <Suspense fallback={
+        <div className="h-full w-full flex items-center justify-center bg-black">
+          <div className="text-white text-xl">Loading...</div>
+        </div>
+      }>
+        <LinksClient 
+          linksData={linksData}
+          layoutConfig={layoutConfig}
+        />
+      </Suspense>
     </div>
   )
-} 
+}
