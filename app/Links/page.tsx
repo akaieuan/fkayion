@@ -65,7 +65,7 @@ export const metadata = {
 
 export default function LinksPage() {
   return (
-    <div className="h-screen w-screen relative bg-black overflow-hidden pt-16">
+    <div className="h-screen w-screen relative bg-black overflow-hidden pt-2">
       <Suspense fallback={
         <div className="h-full w-full flex items-center justify-center bg-black">
           <div className="text-white text-xl">Loading...</div>

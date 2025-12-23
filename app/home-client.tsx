@@ -1,70 +1,18 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { useState, useCallback } from 'react'
 import { Canvas } from '@react-three/fiber'
 import * as THREE from 'three'
 
 import { LiquidMorphOrb } from '../components/main-page/orb-3'
+import { LatestReleases } from '../components/main-page/latest-releases'
 
 interface MousePos {
   x: number
   y: number
 }
 
-interface NavCard {
-  label: string
-  description: string
-  route: string
-  color: string
-}
-
-const navCards: NavCard[] = [
-  {
-    label: 'Links',
-    description: 'Social links',
-    route: '/Links',
-    color: '#ff4422'
-  },
-  {
-    label: 'Visualizer Eden',
-    description: 'Music visualizer',
-    route: '/Visualizer-Eden',
-    color: '#4488ff'
-  },
-  {
-    label: '4UH.NYC',
-    description: 'Releases',
-    route: '/4UH',
-    color: '#44ddaa'
-  }
-]
-
-function NavCardButton({ card, onNavigate }: { card: NavCard; onNavigate: (route: string) => void }) {
-  const [isHovered, setIsHovered] = useState(false)
-
-  return (
-    <button
-      onClick={() => onNavigate(card.route)}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="group w-full py-3 pr-2 text-left transition-all duration-200"
-      style={{
-        color: isHovered ? card.color : 'rgba(255,255,255,0.6)'
-      }}
-    >
-      <span className="text-sm tracking-wide">
-        {card.label}
-      </span>
-      <span className="text-xs text-white/30 ml-3">
-        {card.description}
-      </span>
-    </button>
-  )
-}
-
 export function HomeClient() {
-  const router = useRouter()
   const [mousePos, setMousePos] = useState<MousePos>({ x: 0, y: 0 })
   
   // Track mouse position for cursor reactivity on orb
@@ -74,10 +22,6 @@ export function HomeClient() {
     const y = -((event.clientY - rect.top) / rect.height) * 2 + 1
     setMousePos({ x, y })
   }, [])
-
-  const handleNavigation = (route: string) => {
-    router.push(route)
-  }
 
   return (
     <div className="h-full w-full relative" onPointerMove={handlePointerMove}>
@@ -115,36 +59,28 @@ export function HomeClient() {
         </Canvas>
       </div>
 
-      {/* Floating navigation - overlays the orb */}
+      {/* Floating content - overlays the orb */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="h-full w-full flex items-center justify-start">
-          <div className="pointer-events-auto ml-8 md:ml-16 lg:ml-24">
-            {/* Title */}
+          <div className="pointer-events-auto px-8 md:px-16 lg:px-24">
+            {/* Personal Info */}
             <div className="mb-8">
               <h1 className="text-xl text-white/80 font-light tracking-wide">
-                aka4uh
+                akaieuan
               </h1>
               <p className="text-white/25 text-xs mt-1 font-light">
                 digital anthropologist · ai researcher · <br />front-end developer · designer · musician
               </p>
             </div>
 
-            {/* Navigation Cards */}
-            <div className="space-y-1">
-              {navCards.map((card) => (
-                <NavCardButton 
-                  key={card.route} 
-                  card={card} 
-                  onNavigate={handleNavigation}
-                />
-              ))}
-            </div>
+            {/* Releases Links */}
+            <LatestReleases />
           </div>
         </div>
       </div>
 
       {/* Subtle hint at bottom */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 pointer-events-none">
+      <div className="absolute bottom-16 left-1/2 -translate-x-1/2 pointer-events-none">
         <p className="text-white/15 text-xs font-light">
           hover to interact
         </p>

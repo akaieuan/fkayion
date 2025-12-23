@@ -78,7 +78,7 @@ export function LinksClient({ linksData, layoutConfig }: LinksClientProps) {
     : currentLink?.hoverColor || '#aa88ff'
 
   return (
-    <div className="w-full h-full relative overflow-hidden">
+    <div className="w-full h-full relative">
       {/* Mobile Layout */}
       {isMobile && (
         <>
@@ -144,39 +144,38 @@ export function LinksClient({ linksData, layoutConfig }: LinksClientProps) {
       {/* Desktop Layout */}
       {!isMobile && (
         <>
-          {/* Desktop content - aligned with header margins */}
-          <div className="absolute inset-0 z-20 flex">
-            {/* Left side - Links list aligned with header */}
-            <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 py-8">
-              <div className="space-y-1">
-                {linksData.map((link, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleLinkClick(link.url)}
-                    onMouseEnter={() => handleLinkHover(link.label)}
-                    onMouseLeave={() => handleLinkHover(null)}
-                    className="w-full text-left py-3 pr-2 transition-all duration-200 group"
-                    style={{
-                      color: hoveredLink === link.label ? link.color : 'rgba(255,255,255,0.6)'
-                    }}
-                  >
-                    <span className="text-sm font-light tracking-wide">
-                      {link.label}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
+          {/* Full-screen orb canvas - like home page */}
+          <div className="absolute inset-0">
+            <UnifiedDynamicOrb
+              activeLink={hoveredLink}
+              color={orbColor}
+              hoverColor={orbHoverColor}
+              size={2.2}
+            />
+          </div>
 
-            {/* Right side - Dynamic orb taking remaining space */}
-            <div className="flex-1 relative flex items-center justify-center">
-              <div className="w-full h-full flex items-center justify-center">
-                <UnifiedDynamicOrb
-                  activeLink={hoveredLink}
-                  color={orbColor}
-                  hoverColor={orbHoverColor}
-                  size={1.3}
-                />
+          {/* Links overlay - on top of orb */}
+          <div className="absolute inset-0 pointer-events-none z-20">
+            <div className="h-full w-full flex items-center justify-start">
+              <div className="pointer-events-auto px-8 md:px-16 lg:px-24">
+                <div className="space-y-1">
+                  {linksData.map((link, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleLinkClick(link.url)}
+                      onMouseEnter={() => handleLinkHover(link.label)}
+                      onMouseLeave={() => handleLinkHover(null)}
+                      className="w-full text-left py-3 pr-2 transition-all duration-200 group"
+                      style={{
+                        color: hoveredLink === link.label ? link.color : 'rgba(255,255,255,0.6)'
+                      }}
+                    >
+                      <span className="text-sm font-light tracking-wide">
+                        {link.label}
+                      </span>
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
