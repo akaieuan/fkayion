@@ -15,6 +15,7 @@ interface UnifiedDynamicOrbProps {
   color: string
   hoverColor: string
   size?: number
+  positionOffset?: [number, number, number]
 }
 
 interface MousePos {
@@ -269,7 +270,7 @@ function DefaultTorus({ size = 1, mousePos = { x: 0, y: 0 } }: { size?: number; 
   )
 }
 
-export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2 }: UnifiedDynamicOrbProps) {
+export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2, positionOffset = [1.5, 0, 0] }: UnifiedDynamicOrbProps) {
   const isMobile = useIsMobile()
   const [mousePos, setMousePos] = useState<MousePos>({ x: 0, y: 0 })
   
@@ -294,10 +295,12 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2 }:
   const variant = hashStringToVariant(activeLink)
   
   const getControlledSize = (isResting = false) => {
+    // Use the size prop directly
+    const baseSize = size
     if (isResting) {
-      return isMobile ? 3.8 : 2.8 // Larger resting state for more presence
+      return isMobile ? baseSize * 1.2 : baseSize
     }
-    return isMobile ? 3.2 : 2.2 // Normal size for hover states
+    return isMobile ? baseSize * 1.1 : baseSize * 0.9
   }
   
   // Color utilities to make per-link themes more distinct
@@ -547,7 +550,10 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2 }:
           castShadow
         />
         
-        {renderActiveOrb()}
+        {/* Position offset group - like home page orb positioning */}
+        <group position={positionOffset}>
+          {renderActiveOrb()}
+        </group>
       </Canvas>
 
     </div>
