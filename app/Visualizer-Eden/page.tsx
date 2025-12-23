@@ -28,6 +28,8 @@ const demoSongs = [
       density: 0.6,
       brightness: 3.5,
       contrast: 0.7,
+      brightness: 3.5, // Darker
+      contrast: 0.7, // Deep contrast
       bloom: 0.35,
       grain: 0.45,
       grainSize: 3.2,
