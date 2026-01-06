@@ -295,6 +295,8 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2, o
   const variant = hashStringToVariant(activeLink)
   
   const getControlledSize = (isResting = false) => {
+    // Use the size prop directly
+    const baseSize = size
     if (isResting) {
       return isMobile ? 2.6 : 2.0 // Subtler resting state
     }
