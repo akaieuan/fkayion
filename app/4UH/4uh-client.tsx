@@ -73,7 +73,7 @@ export function FourUHClient() {
   }
 
   return (
-    <div className="h-full w-full relative overflow-y-auto overflow-x-hidden">
+    <div className="h-full w-full relative overflow-hidden">
       {/* Video background - centered */}
       <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
         <video

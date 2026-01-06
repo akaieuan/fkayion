@@ -7,13 +7,15 @@ interface PlaylistListProps {
 export function PlaylistList({ isOpen }: PlaylistListProps) {
   return (
     <div 
-      className="w-[85vw] md:w-[45vw] lg:w-[50vw] max-w-[800px] max-h-[50vh] md:max-h-[65vh] overflow-y-auto pr-4 md:pr-16 pb-6 overflow-x-hidden"
+      className="w-[85vw] md:w-[45vw] lg:w-[50vw] max-w-[800px] max-h-[50vh] md:max-h-[65vh] overflow-y-auto overflow-x-hidden pr-4 md:pr-16 pb-6"
       style={{
         opacity: isOpen ? 1 : 0,
         transform: isOpen ? 'translateX(0)' : 'translateX(-12px)',
         pointerEvents: isOpen ? 'auto' : 'none',
         transition: 'opacity 0.25s ease-out, transform 0.25s ease-out',
         visibility: isOpen ? 'visible' : 'hidden',
+        overscrollBehavior: 'contain',
+        WebkitOverflowScrolling: 'touch',
       }}
     >
       {/* Header */}
