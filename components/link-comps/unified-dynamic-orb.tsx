@@ -15,6 +15,7 @@ interface UnifiedDynamicOrbProps {
   color: string
   hoverColor: string
   size?: number
+  orbPosition?: [number, number, number]
 }
 
 interface MousePos {
@@ -269,7 +270,7 @@ function DefaultTorus({ size = 1, mousePos = { x: 0, y: 0 } }: { size?: number; 
   )
 }
 
-export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2 }: UnifiedDynamicOrbProps) {
+export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2, orbPosition = [1.8, 0, 0] }: UnifiedDynamicOrbProps) {
   const isMobile = useIsMobile()
   const [mousePos, setMousePos] = useState<MousePos>({ x: 0, y: 0 })
   
@@ -295,9 +296,9 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2 }:
   
   const getControlledSize = (isResting = false) => {
     if (isResting) {
-      return isMobile ? 3.8 : 2.8 // Larger resting state for more presence
+      return isMobile ? 2.6 : 2.0 // Subtler resting state
     }
-    return isMobile ? 3.2 : 2.2 // Normal size for hover states
+    return isMobile ? 2.2 : 1.6 // Smaller hover states
   }
   
   // Color utilities to make per-link themes more distinct
@@ -368,15 +369,13 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2 }:
   }
   const getEffectiveColors = (label: string | null, base: string, hover: string) => {
     if (!label) return { base, hover }
-    if (label === 'Ubik Studio' || label === 'App Ubik Studio') {
+    if (label === 'Ubik' || label === 'Ubik Studio' || label === 'App Ubik Studio') {
       return { base, hover }
     }
     if (label === 'Instagram') {
-      // Hot pink/magenta gradient for Instagram - vibrant and bold
       return { base: adjust(base, -50, 1.6, 1.1), hover: adjust(hover, -60, 1.7, 1.05) }
     }
     if (label === 'aka.write') {
-      // Bright lime/green shift - very distinct from purple SoundCloud
       return { base: adjust(base, 85, 1.5, 1.1), hover: adjust(hover, 95, 1.6, 1.05) }
     }
     if (label === 'Spotify') {
@@ -386,7 +385,6 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2 }:
       return { base: adjust(base, 15, 1.4, 1.0), hover: adjust(hover, 22, 1.5, 0.95) }
     }
     if (label === 'Bandcamp') {
-      // Electric blue/azure for Bandcamp - bold and distinct
       return { base: adjust(base, -120, 1.5, 1.05), hover: adjust(hover, -130, 1.6, 1.0) }
     }
     if (label === 'YouTube') {
@@ -394,7 +392,6 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2 }:
     }
     return { base: adjust(base, 8, 1.05, 1.0), hover: adjust(hover, -8, 1.05, 0.98) }
   }
-  const indicatorColors = getEffectiveColors(activeLink, color, hoverColor)
 
   // Render the appropriate orb based on active link
   function renderActiveOrb() {
@@ -404,6 +401,7 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2 }:
 
     const effective = getEffectiveColors(activeLink, color, hoverColor)
     switch (activeLink) {
+      case 'Ubik':
       case 'Ubik Studio':
       case 'App Ubik Studio':
         return (
@@ -528,28 +526,23 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2 }:
         resize={{ scroll: false, debounce: { scroll: 50, resize: 0 } }}
         shadows
       >
-        {/* Enhanced lighting matching main page */}
         <ambientLight intensity={0.15} />
-        
-        {/* Colored point lights like main page */}
         <pointLight position={[-6, 2, 3]} intensity={2.5} color="#ff4400" distance={15} />
         <pointLight position={[0, 3, 3]} intensity={2.0} color="#44aaff" distance={15} />
         <pointLight position={[6, -1, 3]} intensity={2.3} color="#44ddaa" distance={15} />
         <pointLight position={[0, -8, -5]} intensity={1.0} color="#ffffff" distance={20} />
         <pointLight position={[8, 8, -8]} intensity={0.8} color="#ffddaa" distance={25} />
         <pointLight position={[-8, 4, -6]} intensity={0.6} color="#aaddff" distance={20} />
-        
-        {/* Directional light for definition */}
         <directionalLight 
           position={[10, 10, 5]} 
           intensity={0.25} 
           color="#ffffff"
           castShadow
         />
-        
-        {renderActiveOrb()}
+        <group position={orbPosition}>
+          {renderActiveOrb()}
+        </group>
       </Canvas>
-
     </div>
   )
 }

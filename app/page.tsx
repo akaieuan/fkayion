@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { HomeClient } from './home-client'
+import { UnifiedClient } from './unified-client'
 
 // Server-side metadata
 export const metadata = {
@@ -15,7 +15,7 @@ export default function HomePage() {
           <div className="text-white text-xl">Loading...</div>
         </div>
       }>
-        <HomeClient />
+        <UnifiedClient />
       </Suspense>
     </div>
   )

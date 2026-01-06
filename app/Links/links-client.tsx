@@ -1,9 +1,10 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
 import { UnifiedDynamicOrb } from '../../components/link-comps/unified-dynamic-orb'
+
+// Greenish-white hover color matching orb
+const hoverColor = '#44ddaa'
 
 interface Link {
   label: string
@@ -12,45 +13,95 @@ interface Link {
   hoverColor: string
 }
 
-interface LayoutConfig {
-  mobileView: {
-    linksPerPage: number
-    autoSwitchInterval?: number // Made optional since we removed auto-cycling
-  }
-  fog: {
-    colors: string[]
-  }
-}
-
 interface LinksClientProps {
   linksData: Link[]
-  layoutConfig: LayoutConfig
 }
 
-// Custom hook for mobile detection
-function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false)
-
+function GridLinkItem({ 
+  link, 
+  index,
+  onHover,
+  onNavigate
+}: { 
+  link: Link
+  index: number
+  onHover: (label: string | null) => void
+  onNavigate: (url: string) => void
+}) {
+  const [isHovered, setIsHovered] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
+  
+  // Staggered entrance animation
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-    
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
+    const timer = setTimeout(() => {
+      setIsVisible(true)
+    }, index * 60)
+    return () => clearTimeout(timer)
+  }, [index])
+  
+  const handleMouseEnter = () => {
+    setIsHovered(true)
+    onHover(link.label)
+  }
 
-  return isMobile
+  const handleMouseLeave = () => {
+    setIsHovered(false)
+    onHover(null)
+  }
+
+  // Grid position determines animation direction
+  const row = Math.floor(index / 3)
+  const col = index % 3
+  
+  // Each cell animates from a different direction based on position
+  const getInitialTransform = () => {
+    const directions = [
+      'translate3d(-20px, -20px, 0)', // top-left
+      'translate3d(0, -25px, 0)',     // top-center
+      'translate3d(20px, -20px, 0)',  // top-right
+      'translate3d(-25px, 0, 0)',     // middle-left
+      'translate3d(0, 0, 0) scale(0.8)', // center - scale in
+      'translate3d(25px, 0, 0)',      // middle-right
+      'translate3d(-20px, 20px, 0)',  // bottom-left
+      'translate3d(0, 25px, 0)',      // bottom-center
+      'translate3d(20px, 20px, 0)',   // bottom-right
+    ]
+    return directions[index] || 'translate3d(0, 20px, 0)'
+  }
+  
+  // First column items should not have left padding for alignment
+  const isFirstCol = index % 3 === 0
+  
+  return (
+    <button
+      onClick={() => onNavigate(link.url)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className={`relative py-3 pr-4 text-left transition-all duration-300 group ${isFirstCol ? 'pl-0' : 'pl-4'}`}
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible 
+          ? 'translate3d(0, 0, 0) scale(1)' 
+          : getInitialTransform(),
+        transition: `opacity 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)`,
+        transitionDelay: `${index * 60}ms`,
+      }}
+    >
+      {/* Link text */}
+      <span 
+        className="relative text-sm font-light tracking-wide transition-colors duration-200"
+        style={{
+          color: isHovered ? hoverColor : 'rgba(255,255,255,0.5)',
+        }}
+      >
+        {link.label}
+      </span>
+    </button>
+  )
 }
 
-export function LinksClient({ linksData, layoutConfig }: LinksClientProps) {
-  const router = useRouter()
+export function LinksClient({ linksData }: LinksClientProps) {
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
-  const [currentMobileLinkIndex, setCurrentMobileLinkIndex] = useState(0)
-  const isMobile = useIsMobile()
-
-  // Removed auto-cycling - user has manual control
 
   const handleLinkClick = (url: string) => {
     window.open(url, '_blank')
@@ -60,137 +111,66 @@ export function LinksClient({ linksData, layoutConfig }: LinksClientProps) {
     setHoveredLink(linkLabel)
   }
 
-  const navigateToLink = (direction: 'prev' | 'next') => {
-    const currentIndex = currentMobileLinkIndex
-    const newIndex = direction === 'next' 
-      ? (currentIndex + 1) % linksData.length 
-      : (currentIndex - 1 + linksData.length) % linksData.length
-    setCurrentMobileLinkIndex(newIndex)
-  }
-
-  // Get current colors based on mobile state
-  const currentLink = isMobile ? linksData[currentMobileLinkIndex] : null
+  const defaultColor = linksData[0]?.color || '#6655cc'
+  const defaultHover = linksData[0]?.hoverColor || '#aa88ff'
   const orbColor = hoveredLink 
-    ? linksData.find(link => link.label === hoveredLink)?.color || '#6655cc'
-    : currentLink?.color || '#6655cc'
+    ? linksData.find(link => link.label === hoveredLink)?.color || defaultColor
+    : defaultColor
   const orbHoverColor = hoveredLink 
-    ? linksData.find(link => link.label === hoveredLink)?.hoverColor || '#aa88ff'
-    : currentLink?.hoverColor || '#aa88ff'
+    ? linksData.find(link => link.label === hoveredLink)?.hoverColor || defaultHover
+    : defaultHover
 
   return (
-    <div className="w-full h-full relative overflow-hidden">
-      {/* Mobile Layout */}
-      {isMobile && (
-        <>
-          {/* Mobile link title and indicator - higher up to be visible */}
-          <div className="absolute top-4 left-0 right-0 z-40 text-center px-4">
-            <h2 className="text-xl font-light tracking-wide text-white/80 mb-3">{currentLink?.label}</h2>
-            <div className="flex justify-center space-x-3">
-              {linksData.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentMobileLinkIndex(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentMobileLinkIndex ? 'bg-white/80 scale-125' : 'bg-white/30 hover:bg-white/50'
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
+    <div className="relative w-full min-h-screen">
+      {/* Full-screen orb canvas */}
+      <div className="absolute inset-0">
+        <UnifiedDynamicOrb
+          activeLink={hoveredLink}
+          color={orbColor}
+          hoverColor={orbHoverColor}
+          size={0.9}
+        />
+      </div>
 
-          {/* Mobile orb display - floating on whole page */}
-          <div className="absolute inset-0 z-20 flex items-center justify-center pt-20 pb-32">
-            <div className="w-full h-full max-w-lg max-h-[500px] flex items-center justify-center">
-              <UnifiedDynamicOrb
-                activeLink={currentLink?.label || null}
-                color={orbColor}
-                hoverColor={orbHoverColor}
-                size={1.8}
-              />
+      {/* Floating content */}
+      <div className="relative z-10 flex flex-col min-h-screen">
+        <div className="flex-1 flex items-start md:items-center">
+          <div className="w-full px-4 pt-14 pb-16 sm:px-6 md:px-12 lg:px-16">
+            {/* Title */}
+            <div className="mb-6">
+              <h1 className="text-lg sm:text-xl text-gray-500/80 font-light tracking-wide">
+                links
+              </h1>
+              <p className="text-white/25 text-xs mt-1 font-light">
+                social · music · writing
+              </p>
             </div>
-          </div>
 
-          {/* Mobile navigation - clean without borders */}
-          <div className="absolute bottom-8 left-0 right-0 z-40 px-6">
-            <div className="flex justify-center items-center space-x-4 bg-black/30 backdrop-blur-lg rounded-2xl p-3">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => navigateToLink('prev')}
-                className="w-12 h-12 rounded-full bg-transparent border-white/40 text-white hover:bg-white/20 hover:border-white/60"
-              >
-                ←
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => handleLinkClick(currentLink?.url || '')}
-                className="px-6 py-2 bg-transparent border-white/40 text-white hover:bg-white/20 hover:border-white/60"
-              >
-                Visit
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => navigateToLink('next')}
-                className="w-12 h-12 rounded-full bg-transparent border-white/40 text-white hover:bg-white/20 hover:border-white/60"
-              >
-                →
-              </Button>
-            </div>
-          </div>
-        </>
-      )}
-
-      {/* Desktop Layout */}
-      {!isMobile && (
-        <>
-          {/* Desktop content - aligned with header margins */}
-          <div className="absolute inset-0 z-20 flex">
-            {/* Left side - Links list aligned with header */}
-            <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 py-8">
-              <div className="space-y-1">
-                {linksData.map((link, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleLinkClick(link.url)}
-                    onMouseEnter={() => handleLinkHover(link.label)}
-                    onMouseLeave={() => handleLinkHover(null)}
-                    className="w-full text-left py-3 pr-2 transition-all duration-200 group"
-                    style={{
-                      color: hoveredLink === link.label ? link.color : 'rgba(255,255,255,0.6)'
-                    }}
-                  >
-                    <span className="text-sm font-light tracking-wide">
-                      {link.label}
-                    </span>
-                  </button>
+            {/* Responsive Grid */}
+            <div className="relative">
+              <div className="absolute -inset-4 bg-zinc-800/80 backdrop-blur-2xl backdrop-saturate-150 rounded-2xl -z-10" />
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-1 max-w-[320px] sm:max-w-[360px] md:max-w-[320px] p-2">
+                {linksData.slice(0, 9).map((link, index) => (
+                  <GridLinkItem 
+                    key={link.label}
+                    link={link}
+                    index={index}
+                    onHover={handleLinkHover}
+                    onNavigate={handleLinkClick}
+                  />
                 ))}
               </div>
             </div>
-
-            {/* Right side - Dynamic orb taking remaining space */}
-            <div className="flex-1 relative flex items-center justify-center">
-              <div className="w-full h-full flex items-center justify-center">
-                <UnifiedDynamicOrb
-                  activeLink={hoveredLink}
-                  color={orbColor}
-                  hoverColor={orbHoverColor}
-                  size={1.3}
-                />
-              </div>
-            </div>
           </div>
-        </>
-      )}
+        </div>
 
-      {/* Instructions - mobile only (desktop handled inside orb area) */}
-      {isMobile && (
-        <div className="absolute bottom-2 left-4 right-4 z-30 text-center">
-          <p className="text-white/25 text-xs font-light tracking-wide">
-            Tap arrows to navigate · Tap dots to jump · Tap Visit to open
+        {/* Subtle hint at bottom */}
+        <div className="pb-6 flex justify-center pointer-events-none">
+          <p className="text-white/15 text-xs font-light">
+            hover or tap to interact
           </p>
         </div>
-      )}
+      </div>
     </div>
   )
-} 
+}

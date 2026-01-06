@@ -2,30 +2,27 @@ import { Suspense } from 'react'
 import { LinksClient } from './links-client'
 
 // Server-side static data for links with optimized mapping
+// Row 1: SoundCloud, aka.write, Ubik
+// Row 2: Bandcamp, Spotify, YouTube
+// Row 3: Instagram
 const linksData = [
-  { 
-    label: 'Ubik Studio', 
-    url: 'https://ubik.studio',
-    color: '#ff4422',
-    hoverColor: '#ff6644'
-  },
-  { 
-    label: 'Instagram', 
-    url: 'https://instagram.com/aka.ieuan/',
-    color: '#ff6b9d',
-    hoverColor: '#ff8fa3'
-  },
-  { 
-    label: 'Spotify', 
-    url: 'https://open.spotify.com/artist/5OwuCYMg2wmmh3QofLLIPe?si=QfdVpYAeRQSC3G4fWTuIyg',
-    color: '#aa22ff',
-    hoverColor: '#cc44ff'
-  },
   { 
     label: 'SoundCloud', 
     url: 'https://soundcloud.com/akaieuan',
     color: '#aa22ff',
     hoverColor: '#cc44ff'
+  },
+  { 
+    label: 'aka.write', 
+    url: 'https://kraa.io/akaieuan',
+    color: '#88ff22',
+    hoverColor: '#aaff44'
+  },
+  { 
+    label: 'Ubik', 
+    url: 'https://ubik.studio',
+    color: '#ff4422',
+    hoverColor: '#ff6644'
   },
   { 
     label: 'Bandcamp', 
@@ -34,16 +31,22 @@ const linksData = [
     hoverColor: '#44ccff'
   },
   { 
+    label: 'Spotify', 
+    url: 'https://open.spotify.com/artist/5OwuCYMg2wmmh3QofLLIPe?si=QfdVpYAeRQSC3G4fWTuIyg',
+    color: '#aa22ff',
+    hoverColor: '#cc44ff'
+  },
+  { 
     label: 'YouTube', 
     url: 'https://www.youtube.com/channel/UC6etRnx7fZEtoVAI-phCu6Q',
     color: '#ff2288',
     hoverColor: '#ff44aa'
   },
   { 
-    label: 'aka.write', 
-    url: 'https://kraa.io/akaieuan',
-    color: '#88ff22',
-    hoverColor: '#aaff44'
+    label: 'Instagram', 
+    url: 'https://instagram.com/aka.ieuan/',
+    color: '#ff6b9d',
+    hoverColor: '#ff8fa3'
   }
 ]
 
@@ -65,7 +68,7 @@ export const metadata = {
 
 export default function LinksPage() {
   return (
-    <div className="h-screen w-screen relative bg-black overflow-hidden pt-16">
+    <div className="h-screen w-screen relative bg-black overflow-hidden">
       <Suspense fallback={
         <div className="h-full w-full flex items-center justify-center bg-black">
           <div className="text-white text-xl">Loading...</div>
@@ -73,7 +76,6 @@ export default function LinksPage() {
       }>
         <LinksClient 
           linksData={linksData}
-          layoutConfig={layoutConfig}
         />
       </Suspense>
     </div>
