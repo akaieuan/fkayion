@@ -81,7 +81,7 @@ interface PurchaseListProps {
 export function PurchaseList({ isOpen, items = purchaseData }: PurchaseListProps) {
   return (
     <div 
-      className="w-[85vw] md:w-[45vw] lg:w-[50vw] max-w-[800px] max-h-[50vh] md:max-h-[65vh] overflow-y-auto overflow-x-hidden pr-4 md:pr-10 pb-6"
+      className="w-[90vw] sm:w-[85vw] md:w-[45vw] lg:w-[50vw] max-w-[800px] h-[60vh] sm:h-[55vh] md:h-[65vh] overflow-y-scroll overflow-x-hidden pr-2 sm:pr-4 md:pr-10 pb-6 isolate"
       style={{
         opacity: isOpen ? 1 : 0,
         transform: isOpen ? 'translateX(0)' : 'translateX(-12px)',
@@ -90,7 +90,10 @@ export function PurchaseList({ isOpen, items = purchaseData }: PurchaseListProps
         visibility: isOpen ? 'visible' : 'hidden',
         overscrollBehavior: 'contain',
         WebkitOverflowScrolling: 'touch',
+        touchAction: 'pan-y',
       }}
+      onTouchStart={(e) => e.stopPropagation()}
+      onTouchMove={(e) => e.stopPropagation()}
     >
       {/* Bandcamp header */}
       <a 

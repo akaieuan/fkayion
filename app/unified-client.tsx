@@ -202,9 +202,14 @@ function LinksSection() {
     
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsInView(entry.isIntersecting && entry.intersectionRatio > 0.5)
+        // Trigger when at least 20% visible
+        if (entry.isIntersecting && entry.intersectionRatio > 0.2) {
+          setIsInView(true)
+        } else if (!entry.isIntersecting) {
+          setIsInView(false)
+        }
       },
-      { threshold: 0.5 }
+      { threshold: [0, 0.2, 0.5, 1] }
     )
     
     observer.observe(section)
@@ -237,7 +242,7 @@ function LinksSection() {
               <h1 className="text-xl text-gray-500/80 font-light tracking-wide">links</h1>
               <p className="text-white/25 text-xs mt-1 font-light">social · music · writing</p>
             </div>
-            <div className="grid grid-cols-3 gap-1 max-w-[320px]">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-1 w-full max-w-[260px] sm:max-w-[320px]">
               {linksData.slice(0, 9).map((link, index) => (
                 <GridLinkItem 
                   key={link.label} 
@@ -277,7 +282,7 @@ function FourUHSection() {
   }
 
   return (
-    <section id="section-2" className="h-screen w-full relative snap-start overflow-hidden">
+    <section id="section-2" className="h-screen w-full relative snap-start overflow-visible">
       {/* Video background */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <video autoPlay loop muted playsInline className="w-auto h-auto max-w-none opacity-40" style={{ minWidth: '40%', minHeight: '40%', objectFit: 'contain' }}>
@@ -288,9 +293,9 @@ function FourUHSection() {
       <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.4) 100%)' }} />
 
       <div className="relative h-full flex items-start md:items-center justify-start">
-        <div className="w-full flex flex-col md:flex-row items-start md:items-start justify-start px-4 sm:px-6 md:px-12 lg:px-16 pt-20 md:py-0 gap-6 md:gap-4">
+        <div className="w-full flex flex-col md:flex-row items-start md:items-start justify-start px-4 sm:px-6 md:px-12 lg:px-16 pt-16 sm:pt-20 md:py-0 gap-4 md:gap-4">
           {/* Left - Navigation */}
-          <nav className="space-y-3 sm:space-y-4 md:space-y-6 shrink-0 text-left">
+          <nav className="space-y-2 sm:space-y-3 md:space-y-6 shrink-0 text-left">
             {['Shows', 'Releases', 'Purchase', 'Playlists'].map((item) => {
               const panelKey = item.toLowerCase() as ActivePanel
               const isActive = activePanel === panelKey
@@ -318,17 +323,17 @@ function FourUHSection() {
           </nav>
 
           {/* Panels - all same position on mobile, overlapping cards on desktop */}
-          <div className="relative flex-1 mt-6 md:mt-0 h-[50vh] md:h-[70vh]">
-            <div className="absolute top-0 left-0 md:left-0">
+          <div className="relative flex-1 mt-4 md:mt-0 h-[62vh] sm:h-[58vh] md:h-[70vh]">
+            <div className={`absolute top-0 left-0 md:left-0 ${activePanel !== 'shows' ? 'pointer-events-none' : ''}`}>
               <ShowsList isOpen={activePanel === 'shows'} />
             </div>
-            <div className="absolute top-0 left-0 md:left-[8vw]">
+            <div className={`absolute top-0 left-0 md:left-[8vw] ${activePanel !== 'releases' ? 'pointer-events-none' : ''}`}>
               <ReleasesList isOpen={activePanel === 'releases'} />
             </div>
-            <div className="absolute top-0 left-0 md:left-[16vw]">
+            <div className={`absolute top-0 left-0 md:left-[16vw] ${activePanel !== 'purchase' ? 'pointer-events-none' : ''}`}>
               <PurchaseList isOpen={activePanel === 'purchase'} />
             </div>
-            <div className="absolute top-0 left-0 md:left-auto md:right-0">
+            <div className={`absolute top-0 left-0 md:left-auto md:right-0 ${activePanel !== 'playlists' ? 'pointer-events-none' : ''}`}>
               <PlaylistList isOpen={activePanel === 'playlists'} />
             </div>
           </div>
