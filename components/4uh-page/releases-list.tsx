@@ -116,4 +116,3 @@ export function ReleasesList({ isOpen }: ReleasesListProps) {
     </div>
   )
 }
-

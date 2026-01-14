@@ -73,4 +73,3 @@ export function PlaylistList({ isOpen }: PlaylistListProps) {
     </div>
   )
 }
-

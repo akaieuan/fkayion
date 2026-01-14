@@ -37,7 +37,7 @@ export const purchaseData: PurchaseItem[] = [
   { title: 'Girls Just Want Breaks (yion flip)', type: 'track', url: 'https://akaieuan.bandcamp.com/track/girls-just-want-breaks-yion-flip' },
 ]
 
-function PurchaseItem({ item }: { item: PurchaseItem }) {
+function PurchaseItemComponent({ item }: { item: PurchaseItem }) {
   const [isHovered, setIsHovered] = useState(false)
   
   return (
@@ -112,7 +112,7 @@ export function PurchaseList({ isOpen, items = purchaseData }: PurchaseListProps
         </p>
         <div className="space-y-0">
           {items.map((item, i) => (
-            <PurchaseItem key={i} item={item} />
+            <PurchaseItemComponent key={i} item={item} />
           ))}
         </div>
       </div>
@@ -131,4 +131,3 @@ export function PurchaseList({ isOpen, items = purchaseData }: PurchaseListProps
     </div>
   )
 }
-

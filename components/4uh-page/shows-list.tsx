@@ -163,4 +163,3 @@ export function ShowsList({ isOpen, events = eventsData }: ShowsListProps) {
     </div>
   )
 }
-
