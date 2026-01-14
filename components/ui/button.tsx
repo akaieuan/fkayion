@@ -19,6 +19,10 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        twt: "bg-[hsl(var(--twt-red))] text-white shadow hover:bg-[hsl(var(--twt-red))]/90",
+        "twt-outline":
+          "border-2 border-[hsl(var(--twt-red))] text-[hsl(var(--twt-red))] bg-transparent hover:bg-[hsl(var(--twt-red))]/10",
+        "twt-ghost": "text-[hsl(var(--twt-red))] hover:bg-[hsl(var(--twt-red))]/10",
       },
       size: {
         default: "h-9 px-4 py-2",

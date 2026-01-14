@@ -4,7 +4,6 @@ import { AudioProvider, useAudio } from '../../components/Vis-Eden-Comp/AudioCon
 import { AudioVisualizer } from '../../components/Vis-Eden-Comp/AudioVisualizer'
 import { ControlDrawer } from '../../components/Vis-Eden-Comp/ControlDrawer'
 import { AudioBar } from '../../components/Vis-Eden-Comp/AudioBar'
-import { Button } from '@/components/ui/button'
 import { Upload, Music, Settings } from 'lucide-react'
 import { useState } from 'react'
 
@@ -17,7 +16,7 @@ const demoSongs = [
     url: '/demo-audio/seeingthroughu.wav',
     preset: {
       audioReactivity: 15.0,
-      shape: 'cube ',
+      shape: 'cube',
       metallic: 0.2,
       chrome: 0.3,
       holographic: 0.3,
@@ -34,9 +33,6 @@ const demoSongs = [
       rotationSpeed: 4.5,
       dotSeparation: 0.3,
       surfaceTension: 2.8,
-      surface: 35.0,
-      flow: 35.0,
-      rotation: 4.5,
       autoColorCycle: true,
       autoShapeCycle: true,
       colorCycleSpeed: 20,
@@ -49,52 +45,9 @@ const demoSongs = [
   }
 ]
 
-function DemoSongSelector() {
-  const { setAudioSrc, setControls, play } = useAudio()
-  const [isOpen, setIsOpen] = useState(false)
-
-  const handleDemoSelect = async (song: typeof demoSongs[0]) => {
-    setAudioSrc(song.url)
-    setControls((prev: any) => ({
-      ...prev,
-      ...song.preset
-    }))
-    setIsOpen(false)
-    // Give the audio element time to load before playing
-    setTimeout(() => {
-      play()
-    }, 100)
-  }
-
-  return (
-    <div className="relative">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="text-sm font-light tracking-wide text-white/40 hover:text-white/70 transition-colors duration-200"
-      >
-        Demo
-      </button>
-      
-      {isOpen && (
-        <div className="absolute top-8 right-0 w-56 bg-black/90 backdrop-blur-sm border border-white/10 rounded-lg p-3 space-y-2">
-          <div className="text-xs font-light tracking-wide text-white/25 mb-2">Demo songs:</div>
-          {demoSongs.map((song) => (
-            <button
-              key={song.id}
-              onClick={() => handleDemoSelect(song)}
-              className="w-full text-left p-2 hover:bg-white/10 rounded text-sm font-light tracking-wide text-white/60 hover:text-white/80 transition-colors"
-            >
-              {song.title}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  )
-}
-
-function UploadButton() {
-  const { loadAudioFile, audioSrc } = useAudio()
+function Toolbar() {
+  const { loadAudioFile, audioSrc, setAudioSrc, setControls, play, toggleSidebar, isSidebarOpen } = useAudio()
+  const [showDemo, setShowDemo] = useState(false)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -103,64 +56,73 @@ function UploadButton() {
     }
   }
 
-  return (
-    <div className="relative">
-      <input 
-        type="file" 
-        accept="audio/*" 
-        onChange={handleFileChange} 
-        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-        id="audio-upload"
-      />
-      <label 
-        htmlFor="audio-upload" 
-        className="text-sm font-light tracking-wide text-white/40 hover:text-white/70 transition-colors duration-200 cursor-pointer flex items-center gap-2"
-      >
-        <Upload className="h-3 w-3" />
-        {audioSrc ? 'Loaded' : 'Upload'}
-      </label>
-    </div>
-  )
-}
+  const handleDemoSelect = (song: typeof demoSongs[0]) => {
+    setAudioSrc(song.url)
+    setControls((prev: any) => ({ ...prev, ...song.preset }))
+    setShowDemo(false)
+    setTimeout(() => play(), 100)
+  }
 
-function ControlsToggle() {
-  const { toggleSidebar } = useAudio()
-  
   return (
-    <button
-      onClick={toggleSidebar}
-      className="text-sm font-light tracking-wide text-white/40 hover:text-white/70 transition-colors duration-200 flex items-center gap-2"
-    >
-      <Settings className="h-3 w-3" />
-      Controls
-    </button>
+    <div className="fixed bottom-28 left-1/2 -translate-x-1/2 z-40 flex items-center gap-1">
+      {/* Upload */}
+      <label className="p-2.5 rounded-full bg-black/40 backdrop-blur-md hover:bg-black/60 cursor-pointer transition-all group">
+        <Upload className="h-4 w-4 text-white/50 group-hover:text-white/80 transition-colors" />
+        <input type="file" accept="audio/*" onChange={handleFileChange} className="hidden" />
+      </label>
+
+      {/* Demo */}
+      <div className="relative">
+        <button
+          onClick={() => setShowDemo(!showDemo)}
+          className="p-2.5 rounded-full bg-black/40 backdrop-blur-md hover:bg-black/60 transition-all group"
+        >
+          <Music className="h-4 w-4 text-white/50 group-hover:text-white/80 transition-colors" />
+        </button>
+        {showDemo && (
+          <div className="absolute bottom-11 left-1/2 -translate-x-1/2 w-36 bg-black/80 backdrop-blur-xl rounded-lg p-1 shadow-2xl border border-white/5">
+            {demoSongs.map((song) => (
+              <button
+                key={song.id}
+                onClick={() => handleDemoSelect(song)}
+                className="w-full text-left px-2.5 py-1.5 hover:bg-white/10 rounded text-xs text-white/60 hover:text-white/90 transition-colors"
+              >
+                {song.title}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Controls */}
+      <button
+        onClick={toggleSidebar}
+        className={`p-2.5 rounded-full backdrop-blur-md transition-all ${
+          isSidebarOpen ? 'bg-white/20 text-white' : 'bg-black/40 hover:bg-black/60 text-white/50 hover:text-white/80'
+        }`}
+      >
+        <Settings className="h-4 w-4" />
+      </button>
+    </div>
   )
 }
 
 function MainContent() {
   return (
-    <div className="h-screen w-screen bg-black relative overflow-hidden pt-14">
-      {/* Toolbar - positioned under the main header */}
-      <div className="fixed top-16 right-6 z-40 flex items-center gap-6">
-        <UploadButton />
-        <DemoSongSelector />
-        <ControlsToggle />
+    <div className="fixed inset-0 bg-black">
+      {/* Full-screen visualizer */}
+      <div className="absolute inset-0">
+        <AudioVisualizer />
       </div>
       
-      {/* Control drawer */}
+      {/* Toolbar - above audio bar */}
+      <Toolbar />
+      
+      {/* Floating control panel */}
       <ControlDrawer />
       
-      {/* Main visualizer area */}
-      <div className="absolute top-14 left-0 right-0 bottom-0 flex flex-col">
-        <div className="flex-1 relative">
-          <AudioVisualizer />
-        </div>
-        
-        {/* Audio bar at the bottom */}
-        <div className="absolute bottom-0 left-0 right-0 z-30">
-          <AudioBar />
-        </div>
-      </div>
+      {/* Audio bar - fixed at bottom */}
+      <AudioBar />
     </div>
   )
 }

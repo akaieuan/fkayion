@@ -77,6 +77,7 @@ function GridLinkItem({
       onClick={() => onNavigate(link.url)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      className={`relative py-3 sm:py-3 pr-2 sm:pr-4 text-left transition-all duration-300 group ${isFirstCol ? 'pl-0' : 'pl-2 sm:pl-4'}`}
       className={`relative py-3 pr-4 text-left transition-all duration-300 group ${isFirstCol ? 'pl-0' : 'pl-4'}`}
       style={{
         opacity: isVisible ? 1 : 0,
@@ -89,6 +90,7 @@ function GridLinkItem({
     >
       {/* Link text */}
       <span 
+        className="relative text-base sm:text-sm font-light tracking-wide transition-colors duration-200"
         className="relative text-sm font-light tracking-wide transition-colors duration-200"
         style={{
           color: isHovered ? hoverColor : 'rgba(255,255,255,0.5)',
@@ -149,6 +151,7 @@ export function LinksClient({ linksData }: LinksClientProps) {
             {/* Responsive Grid */}
             <div className="relative">
               <div className="absolute -inset-4 bg-zinc-800/80 backdrop-blur-2xl backdrop-saturate-150 rounded-2xl -z-10" />
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-2 w-full max-w-[280px] sm:max-w-[340px] md:max-w-[360px] p-3 sm:p-2">
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-1 max-w-[320px] sm:max-w-[360px] md:max-w-[320px] p-2">
                 {linksData.slice(0, 9).map((link, index) => (
                   <GridLinkItem 

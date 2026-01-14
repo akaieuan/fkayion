@@ -73,6 +73,7 @@ export function FourUHClient() {
   }
 
   return (
+    <div className="h-full w-full relative overflow-hidden">
     <div className="h-full w-full relative overflow-y-auto overflow-x-hidden">
       {/* Video background - centered */}
       <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
@@ -141,6 +142,16 @@ export function FourUHClient() {
 
             {/* Panels - all same position on mobile, overlapping cards on desktop */}
             <div className="relative flex-1 mt-6 md:mt-0 md:ml-8 h-[50vh] md:h-[70vh]">
+              <div className={`absolute top-0 left-0 md:left-0 ${activePanel !== 'shows' ? 'pointer-events-none' : ''}`}>
+                <ShowsList isOpen={activePanel === 'shows'} />
+              </div>
+              <div className={`absolute top-0 left-0 md:left-[8vw] ${activePanel !== 'releases' ? 'pointer-events-none' : ''}`}>
+                <ReleasesList isOpen={activePanel === 'releases'} />
+              </div>
+              <div className={`absolute top-0 left-0 md:left-[16vw] ${activePanel !== 'purchase' ? 'pointer-events-none' : ''}`}>
+                <PurchaseList isOpen={activePanel === 'purchase'} />
+              </div>
+              <div className={`absolute top-0 left-0 md:left-auto md:right-0 ${activePanel !== 'playlists' ? 'pointer-events-none' : ''}`}>
               <div className="absolute top-0 left-0 md:left-0">
                 <ShowsList isOpen={activePanel === 'shows'} />
               </div>

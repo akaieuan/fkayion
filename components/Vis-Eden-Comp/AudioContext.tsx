@@ -80,10 +80,13 @@ interface AudioData {
     roughness: number
     
     // Modes
-    wireframe: boolean
     dotMatrix: boolean
     dotSeparation: number
     rotationSpeed: number
+    
+    // Glass overlay mode
+    glassOverlay: boolean
+    glassBlur: number
     
     // Creative Shape Transformations
     tentacleMode: number
@@ -167,6 +170,18 @@ interface AudioData {
     strangeAttractorAudioReactivity?: number
     strangeAttractorTrailOpacity?: number
     strangeAttractorOverlay?: boolean
+    
+    // Multi-blob mode
+    blobCount?: number
+
+    // Cellular Division mode
+    cellularMode?: boolean
+    cellCount?: number
+    cellSize?: number
+    cellDivision?: number
+    cellMembrane?: number
+    cellOrganelles?: number
+    
     saColor1?: string
     saColor2?: string
     saColor3?: string
@@ -306,9 +321,12 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     flowReactivity: 5.0,   // Reduced from 15.0
     
     // Display modes
-    wireframe: false,
     dotSeparation: 1.0,
     rotationSpeed: 1.0,
+    
+    // Glass overlay mode
+    glassOverlay: false,
+    glassBlur: 0.5,
     
     // ANIMATION SEQUENCE PROPERTIES
     backgroundIntensity: undefined,
@@ -364,6 +382,18 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     strangeAttractorAudioReactivity: 0.3, // Audio sensitivity (0.0-3.0)
     strangeAttractorTrailOpacity: 0.8,  // Trail opacity (0.0-1.0)
     strangeAttractorOverlay: false,
+    
+    // Multi-blob mode
+    blobCount: 1,                    // Number of blobs (1-3)
+
+    // Cellular Division mode
+    cellularMode: false,             // Toggle cellular division mode
+    cellCount: 12,                   // Number of cells (3-40)
+    cellSize: 1.0,                   // Cell size multiplier (0.3-2)
+    cellDivision: 0.5,               // Division animation intensity (0-3)
+    cellMembrane: 0.5,               // Membrane visibility (0-1)
+    cellOrganelles: 0.3,             // Internal organelle visibility (0-1)
+
     saColor1: undefined,
     saColor2: undefined,
     saColor3: undefined,
