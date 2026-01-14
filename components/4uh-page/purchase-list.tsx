@@ -37,7 +37,7 @@ export const purchaseData: PurchaseItem[] = [
   { title: 'Girls Just Want Breaks (yion flip)', type: 'track', url: 'https://akaieuan.bandcamp.com/track/girls-just-want-breaks-yion-flip' },
 ]
 
-function PurchaseItem({ item }: { item: PurchaseItem }) {
+function PurchaseItemComponent({ item }: { item: PurchaseItem }) {
   const [isHovered, setIsHovered] = useState(false)
   
   return (
@@ -82,7 +82,6 @@ export function PurchaseList({ isOpen, items = purchaseData }: PurchaseListProps
   return (
     <div 
       className="w-[90vw] sm:w-[85vw] md:w-[45vw] lg:w-[50vw] max-w-[800px] h-[60vh] sm:h-[55vh] md:h-[65vh] overflow-y-scroll overflow-x-hidden pr-2 sm:pr-4 md:pr-10 pb-6 isolate"
-      className="w-[85vw] md:w-[45vw] lg:w-[50vw] max-w-[800px] max-h-[50vh] md:max-h-[65vh] overflow-y-auto pr-4 md:pr-10 pb-6"
       style={{
         opacity: isOpen ? 1 : 0,
         transform: isOpen ? 'translateX(0)' : 'translateX(-12px)',
@@ -95,7 +94,6 @@ export function PurchaseList({ isOpen, items = purchaseData }: PurchaseListProps
       }}
       onTouchStart={(e) => e.stopPropagation()}
       onTouchMove={(e) => e.stopPropagation()}
-      }}
     >
       {/* Bandcamp header */}
       <a 
@@ -114,7 +112,7 @@ export function PurchaseList({ isOpen, items = purchaseData }: PurchaseListProps
         </p>
         <div className="space-y-0">
           {items.map((item, i) => (
-            <PurchaseItem key={i} item={item} />
+            <PurchaseItemComponent key={i} item={item} />
           ))}
         </div>
       </div>
@@ -133,4 +131,3 @@ export function PurchaseList({ isOpen, items = purchaseData }: PurchaseListProps
     </div>
   )
 }
-
