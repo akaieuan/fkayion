@@ -42,13 +42,12 @@ function PurchaseItemComponent({ item }: { item: PurchaseItem }) {
       rel="noopener noreferrer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      // Larger touch target
-      className="block py-3 sm:py-2 -mx-2 px-2 rounded-lg transition-all duration-200 active:bg-white/5"
+      className="block py-4 sm:py-3 -mx-2 px-3 rounded-lg transition-all duration-200 active:bg-white/5"
     >
       <div className="flex flex-col gap-0.5">
         {/* Type badge */}
         <span 
-          className="text-[9px] sm:text-[10px] font-light tracking-widest uppercase"
+          className="text-[10px] sm:text-xs font-light tracking-widest uppercase"
           style={{ 
             color: isHovered ? 'rgba(68, 221, 170, 0.6)' : 'rgba(255,255,255,0.25)',
             transition: 'color 0.2s ease-out',
@@ -58,7 +57,7 @@ function PurchaseItemComponent({ item }: { item: PurchaseItem }) {
         </span>
         {/* Title */}
         <span 
-          className="text-[13px] sm:text-sm font-normal tracking-wide leading-snug"
+          className="text-sm sm:text-base font-normal tracking-wide leading-snug"
           style={{ 
             color: isHovered ? '#44ddaa' : 'rgba(255,255,255,0.85)',
             transition: 'color 0.2s ease-out',
@@ -79,7 +78,7 @@ interface PurchaseListProps {
 export function PurchaseList({ isOpen, items = purchaseData }: PurchaseListProps) {
   return (
     <div 
-      className="w-[92vw] sm:w-[85vw] md:w-[50vw] lg:w-[45vw] max-w-[700px] h-[55vh] sm:h-[55vh] md:h-[65vh] overflow-y-auto overflow-x-hidden pr-1 sm:pr-4 md:pr-8 pb-8 isolate"
+      className="w-full max-w-[700px] h-full min-h-0 overflow-y-auto overflow-x-hidden pr-1 sm:pr-4 md:pr-8 pb-8 isolate"
       style={{
         opacity: isOpen ? 1 : 0,
         transform: isOpen ? 'translateX(0)' : 'translateX(-12px)',

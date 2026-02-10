@@ -22,22 +22,20 @@ function NavItem({ label, isActive, onClick, hasDropdown, isOpen }: NavItemProps
       onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="block text-left w-full group"
+      className="group flex items-center gap-1.5 sm:gap-2 py-2 transition-all duration-300"
     >
       <span 
-        className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extralight tracking-tight transition-all duration-300"
+        className="text-sm sm:text-base md:text-lg font-extralight tracking-tight transition-all duration-300"
         style={{
           color: isActive || isHovered ? '#44ddaa' : 'rgba(255,255,255,0.4)',
-          transform: isActive || isHovered ? 'translateX(8px)' : 'translateX(0)',
-          display: 'inline-block',
-          transition: 'color 0.3s ease-out, transform 0.3s ease-out',
+          transition: 'color 0.3s ease-out',
         }}
       >
         {label}
       </span>
       {hasDropdown && (
         <span 
-          className="ml-3 text-lg transition-all duration-300 inline-block"
+          className="text-sm transition-transform duration-300"
           style={{
             color: isActive ? '#44ddaa' : 'rgba(255,255,255,0.3)',
             transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)',
@@ -99,10 +97,10 @@ export function FourUHClient() {
 
       {/* Main content container */}
       <div className="relative min-h-full">
-        <div className="flex flex-col md:flex-row items-start md:items-center min-h-screen gap-6 md:gap-0">
-          <div className="w-full px-4 sm:px-6 md:px-0 ml-0 md:ml-8 lg:ml-16 pt-20 md:py-20 flex flex-col md:flex-row">
-            {/* Left - Navigation */}
-            <nav className="space-y-3 sm:space-y-4 md:space-y-6 shrink-0">
+        <div className="flex flex-col min-h-screen">
+          <div className="w-full flex-1 min-h-0 flex flex-col px-4 sm:px-6 md:px-8 lg:px-16 pt-20 md:py-20 gap-4">
+            {/* Horizontal tabs above content */}
+            <nav className="flex flex-wrap gap-2 sm:gap-4 shrink-0">
               <NavItem 
                 label="Shows" 
                 isActive={activePanel === 'shows'}
@@ -110,7 +108,6 @@ export function FourUHClient() {
                 hasDropdown
                 isOpen={activePanel === 'shows'}
               />
-              
               <NavItem 
                 label="Releases" 
                 isActive={activePanel === 'releases'}
@@ -118,7 +115,6 @@ export function FourUHClient() {
                 hasDropdown
                 isOpen={activePanel === 'releases'}
               />
-              
               <NavItem 
                 label="Purchase" 
                 isActive={activePanel === 'purchase'}
@@ -126,7 +122,6 @@ export function FourUHClient() {
                 hasDropdown
                 isOpen={activePanel === 'purchase'}
               />
-              
               <NavItem 
                 label="Playlists" 
                 isActive={activePanel === 'playlists'}
@@ -136,18 +131,18 @@ export function FourUHClient() {
               />
             </nav>
 
-            {/* Panels - all same position on mobile, overlapping cards on desktop */}
-            <div className="relative flex-1 mt-6 md:mt-0 md:ml-8 h-[50vh] md:h-[70vh]">
-              <div className={`absolute top-0 left-0 md:left-0 ${activePanel !== 'shows' ? 'pointer-events-none' : ''}`}>
+            {/* Content panels - stretch to fill */}
+            <div className="relative flex-1 min-h-0">
+              <div className={`absolute inset-0 ${activePanel !== 'shows' ? 'pointer-events-none' : ''}`}>
                 <ShowsList isOpen={activePanel === 'shows'} />
               </div>
-              <div className={`absolute top-0 left-0 md:left-[8vw] ${activePanel !== 'releases' ? 'pointer-events-none' : ''}`}>
+              <div className={`absolute inset-0 ${activePanel !== 'releases' ? 'pointer-events-none' : ''}`}>
                 <ReleasesList isOpen={activePanel === 'releases'} />
               </div>
-              <div className={`absolute top-0 left-0 md:left-[16vw] ${activePanel !== 'purchase' ? 'pointer-events-none' : ''}`}>
+              <div className={`absolute inset-0 ${activePanel !== 'purchase' ? 'pointer-events-none' : ''}`}>
                 <PurchaseList isOpen={activePanel === 'purchase'} />
               </div>
-              <div className={`absolute top-0 left-0 md:left-auto md:right-0 ${activePanel !== 'playlists' ? 'pointer-events-none' : ''}`}>
+              <div className={`absolute inset-0 ${activePanel !== 'playlists' ? 'pointer-events-none' : ''}`}>
                 <PlaylistList isOpen={activePanel === 'playlists'} />
               </div>
             </div>

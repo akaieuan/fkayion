@@ -275,8 +275,8 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     
     // Enhanced visual controls
     grain: 0.08,      // Default film grain for texture
-    contrast: 1.8,    // Strong contrast for vivid colors
-    brightness: 1.2,  // Default brightness
+    contrast: 1.4,    // Softer contrast, less harsh
+    brightness: 0.85, // Lower default - less white/bright
     metallic: 0.4,    // Significantly reduced for less shiny
     split: 0.8,       // Good visible splitting
     glass: 0.1,       // Reduced glass effect
@@ -355,7 +355,7 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     dropletScaleReactivity: 0.8,     // How much they scale with audio
     
     // ENHANCED ABSTRACT DROPLET CONTROLS
-    dropletBrightness: 1.5,          // Overall brightness multiplier
+    dropletBrightness: 1.0,          // Overall brightness multiplier
     dropletGlow: 0.8,                // Emissive glow intensity
     dropletMetallic: 0.9,            // Metallic surface property
     dropletRoughness: 0.1,           // Surface roughness (0=mirror, 1=rough)

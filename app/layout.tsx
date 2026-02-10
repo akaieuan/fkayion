@@ -2,7 +2,7 @@ import React from 'react'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { SiteHeader } from '@/components/ui/site-header'
-import { SiteFooter } from '@/components/ui/site-footer'
+import { ConditionalFooter } from '@/components/ui/conditional-footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={`${inter.className} bg-black text-white h-full antialiased`}>
         <SiteHeader />
         {children}
-        <SiteFooter />
+        <ConditionalFooter />
       </body>
     </html>
   )

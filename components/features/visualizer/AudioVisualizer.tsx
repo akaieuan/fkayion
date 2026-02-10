@@ -72,7 +72,7 @@ export function VisualizerBlob({ position = [0, 0, 0] as [number, number, number
         ripple: { value: 0.0 },
         
         // Visual effects
-        brightness: { value: 1.2 },
+        brightness: { value: 0.85 },
         bloom: { value: 0.15 },
         grain: { value: 0.08 },
         grainSize: { value: 1.2 },
@@ -720,7 +720,7 @@ export function VisualizerBlob({ position = [0, 0, 0] as [number, number, number
       mat.uniforms.ripple.value = controls.ripple ? 1.0 : 0.0
       
       // Visual effects - Enhanced
-      mat.uniforms.brightness.value = controls.brightness ?? 1.2
+      mat.uniforms.brightness.value = controls.brightness ?? 0.85
       mat.uniforms.bloom.value = controls.bloom ?? 0.15
       mat.uniforms.grain.value = controls.grain ?? 0.08
       mat.uniforms.grainSize.value = controls.grainSize ?? 1.2
@@ -875,7 +875,7 @@ function StrangeAttractor({ position = [0, 0, 0] as [number, number, number], sc
       uniforms: {
         time: { value: 0 },
         pointSize: { value: Math.max(0.05, (controls.strangeAttractorParticleSize || 0.5) * 8) },
-        brightness: { value: controls.brightness || 1.2 },
+        brightness: { value: controls.brightness ?? 0.85 },
         contrast: { value: controls.contrast || 1.8 },
         bloom: { value: controls.bloom || 0.15 },
         grain: { value: controls.grain || 0.08 },
@@ -1052,7 +1052,7 @@ function StrangeAttractor({ position = [0, 0, 0] as [number, number, number], sc
     const col2 = new THREE.Color(controls.saColor2 || controls.color2 || '#ff00a8')
     const col3 = new THREE.Color(controls.saColor3 || controls.color3 || '#7000ff')
     const col4 = new THREE.Color(controls.saColor4 || controls.color4 || '#ff6b00')
-    const brightness = controls.brightness ?? 1.2
+    const brightness = controls.brightness ?? 0.85
     const contrast = controls.contrast ?? 1.0
     const bloom = controls.bloom ?? 0.0
     const metallic = controls.metallic ?? 0.0
@@ -1234,7 +1234,7 @@ function StrangeAttractor({ position = [0, 0, 0] as [number, number, number], sc
       mat.uniforms.time.value = performance.now() * 0.001
       const baseSize = Math.max(0.05, (controls.strangeAttractorParticleSize || 0.5) * 8)
       mat.uniforms.pointSize.value = baseSize * (1 + safe.volume * 0.4)
-      mat.uniforms.brightness.value = (controls.brightness || 1.2) * (1 + safe.volume * 0.3)
+      mat.uniforms.brightness.value = (controls.brightness ?? 0.85) * (1 + safe.volume * 0.3)
       mat.uniforms.contrast.value = controls.contrast || 1.8
       mat.uniforms.bloom.value = controls.bloom || 0.15
       mat.uniforms.grain.value = controls.grain || 0.08
@@ -1575,7 +1575,7 @@ function CellularDivision() {
         division: { value: division },
         membrane: { value: membrane },
         organelles: { value: organelles },
-        brightness: { value: controls.brightness || 1.2 },
+        brightness: { value: controls.brightness ?? 0.85 },
         contrast: { value: controls.contrast || 1.8 },
         // Surface controls
         metallic: { value: controls.metallic || 0 },
@@ -1814,7 +1814,7 @@ function CellularDivision() {
     cellMaterial.uniforms.organelles.value = controls.cellOrganelles || 0.3
     cellMaterial.uniforms.goopiness.value = controls.goopiness || 1.5
     cellMaterial.uniforms.liquidity.value = controls.liquidity || 2
-    cellMaterial.uniforms.brightness.value = controls.brightness || 1.2
+    cellMaterial.uniforms.brightness.value = controls.brightness ?? 0.85
     cellMaterial.uniforms.contrast.value = controls.contrast || 1.8
     cellMaterial.uniforms.metallic.value = controls.metallic || 0
     cellMaterial.uniforms.chrome.value = controls.chrome || 0
@@ -2143,14 +2143,16 @@ export function AudioVisualizer() {
           powerPreference: 'high-performance',
           alpha: true,
           stencil: false,
-          depth: true
+          depth: true,
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 0.85 // Reduce overall brightness
         }}
         style={{ width: '100%', height: '100%' }}
         performance={{ min: 0.5 }} // Reduce quality when framerate drops
       >
-        <ambientLight intensity={0.4} />
-        <pointLight position={[6, 6, 6]} intensity={0.8} />
-        <pointLight position={[-6, -6, -6]} intensity={0.4} />
+        <ambientLight intensity={0.2} />
+        <pointLight position={[6, 6, 6]} intensity={0.5} />
+        <pointLight position={[-6, -6, -6]} intensity={0.25} />
         {controls.cellularMode ? (
           <CellularDivision />
         ) : controls.strangeAttractorMode ? (
