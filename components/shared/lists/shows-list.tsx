@@ -34,8 +34,7 @@ function EventItem({ event }: { event: Event }) {
       rel="noopener noreferrer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      // Larger touch target on mobile (min 44px)
-      className="block py-3 sm:py-2 -mx-2 px-2 rounded-lg transition-all duration-200 active:bg-white/5"
+      className="block py-4 sm:py-3 -mx-2 px-3 rounded-lg transition-all duration-200 active:bg-white/5"
       style={{
         opacity: event.isPast ? 0.6 : 1,
       }}
@@ -44,7 +43,7 @@ function EventItem({ event }: { event: Event }) {
       <div className="flex flex-col gap-0.5">
         {/* Date row */}
         <span 
-          className="text-[10px] sm:text-[11px] font-light tracking-wider uppercase"
+          className="text-[11px] sm:text-xs font-light tracking-wider uppercase"
           style={{ 
             color: isHovered ? '#44ddaa' : 'rgba(255,255,255,0.4)',
             transition: 'color 0.2s ease-out',
@@ -56,7 +55,7 @@ function EventItem({ event }: { event: Event }) {
         {/* Title + venue row */}
         <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-2">
           <span 
-            className="text-[13px] sm:text-sm font-normal tracking-wide leading-snug"
+            className="text-sm sm:text-base font-normal tracking-wide leading-snug"
             style={{ 
               color: isHovered ? '#44ddaa' : 'rgba(255,255,255,0.85)',
               transition: 'color 0.2s ease-out',
@@ -65,7 +64,7 @@ function EventItem({ event }: { event: Event }) {
             {event.title}
           </span>
           <span 
-            className="text-[10px] sm:text-[11px] font-light mt-0.5 sm:mt-0"
+            className="text-[11px] sm:text-xs font-light mt-0.5 sm:mt-0"
             style={{ 
               color: isHovered ? 'rgba(68, 221, 170, 0.6)' : 'rgba(255,255,255,0.3)',
               transition: 'color 0.2s ease-out',
@@ -97,7 +96,7 @@ export function ShowsList({ isOpen, events = eventsData }: ShowsListProps) {
 
   return (
     <div 
-      className="w-[92vw] sm:w-[85vw] md:w-[50vw] lg:w-[45vw] max-w-[700px] h-[55vh] sm:h-[55vh] md:h-[65vh] overflow-y-auto overflow-x-hidden pr-1 sm:pr-4 md:pr-8 pb-8 isolate"
+      className="w-full max-w-[700px] h-full min-h-0 overflow-y-auto overflow-x-hidden pr-1 sm:pr-4 md:pr-8 pb-8 isolate"
       style={{
         opacity: isOpen ? 1 : 0,
         transform: isOpen ? 'translateX(0)' : 'translateX(-12px)',
@@ -124,10 +123,10 @@ export function ShowsList({ isOpen, events = eventsData }: ShowsListProps) {
       {/* Upcoming */}
       {upcomingEvents.length > 0 && (
         <div className="mt-4 sm:mt-5">
-          <p className="text-[9px] sm:text-[10px] text-emerald-400/70 font-semibold tracking-widest uppercase mb-2 sm:mb-3">
+          <p className="text-[10px] sm:text-xs text-emerald-400/70 font-semibold tracking-widest uppercase mb-2 sm:mb-3">
             upcoming
           </p>
-          <div className="space-y-1">
+          <div className="space-y-0.5">
             {upcomingEvents.map((event, i) => (
               <EventItem key={i} event={event} />
             ))}
@@ -138,10 +137,10 @@ export function ShowsList({ isOpen, events = eventsData }: ShowsListProps) {
       {/* Past */}
       {pastEvents.length > 0 && (
         <div className="mt-6 sm:mt-8">
-          <p className="text-[9px] sm:text-[10px] text-white/25 font-semibold tracking-widest uppercase mb-2 sm:mb-3">
+          <p className="text-[10px] sm:text-xs text-white/25 font-semibold tracking-widest uppercase mb-2 sm:mb-3">
             past
           </p>
-          <div className="space-y-1">
+          <div className="space-y-0.5">
             {pastEvents.map((event, i) => (
               <EventItem key={i} event={event} />
             ))}

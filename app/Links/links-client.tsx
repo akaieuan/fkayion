@@ -6,6 +6,16 @@ import { UnifiedDynamicOrb } from '@/components/shared/orbs'
 // Greenish-white hover color matching orb
 const hoverColor = '#44ddaa'
 
+const LINK_DESCRIPTIONS: Record<string, string> = {
+  SoundCloud: 'The primary hub for mixes, DJ sets, and live recordings. Stream the full catalog of original productions and collaborative work.',
+  'aka.write': 'Long-form writing on digital culture, AI, and music. Essays, reflections, and research published on Kraa.',
+  Ubik: 'Creative studio for web experiences, digital interfaces, and experimental design projects.',
+  Bandcamp: 'Purchase and download original albums, EPs, and singles directly. Support independent music.',
+  Spotify: 'Stream all releases and follow for new music. Available across aka ieuan and yion artist profiles.',
+  YouTube: 'Video content including live sets, visual experiments, and music videos.',
+  Instagram: 'Visual updates, behind-the-scenes, and event announcements.',
+}
+
 interface Link {
   label: string
   url: string
@@ -21,53 +31,36 @@ function GridLinkItem({
   link, 
   index,
   onHover,
-  onNavigate
+  onClick
 }: { 
   link: Link
   index: number
   onHover: (label: string | null) => void
-  onNavigate: (url: string) => void
+  onClick: (link: Link) => void
 }) {
   const [isHovered, setIsHovered] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   
-  // Staggered entrance animation
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true)
-    }, index * 60)
+    const timer = setTimeout(() => setIsVisible(true), index * 60)
     return () => clearTimeout(timer)
   }, [index])
   
-  const handleMouseEnter = () => {
-    setIsHovered(true)
-    onHover(link.label)
-  }
+  const handleMouseEnter = () => { setIsHovered(true); onHover(link.label) }
+  const handleMouseLeave = () => { setIsHovered(false); onHover(null) }
 
-  const handleMouseLeave = () => {
-    setIsHovered(false)
-    onHover(null)
-  }
-
-  // Each cell animates from a different direction based on grid position
   const getInitialTransform = () => {
     const directions = [
-      'translate3d(-20px, -20px, 0)', // top-left
-      'translate3d(0, -25px, 0)',     // top-center
-      'translate3d(20px, -20px, 0)',  // top-right
-      'translate3d(-25px, 0, 0)',     // middle-left
-      'translate3d(0, 0, 0) scale(0.8)', // center - scale in
-      'translate3d(25px, 0, 0)',      // middle-right
-      'translate3d(-20px, 20px, 0)',  // bottom-left
-      'translate3d(0, 25px, 0)',      // bottom-center
-      'translate3d(20px, 20px, 0)',   // bottom-right
+      'translate3d(-20px, -20px, 0)', 'translate3d(0, -25px, 0)', 'translate3d(20px, -20px, 0)',
+      'translate3d(-25px, 0, 0)', 'translate3d(0, 0, 0) scale(0.8)', 'translate3d(25px, 0, 0)',
+      'translate3d(-20px, 20px, 0)', 'translate3d(0, 25px, 0)', 'translate3d(20px, 20px, 0)',
     ]
     return directions[index] || 'translate3d(0, 20px, 0)'
   }
   
   return (
     <button
-      onClick={() => onNavigate(link.url)}
+      onClick={() => onClick(link)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className="relative py-3 px-2 sm:px-4 text-left transition-all duration-300 group"
@@ -95,40 +88,44 @@ function GridLinkItem({
 
 export function LinksClient({ linksData }: LinksClientProps) {
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
+  const [selectedLink, setSelectedLink] = useState<Link | null>(null)
 
-  const handleLinkClick = (url: string) => {
-    window.open(url, '_blank')
+  const handleLinkClick = (link: Link) => {
+    if (typeof window !== 'undefined' && window.matchMedia('(min-width: 768px)').matches) {
+      window.open(link.url, '_blank')
+    } else {
+      setSelectedLink(link)
+    }
   }
 
   const handleLinkHover = (linkLabel: string | null) => {
     setHoveredLink(linkLabel)
   }
 
+  const activeLinkForOrb = selectedLink ? selectedLink.label : hoveredLink
   const defaultColor = linksData[0]?.color || '#6655cc'
   const defaultHover = linksData[0]?.hoverColor || '#aa88ff'
-  const orbColor = hoveredLink 
-    ? linksData.find(link => link.label === hoveredLink)?.color || defaultColor
+  const orbColor = activeLinkForOrb 
+    ? linksData.find(link => link.label === activeLinkForOrb)?.color || defaultColor
     : defaultColor
-  const orbHoverColor = hoveredLink 
-    ? linksData.find(link => link.label === hoveredLink)?.hoverColor || defaultHover
+  const orbHoverColor = activeLinkForOrb 
+    ? linksData.find(link => link.label === activeLinkForOrb)?.hoverColor || defaultHover
     : defaultHover
 
   return (
     <div className="relative w-full min-h-screen">
-      {/* Full-screen orb canvas */}
       <div className="absolute inset-0">
         <UnifiedDynamicOrb
-          activeLink={hoveredLink}
+          activeLink={activeLinkForOrb}
           color={orbColor}
           hoverColor={orbHoverColor}
           size={0.9}
         />
       </div>
 
-      {/* Floating content */}
       <div className="relative z-10 flex flex-col min-h-screen">
         <div className="flex-1 flex items-start md:items-center">
-          <div className="w-full px-4 pt-14 pb-16 sm:px-6 md:px-12 lg:px-16">
+          <div className="relative w-full px-4 pt-14 pb-16 sm:px-6 md:px-12 lg:px-16">
             {/* Title */}
             <div className="mb-6">
               <h1 className="text-lg sm:text-xl text-gray-500/80 font-light tracking-wide">
@@ -139,8 +136,12 @@ export function LinksClient({ linksData }: LinksClientProps) {
               </p>
             </div>
 
-            {/* Responsive Grid */}
-            <div className="relative">
+            {/* Grid - hidden on small screens when detail panel is shown */}
+            <div 
+              className={`relative transition-opacity duration-300 md:opacity-100 ${
+                selectedLink ? 'opacity-0 pointer-events-none md:opacity-100 md:pointer-events-auto' : 'opacity-100'
+              }`}
+            >
               <div className="absolute -inset-4 bg-zinc-800/80 backdrop-blur-2xl backdrop-saturate-150 rounded-2xl -z-10" />
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-2 w-full max-w-[280px] sm:max-w-[340px] md:max-w-[360px] p-3 sm:p-2">
                 {linksData.slice(0, 9).map((link, index) => (
@@ -149,18 +150,55 @@ export function LinksClient({ linksData }: LinksClientProps) {
                     link={link}
                     index={index}
                     onHover={handleLinkHover}
-                    onNavigate={handleLinkClick}
+                    onClick={handleLinkClick}
                   />
                 ))}
               </div>
             </div>
+
+            {/* Detail panel - small screens only when link selected */}
+            {selectedLink && (
+              <div 
+                className="md:hidden absolute top-0 left-0 right-0 pt-14 px-4 pb-16 flex flex-col transition-opacity duration-300"
+              >
+                <div className="absolute -inset-4 bg-zinc-800/90 backdrop-blur-2xl backdrop-saturate-150 rounded-2xl -z-10" />
+                <div className="flex flex-col gap-6">
+                  <button
+                    onClick={() => setSelectedLink(null)}
+                    className="self-start text-white/50 hover:text-white/80 text-sm font-light tracking-wide transition-colors"
+                  >
+                    ← Back
+                  </button>
+                  <h2 
+                    className="text-xl font-light tracking-wide transition-colors"
+                    style={{ color: selectedLink.color }}
+                  >
+                    {selectedLink.label}
+                  </h2>
+                  <p className="text-white/70 text-sm font-light leading-relaxed">
+                    {LINK_DESCRIPTIONS[selectedLink.label] || 'Explore this link.'}
+                  </p>
+                  <a
+                    href={selectedLink.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 self-start py-2 px-4 rounded-lg text-sm font-light tracking-wide transition-colors hover:opacity-90"
+                    style={{ 
+                      backgroundColor: selectedLink.color,
+                      color: '#000',
+                    }}
+                  >
+                    Go to {selectedLink.label} →
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Subtle hint at bottom */}
         <div className="pb-6 flex justify-center pointer-events-none">
           <p className="text-white/15 text-xs font-light">
-            hover or tap to interact
+            {selectedLink ? 'tap to open link' : 'hover or tap to interact'}
           </p>
         </div>
       </div>

@@ -4,7 +4,6 @@ import { AudioProvider, useAudio, AudioVisualizer, ControlDrawer, AudioBar } fro
 import { Upload, Music, Settings } from 'lucide-react'
 import { useState } from 'react'
 
-// Demo songs data with unique visualizer presets
 const demoSongs = [
   {
     id: 'demo1',
@@ -43,14 +42,12 @@ const demoSongs = [
 ]
 
 function Toolbar() {
-  const { loadAudioFile, audioSrc, setAudioSrc, setControls, play, toggleSidebar, isSidebarOpen } = useAudio()
+  const { audioSrc, loadAudioFile, setAudioSrc, setControls, play, toggleSidebar, isSidebarOpen } = useAudio()
   const [showDemo, setShowDemo] = useState(false)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) {
-      loadAudioFile(file)
-    }
+    if (file) loadAudioFile(file)
   }
 
   const handleDemoSelect = (song: typeof demoSongs[0]) => {
@@ -61,42 +58,42 @@ function Toolbar() {
   }
 
   return (
-    <div className="fixed bottom-28 left-1/2 -translate-x-1/2 z-40 flex items-center gap-1">
-      {/* Upload */}
-      <label className="p-2.5 rounded-full bg-black/40 backdrop-blur-md hover:bg-black/60 cursor-pointer transition-all group">
-        <Upload className="h-4 w-4 text-white/50 group-hover:text-white/80 transition-colors" />
-        <input type="file" accept="audio/*" onChange={handleFileChange} className="hidden" />
-      </label>
-
-      {/* Demo */}
-      <div className="relative">
-        <button
-          onClick={() => setShowDemo(!showDemo)}
-          className="p-2.5 rounded-full bg-black/40 backdrop-blur-md hover:bg-black/60 transition-all group"
-        >
-          <Music className="h-4 w-4 text-white/50 group-hover:text-white/80 transition-colors" />
-        </button>
-        {showDemo && (
-          <div className="absolute bottom-11 left-1/2 -translate-x-1/2 w-36 bg-black/80 backdrop-blur-xl rounded-lg p-1 shadow-2xl border border-white/5">
-            {demoSongs.map((song) => (
-              <button
-                key={song.id}
-                onClick={() => handleDemoSelect(song)}
-                className="w-full text-left px-2.5 py-1.5 hover:bg-white/10 rounded text-xs text-white/60 hover:text-white/90 transition-colors"
-              >
-                {song.title}
-              </button>
-            ))}
+    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 flex items-center gap-1">
+      {!audioSrc && (
+        <>
+          <label className="p-2.5 rounded-full bg-black/40 backdrop-blur-md hover:bg-black/60 cursor-pointer transition-all group">
+            <Upload className="h-4 w-4 text-white/50 group-hover:text-white/80 transition-colors" />
+            <input type="file" accept="audio/*" onChange={handleFileChange} className="hidden" />
+          </label>
+          <div className="relative">
+            <button
+              onClick={() => setShowDemo(!showDemo)}
+              className="p-2.5 rounded-full bg-black/40 backdrop-blur-md hover:bg-black/60 transition-all group"
+            >
+              <Music className="h-4 w-4 text-white/50 group-hover:text-white/80 transition-colors" />
+            </button>
+            {showDemo && (
+              <div className="absolute bottom-11 left-1/2 -translate-x-1/2 w-36 bg-black/80 backdrop-blur-xl rounded-lg p-1 shadow-2xl border border-white/5">
+                {demoSongs.map((song) => (
+                  <button
+                    key={song.id}
+                    onClick={() => handleDemoSelect(song)}
+                    className="w-full text-left px-2.5 py-1.5 hover:bg-white/10 rounded text-xs text-white/60 hover:text-white/90 transition-colors"
+                  >
+                    {song.title}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
-        )}
-      </div>
-
-      {/* Controls */}
+        </>
+      )}
       <button
         onClick={toggleSidebar}
         className={`p-2.5 rounded-full backdrop-blur-md transition-all ${
           isSidebarOpen ? 'bg-white/20 text-white' : 'bg-black/40 hover:bg-black/60 text-white/50 hover:text-white/80'
         }`}
+        aria-label="Toggle controls"
       >
         <Settings className="h-4 w-4" />
       </button>

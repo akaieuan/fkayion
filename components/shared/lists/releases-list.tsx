@@ -7,7 +7,7 @@ interface ReleasesListProps {
 export function ReleasesList({ isOpen }: ReleasesListProps) {
   return (
     <div 
-      className="w-[92vw] sm:w-[85vw] md:w-[50vw] lg:w-[45vw] max-w-[700px] h-[55vh] sm:h-[55vh] md:h-[65vh] overflow-y-auto overflow-x-hidden pr-1 sm:pr-4 md:pr-8 pb-8 isolate"
+      className="w-full max-w-[700px] h-full min-h-0 overflow-y-auto overflow-x-hidden pr-1 sm:pr-4 md:pr-8 pb-8 isolate"
       style={{
         opacity: isOpen ? 1 : 0,
         transform: isOpen ? 'translateX(0)' : 'translateX(-12px)',

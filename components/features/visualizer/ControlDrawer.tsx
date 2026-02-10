@@ -64,13 +64,22 @@ export function ControlDrawer() {
 
   const set = (k: string, v: any) => setControls((p: any) => ({ ...p, [k]: v }))
 
+  // For bottom sheet slide-up animation on mount
+  const [sheetMounted, setSheetMounted] = useState(false)
+  useEffect(() => {
+    if (isSidebarOpen) {
+      const id = requestAnimationFrame(() => setSheetMounted(true))
+      return () => cancelAnimationFrame(id)
+    } else {
+      setSheetMounted(false)
+    }
+  }, [isSidebarOpen])
+
   if (!isSidebarOpen) return null
 
-  return (
-    <div className="fixed z-40 w-[220px] select-none" style={{ left: position.x, top: position.y }}>
-      <div className="rounded-xl bg-black/60 backdrop-blur-2xl border border-white/10 shadow-2xl overflow-hidden">
-        {/* Header */}
-        <div className="flex items-center justify-between px-2 py-1.5 border-b border-white/5 cursor-move" onMouseDown={handleMouseDown}>
+  const panelContent = (
+    <>
+      <div className="flex items-center justify-between px-2 py-1.5 border-b border-white/5 md:cursor-move" onMouseDown={handleMouseDown}>
           <div className="flex items-center gap-1">
             <GripHorizontal className="h-2.5 w-2.5 text-white/20" />
             <span className="text-[10px] text-white/50">Controls</span>
@@ -97,7 +106,7 @@ export function ControlDrawer() {
             </div>
 
             {/* Content */}
-            <div className="p-2 space-y-1.5 max-h-[50vh] overflow-y-auto">
+            <div className="p-2 space-y-1.5 max-h-[60vh] md:max-h-[50vh] overflow-y-auto">
               
               {/* COLOR TAB */}
               {tab === 'color' && (
@@ -112,7 +121,7 @@ export function ControlDrawer() {
                     <span className="text-[9px] text-white/40">Auto Cycle</span>
                     <Switch checked={controls.autoColorCycle || false} onCheckedChange={(v) => set('autoColorCycle', v)} className="scale-75" />
                   </div>
-                  <MiniSlider label="Brightness" value={controls.brightness || 1.2} min={0.3} max={3} step={0.1} onChange={(v) => set('brightness', v)} />
+                  <MiniSlider label="Brightness" value={controls.brightness ?? 0.85} min={0.3} max={3} step={0.1} onChange={(v) => set('brightness', v)} />
                   <MiniSlider label="Contrast" value={controls.contrast || 1.8} min={0.5} max={4} step={0.1} onChange={(v) => set('contrast', v)} />
                   <MiniSlider label="Bloom" value={controls.bloom || 0.15} min={0} max={1} step={0.01} onChange={(v) => set('bloom', v)} />
                   <MiniSlider label="Grain" value={controls.grain || 0.08} min={0} max={0.5} step={0.01} onChange={(v) => set('grain', v)} />
@@ -285,7 +294,40 @@ export function ControlDrawer() {
             </div>
           </>
         )}
+    </>
+  )
+
+  return (
+    <>
+      {/* Small screens: bottom sheet that draws up from bottom */}
+      <div className="md:hidden fixed inset-0 z-40">
+        <div 
+          className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+          onClick={toggleSidebar}
+          aria-hidden="true"
+        />
+        <div 
+          className={`absolute bottom-0 left-0 right-0 max-h-[75vh] rounded-t-2xl bg-black/90 backdrop-blur-2xl border border-white/10 border-b-0 shadow-2xl overflow-hidden transition-transform duration-300 ease-out select-none ${
+            sheetMounted ? 'translate-y-0' : 'translate-y-full'
+          }`}
+        >
+          {/* Drag handle */}
+          <div className="flex justify-center py-2 border-b border-white/5">
+            <div className="w-10 h-1 rounded-full bg-white/20" />
+          </div>
+          {panelContent}
+        </div>
       </div>
-    </div>
+
+      {/* md+: floating draggable panel */}
+      <div 
+        className="hidden md:block fixed z-40 w-[220px] select-none" 
+        style={{ left: position.x, top: position.y }}
+      >
+        <div className="rounded-xl bg-black/60 backdrop-blur-2xl border border-white/10 shadow-2xl overflow-hidden">
+          {panelContent}
+        </div>
+      </div>
+    </>
   )
 }

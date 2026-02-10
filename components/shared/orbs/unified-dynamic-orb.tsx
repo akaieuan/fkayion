@@ -1,11 +1,10 @@
 'use client'
 
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useThree } from '@react-three/fiber'
 import { Float } from '@react-three/drei'
-import { useRef, useState, useCallback } from 'react'
+import { useRef, useState, useCallback, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
-import { useIsMobile } from '@/hooks'
 import { MetallicMeltingTorus } from './metallic-melting-torus'
 import { CrystallineShatterTorus } from './crystalline-shatter-torus'
 import { LiquidMorphTorus } from './liquid-morph-torus'
@@ -265,137 +264,46 @@ function DefaultTorus({ size = 1, mousePos = { x: 0, y: 0 } }: { size?: number; 
   )
 }
 
-export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2, orbPosition = [1.8, 0, 0] }: UnifiedDynamicOrbProps) {
-  const isMobile = useIsMobile()
-  const [mousePos, setMousePos] = useState<MousePos>({ x: 0, y: 0 })
-  
-  // Track mouse position relative to canvas for cursor reactivity
-  const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect()
-    // Normalize to -1 to 1 range
-    const x = ((event.clientX - rect.left) / rect.width) * 2 - 1
-    const y = -((event.clientY - rect.top) / rect.height) * 2 + 1
-    setMousePos({ x, y })
-  }, [])
-  
-  const hashStringToVariant = (str: string | null): number => {
-    if (!str) return 0
+// Viewport-proportional sizing: narrow viewports get larger orbs, wide get smaller
+// Linear interpolation: 320px -> 2.6 resting / 2.2 hover; 768px+ -> 2.0 resting / 1.6 hover
+function getViewportSize(viewportWidth: number, isResting: boolean): number {
+  const scale = (viewportWidth - 320) / (768 - 320)
+  const t = Math.max(0, Math.min(1, scale))
+  if (isResting) {
+    return 2.6 - t * 0.6 // 2.6 -> 2.0
+  }
+  return 2.2 - t * 0.6 // 2.2 -> 1.6
+}
+
+interface OrbSceneProps {
+  activeLink: string | null
+  color: string
+  hoverColor: string
+  size: number
+  orbPosition: [number, number, number]
+  mousePos: MousePos
+  getEffectiveColors: (label: string | null, base: string, hover: string) => { base: string; hover: string }
+}
+
+function OrbScene({ activeLink, color, hoverColor, size, orbPosition, mousePos, getEffectiveColors }: OrbSceneProps) {
+  const { viewport } = useThree()
+  const variant = useMemo(() => {
+    if (!activeLink) return 0
     let hash = 0
-    for (let i = 0; i < str.length; i++) {
-      hash = (hash << 5) - hash + str.charCodeAt(i)
+    for (let i = 0; i < activeLink.length; i++) {
+      hash = (hash << 5) - hash + activeLink.charCodeAt(i)
       hash |= 0
     }
-    return Math.abs(hash) % 17 // small bounded variant space
-  }
-  const variant = hashStringToVariant(activeLink)
-  
-  const getControlledSize = (isResting = false) => {
-    // Use the size prop directly
-    const baseSize = size
-    if (isResting) {
-      return isMobile ? 2.6 : 2.0 // Subtler resting state
-    }
-    return isMobile ? 2.2 : 1.6 // Smaller hover states
-  }
-  
-  // Color utilities to make per-link themes more distinct
-  const clamp01 = (v: number) => Math.max(0, Math.min(1, v))
-  const hexToRgb = (hex: string) => {
-    let h = hex.replace('#', '')
-    if (h.length === 3) {
-      h = h.split('').map((c) => c + c).join('')
-    }
-    const num = parseInt(h, 16)
-    return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 }
-  }
-  const rgbToHex = (r: number, g: number, b: number) => {
-    const toHex = (x: number) => x.toString(16).padStart(2, '0')
-    return `#${toHex(r)}${toHex(g)}${toHex(b)}`
-  }
-  const rgbToHsl = (r: number, g: number, b: number) => {
-    r /= 255; g /= 255; b /= 255
-    const max = Math.max(r, g, b), min = Math.min(r, g, b)
-    let h = 0, s = 0
-    const l = (max + min) / 2
-    if (max !== min) {
-      const d = max - min
-      s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
-      switch (max) {
-        case r: h = (g - b) / d + (g < b ? 6 : 0); break
-        case g: h = (b - r) / d + 2; break
-        case b: h = (r - g) / d + 4; break
-      }
-      h /= 6
-    }
-    return { h, s, l }
-  }
-  const hslToRgb = (h: number, s: number, l: number) => {
-    let r: number, g: number, b: number
-    if (s === 0) {
-      r = g = b = l
-    } else {
-      const hue2rgb = (p: number, q: number, t: number) => {
-        if (t < 0) t += 1
-        if (t > 1) t -= 1
-        if (t < 1/6) return p + (q - p) * 6 * t
-        if (t < 1/2) return q
-        if (t < 2/3) return p + (q - p) * (2/3 - t) * 6
-        return p
-      }
-      const q = l < 0.5 ? l * (1 + s) : l + s - l * s
-      const p = 2 * l - q
-      r = hue2rgb(p, q, h + 1/3)
-      g = hue2rgb(p, q, h)
-      b = hue2rgb(p, q, h - 1/3)
-    }
-    return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) }
-  }
-  const adjust = (hex: string, hueShiftDeg: number, satMult: number, lightMult: number) => {
-    try {
-      const { r, g, b } = hexToRgb(hex)
-      let { h, s, l } = rgbToHsl(r, g, b)
-      const shift = ((hueShiftDeg % 360) + 360) % 360
-      h = ((h + shift / 360) % 1 + 1) % 1
-      s = clamp01(s * satMult)
-      l = clamp01(l * lightMult)
-      const rgb = hslToRgb(h, s, l)
-      return rgbToHex(rgb.r, rgb.g, rgb.b)
-    } catch {
-      return hex
-    }
-  }
-  const getEffectiveColors = (label: string | null, base: string, hover: string) => {
-    if (!label) return { base, hover }
-    if (label === 'Ubik' || label === 'Ubik Studio' || label === 'App Ubik Studio') {
-      return { base, hover }
-    }
-    if (label === 'Instagram') {
-      return { base: adjust(base, -50, 1.6, 1.1), hover: adjust(hover, -60, 1.7, 1.05) }
-    }
-    if (label === 'aka.write') {
-      return { base: adjust(base, 85, 1.5, 1.1), hover: adjust(hover, 95, 1.6, 1.05) }
-    }
-    if (label === 'Spotify') {
-      return { base: adjust(base, -45, 1.2, 0.95), hover: adjust(hover, -55, 1.3, 0.9) }
-    }
-    if (label === 'SoundCloud') {
-      return { base: adjust(base, 15, 1.4, 1.0), hover: adjust(hover, 22, 1.5, 0.95) }
-    }
-    if (label === 'Bandcamp') {
-      return { base: adjust(base, -120, 1.5, 1.05), hover: adjust(hover, -130, 1.6, 1.0) }
-    }
-    if (label === 'YouTube') {
-      return { base: adjust(base, 180, 1.2, 0.9), hover: adjust(hover, 165, 1.35, 0.85) }
-    }
-    return { base: adjust(base, 8, 1.05, 1.0), hover: adjust(hover, -8, 1.05, 0.98) }
-  }
+    return Math.abs(hash) % 17
+  }, [activeLink])
 
-  // Render the appropriate orb based on active link
+  const controlledSizeResting = getViewportSize(viewport.width, true)
+  const controlledSizeHover = getViewportSize(viewport.width, false)
+
   function renderActiveOrb() {
     if (!activeLink) {
-      return <DefaultTorus size={getControlledSize(true)} mousePos={mousePos} />
+      return <DefaultTorus size={controlledSizeResting} mousePos={mousePos} />
     }
-
     const effective = getEffectiveColors(activeLink, color, hoverColor)
     switch (activeLink) {
       case 'Ubik':
@@ -409,7 +317,7 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2, o
             onClick={() => {}}
             isHovered={true}
             onHover={() => {}}
-            size={getControlledSize()}
+            size={controlledSizeHover}
             variant={variant}
           />
         )
@@ -423,7 +331,7 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2, o
             onClick={() => {}}
             isHovered={true}
             onHover={() => {}}
-            size={getControlledSize()}
+            size={controlledSizeHover}
             variant={variant}
             baseGeometry="icosa"
             shatterMode={true}
@@ -438,7 +346,7 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2, o
             onClick={() => {}}
             isHovered={true}
             onHover={() => {}}
-            size={getControlledSize()}
+            size={controlledSizeHover}
             variant={variant}
             baseGeometry="torusKnot"
             shatterMode={true}
@@ -449,7 +357,7 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2, o
           <PulsatingSoundTetrahedron
             color={effective.base}
             hoverColor={effective.hover}
-            size={getControlledSize()}
+            size={controlledSizeHover}
             variant={variant}
           />
         )
@@ -462,7 +370,7 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2, o
             onClick={() => {}}
             isHovered={true}
             onHover={() => {}}
-            size={getControlledSize()}
+            size={controlledSizeHover}
             variant={variant}
             baseGeometry="dodeca"
           />
@@ -476,7 +384,7 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2, o
             onClick={() => {}}
             isHovered={true}
             onHover={() => {}}
-            size={getControlledSize()}
+            size={controlledSizeHover}
             variant={variant}
             baseGeometry="torus"
             shatterMode={true}
@@ -491,15 +399,106 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2, o
             onClick={() => {}}
             isHovered={true}
             onHover={() => {}}
-            size={getControlledSize()}
+            size={controlledSizeHover}
             variant={variant}
             baseGeometry="sphere"
           />
         )
       default:
-        return <DefaultTorus size={getControlledSize(true)} mousePos={mousePos} />
+        return <DefaultTorus size={controlledSizeResting} mousePos={mousePos} />
     }
   }
+
+  return (
+    <group position={orbPosition}>
+      {renderActiveOrb()}
+    </group>
+  )
+}
+
+export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2, orbPosition = [1.8, 0, 0] }: UnifiedDynamicOrbProps) {
+  const [mousePos, setMousePos] = useState<MousePos>({ x: 0, y: 0 })
+  
+  // Track mouse position relative to canvas for cursor reactivity
+  const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect()
+    // Normalize to -1 to 1 range
+    const x = ((event.clientX - rect.left) / rect.width) * 2 - 1
+    const y = -((event.clientY - rect.top) / rect.height) * 2 + 1
+    setMousePos({ x, y })
+  }, [])
+  
+  const getEffectiveColors = useCallback((label: string | null, base: string, hover: string) => {
+    const clamp01 = (v: number) => Math.max(0, Math.min(1, v))
+    const hexToRgb = (hex: string) => {
+      let h = hex.replace('#', '')
+      if (h.length === 3) h = h.split('').map((c) => c + c).join('')
+      const num = parseInt(h, 16)
+      return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 }
+    }
+    const rgbToHex = (r: number, g: number, b: number) => {
+      const toHex = (x: number) => x.toString(16).padStart(2, '0')
+      return `#${toHex(r)}${toHex(g)}${toHex(b)}`
+    }
+    const rgbToHsl = (r: number, g: number, b: number) => {
+      r /= 255; g /= 255; b /= 255
+      const max = Math.max(r, g, b), min = Math.min(r, g, b)
+      let h = 0, s = 0
+      const l = (max + min) / 2
+      if (max !== min) {
+        const d = max - min
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break
+          case g: h = (b - r) / d + 2; break
+          case b: h = (r - g) / d + 4; break
+        }
+        h /= 6
+      }
+      return { h, s, l }
+    }
+    const hslToRgb = (h: number, s: number, l: number) => {
+      let r: number, g: number, b: number
+      if (s === 0) r = g = b = l
+      else {
+        const hue2rgb = (p: number, q: number, t: number) => {
+          if (t < 0) t += 1
+          if (t > 1) t -= 1
+          if (t < 1/6) return p + (q - p) * 6 * t
+          if (t < 1/2) return q
+          if (t < 2/3) return p + (q - p) * (2/3 - t) * 6
+          return p
+        }
+        const q = l < 0.5 ? l * (1 + s) : l + s - l * s
+        const p = 2 * l - q
+        r = hue2rgb(p, q, h + 1/3)
+        g = hue2rgb(p, q, h)
+        b = hue2rgb(p, q, h - 1/3)
+      }
+      return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) }
+    }
+    const adjust = (hex: string, hueShiftDeg: number, satMult: number, lightMult: number) => {
+      try {
+        const { r, g, b } = hexToRgb(hex)
+        let { h, s, l } = rgbToHsl(r, g, b)
+        const shift = ((hueShiftDeg % 360) + 360) % 360
+        h = ((h + shift / 360) % 1 + 1) % 1
+        s = clamp01(s * satMult)
+        l = clamp01(l * lightMult)
+        const rgb = hslToRgb(h, s, l)
+        return rgbToHex(rgb.r, rgb.g, rgb.b)
+      } catch { return hex }
+    }
+    if (!label) return { base, hover }
+    if (label === 'Ubik' || label === 'Ubik Studio' || label === 'App Ubik Studio') return { base, hover }
+    if (label === 'Instagram') return { base: adjust(base, -50, 1.6, 1.1), hover: adjust(hover, -60, 1.7, 1.05) }
+    if (label === 'aka.write') return { base: adjust(base, 85, 1.5, 1.1), hover: adjust(hover, 95, 1.6, 1.05) }
+    if (label === 'Spotify') return { base: adjust(base, -45, 1.2, 0.95), hover: adjust(hover, -55, 1.3, 0.9) }
+    if (label === 'SoundCloud') return { base: adjust(base, 15, 1.4, 1.0), hover: adjust(hover, 22, 1.5, 0.95) }
+    if (label === 'Bandcamp') return { base: adjust(base, -120, 1.5, 1.05), hover: adjust(hover, -130, 1.6, 1.0) }
+    if (label === 'YouTube') return { base: adjust(base, 180, 1.2, 0.9), hover: adjust(hover, 165, 1.35, 0.85) }
+    return { base: adjust(base, 8, 1.05, 1.0), hover: adjust(hover, -8, 1.05, 0.98) }
+  }, [])
 
   return (
     <div className="w-full h-full relative" onPointerMove={handlePointerMove}>
@@ -536,9 +535,15 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2, o
           color="#ffffff"
           castShadow
         />
-        <group position={orbPosition}>
-          {renderActiveOrb()}
-        </group>
+        <OrbScene
+          activeLink={activeLink}
+          color={color}
+          hoverColor={hoverColor}
+          size={size}
+          orbPosition={orbPosition}
+          mousePos={mousePos}
+          getEffectiveColors={getEffectiveColors}
+        />
       </Canvas>
     </div>
   )
