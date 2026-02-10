@@ -1,9 +1,6 @@
 'use client'
 
-import { AudioProvider, useAudio } from '../../components/Vis-Eden-Comp/AudioContext'
-import { AudioVisualizer } from '../../components/Vis-Eden-Comp/AudioVisualizer'
-import { ControlDrawer } from '../../components/Vis-Eden-Comp/ControlDrawer'
-import { AudioBar } from '../../components/Vis-Eden-Comp/AudioBar'
+import { AudioProvider, useAudio, AudioVisualizer, ControlDrawer, AudioBar } from '@/components/features/visualizer'
 import { Upload, Music, Settings } from 'lucide-react'
 import { useState } from 'react'
 

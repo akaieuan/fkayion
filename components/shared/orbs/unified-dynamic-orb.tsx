@@ -5,6 +5,7 @@ import { Float } from '@react-three/drei'
 import { useRef, useState, useCallback } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
+import { useIsMobile } from '@/hooks'
 import { MetallicMeltingTorus } from './metallic-melting-torus'
 import { CrystallineShatterTorus } from './crystalline-shatter-torus'
 import { LiquidMorphTorus } from './liquid-morph-torus'
@@ -21,12 +22,6 @@ interface UnifiedDynamicOrbProps {
 interface MousePos {
   x: number
   y: number
-}
-
-// Hook to detect mobile
-function useIsMobile() {
-  if (typeof window === 'undefined') return false
-  return window.innerWidth < 768
 }
 
 // Default orb - metallic melting torusKnot style like Ubik Studio

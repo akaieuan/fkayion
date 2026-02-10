@@ -1,6 +1,6 @@
 'use client'
 
-import { useAudio } from './AudioContext'
+import { useAudio } from './context/AudioContext'
 import { useState, useRef, useEffect } from 'react'
 import { Slider } from '@/components/ui/slider'
 import { Switch } from '@/components/ui/switch'

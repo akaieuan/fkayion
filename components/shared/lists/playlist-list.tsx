@@ -7,7 +7,7 @@ interface PlaylistListProps {
 export function PlaylistList({ isOpen }: PlaylistListProps) {
   return (
     <div 
-      className="w-[90vw] sm:w-[85vw] md:w-[45vw] lg:w-[50vw] max-w-[800px] h-[60vh] sm:h-[55vh] md:h-[65vh] overflow-y-scroll overflow-x-hidden pr-2 sm:pr-4 md:pr-16 pb-6 isolate"
+      className="w-[92vw] sm:w-[85vw] md:w-[50vw] lg:w-[45vw] max-w-[700px] h-[55vh] sm:h-[55vh] md:h-[65vh] overflow-y-auto overflow-x-hidden pr-1 sm:pr-4 md:pr-8 pb-8 isolate"
       style={{
         opacity: isOpen ? 1 : 0,
         transform: isOpen ? 'translateX(0)' : 'translateX(-12px)',
@@ -26,15 +26,15 @@ export function PlaylistList({ isOpen }: PlaylistListProps) {
         href="https://open.spotify.com/artist/5OwuCYMg2wmmh3QofLLIPe?si=6ztoGCYKR2GzCDAQMzd8sQ" 
         target="_blank" 
         rel="noopener noreferrer"
-        className="text-white/40 text-xs font-medium tracking-widest uppercase hover:text-white/70 transition-colors"
+        className="inline-block py-2 text-white/40 text-[11px] sm:text-xs font-medium tracking-widest uppercase hover:text-white/70 active:text-white/80 transition-colors"
       >
         playlists
       </a>
       
       {/* Spotify Playlists */}
-      <div className="mt-5 space-y-6">
+      <div className="mt-4 sm:mt-5 space-y-5 sm:space-y-6">
         <div>
-          <p className="text-[10px] text-emerald-400/70 font-medium tracking-widest uppercase mb-3">
+          <p className="text-[9px] sm:text-[10px] text-emerald-400/70 font-semibold tracking-widest uppercase mb-2 sm:mb-3">
             music i like
           </p>
           <div className="rounded-xl overflow-hidden">
@@ -48,7 +48,7 @@ export function PlaylistList({ isOpen }: PlaylistListProps) {
               allowFullScreen
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
               loading="lazy"
-              className="h-[260px] sm:h-[320px] md:h-[352px]"
+              className="h-[220px] sm:h-[300px] md:h-[352px]"
             />
           </div>
         </div>
@@ -65,7 +65,7 @@ export function PlaylistList({ isOpen }: PlaylistListProps) {
               allowFullScreen
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
               loading="lazy"
-              className="h-[260px] sm:h-[320px] md:h-[352px]"
+              className="h-[220px] sm:h-[300px] md:h-[352px]"
             />
           </div>
         </div>

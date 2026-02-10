@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { UnifiedDynamicOrb } from '../../components/link-comps/unified-dynamic-orb'
+import { UnifiedDynamicOrb } from '@/components/shared/orbs'
 
 // Greenish-white hover color matching orb
 const hoverColor = '#44ddaa'
@@ -49,11 +49,7 @@ function GridLinkItem({
     onHover(null)
   }
 
-  // Grid position determines animation direction
-  const row = Math.floor(index / 3)
-  const col = index % 3
-  
-  // Each cell animates from a different direction based on position
+  // Each cell animates from a different direction based on grid position
   const getInitialTransform = () => {
     const directions = [
       'translate3d(-20px, -20px, 0)', // top-left
@@ -69,15 +65,12 @@ function GridLinkItem({
     return directions[index] || 'translate3d(0, 20px, 0)'
   }
   
-  // First column items should not have left padding for alignment
-  const isFirstCol = index % 3 === 0
-  
   return (
     <button
       onClick={() => onNavigate(link.url)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={`relative py-3 sm:py-3 pr-2 sm:pr-4 text-left transition-all duration-300 group ${isFirstCol ? 'pl-0' : 'pl-2 sm:pl-4'}`}
+      className="relative py-3 px-2 sm:px-4 text-left transition-all duration-300 group"
       style={{
         opacity: isVisible ? 1 : 0,
         transform: isVisible 

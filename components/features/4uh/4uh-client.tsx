@@ -2,10 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ShowsList } from '@/components/4uh-page/shows-list'
-import { ReleasesList } from '@/components/4uh-page/releases-list'
-import { PurchaseList } from '@/components/4uh-page/purchase-list'
-import { PlaylistList } from '@/components/4uh-page/playlist-list'
+import { ShowsList, ReleasesList, PurchaseList, PlaylistList } from '@/components/shared/lists'
 
 type ActivePanel = 'shows' | 'releases' | 'purchase' | 'playlists' | null
 
@@ -55,7 +52,7 @@ function NavItem({ label, isActive, onClick, hasDropdown, isOpen }: NavItemProps
 
 export function FourUHClient() {
   const router = useRouter()
-  const [activePanel, setActivePanel] = useState<ActivePanel>(null)
+  const [activePanel, setActivePanel] = useState<ActivePanel>('shows')
 
   const handleNavClick = (section: string) => {
     const panelMap: Record<string, ActivePanel> = {

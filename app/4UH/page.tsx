@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { FourUHClient } from './4uh-client'
+import { FourUHClient } from '@/components/features/4uh'
 
 export default function FourUHPage() {
   return (

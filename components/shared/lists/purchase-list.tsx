@@ -1,12 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-
-export interface PurchaseItem {
-  title: string
-  type: 'album' | 'track' | 'merch'
-  url: string
-}
+import type { PurchaseItem } from '@/types'
 
 // Data from https://akaieuan.bandcamp.com/
 export const purchaseData: PurchaseItem[] = [
@@ -47,11 +42,13 @@ function PurchaseItemComponent({ item }: { item: PurchaseItem }) {
       rel="noopener noreferrer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="block py-2 transition-all duration-200"
+      // Larger touch target
+      className="block py-3 sm:py-2 -mx-2 px-2 rounded-lg transition-all duration-200 active:bg-white/5"
     >
-      <div className="flex flex-col sm:flex-row items-start sm:items-baseline gap-1.5 sm:gap-4">
+      <div className="flex flex-col gap-0.5">
+        {/* Type badge */}
         <span 
-          className="text-[10px] sm:text-[11px] font-light tracking-widest uppercase min-w-[56px] sm:min-w-[60px] shrink-0"
+          className="text-[9px] sm:text-[10px] font-light tracking-widest uppercase"
           style={{ 
             color: isHovered ? 'rgba(68, 221, 170, 0.6)' : 'rgba(255,255,255,0.25)',
             transition: 'color 0.2s ease-out',
@@ -59,10 +56,11 @@ function PurchaseItemComponent({ item }: { item: PurchaseItem }) {
         >
           {item.type}
         </span>
+        {/* Title */}
         <span 
-          className="text-sm sm:text-base font-normal tracking-wide leading-tight"
+          className="text-[13px] sm:text-sm font-normal tracking-wide leading-snug"
           style={{ 
-            color: isHovered ? '#44ddaa' : 'rgba(255,255,255,0.8)',
+            color: isHovered ? '#44ddaa' : 'rgba(255,255,255,0.85)',
             transition: 'color 0.2s ease-out',
           }}
         >
@@ -81,7 +79,7 @@ interface PurchaseListProps {
 export function PurchaseList({ isOpen, items = purchaseData }: PurchaseListProps) {
   return (
     <div 
-      className="w-[90vw] sm:w-[85vw] md:w-[45vw] lg:w-[50vw] max-w-[800px] h-[60vh] sm:h-[55vh] md:h-[65vh] overflow-y-scroll overflow-x-hidden pr-2 sm:pr-4 md:pr-10 pb-6 isolate"
+      className="w-[92vw] sm:w-[85vw] md:w-[50vw] lg:w-[45vw] max-w-[700px] h-[55vh] sm:h-[55vh] md:h-[65vh] overflow-y-auto overflow-x-hidden pr-1 sm:pr-4 md:pr-8 pb-8 isolate"
       style={{
         opacity: isOpen ? 1 : 0,
         transform: isOpen ? 'translateX(0)' : 'translateX(-12px)',
@@ -100,17 +98,17 @@ export function PurchaseList({ isOpen, items = purchaseData }: PurchaseListProps
         href="https://akaieuan.bandcamp.com" 
         target="_blank" 
         rel="noopener noreferrer"
-        className="text-white/40 text-xs font-medium tracking-widest uppercase hover:text-white/70 transition-colors"
+        className="inline-block py-2 text-white/40 text-[11px] sm:text-xs font-medium tracking-widest uppercase hover:text-white/70 active:text-white/80 transition-colors"
       >
         bandcamp
       </a>
       
       {/* Albums list */}
-      <div className="mt-5">
-        <p className="text-[10px] text-emerald-400/70 font-medium tracking-widest uppercase mb-2">
+      <div className="mt-4 sm:mt-5">
+        <p className="text-[9px] sm:text-[10px] text-emerald-400/70 font-semibold tracking-widest uppercase mb-2 sm:mb-3">
           available now
         </p>
-        <div className="space-y-0">
+        <div className="space-y-1">
           {items.map((item, i) => (
             <PurchaseItemComponent key={i} item={item} />
           ))}
@@ -118,12 +116,12 @@ export function PurchaseList({ isOpen, items = purchaseData }: PurchaseListProps
       </div>
 
       {/* View all link */}
-      <div className="mt-8">
+      <div className="mt-6 sm:mt-8 pb-4">
         <a 
           href="https://akaieuan.bandcamp.com" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="text-white/30 text-xs font-light tracking-wide hover:text-white/60 transition-colors"
+          className="inline-block py-2 text-white/30 text-[11px] sm:text-xs font-light tracking-wide hover:text-white/60 active:text-white/70 transition-colors"
         >
           view all on bandcamp →
         </a>
