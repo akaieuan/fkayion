@@ -4,7 +4,7 @@ import { useRef, useMemo, useEffect } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
-import { useAudio } from './AudioContext'
+import { useAudio } from './context/AudioContext'
 import { useRouter } from 'next/navigation'
 
 const DEBUG = false

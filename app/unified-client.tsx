@@ -4,13 +4,12 @@ import { useState, useCallback, useRef, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import * as THREE from 'three'
 
-import { LiquidMorphOrb } from '../components/main-page/orb-3'
-import { LatestReleases } from '../components/main-page-components/latest-releases'
-import { UnifiedDynamicOrb } from '../components/link-comps/unified-dynamic-orb'
-import { ShowsList } from '../components/4uh-page/shows-list'
-import { ReleasesList } from '../components/4uh-page/releases-list'
-import { PurchaseList } from '../components/4uh-page/purchase-list'
-import { PlaylistList } from '../components/4uh-page/playlist-list'
+// Feature components
+import { LiquidMorphOrb, LatestReleases } from '@/components/features/home'
+
+// Shared components
+import { UnifiedDynamicOrb } from '@/components/shared/orbs'
+import { ShowsList, ReleasesList, PurchaseList, PlaylistList } from '@/components/shared/lists'
 
 // ============================================
 // LINKS DATA
@@ -150,8 +149,6 @@ function GridLinkItem({
     }
   }, [isInView])
   
-  const isFirstCol = index % 3 === 0
-  
   // Grid position determines animation direction
   const getInitialTransform = () => {
     const directions = [
@@ -173,7 +170,7 @@ function GridLinkItem({
       onClick={() => window.open(link.url, '_blank')}
       onMouseEnter={() => { setIsHovered(true); onHover(link.label) }}
       onMouseLeave={() => { setIsHovered(false); onHover(null) }}
-      className={`relative py-3 pr-4 text-left transition-all duration-300 ${isFirstCol ? 'pl-0' : 'pl-4'}`}
+      className="relative py-3 px-4 text-left transition-all duration-300"
       style={{
         opacity: hasAnimated ? 1 : 0,
         transform: hasAnimated 
