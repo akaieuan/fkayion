@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { UnifiedDynamicOrb } from '@/components/shared/orbs'
 
 const linksData = [
@@ -55,6 +55,7 @@ function GridLinkItem({
   
   return (
     <button
+      type="button"
       onClick={() => window.open(link.url, '_blank')}
       onMouseEnter={() => { setIsHovered(true); onHover(link.label) }}
       onMouseLeave={() => { setIsHovered(false); onHover(null) }}
@@ -75,6 +76,7 @@ function GridLinkItem({
 
 export function LinksSection() {
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
+  const [mobileLinkIndex, setMobileLinkIndex] = useState(0)
   const [isInView, setIsInView] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
   
@@ -91,9 +93,29 @@ export function LinksSection() {
     observer.observe(section)
     return () => observer.disconnect()
   }, [])
+
+  // Small screens: orb follows the link selected with ← → (desktop still uses hover on grid)
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    if (!window.matchMedia('(max-width: 767px)').matches) return
+    if (!isInView) {
+      setHoveredLink(null)
+      return
+    }
+    setHoveredLink(linksData[mobileLinkIndex]?.label ?? null)
+  }, [mobileLinkIndex, isInView])
   
   const orbColor = hoveredLink ? linksData.find(l => l.label === hoveredLink)?.color || '#6655cc' : '#6655cc'
   const orbHoverColor = hoveredLink ? linksData.find(l => l.label === hoveredLink)?.hoverColor || '#aa88ff' : '#aa88ff'
+
+  const goNextMobile = useCallback(() => {
+    setMobileLinkIndex((i) => (i >= linksData.length - 1 ? 0 : i + 1))
+  }, [])
+
+  const openCurrentMobileLink = useCallback(() => {
+    const link = linksData[mobileLinkIndex]
+    if (link) window.open(link.url, '_blank')
+  }, [mobileLinkIndex])
 
   return (
     <section ref={sectionRef} id="section-1" className="h-screen w-full relative snap-start">
@@ -114,7 +136,33 @@ export function LinksSection() {
               <h1 className="text-xl text-gray-500/80 font-light tracking-wide">links</h1>
               <p className="text-white/25 text-xs mt-1 font-light">social · music · writing</p>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-1 w-full max-w-[260px] sm:max-w-[320px]">
+            {/* Small screens: link first, squircle arrows below — orb updates as you browse */}
+            <div className="relative z-30 md:hidden w-full max-w-[min(100%,17rem)]">
+              <div className="flex flex-col items-stretch gap-2.5">
+                <button
+                  type="button"
+                  onClick={openCurrentMobileLink}
+                  className="w-full rounded-[1rem] border border-white/[0.12] bg-black/35 px-3.5 py-2.5 text-center shadow-[0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-md transition-all duration-300 hover:border-white/20 hover:bg-white/[0.04] active:scale-[0.99] active:bg-white/[0.06]"
+                >
+                  <span className="text-[13px] font-light tracking-wide text-white/[0.9]">
+                    {linksData[mobileLinkIndex]?.label}
+                  </span>
+                </button>
+                <div className="flex items-center justify-center">
+                  <button
+                    type="button"
+                    aria-label="Next link"
+                    onClick={goNextMobile}
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[0.85rem] border border-white/[0.14] bg-white/[0.03] text-white/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/25 hover:bg-emerald-400/[0.07] hover:text-emerald-200/90 active:scale-95"
+                  >
+                    <span className="text-[13px] font-light leading-none">→</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* md+: original grid + hover orb */}
+            <div className="hidden md:grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-1 w-full max-w-[260px] sm:max-w-[320px]">
               {linksData.slice(0, 9).map((link, index) => (
                 <GridLinkItem 
                   key={link.label} 

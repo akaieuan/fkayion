@@ -1,5 +1,10 @@
 'use client'
 
+import { fourUhScrollPanelClass, fourUhSectionLabelAccent } from './four-uh-shared'
+import { onFourUhPanelWheel } from './four-uh-wheel'
+
+const embedShell = 'overflow-hidden rounded-lg border border-white/[0.06]'
+
 interface PlaylistListProps {
   isOpen: boolean
 }
@@ -7,10 +12,11 @@ interface PlaylistListProps {
 export function PlaylistList({ isOpen }: PlaylistListProps) {
   return (
     <div 
-      className="w-full max-w-[700px] h-full min-h-0 overflow-y-auto overflow-x-hidden pr-1 sm:pr-4 md:pr-8 pb-8 isolate"
+      data-four-uh-scroll=""
+      className={fourUhScrollPanelClass}
       style={{
         opacity: isOpen ? 1 : 0,
-        transform: isOpen ? 'translateX(0)' : 'translateX(-12px)',
+        transform: isOpen ? 'translateX(0)' : 'translateX(-8px)',
         pointerEvents: isOpen ? 'auto' : 'none',
         transition: 'opacity 0.25s ease-out, transform 0.25s ease-out',
         visibility: isOpen ? 'visible' : 'hidden',
@@ -20,27 +26,24 @@ export function PlaylistList({ isOpen }: PlaylistListProps) {
       }}
       onTouchStart={(e) => e.stopPropagation()}
       onTouchMove={(e) => e.stopPropagation()}
+      onWheel={onFourUhPanelWheel}
     >
-      {/* Header */}
       <a 
         href="https://open.spotify.com/artist/5OwuCYMg2wmmh3QofLLIPe?si=6ztoGCYKR2GzCDAQMzd8sQ" 
         target="_blank" 
         rel="noopener noreferrer"
-        className="inline-block py-2 text-white/40 text-[11px] sm:text-xs font-medium tracking-widest uppercase hover:text-white/70 active:text-white/80 transition-colors"
+        className="inline-block text-[10px] font-medium tracking-widest text-white/40 uppercase hover:text-white/65"
       >
         playlists
       </a>
       
-      {/* Spotify Playlists */}
-      <div className="mt-4 sm:mt-5 space-y-5 sm:space-y-6">
+      <div className="mt-3 space-y-5">
         <div>
-          <p className="text-[9px] sm:text-[10px] text-emerald-400/70 font-semibold tracking-widest uppercase mb-2 sm:mb-3">
-            music i like
-          </p>
-          <div className="rounded-xl overflow-hidden">
+          <p className={`${fourUhSectionLabelAccent} mb-2`}>Music I like</p>
+          <div className={embedShell}>
             <iframe 
               data-testid="embed-iframe"
-              style={{ borderRadius: '12px' }}
+              style={{ borderRadius: '8px' }}
               src="https://open.spotify.com/embed/playlist/5aXocYO3XRi4CZEjAGe0zB?utm_source=generator&theme=0"
               width="100%"
               height="352"
@@ -54,10 +57,10 @@ export function PlaylistList({ isOpen }: PlaylistListProps) {
         </div>
 
         <div>
-          <div className="rounded-xl overflow-hidden">
+          <div className={embedShell}>
             <iframe 
               data-testid="embed-iframe"
-              style={{ borderRadius: '12px' }}
+              style={{ borderRadius: '8px' }}
               src="https://open.spotify.com/embed/playlist/32t2rw0o6MeYBP87q7AKVa?utm_source=generator"
               width="100%"
               height="352"

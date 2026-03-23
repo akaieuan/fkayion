@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 
 // Lazy-load heavy sections (R3F Canvas) to reduce initial bundle and improve TTI
@@ -19,19 +19,28 @@ const FourUHSection = dynamic(() => import('./sections/four-uh-section').then(m 
   loading: () => <section id="section-2" className="h-screen w-full snap-start bg-black" />
 })
 
+const VisualizerSection = dynamic(() => import('./sections/visualizer-section').then(m => ({ default: m.VisualizerSection })), {
+  ssr: false,
+  loading: () => <section id="section-3" className="h-screen w-full snap-start bg-black" />
+})
+
 // ============================================
 // SECTION INDICATOR
 // ============================================
 function SectionIndicator({ currentSection }: { currentSection: number }) {
-  const sections = ['Home', 'Links', '4UH']
+  const sections = ['Home', 'Links', '4UH', 'Visualizer']
   
   return (
-    <div className="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden sm:flex flex-col gap-3">
+    <div className="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden sm:flex md:hidden flex-col gap-3">
       {sections.map((name, index) => (
         <button
           key={name}
+          type="button"
           onClick={() => {
-            document.getElementById(`section-${index}`)?.scrollIntoView({ behavior: 'smooth' })
+            const el = document.querySelector<HTMLElement>('[data-scroll-container]')
+            if (!el) return
+            const h = el.clientHeight
+            el.scrollTo({ top: index * h, behavior: 'smooth' })
           }}
           className="group flex items-center gap-3"
         >
@@ -62,15 +71,23 @@ export function UnifiedClient() {
   const [currentSection, setCurrentSection] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
 
+  /** Snap sections are exactly one viewport tall — scroll by index, not scrollIntoView (avoids scroll-padding misalignment). */
+  const scrollToSection = useCallback((index: number) => {
+    const el = containerRef.current
+    if (!el) return
+    const h = el.clientHeight
+    el.scrollTo({ top: Math.max(0, index) * h, behavior: 'smooth' })
+  }, [])
+
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
 
     const handleScroll = () => {
       const scrollTop = container.scrollTop
-      const sectionHeight = window.innerHeight
-      const section = Math.round(scrollTop / sectionHeight)
-      setCurrentSection(section)
+      const sectionHeight = container.clientHeight || window.innerHeight
+      const section = Math.round(scrollTop / Math.max(1, sectionHeight))
+      setCurrentSection(Math.min(3, Math.max(0, section)))
     }
 
     container.addEventListener('scroll', handleScroll)
@@ -81,35 +98,38 @@ export function UnifiedClient() {
     <div 
       ref={containerRef}
       data-scroll-container
-      className="h-screen w-screen overflow-y-auto snap-y snap-mandatory bg-black"
-      style={{ scrollBehavior: 'smooth' }}
+      className="h-screen w-screen overflow-y-auto snap-y snap-proximity md:snap-none bg-black"
+      style={{ scrollBehavior: 'auto' }}
     >
       <SectionIndicator currentSection={currentSection} />
       <HomeSection />
       <LinksSection />
       <FourUHSection />
+      <VisualizerSection />
 
       {/* Scroll-down arrow - on every section except last, scrolls to next */}
-      {currentSection < 2 && (
+      {currentSection < 3 && (
         <button
-          onClick={() => document.getElementById(`section-${currentSection + 1}`)?.scrollIntoView({ behavior: 'smooth' })}
-          className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] flex lg:hidden flex-col items-center gap-1 text-white/50 hover:text-white/90 transition-colors pointer-events-auto"
+          type="button"
+          onClick={() => scrollToSection(currentSection + 1)}
+          className="fixed bottom-20 left-1/2 z-[110] flex -translate-x-1/2 flex-col items-center gap-0.5 text-white/40 hover:text-white/75 md:hidden pointer-events-auto"
           aria-label="Scroll to next section"
         >
-          <span className="text-xs font-light tracking-wide">scroll</span>
-          <span className="animate-bounce text-3xl leading-none">↓</span>
+          <span className="text-[10px] font-medium tracking-widest uppercase">next</span>
+          <span className="text-lg leading-none">↓</span>
         </button>
       )}
 
       {/* Back to top - on last section only */}
-      {currentSection === 2 && (
+      {currentSection === 3 && (
         <button
-          onClick={() => document.getElementById('section-0')?.scrollIntoView({ behavior: 'smooth' })}
-          className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] flex lg:hidden flex-col items-center gap-1 text-white/50 hover:text-white/90 transition-colors pointer-events-auto"
+          type="button"
+          onClick={() => scrollToSection(0)}
+          className="fixed bottom-20 left-1/2 z-[110] flex -translate-x-1/2 flex-col items-center gap-0.5 text-white/40 hover:text-white/75 md:hidden pointer-events-auto"
           aria-label="Back to top"
         >
-          <span className="text-xs font-light tracking-wide">top</span>
-          <span className="animate-bounce text-3xl leading-none">↑</span>
+          <span className="text-[10px] font-medium tracking-widest uppercase">top</span>
+          <span className="text-lg leading-none">↑</span>
         </button>
       )}
     </div>

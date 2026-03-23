@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import type { PurchaseItem } from '@/types'
+import { fourUhScrollPanelClass, fourUhSectionLabelAccent } from './four-uh-shared'
+import { onFourUhPanelWheel } from './four-uh-wheel'
 
 // Data from https://akaieuan.bandcamp.com/
 export const purchaseData: PurchaseItem[] = [
@@ -42,26 +44,13 @@ function PurchaseItemComponent({ item }: { item: PurchaseItem }) {
       rel="noopener noreferrer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="block py-4 sm:py-3 -mx-2 px-3 rounded-lg transition-all duration-200 active:bg-white/5"
+      className="block py-2"
     >
       <div className="flex flex-col gap-0.5">
-        {/* Type badge */}
-        <span 
-          className="text-[10px] sm:text-xs font-light tracking-widest uppercase"
-          style={{ 
-            color: isHovered ? 'rgba(68, 221, 170, 0.6)' : 'rgba(255,255,255,0.25)',
-            transition: 'color 0.2s ease-out',
-          }}
-        >
-          {item.type}
-        </span>
-        {/* Title */}
-        <span 
-          className="text-sm sm:text-base font-normal tracking-wide leading-snug"
-          style={{ 
-            color: isHovered ? '#44ddaa' : 'rgba(255,255,255,0.85)',
-            transition: 'color 0.2s ease-out',
-          }}
+        <span className="text-[9px] font-medium uppercase tracking-wider text-white/30">{item.type}</span>
+        <span
+          className="text-[13px] font-normal leading-tight text-white/80"
+          style={{ color: isHovered ? '#44ddaa' : undefined }}
         >
           {item.title}
         </span>
@@ -78,10 +67,11 @@ interface PurchaseListProps {
 export function PurchaseList({ isOpen, items = purchaseData }: PurchaseListProps) {
   return (
     <div 
-      className="w-full max-w-[700px] h-full min-h-0 overflow-y-auto overflow-x-hidden pr-1 sm:pr-4 md:pr-8 pb-8 isolate"
+      data-four-uh-scroll=""
+      className={fourUhScrollPanelClass}
       style={{
         opacity: isOpen ? 1 : 0,
-        transform: isOpen ? 'translateX(0)' : 'translateX(-12px)',
+        transform: isOpen ? 'translateX(0)' : 'translateX(-8px)',
         pointerEvents: isOpen ? 'auto' : 'none',
         transition: 'opacity 0.25s ease-out, transform 0.25s ease-out',
         visibility: isOpen ? 'visible' : 'hidden',
@@ -91,38 +81,35 @@ export function PurchaseList({ isOpen, items = purchaseData }: PurchaseListProps
       }}
       onTouchStart={(e) => e.stopPropagation()}
       onTouchMove={(e) => e.stopPropagation()}
+      onWheel={onFourUhPanelWheel}
     >
       {/* Bandcamp header */}
       <a 
         href="https://akaieuan.bandcamp.com" 
         target="_blank" 
         rel="noopener noreferrer"
-        className="inline-block py-2 text-white/40 text-[11px] sm:text-xs font-medium tracking-widest uppercase hover:text-white/70 active:text-white/80 transition-colors"
+        className="inline-block text-[10px] font-medium tracking-widest text-white/40 uppercase hover:text-white/65"
       >
         bandcamp
       </a>
       
-      {/* Albums list */}
-      <div className="mt-4 sm:mt-5">
-        <p className="text-[9px] sm:text-[10px] text-emerald-400/70 font-semibold tracking-widest uppercase mb-2 sm:mb-3">
-          available now
-        </p>
-        <div className="space-y-1">
+      <div className="mt-3">
+        <p className={fourUhSectionLabelAccent}>Available</p>
+        <div className="divide-y divide-white/[0.06]">
           {items.map((item, i) => (
             <PurchaseItemComponent key={i} item={item} />
           ))}
         </div>
       </div>
 
-      {/* View all link */}
-      <div className="mt-6 sm:mt-8 pb-4">
+      <div className="mt-5">
         <a 
           href="https://akaieuan.bandcamp.com" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="inline-block py-2 text-white/30 text-[11px] sm:text-xs font-light tracking-wide hover:text-white/60 active:text-white/70 transition-colors"
+          className="text-[10px] font-light text-white/30 hover:text-white/55"
         >
-          view all on bandcamp →
+          All on Bandcamp →
         </a>
       </div>
     </div>

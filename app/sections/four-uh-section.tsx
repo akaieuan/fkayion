@@ -1,25 +1,20 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { ShowsList, ReleasesList, PurchaseList, PlaylistList } from '@/components/shared/lists'
 
-type ActivePanel = 'shows' | 'releases' | 'purchase' | 'playlists' | null
+const PANELS = ['Shows', 'Releases', 'Purchase', 'Playlists'] as const
+type PanelName = (typeof PANELS)[number]
+type ActivePanel = Lowercase<PanelName>
 
 export function FourUHSection() {
-  const [activePanel, setActivePanel] = useState<ActivePanel>('shows')
+  const [panelIndex, setPanelIndex] = useState(0)
 
-  const handleNavClick = (item: string) => {
-    const panelMap: Record<string, ActivePanel> = {
-      'Shows': 'shows',
-      'Releases': 'releases',
-      'Purchase': 'purchase',
-      'Playlists': 'playlists',
-    }
-    const panel = panelMap[item]
-    if (panel) {
-      setActivePanel(activePanel === panel ? null : panel)
-    }
-  }
+  const activePanel = PANELS[panelIndex].toLowerCase() as ActivePanel
+
+  const goNext = useCallback(() => {
+    setPanelIndex((i) => (i >= PANELS.length - 1 ? 0 : i + 1))
+  }, [])
 
   return (
     <section id="section-2" className="h-screen w-full relative snap-start overflow-visible">
@@ -31,39 +26,47 @@ export function FourUHSection() {
 
       <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.4) 100%)' }} />
 
-      <div className="relative h-full flex flex-col">
-        <div className="w-full flex flex-col flex-1 min-h-0 px-4 sm:px-6 md:px-12 lg:px-16 pt-16 sm:pt-20 md:py-8 gap-4">
-          {/* Horizontal tabs above content */}
-          <nav className="flex flex-wrap gap-2 sm:gap-4 shrink-0">
-            {['Shows', 'Releases', 'Purchase', 'Playlists'].map((item) => {
-              const panelKey = item.toLowerCase() as ActivePanel
-              const isActive = activePanel === panelKey
-              return (
-                <button
-                  key={item}
-                  onClick={() => handleNavClick(item)}
-                  className="group flex items-center gap-1.5 sm:gap-2 py-2 transition-all duration-300"
-                >
-                  <span 
-                    className="text-sm sm:text-base md:text-lg font-extralight tracking-tight transition-all duration-300"
-                    style={{
-                      color: isActive ? '#44ddaa' : 'rgba(255,255,255,0.4)',
-                    }}
-                  >
-                    {item}
-                  </span>
-                  <span 
-                    className="text-sm transition-transform duration-300" 
-                    style={{ color: isActive ? '#44ddaa' : 'rgba(255,255,255,0.3)', transform: isActive ? 'rotate(90deg)' : 'rotate(0deg)' }}
-                  >
-                    →
-                  </span>
-                </button>
-              )
-            })}
+      <div className="relative h-full flex flex-col md:justify-center">
+        <div className="w-full flex flex-col flex-1 min-h-0 px-4 sm:px-6 md:w-[420px] lg:w-[480px] md:px-0 md:ml-16 lg:ml-24 md:flex-none gap-3 max-md:pt-[max(9rem,calc(5rem+env(safe-area-inset-top,0px)))] max-md:pb-[calc(6.5rem+env(safe-area-inset-bottom,0px))]">
+
+          {/* Small screen: squircle label + single → arrow */}
+          <div className="md:hidden flex items-center gap-2.5">
+            <div className="rounded-[0.9rem] border border-white/[0.12] bg-black/35 px-3.5 py-2 shadow-[0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-md">
+              <span className="text-[11px] font-medium tracking-widest uppercase text-white/75">
+                {PANELS[panelIndex]}
+              </span>
+            </div>
+            <button
+              type="button"
+              aria-label="Next section"
+              onClick={goNext}
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[0.85rem] border border-white/[0.14] bg-white/[0.03] text-white/55 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/25 hover:bg-emerald-400/[0.07] hover:text-emerald-200/90 active:scale-95"
+            >
+              <span className="text-[12px] font-light leading-none">→</span>
+            </button>
+          </div>
+
+          {/* Large screen: plain text tab row */}
+          <nav
+            className="hidden md:flex shrink-0 flex-nowrap items-center gap-x-3 border-b border-white/[0.06] pb-1.5"
+            aria-label="4UH sections"
+          >
+            {PANELS.map((item, i) => (
+              <button
+                key={item}
+                type="button"
+                onClick={() => setPanelIndex(i)}
+                className={`shrink-0 whitespace-nowrap text-[10px] font-medium uppercase tracking-wide transition-colors ${
+                  i === panelIndex ? 'text-emerald-300/95' : 'text-white/35 hover:text-white/60'
+                }`}
+              >
+                {item}
+              </button>
+            ))}
           </nav>
 
-          <div className="relative flex-1 min-h-0">
+          {/* List panels */}
+          <div className="relative min-h-0 max-h-[min(52vh,calc(100dvh-15rem))] md:h-[400px] md:max-h-[400px] lg:h-[440px] lg:max-h-[440px] overscroll-y-contain flex-1 md:flex-none">
             <div className={`absolute inset-0 ${activePanel !== 'shows' ? 'pointer-events-none' : ''}`}>
               <ShowsList isOpen={activePanel === 'shows'} />
             </div>

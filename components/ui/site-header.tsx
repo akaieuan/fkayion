@@ -219,10 +219,14 @@ export function SiteHeader() {
 
         {/* Panel */}
         <div 
-          className="absolute top-0 right-0 h-full w-[65vw] max-w-[260px] border-l border-white/10 px-5 py-8 transition-transform duration-300 ease-out flex flex-col space-y-6"
+          className="absolute top-0 right-0 w-[65vw] max-w-[260px] px-5 py-8 flex flex-col space-y-6"
           style={{ 
+            height: '100vh',
+            minHeight: '100%',
+            background: '#0a0a0a',
+            borderLeft: '1px solid rgba(255,255,255,0.08)',
             transform: mobileMenuOpen ? 'translateX(0)' : 'translateX(100%)',
-            background: '#000000',
+            transition: 'transform 0.3s ease-out',
           }}
         >
           <div className="flex items-center justify-between">

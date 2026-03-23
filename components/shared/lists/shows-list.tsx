@@ -2,12 +2,13 @@
 
 import { useState } from 'react'
 import type { Event } from '@/types'
+import { fourUhScrollPanelClass, fourUhSectionLabelAccent, fourUhSectionLabelMuted } from './four-uh-shared'
+import { onFourUhPanelWheel } from './four-uh-wheel'
 
-// Combined events data - all under akaieuan
 export const eventsData: Event[] = [
-  // Upcoming
-  { date: 'Feb 13, 2026', title: 'HeartBurn Afters by FENDER BENDER', venue: 'TBA', location: 'New York City', url: 'https://posh.vip/e/heartburn-afters-by-fender-bender', isPast: false, isTicketLink: true },
-  // Past
+  { date: 'Apr 21, 2026', title: 'DIFFÜSION VOL 002', venue: 'TBA', location: 'TBA', url: 'https://ra.co/events/2388618', isPast: false, isTicketLink: true },
+  { date: 'Mar 21, 2026', title: 'LEGA AT RAW AREA', venue: 'Raw Area', location: 'TBA', url: 'https://ra.co/events/2377939', isPast: true },
+  { date: 'Feb 13, 2026', title: 'HeartBurn Afters by FENDER BENDER', venue: 'TBA', location: 'New York City', url: 'https://posh.vip/e/heartburn-afters-by-fender-bender', isPast: true },
   { date: 'Jan 30, 2026', title: 'Submerged: aka ieuan, DJ I.V., Jae Hanz', venue: 'The Crucible', location: 'Madison, WI', url: 'https://ra.co/events/2350541', isPast: true },
   { date: 'Jan 24, 2026', title: 'AGAPE PRESENTS: KUKO', venue: '154 Scott Ave', location: 'New York City', url: 'https://ra.co/dj/akaieuan/past-events', isPast: true },
   { date: 'Nov 19, 2025', title: 'Bossa Nova Happy Hour: Healing with Sound [004]', venue: 'Bossa Nova Civic Club', location: 'New York City', url: 'https://ra.co/dj/akaieuan/past-events', isPast: true },
@@ -26,7 +27,7 @@ export const eventsData: Event[] = [
 
 function EventItem({ event }: { event: Event }) {
   const [isHovered, setIsHovered] = useState(false)
-  
+
   return (
     <a
       href={event.url}
@@ -34,51 +35,30 @@ function EventItem({ event }: { event: Event }) {
       rel="noopener noreferrer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="block py-4 sm:py-3 -mx-2 px-3 rounded-lg transition-all duration-200 active:bg-white/5"
-      style={{
-        opacity: event.isPast ? 0.6 : 1,
-      }}
+      className="block py-1.5"
+      style={{ opacity: event.isPast ? 0.55 : 1 }}
     >
-      {/* Mobile: stacked layout, Desktop: inline */}
-      <div className="flex flex-col gap-0.5">
-        {/* Date row */}
-        <span 
-          className="text-[11px] sm:text-xs font-light tracking-wider uppercase"
-          style={{ 
-            color: isHovered ? '#44ddaa' : 'rgba(255,255,255,0.4)',
-            transition: 'color 0.2s ease-out',
-          }}
+      <div className="flex flex-col gap-0">
+        <span
+          className="text-[9px] font-light tracking-wide text-white/40"
+          style={{ color: isHovered ? '#44ddaa' : undefined }}
         >
           {event.date}
         </span>
-        
-        {/* Title + venue row */}
-        <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-2">
-          <span 
-            className="text-sm sm:text-base font-normal tracking-wide leading-snug"
-            style={{ 
-              color: isHovered ? '#44ddaa' : 'rgba(255,255,255,0.85)',
-              transition: 'color 0.2s ease-out',
-            }}
-          >
-            {event.title}
-          </span>
-          <span 
-            className="text-[11px] sm:text-xs font-light mt-0.5 sm:mt-0"
-            style={{ 
-              color: isHovered ? 'rgba(68, 221, 170, 0.6)' : 'rgba(255,255,255,0.3)',
-              transition: 'color 0.2s ease-out',
-            }}
-          >
-            @ {event.venue}
-          </span>
-        </div>
-        
-        {/* Ticket badge */}
+        <span
+          className="text-[11px] font-normal leading-snug text-white/85"
+          style={{ color: isHovered ? '#44ddaa' : undefined }}
+        >
+          {event.title}
+        </span>
+        <span
+          className="text-[9px] font-light text-white/35"
+          style={{ color: isHovered ? 'rgba(68,221,170,0.55)' : undefined }}
+        >
+          @ {event.venue}
+        </span>
         {event.isTicketLink && !event.isPast && (
-          <span className="text-[9px] sm:text-[10px] text-emerald-400/90 font-semibold tracking-wider uppercase mt-1 sm:mt-0.5">
-            → TICKETS
-          </span>
+          <span className="text-[8px] font-medium uppercase tracking-wide text-emerald-400/90">Tickets →</span>
         )}
       </div>
     </a>
@@ -95,13 +75,14 @@ export function ShowsList({ isOpen, events = eventsData }: ShowsListProps) {
   const pastEvents = events.filter(e => e.isPast)
 
   return (
-    <div 
-      className="w-full max-w-[700px] h-full min-h-0 overflow-y-auto overflow-x-hidden pr-1 sm:pr-4 md:pr-8 pb-8 isolate"
+    <div
+      data-four-uh-scroll=""
+      className={fourUhScrollPanelClass}
       style={{
         opacity: isOpen ? 1 : 0,
-        transform: isOpen ? 'translateX(0)' : 'translateX(-12px)',
+        transform: isOpen ? 'translateX(0)' : 'translateX(-8px)',
         pointerEvents: isOpen ? 'auto' : 'none',
-        transition: 'opacity 0.25s ease-out, transform 0.25s ease-out',
+        transition: 'opacity 0.2s ease-out, transform 0.2s ease-out',
         visibility: isOpen ? 'visible' : 'hidden',
         overscrollBehavior: 'contain',
         WebkitOverflowScrolling: 'touch',
@@ -109,54 +90,47 @@ export function ShowsList({ isOpen, events = eventsData }: ShowsListProps) {
       }}
       onTouchStart={(e) => e.stopPropagation()}
       onTouchMove={(e) => e.stopPropagation()}
+      onWheel={onFourUhPanelWheel}
     >
-      {/* akaieuan header - larger touch target */}
-      <a 
-        href="https://ra.co/dj/akaieuan" 
-        target="_blank" 
+      <a
+        href="https://ra.co/dj/akaieuan"
+        target="_blank"
         rel="noopener noreferrer"
-        className="inline-block py-2 text-white/40 text-[11px] sm:text-xs font-medium tracking-widest uppercase hover:text-white/70 active:text-white/80 transition-colors"
+        className="inline-block text-[9px] font-medium tracking-widest text-white/40 uppercase hover:text-white/65"
       >
         akaieuan
       </a>
-      
-      {/* Upcoming */}
+
       {upcomingEvents.length > 0 && (
-        <div className="mt-4 sm:mt-5">
-          <p className="text-[10px] sm:text-xs text-emerald-400/70 font-semibold tracking-widest uppercase mb-2 sm:mb-3">
-            upcoming
-          </p>
-          <div className="space-y-0.5">
+        <div className="mt-2">
+          <p className={fourUhSectionLabelAccent}>Upcoming</p>
+          <div className="divide-y divide-white/[0.06]">
             {upcomingEvents.map((event, i) => (
-              <EventItem key={i} event={event} />
-            ))}
-          </div>
-        </div>
-      )}
-      
-      {/* Past */}
-      {pastEvents.length > 0 && (
-        <div className="mt-6 sm:mt-8">
-          <p className="text-[10px] sm:text-xs text-white/25 font-semibold tracking-widest uppercase mb-2 sm:mb-3">
-            past
-          </p>
-          <div className="space-y-0.5">
-            {pastEvents.map((event, i) => (
-              <EventItem key={i} event={event} />
+              <EventItem key={`u-${i}`} event={event} />
             ))}
           </div>
         </div>
       )}
 
-      {/* View all link - larger touch target */}
-      <div className="mt-6 sm:mt-8 pb-4">
-        <a 
-          href="https://ra.co/dj/akaieuan" 
-          target="_blank" 
+      {pastEvents.length > 0 && (
+        <div className="mt-3">
+          <p className={fourUhSectionLabelMuted}>Past</p>
+          <div className="divide-y divide-white/[0.06]">
+            {pastEvents.map((event, i) => (
+              <EventItem key={`p-${i}`} event={event} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="mt-3">
+        <a
+          href="https://ra.co/dj/akaieuan"
+          target="_blank"
           rel="noopener noreferrer"
-          className="inline-block py-2 text-white/30 text-[11px] sm:text-xs font-light tracking-wide hover:text-white/60 active:text-white/70 transition-colors"
+          className="text-[9px] font-light text-white/30 hover:text-white/55"
         >
-          view all on ra.co →
+          All on RA →
         </a>
       </div>
     </div>

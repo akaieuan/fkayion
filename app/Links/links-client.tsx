@@ -1,20 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { UnifiedDynamicOrb } from '@/components/shared/orbs'
 
 // Greenish-white hover color matching orb
 const hoverColor = '#44ddaa'
-
-const LINK_DESCRIPTIONS: Record<string, string> = {
-  SoundCloud: 'The primary hub for mixes, DJ sets, and live recordings. Stream the full catalog of original productions and collaborative work.',
-  'aka.write': 'Long-form writing on digital culture, AI, and music. Essays, reflections, and research published on Kraa.',
-  Ubik: 'Creative studio for web experiences, digital interfaces, and experimental design projects.',
-  Bandcamp: 'Purchase and download original albums, EPs, and singles directly. Support independent music.',
-  Spotify: 'Stream all releases and follow for new music. Available across aka ieuan and yion artist profiles.',
-  YouTube: 'Video content including live sets, visual experiments, and music videos.',
-  Instagram: 'Visual updates, behind-the-scenes, and event announcements.',
-}
 
 interface Link {
   label: string
@@ -31,12 +21,10 @@ function GridLinkItem({
   link, 
   index,
   onHover,
-  onClick
 }: { 
   link: Link
   index: number
   onHover: (label: string | null) => void
-  onClick: (link: Link) => void
 }) {
   const [isHovered, setIsHovered] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
@@ -60,7 +48,8 @@ function GridLinkItem({
   
   return (
     <button
-      onClick={() => onClick(link)}
+      type="button"
+      onClick={() => window.open(link.url, '_blank')}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className="relative py-3 px-2 sm:px-4 text-left transition-all duration-300 group"
@@ -73,7 +62,6 @@ function GridLinkItem({
         transitionDelay: `${index * 60}ms`,
       }}
     >
-      {/* Link text */}
       <span 
         className="relative text-base sm:text-sm font-light tracking-wide transition-colors duration-200"
         style={{
@@ -88,21 +76,28 @@ function GridLinkItem({
 
 export function LinksClient({ linksData }: LinksClientProps) {
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
-  const [selectedLink, setSelectedLink] = useState<Link | null>(null)
+  const [mobileLinkIndex, setMobileLinkIndex] = useState(0)
 
-  const handleLinkClick = (link: Link) => {
-    if (typeof window !== 'undefined' && window.matchMedia('(min-width: 768px)').matches) {
-      window.open(link.url, '_blank')
-    } else {
-      setSelectedLink(link)
-    }
-  }
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    if (!window.matchMedia('(max-width: 767px)').matches) return
+    setHoveredLink(linksData[mobileLinkIndex]?.label ?? null)
+  }, [mobileLinkIndex, linksData])
 
   const handleLinkHover = (linkLabel: string | null) => {
     setHoveredLink(linkLabel)
   }
 
-  const activeLinkForOrb = selectedLink ? selectedLink.label : hoveredLink
+  const goNextMobile = useCallback(() => {
+    setMobileLinkIndex((i) => (i >= linksData.length - 1 ? 0 : i + 1))
+  }, [linksData.length])
+
+  const openCurrentMobileLink = useCallback(() => {
+    const link = linksData[mobileLinkIndex]
+    if (link) window.open(link.url, '_blank')
+  }, [mobileLinkIndex, linksData])
+
+  const activeLinkForOrb = hoveredLink
   const defaultColor = linksData[0]?.color || '#6655cc'
   const defaultHover = linksData[0]?.hoverColor || '#aa88ff'
   const orbColor = activeLinkForOrb 
@@ -124,9 +119,8 @@ export function LinksClient({ linksData }: LinksClientProps) {
       </div>
 
       <div className="relative z-10 flex flex-col min-h-screen">
-        <div className="flex-1 flex items-start md:items-center">
+        <div className="flex-1 flex items-center md:items-center">
           <div className="relative w-full px-4 pt-14 pb-16 sm:px-6 md:px-12 lg:px-16">
-            {/* Title */}
             <div className="mb-6">
               <h1 className="text-lg sm:text-xl text-gray-500/80 font-light tracking-wide">
                 links
@@ -136,69 +130,53 @@ export function LinksClient({ linksData }: LinksClientProps) {
               </p>
             </div>
 
-            {/* Grid - hidden on small screens when detail panel is shown */}
-            <div 
-              className={`relative transition-opacity duration-300 md:opacity-100 ${
-                selectedLink ? 'opacity-0 pointer-events-none md:opacity-100 md:pointer-events-auto' : 'opacity-100'
-              }`}
-            >
-              <div className="absolute -inset-4 bg-zinc-800/80 backdrop-blur-2xl backdrop-saturate-150 rounded-2xl -z-10" />
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-2 w-full max-w-[280px] sm:max-w-[340px] md:max-w-[360px] p-3 sm:p-2">
+            <div className="relative z-30 md:z-0">
+              <div className="absolute -inset-4 bg-zinc-800/80 backdrop-blur-2xl backdrop-saturate-150 rounded-2xl -z-10 hidden md:block" />
+
+              <div className="md:hidden w-full max-w-[min(100%,17rem)]">
+                <div className="flex flex-col items-stretch gap-2.5">
+                  <button
+                    type="button"
+                    onClick={openCurrentMobileLink}
+                    className="w-full rounded-[1rem] border border-white/[0.12] bg-zinc-900/40 px-3.5 py-2.5 text-center shadow-[0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-md transition-all duration-300 hover:border-white/20 hover:bg-white/[0.05] active:scale-[0.99] active:bg-white/[0.07]"
+                  >
+                    <span className="text-[13px] font-light tracking-wide text-white/[0.9]">
+                      {linksData[mobileLinkIndex]?.label}
+                    </span>
+                  </button>
+                  <div className="flex items-center justify-center">
+                    <button
+                      type="button"
+                      aria-label="Next link"
+                      onClick={goNextMobile}
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[0.85rem] border border-white/[0.14] bg-white/[0.04] text-white/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/25 hover:bg-emerald-400/[0.08] hover:text-emerald-200/90 active:scale-95"
+                    >
+                      <span className="text-[13px] font-light leading-none">→</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="hidden md:grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-2 w-full max-w-[280px] sm:max-w-[340px] md:max-w-[360px] p-3 sm:p-2">
                 {linksData.slice(0, 9).map((link, index) => (
                   <GridLinkItem 
                     key={link.label}
                     link={link}
                     index={index}
                     onHover={handleLinkHover}
-                    onClick={handleLinkClick}
                   />
                 ))}
               </div>
             </div>
-
-            {/* Detail panel - small screens only when link selected */}
-            {selectedLink && (
-              <div 
-                className="md:hidden absolute top-0 left-0 right-0 pt-14 px-4 pb-16 flex flex-col transition-opacity duration-300"
-              >
-                <div className="absolute -inset-4 bg-zinc-800/90 backdrop-blur-2xl backdrop-saturate-150 rounded-2xl -z-10" />
-                <div className="flex flex-col gap-6">
-                  <button
-                    onClick={() => setSelectedLink(null)}
-                    className="self-start text-white/50 hover:text-white/80 text-sm font-light tracking-wide transition-colors"
-                  >
-                    ← Back
-                  </button>
-                  <h2 
-                    className="text-xl font-light tracking-wide transition-colors"
-                    style={{ color: selectedLink.color }}
-                  >
-                    {selectedLink.label}
-                  </h2>
-                  <p className="text-white/70 text-sm font-light leading-relaxed">
-                    {LINK_DESCRIPTIONS[selectedLink.label] || 'Explore this link.'}
-                  </p>
-                  <a
-                    href={selectedLink.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 self-start py-2 px-4 rounded-lg text-sm font-light tracking-wide transition-colors hover:opacity-90"
-                    style={{ 
-                      backgroundColor: selectedLink.color,
-                      color: '#000',
-                    }}
-                  >
-                    Go to {selectedLink.label} →
-                  </a>
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
         <div className="pb-6 flex justify-center pointer-events-none">
-          <p className="text-white/15 text-xs font-light">
-            {selectedLink ? 'tap to open link' : 'hover or tap to interact'}
+          <p className="text-white/15 text-xs font-light md:hidden">
+            ← → browse · orb updates · tap to open
+          </p>
+          <p className="text-white/15 text-xs font-light hidden md:block">
+            hover or tap to interact
           </p>
         </div>
       </div>

@@ -14,21 +14,25 @@ const hoverColor = '#44ddaa'
 
 const releaseSets: Release[][] = [
   [
+    { title: 'Ubiquity', type: 'Album', url: 'https://open.spotify.com/album/3Obm9hWHC26Yk0vByeHBUl', color: hoverColor },
+    { title: 'Anthrotechnica AT.M2', type: 'Album', url: 'https://open.spotify.com/album/3tG4rJ2JHYm6NvxdLLnRn2', color: hoverColor },
     { title: 'Chaotic Networks', type: 'EP', url: 'https://soundcloud.com/akaieuan/sets/chaotic-networks-live', color: hoverColor },
     { title: 'Taiko446 - Diffuse Reality Records', type: 'EP', url: 'https://diffusereality.bandcamp.com/album/aka-ieuan-taiko446', color: hoverColor },
-    { title: 'The Veil of Kobol', type: 'EP', url: 'https://soundcloud.com/akaieuan/sets/the-veil-of-kobol-live', color: hoverColor },
   ],
   [
+    { title: 'Human in the Loop AI', type: 'Writing', url: 'https://www.ubik.studio/blog/human-in-the-loop', color: hoverColor },
     { title: 'The Pursuit of Parsimony', type: 'Writing', url: 'https://kraa.io/306857640304253952', color: hoverColor },
     { title: 'We Were Digitaly Shaped', type: 'Writing', url: 'https://kraa.io/306942411031387136', color: hoverColor },
     { title: 'All Roads Lead to Porn', type: 'Writing', url: 'https://kraa.io/306857605553134592', color: hoverColor },
   ],
   [
+    { title: 'Nevstv, aka ieuan (DJ Set)', type: 'Video', url: 'https://www.youtube.com/watch?v=hqsTCdA-QfQ&list=RDhqsTCdA-QfQ&start_radio=1&t=1581s', color: hoverColor },
     { title: 'No Signal 078 (DJ Set)', type: 'Video', url: 'https://soundcloud.com/nosignalnyc/akaieuan-no-signal-078-nov-21-2025', color: hoverColor },
     { title: 'Techno INC Set', type: 'Video', url: 'https://www.youtube.com/watch?v=87kn2h5dQJk&list=RD87kn2h5dQJk&start_radio=1&t=1889s', color: hoverColor },
     { title: 'v0013 - video', type: 'Video', url: 'https://www.youtube.com/watch?v=HnsGJMUk8Pw', color: hoverColor },
   ],
   [
+    { title: 'Memoriam - aka ieuan', type: 'Single', url: 'https://open.spotify.com/track/3V4w0BD1SsPWwrfYBCp7ts?si=30246d845aa24fd5', color: hoverColor },
     { title: 'v0013 - yion', type: 'Single', url: 'https://akaieuan.bandcamp.com/track/v0013', color: hoverColor },
     { title: 'Visualizer Eden', type: 'Single', url: 'https://akaieuan.bandcamp.com/track/visualizer-eden', color: hoverColor },
     { title: 'Girls Just Want Breaks', type: 'Single', url: 'https://akaieuan.bandcamp.com/track/girls-just-want-breaks-yion-flip', color: hoverColor },    
@@ -122,7 +126,7 @@ export function LatestReleases() {
   return (
     <div className="w-full">
       {/* Releases List - Fixed height container */}
-      <div className="min-h-[140px] relative overflow-hidden">
+      <div className="min-h-[200px] sm:min-h-[180px] relative overflow-hidden">
         <div className="space-y-0">
           {currentReleases.map((release, index) => (
             <ReleaseLink 
