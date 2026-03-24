@@ -7,7 +7,8 @@ import { useRouter, usePathname } from 'next/navigation'
 const mainNavItems = [
   { name: 'Home', sectionIndex: 0, sectionId: 'section-0' },
   { name: 'Links', sectionIndex: 1, sectionId: 'section-1' },
-  { name: '4UH', sectionIndex: 2, sectionId: 'section-2' }
+  { name: 'Product', sectionIndex: 2, sectionId: 'section-2' },
+  { name: '4UH', sectionIndex: 4, sectionId: 'section-4' }
 ]
 
 // Projects are separate pages (not sections)

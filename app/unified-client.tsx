@@ -14,7 +14,7 @@ const LinksSection = dynamic(() => import('./sections/links-section').then(m => 
   loading: () => <section id="section-1" className="h-screen w-full snap-start bg-black" />
 })
 
-const FourUHSection = dynamic(() => import('./sections/four-uh-section').then(m => ({ default: m.FourUHSection })), {
+const ProductSection = dynamic(() => import('./sections/product-section').then(m => ({ default: m.ProductSection })), {
   ssr: false,
   loading: () => <section id="section-2" className="h-screen w-full snap-start bg-black" />
 })
@@ -24,11 +24,16 @@ const VisualizerSection = dynamic(() => import('./sections/visualizer-section').
   loading: () => <section id="section-3" className="h-screen w-full snap-start bg-black" />
 })
 
+const FourUHSection = dynamic(() => import('./sections/four-uh-section').then(m => ({ default: m.FourUHSection })), {
+  ssr: false,
+  loading: () => <section id="section-4" className="h-screen w-full snap-start bg-black" />
+})
+
 // ============================================
 // SECTION INDICATOR
 // ============================================
 function SectionIndicator({ currentSection }: { currentSection: number }) {
-  const sections = ['Home', 'Links', '4UH', 'Visualizer']
+  const sections = ['Home', 'Links', 'Product', 'Visualizer', '4UH']
   
   return (
     <div className="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden sm:flex md:hidden flex-col gap-3">
@@ -87,7 +92,7 @@ export function UnifiedClient() {
       const scrollTop = container.scrollTop
       const sectionHeight = container.clientHeight || window.innerHeight
       const section = Math.round(scrollTop / Math.max(1, sectionHeight))
-      setCurrentSection(Math.min(3, Math.max(0, section)))
+      setCurrentSection(Math.min(4, Math.max(0, section)))
     }
 
     container.addEventListener('scroll', handleScroll)
@@ -104,11 +109,12 @@ export function UnifiedClient() {
       <SectionIndicator currentSection={currentSection} />
       <HomeSection />
       <LinksSection />
-      <FourUHSection />
+      <ProductSection />
       <VisualizerSection />
+      <FourUHSection />
 
       {/* Scroll-down arrow - on every section except last, scrolls to next */}
-      {currentSection < 3 && (
+      {currentSection < 4 && (
         <button
           type="button"
           onClick={() => scrollToSection(currentSection + 1)}
@@ -121,7 +127,7 @@ export function UnifiedClient() {
       )}
 
       {/* Back to top - on last section only */}
-      {currentSection === 3 && (
+      {currentSection === 4 && (
         <button
           type="button"
           onClick={() => scrollToSection(0)}

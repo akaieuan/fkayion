@@ -17,7 +17,7 @@ export function FourUHSection() {
   }, [])
 
   return (
-    <section id="section-2" className="h-screen w-full relative snap-start overflow-visible">
+    <section id="section-4" className="h-screen w-full relative snap-start overflow-visible">
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <video autoPlay loop muted playsInline className="w-auto h-auto max-w-none opacity-40" style={{ minWidth: '40%', minHeight: '40%', objectFit: 'contain' }}>
           <source src="/4uh-aka.webm" type="video/webm" />
