@@ -41,8 +41,8 @@ export function HomeSection() {
       </div>
 
       <div className="absolute inset-0 pointer-events-none">
-        <div className="h-full w-full flex items-center justify-start">
-          <div className="pointer-events-auto px-4 sm:px-6 md:px-12 lg:px-16">
+        <div className="h-full w-full flex items-center justify-start pt-14 pb-16">
+            <div className="pointer-events-auto px-6 sm:px-8 md:px-16 lg:px-24">
             <div className="mb-8">
               <h1 className="text-xl text-gray-500/80 font-light tracking-wide">
                 ieuan | yion | akaieuan 

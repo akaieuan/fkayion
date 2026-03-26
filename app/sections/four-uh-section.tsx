@@ -26,8 +26,8 @@ export function FourUHSection() {
 
       <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.4) 100%)' }} />
 
-      <div className="relative h-full flex flex-col md:justify-center">
-        <div className="w-full flex flex-col flex-1 min-h-0 px-4 sm:px-6 md:w-[420px] lg:w-[480px] md:px-0 md:ml-16 lg:ml-24 md:flex-none gap-3 max-md:pt-[max(9rem,calc(5rem+env(safe-area-inset-top,0px)))] max-md:pb-[calc(6.5rem+env(safe-area-inset-bottom,0px))]">
+      <div className="relative h-full flex flex-col md:justify-center md:pt-14 md:pb-16">
+        <div className="w-full flex flex-col flex-1 min-h-0 px-6 sm:px-8 md:w-[420px] lg:w-[480px] md:px-0 md:ml-16 lg:ml-24 md:flex-none gap-3 max-md:pt-[max(9rem,calc(5rem+env(safe-area-inset-top,0px)))] max-md:pb-[calc(6.5rem+env(safe-area-inset-bottom,0px))]">
 
           {/* Small screen: squircle label + single → arrow */}
           <div className="md:hidden flex items-center gap-2.5">

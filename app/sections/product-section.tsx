@@ -40,9 +40,9 @@ export function ProductSection() {
       </div>
 
       <div className="absolute inset-0 pointer-events-none">
-        <div className="h-full w-full flex items-center justify-start">
-          <div className="pointer-events-auto px-4 sm:px-6 md:px-12 lg:px-16 max-w-xl">
-            <div className="mb-8">
+        <div className="h-full w-full flex items-center justify-start pt-14 pb-16">
+          <div className="pointer-events-auto px-6 sm:px-8 md:px-16 lg:px-24 max-w-xl">
+            <div className="mb-6">
               <h1 className="text-xl text-gray-500/80 font-light tracking-wide">
                 product design &amp; research
               </h1>
@@ -51,13 +51,13 @@ export function ProductSection() {
               </p>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-5">
               <div>
                 <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-emerald-400/80 mb-1.5">
                   What I Build
                 </p>
                 <p className="text-sm font-light leading-relaxed text-white/50">
-                  Interfaces for complex AI systems that people actually trust. Design systems, approval flows, citation verification, and the copy conventions that make agentic tools feel legible. I design with code. I draw by hand, upload to v0 for a high-fidelity first draft, then ship production-ready in Cursor with agentic help, my own brain, and user feedback driving every decision.
+                  Interfaces for complex AI systems that people actually trust. Approval flows, citation verification, design systems, and the copy conventions that make agentic tools feel legible. I design with code, sketch by hand, draft in v0, and ship in Cursor.
                 </p>
               </div>
 
@@ -66,7 +66,7 @@ export function ProductSection() {
                   How I Validate
                 </p>
                 <p className="text-sm font-light leading-relaxed text-white/50">
-                  User interviews, session replays, behavioral observation, and custom evaluation datasets that track where AI agents succeed and where they break. Findings go directly into design decisions, copy changes, and system prompt rewrites.
+                  User research cycles built around interviews, behavioral observation, session replays, and feedback synthesis, focused on trust, evidence attribution, and human control. I build custom evaluation datasets for multi-hop research agents and translate findings directly into UX decisions, copy changes, and system prompt rewrites.
                 </p>
               </div>
 
@@ -75,7 +75,7 @@ export function ProductSection() {
                   Current Work
                 </p>
                 <p className="text-sm font-light leading-relaxed text-white/50">
-                  Founding designer at{' '}
+                  Co-founded{' '}
                   <a
                     href="https://ubik.studio"
                     target="_blank"
@@ -84,14 +84,31 @@ export function ProductSection() {
                   >
                     Ubik Studio
                   </a>
-                  , a desktop-native AI research platform. Ran research across music industry, academia, biotech, and law. Identified interaction patterns, shipped fixes live, iterated with real users weekly.{' '}
+                  , a desktop-native AI research platform. Designed approval flows, citation verification interfaces, and copy systems balancing automation with meaningful human control, shipped across a Next.js web app and Electron desktop app with real users in music, academia, biotech, and law. Built custom datasets for multi-hop research agents and iterated weekly from system prompts to microcopy.{' '}
                   <a
                     href="https://kraa.io/team-test-log042"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-emerald-400 hover:text-emerald-300 transition-colors duration-200"
                   >
-                    team-test-log042 →
+                    team-test →
+                  </a>
+                </p>
+              </div>
+
+              <div>
+                <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-emerald-400/80 mb-1.5">
+                  A Measurement Problem
+                </p>
+                <p className="text-sm font-light leading-relaxed text-white/50">
+                  95% of enterprise AI initiatives deliver zero measurable return, not from technology failure but from a measurement crisis. Current benchmarks saturate within months and optimize for autonomous task completion; this paper traces that gap across cognitive science, scaffolding research, and enterprise data, and argues for the assist-not-complete paradigm: AI designed to augment human agency rather than replace it.{' '}
+                  <a
+                    href="https://kraa.io/abmpinai1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-emerald-400 hover:text-emerald-300 transition-colors duration-200"
+                  >
+                    read →
                   </a>
                 </p>
               </div>
@@ -99,6 +116,7 @@ export function ProductSection() {
           </div>
         </div>
       </div>
+
     </section>
   )
 }

@@ -59,7 +59,7 @@ function GridLinkItem({
       onClick={() => window.open(link.url, '_blank')}
       onMouseEnter={() => { setIsHovered(true); onHover(link.label) }}
       onMouseLeave={() => { setIsHovered(false); onHover(null) }}
-      className="relative py-3 px-4 text-left transition-all duration-300"
+      className="relative py-3 px-0 text-left transition-all duration-300"
       style={{
         opacity: hasAnimated ? 1 : 0,
         transform: hasAnimated ? 'translate3d(0, 0, 0) scale(1)' : getInitialTransform(),
@@ -124,8 +124,8 @@ export function LinksSection() {
       </div>
 
       <div className="absolute inset-0 pointer-events-none">
-        <div className="h-full w-full flex items-center justify-start">
-          <div className="pointer-events-auto px-4 sm:px-6 md:px-12 lg:px-16">
+        <div className="h-full w-full flex items-center justify-start pt-14 pb-16">
+          <div className="pointer-events-auto px-6 sm:px-8 md:px-16 lg:px-24">
             <div 
               className="mb-6 transition-all duration-500"
               style={{
@@ -162,7 +162,7 @@ export function LinksSection() {
             </div>
 
             {/* md+: original grid + hover orb */}
-            <div className="hidden md:grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-1 w-full max-w-[260px] sm:max-w-[320px]">
+            <div className="hidden md:flex flex-wrap gap-x-6 gap-y-1 w-full max-w-[320px]">
               {linksData.slice(0, 9).map((link, index) => (
                 <GridLinkItem 
                   key={link.label} 

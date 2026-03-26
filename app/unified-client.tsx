@@ -103,7 +103,7 @@ export function UnifiedClient() {
     <div 
       ref={containerRef}
       data-scroll-container
-      className="h-screen w-screen overflow-y-auto snap-y snap-proximity md:snap-none bg-black"
+      className="h-screen w-full overflow-y-auto snap-y snap-proximity md:snap-none bg-black"
       style={{ scrollBehavior: 'auto' }}
     >
       <SectionIndicator currentSection={currentSection} />

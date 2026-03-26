@@ -7,7 +7,7 @@ export function SiteFooter() {
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 z-[100] py-4 bg-black/80 backdrop-blur-sm">
-      <div className="px-8 md:px-16 lg:px-24">
+      <div className="max-w-[1440px] mx-auto px-6 sm:px-8 md:px-16 lg:px-24">
         <Separator className="bg-white/10 mb-4" />
         <div className="flex items-center justify-between">
           <p className="text-xs font-light tracking-wide text-white/25">

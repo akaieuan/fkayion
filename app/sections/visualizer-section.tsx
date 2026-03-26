@@ -6,7 +6,7 @@ export function VisualizerSection() {
   return (
     <section
       id="section-3"
-      className="relative h-screen w-full snap-start bg-black flex items-center px-4 sm:px-6 md:px-12 lg:px-16"
+      className="relative h-screen w-full snap-start bg-black flex items-center px-6 sm:px-8 md:px-16 lg:px-24 pt-14 pb-16"
     >
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full gap-8">
 
@@ -26,14 +26,14 @@ export function VisualizerSection() {
         </div>
 
         {/* right: video */}
-        <div className="flex-1 min-w-0 overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02]">
+        <div className="min-w-0 overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] w-full max-w-[520px] max-h-[60vh]">
           <video
             autoPlay
             loop
             muted
             playsInline
             src="/visualizer-eden-preview.webm"
-            className="w-full h-auto block"
+            className="w-full h-full object-cover block"
           />
         </div>
 

@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function HomePage() {
   return (
-    <div className="h-screen w-screen relative overflow-hidden bg-black">
+    <div className="h-screen w-full relative overflow-hidden bg-black">
       <Suspense fallback={
         <div className="h-full w-full flex items-center justify-center bg-black">
           <div className="text-white text-xl">Loading...</div>

@@ -104,7 +104,7 @@ export function SiteHeader() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-[100] py-3 md:py-4 bg-black/80 backdrop-blur-sm">
-      <nav className="flex items-center justify-between px-4 sm:px-6 md:px-12 lg:px-16">
+        <nav className="flex items-center justify-between px-6 sm:px-8 md:px-16 lg:px-24 max-w-[1440px] mx-auto">
         {/* Logo/Brand - always scrolls to home section */}
         <button 
           onClick={() => handleNavClick(mainNavItems[0])}
