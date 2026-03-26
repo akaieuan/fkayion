@@ -40,41 +40,41 @@ export function ProductSection() {
       </div>
 
       <div className="absolute inset-0 pointer-events-none">
-        <div className="h-full w-full flex items-center justify-start pt-14 pb-16">
+        <div className="h-full w-full flex items-center justify-start pt-14 pb-8">
           <div className="pointer-events-auto px-6 sm:px-8 md:px-16 lg:px-24 max-w-xl">
-            <div className="mb-6">
+            <div className="mb-3">
               <h1 className="text-xl text-gray-500/80 font-light tracking-wide">
                 product design &amp; research
               </h1>
-              <p className="text-white/25 text-xs mt-1 font-light">
+              <p className="text-white/25 text-xs mt-0.5 font-light">
                 human-in-the-loop ai · design systems · user research · content strategy
               </p>
             </div>
 
-            <div className="space-y-5">
+            <div className="space-y-3">
               <div>
-                <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-emerald-400/80 mb-1.5">
+                <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-emerald-400/80 mb-1">
                   What I Build
                 </p>
-                <p className="text-sm font-light leading-relaxed text-white/50">
+                <p className="text-xs font-light leading-relaxed text-white/50">
                   Interfaces for complex AI systems that people actually trust. Approval flows, citation verification, design systems, and the copy conventions that make agentic tools feel legible. I design with code, sketch by hand, draft in v0, and ship in Cursor.
                 </p>
               </div>
 
               <div>
-                <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-emerald-400/80 mb-1.5">
+                <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-emerald-400/80 mb-1">
                   How I Validate
                 </p>
-                <p className="text-sm font-light leading-relaxed text-white/50">
+                <p className="text-xs font-light leading-relaxed text-white/50">
                   User research cycles built around interviews, behavioral observation, session replays, and feedback synthesis, focused on trust, evidence attribution, and human control. I build custom evaluation datasets for multi-hop research agents and translate findings directly into UX decisions, copy changes, and system prompt rewrites.
                 </p>
               </div>
 
               <div>
-                <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-emerald-400/80 mb-1.5">
+                <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-emerald-400/80 mb-1">
                   Current Work
                 </p>
-                <p className="text-sm font-light leading-relaxed text-white/50">
+                <p className="text-xs font-light leading-relaxed text-white/50">
                   Co-founded{' '}
                   <a
                     href="https://ubik.studio"
@@ -97,10 +97,10 @@ export function ProductSection() {
               </div>
 
               <div>
-                <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-emerald-400/80 mb-1.5">
+                <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-emerald-400/80 mb-1">
                   A Measurement Problem
                 </p>
-                <p className="text-sm font-light leading-relaxed text-white/50">
+                <p className="text-xs font-light leading-relaxed text-white/50">
                   95% of enterprise AI initiatives deliver zero measurable return, not from technology failure but from a measurement crisis. Current benchmarks saturate within months and optimize for autonomous task completion; this paper traces that gap across cognitive science, scaffolding research, and enterprise data, and argues for the assist-not-complete paradigm: AI designed to augment human agency rather than replace it.{' '}
                   <a
                     href="https://kraa.io/abmpinai1"
