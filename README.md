@@ -34,7 +34,7 @@ The **Visualizer Eden** is an advanced 3D audio visualizer that simulates liquid
 - **Auto-Evolution** - Color cycling and shape morphing with customizable speeds
 
 ### Audio Reactivity
-- **Frequency-Based Deformation** - Separate bass, mid, and treble response controls  
+- **Frequency-Based Deformation** - Separate bass, mid, and treble response controls
 - **Beat Detection** - Automatic tempo detection with beat-reactive effects
 - **Real-time Analysis** - 60fps audio processing with Web Audio API
 - **Audio Formats** - Supports MP3, WAV, OGG, FLAC file uploads
@@ -48,7 +48,7 @@ The **Visualizer Eden** is an advanced 3D audio visualizer that simulates liquid
 ## Technical Implementation
 
 ### Frontend Stack
-- **Next.js 15+** with App Router and TypeScript
+- **Next.js 14** with App Router and TypeScript
 - **React Three Fiber** for 3D rendering and Three.js integration
 - **Custom GLSL Shaders** for mercury physics and visual effects
 - **Web Audio API** for real-time audio analysis and processing
@@ -62,16 +62,16 @@ The **Visualizer Eden** is an advanced 3D audio visualizer that simulates liquid
 - **Optimized Rendering** - Mobile-responsive with performance scaling
 
 ### Audio Processing Architecture
-- **AudioContext.tsx** - Global audio state management and Web Audio API integration
+- **AudioContext** - Global audio state management and Web Audio API integration
 - **Real-time Analysis** - FFT-based frequency analysis with smoothing and beat detection
 - **Performance Optimized** - Throttled to 30fps analysis with 60fps visual updates
 - **Cross-platform** - Works on desktop and mobile browsers with audio support
 
 ### Key Components
-- **AudioVisualizer.tsx** - Main 3D scene with mercury blob and lighting (1,100+ lines)
-- **ControlDrawer.tsx** - Comprehensive control panel with collapsible sections (860+ lines)
-- **AudioContext.tsx** - Audio processing and state management (860+ lines)
-- **AudioBar.tsx** - Playback controls and progress visualization
+- **AudioVisualizer** - Main 3D scene with mercury blob, custom GLSL shaders, and lighting
+- **ControlDrawer** - Comprehensive control panel with collapsible sections
+- **AudioContext** - Audio processing, state management, and Web Audio API integration
+- **AudioBar** - Playback controls and progress visualization
 
 ## Getting Started
 
@@ -83,7 +83,7 @@ The **Visualizer Eden** is an advanced 3D audio visualizer that simulates liquid
 
 1. **Clone and install:**
    ```bash
-   git clone [repository]
+   git clone https://github.com/akaieuan/fkayion.git
    cd fkayion
    npm install
    ```
@@ -123,28 +123,61 @@ This is a **Next.js App Router** project with the following structure:
 
 ```
 app/
-├── page.tsx                 # Landing page with 3D orb navigation
-├── Visualizer-Eden/         # Audio visualizer application
-│   ├── page.tsx            # Main visualizer page
-│   ├── layout.tsx          # Visualizer-specific layout
-│   └── globals.css         # Visualizer styles
-├── Links/                  # Links and projects section
-└── 4UH/                   # Music and content section
+├── page.tsx                    # Landing page with 3D orb navigation
+├── layout.tsx                  # Root layout with theme and metadata
+├── globals.css                 # Global styles and CSS variables
+├── unified-client.tsx          # Client-side section orchestrator
+├── sections/                   # Page section components
+│   ├── home-section.tsx        # Landing hero section
+│   ├── visualizer-section.tsx  # Visualizer Eden section
+│   ├── links-section.tsx       # Links showcase section
+│   ├── four-uh-section.tsx     # 4UH.NYC section
+│   └── product-section.tsx     # Product showcase section
+├── Visualizer-Eden/
+│   └── page.tsx                # Audio visualizer application
+├── Links/
+│   ├── page.tsx                # Links page
+│   └── links-client.tsx        # Links client component
+└── 4UH/
+    ├── page.tsx                # 4UH.NYC page
+    └── layout.tsx              # 4UH-specific layout
 
 components/
-├── Vis-Eden-Comp/          # Visualizer-specific components
-│   ├── AudioVisualizer.tsx # Main 3D scene and shaders
-│   ├── AudioContext.tsx    # Audio processing and state
-│   ├── ControlDrawer.tsx   # Control panel UI
-│   └── AudioBar.tsx        # Playback controls
-├── main-page/              # Landing page 3D orbs
-└── ui/                     # Shared UI components
+├── features/                   # Feature-specific components
+│   ├── home/                   # Landing page components
+│   │   ├── latest-releases.tsx # Recent releases display
+│   │   └── liquid-morph-orb.tsx# Interactive 3D orb
+│   ├── visualizer/             # Visualizer Eden components
+│   │   ├── AudioVisualizer.tsx # Main 3D scene and GLSL shaders
+│   │   ├── ControlDrawer.tsx   # Control panel UI
+│   │   ├── AudioBar.tsx        # Playback controls
+│   │   └── context/
+│   │       └── AudioContext.tsx # Audio processing and state
+│   └── 4uh/
+│       └── 4uh-client.tsx      # 4UH section client component
+├── shared/                     # Shared across features
+│   ├── orbs/                   # 3D orb components
+│   │   ├── unified-dynamic-orb.tsx
+│   │   ├── liquid-morph-torus.tsx
+│   │   ├── metallic-melting-torus.tsx
+│   │   ├── crystalline-shatter-torus.tsx
+│   │   └── pulsating-sound-tetrahedron.tsx
+│   └── lists/                  # Reusable list components
+│       ├── releases-list.tsx
+│       ├── playlist-list.tsx
+│       ├── shows-list.tsx
+│       └── purchase-list.tsx
+└── ui/                         # UI primitives (shadcn/ui)
+    ├── site-header.tsx         # Global site header
+    ├── site-footer.tsx         # Global site footer
+    ├── theme-provider.tsx      # Dark/light theme provider
+    └── ...                     # Button, input, sheet, tabs, etc.
 ```
 
 ## Performance & Compatibility
 
 - **Optimized for Mobile** - Adaptive quality scaling and reduced particle counts
-- **WebGL Fallbacks** - Graceful degradation for older devices  
+- **WebGL Fallbacks** - Graceful degradation for older devices
 - **Audio API Support** - Works on all modern browsers with Web Audio API
 - **60fps Target** - Smooth animations with performance monitoring
 - **Memory Efficient** - Proper cleanup and resource management
@@ -153,7 +186,7 @@ components/
 
 The Visualizer Eden is continuously evolving with planned features including:
 - Additional physics simulation modes
-- More surface material options  
+- More surface material options
 - Export capabilities for recordings
 - Collaborative visualization sessions
 - Extended audio format support
@@ -162,12 +195,6 @@ The Visualizer Eden is continuously evolving with planned features including:
 
 This project represents the creative work of **akaieuan** and serves as both a portfolio showcase and an experimental platform for interactive audio-visual experiences.
 
-### Development Notes
-- Built with cutting-edge web technologies and custom GLSL shaders
-- Optimized for both desktop and mobile experiences
-- Continuous integration with performance monitoring
-- Regular updates with new visual effects and features
-
 ### Contact & Links
 - **Portfolio:** [aka4uh.com](https://aka4uh.com)
 - **Music Releases:** Visit the 4UH.NYC section for latest tracks
@@ -175,17 +202,19 @@ This project represents the creative work of **akaieuan** and serves as both a p
 
 ## Technical Resources
 
-### Key Technologies Used
+### Key Technologies
 - [Next.js](https://nextjs.org/docs) - React framework with App Router
 - [React Three Fiber](https://docs.pmnd.rs/react-three-fiber) - React renderer for Three.js
 - [Three.js](https://threejs.org/docs/) - 3D graphics library
 - [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) - Audio processing
 - [GLSL](https://www.khronos.org/opengl/wiki/OpenGL_Shading_Language) - Custom shaders
 - [Tailwind CSS](https://tailwindcss.com/docs) - Utility-first CSS framework
+- [Framer Motion](https://www.framer.com/motion/) - UI animations and transitions
+- [shadcn/ui](https://ui.shadcn.com/) - UI component primitives
 
 ### Deployment
 The site is deployed at [aka4uh.com](https://aka4uh.com) with optimized performance and global CDN distribution.
 
 ---
 
-*This README describes the technical implementation of aka4uh.com, featuring the advanced Visualizer Eden audio visualization experience. The project showcases modern web development techniques, real-time 3D graphics, and interactive audio processing.*
+*This project showcases modern web development techniques, real-time 3D graphics, and interactive audio processing.*

@@ -3,7 +3,7 @@
 import { fourUhScrollPanelClass, fourUhSectionLabelAccent } from './four-uh-shared'
 import { onFourUhPanelWheel } from './four-uh-wheel'
 
-const embedShell = 'overflow-hidden rounded-lg border border-white/[0.06]'
+const embedShell = 'overflow-hidden rounded-lg border border-border'
 
 interface PlaylistListProps {
   isOpen: boolean
@@ -32,7 +32,7 @@ export function PlaylistList({ isOpen }: PlaylistListProps) {
         href="https://open.spotify.com/artist/5OwuCYMg2wmmh3QofLLIPe?si=6ztoGCYKR2GzCDAQMzd8sQ" 
         target="_blank" 
         rel="noopener noreferrer"
-        className="inline-block text-[10px] font-medium tracking-widest text-white/40 uppercase hover:text-white/65"
+        className="inline-block text-[10px] font-medium tracking-widest text-muted-foreground/60 uppercase hover:text-foreground/60"
       >
         playlists
       </a>

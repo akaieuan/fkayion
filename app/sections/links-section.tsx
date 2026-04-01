@@ -1,85 +1,217 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback } from 'react'
-import { UnifiedDynamicOrb } from '@/components/shared/orbs'
+import { useState, useRef, useEffect } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
 
-const linksData = [
-  { label: 'SoundCloud', url: 'https://soundcloud.com/akaieuan', color: '#aa22ff', hoverColor: '#cc44ff' },
-  { label: 'aka.write', url: 'https://kraa.io/akaieuan', color: '#88ff22', hoverColor: '#aaff44' },
-  { label: 'Ubik', url: 'https://ubik.studio', color: '#ff4422', hoverColor: '#ff6644' },
-  { label: 'Bandcamp', url: 'https://akaieuan.bandcamp.com/', color: '#22aaff', hoverColor: '#44ccff' },
-  { label: 'Spotify', url: 'https://open.spotify.com/artist/5OwuCYMg2wmmh3QofLLIPe', color: '#aa22ff', hoverColor: '#cc44ff' },
-  { label: 'YouTube', url: 'https://www.youtube.com/channel/UC6etRnx7fZEtoVAI-phCu6Q', color: '#ff2288', hoverColor: '#ff44aa' },
-  { label: 'Instagram', url: 'https://instagram.com/aka.ieuan/', color: '#ff6b9d', hoverColor: '#ff8fa3' }
+const cardClass = 'rounded-2xl border border-border bg-card backdrop-blur-md'
+
+type LinkItem = {
+  label: string
+  description: string
+  detail: string
+  url: string
+  color: string
+  media?: { type: 'image' | 'video'; src: string }
+  gallery?: string[]
+}
+
+const links: LinkItem[] = [
+  {
+    label: 'Ubik Studio', description: 'AI research platform', color: '#c84b20',
+    detail: 'Co-founded Ubik Studio, a desktop-native AI research platform built around human-in-the-loop workflows. I lead product design and user research — designing approval flows, citation verification interfaces, and the UX patterns that make agentic tools feel trustworthy.',
+    url: 'https://ubik.studio',
+    gallery: ['/ubik-studio-1.webp', '/ubik-studio-2.webp', '/ubik-studio-3.webp', '/ubik-studio-4.webp'],
+  },
+  {
+    label: 'aka.write', description: 'essays & research', color: '#5a9600',
+    detail: 'Updating irregularly with personal research, reflection pieces, and rants.',
+    url: 'https://kraa.io/akaieuan',
+  },
+  {
+    label: 'Visualizer Eden', description: 'interactive 3D audio tool', color: '#00796b',
+    detail: 'A browser-based audio visualizer I built. Upload any WAV file and watch it warp a reactive 3D form in real time. Choose from material presets — glass, chrome, goo, pearl, holographic — and tweak roughness, metalness, and distortion. Built with React Three Fiber and custom GLSL shaders, it analyzes frequency data in real time to drive mesh deformation and material properties.',
+    url: '/Visualizer-Eden',
+    media: { type: 'video', src: '/visualizer-eden-preview.webm' },
+  },
+  {
+    label: 'Instagram', description: 'live sets & process', color: '#a8334a',
+    detail: 'I post live playthroughs, unreleased tracks, and DJ sets. Instagram is my testing ground — a place to learn what listeners are feeling, what they want to dance to. I record all my tracks live so it\'s the best way to document that process.',
+    url: 'https://instagram.com/aka.ieuan/',
+    media: { type: 'image', src: '/instagram-grid.png' },
+  },
+  {
+    label: 'SoundCloud', description: 'tracks, sets & mixes', color: '#7b2fbe',
+    detail: 'Primary home for original productions, DJ mixes, and live recordings. Six years of electronic music spanning DnB, tech-house, and techno — including sets from No Signal NYC and collaborations with Nevstv.',
+    url: 'https://soundcloud.com/akaieuan',
+  },
+  {
+    label: 'Bandcamp', description: 'music & merch', color: '#0277bd',
+    detail: 'Full discography for digital purchase — Ubiquity, Anthrotechnica AT.M2, Chaotic Networks, v0013, Visualizer Eden, Girls Just Want Breaks. Limited merch drops here too.',
+    url: 'https://akaieuan.bandcamp.com/',
+  },
+  {
+    label: 'Spotify', description: 'streaming', color: '#1a7a44',
+    detail: 'All releases streaming — albums, EPs, and singles. Over 3 million streams across platforms under aka ieuan, Mr.M4UH, abletonlivee, and yion.',
+    url: 'https://open.spotify.com/artist/5OwuCYMg2wmmh3QofLLIPe',
+  },
+  {
+    label: 'YouTube', description: 'videos & DJ sets', color: '#b71c4e',
+    detail: 'Video DJ sets, live-recorded performances, and visual experiments — the Techno INC set, Nevstv collaboration, and the v0013 music video.',
+    url: 'https://www.youtube.com/channel/UC6etRnx7fZEtoVAI-phCu6Q',
+  },
 ]
 
-function GridLinkItem({ 
-  link, 
-  index, 
-  onHover,
-  isInView 
-}: { 
-  link: typeof linksData[0]
-  index: number
-  onHover: (label: string | null) => void
-  isInView: boolean
+const writingEntries = [
+  { title: 'A Benchmark Measurement Problem', desc: 'The enterprise AI landscape faces a fundamental crisis: despite $30-40B in investment, 95% of organizations achieve zero measurable return from generative AI.', url: 'https://kraa.io/abmpinai1' },
+  { title: 'The Pursuit of Parsimony [Pt.1]', desc: 'When science meets surprise, it does not collapse. Instead, science contorts, re-ritualizes, and survives through faith in ambiguity.', url: 'https://kraa.io/306857640304253952' },
+  { title: 'Of Course', desc: 'I\'m both unsurprised and astonished that Sam Altman has announced ChatGPT will provide generative erotic services to its mature users.', url: 'https://kraa.io/306857605553134592' },
+  { title: 'Digital Gentrification', desc: 'Digital spaces have shaped my real-world experiences. Born in the Y2K era, I experienced firsthand the impact of transformative information technology.', url: 'https://kraa.io/306942411031387136' },
+  { title: 'The Gate Kept Public', desc: 'Hostile Architecture is the development of public property designed to expel undesired behavior by people and animals.', url: 'https://kraa.io/307129926200531968' },
+]
+
+function getDomain(url: string): string {
+  try { return new URL(url).hostname.replace('www.', '') } catch { return url }
+}
+
+function LinkRow({
+  item, isSelected, onClick, index, isInView,
+}: {
+  item: LinkItem; isSelected: boolean; onClick: () => void; index: number; isInView: boolean
 }) {
-  const [isHovered, setIsHovered] = useState(false)
   const [hasAnimated, setHasAnimated] = useState(false)
-  
+
   useEffect(() => {
     if (isInView && !hasAnimated) {
-      const timer = setTimeout(() => setHasAnimated(true), index * 80)
+      const timer = setTimeout(() => setHasAnimated(true), index * 45)
       return () => clearTimeout(timer)
     }
   }, [isInView, hasAnimated, index])
-  
+
   useEffect(() => {
     if (!isInView) setHasAnimated(false)
   }, [isInView])
-  
-  const getInitialTransform = () => {
-    const directions = [
-      'translate3d(-20px, -20px, 0)',
-      'translate3d(0, -25px, 0)',
-      'translate3d(20px, -20px, 0)',
-      'translate3d(-25px, 0, 0)',
-      'translate3d(0, 0, 0) scale(0.8)',
-      'translate3d(25px, 0, 0)',
-      'translate3d(-20px, 20px, 0)',
-      'translate3d(0, 25px, 0)',
-      'translate3d(20px, 20px, 0)',
-    ]
-    return directions[index] || 'translate3d(0, 20px, 0)'
-  }
-  
+
   return (
     <button
       type="button"
-      onClick={() => window.open(link.url, '_blank')}
-      onMouseEnter={() => { setIsHovered(true); onHover(link.label) }}
-      onMouseLeave={() => { setIsHovered(false); onHover(null) }}
-      className="relative py-3 px-0 text-left transition-all duration-300"
+      onClick={onClick}
+      className="flex items-center justify-between py-3 w-full text-left border-b border-border/50 last:border-b-0"
       style={{
         opacity: hasAnimated ? 1 : 0,
-        transform: hasAnimated ? 'translate3d(0, 0, 0) scale(1)' : getInitialTransform(),
-        transition: `opacity 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)`,
-        transitionDelay: `${index * 80}ms`,
+        transform: hasAnimated ? 'translateX(0)' : 'translateX(-8px)',
+        transition: 'opacity 0.35s ease-out, transform 0.35s ease-out',
+        transitionDelay: `${index * 45}ms`,
       }}
     >
-      <span className="text-sm font-light tracking-wide" style={{ color: isHovered ? '#44ddaa' : 'rgba(255,255,255,0.5)' }}>
-        {link.label}
+      <span
+        className="text-sm font-light tracking-wide transition-colors duration-150"
+        style={{ color: isSelected ? item.color : undefined }}
+      >
+        {!isSelected && <span className="text-foreground/70">{item.label}</span>}
+        {isSelected && item.label}
+      </span>
+      <span className="text-[11px] font-light tracking-wide shrink-0 ml-4 text-muted-foreground/60">
+        {item.description}
       </span>
     </button>
   )
 }
 
+function DetailEmptyState() {
+  return (
+    <p className="text-muted-foreground/45 text-sm font-light leading-relaxed max-w-md pt-0.5">
+      Select a link to learn more about each platform and why it matters.
+    </p>
+  )
+}
+
+function DetailPanel({ item }: { item: LinkItem }) {
+  const isAkaWrite = item.label === 'aka.write'
+  const isVisualizerEden = item.url === '/Visualizer-Eden'
+
+  return (
+    <div className={`${cardClass} px-6 py-6 overflow-hidden`} key={item.label}>
+      <p className="text-base font-medium tracking-wide mb-1" style={{ color: item.color }}>
+        {item.label}
+      </p>
+
+      <p className="text-[13px] font-light leading-relaxed text-muted-foreground mt-2">
+        {item.detail}
+      </p>
+
+      {item.gallery && item.gallery.length > 0 && (
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          {item.gallery.map((src, i) => (
+            <div key={i} className="overflow-hidden rounded-lg border border-border">
+              <Image src={src} alt={`${item.label} ${i + 1}`} width={400} height={300} className="w-full h-auto block" />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {isAkaWrite && (
+        <div className="mt-4 space-y-3">
+          {writingEntries.map((entry) => (
+            <a
+              key={entry.title}
+              href={entry.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block group"
+            >
+              <p className="text-[12px] font-medium text-foreground/70 group-hover:text-foreground/90 transition-colors">
+                {entry.title}
+              </p>
+              <p className="text-[11px] font-light text-muted-foreground/50 leading-relaxed mt-0.5">
+                {entry.desc}
+              </p>
+            </a>
+          ))}
+        </div>
+      )}
+
+      {item.media?.type === 'image' && (
+        <div className="mt-4 overflow-hidden rounded-lg border border-border relative">
+          <Image src={item.media.src} alt={item.label} width={800} height={600} className="w-full h-auto block" />
+        </div>
+      )}
+
+      {item.media?.type === 'video' && (
+        <div className="mt-4 overflow-hidden rounded-lg border border-border">
+          <video autoPlay loop muted playsInline src={item.media.src} className="w-full h-auto block" />
+        </div>
+      )}
+
+      {isVisualizerEden ? (
+        <Link
+          href="/Visualizer-Eden"
+          className="inline-flex items-center gap-1.5 mt-4 text-[11px] font-medium tracking-wide transition-colors duration-200 hover:opacity-80"
+          style={{ color: item.color }}
+        >
+          Open Visualizer Eden →
+        </Link>
+      ) : (
+        <a
+          href={item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 mt-4 text-[11px] font-medium tracking-wide transition-colors duration-200 hover:opacity-80"
+          style={{ color: item.color }}
+        >
+          Go to {getDomain(item.url)} →
+        </a>
+      )}
+    </div>
+  )
+}
+
 export function LinksSection() {
-  const [hoveredLink, setHoveredLink] = useState<string | null>(null)
-  const [mobileLinkIndex, setMobileLinkIndex] = useState(0)
+  const [selectedItem, setSelectedItem] = useState<LinkItem | null>(null)
+  const [mobileIndex, setMobileIndex] = useState(0)
   const [isInView, setIsInView] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
-  
+
   useEffect(() => {
     const section = sectionRef.current
     if (!section) return
@@ -94,87 +226,86 @@ export function LinksSection() {
     return () => observer.disconnect()
   }, [])
 
-  // Small screens: orb follows the link selected with ← → (desktop still uses hover on grid)
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    if (!window.matchMedia('(max-width: 767px)').matches) return
-    if (!isInView) {
-      setHoveredLink(null)
-      return
-    }
-    setHoveredLink(linksData[mobileLinkIndex]?.label ?? null)
-  }, [mobileLinkIndex, isInView])
-  
-  const orbColor = hoveredLink ? linksData.find(l => l.label === hoveredLink)?.color || '#6655cc' : '#6655cc'
-  const orbHoverColor = hoveredLink ? linksData.find(l => l.label === hoveredLink)?.hoverColor || '#aa88ff' : '#aa88ff'
+  const toggleLink = (item: LinkItem) => {
+    setSelectedItem(prev => prev?.label === item.label ? null : item)
+  }
 
-  const goNextMobile = useCallback(() => {
-    setMobileLinkIndex((i) => (i >= linksData.length - 1 ? 0 : i + 1))
-  }, [])
-
-  const openCurrentMobileLink = useCallback(() => {
-    const link = linksData[mobileLinkIndex]
-    if (link) window.open(link.url, '_blank')
-  }, [mobileLinkIndex])
+  const mobileItem = links[mobileIndex]
+  const goPrev = () => setMobileIndex(i => (i === 0 ? links.length - 1 : i - 1))
+  const goNext = () => setMobileIndex(i => (i >= links.length - 1 ? 0 : i + 1))
 
   return (
-    <section ref={sectionRef} id="section-1" className="h-screen w-full relative snap-start">
-      <div className="absolute inset-0">
-        <UnifiedDynamicOrb activeLink={hoveredLink} color={orbColor} hoverColor={orbHoverColor} size={1.0} />
-      </div>
+    <section ref={sectionRef} id="section-1" className="relative w-full py-24">
+      <div className="w-full max-w-site mx-auto site-inset">
 
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="h-full w-full flex items-center justify-start pt-14 pb-16">
-          <div className="pointer-events-auto px-6 sm:px-8 md:px-16 lg:px-24">
-            <div 
-              className="mb-6 transition-all duration-500"
-              style={{
-                opacity: isInView ? 1 : 0,
-                transform: isInView ? 'translateY(0)' : 'translateY(20px)',
-              }}
+        <div
+          className="mb-6"
+          style={{
+            opacity: isInView ? 1 : 0,
+            transform: isInView ? 'translateY(0)' : 'translateY(16px)',
+            transition: 'opacity 0.45s ease, transform 0.45s ease',
+          }}
+        >
+          <h1 className="text-xl text-muted-foreground font-light tracking-wide">links</h1>
+          <p className="text-muted-foreground/50 text-xs mt-0.5 font-light">work · writing · music · tools</p>
+        </div>
+
+        {/* Mobile: single-item navigator — detail always visible for current item */}
+        <div className="md:hidden space-y-3">
+          <div className={`${cardClass} px-4 py-3 flex items-center gap-3`}>
+            <button
+              type="button"
+              onClick={goPrev}
+              aria-label="Previous"
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-border text-muted-foreground hover:text-foreground transition-colors"
             >
-              <h1 className="text-xl text-gray-500/80 font-light tracking-wide">links</h1>
-              <p className="text-white/25 text-xs mt-1 font-light">social · music · writing</p>
+              ←
+            </button>
+            <div className="flex-1 text-center">
+              <span className="text-muted-foreground/50 text-[11px]">{mobileIndex + 1}/{links.length}</span>
+              <span className="mx-1.5 text-border text-[11px]">·</span>
+              <span className="text-sm font-light" style={{ color: mobileItem.color }}>{mobileItem.label}</span>
+              <span className="ml-1.5 text-muted-foreground/45 text-[11px]">{mobileItem.description}</span>
             </div>
-            {/* Small screens: link first, squircle arrows below — orb updates as you browse */}
-            <div className="relative z-30 md:hidden w-full max-w-[min(100%,17rem)]">
-              <div className="flex flex-col items-stretch gap-2.5">
-                <button
-                  type="button"
-                  onClick={openCurrentMobileLink}
-                  className="w-full rounded-[1rem] border border-white/[0.12] bg-black/35 px-3.5 py-2.5 text-center shadow-[0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-md transition-all duration-300 hover:border-white/20 hover:bg-white/[0.04] active:scale-[0.99] active:bg-white/[0.06]"
-                >
-                  <span className="text-[13px] font-light tracking-wide text-white/[0.9]">
-                    {linksData[mobileLinkIndex]?.label}
-                  </span>
-                </button>
-                <div className="flex items-center justify-center">
-                  <button
-                    type="button"
-                    aria-label="Next link"
-                    onClick={goNextMobile}
-                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[0.85rem] border border-white/[0.14] bg-white/[0.03] text-white/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/25 hover:bg-emerald-400/[0.07] hover:text-emerald-200/90 active:scale-95"
-                  >
-                    <span className="text-[13px] font-light leading-none">→</span>
-                  </button>
-                </div>
-              </div>
-            </div>
+            <button
+              type="button"
+              onClick={goNext}
+              aria-label="Next"
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-border text-muted-foreground hover:text-foreground transition-colors"
+            >
+              →
+            </button>
+          </div>
 
-            {/* md+: original grid + hover orb */}
-            <div className="hidden md:flex flex-wrap gap-x-6 gap-y-1 w-full max-w-[320px]">
-              {linksData.slice(0, 9).map((link, index) => (
-                <GridLinkItem 
-                  key={link.label} 
-                  link={link} 
-                  index={index} 
-                  onHover={setHoveredLink}
-                  isInView={isInView}
-                />
-              ))}
-            </div>
+          <DetailPanel item={mobileItem} />
+        </div>
+
+        {/* Desktop: sidebar list + detail panel */}
+        <div className="hidden md:flex md:flex-row md:items-start gap-4 md:gap-5">
+          <div className={`${cardClass} px-5 py-4 w-full md:w-[300px] shrink-0 self-start`}>
+            {links.map((item, i) => (
+              <LinkRow
+                key={item.label}
+                item={item}
+                isSelected={selectedItem?.label === item.label}
+                onClick={() => toggleLink(item)}
+                index={i}
+                isInView={isInView}
+              />
+            ))}
+          </div>
+
+          <div className="w-full md:flex-1 min-w-0 md:min-h-[44rem] flex flex-col">
+            {selectedItem ? (
+              <div className="max-h-[min(44rem,calc(100vh-10rem))] overflow-y-auto">
+                <DetailPanel item={selectedItem} />
+              </div>
+            ) : (
+              <DetailEmptyState />
+            )}
           </div>
         </div>
+
       </div>
     </section>
   )

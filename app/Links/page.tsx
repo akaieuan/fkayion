@@ -1,64 +1,22 @@
 import { Suspense } from 'react'
 import { LinksClient } from './links-client'
 
-// Server-side static data for links with optimized mapping
-// Row 1: SoundCloud, aka.write, Ubik
-// Row 2: Bandcamp, Spotify, YouTube
-// Row 3: Instagram
 const linksData = [
-  { 
-    label: 'SoundCloud', 
-    url: 'https://soundcloud.com/akaieuan',
-    color: '#aa22ff',
-    hoverColor: '#cc44ff'
-  },
-  { 
-    label: 'aka.write', 
-    url: 'https://kraa.io/akaieuan',
-    color: '#88ff22',
-    hoverColor: '#aaff44'
-  },
-  { 
-    label: 'Ubik', 
-    url: 'https://ubik.studio',
-    color: '#ff4422',
-    hoverColor: '#ff6644'
-  },
-  { 
-    label: 'Bandcamp', 
-    url: 'https://akaieuan.bandcamp.com/',
-    color: '#22aaff',
-    hoverColor: '#44ccff'
-  },
-  { 
-    label: 'Spotify', 
-    url: 'https://open.spotify.com/artist/5OwuCYMg2wmmh3QofLLIPe?si=QfdVpYAeRQSC3G4fWTuIyg',
-    color: '#aa22ff',
-    hoverColor: '#cc44ff'
-  },
-  { 
-    label: 'YouTube', 
-    url: 'https://www.youtube.com/channel/UC6etRnx7fZEtoVAI-phCu6Q',
-    color: '#ff2288',
-    hoverColor: '#ff44aa'
-  },
-  { 
-    label: 'Instagram', 
-    url: 'https://instagram.com/aka.ieuan/',
-    color: '#ff6b9d',
-    hoverColor: '#ff8fa3'
-  }
+  { label: 'SoundCloud', url: 'https://soundcloud.com/akaieuan', color: '#aa22ff', hoverColor: '#cc44ff' },
+  { label: 'aka.write', url: 'https://kraa.io/akaieuan', color: '#88ff22', hoverColor: '#aaff44' },
+  { label: 'Ubik', url: 'https://ubik.studio', color: '#ff4422', hoverColor: '#ff6644' },
+  { label: 'Bandcamp', url: 'https://akaieuan.bandcamp.com/', color: '#22aaff', hoverColor: '#44ccff' },
+  { label: 'Spotify', url: 'https://open.spotify.com/artist/5OwuCYMg2wmmh3QofLLIPe?si=QfdVpYAeRQSC3G4fWTuIyg', color: '#aa22ff', hoverColor: '#cc44ff' },
+  { label: 'YouTube', url: 'https://www.youtube.com/channel/UC6etRnx7fZEtoVAI-phCu6Q', color: '#ff2288', hoverColor: '#ff44aa' },
+  { label: 'Instagram', url: 'https://instagram.com/aka.ieuan/', color: '#ff6b9d', hoverColor: '#ff8fa3' },
 ]
 
-// Server-side layout configuration
-const layoutConfig = {
-  mobileView: {
-    linksPerPage: 1
-  },
-  fog: {
-    colors: ['#1a1a2e', '#16213e', '#0f3460', '#533483', '#7209b7']
-  }
-}
+const writingLinks = [
+  { label: 'Human in the Loop AI', url: 'https://www.ubik.studio/blog/human-in-the-loop', description: 'ubik.studio' },
+  { label: 'The Pursuit of Parsimony', url: 'https://kraa.io/306857640304253952', description: 'kraa.io' },
+  { label: 'Digital Gentrification', url: 'https://kraa.io/306942411031387136', description: 'kraa.io' },
+  { label: 'Benchmark Measurement Problems', url: 'https://kraa.io/306857605553134592', description: 'kraa.io' },
+]
 
 // Server-side metadata
 export const metadata = {
@@ -74,8 +32,9 @@ export default function LinksPage() {
           <div className="text-white text-xl">Loading...</div>
         </div>
       }>
-        <LinksClient 
+        <LinksClient
           linksData={linksData}
+          writingLinks={writingLinks}
         />
       </Suspense>
     </div>

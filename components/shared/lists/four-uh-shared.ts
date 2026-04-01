@@ -5,4 +5,4 @@ export const fourUhScrollPanelClass =
 export const fourUhSectionLabelAccent =
   'mb-1 text-[8px] font-medium tracking-[0.16em] text-emerald-400/80 uppercase'
 export const fourUhSectionLabelMuted =
-  'mb-1 text-[8px] font-medium tracking-[0.16em] text-white/30 uppercase'
+  'mb-1 text-[8px] font-medium tracking-[0.16em] text-muted-foreground/50 uppercase'

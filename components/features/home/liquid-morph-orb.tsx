@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Float, Sphere } from '@react-three/drei'
 import * as THREE from 'three'
@@ -33,8 +33,7 @@ export function LiquidMorphOrb({
   const mainOrbRef = useRef<THREE.Mesh>(null)
   const liquidRef = useRef<THREE.Mesh>(null)
   
-    // Enhanced liquid morphing shader with film grain, high contrast and cursor reactivity
-  const liquidMaterial = new THREE.ShaderMaterial({
+  const liquidMaterial = useMemo(() => new THREE.ShaderMaterial({
     uniforms: {
       time: { value: 0 },
       flowIntensity: { value: 0.6 }, // Always flowing at base level
@@ -207,8 +206,8 @@ export function LiquidMorphOrb({
         }
     `,
     transparent: true
-  })
-  
+  }), [])
+
   useFrame((state) => {
     if (!groupRef.current) return
     
@@ -257,7 +256,7 @@ export function LiquidMorphOrb({
         onClick={onClick}
       >
         {/* Main liquid orb */}
-        <Sphere ref={mainOrbRef} args={[size, 64, 64]}>
+        <Sphere ref={mainOrbRef} args={[size, 48, 48]}>
           <primitive object={liquidMaterial} />
         </Sphere>
         

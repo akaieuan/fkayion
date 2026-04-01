@@ -5,7 +5,6 @@ import type { PurchaseItem } from '@/types'
 import { fourUhScrollPanelClass, fourUhSectionLabelAccent } from './four-uh-shared'
 import { onFourUhPanelWheel } from './four-uh-wheel'
 
-// Data from https://akaieuan.bandcamp.com/
 export const purchaseData: PurchaseItem[] = [
   { title: 'Chaotic Networks [live]', type: 'album', url: 'https://akaieuan.bandcamp.com/album/chaotic-networks-live' },
   { title: 'The Veil Of Kobol [live]', type: 'album', url: 'https://akaieuan.bandcamp.com/album/the-veil-of-kobol-live' },
@@ -47,9 +46,9 @@ function PurchaseItemComponent({ item }: { item: PurchaseItem }) {
       className="block py-2"
     >
       <div className="flex flex-col gap-0.5">
-        <span className="text-[9px] font-medium uppercase tracking-wider text-white/30">{item.type}</span>
+        <span className="text-[9px] font-medium uppercase tracking-wider text-muted-foreground/50">{item.type}</span>
         <span
-          className="text-[13px] font-normal leading-tight text-white/80"
+          className="text-[13px] font-normal leading-tight text-foreground/80"
           style={{ color: isHovered ? '#44ddaa' : undefined }}
         >
           {item.title}
@@ -83,19 +82,18 @@ export function PurchaseList({ isOpen, items = purchaseData }: PurchaseListProps
       onTouchMove={(e) => e.stopPropagation()}
       onWheel={onFourUhPanelWheel}
     >
-      {/* Bandcamp header */}
       <a 
         href="https://akaieuan.bandcamp.com" 
         target="_blank" 
         rel="noopener noreferrer"
-        className="inline-block text-[10px] font-medium tracking-widest text-white/40 uppercase hover:text-white/65"
+        className="inline-block text-[10px] font-medium tracking-widest text-muted-foreground/60 uppercase hover:text-foreground/60"
       >
         bandcamp
       </a>
       
       <div className="mt-3">
         <p className={fourUhSectionLabelAccent}>Available</p>
-        <div className="divide-y divide-white/[0.06]">
+        <div className="divide-y divide-border">
           {items.map((item, i) => (
             <PurchaseItemComponent key={i} item={item} />
           ))}
@@ -107,7 +105,7 @@ export function PurchaseList({ isOpen, items = purchaseData }: PurchaseListProps
           href="https://akaieuan.bandcamp.com" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="text-[10px] font-light text-white/30 hover:text-white/55"
+          className="text-[10px] font-light text-muted-foreground/50 hover:text-foreground/50"
         >
           All on Bandcamp →
         </a>

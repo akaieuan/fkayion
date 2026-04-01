@@ -2,10 +2,13 @@
 
 import { useState, useCallback } from 'react'
 import { ShowsList, ReleasesList, PurchaseList, PlaylistList } from '@/components/shared/lists'
+import { LatestReleases } from '@/components/features/home/latest-releases'
 
-const PANELS = ['Shows', 'Releases', 'Purchase', 'Playlists'] as const
+const PANELS = ['Shows', 'Releases', 'Purchase', 'Playlists', 'Latest'] as const
 type PanelName = (typeof PANELS)[number]
 type ActivePanel = Lowercase<PanelName>
+
+const cardClass = 'rounded-2xl border border-border bg-card backdrop-blur-md'
 
 export function FourUHSection() {
   const [panelIndex, setPanelIndex] = useState(0)
@@ -17,69 +20,100 @@ export function FourUHSection() {
   }, [])
 
   return (
-    <section id="section-4" className="h-screen w-full relative snap-start overflow-visible">
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <video autoPlay loop muted playsInline className="w-auto h-auto max-w-none opacity-40" style={{ minWidth: '40%', minHeight: '40%', objectFit: 'contain' }}>
+    <section id="section-4" className="relative min-h-screen w-full overflow-visible">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full w-auto h-auto object-cover opacity-20 dark:opacity-40"
+        >
           <source src="/4uh-aka.webm" type="video/webm" />
         </video>
       </div>
 
-      <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.4) 100%)' }} />
+      <div className="absolute inset-0 pointer-events-none section-fade-left-heavy" />
+      <div className="absolute inset-x-0 top-0 h-32 pointer-events-none" style={{ background: 'linear-gradient(to bottom, var(--background), transparent)' }} />
 
-      <div className="relative h-full flex flex-col md:justify-center md:pt-14 md:pb-16">
-        <div className="w-full flex flex-col flex-1 min-h-0 px-6 sm:px-8 md:w-[420px] lg:w-[480px] md:px-0 md:ml-16 lg:ml-24 md:flex-none gap-3 max-md:pt-[max(9rem,calc(5rem+env(safe-area-inset-top,0px)))] max-md:pb-[calc(6.5rem+env(safe-area-inset-bottom,0px))]">
+      <div className="relative flex min-h-screen items-start md:items-center">
+        <div className="flex w-full max-w-site mx-auto gap-4 site-inset pt-24 pb-16 max-md:flex-col md:flex-row md:items-start">
 
-          {/* Small screen: squircle label + single → arrow */}
-          <div className="md:hidden flex items-center gap-2.5">
-            <div className="rounded-[0.9rem] border border-white/[0.12] bg-black/35 px-3.5 py-2 shadow-[0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-md">
-              <span className="text-[11px] font-medium tracking-widest uppercase text-white/75">
-                {PANELS[panelIndex]}
-              </span>
-            </div>
-            <button
-              type="button"
-              aria-label="Next section"
-              onClick={goNext}
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[0.85rem] border border-white/[0.14] bg-white/[0.03] text-white/55 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/25 hover:bg-emerald-400/[0.07] hover:text-emerald-200/90 active:scale-95"
-            >
-              <span className="text-[12px] font-light leading-none">→</span>
-            </button>
-          </div>
+          {/* Main tabbed panel */}
+          <div className={`${cardClass} p-4 sm:p-5 md:w-[420px] lg:w-[460px] shrink-0`}>
+            <h2 className="text-xl text-muted-foreground font-light tracking-wide mb-3">Music</h2>
 
-          {/* Large screen: plain text tab row */}
-          <nav
-            className="hidden md:flex shrink-0 flex-nowrap items-center gap-x-3 border-b border-white/[0.06] pb-1.5"
-            aria-label="4UH sections"
-          >
-            {PANELS.map((item, i) => (
+            {/* Small screen: squircle label + arrow */}
+            <div className="md:hidden flex items-center gap-2.5 mb-3">
+              <div className="rounded-[0.9rem] border border-border bg-background/50 px-3.5 py-2 backdrop-blur-md">
+                <span className="text-[11px] font-medium tracking-widest uppercase text-foreground/75">
+                  {PANELS[panelIndex]}
+                </span>
+              </div>
               <button
-                key={item}
                 type="button"
-                onClick={() => setPanelIndex(i)}
-                className={`shrink-0 whitespace-nowrap text-[10px] font-medium uppercase tracking-wide transition-colors ${
-                  i === panelIndex ? 'text-emerald-300/95' : 'text-white/35 hover:text-white/60'
-                }`}
+                aria-label="Next section"
+                onClick={goNext}
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[0.85rem] border border-border bg-card text-muted-foreground backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/25 hover:bg-emerald-400/[0.07] hover:text-emerald-200/90 active:scale-95"
               >
-                {item}
+                <span className="text-[12px] font-light leading-none">→</span>
               </button>
-            ))}
-          </nav>
+            </div>
 
-          {/* List panels */}
-          <div className="relative min-h-0 max-h-[min(52vh,calc(100dvh-15rem))] md:h-[400px] md:max-h-[400px] lg:h-[440px] lg:max-h-[440px] overscroll-y-contain flex-1 md:flex-none">
-            <div className={`absolute inset-0 ${activePanel !== 'shows' ? 'pointer-events-none' : ''}`}>
-              <ShowsList isOpen={activePanel === 'shows'} />
-            </div>
-            <div className={`absolute inset-0 ${activePanel !== 'releases' ? 'pointer-events-none' : ''}`}>
-              <ReleasesList isOpen={activePanel === 'releases'} />
-            </div>
-            <div className={`absolute inset-0 ${activePanel !== 'purchase' ? 'pointer-events-none' : ''}`}>
-              <PurchaseList isOpen={activePanel === 'purchase'} />
-            </div>
-            <div className={`absolute inset-0 ${activePanel !== 'playlists' ? 'pointer-events-none' : ''}`}>
-              <PlaylistList isOpen={activePanel === 'playlists'} />
+            {/* Large screen: tab row */}
+            <nav
+              className="hidden md:flex shrink-0 flex-nowrap items-center gap-x-3 border-b border-border pb-1.5 mb-3"
+              aria-label="Music sections"
+            >
+              {PANELS.map((item, i) => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => setPanelIndex(i)}
+                  className={`shrink-0 whitespace-nowrap text-[10px] font-medium uppercase tracking-wide transition-colors ${
+                    i === panelIndex ? 'text-emerald-300/95' : 'text-muted-foreground/60 hover:text-foreground/60'
+                  }`}
+                >
+                  {item}
+                </button>
+              ))}
+            </nav>
+
+            {/* List panels */}
+            <div className="relative min-h-[300px] md:h-[380px] lg:h-[400px] overscroll-y-contain">
+              <div className={`absolute inset-0 ${activePanel !== 'shows' ? 'pointer-events-none' : ''}`}>
+                <ShowsList isOpen={activePanel === 'shows'} />
+              </div>
+              <div className={`absolute inset-0 ${activePanel !== 'releases' ? 'pointer-events-none' : ''}`}>
+                <ReleasesList isOpen={activePanel === 'releases'} />
+              </div>
+              <div className={`absolute inset-0 ${activePanel !== 'purchase' ? 'pointer-events-none' : ''}`}>
+                <PurchaseList isOpen={activePanel === 'purchase'} />
+              </div>
+              <div className={`absolute inset-0 ${activePanel !== 'playlists' ? 'pointer-events-none' : ''}`}>
+                <PlaylistList isOpen={activePanel === 'playlists'} />
+              </div>
+              <div className={`absolute inset-0 overflow-y-auto ${activePanel !== 'latest' ? 'pointer-events-none opacity-0' : 'opacity-100'}`} style={{ transition: 'opacity 0.2s ease' }}>
+                <LatestReleases />
+              </div>
             </div>
           </div>
+
+          {/* Bio text */}
+          <div className="flex-1 self-start max-md:order-first">
+            <div className="max-w-md space-y-5">
+              <p className="text-sm sm:text-base font-light leading-relaxed text-muted-foreground">
+                aka ieuan is a Brooklyn-born &amp; based electronic musician crafting live-recorded, hypnotic techno compositions that combine his love of underground rap, alt-rock/metal, electronic music, and classical guitar. Known under various aliases including akaieuan, Mr.M4UH, abletonlivee, and yion, he has spent six years developing a sound that spans DnB, Tech-House, and Techno accumulating over 3 million streams across all platforms.
+              </p>
+              <p className="text-sm sm:text-base font-light leading-relaxed text-muted-foreground">
+                Growing up in Brooklyn and playing music from a young age, akaieuan draws from a diverse palette of influences to create melancholic yet energetic sounds. Inspired by live acts like Luke Slater, UFO95, and Rødhåd, his sets craft an evolving, hypnotic atmosphere that encourages movement, self-reflection, and healing.
+              </p>
+              <p className="text-sm sm:text-base font-light leading-relaxed text-muted-foreground">
+                With releases on Synapsa Music, Diffuse Reality, Impulse Control, and Agape Music, aka ieuan is one of Brooklyn&apos;s emerging homegrown artists helping define a new era of NYC techno.
+              </p>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

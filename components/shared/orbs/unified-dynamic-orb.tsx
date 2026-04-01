@@ -30,14 +30,12 @@ function DefaultTorus({ size = 1, mousePos = { x: 0, y: 0 } }: { size?: number; 
   const dropletsRef = useRef<THREE.Group>(null)
   const goopStringsRef = useRef<THREE.Group>(null)
   
-  // Create goop string data - 4 strings that stretch toward cursor
-  const goopStrings = Array.from({ length: 4 }, (_, i) => ({
+  const goopStrings = useMemo(() => Array.from({ length: 4 }, (_, i) => ({
     baseAngle: (i / 4) * Math.PI * 2,
     offset: i * 0.25
-  }))
-  
-  // Mercury melting shader with subtle cursor reactivity
-  const mercuryMaterial = new THREE.ShaderMaterial({
+  })), [])
+
+  const mercuryMaterial = useMemo(() => new THREE.ShaderMaterial({
     uniforms: {
       time: { value: 0 },
       splitLevel: { value: 0.6 },
@@ -144,7 +142,7 @@ function DefaultTorus({ size = 1, mousePos = { x: 0, y: 0 } }: { size?: number; 
         gl_FragColor = vec4(color, 1.0);
       }
     `
-  })
+  }), [])
   
   useFrame((state) => {
     if (!groupRef.current) return
@@ -224,7 +222,7 @@ function DefaultTorus({ size = 1, mousePos = { x: 0, y: 0 } }: { size?: number; 
     <Float speed={2.0} rotationIntensity={0.3} floatIntensity={0.5}>
       <group ref={groupRef}>
         <mesh ref={meshRef}>
-          <torusKnotGeometry args={[size * 0.45, size * 0.16, 140, 18, 2, 3]} />
+          <torusKnotGeometry args={[size * 0.45, size * 0.16, 96, 14, 2, 3]} />
           <primitive object={mercuryMaterial} />
         </mesh>
         
@@ -514,27 +512,16 @@ export function UnifiedDynamicOrb({ activeLink, color, hoverColor, size = 1.2, o
           alpha: true,
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 1.0,
-          preserveDrawingBuffer: true
         }}
         frameloop="always"
-        dpr={[1, 2]}
+        dpr={[1, 1.5]}
         performance={{ min: 0.5 }}
         resize={{ scroll: false, debounce: { scroll: 50, resize: 0 } }}
-        shadows
       >
-        <ambientLight intensity={0.15} />
+        <ambientLight intensity={0.2} />
         <pointLight position={[-6, 2, 3]} intensity={2.5} color="#ff4400" distance={15} />
         <pointLight position={[0, 3, 3]} intensity={2.0} color="#44aaff" distance={15} />
         <pointLight position={[6, -1, 3]} intensity={2.3} color="#44ddaa" distance={15} />
-        <pointLight position={[0, -8, -5]} intensity={1.0} color="#ffffff" distance={20} />
-        <pointLight position={[8, 8, -8]} intensity={0.8} color="#ffddaa" distance={25} />
-        <pointLight position={[-8, 4, -6]} intensity={0.6} color="#aaddff" distance={20} />
-        <directionalLight 
-          position={[10, 10, 5]} 
-          intensity={0.25} 
-          color="#ffffff"
-          castShadow
-        />
         <OrbScene
           activeLink={activeLink}
           color={color}

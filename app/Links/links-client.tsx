@@ -13,8 +13,15 @@ interface Link {
   hoverColor: string
 }
 
+interface WritingLink {
+  label: string
+  url: string
+  description: string
+}
+
 interface LinksClientProps {
   linksData: Link[]
+  writingLinks?: WritingLink[]
 }
 
 function GridLinkItem({ 
@@ -74,7 +81,54 @@ function GridLinkItem({
   )
 }
 
-export function LinksClient({ linksData }: LinksClientProps) {
+function WritingLinkItem({ item, index }: { item: WritingLink; index: number }) {
+  const [isHovered, setIsHovered] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), index * 60 + 200)
+    return () => clearTimeout(timer)
+  }, [index])
+
+  return (
+    <a
+      href={item.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="flex items-center justify-between py-2.5 group"
+      style={{
+        borderBottom: '1px solid rgba(255,255,255,0.05)',
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translateY(0)' : 'translateY(8px)',
+        transition: 'opacity 0.4s ease-out, transform 0.4s ease-out',
+        transitionDelay: `${index * 60}ms`,
+      }}
+    >
+      <span
+        className="text-sm font-light tracking-wide"
+        style={{
+          color: isHovered ? '#aaff44' : 'rgba(255,255,255,0.55)',
+          transition: 'color 0.2s ease',
+        }}
+      >
+        {item.label}
+      </span>
+      <span
+        className="text-[10px] font-light tracking-wide shrink-0 ml-4"
+        style={{
+          color: isHovered ? 'rgba(170,255,68,0.45)' : 'rgba(255,255,255,0.2)',
+          transition: 'color 0.2s ease',
+        }}
+      >
+        {item.description}
+      </span>
+    </a>
+  )
+}
+
+export function LinksClient({ linksData, writingLinks = [] }: LinksClientProps) {
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
   const [mobileLinkIndex, setMobileLinkIndex] = useState(0)
 
@@ -168,6 +222,19 @@ export function LinksClient({ linksData }: LinksClientProps) {
                 ))}
               </div>
             </div>
+
+            {writingLinks.length > 0 && (
+              <div className="mt-8">
+                <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-white/25 mb-3">
+                  aka-extra/links
+                </p>
+                <div className="max-w-[360px]">
+                  {writingLinks.map((item, i) => (
+                    <WritingLinkItem key={item.label} item={item} index={i} />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

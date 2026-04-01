@@ -2,57 +2,78 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
+import { useTheme } from 'next-themes'
+import { Sun, Moon } from 'lucide-react'
 
-// Main nav items - all link to sections on the unified home page
 const mainNavItems = [
-  { name: 'Home', sectionIndex: 0, sectionId: 'section-0' },
-  { name: 'Links', sectionIndex: 1, sectionId: 'section-1' },
-  { name: 'Product', sectionIndex: 2, sectionId: 'section-2' },
-  { name: '4UH', sectionIndex: 4, sectionId: 'section-4' }
+  { name: 'Home', sectionId: 'section-0' },
+  { name: 'Links', sectionId: 'section-1' },
+  { name: 'Product', sectionId: 'section-2' },
+  { name: '4UH', sectionId: 'section-4' },
 ]
 
-// Projects are separate pages (not sections)
 const projectItems = [
-  { name: 'Visualizer Eden', href: '/Visualizer-Eden' }
+  { name: 'Visualizer Eden', href: '/Visualizer-Eden' },
 ]
+
+function ThemeToggle() {
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return <div className="w-4 h-4" />
+
+  const isDark = theme === 'dark'
+
+  return (
+    <button
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      aria-label="Toggle theme"
+      className="text-foreground/50 hover:text-foreground/80 transition-colors duration-200 focus:outline-none"
+    >
+      {isDark ? <Sun size={16} /> : <Moon size={16} />}
+    </button>
+  )
+}
 
 export function SiteHeader() {
   const router = useRouter()
   const pathname = usePathname()
   const [projectsOpen, setProjectsOpen] = useState(false)
-  const [currentSection, setCurrentSection] = useState(0)
+  const [activeSection, setActiveSection] = useState<string | null>('section-0')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const { theme } = useTheme()
+  const [mounted, setMounted] = useState(false)
 
-  // Check if we're on the unified home page (not a project page)
-  const isUnifiedPage = pathname === '/'
+  useEffect(() => setMounted(true), [])
 
-  // Track current section from scroll when on unified page
+  const isHome = pathname === '/'
+  const isDark = !mounted || theme === 'dark'
+
   useEffect(() => {
-    if (!isUnifiedPage) return
+    if (!isHome) { setActiveSection(null); return }
 
-    const handleScroll = () => {
-      const scrollContainer = document.querySelector('[data-scroll-container]')
-      if (!scrollContainer) return
-      
-      const scrollTop = scrollContainer.scrollTop
-      const sectionHeight = window.innerHeight
-      const section = Math.round(scrollTop / sectionHeight)
-      setCurrentSection(section)
-    }
+    const sectionIds = mainNavItems.map(i => i.sectionId)
+    const observers: IntersectionObserver[] = []
 
-    // Initial check
-    handleScroll()
+    sectionIds.forEach(id => {
+      const el = document.getElementById(id)
+      if (!el) return
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) setActiveSection(id)
+        },
+        { rootMargin: '-40% 0px -40% 0px', threshold: 0 }
+      )
+      obs.observe(el)
+      observers.push(obs)
+    })
 
-    // Listen to scroll on the unified container
-    const scrollContainer = document.querySelector('[data-scroll-container]')
-    if (scrollContainer) {
-      scrollContainer.addEventListener('scroll', handleScroll)
-      return () => scrollContainer.removeEventListener('scroll', handleScroll)
-    }
-  }, [isUnifiedPage])
+    return () => observers.forEach(o => o.disconnect())
+  }, [isHome])
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -63,87 +84,67 @@ export function SiteHeader() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false)
   }, [pathname])
 
   const isProjectActive = projectItems.some(item => pathname === item.href)
 
-  // Navigate to section on unified page
   const handleNavClick = (item: typeof mainNavItems[0]) => {
-    if (isUnifiedPage) {
-      // Already on unified page - just scroll to section
+    if (isHome) {
       const section = document.getElementById(item.sectionId)
-      if (section) {
-        section.scrollIntoView({ behavior: 'smooth' })
-      }
+      if (section) section.scrollIntoView({ behavior: 'smooth' })
     } else {
-      // On a different page (like Visualizer) - navigate to home and scroll
       router.push('/')
-      // Wait for navigation, then scroll to section
       setTimeout(() => {
         const section = document.getElementById(item.sectionId)
-        if (section) {
-          section.scrollIntoView({ behavior: 'smooth' })
-        }
+        if (section) section.scrollIntoView({ behavior: 'smooth' })
       }, 150)
     }
     setMobileMenuOpen(false)
   }
 
-  // Determine if nav item is active based on current scroll section
-  const getIsActive = (item: typeof mainNavItems[0]) => {
-    // When on unified page, use scroll position
-    if (isUnifiedPage) {
-      return currentSection === item.sectionIndex
-    }
-    // When on project pages, no main nav item is active
-    return false
-  }
+  const navTextActive = isDark ? 'text-white/80' : 'text-foreground/90'
+  const navTextInactive = isDark ? 'text-white/40 hover:text-white/70' : 'text-foreground/40 hover:text-foreground/70'
+  const logoText = isDark ? 'text-white/80 hover:text-white' : 'text-foreground/80 hover:text-foreground'
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-[100] py-3 md:py-4 bg-black/80 backdrop-blur-sm">
-        <nav className="flex items-center justify-between px-6 sm:px-8 md:px-16 lg:px-24 max-w-[1440px] mx-auto">
-        {/* Logo/Brand - always scrolls to home section */}
-        <button 
+    <header
+      className="fixed top-0 left-0 right-0 z-[100] py-3 md:py-4 backdrop-blur-sm"
+      style={{ background: isDark ? 'oklch(0.182 0.014 94.03 / 0.85)' : 'oklch(0.866 0.004 106.485 / 0.85)' }}
+    >
+      <nav className="flex max-w-site mx-auto items-center justify-between site-inset">
+        <button
           onClick={() => handleNavClick(mainNavItems[0])}
-          className="text-lg sm:text-xl text-white/80 font-light tracking-wide hover:text-white transition-colors duration-200"
+          className={`text-lg sm:text-xl font-light tracking-wide transition-colors duration-200 ${logoText}`}
         >
           aka4uh
         </button>
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center space-x-4 sm:space-x-6">
-          {mainNavItems.map((item) => {
-            const isActive = getIsActive(item)
-            return (
-              <button
-                key={item.sectionId}
-                onClick={() => handleNavClick(item)}
-                className={`text-xs sm:text-sm font-light tracking-wide transition-colors duration-200 ${
-                  isActive 
-                    ? 'text-white/80' 
-                    : 'text-white/40 hover:text-white/70'
-                }`}
-              >
-                {item.name}
-              </button>
-            )
-          })}
+          {mainNavItems.map((item) => (
+            <button
+              key={item.sectionId}
+              onClick={() => handleNavClick(item)}
+              className={`text-xs sm:text-sm font-light tracking-wide transition-colors duration-200 ${
+                activeSection === item.sectionId ? navTextActive : navTextInactive
+              }`}
+            >
+              {item.name}
+            </button>
+          ))}
 
-          {/* Projects Dropdown - these are actual separate pages */}
+          {/* Projects Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setProjectsOpen(!projectsOpen)}
               className={`text-xs sm:text-sm font-light tracking-wide transition-colors duration-200 flex items-center gap-1 ${
-                isProjectActive || projectsOpen
-                  ? 'text-white/80' 
-                  : 'text-white/40 hover:text-white/70'
+                isProjectActive || projectsOpen ? navTextActive : navTextInactive
               }`}
             >
               Projects
-              <span 
+              <span
                 className="text-[10px] transition-transform duration-200"
                 style={{ transform: projectsOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
               >
@@ -151,8 +152,7 @@ export function SiteHeader() {
               </span>
             </button>
 
-            {/* Dropdown menu - minimal transparent style */}
-            <div 
+            <div
               className="absolute top-full right-0 mt-3 transition-all duration-200 ease-out"
               style={{
                 opacity: projectsOpen ? 1 : 0,
@@ -161,127 +161,121 @@ export function SiteHeader() {
               }}
             >
               <div className="py-1">
-                {projectItems.map((item) => {
-                  const isActive = pathname === item.href
-                  return (
-                    <button
-                      key={item.href}
-                      onClick={() => {
-                        router.push(item.href)
-                        setProjectsOpen(false)
-                      }}
-                      className={`block text-xs sm:text-sm font-light tracking-wide transition-colors duration-200 ${
-                        isActive 
-                          ? 'text-emerald-400' 
-                          : 'text-white/40 hover:text-white/80'
-                      }`}
-                    >
-                      {item.name}
-                    </button>
-                  )
-                })}
+                {projectItems.map((item) => (
+                  <button
+                    key={item.href}
+                    onClick={() => {
+                      router.push(item.href)
+                      setProjectsOpen(false)
+                    }}
+                    className={`block text-xs sm:text-sm font-light tracking-wide transition-colors duration-200 ${
+                      pathname === item.href
+                        ? 'text-emerald-400'
+                        : navTextInactive
+                    }`}
+                  >
+                    {item.name}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
+
+          <ThemeToggle />
         </div>
 
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden flex flex-col justify-center items-end gap-1 p-1 hover:opacity-80 transition-opacity"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle navigation menu"
-        >
-          <span 
-            className="block h-[1.5px] w-5 bg-white/60 transition-all duration-200"
-            style={{ transform: mobileMenuOpen ? 'translateY(5px) rotate(45deg)' : 'none' }}
-          />
-          <span 
-            className="block h-[1.5px] w-4 bg-white/60 transition-opacity duration-200"
-            style={{ opacity: mobileMenuOpen ? 0 : 1 }}
-          />
-          <span 
-            className="block h-[1.5px] w-5 bg-white/60 transition-all duration-200"
-            style={{ transform: mobileMenuOpen ? 'translateY(-5px) rotate(-45deg)' : 'none' }}
-          />
-        </button>
+        {/* Mobile right side: theme toggle + hamburger */}
+        <div className="md:hidden flex items-center gap-3">
+          <ThemeToggle />
+          <button
+            className="flex flex-col justify-center items-end gap-1 p-1 hover:opacity-80 transition-opacity"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle navigation menu"
+          >
+            <span
+              className={`block h-[1.5px] w-5 transition-all duration-200 ${isDark ? 'bg-white/60' : 'bg-foreground/60'}`}
+              style={{ transform: mobileMenuOpen ? 'translateY(5px) rotate(45deg)' : 'none' }}
+            />
+            <span
+              className={`block h-[1.5px] w-4 transition-opacity duration-200 ${isDark ? 'bg-white/60' : 'bg-foreground/60'}`}
+              style={{ opacity: mobileMenuOpen ? 0 : 1 }}
+            />
+            <span
+              className={`block h-[1.5px] w-5 transition-all duration-200 ${isDark ? 'bg-white/60' : 'bg-foreground/60'}`}
+              style={{ transform: mobileMenuOpen ? 'translateY(-5px) rotate(-45deg)' : 'none' }}
+            />
+          </button>
+        </div>
       </nav>
 
-      {/* Mobile slide-out menu */}
-      <div 
-        className="md:hidden fixed inset-0 z-[99]" 
+      {/* Mobile menu */}
+      <div
+        className="md:hidden fixed inset-0 z-[99]"
         style={{ pointerEvents: mobileMenuOpen ? 'auto' : 'none' }}
       >
-        {/* Click-away overlay (transparent) */}
-        <div 
+        <div
           className="absolute inset-0 transition-opacity duration-200"
           style={{ opacity: mobileMenuOpen ? 1 : 0 }}
           onClick={() => setMobileMenuOpen(false)}
         />
 
-        {/* Panel */}
-        <div 
+        <div
           className="absolute top-0 right-0 w-[65vw] max-w-[260px] px-5 py-8 flex flex-col space-y-6"
-          style={{ 
+          style={{
             height: '100vh',
             minHeight: '100%',
-            background: '#0a0a0a',
-            borderLeft: '1px solid rgba(255,255,255,0.08)',
+            background: isDark ? '#0f0e0a' : 'oklch(0.885 0.011 112.391)',
+            borderLeft: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid oklch(0.475 0.001 0 / 0.12)',
             transform: mobileMenuOpen ? 'translateX(0)' : 'translateX(100%)',
             transition: 'transform 0.3s ease-out',
           }}
         >
           <div className="flex items-center justify-between">
-            <span className="text-white/70 text-sm tracking-wide">Menu</span>
+            <span className={`text-sm tracking-wide ${isDark ? 'text-white/70' : 'text-foreground/70'}`}>Menu</span>
             <button
               onClick={() => setMobileMenuOpen(false)}
-              className="text-white/50 hover:text-white/80 transition-colors text-sm"
+              className={`transition-colors text-sm ${isDark ? 'text-white/50 hover:text-white/80' : 'text-foreground/50 hover:text-foreground/80'}`}
             >
               Close
             </button>
           </div>
 
           <div className="space-y-4">
-            {mainNavItems.map((item) => {
-              const isActive = getIsActive(item)
-              return (
+            {mainNavItems.map((item) => (
+              <button
+                key={item.sectionId}
+                onClick={() => handleNavClick(item)}
+                className={`w-full text-left text-base font-light tracking-wide py-2 transition-colors duration-200 ${
+                  activeSection === item.sectionId
+                    ? isDark ? 'text-white/90' : 'text-foreground/90'
+                    : isDark ? 'text-white/60 hover:text-white/90' : 'text-foreground/60 hover:text-foreground/90'
+                }`}
+              >
+                {item.name}
+              </button>
+            ))}
+          </div>
+
+          <div className={`pt-4 border-t ${isDark ? 'border-white/10' : 'border-foreground/10'}`}>
+            <p className={`text-xs uppercase tracking-[0.2em] mb-2 ${isDark ? 'text-white/40' : 'text-foreground/40'}`}>Projects</p>
+            <div className="space-y-2">
+              {projectItems.map((item) => (
                 <button
-                  key={item.sectionId}
-                  onClick={() => handleNavClick(item)}
-                  className={`w-full text-left text-base font-light tracking-wide py-2 transition-colors duration-200 ${
-                    isActive 
-                      ? 'text-white/90' 
-                      : 'text-white/60 hover:text-white/90'
+                  key={item.href}
+                  onClick={() => {
+                    router.push(item.href)
+                    setProjectsOpen(false)
+                    setMobileMenuOpen(false)
+                  }}
+                  className={`w-full text-left text-base font-light tracking-wide transition-colors duration-200 ${
+                    pathname === item.href
+                      ? 'text-emerald-400'
+                      : isDark ? 'text-white/60 hover:text-white/90' : 'text-foreground/60 hover:text-foreground/90'
                   }`}
                 >
                   {item.name}
                 </button>
-              )
-            })}
-          </div>
-
-          <div className="pt-4 border-t border-white/10">
-            <p className="text-xs uppercase tracking-[0.2em] text-white/40 mb-2">Projects</p>
-            <div className="space-y-2">
-              {projectItems.map((item) => {
-                const isActive = pathname === item.href
-                return (
-                  <button
-                    key={item.href}
-                    onClick={() => {
-                      router.push(item.href)
-                      setProjectsOpen(false)
-                      setMobileMenuOpen(false)
-                    }}
-                    className={`w-full text-left text-base font-light tracking-wide transition-colors duration-200 ${
-                      isActive 
-                        ? 'text-emerald-400' 
-                        : 'text-white/60 hover:text-white/90'
-                    }`}
-                  >
-                    {item.name}
-                  </button>
-                )
-              })}
+              ))}
             </div>
           </div>
         </div>

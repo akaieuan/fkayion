@@ -3,7 +3,7 @@
 import { fourUhScrollPanelClass, fourUhSectionLabelAccent, fourUhSectionLabelMuted } from './four-uh-shared'
 import { onFourUhPanelWheel } from './four-uh-wheel'
 
-const embedShell = 'overflow-hidden rounded-lg border border-white/[0.06]'
+const embedShell = 'overflow-hidden rounded-lg border border-border'
 
 interface ReleasesListProps {
   isOpen: boolean
@@ -28,7 +28,7 @@ export function ReleasesList({ isOpen }: ReleasesListProps) {
       onTouchMove={(e) => e.stopPropagation()}
       onWheel={onFourUhPanelWheel}
     >
-      <p className="text-[10px] font-medium tracking-widest text-white/40 uppercase">releases</p>
+      <p className="text-[10px] font-medium tracking-widest text-muted-foreground/60 uppercase">releases</p>
 
       <div className="mb-5 mt-3">
         <p className={`${fourUhSectionLabelAccent} mb-2`}>Latest EP</p>
@@ -48,7 +48,7 @@ export function ReleasesList({ isOpen }: ReleasesListProps) {
           href="https://open.spotify.com/album/3Obm9hWHC26Yk0vByeHBUl?si=FYgHq0lzTAGjmiTdCEjvdw" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="mt-2 inline-block text-[10px] font-light text-white/35 hover:text-white/60"
+          className="mt-2 inline-block text-[10px] font-light text-muted-foreground/50 hover:text-foreground/60"
         >
           Ubiquity — Spotify →
         </a>
@@ -84,7 +84,7 @@ export function ReleasesList({ isOpen }: ReleasesListProps) {
           href="https://soundcloud.com/akaieuan/sets/vm4uh-vitamixes-4-ur-health" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="mt-2 inline-block text-[10px] font-light text-white/35 hover:text-white/60"
+          className="mt-2 inline-block text-[10px] font-light text-muted-foreground/50 hover:text-foreground/60"
         >
           VM4UH →
         </a>
@@ -119,12 +119,12 @@ export function ReleasesList({ isOpen }: ReleasesListProps) {
             src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%253Aplaylists%253A2152603196&color=%232eff00&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=true&visual=true"
           />
         </div>
-        <div className="mt-2 text-[10px] font-light text-white/30">
-          <a href="https://soundcloud.com/akaieuan" target="_blank" rel="noopener noreferrer" className="hover:text-white/55">
+        <div className="mt-2 text-[10px] font-light text-muted-foreground/50">
+          <a href="https://soundcloud.com/akaieuan" target="_blank" rel="noopener noreferrer" className="hover:text-foreground/50">
             aka ieuan
           </a>
-          <span className="mx-1 text-white/15">·</span>
-          <a href="https://soundcloud.com/akaieuan/sets/aka-ieuan-releases-all" target="_blank" rel="noopener noreferrer" className="hover:text-white/55">
+          <span className="mx-1 text-muted-foreground/30">·</span>
+          <a href="https://soundcloud.com/akaieuan/sets/aka-ieuan-releases-all" target="_blank" rel="noopener noreferrer" className="hover:text-foreground/50">
             aka/Releases/All
           </a>
         </div>
@@ -169,7 +169,7 @@ export function ReleasesList({ isOpen }: ReleasesListProps) {
           href="https://akaieuan.bandcamp.com" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="text-[10px] font-light text-white/30 hover:text-white/55"
+          className="text-[10px] font-light text-muted-foreground/50 hover:text-foreground/50"
         >
           All on Bandcamp →
         </a>

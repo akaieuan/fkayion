@@ -40,19 +40,19 @@ function EventItem({ event }: { event: Event }) {
     >
       <div className="flex flex-col gap-0">
         <span
-          className="text-[9px] font-light tracking-wide text-white/40"
+          className="text-[9px] font-light tracking-wide text-muted-foreground/60"
           style={{ color: isHovered ? '#44ddaa' : undefined }}
         >
           {event.date}
         </span>
         <span
-          className="text-[11px] font-normal leading-snug text-white/85"
+          className="text-[11px] font-normal leading-snug text-foreground/85"
           style={{ color: isHovered ? '#44ddaa' : undefined }}
         >
           {event.title}
         </span>
         <span
-          className="text-[9px] font-light text-white/35"
+          className="text-[9px] font-light text-muted-foreground/50"
           style={{ color: isHovered ? 'rgba(68,221,170,0.55)' : undefined }}
         >
           @ {event.venue}
@@ -96,7 +96,7 @@ export function ShowsList({ isOpen, events = eventsData }: ShowsListProps) {
         href="https://ra.co/dj/akaieuan"
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-block text-[9px] font-medium tracking-widest text-white/40 uppercase hover:text-white/65"
+        className="inline-block text-[9px] font-medium tracking-widest text-muted-foreground/60 uppercase hover:text-foreground/60"
       >
         akaieuan
       </a>
@@ -104,7 +104,7 @@ export function ShowsList({ isOpen, events = eventsData }: ShowsListProps) {
       {upcomingEvents.length > 0 && (
         <div className="mt-2">
           <p className={fourUhSectionLabelAccent}>Upcoming</p>
-          <div className="divide-y divide-white/[0.06]">
+          <div className="divide-y divide-border">
             {upcomingEvents.map((event, i) => (
               <EventItem key={`u-${i}`} event={event} />
             ))}
@@ -115,7 +115,7 @@ export function ShowsList({ isOpen, events = eventsData }: ShowsListProps) {
       {pastEvents.length > 0 && (
         <div className="mt-3">
           <p className={fourUhSectionLabelMuted}>Past</p>
-          <div className="divide-y divide-white/[0.06]">
+          <div className="divide-y divide-border">
             {pastEvents.map((event, i) => (
               <EventItem key={`p-${i}`} event={event} />
             ))}
@@ -128,7 +128,7 @@ export function ShowsList({ isOpen, events = eventsData }: ShowsListProps) {
           href="https://ra.co/dj/akaieuan"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[9px] font-light text-white/30 hover:text-white/55"
+          className="text-[9px] font-light text-muted-foreground/50 hover:text-foreground/50"
         >
           All on RA →
         </a>
