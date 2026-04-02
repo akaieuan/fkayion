@@ -105,7 +105,7 @@ export function HomeSection() {
 
   return (
     <section id="section-0" className="relative h-screen w-full" onPointerMove={handlePointerMove}>
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 max-md:pointer-events-none">
         <Canvas
           camera={{ position: [0, 0, 10], fov: 45 }}
           style={{ width: '100%', height: '100%' }}

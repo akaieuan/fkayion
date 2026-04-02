@@ -74,6 +74,58 @@ function getDomain(url: string): string {
   try { return new URL(url).hostname.replace('www.', '') } catch { return url }
 }
 
+function GalleryCarousel({ images, label }: { images: string[]; label: string }) {
+  const [current, setCurrent] = useState(0)
+  const prev = () => setCurrent(i => (i === 0 ? images.length - 1 : i - 1))
+  const next = () => setCurrent(i => (i >= images.length - 1 ? 0 : i + 1))
+
+  return (
+    <div className="mt-4">
+      <div className="relative overflow-hidden rounded-lg border border-border">
+        <Image
+          src={images[current]}
+          alt={`${label} ${current + 1}`}
+          width={800}
+          height={600}
+          className="w-full h-auto block"
+        />
+        {images.length > 1 && (
+          <>
+            <button
+              type="button"
+              onClick={prev}
+              aria-label="Previous image"
+              className="absolute left-2 top-1/2 -translate-y-1/2 h-7 w-7 rounded-lg bg-background/70 backdrop-blur-sm border border-border/60 flex items-center justify-center text-foreground/60 hover:text-foreground transition-colors text-xs"
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              onClick={next}
+              aria-label="Next image"
+              className="absolute right-2 top-1/2 -translate-y-1/2 h-7 w-7 rounded-lg bg-background/70 backdrop-blur-sm border border-border/60 flex items-center justify-center text-foreground/60 hover:text-foreground transition-colors text-xs"
+            >
+              →
+            </button>
+            <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1">
+              {images.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setCurrent(i)}
+                  aria-label={`Go to image ${i + 1}`}
+                  className={`h-1 rounded-full transition-all duration-200 ${i === current ? 'w-4 bg-foreground/60' : 'w-1 bg-foreground/25 hover:bg-foreground/40'}`}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+      <p className="text-[10px] text-muted-foreground/30 mt-1.5 text-right tabular-nums">{current + 1} / {images.length}</p>
+    </div>
+  )
+}
+
 function LinkRow({
   item, isSelected, onClick, index, isInView,
 }: {
@@ -130,28 +182,45 @@ function DetailPanel({ item }: { item: LinkItem }) {
   const isAkaWrite = item.label === 'aka.write'
   const isVisualizerEden = item.url === '/Visualizer-Eden'
 
-  return (
-    <div className={`${cardClass} px-6 py-6 overflow-hidden`} key={item.label}>
-      <p className="text-base font-medium tracking-wide mb-1" style={{ color: item.color }}>
-        {item.label}
-      </p>
+  const linkEl = isVisualizerEden ? (
+    <Link
+      href="/Visualizer-Eden"
+      className="shrink-0 text-[11px] font-medium tracking-wide transition-opacity duration-200 hover:opacity-70"
+      style={{ color: item.color }}
+    >
+      Open →
+    </Link>
+  ) : (
+    <a
+      href={item.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="shrink-0 text-[11px] font-medium tracking-wide transition-opacity duration-200 hover:opacity-70"
+      style={{ color: item.color }}
+    >
+      {getDomain(item.url)} →
+    </a>
+  )
 
-      <p className="text-[13px] font-light leading-relaxed text-muted-foreground mt-2">
+  return (
+    <div className={`${cardClass} px-6 py-5 overflow-hidden`} key={item.label}>
+      <div className="flex items-center justify-between gap-3 mb-3">
+        <p className="text-base font-medium tracking-wide" style={{ color: item.color }}>
+          {item.label}
+        </p>
+        {linkEl}
+      </div>
+
+      <p className="text-[13px] font-light leading-relaxed text-muted-foreground">
         {item.detail}
       </p>
 
       {item.gallery && item.gallery.length > 0 && (
-        <div className="mt-4 grid grid-cols-2 gap-2">
-          {item.gallery.map((src, i) => (
-            <div key={i} className="overflow-hidden rounded-lg border border-border">
-              <Image src={src} alt={`${item.label} ${i + 1}`} width={400} height={300} className="w-full h-auto block" />
-            </div>
-          ))}
-        </div>
+        <GalleryCarousel images={item.gallery} label={item.label} />
       )}
 
       {isAkaWrite && (
-        <div className="mt-4 space-y-3">
+        <div className="mt-4 space-y-3.5 border-t border-border/40 pt-4">
           {writingEntries.map((entry) => (
             <a
               key={entry.title}
@@ -160,10 +229,11 @@ function DetailPanel({ item }: { item: LinkItem }) {
               rel="noopener noreferrer"
               className="block group"
             >
-              <p className="text-[12px] font-medium text-foreground/70 group-hover:text-foreground/90 transition-colors">
+              <p className="text-[12px] font-medium text-foreground/65 group-hover:text-foreground/90 underline decoration-foreground/15 group-hover:decoration-foreground/45 underline-offset-2 transition-colors duration-150 flex items-center gap-1">
                 {entry.title}
+                <span className="no-underline text-[10px] text-foreground/25 group-hover:text-foreground/55 transition-colors duration-150">↗</span>
               </p>
-              <p className="text-[11px] font-light text-muted-foreground/50 leading-relaxed mt-0.5">
+              <p className="text-[11px] font-light text-muted-foreground/45 leading-relaxed mt-0.5">
                 {entry.desc}
               </p>
             </a>
@@ -182,32 +252,12 @@ function DetailPanel({ item }: { item: LinkItem }) {
           <video autoPlay loop muted playsInline src={item.media.src} className="w-full h-auto block" />
         </div>
       )}
-
-      {isVisualizerEden ? (
-        <Link
-          href="/Visualizer-Eden"
-          className="inline-flex items-center gap-1.5 mt-4 text-[11px] font-medium tracking-wide transition-colors duration-200 hover:opacity-80"
-          style={{ color: item.color }}
-        >
-          Open Visualizer Eden →
-        </Link>
-      ) : (
-        <a
-          href={item.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 mt-4 text-[11px] font-medium tracking-wide transition-colors duration-200 hover:opacity-80"
-          style={{ color: item.color }}
-        >
-          Go to {getDomain(item.url)} →
-        </a>
-      )}
     </div>
   )
 }
 
 export function LinksSection() {
-  const [selectedItem, setSelectedItem] = useState<LinkItem | null>(null)
+  const [selectedItem, setSelectedItem] = useState<LinkItem | null>(links[0])
   const [mobileIndex, setMobileIndex] = useState(0)
   const [isInView, setIsInView] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
@@ -295,11 +345,9 @@ export function LinksSection() {
             ))}
           </div>
 
-          <div className="w-full md:flex-1 min-w-0 md:min-h-[44rem] flex flex-col">
+          <div className="w-full md:flex-1 min-w-0 flex flex-col">
             {selectedItem ? (
-              <div className="max-h-[min(44rem,calc(100vh-10rem))] overflow-y-auto">
-                <DetailPanel item={selectedItem} />
-              </div>
+              <DetailPanel item={selectedItem} />
             ) : (
               <DetailEmptyState />
             )}
