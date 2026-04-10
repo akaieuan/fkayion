@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { Sun, Moon } from 'lucide-react'
@@ -10,10 +10,6 @@ const mainNavItems = [
   { name: 'Links', sectionId: 'section-1' },
   { name: 'Product', sectionId: 'section-2' },
   { name: '4UH', sectionId: 'section-4' },
-]
-
-const projectItems = [
-  { name: 'Visualizer Eden', href: '/Visualizer-Eden' },
 ]
 
 function ThemeToggle() {
@@ -40,10 +36,9 @@ function ThemeToggle() {
 export function SiteHeader() {
   const router = useRouter()
   const pathname = usePathname()
-  const [projectsOpen, setProjectsOpen] = useState(false)
+
   const [activeSection, setActiveSection] = useState<string | null>('section-0')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const dropdownRef = useRef<HTMLDivElement>(null)
   const { theme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
@@ -75,20 +70,8 @@ export function SiteHeader() {
   }, [isHome])
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setProjectsOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
-
-  useEffect(() => {
     setMobileMenuOpen(false)
   }, [pathname])
-
-  const isProjectActive = projectItems.some(item => pathname === item.href)
 
   const handleNavClick = (item: typeof mainNavItems[0]) => {
     if (isHome) {
@@ -107,6 +90,11 @@ export function SiteHeader() {
   const navTextActive = isDark ? 'text-white/80' : 'text-foreground/90'
   const navTextInactive = isDark ? 'text-white/40 hover:text-white/70' : 'text-foreground/40 hover:text-foreground/70'
   const logoText = isDark ? 'text-white/80 hover:text-white' : 'text-foreground/80 hover:text-foreground'
+
+  /** Fullscreen demos manage their own chrome */
+  if (pathname?.startsWith('/demo')) {
+    return null
+  }
 
   return (
     <header
@@ -135,51 +123,14 @@ export function SiteHeader() {
             </button>
           ))}
 
-          {/* Projects Dropdown */}
-          <div className="relative" ref={dropdownRef}>
-            <button
-              onClick={() => setProjectsOpen(!projectsOpen)}
-              className={`text-xs sm:text-sm font-light tracking-wide transition-colors duration-200 flex items-center gap-1 ${
-                isProjectActive || projectsOpen ? navTextActive : navTextInactive
-              }`}
-            >
-              Projects
-              <span
-                className="text-[10px] transition-transform duration-200"
-                style={{ transform: projectsOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
-              >
-                ▼
-              </span>
-            </button>
-
-            <div
-              className="absolute top-full right-0 mt-3 transition-all duration-200 ease-out"
-              style={{
-                opacity: projectsOpen ? 1 : 0,
-                transform: projectsOpen ? 'translateY(0)' : 'translateY(-4px)',
-                pointerEvents: projectsOpen ? 'auto' : 'none',
-              }}
-            >
-              <div className="py-1">
-                {projectItems.map((item) => (
-                  <button
-                    key={item.href}
-                    onClick={() => {
-                      router.push(item.href)
-                      setProjectsOpen(false)
-                    }}
-                    className={`block text-xs sm:text-sm font-light tracking-wide transition-colors duration-200 ${
-                      pathname === item.href
-                        ? 'text-emerald-400'
-                        : navTextInactive
-                    }`}
-                  >
-                    {item.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
+          <button
+            onClick={() => router.push('/demo')}
+            className={`text-xs sm:text-sm font-light tracking-wide transition-colors duration-200 ${
+              pathname?.startsWith('/demo') || pathname === '/Visualizer-Eden' ? navTextActive : navTextInactive
+            }`}
+          >
+            Projects
+          </button>
 
           <ThemeToggle />
         </div>
@@ -257,26 +208,16 @@ export function SiteHeader() {
           </div>
 
           <div className={`pt-4 border-t ${isDark ? 'border-white/10' : 'border-foreground/10'}`}>
-            <p className={`text-xs uppercase tracking-[0.2em] mb-2 ${isDark ? 'text-white/40' : 'text-foreground/40'}`}>Projects</p>
-            <div className="space-y-2">
-              {projectItems.map((item) => (
-                <button
-                  key={item.href}
-                  onClick={() => {
-                    router.push(item.href)
-                    setProjectsOpen(false)
-                    setMobileMenuOpen(false)
-                  }}
-                  className={`w-full text-left text-base font-light tracking-wide transition-colors duration-200 ${
-                    pathname === item.href
-                      ? 'text-emerald-400'
-                      : isDark ? 'text-white/60 hover:text-white/90' : 'text-foreground/60 hover:text-foreground/90'
-                  }`}
-                >
-                  {item.name}
-                </button>
-              ))}
-            </div>
+            <button
+              onClick={() => { router.push('/demo'); setMobileMenuOpen(false) }}
+              className={`w-full text-left text-base font-light tracking-wide py-2 transition-colors duration-200 ${
+                pathname?.startsWith('/demo') || pathname === '/Visualizer-Eden'
+                  ? isDark ? 'text-white/90' : 'text-foreground/90'
+                  : isDark ? 'text-white/60 hover:text-white/90' : 'text-foreground/60 hover:text-foreground/90'
+              }`}
+            >
+              Projects
+            </button>
           </div>
         </div>
       </div>

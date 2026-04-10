@@ -3,8 +3,13 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { fourUhSectionLabelMuted } from '@/components/shared/lists/four-uh-shared'
 
 const cardClass = 'rounded-2xl border border-border bg-card backdrop-blur-md'
+/** Dark shell masks Spotify’s default iframe paper color when clipped; no double border */
+const SPOTIFY_EMBED_H = 152
+const musicEmbedShell =
+  'overflow-hidden rounded-lg bg-[#121212] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]'
 
 type LinkItem = {
   label: string
@@ -41,24 +46,9 @@ const links: LinkItem[] = [
     media: { type: 'image', src: '/instagram-grid.png' },
   },
   {
-    label: 'SoundCloud', description: 'tracks, sets & mixes', color: '#7b2fbe',
-    detail: 'Primary home for original productions, DJ mixes, and live recordings. Six years of electronic music spanning DnB, tech-house, and techno — including sets from No Signal NYC and collaborations with Nevstv.',
-    url: 'https://soundcloud.com/akaieuan',
-  },
-  {
-    label: 'Bandcamp', description: 'music & merch', color: '#0277bd',
-    detail: 'Full discography for digital purchase — Ubiquity, Anthrotechnica AT.M2, Chaotic Networks, v0013, Visualizer Eden, Girls Just Want Breaks. Limited merch drops here too.',
-    url: 'https://akaieuan.bandcamp.com/',
-  },
-  {
-    label: 'Spotify', description: 'streaming', color: '#1a7a44',
-    detail: 'All releases streaming — albums, EPs, and singles. Over 3 million streams across platforms under aka ieuan, Mr.M4UH, abletonlivee, and yion.',
-    url: 'https://open.spotify.com/artist/5OwuCYMg2wmmh3QofLLIPe',
-  },
-  {
-    label: 'YouTube', description: 'videos & DJ sets', color: '#b71c4e',
-    detail: 'Video DJ sets, live-recorded performances, and visual experiments — the Techno INC set, Nevstv collaboration, and the v0013 music video.',
-    url: 'https://www.youtube.com/channel/UC6etRnx7fZEtoVAI-phCu6Q',
+    label: 'music', description: 'productions · mixes · merch', color: '#7b2fbe',
+    detail: 'Six years of electronic music spanning DnB, tech-house, and techno garnering 4 million+ streams',
+    url: '',
   },
 ]
 
@@ -68,6 +58,14 @@ const writingEntries = [
   { title: 'Of Course', desc: 'I\'m both unsurprised and astonished that Sam Altman has announced ChatGPT will provide generative erotic services to its mature users.', url: 'https://kraa.io/306857605553134592' },
   { title: 'Digital Gentrification', desc: 'Digital spaces have shaped my real-world experiences. Born in the Y2K era, I experienced firsthand the impact of transformative information technology.', url: 'https://kraa.io/306942411031387136' },
   { title: 'The Gate Kept Public', desc: 'Hostile Architecture is the development of public property designed to expel undesired behavior by people and animals.', url: 'https://kraa.io/307129926200531968' },
+  { title: 'Teacher Issues: Classroom Crisis', desc: 'How has the classroom changed in the modern era? Exploring teacher problems and how the classroom is affected.', url: 'https://ubikstu.substack.com/p/teacher-issues-classroom-crisis' },
+]
+
+const musicEntries = [
+  { label: 'SoundCloud', desc: 'tracks, sets & mixes', url: 'https://soundcloud.com/akaieuan' },
+  { label: 'Bandcamp', desc: 'music & merch', url: 'https://akaieuan.bandcamp.com/' },
+  { label: 'Spotify', desc: 'streaming', url: 'https://open.spotify.com/artist/5OwuCYMg2wmmh3QofLLIPe' },
+  { label: 'YouTube', desc: 'videos & DJ sets', url: 'https://www.youtube.com/channel/UC6etRnx7fZEtoVAI-phCu6Q' },
 ]
 
 function getDomain(url: string): string {
@@ -81,7 +79,28 @@ function GalleryCarousel({ images, label }: { images: string[]; label: string })
 
   return (
     <div className="mt-4">
-      <div className="relative overflow-hidden rounded-lg border border-border">
+      {images.length > 1 && (
+        <div className="flex items-center justify-between mb-2">
+          <button
+            type="button"
+            onClick={prev}
+            className="text-[11px] font-medium text-foreground/40 hover:text-foreground/80 transition-colors duration-150 flex items-center gap-1"
+          >
+            ← prev
+          </button>
+          <span className="text-[11px] text-muted-foreground/40 tabular-nums">
+            {current + 1} / {images.length}
+          </span>
+          <button
+            type="button"
+            onClick={next}
+            className="text-[11px] font-medium text-foreground/40 hover:text-foreground/80 transition-colors duration-150 flex items-center gap-1"
+          >
+            next →
+          </button>
+        </div>
+      )}
+      <div className="overflow-hidden rounded-lg border border-border">
         <Image
           src={images[current]}
           alt={`${label} ${current + 1}`}
@@ -89,79 +108,28 @@ function GalleryCarousel({ images, label }: { images: string[]; label: string })
           height={600}
           className="w-full h-auto block"
         />
-        {images.length > 1 && (
-          <>
-            <button
-              type="button"
-              onClick={prev}
-              aria-label="Previous image"
-              className="absolute left-2 top-1/2 -translate-y-1/2 h-7 w-7 rounded-lg bg-background/70 backdrop-blur-sm border border-border/60 flex items-center justify-center text-foreground/60 hover:text-foreground transition-colors text-xs"
-            >
-              ←
-            </button>
-            <button
-              type="button"
-              onClick={next}
-              aria-label="Next image"
-              className="absolute right-2 top-1/2 -translate-y-1/2 h-7 w-7 rounded-lg bg-background/70 backdrop-blur-sm border border-border/60 flex items-center justify-center text-foreground/60 hover:text-foreground transition-colors text-xs"
-            >
-              →
-            </button>
-            <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1">
-              {images.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => setCurrent(i)}
-                  aria-label={`Go to image ${i + 1}`}
-                  className={`h-1 rounded-full transition-all duration-200 ${i === current ? 'w-4 bg-foreground/60' : 'w-1 bg-foreground/25 hover:bg-foreground/40'}`}
-                />
-              ))}
-            </div>
-          </>
-        )}
       </div>
-      <p className="text-[10px] text-muted-foreground/30 mt-1.5 text-right tabular-nums">{current + 1} / {images.length}</p>
     </div>
   )
 }
 
 function LinkRow({
-  item, isSelected, onClick, index, isInView,
+  item, isSelected, onClick,
 }: {
-  item: LinkItem; isSelected: boolean; onClick: () => void; index: number; isInView: boolean
+  item: LinkItem; isSelected: boolean; onClick: () => void
 }) {
-  const [hasAnimated, setHasAnimated] = useState(false)
-
-  useEffect(() => {
-    if (isInView && !hasAnimated) {
-      const timer = setTimeout(() => setHasAnimated(true), index * 45)
-      return () => clearTimeout(timer)
-    }
-  }, [isInView, hasAnimated, index])
-
-  useEffect(() => {
-    if (!isInView) setHasAnimated(false)
-  }, [isInView])
-
   return (
     <button
       type="button"
       onClick={onClick}
-      className="flex items-center justify-between py-3 w-full text-left border-b border-border/50 last:border-b-0"
-      style={{
-        opacity: hasAnimated ? 1 : 0,
-        transform: hasAnimated ? 'translateX(0)' : 'translateX(-8px)',
-        transition: 'opacity 0.35s ease-out, transform 0.35s ease-out',
-        transitionDelay: `${index * 45}ms`,
-      }}
+      className="flex items-center justify-between py-3 w-full text-left border-b border-border/50 last:border-b-0 rounded-md outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/25 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       <span
-        className="text-sm font-light tracking-wide transition-colors duration-150"
-        style={{ color: isSelected ? item.color : undefined }}
+        className={`text-sm font-light tracking-wide transition-colors duration-150 ${
+          isSelected ? 'text-foreground' : 'text-foreground/70'
+        }`}
       >
-        {!isSelected && <span className="text-foreground/70">{item.label}</span>}
-        {isSelected && item.label}
+        {item.label}
       </span>
       <span className="text-[11px] font-light tracking-wide shrink-0 ml-4 text-muted-foreground/60">
         {item.description}
@@ -172,43 +140,49 @@ function LinkRow({
 
 function DetailEmptyState() {
   return (
-    <p className="text-muted-foreground/45 text-sm font-light leading-relaxed max-w-md pt-0.5">
-      Select a link to learn more about each platform and why it matters.
-    </p>
+    <div className={`${cardClass} w-full h-full min-h-[280px] md:min-h-0 flex flex-col items-center justify-center gap-2`}>
+      <p className="text-sm font-light tracking-wide text-muted-foreground/40">
+        select a link to explore
+      </p>
+    </div>
   )
 }
 
 function DetailPanel({ item }: { item: LinkItem }) {
   const isAkaWrite = item.label === 'aka.write'
+  const isMusic = item.label === 'music'
   const isVisualizerEden = item.url === '/Visualizer-Eden'
+  const hasExternalLink = item.url && !isVisualizerEden && !isMusic
 
-  const linkEl = isVisualizerEden ? (
-    <Link
-      href="/Visualizer-Eden"
-      className="shrink-0 text-[11px] font-medium tracking-wide transition-opacity duration-200 hover:opacity-70"
-      style={{ color: item.color }}
-    >
-      Open →
-    </Link>
-  ) : (
-    <a
-      href={item.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="shrink-0 text-[11px] font-medium tracking-wide transition-opacity duration-200 hover:opacity-70"
-      style={{ color: item.color }}
-    >
-      {getDomain(item.url)} →
-    </a>
-  )
+  const cardPadding = isAkaWrite ? 'px-4 py-4' : 'px-6 py-5'
 
   return (
-    <div className={`${cardClass} px-6 py-5 overflow-hidden`} key={item.label}>
-      <div className="flex items-center justify-between gap-3 mb-3">
-        <p className="text-base font-medium tracking-wide" style={{ color: item.color }}>
+    <div
+      className={`${cardClass} ${cardPadding} w-full md:h-full md:min-h-0 max-h-[min(90vh,760px)] md:max-h-none overflow-y-auto overflow-x-hidden overscroll-y-contain [scrollbar-gutter:stable]`}
+      key={item.label}
+    >
+      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3">
+        <span className="text-base font-light tracking-wide text-foreground">
           {item.label}
-        </p>
-        {linkEl}
+        </span>
+        {isVisualizerEden && (
+          <Link
+            href="/Visualizer-Eden"
+            className="text-[11px] font-light tracking-wide text-muted-foreground transition-opacity duration-200 hover:opacity-70"
+          >
+            Open →
+          </Link>
+        )}
+        {hasExternalLink && (
+          <a
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[11px] font-light tracking-wide text-muted-foreground transition-opacity duration-200 hover:opacity-70"
+          >
+            {getDomain(item.url)} →
+          </a>
+        )}
       </div>
 
       <p className="text-[13px] font-light leading-relaxed text-muted-foreground">
@@ -220,7 +194,7 @@ function DetailPanel({ item }: { item: LinkItem }) {
       )}
 
       {isAkaWrite && (
-        <div className="mt-4 space-y-3.5 border-t border-border/40 pt-4">
+        <div className="mt-3 space-y-2.5 border-t border-border/40 pt-3">
           {writingEntries.map((entry) => (
             <a
               key={entry.title}
@@ -229,9 +203,9 @@ function DetailPanel({ item }: { item: LinkItem }) {
               rel="noopener noreferrer"
               className="block group"
             >
-              <p className="text-[12px] font-medium text-foreground/65 group-hover:text-foreground/90 underline decoration-foreground/15 group-hover:decoration-foreground/45 underline-offset-2 transition-colors duration-150 flex items-center gap-1">
+              <p className="text-[12px] font-light text-foreground/65 group-hover:text-foreground/90 transition-colors duration-150 flex items-center gap-1">
                 {entry.title}
-                <span className="no-underline text-[10px] text-foreground/25 group-hover:text-foreground/55 transition-colors duration-150">↗</span>
+                <span className="text-[10px] text-foreground/25 group-hover:text-foreground/55 transition-colors duration-150">↗</span>
               </p>
               <p className="text-[11px] font-light text-muted-foreground/45 leading-relaxed mt-0.5">
                 {entry.desc}
@@ -241,15 +215,72 @@ function DetailPanel({ item }: { item: LinkItem }) {
         </div>
       )}
 
+      {isMusic && (
+        <div className="mt-4 border-t border-border/40 pt-4">
+          {musicEntries.map((entry) => (
+            <a
+              key={entry.label}
+              href={entry.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between py-2.5 border-b border-border/30 last:border-b-0 group"
+            >
+              <span className="text-[13px] font-light text-foreground/65 group-hover:text-foreground/90 transition-colors duration-150">
+                {entry.label}
+              </span>
+              <span className="text-[11px] font-light text-muted-foreground/40 group-hover:text-muted-foreground/60 transition-colors duration-150 ml-4 shrink-0">
+                {entry.desc} ↗
+              </span>
+            </a>
+          ))}
+          <div className="mt-3 space-y-3">
+            <div>
+              <p className={`${fourUhSectionLabelMuted} mb-1.5`}>Spotify · aka ieuan</p>
+              <div className={musicEmbedShell} style={{ height: SPOTIFY_EMBED_H }}>
+                <iframe
+                  title="Spotify — aka ieuan"
+                  src="https://open.spotify.com/embed/artist/5OwuCYMg2wmmh3QofLLIPe?utm_source=generator"
+                  width="100%"
+                  height={SPOTIFY_EMBED_H}
+                  frameBorder={0}
+                  allowFullScreen
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                  className="block h-full w-full border-0 align-top"
+                />
+              </div>
+            </div>
+            <div>
+              <p className={`${fourUhSectionLabelMuted} mb-1.5`}>Spotify · yion</p>
+              <div className={musicEmbedShell} style={{ height: SPOTIFY_EMBED_H }}>
+                <iframe
+                  title="Spotify — yion"
+                  src="https://open.spotify.com/embed/artist/0SKj35DCAPNfu3KVUBTiVE?utm_source=generator"
+                  width="100%"
+                  height={SPOTIFY_EMBED_H}
+                  frameBorder={0}
+                  allowFullScreen
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                  className="block h-full w-full border-0 align-top"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {item.media?.type === 'image' && (
-        <div className="mt-4 overflow-hidden rounded-lg border border-border relative">
+        <div className="mt-4 overflow-hidden rounded-lg border border-border">
           <Image src={item.media.src} alt={item.label} width={800} height={600} className="w-full h-auto block" />
         </div>
       )}
 
       {item.media?.type === 'video' && (
-        <div className="mt-4 overflow-hidden rounded-lg border border-border">
-          <video autoPlay loop muted playsInline src={item.media.src} className="w-full h-auto block" />
+        <div className="mt-4 px-3 sm:px-4">
+          <div className="overflow-hidden rounded-lg">
+            <video autoPlay loop muted playsInline src={item.media.src} className="w-full h-auto block" />
+          </div>
         </div>
       )}
     </div>
@@ -314,7 +345,7 @@ export function LinksSection() {
             <div className="flex-1 text-center">
               <span className="text-muted-foreground/50 text-[11px]">{mobileIndex + 1}/{links.length}</span>
               <span className="mx-1.5 text-border text-[11px]">·</span>
-              <span className="text-sm font-light" style={{ color: mobileItem.color }}>{mobileItem.label}</span>
+              <span className="text-sm font-light text-foreground">{mobileItem.label}</span>
               <span className="ml-1.5 text-muted-foreground/45 text-[11px]">{mobileItem.description}</span>
             </div>
             <button
@@ -333,19 +364,17 @@ export function LinksSection() {
         {/* Desktop: sidebar list + detail panel */}
         <div className="hidden md:flex md:flex-row md:items-start gap-4 md:gap-5">
           <div className={`${cardClass} px-5 py-4 w-full md:w-[300px] shrink-0 self-start`}>
-            {links.map((item, i) => (
+            {links.map((item) => (
               <LinkRow
                 key={item.label}
                 item={item}
                 isSelected={selectedItem?.label === item.label}
                 onClick={() => toggleLink(item)}
-                index={i}
-                isInView={isInView}
               />
             ))}
           </div>
 
-          <div className="w-full md:flex-1 min-w-0 flex flex-col">
+          <div className="w-full md:flex-1 min-w-0 md:h-[680px] min-h-0 flex flex-col">
             {selectedItem ? (
               <DetailPanel item={selectedItem} />
             ) : (

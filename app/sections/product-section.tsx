@@ -1,6 +1,16 @@
 'use client'
 
+import Link from 'next/link'
+
 const cardClass = 'rounded-2xl border border-border bg-card backdrop-blur-md p-5 sm:p-6'
+
+/** Same hue as hero highlights: oklch(0.707 0.108 152.216) on dark; darker sage on light cards for contrast */
+const labelAccent =
+  'text-[10px] font-medium uppercase tracking-[0.2em] mb-2 text-[oklch(0.38_0.055_152.2)] dark:text-[oklch(0.62_0.09_152)]'
+const linkAccent =
+  'text-[oklch(0.4_0.08_152.2)] hover:text-[oklch(0.32_0.085_152)] dark:text-[oklch(0.707_0.108_152.216)] dark:hover:text-[oklch(0.78_0.1_152)] transition-colors duration-200'
+const linkAccentSoft =
+  'text-[oklch(0.44_0.07_152)] hover:text-[oklch(0.36_0.075_152)] dark:text-[oklch(0.62_0.1_152)] dark:hover:text-[oklch(0.75_0.1_152)] transition-colors duration-200'
 
 export function ProductSection() {
   return (
@@ -17,16 +27,24 @@ export function ProductSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
           <div className={cardClass}>
-            <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-emerald-400/80 mb-2">
+            <p className={labelAccent}>
               What I Build
             </p>
             <p className="text-xs font-light leading-relaxed text-muted-foreground">
-              Interfaces for complex AI systems that people actually trust. Approval flows, citation verification, design systems, and the copy conventions that make agentic tools feel legible. I design with code, sketch by hand, draft in v0, and ship in Cursor.
+              Interfaces for complex AI systems that people actually trust. Approval flows, citation verification, design systems, and the copy conventions that make agentic tools feel legible. I use Claude and Claude Code in a pipeline into Cursor; when I sketch by hand, I often pipe that through v0 or Claude first, then finish in Cursor.
+            </p>
+            <p className="mt-3">
+              <Link
+                href="/demo"
+                className={`text-[11px] font-light ${linkAccent}`}
+              >
+                Try some interactive demos →
+              </Link>
             </p>
           </div>
 
           <div className={cardClass}>
-            <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-emerald-400/80 mb-2">
+            <p className={labelAccent}>
               How I Validate
             </p>
             <p className="text-xs font-light leading-relaxed text-muted-foreground">
@@ -35,7 +53,7 @@ export function ProductSection() {
           </div>
 
           <div className={`${cardClass} md:col-span-2`}>
-            <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-emerald-400/80 mb-2">
+            <p className={labelAccent}>
               Current Work
             </p>
             <div className="md:grid md:grid-cols-[auto_1fr] md:gap-x-8 md:items-start">
@@ -45,7 +63,7 @@ export function ProductSection() {
                   href="https://ubik.studio"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-emerald-400 hover:text-emerald-300 transition-colors duration-200"
+                  className={linkAccent}
                 >
                   Ubik Studio
                 </a>
@@ -54,12 +72,12 @@ export function ProductSection() {
                   href="https://kraa.io/team-test-log042"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-emerald-400/70 hover:text-emerald-300 transition-colors duration-200"
+                  className={linkAccentSoft}
                 >
                   team-test →
                 </a>
               </p>
-              <ul className="text-xs font-light leading-relaxed text-muted-foreground space-y-1.5 pl-3.5 list-disc marker:text-emerald-400/40">
+              <ul className="text-xs font-light leading-relaxed text-muted-foreground space-y-1.5 pl-3.5 list-disc marker:text-[oklch(0.55_0.055_152)] dark:marker:text-[oklch(0.5_0.07_152)]">
                 <li>
                   Designed and built production-ready components and UI flows for a Next.js web app and Electron desktop app, informed by user &amp; design partner feedback, product research, and session replays.
                 </li>
@@ -80,7 +98,7 @@ export function ProductSection() {
           </div>
 
           <div className={`${cardClass} md:col-span-2`}>
-            <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-emerald-400/80 mb-2">
+            <p className={labelAccent}>
               A Measurement Problem
             </p>
             <p className="text-xs font-light leading-relaxed text-muted-foreground">
@@ -89,7 +107,7 @@ export function ProductSection() {
                 href="https://kraa.io/abmpinai1"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-emerald-400 hover:text-emerald-300 transition-colors duration-200"
+                className={linkAccent}
               >
                 read →
               </a>

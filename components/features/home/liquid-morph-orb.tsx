@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useLayoutEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Float, Sphere } from '@react-three/drei'
 import * as THREE from 'three'
@@ -18,6 +18,8 @@ interface LiquidMorphOrbProps {
   onHover: (hovered: boolean) => void
   size?: number
   mousePos?: MousePos
+  /** Softer shaders + less motion — avoids grain moiré on small screens */
+  narrowViewport?: boolean
 }
 
 export function LiquidMorphOrb({ 
@@ -27,7 +29,8 @@ export function LiquidMorphOrb({
   isHovered, 
   onHover,
   size = 1,
-  mousePos = { x: 0, y: 0 }
+  mousePos = { x: 0, y: 0 },
+  narrowViewport = false,
 }: LiquidMorphOrbProps) {
   const groupRef = useRef<THREE.Group>(null)
   const mainOrbRef = useRef<THREE.Mesh>(null)
@@ -43,12 +46,14 @@ export function LiquidMorphOrb({
       liquidColor: { value: new THREE.Color('#44ddaa') },
       foamColor: { value: new THREE.Color('#ffffff') },
       blackColor: { value: new THREE.Color('#000000') },
+      comfort: { value: 1.0 },
     },
     vertexShader: `
       uniform float time;
       uniform float flowIntensity;
       uniform float viscosity;
       uniform vec2 mousePos;
+      uniform float comfort;
       
       varying vec3 vNormal;
       varying vec3 vPosition;
@@ -95,26 +100,28 @@ export function LiquidMorphOrb({
         vUv = uv;
         vWorldPosition = (modelMatrix * vec4(position, 1.0)).xyz;
         
+        float t = time * mix(0.48, 1.0, comfort);
+        
         vec3 pos = position;
         
         // Liquid deformation - ALWAYS ACTIVE
         // Wave-like motion
-        float wave1 = sin(pos.x * 8.0 + time * 4.0) * flowIntensity * 0.3;
-        float wave2 = sin(pos.z * 6.0 + time * 3.5) * flowIntensity * 0.25;
-        float wave3 = sin(pos.y * 10.0 + time * 5.0) * flowIntensity * 0.15;
+        float wave1 = sin(pos.x * 8.0 + t * 4.0) * flowIntensity * 0.3;
+        float wave2 = sin(pos.z * 6.0 + t * 3.5) * flowIntensity * 0.25;
+        float wave3 = sin(pos.y * 10.0 + t * 5.0) * flowIntensity * 0.15;
         
         pos += normal * (wave1 + wave2 + wave3);
         
         // Liquid bulging and contracting
-        float bulge = fbm(pos * 2.5 + time * 2.0) * flowIntensity;
+        float bulge = fbm(pos * 2.5 + t * 2.0) * flowIntensity;
         pos += normal * bulge * 0.45;
         
         // Viscous stretching
-        float stretch = sin(time * 3.0 + pos.y * 5.0) * viscosity * 0.6;
+        float stretch = sin(t * 3.0 + pos.y * 5.0) * viscosity * 0.6;
         pos.y += stretch * flowIntensity;
         
         // Subtle chaos
-        float chaos = fbm(pos * 4.0 + time * 3.0) * flowIntensity * 0.2;
+        float chaos = fbm(pos * 4.0 + t * 3.0) * flowIntensity * 0.2;
         pos += normal * chaos * 0.25;
         
         // Cursor attraction - only when hovered (mousePos will be zeroed when not hovered)
@@ -130,7 +137,7 @@ export function LiquidMorphOrb({
           pos += normal * bulgeNearCursor;
           
           // Ripple from cursor
-          float ripple = sin(cursorDist * 4.0 - time * 3.0) * smoothstep(3.0, 0.0, cursorDist) * 0.1;
+          float ripple = sin(cursorDist * 4.0 - t * 3.0) * smoothstep(3.0, 0.0, cursorDist) * 0.1;
           pos += normal * ripple;
         }
         
@@ -142,6 +149,7 @@ export function LiquidMorphOrb({
     fragmentShader: `
       uniform float time;
       uniform float flowIntensity;
+      uniform float comfort;
       uniform vec3 baseColor;
       uniform vec3 liquidColor;
       uniform vec3 foamColor;
@@ -165,6 +173,11 @@ export function LiquidMorphOrb({
               void main() {
           vec3 normal = normalize(vNormal);
           vec3 viewDir = normalize(cameraPosition - vWorldPosition);
+          float t = time * mix(0.48, 1.0, comfort);
+          float rx = mix(10.0, 30.0, comfort);
+          float rz = mix(9.0, 25.0, comfort);
+          float rtx = mix(2.8, 8.0, comfort);
+          float rtz = mix(2.2, 6.0, comfort);
           
           // High contrast liquid color mixing with better base visibility
           vec3 color = mix(baseColor, liquidColor, smoothstep(0.3, 0.9, vFlow));
@@ -174,8 +187,8 @@ export function LiquidMorphOrb({
           color = mix(color, foamColor, fresnel * (0.3 + vFlow * 0.9)); // Base visibility + flow enhancement
           
           // Enhanced liquid surface ripples
-          float ripple = sin(vPosition.x * 30.0 + time * 8.0) * 
-                        sin(vPosition.z * 25.0 + time * 6.0) * 
+          float ripple = sin(vPosition.x * rx + t * rtx) * 
+                        sin(vPosition.z * rz + t * rtz) * 
                         vFlow * 0.4;
           color += ripple * foamColor;
           
@@ -187,9 +200,10 @@ export function LiquidMorphOrb({
           float cavity = 1.0 - max(0.0, dot(normal, vec3(0.0, 1.0, 0.0)));
           color = mix(color, blackColor, cavity * vFlow * 0.3);
           
-          // Film grain for realism
-          float grain = filmGrain(vUv * 90.0, time);
-          color += grain * 0.7;
+          // Film grain for realism (low freq + weak on narrow viewports — avoids shimmer)
+          float grainUv = mix(22.0, 90.0, comfort);
+          float grain = filmGrain(vUv * grainUv, t);
+          color += grain * mix(0.04, 0.7, comfort);
           
           // High contrast enhancement with better base visibility
           color = pow(color, vec3(1.3)); // Slightly less aggressive contrast
@@ -208,10 +222,15 @@ export function LiquidMorphOrb({
     transparent: true
   }), [])
 
+  useLayoutEffect(() => {
+    liquidMaterial.uniforms.comfort.value = narrowViewport ? 0 : 1
+  }, [narrowViewport, liquidMaterial])
+
   useFrame((state) => {
     if (!groupRef.current) return
     
     const time = state.clock.elapsedTime
+    const motion = narrowViewport ? 0.52 : 1
     
     // Update material uniforms
     liquidMaterial.uniforms.time.value = time
@@ -231,23 +250,23 @@ export function LiquidMorphOrb({
     
     // Always animate liquid-like floating motion
     groupRef.current.position.y = position[1] + 
-      Math.sin(time * 2.0) * 0.15 +
-      Math.sin(time * 3.2) * 0.06 +
-      Math.sin(time * 1.8) * 0.04
+      Math.sin(time * 2.0 * motion) * 0.15 +
+      Math.sin(time * 3.2 * motion) * 0.06 +
+      Math.sin(time * 1.8 * motion) * 0.04
     
     // Always rotating
-    groupRef.current.rotation.y = time * 0.5
-    groupRef.current.rotation.x = Math.sin(time * 1.8) * 0.2
-    groupRef.current.rotation.z = Math.cos(time * 1.2) * 0.1
+    groupRef.current.rotation.y = time * 0.5 * motion
+    groupRef.current.rotation.x = Math.sin(time * 1.8 * motion) * 0.2
+    groupRef.current.rotation.z = Math.cos(time * 1.2 * motion) * 0.1
     
     // Always pulsing like a liquid blob
-    const scale = 1 + Math.sin(time * 4.0) * 0.05 + 
-                     Math.sin(time * 6.0) * 0.03
+    const scale = 1 + Math.sin(time * 4.0 * motion) * 0.05 + 
+                     Math.sin(time * 6.0 * motion) * 0.03
     groupRef.current.scale.setScalar(scale)
   })
 
   return (
-    <Float speed={2} rotationIntensity={0.4} floatIntensity={0.6}>
+    <Float speed={narrowViewport ? 0.75 : 2} rotationIntensity={narrowViewport ? 0.22 : 0.4} floatIntensity={narrowViewport ? 0.35 : 0.6}>
       <group 
         ref={groupRef} 
         position={position}
@@ -260,43 +279,47 @@ export function LiquidMorphOrb({
           <primitive object={liquidMaterial} />
         </Sphere>
         
-        {/* Liquid droplets - always visible */}
-        <Sphere args={[size * 0.12, 16, 16]} position={[size * 0.8, -size * 0.3, 0]}>
-          <meshPhysicalMaterial 
-            color="#225544"
-            transmission={0.9}
-            thickness={0.08}
-            roughness={0.05}
-            metalness={0.0}
-            ior={1.33}
-            transparent
-            opacity={0.85}
-          />
-        </Sphere>
-        <Sphere args={[size * 0.09, 16, 16]} position={[-size * 0.6, size * 0.4, size * 0.3]}>
-          <meshPhysicalMaterial 
-            color="#225544"
-            transmission={0.9}
-            thickness={0.08}
-            roughness={0.05}
-            metalness={0.0}
-            ior={1.33}
-            transparent
-            opacity={0.85}
-          />
-        </Sphere>
-        <Sphere args={[size * 0.06, 16, 16]} position={[size * 0.25, size * 0.7, -size * 0.4]}>
-          <meshPhysicalMaterial 
-            color="#225544"
-            transmission={0.9}
-            thickness={0.08}
-            roughness={0.05}
-            metalness={0.0}
-            ior={1.33}
-            transparent
-            opacity={0.85}
-          />
-        </Sphere>
+        {/* Transmission droplets are heavy on mobile GPUs — omit in narrow layout */}
+        {!narrowViewport && (
+          <>
+            <Sphere args={[size * 0.12, 16, 16]} position={[size * 0.8, -size * 0.3, 0]}>
+              <meshPhysicalMaterial 
+                color="#225544"
+                transmission={0.9}
+                thickness={0.08}
+                roughness={0.05}
+                metalness={0.0}
+                ior={1.33}
+                transparent
+                opacity={0.85}
+              />
+            </Sphere>
+            <Sphere args={[size * 0.09, 16, 16]} position={[-size * 0.6, size * 0.4, size * 0.3]}>
+              <meshPhysicalMaterial 
+                color="#225544"
+                transmission={0.9}
+                thickness={0.08}
+                roughness={0.05}
+                metalness={0.0}
+                ior={1.33}
+                transparent
+                opacity={0.85}
+              />
+            </Sphere>
+            <Sphere args={[size * 0.06, 16, 16]} position={[size * 0.25, size * 0.7, -size * 0.4]}>
+              <meshPhysicalMaterial 
+                color="#225544"
+                transmission={0.9}
+                thickness={0.08}
+                roughness={0.05}
+                metalness={0.0}
+                ior={1.33}
+                transparent
+                opacity={0.85}
+              />
+            </Sphere>
+          </>
+        )}
       </group>
     </Float>
   )

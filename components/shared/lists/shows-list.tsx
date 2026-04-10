@@ -58,7 +58,7 @@ function EventItem({ event }: { event: Event }) {
           @ {event.venue}
         </span>
         {event.isTicketLink && !event.isPast && (
-          <span className="text-[8px] font-medium uppercase tracking-wide text-emerald-400/90">Tickets →</span>
+          <span className="text-[8px] font-medium uppercase tracking-wide text-[oklch(0.4_0.08_152.2)] dark:text-[oklch(0.707_0.108_152.216)]">Tickets →</span>
         )}
       </div>
     </a>

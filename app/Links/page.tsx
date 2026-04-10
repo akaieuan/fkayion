@@ -2,13 +2,16 @@ import { Suspense } from 'react'
 import { LinksClient } from './links-client'
 
 const linksData = [
-  { label: 'SoundCloud', url: 'https://soundcloud.com/akaieuan', color: '#aa22ff', hoverColor: '#cc44ff' },
   { label: 'aka.write', url: 'https://kraa.io/akaieuan', color: '#88ff22', hoverColor: '#aaff44' },
   { label: 'Ubik', url: 'https://ubik.studio', color: '#ff4422', hoverColor: '#ff6644' },
-  { label: 'Bandcamp', url: 'https://akaieuan.bandcamp.com/', color: '#22aaff', hoverColor: '#44ccff' },
-  { label: 'Spotify', url: 'https://open.spotify.com/artist/5OwuCYMg2wmmh3QofLLIPe?si=QfdVpYAeRQSC3G4fWTuIyg', color: '#aa22ff', hoverColor: '#cc44ff' },
-  { label: 'YouTube', url: 'https://www.youtube.com/channel/UC6etRnx7fZEtoVAI-phCu6Q', color: '#ff2288', hoverColor: '#ff44aa' },
   { label: 'Instagram', url: 'https://instagram.com/aka.ieuan/', color: '#ff6b9d', hoverColor: '#ff8fa3' },
+]
+
+const musicLinks = [
+  { label: 'SoundCloud', url: 'https://soundcloud.com/akaieuan', description: 'tracks, sets & mixes' },
+  { label: 'Bandcamp', url: 'https://akaieuan.bandcamp.com/', description: 'music & merch' },
+  { label: 'Spotify', url: 'https://open.spotify.com/artist/5OwuCYMg2wmmh3QofLLIPe', description: 'streaming' },
+  { label: 'YouTube', url: 'https://www.youtube.com/channel/UC6etRnx7fZEtoVAI-phCu6Q', description: 'videos & DJ sets' },
 ]
 
 const writingLinks = [
@@ -35,6 +38,7 @@ export default function LinksPage() {
         <LinksClient
           linksData={linksData}
           writingLinks={writingLinks}
+          musicLinks={musicLinks}
         />
       </Suspense>
     </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useSyncExternalStore } from 'react'
 import { Canvas } from '@react-three/fiber'
 import * as THREE from 'three'
 import { LiquidMorphOrb } from '@/components/features/home'
@@ -88,7 +88,24 @@ function AnimatedText({ segments, baseDelay }: { segments: TextSegment[]; baseDe
 const ORB_POSITION: [number, number, number] = [3.2, 0, 0]
 const ORB_SIZE = 1.0
 
+const NARROW_MEDIA = '(max-width: 768px)'
+
+function subscribeNarrow(cb: () => void) {
+  const mq = window.matchMedia(NARROW_MEDIA)
+  mq.addEventListener('change', cb)
+  return () => mq.removeEventListener('change', cb)
+}
+
+function getNarrowSnapshot() {
+  return window.matchMedia(NARROW_MEDIA).matches
+}
+
+function getServerNarrow() {
+  return false
+}
+
 export function HomeSection() {
+  const narrowViewport = useSyncExternalStore(subscribeNarrow, getNarrowSnapshot, getServerNarrow)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const [orbVariant, setOrbVariant] = useState<HomeOrbVariant>(0)
 
@@ -110,7 +127,8 @@ export function HomeSection() {
           camera={{ position: [0, 0, 10], fov: 45 }}
           style={{ width: '100%', height: '100%' }}
           gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0 }}
-          dpr={[1, 1.5]}
+          dpr={narrowViewport ? 1 : [1, 1.5]}
+          performance={{ min: 0.5 }}
         >
           <ambientLight intensity={0.15} />
           <pointLight position={[-4, 2, 4]} intensity={1.5} color="#44ddaa" distance={15} />
@@ -125,6 +143,7 @@ export function HomeSection() {
               isHovered={true}
               onHover={() => {}}
               mousePos={mousePos}
+              narrowViewport={narrowViewport}
             />
           )}
           {orbVariant === 1 && (
@@ -137,6 +156,7 @@ export function HomeSection() {
               onHover={() => {}}
               size={1.4}
               variant={0}
+              narrowViewport={narrowViewport}
             />
           )}
           {orbVariant === 2 && (
@@ -149,6 +169,7 @@ export function HomeSection() {
               onHover={() => {}}
               size={1.5}
               variant={0}
+              narrowViewport={narrowViewport}
             />
           )}
         </Canvas>

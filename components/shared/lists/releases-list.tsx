@@ -130,40 +130,6 @@ export function ReleasesList({ isOpen }: ReleasesListProps) {
         </div>
       </div>
 
-      <div className="mb-5">
-        <p className={`${fourUhSectionLabelMuted} mb-2`}>Spotify · aka ieuan</p>
-        <div className={embedShell}>
-          <iframe 
-            style={{ borderRadius: '8px' }}
-            src="https://open.spotify.com/embed/artist/5OwuCYMg2wmmh3QofLLIPe?utm_source=generator" 
-            width="100%" 
-            height="352" 
-            frameBorder="0" 
-            allowFullScreen 
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-            loading="lazy"
-            className="h-[220px] sm:h-[300px] md:h-[352px]"
-          />
-        </div>
-      </div>
-
-      <div className="mb-5">
-        <p className={`${fourUhSectionLabelMuted} mb-2`}>Spotify · yion</p>
-        <div className={embedShell}>
-          <iframe 
-            style={{ borderRadius: '8px' }}
-            src="https://open.spotify.com/embed/artist/0SKj35DCAPNfu3KVUBTiVE?utm_source=generator" 
-            width="100%" 
-            height="352" 
-            frameBorder="0" 
-            allowFullScreen 
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-            loading="lazy"
-            className="h-[220px] sm:h-[300px] md:h-[352px]"
-          />
-        </div>
-      </div>
-
       <div className="pb-2">
         <a 
           href="https://akaieuan.bandcamp.com" 

@@ -8,18 +8,15 @@ const HomeSection = dynamic(() => import('./sections/home-section').then(m => ({
 })
 
 const LinksSection = dynamic(() => import('./sections/links-section').then(m => ({ default: m.LinksSection })), {
-  ssr: false,
-  loading: () => <section id="section-1" className="min-h-screen w-full bg-background" />,
+  loading: () => <section id="section-1" className="w-full py-24 bg-background" />,
 })
 
 const ProductSection = dynamic(() => import('./sections/product-section').then(m => ({ default: m.ProductSection })), {
-  ssr: false,
-  loading: () => <section id="section-2" className="w-full bg-background py-24" />,
+  loading: () => <section id="section-2" className="w-full py-24 bg-background" />,
 })
 
 const FourUHSection = dynamic(() => import('./sections/four-uh-section').then(m => ({ default: m.FourUHSection })), {
-  ssr: false,
-  loading: () => <section id="section-4" className="min-h-screen w-full bg-background" />,
+  loading: () => <section id="section-4" className="w-full py-24 bg-background" />,
 })
 
 export function UnifiedClient() {

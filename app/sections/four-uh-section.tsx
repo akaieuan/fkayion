@@ -37,7 +37,7 @@ export function FourUHSection() {
       <div className="absolute inset-x-0 top-0 h-32 pointer-events-none" style={{ background: 'linear-gradient(to bottom, var(--background), transparent)' }} />
 
       <div className="relative flex min-h-screen items-start md:items-center">
-        <div className="flex w-full max-w-site mx-auto gap-4 site-inset pt-24 pb-16 max-md:flex-col md:flex-row md:items-start">
+          <div className="flex w-full max-w-site mx-auto gap-10 lg:gap-16 site-inset pt-24 pb-16 max-md:flex-col md:flex-row md:items-start">
 
           {/* Main tabbed panel */}
           <div className={`${cardClass} p-4 sm:p-5 md:w-[420px] lg:w-[460px] shrink-0`}>
@@ -54,7 +54,7 @@ export function FourUHSection() {
                 type="button"
                 aria-label="Next section"
                 onClick={goNext}
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[0.85rem] border border-border bg-card text-muted-foreground backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/25 hover:bg-emerald-400/[0.07] hover:text-emerald-200/90 active:scale-95"
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[0.85rem] border border-border bg-card text-muted-foreground backdrop-blur-sm transition-all duration-300 hover:border-[oklch(0.55_0.06_152/0.4)] hover:bg-[oklch(0.707_0.108_152.216/0.08)] hover:text-[oklch(0.32_0.08_152)] dark:hover:border-[oklch(0.707_0.108_152.216/0.35)] dark:hover:bg-[oklch(0.707_0.108_152.216/0.1)] dark:hover:text-[oklch(0.78_0.1_152)] active:scale-95"
               >
                 <span className="text-[12px] font-light leading-none">→</span>
               </button>
@@ -71,7 +71,9 @@ export function FourUHSection() {
                   type="button"
                   onClick={() => setPanelIndex(i)}
                   className={`shrink-0 whitespace-nowrap text-[10px] font-medium uppercase tracking-wide transition-colors ${
-                    i === panelIndex ? 'text-emerald-300/95' : 'text-muted-foreground/60 hover:text-foreground/60'
+                    i === panelIndex
+                      ? 'text-[oklch(0.38_0.08_152)] dark:text-[oklch(0.707_0.108_152.216)]'
+                      : 'text-muted-foreground/60 hover:text-foreground/60'
                   }`}
                 >
                   {item}
@@ -100,15 +102,15 @@ export function FourUHSection() {
           </div>
 
           {/* Bio text */}
-          <div className="flex-1 self-start max-md:order-first">
-            <div className="max-w-md space-y-5">
-              <p className="text-sm sm:text-base font-light leading-relaxed text-muted-foreground">
+          <div className="flex-1 md:self-center max-md:order-first">
+            <div className="space-y-5 lg:space-y-7">
+              <p className="text-sm sm:text-base lg:text-[15px] font-light leading-loose text-muted-foreground">
                 aka ieuan is a Brooklyn-born &amp; based electronic musician crafting live-recorded, hypnotic techno compositions that combine his love of underground rap, alt-rock/metal, electronic music, and classical guitar. Known under various aliases including akaieuan, Mr.M4UH, abletonlivee, and yion, he has spent six years developing a sound that spans DnB, Tech-House, and Techno accumulating over 3 million streams across all platforms.
               </p>
-              <p className="text-sm sm:text-base font-light leading-relaxed text-muted-foreground">
+              <p className="text-sm sm:text-base lg:text-[15px] font-light leading-loose text-muted-foreground">
                 Growing up in Brooklyn and playing music from a young age, akaieuan draws from a diverse palette of influences to create melancholic yet energetic sounds. Inspired by live acts like Luke Slater, UFO95, and Rødhåd, his sets craft an evolving, hypnotic atmosphere that encourages movement, self-reflection, and healing.
               </p>
-              <p className="text-sm sm:text-base font-light leading-relaxed text-muted-foreground">
+              <p className="text-sm sm:text-base lg:text-[15px] font-light leading-loose text-muted-foreground">
                 With releases on Synapsa Music, Diffuse Reality, Impulse Control, and Agape Music, aka ieuan is one of Brooklyn&apos;s emerging homegrown artists helping define a new era of NYC techno.
               </p>
             </div>

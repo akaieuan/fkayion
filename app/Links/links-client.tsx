@@ -22,6 +22,7 @@ interface WritingLink {
 interface LinksClientProps {
   linksData: Link[]
   writingLinks?: WritingLink[]
+  musicLinks?: WritingLink[]
 }
 
 function GridLinkItem({ 
@@ -128,7 +129,7 @@ function WritingLinkItem({ item, index }: { item: WritingLink; index: number }) 
   )
 }
 
-export function LinksClient({ linksData, writingLinks = [] }: LinksClientProps) {
+export function LinksClient({ linksData, writingLinks = [], musicLinks = [] }: LinksClientProps) {
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
   const [mobileLinkIndex, setMobileLinkIndex] = useState(0)
 
@@ -230,6 +231,19 @@ export function LinksClient({ linksData, writingLinks = [] }: LinksClientProps) 
                 </p>
                 <div className="max-w-[360px]">
                   {writingLinks.map((item, i) => (
+                    <WritingLinkItem key={item.label} item={item} index={i} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {musicLinks.length > 0 && (
+              <div className="mt-8">
+                <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-white/25 mb-3">
+                  music
+                </p>
+                <div className="max-w-[360px]">
+                  {musicLinks.map((item, i) => (
                     <WritingLinkItem key={item.label} item={item} index={i} />
                   ))}
                 </div>

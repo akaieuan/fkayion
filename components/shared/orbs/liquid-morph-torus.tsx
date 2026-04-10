@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Float } from '@react-three/drei'
 import * as THREE from 'three'
@@ -16,6 +16,7 @@ interface LiquidMorphTorusProps {
   variant?: number
   baseGeometry?: 'octa' | 'dodeca' | 'tetra' | 'icosa' | 'torusKnot' | 'torus'
   shatterMode?: boolean
+  narrowViewport?: boolean
 }
 
 export function LiquidMorphTorus({ 
@@ -28,7 +29,8 @@ export function LiquidMorphTorus({
   size = 1,
   variant = 0,
   baseGeometry = 'octa',
-  shatterMode = false
+  shatterMode = false,
+  narrowViewport = false,
 }: LiquidMorphTorusProps) {
   const groupRef = useRef<THREE.Group>(null)
   const tetraRef = useRef<THREE.Mesh>(null)
@@ -53,17 +55,21 @@ export function LiquidMorphTorus({
     scale: 0.06 + seeded(i + 91) * 0.08
   })) : []
 
+  const comfort = narrowViewport ? 0 : 1
+
   // Contrasty film grain liquid shader - no shine, strong blacks
-  const liquidMaterial = new THREE.ShaderMaterial({
+  const liquidMaterial = useMemo(() => new THREE.ShaderMaterial({
     uniforms: {
       time: { value: 0 },
       flowIntensity: { value: 0.85 * variantFactor }, // Slightly increased
       baseColor: { value: new THREE.Color(color) },
       liquidColor: { value: new THREE.Color(hoverColor) },
+      comfort: { value: comfort },
     },
     vertexShader: `
       uniform float time;
       uniform float flowIntensity;
+      uniform float comfort;
       
       varying vec3 vNormal;
       varying vec3 vPosition;
@@ -73,23 +79,24 @@ export function LiquidMorphTorus({
         vNormal = normal;
         vPosition = position;
         vUv = uv;
+        float t = time * mix(0.5, 1.0, comfort);
         
         vec3 pos = position;
         
         // Smooth liquid flowing and morphing
-        float wave1 = sin(pos.x * 3.0 + time * 3.5) * 0.65;
-        float wave2 = sin(pos.y * 2.5 + time * 2.8) * 0.55;
-        float wave3 = sin(pos.z * 4.0 + time * 4.2) * 0.75;
+        float wave1 = sin(pos.x * 3.0 + t * 3.5) * 0.65;
+        float wave2 = sin(pos.y * 2.5 + t * 2.8) * 0.55;
+        float wave3 = sin(pos.z * 4.0 + t * 4.2) * 0.75;
         
         // Liquid bulging and contracting
         pos += normal * (wave1 + wave2 + wave3) * flowIntensity * 0.42;
         
         // Liquid dripping effect
-        float drip = max(0.0, -pos.y + 0.2) * sin(time * 1.8 + pos.x * 5.0);
+        float drip = max(0.0, -pos.y + 0.2) * sin(t * 1.8 + pos.x * 5.0);
         pos.y -= drip * 0.55;
         
         // Viscous stretching with surface tension
-        float stretch = sin(time * 1.4 + pos.y * 8.0) * 0.32;
+        float stretch = sin(t * 1.4 + pos.y * 8.0) * 0.32;
         pos += normal * stretch;
         
         gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
@@ -97,6 +104,7 @@ export function LiquidMorphTorus({
     `,
     fragmentShader: `
       uniform float time;
+      uniform float comfort;
       uniform vec3 baseColor;
       uniform vec3 liquidColor;
       
@@ -109,13 +117,19 @@ export function LiquidMorphTorus({
         return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
       }
       
-      float filmGrain(vec2 uv, float time) {
-        return hash(uv * 280.0 + time * 0.1) * 1.0 - 0.5;
+      float filmGrain(vec2 uv, float t, float grainScale) {
+        return hash(uv * grainScale + t * 0.1) * 1.0 - 0.5;
       }
       
       void main() {
         vec3 normal = normalize(vNormal);
         vec3 viewDir = normalize(cameraPosition - vPosition);
+        float t = time * mix(0.5, 1.0, comfort);
+        float grainScale = mix(95.0, 280.0, comfort);
+        float px = mix(9.0, 25.0, comfort);
+        float pz = mix(8.0, 20.0, comfort);
+        float vtx = mix(2.6, 7.0, comfort);
+        float vtz = mix(2.0, 5.5, comfort);
         
         // Strong saturated liquid base - no shine
         vec3 color = mix(baseColor * 1.6, liquidColor * 1.4, 0.9);
@@ -125,13 +139,13 @@ export function LiquidMorphTorus({
         color = mix(vec3(0.0), color, edge * 0.6 + 0.4);
         
         // Strong liquid ripple patterns
-        float ripple = sin(vPosition.x * 25.0 + time * 7.0) * 
-                      sin(vPosition.z * 20.0 + time * 5.5) * 0.6;
+        float ripple = sin(vPosition.x * px + t * vtx) * 
+                      sin(vPosition.z * pz + t * vtz) * 0.6;
         color += ripple * liquidColor * 0.7;
         
-        // Heavy film grain
-        float grain = filmGrain(vUv, time);
-        color += grain * 1.4;
+        // Heavy film grain (toned down when comfort is low)
+        float grain = filmGrain(vUv, t, grainScale);
+        color += grain * mix(0.15, 1.4, comfort);
         
         // Strong contrast and saturation
         color = pow(color, vec3(0.65)); // Boost mids
@@ -146,29 +160,30 @@ export function LiquidMorphTorus({
       }
     `,
     transparent: false
-  })
+  }), [color, hoverColor, variantFactor, comfort])
   
   useFrame((state) => {
     if (!groupRef.current) return
     
     const time = state.clock.elapsedTime
+    const motion = narrowViewport ? 0.55 : 1
     
     // Update material uniforms
     liquidMaterial.uniforms.time.value = time
     
     // Always animated chaotic rotation
-    groupRef.current.rotation.y = time * (1.2 * variantFactor)
-    groupRef.current.rotation.x = Math.sin(time * (2.5 * variantFactor)) * 0.3
-    groupRef.current.rotation.z = Math.cos(time * (1.8 * variantFactor)) * 0.2
+    groupRef.current.rotation.y = time * (1.2 * variantFactor) * motion
+    groupRef.current.rotation.x = Math.sin(time * (2.5 * variantFactor) * motion) * 0.3
+    groupRef.current.rotation.z = Math.cos(time * (1.8 * variantFactor) * motion) * 0.2
     
     // Constant floating motion
     groupRef.current.position.y = position[1] + 
-      Math.sin(time * (2.5 * variantFactor)) * 0.15 +
-      Math.sin(time * (4.2 * variantFactor)) * 0.08
+      Math.sin(time * (2.5 * variantFactor) * motion) * 0.15 +
+      Math.sin(time * (4.2 * variantFactor) * motion) * 0.08
     
     // Constant scale pulsing
-    const scale = 1 + Math.sin(time * (5.0 * variantFactor)) * 0.1 + 
-                     Math.sin(time * (7.0 * variantFactor)) * 0.05
+    const scale = 1 + Math.sin(time * (5.0 * variantFactor) * motion) * 0.1 + 
+                     Math.sin(time * (7.0 * variantFactor) * motion) * 0.05
     groupRef.current.scale.setScalar(scale)
     
     // Animate shatter fragments - they separate and reform dynamically
@@ -207,7 +222,11 @@ export function LiquidMorphTorus({
   })
 
   return (
-    <Float speed={floatSpeed} rotationIntensity={rotIntensity} floatIntensity={floatIntensity}>
+    <Float
+      speed={narrowViewport ? floatSpeed * 0.45 : floatSpeed}
+      rotationIntensity={narrowViewport ? rotIntensity * 0.45 : rotIntensity}
+      floatIntensity={narrowViewport ? floatIntensity * 0.45 : floatIntensity}
+    >
       <group 
         ref={groupRef} 
         position={position}
