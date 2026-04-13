@@ -25,7 +25,7 @@ export default function WidgetShowcasePage() {
       {/* Sidebar */}
       <div className="flex h-full w-52 shrink-0 flex-col border-r border-border overflow-y-auto">
         <div className="border-b border-border px-4 py-3">
-          <p className="text-sm font-semibold text-foreground">Components</p>
+          <p className="text-sm font-medium text-foreground">Components</p>
           <p className="text-[10px] text-muted-foreground">HITL-AI · Agatha widgets</p>
         </div>
 
@@ -35,7 +35,7 @@ export default function WidgetShowcasePage() {
             if (!widgets.length) return null;
             return (
               <div key={group} className="mb-3">
-                <p className="mb-1 px-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                <p className="mb-1 px-2 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
                   {group}
                 </p>
                 {widgets.map((w) => (
@@ -43,10 +43,10 @@ export default function WidgetShowcasePage() {
                     key={w.id}
                     onClick={() => setSelectedId(w.id)}
                     className={cn(
-                      'w-full rounded-md px-2 py-1.5 text-left text-xs transition-colors',
+                      'w-full rounded-md px-2 py-1.5 text-left text-xs transition-colors duration-200',
                       selectedId === w.id
-                        ? 'bg-foreground text-background'
-                        : 'text-muted-foreground hover:bg-muted hover:text-foreground',
+                        ? 'bg-muted text-foreground font-medium'
+                        : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground',
                     )}
                   >
                     {w.label}
@@ -61,9 +61,9 @@ export default function WidgetShowcasePage() {
       {/* Main */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Header */}
-        <div className="flex shrink-0 items-center justify-between border-b border-border px-5 py-3">
+        <div className="flex shrink-0 items-center justify-between border-b border-border/60 bg-background/70 backdrop-blur-lg backdrop-saturate-150 px-5 py-3">
           <div className="flex items-center gap-3">
-            <h1 className="text-sm font-semibold text-foreground">{selected.label}</h1>
+            <h1 className="text-sm font-medium text-foreground">{selected.label}</h1>
             <p className="hidden text-xs text-muted-foreground lg:block max-w-md truncate">
               {selected.description}
             </p>
@@ -76,11 +76,11 @@ export default function WidgetShowcasePage() {
                 <div
                   onClick={() => setShowLiveData((v) => !v)}
                   className={cn(
-                    'flex h-4 w-7 items-center rounded-full px-0.5 transition-colors',
-                    showLiveData ? 'bg-blue-500' : 'bg-muted',
+                    'flex h-4 w-7 items-center rounded-full px-0.5 transition-colors duration-200',
+                    showLiveData ? 'bg-primary' : 'bg-muted',
                   )}
                 >
-                  <div className={cn('h-3 w-3 rounded-full bg-white shadow transition-transform', showLiveData ? 'translate-x-3' : '')} />
+                  <div className={cn('h-3 w-3 rounded-full bg-white shadow-sm transition-transform duration-200', showLiveData ? 'translate-x-3' : '')} />
                 </div>
                 Live
               </label>
@@ -91,26 +91,26 @@ export default function WidgetShowcasePage() {
               <div
                 onClick={() => setShowAllSizes((v) => !v)}
                 className={cn(
-                  'flex h-4 w-7 items-center rounded-full px-0.5 transition-colors',
-                  showAllSizes ? 'bg-foreground' : 'bg-muted',
+                  'flex h-4 w-7 items-center rounded-full px-0.5 transition-colors duration-200',
+                  showAllSizes ? 'bg-primary' : 'bg-muted',
                 )}
               >
-                <div className={cn('h-3 w-3 rounded-full bg-white shadow transition-transform', showAllSizes ? 'translate-x-3' : '')} />
+                <div className={cn('h-3 w-3 rounded-full bg-white shadow-sm transition-transform duration-200', showAllSizes ? 'translate-x-3' : '')} />
               </div>
               All sizes
             </label>
 
             {/* Size toggle */}
             {!showAllSizes && (
-              <div className="flex items-center gap-0.5 rounded-lg border border-border p-0.5">
+              <div className="flex items-center gap-0.5 rounded-lg border border-border/60 p-0.5">
                 {SIZE_LABELS.map((s) => (
                   <button
                     key={s}
                     onClick={() => setActiveSize(s)}
                     className={cn(
-                      'rounded-md px-2 py-1 text-[11px] font-medium uppercase transition-colors',
+                      'rounded-md px-2 py-1 text-[11px] font-medium uppercase transition-colors duration-200',
                       activeSize === s
-                        ? 'bg-foreground text-background'
+                        ? 'bg-muted text-foreground'
                         : 'text-muted-foreground hover:text-foreground',
                     )}
                   >
@@ -128,7 +128,7 @@ export default function WidgetShowcasePage() {
             <div className="grid grid-cols-2 gap-6">
               {SIZE_LABELS.map((s) => (
                 <div key={s}>
-                  <p className="mb-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{s}</p>
+                  <p className="mb-3 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">{s}</p>
                   <div className="rounded-xl border border-border bg-card p-4">
                     <selected.Content size={s} liveData={showLiveData} />
                   </div>

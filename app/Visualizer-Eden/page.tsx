@@ -1,8 +1,9 @@
 'use client'
 
 import { AudioProvider, useAudio, AudioVisualizer, ControlDrawer, AudioBar } from '@/components/features/visualizer'
-import { Upload, Music, Settings } from 'lucide-react'
+import { Upload, Music, Settings, ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
+import Link from 'next/link'
 
 const demoSongs = [
   {
@@ -104,18 +105,20 @@ function Toolbar() {
 function MainContent() {
   return (
     <div className="fixed inset-0 bg-black">
-      {/* Full-screen visualizer */}
       <div className="absolute inset-0">
         <AudioVisualizer />
       </div>
-      
-      {/* Toolbar - above audio bar */}
+
+      <Link
+        href="/demo"
+        className="fixed top-4 left-4 z-50 flex items-center gap-1.5 rounded-full bg-black/40 backdrop-blur-md px-3 py-1.5 text-xs text-white/50 hover:text-white/80 hover:bg-black/60 transition-all"
+      >
+        <ArrowLeft className="h-3.5 w-3.5" />
+        Projects
+      </Link>
+
       <Toolbar />
-      
-      {/* Floating control panel */}
       <ControlDrawer />
-      
-      {/* Audio bar - fixed at bottom */}
       <AudioBar />
     </div>
   )

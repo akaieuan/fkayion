@@ -38,14 +38,17 @@ interface ChatPanelProps {
   /** One-shot append from Library (and similar); `id` bumps when a new payload is queued */
   composerInject?: { id: number; text: string } | null;
   onComposerInjectConsumed?: () => void;
+  /** Override the default seeded thread (component is keyed externally to reset) */
+  initialMessages?: Message[];
 }
 
 export function ChatPanel({
   onOpenTab,
   composerInject,
   onComposerInjectConsumed,
+  initialMessages,
 }: ChatPanelProps) {
-  const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
+  const [messages, setMessages] = useState<Message[]>(initialMessages ?? INITIAL_MESSAGES);
   const [input, setInput] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
   const composerRef = useRef<HTMLTextAreaElement>(null);
@@ -103,7 +106,7 @@ export function ChatPanel({
       {/* Messages */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
         {messages.map((msg, i) => (
-          <div key={i}>
+          <div key={i} className="animate-in fade-in-0 slide-in-from-bottom-1 duration-300" style={{ animationDelay: `${Math.min(i * 60, 300)}ms`, animationFillMode: 'backwards' }}>
             {msg.role === 'user' ? (
               <div className="flex justify-end">
                 <div className="max-w-[80%] rounded-2xl rounded-tr-sm bg-primary px-3.5 py-2.5 text-xs leading-relaxed text-primary-foreground">
@@ -112,8 +115,8 @@ export function ChatPanel({
               </div>
             ) : (
               <div className="flex gap-2">
-                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted mt-0.5">
-                  <Bot className="h-3.5 w-3.5 text-muted-foreground" />
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 mt-0.5">
+                  <Bot className="h-3.5 w-3.5 text-primary/70" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="rounded-2xl rounded-tl-sm border border-border bg-muted/30 px-3.5 py-2.5 text-xs leading-relaxed text-foreground whitespace-pre-wrap">

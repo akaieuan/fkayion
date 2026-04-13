@@ -29,18 +29,20 @@ export function RightPanel({ activeTab, onTabChange, humanCount = 3 }: RightPane
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
             className={cn(
-              'relative flex items-center gap-1.5 px-3 py-2.5 text-xs font-medium transition-colors',
-              activeTab === tab.id ? tab.color : 'text-muted-foreground hover:text-foreground',
+              'relative flex items-center gap-1.5 px-3 py-2.5 text-xs transition-colors duration-200',
+              activeTab === tab.id
+                ? cn('font-medium', tab.color)
+                : 'text-muted-foreground/70 hover:text-muted-foreground',
             )}
           >
             {tab.label}
             {tab.id === 'human' && humanCount > 0 && (
-              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-orange-500 text-[9px] font-bold text-white">
+              <span className="flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-orange-500/90 px-1 text-[8px] font-bold text-white">
                 {humanCount}
               </span>
             )}
             {activeTab === tab.id && (
-              <span className={cn('absolute bottom-0 left-0 right-0 h-0.5 rounded-t-full', tab.indicator)} />
+              <span className={cn('absolute bottom-0 left-1 right-1 h-[1.5px] rounded-t-full', tab.indicator)} />
             )}
           </button>
         ))}

@@ -9,11 +9,8 @@ import { NOTES_GROUPS } from './notes-shared';
 // ─── LibraryPanel ─────────────────────────────────────────────────────
 
 interface LibraryPanelProps {
-  /** Home view: compact card under the composer; workspace: fills the right pane */
   variant?: 'embedded' | 'page';
-  /** Workspace: open the Read / PDF panel (e.g. double-click a file) */
   onOpenInReader?: () => void;
-  /** Append tagged file names to the chat / home composer */
   onSendToChat?: (items: { id: string; name: string }[]) => void;
 }
 
@@ -64,14 +61,14 @@ export function LibraryPanel({ variant = 'page', onOpenInReader, onSendToChat }:
             className={cn(
               'flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-xs transition-colors',
               selected.has(f.id)
-                ? 'bg-primary/10 text-primary'
+                ? 'bg-muted text-foreground'
                 : 'text-muted-foreground hover:bg-muted hover:text-foreground',
             )}
           >
             <File className="h-3.5 w-3.5 shrink-0" />
             <span className="truncate">{f.name}</span>
             {selected.has(f.id) && (
-              <span className="ml-auto text-[10px] text-primary">✓</span>
+              <span className="ml-auto text-[10px] text-muted-foreground">✓</span>
             )}
           </button>
         ))}
@@ -89,7 +86,7 @@ export function LibraryPanel({ variant = 'page', onOpenInReader, onSendToChat }:
               onSendToChat?.(items);
               setSelected(new Set());
             }}
-            className="w-full rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:opacity-90 transition-opacity"
+            className="w-full rounded-md bg-foreground px-3 py-1.5 text-xs font-medium text-background hover:opacity-90 transition-opacity"
           >
             Send {selected.size} file{selected.size > 1 ? 's' : ''} to chat
           </button>
@@ -103,7 +100,7 @@ export function LibraryPanel({ variant = 'page', onOpenInReader, onSendToChat }:
       <div className="rounded-xl border border-border bg-background shadow-lg overflow-hidden">
         <div className="flex items-center gap-2 border-b border-border px-4 py-3">
           <BookOpen className="h-4 w-4 text-muted-foreground" />
-          <p className="text-sm font-semibold text-foreground">Library</p>
+          <p className="text-sm font-medium text-foreground">Library</p>
         </div>
         {inner}
       </div>
@@ -114,7 +111,7 @@ export function LibraryPanel({ variant = 'page', onOpenInReader, onSendToChat }:
     <div className="flex h-full min-h-0 flex-col bg-background text-sm">
       <div className="flex items-center gap-2 border-b border-border px-4 py-3">
         <BookOpen className="h-4 w-4 text-muted-foreground" />
-        <p className="text-sm font-semibold text-foreground">Library</p>
+        <p className="text-sm font-medium text-foreground">Library</p>
       </div>
       {inner}
     </div>
@@ -134,7 +131,6 @@ export function SearchPanel() {
 
   return (
     <div className="flex h-full flex-col bg-background text-sm">
-      {/* Search input */}
       <div className="border-b border-border p-3">
         <div className="flex items-center gap-2 rounded-lg border border-border bg-muted/30 px-3 py-2">
           <Search className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
@@ -144,7 +140,7 @@ export function SearchPanel() {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search papers…"
           />
-          <button className="rounded-md bg-primary px-2.5 py-1 text-[10px] font-medium text-primary-foreground">
+          <button className="rounded-md bg-muted px-2.5 py-1 text-[10px] font-medium text-foreground hover:bg-muted/80 transition-colors">
             Search
           </button>
         </div>
@@ -154,8 +150,8 @@ export function SearchPanel() {
               key={f}
               onClick={() => setFilter(f)}
               className={cn(
-                'rounded-full px-2 py-0.5 text-[10px] font-medium transition-colors',
-                filter === f ? 'bg-foreground text-background' : 'text-muted-foreground hover:bg-muted',
+                'rounded-full px-2 py-0.5 text-[10px] font-medium transition-colors duration-200',
+                filter === f ? 'bg-muted text-foreground' : 'text-muted-foreground hover:bg-muted/60',
               )}
             >
               {f}
@@ -164,12 +160,11 @@ export function SearchPanel() {
         </div>
       </div>
 
-      {/* Results */}
       <div className="flex-1 overflow-y-auto p-3 space-y-2">
         {filtered.map((r) => (
-          <div key={r.id} className="rounded-lg border border-border p-3 hover:border-foreground/20 transition-colors">
+          <div key={r.id} className="rounded-lg border border-border p-3 hover:border-foreground/15 transition-colors duration-200">
             <div className="flex items-start gap-2 mb-1.5">
-              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-violet-500 to-violet-700 text-[9px] font-bold text-white">
+              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-muted text-[9px] font-medium text-foreground">
                 {r.rank}
               </div>
               <p className="text-xs font-medium text-foreground leading-snug">{r.title}</p>
@@ -177,8 +172,8 @@ export function SearchPanel() {
             <p className="text-[10px] text-muted-foreground mb-1">{r.venue}, {r.year} · {r.authors}</p>
             <p className="text-[11px] leading-relaxed text-muted-foreground mb-2">{r.snippet}</p>
             <div className="flex items-center gap-2">
-              <div className="h-1 flex-1 rounded-full bg-muted overflow-hidden">
-                <div className="h-full rounded-full bg-violet-400" style={{ width: `${r.relevance * 100}%` }} />
+              <div className="h-1 flex-1 rounded-full bg-foreground/10 overflow-hidden">
+                <div className="h-full rounded-full bg-foreground/40" style={{ width: `${r.relevance * 100}%` }} />
               </div>
               <span className="text-[10px] text-muted-foreground">{Math.round(r.relevance * 100)}%</span>
             </div>
@@ -196,7 +191,6 @@ export function PdfViewerPanel() {
 
   return (
     <div className="flex h-full flex-col bg-background text-sm">
-      {/* Toolbar */}
       <div className="flex items-center gap-2 border-b border-border px-3 py-2">
         <button className="flex h-6 w-6 items-center justify-center rounded text-muted-foreground hover:bg-muted">
           <ZoomOut className="h-3.5 w-3.5" />
@@ -221,39 +215,24 @@ export function PdfViewerPanel() {
         </button>
       </div>
 
-      {/* Tab strip */}
-      <div className="flex items-center gap-3 border-b border-border px-3">
-        {['Notes 4', 'Figures 3', 'Bibliography', 'More'].map((t) => (
-          <button key={t} className="py-2 text-[11px] text-muted-foreground hover:text-foreground border-b-2 border-transparent hover:border-foreground/30 transition-colors">
-            {t}
-          </button>
-        ))}
-      </div>
-
-      {/* Fake PDF content */}
       <div className="flex-1 overflow-y-auto p-4">
-        <div className="mx-auto max-w-sm rounded-lg border border-border bg-card p-5 shadow-sm">
-          <div className="mb-4 space-y-1.5">
-            <div className="h-2 w-3/4 rounded bg-muted" />
-            <div className="h-2 w-full rounded bg-muted" />
-            <div className="h-2 w-5/6 rounded bg-muted" />
-            <div className="h-2 w-full rounded bg-muted" />
-            <div className="h-2 w-2/3 rounded bg-muted" />
-          </div>
-
-          {/* Highlighted passage */}
-          <div className="mb-4 rounded-md bg-yellow-100 dark:bg-yellow-950/30 border border-yellow-200 dark:border-yellow-800 px-3 py-2 text-xs leading-relaxed text-yellow-900 dark:text-yellow-200">
-            …without immediate systemic action, global average temperatures are likely to exceed 1.5°C above pre-industrial levels by the early 2030s, with potentially irreversible consequences for low-lying coastal regions…
-          </div>
-
-          <div className="space-y-1.5">
-            <div className="h-2 w-full rounded bg-muted" />
+        <div className="mx-auto max-w-sm rounded-lg border border-border bg-card p-5">
+          <div className="mb-4 space-y-2">
             <div className="h-2 w-4/5 rounded bg-muted" />
             <div className="h-2 w-full rounded bg-muted" />
             <div className="h-2 w-3/4 rounded bg-muted" />
           </div>
 
-          <div className="mt-3 text-[10px] text-muted-foreground">Table 3 · p. {page} · IPCC AR6 Synthesis Report</div>
+          <div className="mb-4 rounded-md bg-muted/50 border border-border px-3 py-2 text-xs leading-relaxed text-foreground/80">
+            …without immediate systemic action, global average temperatures are likely to exceed 1.5°C above pre-industrial levels by the early 2030s, with potentially irreversible consequences for low-lying coastal regions…
+          </div>
+
+          <div className="space-y-2">
+            <div className="h-2 w-full rounded bg-muted" />
+            <div className="h-2 w-3/5 rounded bg-muted" />
+          </div>
+
+          <div className="mt-4 text-[10px] text-muted-foreground">Table 3 · p. {page} · IPCC AR6 Synthesis Report</div>
         </div>
       </div>
     </div>
@@ -269,7 +248,6 @@ export function WritingPanel() {
 
   return (
     <div className="flex h-full flex-col bg-background text-sm">
-      {/* Toolbar */}
       <div className="flex items-center gap-1 border-b border-border px-3 py-1.5 overflow-x-auto">
         {['Page Format', '11pt', 'Heading', 'List'].map((t) => (
           <button key={t} className="shrink-0 rounded px-2 py-1 text-[11px] text-muted-foreground hover:bg-muted transition-colors">
@@ -278,7 +256,6 @@ export function WritingPanel() {
         ))}
       </div>
 
-      {/* Document */}
       <div className="flex-1 overflow-y-auto p-4">
         <textarea
           className="w-full min-h-full resize-none bg-transparent text-xs leading-relaxed text-foreground outline-none font-mono"
@@ -287,7 +264,6 @@ export function WritingPanel() {
         />
       </div>
 
-      {/* Status */}
       <div className="flex items-center justify-between border-t border-border px-3 py-1.5">
         <span className="text-[10px] text-muted-foreground">
           {content.split(/\s+/).filter(Boolean).length} words
@@ -322,27 +298,21 @@ export function NotesPanel() {
       return n;
     });
 
-  const statusColor: Record<string, string> = {
-    approved: 'text-emerald-600',
-    rejected: 'text-red-500',
-    pending: 'text-amber-500',
-  };
-
   return (
     <div className="flex h-full flex-col bg-background text-sm overflow-y-auto">
       <div className="flex items-center gap-2 border-b border-border px-4 py-3">
         <FileText className="h-4 w-4 text-muted-foreground" />
-        <p className="text-sm font-semibold text-foreground">Notes</p>
+        <p className="text-sm font-medium text-foreground">Notes</p>
       </div>
       <div className="p-3 space-y-2">
         {NOTES_GROUPS.map((group) => (
           <div key={group.title}>
             <button
               onClick={() => toggleGroup(group.title)}
-              className="flex w-full items-center justify-between px-1 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
+              className="flex w-full items-center justify-between px-1 py-1.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors"
             >
               {group.title}
-              <span className="rounded-full bg-muted px-1.5 py-0.5 text-[9px]">{group.notes.length}</span>
+              <span className="text-[9px] text-muted-foreground/60">{group.notes.length}</span>
             </button>
 
             {openGroups.has(group.title) && (
@@ -357,7 +327,7 @@ export function NotesPanel() {
                         <p className="text-xs font-medium text-foreground truncate">{note.title}</p>
                         <p className="text-[10px] text-muted-foreground">{note.pages}</p>
                       </div>
-                      <span className={cn('shrink-0 text-[10px] capitalize', statusColor[note.approval])}>
+                      <span className="shrink-0 text-[10px] capitalize text-muted-foreground">
                         {note.approval}
                       </span>
                     </button>

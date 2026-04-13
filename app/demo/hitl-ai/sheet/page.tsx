@@ -12,7 +12,8 @@ import { HitlCard, DEMO_HITL_CARDS } from '@/components/demo/hitl-ai/HitlCard';
 import { SEARCH_RESULTS, DOWNLOAD_PAPERS, BIBLIOGRAPHY_ENTRIES } from '@/components/demo/hitl-ai/data';
 import { NOTES_GROUPS } from '@/components/demo/hitl-ai/notes-shared';
 import type { AgentStatus, RightTab } from '@/components/demo/hitl-ai/types';
-import { HitlDemoNavLinkRow, HitlDemoNavStack } from '@/components/demo/hitl-ai/HitlDemoNavLinkRow';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 
 // ─── Section wrapper ──────────────────────────────────────────────────────────
 
@@ -28,7 +29,7 @@ function Section({
   return (
     <section id={id} className="scroll-mt-16 border-b border-border pb-12 pt-10">
       <div className="mb-6">
-        <h2 className="text-base font-semibold text-foreground">{label}</h2>
+        <h2 className="text-base font-medium text-foreground">{label}</h2>
         <p className="mt-0.5 text-sm text-muted-foreground">{description}</p>
       </div>
       <div className={cn(
@@ -44,9 +45,9 @@ function Section({
 
 function Card({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-xl border border-border bg-card overflow-hidden">
-      <div className="border-b border-border bg-muted/30 px-4 py-2.5">
-        <p className="text-xs font-semibold text-foreground">{label}</p>
+    <div className="rounded-xl border border-border/80 bg-card overflow-hidden">
+      <div className="border-b border-border/60 bg-muted/20 backdrop-blur-sm px-4 py-2.5">
+        <p className="text-xs font-medium text-foreground">{label}</p>
         {hint && <p className="text-[10px] text-muted-foreground mt-0.5">{hint}</p>}
       </div>
       <div className="p-4">{children}</div>
@@ -564,12 +565,18 @@ export default function SheetPage() {
       {/* Fixed left TOC */}
       <aside className="hidden lg:flex h-full w-52 shrink-0 flex-col border-r border-border overflow-y-auto sticky top-0">
         <div className="border-b border-border px-4 py-3">
-          <p className="text-xs font-semibold text-foreground">Component Sheet</p>
+          <p className="text-xs font-medium text-foreground">Component Sheet</p>
           <p className="text-[10px] text-muted-foreground mt-0.5">HITL-AI system · Agatha</p>
         </div>
 
         <div className="border-b border-border px-3 py-2">
-          <HitlDemoNavStack />
+          <Link
+            href="/demo"
+            className="flex items-center gap-1.5 rounded-md px-2 py-1.5 text-xs text-muted-foreground hover:bg-muted/60 hover:text-foreground transition-colors duration-200"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            Projects
+          </Link>
         </div>
 
         <nav className="flex-1 p-2">
@@ -579,10 +586,10 @@ export default function SheetPage() {
               href={`#${id}`}
               onClick={() => setActive(id)}
               className={cn(
-                'block rounded-md px-2 py-1.5 text-xs transition-colors',
+                'block rounded-md px-2 py-1.5 text-xs transition-colors duration-200',
                 active === id
-                  ? 'bg-foreground text-background font-medium'
-                  : 'text-muted-foreground hover:bg-muted hover:text-foreground',
+                  ? 'bg-muted text-foreground font-medium'
+                  : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground',
               )}
             >
               {label}
@@ -594,15 +601,18 @@ export default function SheetPage() {
       {/* Scrollable content */}
       <main className="flex-1 overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-background/80 px-6 py-3 backdrop-blur-sm">
+        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-border/60 bg-background/70 px-6 py-3 backdrop-blur-lg backdrop-saturate-150">
           <div>
-            <h1 className="text-sm font-semibold text-foreground">HITL-AI Component Sheet</h1>
+            <h1 className="text-sm font-medium text-foreground">HITL-AI Component Sheet</h1>
             <p className="text-[10px] text-muted-foreground">Interactive reference — all components live</p>
           </div>
-          <HitlDemoNavLinkRow
-            className="max-w-full flex-wrap justify-end gap-0.5 sm:gap-1"
-            linkClassName="flex h-8 items-center gap-1.5 rounded-md border border-border bg-background px-2 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-          />
+          <Link
+            href="/demo"
+            className="flex h-7 items-center gap-1.5 rounded-md px-2 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors duration-200 lg:hidden"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            Projects
+          </Link>
         </div>
 
         <div className="mx-auto max-w-4xl px-6 pb-24">

@@ -12,35 +12,50 @@ interface HomeMainPanelProps {
   onLibraryOpenChange: (open: boolean) => void;
   /** Jump to workspace PDF reader (library file double-click) */
   onOpenInReader?: () => void;
+  /** Fires with the composer text when the user sends */
+  onSend?: (text: string) => void;
 }
 
-export function HomeMainPanel({ libraryOpen, onLibraryOpenChange, onOpenInReader }: HomeMainPanelProps) {
+export function HomeMainPanel({ libraryOpen, onLibraryOpenChange, onOpenInReader, onSend }: HomeMainPanelProps) {
   const [input, setInput] = useState('');
   const composerRef = useRef<HTMLTextAreaElement>(null);
+
+  const send = () => {
+    const text = input.trim();
+    if (!text) return;
+    setInput('');
+    onSend?.(text);
+  };
 
   return (
     <div className="flex h-full flex-col items-center justify-center overflow-y-auto bg-background px-6">
       <div className="w-full max-w-2xl">
         {/* Heading */}
         <div className="mb-8 text-center">
-          <h1 className="mb-2 text-2xl font-semibold tracking-tight text-foreground">
+          <h1 className="mb-2 text-2xl font-medium tracking-tight text-foreground">
             Welcome to {APP_NAME}
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-[13px] text-muted-foreground/80">
             Human-in-the-loop research — cite with confidence, verify every step.
           </p>
         </div>
 
         {/* Input box */}
-        <div className="rounded-xl border border-border bg-muted/30 px-4 py-3 shadow-sm">
+        <div className="rounded-2xl border border-border bg-muted/20 px-4 py-3 shadow-sm transition-shadow focus-within:shadow-md focus-within:border-foreground/15">
           <AutoGrowTextarea
-            placeholder="Ask anything about your research…"
+            placeholder="Choose a topic below, or type anything…"
             className="text-sm text-foreground placeholder:text-muted-foreground"
             minRows={2}
             maxRows={10}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             textareaRef={composerRef}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                send();
+              }
+            }}
           />
 
           <div className="mt-2 flex items-center justify-between">
@@ -71,6 +86,7 @@ export function HomeMainPanel({ libraryOpen, onLibraryOpenChange, onOpenInReader
             <button
               type="button"
               disabled={!input.trim()}
+              onClick={send}
               className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground disabled:opacity-30 transition-opacity"
             >
               <ArrowUp className="h-4 w-4" />
@@ -108,8 +124,8 @@ export function HomeMainPanel({ libraryOpen, onLibraryOpenChange, onOpenInReader
             <button
               key={s}
               type="button"
-              onClick={() => setInput(s)}
-              className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground hover:border-foreground/30 hover:text-foreground transition-colors"
+              onClick={() => onSend?.(s)}
+              className="rounded-full border border-border/60 backdrop-blur-sm px-3 py-1.5 text-xs text-muted-foreground hover:border-primary/40 hover:text-primary transition-colors duration-200"
             >
               {s}
             </button>

@@ -17,6 +17,13 @@ const projects = [
     accent: 'bg-amber-400',
   },
   {
+    title: 'Music Analysis Chat',
+    type: 'Interactive demo',
+    description: 'AI-powered music analytics assistant with roster dashboards, creator discovery, social audits, and campaign management — mock API, full chat with rich blocks.',
+    href: '/demo/music-analysis-chat',
+    accent: 'bg-blue-400',
+  },
+  {
     title: 'Visualizer Eden',
     type: 'Audio tool',
     description: 'Browser-based 3D audio visualizer with reactive mesh deformation, custom GLSL shaders, and material presets.',

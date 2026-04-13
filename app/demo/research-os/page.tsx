@@ -15,6 +15,8 @@ import { HomeMainPanel } from '@/components/demo/research-os/HomeMainPanel';
 import { ChatPanel } from '@/components/demo/research-os/ChatPanel';
 import { RightPanel } from '@/components/demo/research-os/RightPanel';
 import { AnnotatePanel, WorkspaceStatusBar, WorkspaceCreateModal } from '@/components/demo/research-os/Misc';
+import { TOPIC_THREADS, FALLBACK_THREAD } from '@/components/demo/research-os/data';
+import type { TopicMessage } from '@/components/demo/research-os/data';
 import type { ViewMode, RightTab } from '@/components/demo/research-os/types';
 
 export default function ResearchOSPage() {
@@ -27,6 +29,8 @@ export default function ResearchOSPage() {
   const [chatComposerInject, setChatComposerInject] = useState<{ id: number; text: string } | null>(
     null,
   );
+  const [chatKey, setChatKey] = useState(0);
+  const [initialMessages, setInitialMessages] = useState<TopicMessage[] | null>(null);
 
   const handleNavigate = (v: ViewMode) => setView(v);
   const handleOpenTab = (tab: RightTab) => {
@@ -50,6 +54,20 @@ export default function ResearchOSPage() {
   };
 
   const clearChatComposerInject = useCallback(() => setChatComposerInject(null), []);
+
+  const handleHomeSend = useCallback((text: string) => {
+    const thread = TOPIC_THREADS[text];
+    if (thread) {
+      setInitialMessages(thread);
+    } else {
+      setInitialMessages([
+        { role: 'user', content: text },
+        ...FALLBACK_THREAD,
+      ]);
+    }
+    setChatKey((k) => k + 1);
+    setView('workspace');
+  }, []);
 
   return (
     <div className="flex h-full flex-col bg-background text-foreground">
@@ -101,6 +119,7 @@ export default function ResearchOSPage() {
               libraryOpen={libraryPanelOpen}
               onLibraryOpenChange={setLibraryPanelOpen}
               onOpenInReader={() => goWorkspace('read')}
+              onSend={handleHomeSend}
             />
           )}
 
@@ -117,9 +136,11 @@ export default function ResearchOSPage() {
                 {/* Chat panel */}
                 <ResizablePanel defaultSize={rightPanelVisible ? 45 : 100} minSize={30}>
                   <ChatPanel
+                    key={chatKey}
                     onOpenTab={handleOpenTab}
                     composerInject={chatComposerInject}
                     onComposerInjectConsumed={clearChatComposerInject}
+                    initialMessages={initialMessages ?? undefined}
                   />
                 </ResizablePanel>
 

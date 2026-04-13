@@ -183,6 +183,87 @@ export const BIBLIOGRAPHY_ENTRIES = [
   },
 ];
 
+/** Pre-scripted chat threads for each home topic chip */
+export interface TopicMessage {
+  role: 'user' | 'agent';
+  content: string;
+  hitlId?: string;
+}
+
+export const TOPIC_THREADS: Record<string, TopicMessage[]> = {
+  'Summarize IPCC AR6': [
+    { role: 'user', content: 'Summarize IPCC AR6' },
+    {
+      role: 'agent',
+      content: `I've located the IPCC AR6 Synthesis Report (2023) in your workspace and cross-referenced it against 12 connected databases.\n\n**Key findings:**\n• Global surface temperature increased 1.1°C above pre-industrial levels (2011–2020)\n• Current policies put the world on track for 2.4–3.5°C warming by 2100\n• Remaining carbon budget for 1.5°C is approximately 500 GtCO₂\n\nI've flagged a citation that needs your review before I continue.`,
+      hitlId: 'h2',
+    },
+    { role: 'user', content: 'Looks correct. What are the key adaptation gaps?' },
+    {
+      role: 'agent',
+      content: `AR6 identifies several critical adaptation gaps:\n\n1. **Finance gap** — adaptation costs in developing countries are 5–10× current flows\n2. **Implementation gap** — 67% of adaptation plans lack measurable targets\n3. **Knowledge gap** — limited data on compound and cascading risks\n\nI've updated Section 1 of your draft with these findings and added 3 new citations. Please confirm the insertions look correct.`,
+      hitlId: 'h3',
+    },
+  ],
+  'Carbon pricing mechanisms': [
+    { role: 'user', content: 'Carbon pricing mechanisms' },
+    {
+      role: 'agent',
+      content: `I found **177 results** across your workspace and connected databases.\n\n**Top sources:**\n• Carbon Pricing Mechanisms and Emissions Outcomes — Nature Climate Change, 2023\n• EU ETS Reform Price Dynamics — Energy Economics, 2024\n• Just Transition Frameworks — arXiv, 2024\n\nWould you like me to narrow the search or start downloading the highest-relevance papers?`,
+      hitlId: 'h1',
+    },
+    { role: 'user', content: 'Yes, please verify the IPCC citation before we continue.' },
+    {
+      role: 'agent',
+      content: `I've flagged a citation that needs your review before I continue writing. The reference to Table 3 in IPCC AR6 (p. 12) requires manual confirmation — please check the page number and table label.`,
+      hitlId: 'h2',
+    },
+    { role: 'user', content: 'Looks good. Go ahead and update Section 2 with the new citations.' },
+    {
+      role: 'agent',
+      content: `Section 2 has been updated with 2 new citations. I've held before locking the changes — please confirm the insertions look correct and I'll finalize the document.`,
+      hitlId: 'h3',
+    },
+  ],
+  'Net zero verification': [
+    { role: 'user', content: 'Net zero verification' },
+    {
+      role: 'agent',
+      content: `I've searched for papers on net zero pledge verification and accountability frameworks.\n\n**Key finding:** Of 196 national net zero pledges examined, only 31% include robust interim milestones and independent verification mechanisms aligned with 1.5°C pathways (Höhne et al., Science 2023).\n\nI've queued 3 high-relevance papers for download.`,
+      hitlId: 'h1',
+    },
+    { role: 'user', content: 'What are the main verification challenges?' },
+    {
+      role: 'agent',
+      content: `The literature identifies three structural challenges:\n\n1. **Scope ambiguity** — 42% of pledges don't specify whether Scope 3 emissions are included\n2. **Baseline inconsistency** — reference years range from 1990 to 2010, making comparison difficult\n3. **Accountability gaps** — only 18% of pledges include legally binding interim targets\n\nI've flagged a citation from the Höhne paper that needs manual confirmation on the 31% statistic.`,
+      hitlId: 'h2',
+    },
+  ],
+  'EU ETS reform 2024': [
+    { role: 'user', content: 'EU ETS reform 2024' },
+    {
+      role: 'agent',
+      content: `I found **89 results** related to EU ETS post-reform dynamics.\n\n**Top sources:**\n• EU Emissions Trading System Post-Reform Price Dynamics — Energy Economics, 2024\n• Market Stability Reserve Impact Assessment — European Commission, 2024\n• Carbon Leakage Risk Under CBAM — Journal of Environmental Economics, 2024\n\nThe Market Stability Reserve mechanism has demonstrably reduced permit surplus, contributing to a tripling of EUA prices from 2018 to 2023.`,
+      hitlId: 'h1',
+    },
+    { role: 'user', content: 'How does CBAM interact with the ETS reforms?' },
+    {
+      role: 'agent',
+      content: `The Carbon Border Adjustment Mechanism (CBAM) entered its transitional phase in October 2023 and is designed to complement ETS reforms by:\n\n• Preventing carbon leakage as free allowances phase out (2026–2034)\n• Covering cement, iron/steel, aluminium, fertilisers, electricity, and hydrogen\n• Requiring importers to purchase certificates at the ETS auction price\n\nI've updated the research summary with these findings. Two new citations need your review before I lock the changes.`,
+      hitlId: 'h3',
+    },
+  ],
+};
+
+/** Fallback thread for free-text input not matching a topic */
+export const FALLBACK_THREAD: TopicMessage[] = [
+  {
+    role: 'agent',
+    content: `I'm searching across your workspace and connected databases for relevant sources. I'll flag anything that needs your review before continuing.\n\nThis may take a moment — I'm cross-referencing multiple indexes.`,
+    hitlId: 'h1',
+  },
+];
+
 export const DOWNLOAD_PAPERS = [
   {
     id: 'd1',

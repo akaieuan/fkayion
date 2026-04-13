@@ -4,7 +4,7 @@ import { ArrowLeft, PanelRight, Moon, Sun } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
-import { HitlDemoNavLinkRow } from '@/components/demo/hitl-ai/HitlDemoNavLinkRow';
+import Link from 'next/link';
 
 interface MacTitleBarProps {
   showBackToHome?: boolean;
@@ -38,15 +38,20 @@ export function MacTitleBar({
         className,
       )}
     >
-      {/* Left: shared demo routes (no /demo index — avoids other demos) */}
-      <div className="flex min-w-0 items-center gap-1">
-        <HitlDemoNavLinkRow className="min-w-0 shrink" />
+      <div className="flex items-center gap-1">
+        <Link
+          href="/demo"
+          className="flex h-7 items-center gap-1.5 rounded-md px-2 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          <span className="hidden sm:inline">Projects</span>
+        </Link>
 
         {showBackToHome && (
           <button
             type="button"
             onClick={onBack}
-            className="flex h-7 shrink-0 items-center gap-1 rounded-md px-2 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+            className="flex h-7 items-center gap-1 rounded-md px-2 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Home
@@ -58,7 +63,6 @@ export function MacTitleBar({
 
       {children}
 
-      {/* Right side controls */}
       <div className="flex items-center gap-1">
         <button
           type="button"

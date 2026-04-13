@@ -19,8 +19,8 @@ export const HITL_DEMO_NAV: Record<
 
 /** Title bar / horizontal strip */
 export const hitlDemoTitleNavLinkClassName =
-  'flex h-7 items-center gap-1.5 rounded-md px-2 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors';
+  'flex h-7 items-center gap-1.5 rounded-md px-2 text-xs text-muted-foreground/80 hover:bg-muted/60 hover:text-foreground transition-colors duration-200';
 
 /** Sheet sidebar stacked links */
 export const hitlDemoSheetStackLinkClassName =
-  'flex items-center gap-2 rounded-md px-2 py-1.5 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors';
+  'flex items-center gap-2 rounded-md px-2 py-1.5 text-xs text-muted-foreground/80 hover:bg-muted/60 hover:text-foreground transition-colors duration-200';

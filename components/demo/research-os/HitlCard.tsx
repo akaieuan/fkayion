@@ -20,27 +20,9 @@ export interface HitlCardConfig {
 }
 
 const KIND_META = {
-  search: {
-    icon: Search,
-    color: 'text-violet-500',
-    border: 'border-violet-200 dark:border-violet-900',
-    bg: 'bg-violet-50 dark:bg-violet-950/30',
-    badge: 'bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300',
-  },
-  review: {
-    icon: AlertCircle,
-    color: 'text-amber-500',
-    border: 'border-amber-200 dark:border-amber-900',
-    bg: 'bg-amber-50 dark:bg-amber-950/30',
-    badge: 'bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300',
-  },
-  write: {
-    icon: PenLine,
-    color: 'text-blue-500',
-    border: 'border-blue-200 dark:border-blue-900',
-    bg: 'bg-blue-50 dark:bg-blue-950/30',
-    badge: 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300',
-  },
+  search: { icon: Search, color: 'text-violet-500' },
+  review: { icon: AlertCircle, color: 'text-amber-500' },
+  write:  { icon: PenLine, color: 'text-blue-500' },
 };
 
 interface HitlCardProps {
@@ -65,17 +47,16 @@ export function HitlCard({ config, onOpenTab }: HitlCardProps) {
 
   if (state === 'confirmed') {
     return (
-      <div className={cn('my-1 flex items-center gap-2 rounded-lg border px-3 py-2 text-xs', meta.border, meta.bg)}>
+      <div className="my-1 flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-xs">
         <Check className={cn('h-3.5 w-3.5', meta.color)} />
-        <span className={cn('font-medium', meta.color)}>{config.runLabel}</span>
+        <span className="font-medium text-foreground">{config.runLabel}</span>
         <span className="text-muted-foreground">· confirmed</span>
       </div>
     );
   }
 
   return (
-    <div className={cn('my-1 rounded-lg border text-xs', meta.border, meta.bg)}>
-      {/* Header row */}
+    <div className="my-1 rounded-lg border border-border text-xs">
       <button
         onClick={() => setState((s) => (s === 'expanded' ? 'idle' : 'expanded'))}
         className="flex w-full items-center gap-2 px-3 py-2.5"
@@ -93,15 +74,14 @@ export function HitlCard({ config, onOpenTab }: HitlCardProps) {
       </button>
 
       {state === 'expanded' && (
-        <div className="border-t border-inherit px-3 pb-3 pt-2">
-          {/* Steps */}
+        <div className="border-t border-border px-3 pb-3 pt-2">
           <div className="mb-3 space-y-1.5">
             {config.steps.map((step, i) => (
               <div key={i} className="flex items-center gap-2">
                 <div className={cn(
                   'flex h-4 w-4 shrink-0 items-center justify-center rounded-full border text-[9px]',
                   step.done
-                    ? cn('border-transparent', meta.badge)
+                    ? 'border-transparent bg-muted text-foreground'
                     : 'border-border text-muted-foreground',
                 )}>
                   {step.done ? <Check className="h-2.5 w-2.5" /> : i + 1}
@@ -113,7 +93,6 @@ export function HitlCard({ config, onOpenTab }: HitlCardProps) {
             ))}
           </div>
 
-          {/* Editable note */}
           {config.editPlaceholder && (
             <textarea
               className="mb-3 w-full resize-none rounded-md border border-border bg-background px-2.5 py-2 text-xs outline-none placeholder:text-muted-foreground focus:ring-1 focus:ring-ring"
@@ -124,14 +103,10 @@ export function HitlCard({ config, onOpenTab }: HitlCardProps) {
             />
           )}
 
-          {/* Actions */}
           <div className="flex items-center gap-2">
             <button
               onClick={() => setState('confirmed')}
-              className={cn(
-                'flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-opacity hover:opacity-80',
-                meta.badge,
-              )}
+              className="flex items-center gap-1.5 rounded-md bg-muted px-3 py-1.5 font-medium text-foreground transition-opacity hover:opacity-80"
             >
               <Check className="h-3 w-3" />
               {config.runLabel}
