@@ -10,7 +10,7 @@ const projects = [
     accent: 'bg-violet-400',
   },
   {
-    title: 'Brooklyn Dead',
+    title: 'Procedural Asset Pipeline Engineering',
     type: 'Write-up',
     description:
       'Private Godot 4 game: procedural Blender→glTF pipeline, code-driven meshes and animation, Three.js previews, cross-tool attachment contracts.',

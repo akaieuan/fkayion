@@ -15,7 +15,7 @@ const projectLinks = [
     description: 'HITL workspace, agentic search, chat',
   },
   {
-    label: 'Brooklyn Dead',
+    label: 'Procedural Asset Pipeline Engineering',
     url: '/demo/brooklyn-dead',
     description: 'Procedural 3D pipeline (write-up)',
   },

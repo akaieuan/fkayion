@@ -83,7 +83,7 @@ const projectEntries = [
     href: '/demo/research-os',
   },
   {
-    label: 'Brooklyn Dead',
+    label: 'Procedural Asset Pipeline Engineering',
     desc: 'Private WIP: procedural Blender→glTF→Godot pipeline, programmatic animation, browser previews.',
     href: '/demo/brooklyn-dead',
   },

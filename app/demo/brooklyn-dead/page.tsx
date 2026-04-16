@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 
 export const metadata = {
-  title: 'Brooklyn Dead · Procedural pipeline | aka4uh',
+  title: 'Procedural Asset Pipeline Engineering | aka4uh',
   description:
     'Code-driven 3D asset production for a private Godot 4 game: Blender Python, glTF, programmatic animation, and cross-tool pipelines.',
 }
@@ -26,7 +26,7 @@ export default function BrooklynDeadProjectPage() {
           Procedural game asset pipeline
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Brooklyn Dead · zombie survival (Godot 4)
+          Procedural Asset Pipeline Engineering (Godot 4)
         </p>
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
