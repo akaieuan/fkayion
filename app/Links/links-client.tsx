@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import Link from 'next/link'
 import { UnifiedDynamicOrb } from '@/components/shared/orbs'
 
 // Greenish-white hover color matching orb
@@ -23,6 +24,7 @@ interface LinksClientProps {
   linksData: Link[]
   writingLinks?: WritingLink[]
   musicLinks?: WritingLink[]
+  projectLinks?: WritingLink[]
 }
 
 function GridLinkItem({ 
@@ -85,28 +87,23 @@ function GridLinkItem({
 function WritingLinkItem({ item, index }: { item: WritingLink; index: number }) {
   const [isHovered, setIsHovered] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
+  const isExternal = /^https?:\/\//.test(item.url)
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), index * 60 + 200)
     return () => clearTimeout(timer)
   }, [index])
 
-  return (
-    <a
-      href={item.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="flex items-center justify-between py-2.5 group"
-      style={{
-        borderBottom: '1px solid rgba(255,255,255,0.05)',
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translateY(0)' : 'translateY(8px)',
-        transition: 'opacity 0.4s ease-out, transform 0.4s ease-out',
-        transitionDelay: `${index * 60}ms`,
-      }}
-    >
+  const style = {
+    borderBottom: '1px solid rgba(255,255,255,0.05)',
+    opacity: isVisible ? 1 : 0,
+    transform: isVisible ? 'translateY(0)' : 'translateY(8px)',
+    transition: 'opacity 0.4s ease-out, transform 0.4s ease-out',
+    transitionDelay: `${index * 60}ms`,
+  } as const
+
+  const inner = (
+    <>
       <span
         className="text-sm font-light tracking-wide"
         style={{
@@ -125,11 +122,44 @@ function WritingLinkItem({ item, index }: { item: WritingLink; index: number }) 
       >
         {item.description}
       </span>
-    </a>
+    </>
+  )
+
+  if (isExternal) {
+    return (
+      <a
+        href={item.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="flex items-center justify-between py-2.5 group"
+        style={style}
+      >
+        {inner}
+      </a>
+    )
+  }
+
+  return (
+    <Link
+      href={item.url}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="flex items-center justify-between py-2.5 group"
+      style={style}
+    >
+      {inner}
+    </Link>
   )
 }
 
-export function LinksClient({ linksData, writingLinks = [], musicLinks = [] }: LinksClientProps) {
+export function LinksClient({
+  linksData,
+  writingLinks = [],
+  musicLinks = [],
+  projectLinks = [],
+}: LinksClientProps) {
   const [hoveredLink, setHoveredLink] = useState<string | null>(null)
   const [mobileLinkIndex, setMobileLinkIndex] = useState(0)
 
@@ -223,6 +253,19 @@ export function LinksClient({ linksData, writingLinks = [], musicLinks = [] }: L
                 ))}
               </div>
             </div>
+
+            {projectLinks.length > 0 && (
+              <div className="mt-8">
+                <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-white/25 mb-3">
+                  projects
+                </p>
+                <div className="max-w-[360px]">
+                  {projectLinks.map((item, i) => (
+                    <WritingLinkItem key={item.label} item={item} index={i} />
+                  ))}
+                </div>
+              </div>
+            )}
 
             {writingLinks.length > 0 && (
               <div className="mt-8">

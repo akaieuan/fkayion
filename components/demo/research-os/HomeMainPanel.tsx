@@ -36,7 +36,7 @@ export function HomeMainPanel({ libraryOpen, onLibraryOpenChange, onOpenInReader
             Welcome to {APP_NAME}
           </h1>
           <p className="text-[13px] text-muted-foreground/80">
-            Human-in-the-loop research — cite with confidence, verify every step.
+            Human-in-the-loop research: cite with confidence, verify every step.
           </p>
         </div>
 
@@ -130,6 +130,18 @@ export function HomeMainPanel({ libraryOpen, onLibraryOpenChange, onOpenInReader
               {s}
             </button>
           ))}
+        </div>
+
+        <div className="mt-6 text-center">
+          <p className="mx-auto max-w-lg text-[13px] leading-relaxed text-muted-foreground">
+            This is a demo: a simplified, static-friendly preview of how a research copilot can feel, not a
+            live product. At{' '}
+            <span className="text-foreground/80">Ubik</span>, work in this vein moved from rough prototypes
+            to production, grounding answers in real sources, tightening retrieval and citations, and
+            designing human review where automation is not enough. The point here is less the mock UI
+            itself than the kind of end-to-end product work that turns exploratory AI into something
+            teams can trust.
+          </p>
         </div>
       </div>
     </div>

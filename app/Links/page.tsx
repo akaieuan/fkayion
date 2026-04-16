@@ -4,7 +4,31 @@ import { LinksClient } from './links-client'
 const linksData = [
   { label: 'aka.write', url: 'https://kraa.io/akaieuan', color: '#88ff22', hoverColor: '#aaff44' },
   { label: 'Ubik', url: 'https://ubik.studio', color: '#ff4422', hoverColor: '#ff6644' },
+  { label: 'Projects', url: '/demo', color: '#6366f1', hoverColor: '#818cf8' },
   { label: 'Instagram', url: 'https://instagram.com/aka.ieuan/', color: '#ff6b9d', hoverColor: '#ff8fa3' },
+]
+
+const projectLinks = [
+  {
+    label: 'Research OS',
+    url: '/demo/research-os',
+    description: 'HITL workspace, agentic search, chat',
+  },
+  {
+    label: 'Brooklyn Dead',
+    url: '/demo/brooklyn-dead',
+    description: 'Procedural 3D pipeline (write-up)',
+  },
+  {
+    label: 'HITL-AI',
+    url: '/demo/hitl-ai/sheet',
+    description: 'Approval flows & agent UI primitives',
+  },
+  {
+    label: 'Music Analysis Chat',
+    url: '/demo/music-analysis-chat',
+    description: 'Roster dashboards & rich chat blocks',
+  },
 ]
 
 const musicLinks = [
@@ -37,6 +61,7 @@ export default function LinksPage() {
       }>
         <LinksClient
           linksData={linksData}
+          projectLinks={projectLinks}
           writingLinks={writingLinks}
           musicLinks={musicLinks}
         />

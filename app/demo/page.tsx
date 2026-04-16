@@ -10,6 +10,14 @@ const projects = [
     accent: 'bg-violet-400',
   },
   {
+    title: 'Brooklyn Dead',
+    type: 'Write-up',
+    description:
+      'Private Godot 4 game: procedural Blender→glTF pipeline, code-driven meshes and animation, Three.js previews, cross-tool attachment contracts.',
+    href: '/demo/brooklyn-dead',
+    accent: 'bg-rose-500/90',
+  },
+  {
     title: 'HITL-AI',
     type: 'Component sheet',
     description: 'Interactive reference documenting human-in-the-loop design patterns, approval states, and agent UI primitives.',

@@ -74,6 +74,15 @@ export function LandingPage({
           </button>
         ))}
       </div>
+
+      <div className="mt-6 text-center">
+        <p className="mx-auto max-w-lg text-[13px] leading-relaxed text-muted-foreground">
+          This is a demo: a UI playground with mock roster and streaming data, not a live product. It&apos;s
+          built to stress project-style surfaces: dashboards, chat blocks, and artifact panels, and to see
+          how dense music-industry layouts read when rich responses stack together. The point is interface
+          and composition, playing with chrome and artifacts, not real analytics.
+        </p>
+      </div>
     </div>
   );
 }

@@ -29,6 +29,14 @@ const links: LinkItem[] = [
     gallery: ['/ubik-studio-1.webp', '/ubik-studio-2.webp', '/ubik-studio-3.webp', '/ubik-studio-4.webp'],
   },
   {
+    label: 'Projects',
+    description: 'demos & tools',
+    color: '#6366f1',
+    detail:
+      'Interactive demos and component experiments on this site: research workspaces, human-in-the-loop UI patterns, and a music-industry chat surface. Everything runs on mock data so you can explore layout, flow, and artifacts without a backend.',
+    url: '/demo',
+  },
+  {
     label: 'aka.write', description: 'essays & research', color: '#5a9600',
     detail: 'Updating irregularly with personal research, reflection pieces, and rants.',
     url: 'https://kraa.io/akaieuan',
@@ -66,6 +74,29 @@ const musicEntries = [
   { label: 'Bandcamp', desc: 'music & merch', url: 'https://akaieuan.bandcamp.com/' },
   { label: 'Spotify', desc: 'streaming', url: 'https://open.spotify.com/artist/5OwuCYMg2wmmh3QofLLIPe' },
   { label: 'YouTube', desc: 'videos & DJ sets', url: 'https://www.youtube.com/channel/UC6etRnx7fZEtoVAI-phCu6Q' },
+]
+
+const projectEntries = [
+  {
+    label: 'Research OS',
+    desc: 'Multi-panel workspace with agentic search, chat, and human-in-the-loop approval flows.',
+    href: '/demo/research-os',
+  },
+  {
+    label: 'Brooklyn Dead',
+    desc: 'Private WIP: procedural Blender→glTF→Godot pipeline, programmatic animation, browser previews.',
+    href: '/demo/brooklyn-dead',
+  },
+  {
+    label: 'HITL-AI',
+    desc: 'Reference sheet for approval states, agent UI primitives, and HITL design patterns.',
+    href: '/demo/hitl-ai/sheet',
+  },
+  {
+    label: 'Music Analysis Chat',
+    desc: 'Music analytics assistant with roster dashboards, creator discovery, and rich chat blocks.',
+    href: '/demo/music-analysis-chat',
+  },
 ]
 
 function getDomain(url: string): string {
@@ -151,8 +182,9 @@ function DetailEmptyState() {
 function DetailPanel({ item }: { item: LinkItem }) {
   const isAkaWrite = item.label === 'aka.write'
   const isMusic = item.label === 'music'
+  const isProjects = item.label === 'Projects'
   const isVisualizerEden = item.url === '/Visualizer-Eden'
-  const hasExternalLink = item.url && !isVisualizerEden && !isMusic
+  const hasExternalLink = item.url && !isVisualizerEden && !isMusic && !isProjects
 
   const cardPadding = isAkaWrite ? 'px-4 py-4' : 'px-6 py-5'
 
@@ -173,6 +205,14 @@ function DetailPanel({ item }: { item: LinkItem }) {
             Open →
           </Link>
         )}
+        {isProjects && (
+          <Link
+            href="/demo"
+            className="text-[11px] font-light tracking-wide text-muted-foreground transition-opacity duration-200 hover:opacity-70"
+          >
+            All projects →
+          </Link>
+        )}
         {hasExternalLink && (
           <a
             href={item.url}
@@ -191,6 +231,24 @@ function DetailPanel({ item }: { item: LinkItem }) {
 
       {item.gallery && item.gallery.length > 0 && (
         <GalleryCarousel images={item.gallery} label={item.label} />
+      )}
+
+      {isProjects && (
+        <div className="mt-3 space-y-2.5 border-t border-border/40 pt-3">
+          {projectEntries.map((entry) => (
+            <Link key={entry.href} href={entry.href} className="block group">
+              <p className="text-[12px] font-light text-foreground/65 group-hover:text-foreground/90 transition-colors duration-150 flex items-center gap-1">
+                {entry.label}
+                <span className="text-[10px] text-foreground/25 group-hover:text-foreground/55 transition-colors duration-150">
+                  →
+                </span>
+              </p>
+              <p className="text-[11px] font-light text-muted-foreground/45 leading-relaxed mt-0.5">
+                {entry.desc}
+              </p>
+            </Link>
+          ))}
+        </div>
       )}
 
       {isAkaWrite && (
