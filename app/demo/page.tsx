@@ -17,36 +17,36 @@ const projects = [
     title: 'Procedural Asset Pipeline Engineering',
     type: 'Write-up',
     description:
-      'Private Godot 4 game: procedural Blender→glTF pipeline, code-driven meshes and animation, Three.js previews, cross-tool attachment contracts.',
+      'Private WIP: procedural Blender→glTF→Godot pipeline, programmatic animation, browser previews.',
     href: '/demo/brooklyn-dead',
   },
   {
     title: 'HITL-AI',
     type: 'Component sheet',
     description:
-      'Interactive reference documenting human-in-the-loop design patterns, approval states, and agent UI primitives.',
+      'Reference sheet for approval states, agent UI primitives, and HITL design patterns.',
     href: '/demo/hitl-ai/sheet',
   },
   {
     title: 'Music Analysis Chat',
     type: 'Interactive demo',
     description:
-      'AI-powered music analytics assistant with roster dashboards, creator discovery, social audits, and campaign management, mock API, full chat with rich blocks.',
+      'Music analytics assistant with roster dashboards, creator discovery, and rich chat blocks.',
     href: '/demo/music-analysis-chat',
   },
   {
     title: 'Worlde remake: Wrdef (Wordle + definition)',
-    type: 'Game',
+    type: 'Write-up',
     description:
-      'A five-letter guessing game powered by definitions, bonus rounds, and a local leaderboard.',
-    href: 'https://www.wrdef.com/',
+      'A five-letter guessing game powered by definitions, bonus rounds, and a locally saved dictionary.',
+    href: '/demo/wrdef',
   },
   {
     title: 'Visualizer Eden',
     type: 'Audio tool',
     description:
       'Browser-based 3D audio visualizer with reactive mesh deformation, custom GLSL shaders, and material presets.',
-    href: '/Visualizer-Eden',
+    href: '/demo/visualizer-eden',
   },
 ]
 
@@ -57,11 +57,11 @@ export const metadata = {
 
 export default function DemoIndexPage() {
   return (
-    <div className="min-h-screen bg-background px-6 py-12 sm:py-14">
+    <div className="min-h-screen bg-background px-6 py-9 sm:py-11">
       <div className="mx-auto w-full max-w-lg">
         <Link
           href="/"
-          className="mb-7 inline-flex items-center gap-1.5 text-[11px] text-muted-foreground/90 transition-colors hover:text-foreground"
+          className="mb-5 inline-flex items-center gap-1.5 text-[11px] text-muted-foreground/90 transition-colors hover:text-foreground"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           aka4uh
@@ -69,16 +69,16 @@ export default function DemoIndexPage() {
 
         <header>
           
-          <p className="mt-1.5 text-[13px] font-light leading-snug text-muted-foreground">
+          <p className="mt-1 text-[13px] font-light leading-snug text-muted-foreground">
             Demos, tools, and write-ups. Each opens in place; nothing here is production infrastructure.
           </p>
         </header>
 
-        <ul className="mt-7 flex list-none flex-col gap-2 p-0">
+        <ul className="mt-5 flex list-none flex-col gap-0.5 p-0">
           {projects.map((project) => {
             const isExternal = /^https?:\/\//.test(project.href)
             const linkClass =
-              'group block rounded-md px-2 py-2 -mx-2 transition-colors hover:bg-muted/30'
+              'group block rounded-md px-2 py-1.5 -mx-2 transition-colors hover:bg-muted/30'
             const body = (
               <>
                 <div className="flex items-start justify-between gap-3">
@@ -87,8 +87,8 @@ export default function DemoIndexPage() {
                   </h2>
                   <ArrowUpRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground/35 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[oklch(0.4_0.08_152.2)] dark:group-hover:text-[oklch(0.707_0.108_152.216)]" />
                 </div>
-                <p className={`mt-0.5 ${tagAccent}`}>{project.type}</p>
-                <p className="mt-1 text-[13px] font-light leading-[1.55] text-muted-foreground">
+                <p className={`mt-px ${tagAccent}`}>{project.type}</p>
+                <p className="mt-0.5 text-[13px] font-light leading-snug text-muted-foreground">
                   {project.description}
                 </p>
               </>

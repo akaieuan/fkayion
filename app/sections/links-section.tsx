@@ -33,19 +33,13 @@ const links: LinkItem[] = [
     description: 'demos & tools',
     color: '#6366f1',
     detail:
-      'Interactive demos and component experiments on this site: research workspaces, human-in-the-loop UI patterns, and a music-industry chat surface. Everything runs on mock data so you can explore layout, flow, and artifacts without a backend.',
+      'Interactive demos and component experiments on this site: research workspaces, human-in-the-loop UI patterns, and a music-industry chat surface. Where the point is UX, those flows use mock data. Visualizer Eden is separate: Web Audio (AnalyserNode, 512-point FFT, bass/mid/high aggregation), a throttled analysis loop, React Three Fiber, and custom GLSL ShaderMaterials with audio-driven vertex displacement. The list below links to each write-up, including Eden; the full visualizer app is still the standalone Visualizer Eden route.',
     url: '/demo',
   },
   {
     label: 'aka.write', description: 'essays & research', color: '#5a9600',
     detail: 'Updating irregularly with personal research, reflection pieces, and rants.',
     url: 'https://kraa.io/akaieuan',
-  },
-  {
-    label: 'Visualizer Eden', description: 'interactive 3D audio tool', color: '#00796b',
-    detail: 'A browser-based audio visualizer I built. Upload any WAV file and watch it warp a reactive 3D form in real time. Choose from material presets — glass, chrome, goo, pearl, holographic — and tweak roughness, metalness, and distortion. Built with React Three Fiber and custom GLSL shaders, it analyzes frequency data in real time to drive mesh deformation and material properties.',
-    url: '/Visualizer-Eden',
-    media: { type: 'video', src: '/visualizer-eden-preview.webm' },
   },
   {
     label: 'Instagram', description: 'live sets & process', color: '#a8334a',
@@ -96,6 +90,16 @@ const projectEntries = [
     label: 'Music Analysis Chat',
     desc: 'Music analytics assistant with roster dashboards, creator discovery, and rich chat blocks.',
     href: '/demo/music-analysis-chat',
+  },
+  {
+    label: 'Worlde remake: Wrdef (Wordle + definition)',
+    desc: 'A five-letter guessing game powered by definitions, bonus rounds, and a locally saved dictionary.',
+    href: '/demo/wrdef',
+  },
+  {
+    label: 'Visualizer Eden',
+    desc: 'Web Audio FFT into GLSL uniforms, React Three Fiber, custom vertex/fragment shaders, material presets.',
+    href: '/demo/visualizer-eden',
   },
 ]
 
@@ -183,8 +187,7 @@ function DetailPanel({ item }: { item: LinkItem }) {
   const isAkaWrite = item.label === 'aka.write'
   const isMusic = item.label === 'music'
   const isProjects = item.label === 'Projects'
-  const isVisualizerEden = item.url === '/Visualizer-Eden'
-  const hasExternalLink = item.url && !isVisualizerEden && !isMusic && !isProjects
+  const hasExternalLink = item.url && !isMusic && !isProjects
 
   const cardPadding = isAkaWrite ? 'px-4 py-4' : 'px-6 py-5'
 
@@ -197,14 +200,6 @@ function DetailPanel({ item }: { item: LinkItem }) {
         <span className="text-base font-light tracking-wide text-foreground">
           {item.label}
         </span>
-        {isVisualizerEden && (
-          <Link
-            href="/Visualizer-Eden"
-            className="text-[11px] font-light tracking-wide text-muted-foreground transition-opacity duration-200 hover:opacity-70"
-          >
-            Open →
-          </Link>
-        )}
         {isProjects && (
           <Link
             href="/demo"
