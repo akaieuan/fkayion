@@ -35,6 +35,13 @@ const projects = [
     href: '/demo/music-analysis-chat',
   },
   {
+    title: 'Worlde remake: Wrdef (Wordle + definition)',
+    type: 'Game',
+    description:
+      'A five-letter guessing game powered by definitions, bonus rounds, and a local leaderboard.',
+    href: 'https://www.wrdef.com/',
+  },
+  {
     title: 'Visualizer Eden',
     type: 'Audio tool',
     description:
@@ -68,12 +75,12 @@ export default function DemoIndexPage() {
         </header>
 
         <ul className="mt-7 flex list-none flex-col gap-2 p-0">
-          {projects.map((project) => (
-            <li key={project.href}>
-              <Link
-                href={project.href}
-                className="group block rounded-md px-2 py-2 -mx-2 transition-colors hover:bg-muted/30"
-              >
+          {projects.map((project) => {
+            const isExternal = /^https?:\/\//.test(project.href)
+            const linkClass =
+              'group block rounded-md px-2 py-2 -mx-2 transition-colors hover:bg-muted/30'
+            const body = (
+              <>
                 <div className="flex items-start justify-between gap-3">
                   <h2 className="text-[15px] font-light leading-snug tracking-[-0.02em] text-foreground pr-2">
                     {project.title}
@@ -84,9 +91,27 @@ export default function DemoIndexPage() {
                 <p className="mt-1 text-[13px] font-light leading-[1.55] text-muted-foreground">
                   {project.description}
                 </p>
-              </Link>
-            </li>
-          ))}
+              </>
+            )
+            return (
+              <li key={project.href}>
+                {isExternal ? (
+                  <a
+                    href={project.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={linkClass}
+                  >
+                    {body}
+                  </a>
+                ) : (
+                  <Link href={project.href} className={linkClass}>
+                    {body}
+                  </Link>
+                )}
+              </li>
+            )
+          })}
         </ul>
       </div>
     </div>
