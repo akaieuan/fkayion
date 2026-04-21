@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 import { useState, useCallback, useEffect, useSyncExternalStore } from 'react'
 import { Canvas } from '@react-three/fiber'
 import * as THREE from 'three'
@@ -121,9 +123,10 @@ export function HomeSection() {
   }, [])
 
   return (
-    <section id="section-0" className="relative h-screen w-full" onPointerMove={handlePointerMove}>
+    <section id="section-0" className="relative min-h-dvh w-full" onPointerMove={handlePointerMove}>
       <div className="absolute inset-0 max-md:pointer-events-none">
         <Canvas
+          className="pointer-events-none touch-pan-y"
           camera={{ position: [0, 0, 10], fov: 45 }}
           style={{ width: '100%', height: '100%' }}
           gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0 }}
@@ -204,12 +207,22 @@ export function HomeSection() {
               ))}
             </div>
 
-            <button
-              onClick={cycleOrb}
-              className="mt-4 text-[10px] font-light tracking-widest uppercase text-foreground/15 hover:text-primary/60 transition-colors duration-300"
-            >
-              change orb ↻
-            </button>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-1 mt-4">
+              <button
+                type="button"
+                onClick={cycleOrb}
+                className="text-[10px] font-light tracking-widest uppercase text-foreground/15 hover:text-primary/60 transition-colors duration-300"
+              >
+                change orb ↻
+              </button>
+              <Link
+                href="/demo"
+                className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-light tracking-wide text-foreground/15 hover:text-primary/60 transition-colors duration-300"
+              >
+                see projects
+                <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 opacity-70" aria-hidden />
+              </Link>
+            </div>
           </div>
         </div>
       </div>

@@ -1,10 +1,20 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, FileText, BookOpen, File } from 'lucide-react';
+import {
+  Search,
+  ZoomIn,
+  ZoomOut,
+  ChevronLeft,
+  ChevronRight,
+  FileText,
+  BookOpen,
+  File,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LIBRARY_ITEMS, SEARCH_RESULTS } from './data';
 import { NOTES_GROUPS } from './notes-shared';
+import type { ApprovalStatus } from './types';
 
 // ─── LibraryPanel ─────────────────────────────────────────────────────
 
@@ -108,7 +118,7 @@ export function LibraryPanel({ variant = 'page', onOpenInReader, onSendToChat }:
   }
 
   return (
-    <div className="flex h-full min-h-0 flex-col bg-background text-sm">
+    <div className="flex h-full min-h-0 flex-col bg-transparent text-sm">
       <div className="flex items-center gap-2 border-b border-border px-4 py-3">
         <BookOpen className="h-4 w-4 text-muted-foreground" />
         <p className="text-sm font-medium text-foreground">Library</p>
@@ -130,7 +140,7 @@ export function SearchPanel() {
     : SEARCH_RESULTS.filter((r) => filter === 'Review' ? r.relevance > 0.9 : r.year.toString() === filter);
 
   return (
-    <div className="flex h-full flex-col bg-background text-sm">
+    <div className="flex h-full flex-col bg-transparent text-sm">
       <div className="border-b border-border p-3">
         <div className="flex items-center gap-2 rounded-lg border border-border bg-muted/30 px-3 py-2">
           <Search className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
@@ -140,14 +150,18 @@ export function SearchPanel() {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search papers…"
           />
-          <button className="rounded-md bg-muted px-2.5 py-1 text-[10px] font-medium text-foreground hover:bg-muted/80 transition-colors">
+          <button
+            type="button"
+            className="rounded-md bg-muted px-2.5 py-1 text-[10px] font-medium text-foreground hover:bg-muted/80 transition-colors"
+          >
             Search
           </button>
         </div>
-        <div className="mt-2 flex gap-1">
+        <div className="mt-2 flex flex-wrap gap-1">
           {filters.map((f) => (
             <button
               key={f}
+              type="button"
               onClick={() => setFilter(f)}
               className={cn(
                 'rounded-full px-2 py-0.5 text-[10px] font-medium transition-colors duration-200',
@@ -184,55 +198,207 @@ export function SearchPanel() {
   );
 }
 
+// ─── Read tab: margin notes (same chrome as `NotesPanel` list items) ──
+
+/** Matches expanded note rows in `NotesPanel` — border, title row, blockquote + summary */
+function ReadMarginNoteCard({
+  title,
+  pages,
+  quote,
+  summary,
+  approval,
+}: {
+  title: string;
+  pages: string;
+  quote?: string;
+  summary: string;
+  approval: ApprovalStatus;
+}) {
+  return (
+    <div className="rounded-lg border border-border overflow-hidden">
+      <div className="flex w-full items-center gap-2 px-3 py-2">
+        <div className="flex-1 min-w-0">
+          <p className="text-xs font-medium text-foreground truncate">{title}</p>
+          <p className="text-[10px] text-muted-foreground">{pages}</p>
+        </div>
+        <span className="shrink-0 text-[10px] capitalize text-muted-foreground">{approval}</span>
+      </div>
+      <div className="border-t border-border px-3 py-2">
+        {quote ? (
+          <>
+            <blockquote className="mb-1.5 border-l-2 border-border pl-2 text-[11px] italic text-muted-foreground">
+              {quote}
+            </blockquote>
+            <p className="text-[11px] text-muted-foreground">{summary}</p>
+          </>
+        ) : (
+          <p className="text-[11px] text-muted-foreground">{summary}</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── PdfViewerPanel ──────────────────────────────────────────────────
+
+const ZOOM_LEVELS = [75, 100, 125, 150] as const;
 
 export function PdfViewerPanel() {
   const [page, setPage] = useState(12);
+  const [zoomIdx, setZoomIdx] = useState(1);
+
+  const zoomOut = () => setZoomIdx((i) => Math.max(0, i - 1));
+  const zoomIn = () => setZoomIdx((i) => Math.min(ZOOM_LEVELS.length - 1, i + 1));
+  const zoomPct = ZOOM_LEVELS[zoomIdx];
+  /** Avoid CSS `transform: scale` (shrinks layout / hides content); zoom text instead */
+  const em = (zoomPct / 100) * 0.6875;
 
   return (
-    <div className="flex h-full flex-col bg-background text-sm">
-      <div className="flex items-center gap-2 border-b border-border px-3 py-2">
-        <button className="flex h-6 w-6 items-center justify-center rounded text-muted-foreground hover:bg-muted">
-          <ZoomOut className="h-3.5 w-3.5" />
-        </button>
-        <span className="text-xs text-muted-foreground">100%</span>
-        <button className="flex h-6 w-6 items-center justify-center rounded text-muted-foreground hover:bg-muted">
-          <ZoomIn className="h-3.5 w-3.5" />
-        </button>
-        <div className="mx-2 h-4 w-px bg-border" />
-        <button
-          onClick={() => setPage((p) => Math.max(1, p - 1))}
-          className="flex h-6 w-6 items-center justify-center rounded text-muted-foreground hover:bg-muted"
-        >
-          <ChevronLeft className="h-3.5 w-3.5" />
-        </button>
-        <span className="text-xs text-muted-foreground">p. {page}</span>
-        <button
-          onClick={() => setPage((p) => p + 1)}
-          className="flex h-6 w-6 items-center justify-center rounded text-muted-foreground hover:bg-muted"
-        >
-          <ChevronRight className="h-3.5 w-3.5" />
-        </button>
+    <div className="flex h-full min-h-0 flex-col bg-muted/35 text-sm dark:bg-muted/20">
+      <div className="flex shrink-0 flex-wrap items-center gap-x-3 gap-y-2 border-b border-border bg-card/95 px-3 py-2.5 backdrop-blur-sm">
+        <div className="flex min-w-0 items-start gap-2">
+          <FileText className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+          <div className="min-w-0">
+            <p className="truncate text-xs font-medium text-foreground">IPCC AR6 Synthesis — Summary for Policymakers</p>
+            <p className="text-[10px] text-muted-foreground">Preview · page {page} of 48 · mock PDF</p>
+          </div>
+        </div>
+
+        <div className="ml-auto flex flex-wrap items-center justify-end gap-2">
+          <div className="flex items-center gap-0.5 rounded-lg border border-border/70 bg-muted/50 px-1 py-0.5 dark:bg-muted/30">
+            <button
+              type="button"
+              onClick={zoomOut}
+              disabled={zoomIdx === 0}
+              className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-background/80 disabled:opacity-40 dark:hover:bg-card/80"
+            >
+              <ZoomOut className="h-3.5 w-3.5" />
+            </button>
+            <span className="min-w-[2.75rem] text-center text-[11px] font-medium tabular-nums text-foreground">
+              {zoomPct}%
+            </span>
+            <button
+              type="button"
+              onClick={zoomIn}
+              disabled={zoomIdx === ZOOM_LEVELS.length - 1}
+              className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-background/80 disabled:opacity-40 dark:hover:bg-card/80"
+            >
+              <ZoomIn className="h-3.5 w-3.5" />
+            </button>
+          </div>
+
+          <div className="flex items-center gap-0.5 rounded-lg border border-border/70 bg-muted/50 px-1 py-0.5 dark:bg-muted/30">
+            <button
+              type="button"
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-background/80 dark:hover:bg-card/80"
+            >
+              <ChevronLeft className="h-3.5 w-3.5" />
+            </button>
+            <span className="min-w-[4rem] text-center text-[11px] tabular-nums text-muted-foreground">p. {page}</span>
+            <button
+              type="button"
+              onClick={() => setPage((p) => p + 1)}
+              className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-background/80 dark:hover:bg-card/80"
+            >
+              <ChevronRight className="h-3.5 w-3.5" />
+            </button>
+          </div>
+
+          <span className="rounded-md border border-border/60 bg-background/50 px-2 py-1 text-[10px] font-medium text-muted-foreground dark:bg-card/60">
+            Read-only
+          </span>
+        </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4">
-        <div className="mx-auto max-w-sm rounded-lg border border-border bg-card p-5">
-          <div className="mb-4 space-y-2">
-            <div className="h-2 w-4/5 rounded bg-muted" />
-            <div className="h-2 w-full rounded bg-muted" />
-            <div className="h-2 w-3/4 rounded bg-muted" />
-          </div>
+      <div className="min-h-0 flex-1 overflow-y-auto px-2 py-3 sm:px-4 sm:py-5">
+        <div className="mx-auto flex w-full max-w-[min(100%,58rem)] flex-col gap-4 lg:flex-row lg:items-start lg:gap-6">
+          <article
+            className="relative min-w-0 flex-1 rounded-sm border border-stone-200/90 bg-[#f7f4ed] px-[6%] py-8 shadow-[0_2px_0_0_rgba(15,15,15,0.06),0_24px_60px_-20px_rgba(0,0,0,0.35)] dark:border-white/[0.08] dark:bg-[#1e1d1b] dark:shadow-[0_2px_0_0_rgba(255,255,255,0.04),0_24px_60px_-20px_rgba(0,0,0,0.75)] sm:px-[8%] sm:py-10 lg:max-w-[min(100%,36rem)] xl:max-w-[min(100%,40rem)]"
+            style={{ fontSize: `${em}rem`, lineHeight: 1.58 }}
+          >
+            <header className="mb-6 border-b border-stone-300/70 pb-5 dark:border-white/10">
+              <p className="text-[0.85em] font-semibold uppercase tracking-[0.12em] text-muted-foreground">Section 3</p>
+              <h1 className="mt-2 text-[1.35em] font-semibold leading-snug tracking-tight text-foreground">
+                Long-term climate futures
+              </h1>
+            </header>
 
-          <div className="mb-4 rounded-md bg-muted/50 border border-border px-3 py-2 text-xs leading-relaxed text-foreground/80">
-            …without immediate systemic action, global average temperatures are likely to exceed 1.5°C above pre-industrial levels by the early 2030s, with potentially irreversible consequences for low-lying coastal regions…
-          </div>
+            <p className="relative mb-4 border-l-[3px] border-violet-500/70 pl-3 text-foreground/95 dark:border-violet-400/60">
+              Without immediate systemic action, global average temperatures are likely to exceed{' '}
+              <mark className="rounded-sm bg-amber-200/90 px-1 py-0.5 text-foreground dark:bg-amber-900/55 dark:text-amber-50">
+                1.5°C above pre-industrial levels
+              </mark>{' '}
+              by the early 2030s, with potentially irreversible consequences for low-lying coastal regions and
+              critical ecosystems.
+            </p>
 
-          <div className="space-y-2">
-            <div className="h-2 w-full rounded bg-muted" />
-            <div className="h-2 w-3/5 rounded bg-muted" />
-          </div>
+            <p className="mb-4 text-foreground/90">
+              Coordinated carbon pricing, aligned with just-transition safeguards, remains one of the most
+              effective levers for aligning near-term investment with long-term mitigation pathways — particularly
+              when paired with transparent monitoring and periodic review.
+            </p>
 
-          <div className="mt-4 text-[10px] text-muted-foreground">Table 3 · p. {page} · IPCC AR6 Synthesis Report</div>
+            <div
+              id="read-note-table3"
+              className="my-6 rounded-md border-2 border-amber-400/70 bg-amber-50/90 px-4 py-3 text-[0.95em] leading-relaxed text-foreground/90 ring-2 ring-amber-400/25 dark:border-amber-500/50 dark:bg-amber-950/30 dark:ring-amber-500/20"
+            >
+              …Table 3 summarizes emissions pathways consistent with limiting warming to 1.5°C with no or limited
+              overshoot; verification of pagination and figure references is required before citation in policy
+              briefs…
+            </div>
+
+            <p className="mb-4 text-foreground/90">
+              The window for limiting warming to this threshold is narrowing rapidly. Policy instruments that
+              combine price signals with innovation support show the strongest evidence of durable decarbonization
+              across hard-to-abate sectors.
+            </p>
+
+            <footer className="mt-8 border-t border-stone-300/60 pt-4 text-[0.8em] text-muted-foreground dark:border-white/10">
+              Table 3 · p. {page} · IPCC AR6 Synthesis Report (demo excerpt)
+            </footer>
+
+            {/* Narrow screens: compact note chips that mirror margin cards */}
+            <div className="mt-6 space-y-2 border-t border-stone-300/50 pt-4 lg:hidden dark:border-white/10">
+              <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Page notes</p>
+              <ReadMarginNoteCard
+                title="Citation check"
+                pages="Table 3 · p. 12"
+                quote="…verification of pagination and figure references is required before citation in policy briefs…"
+                summary="Verify Table 3 pagination and figure IDs before citing in policy briefs."
+                approval="pending"
+              />
+              <ReadMarginNoteCard
+                title="Demo scope"
+                pages="Preview"
+                summary="Static preview — highlights sync to Human queue in a full build."
+                approval="approved"
+              />
+            </div>
+          </article>
+
+          {/* Desktop margin note overlays (Claude / PDF-style) */}
+          <aside
+            className="hidden w-full shrink-0 flex-col gap-2 lg:flex lg:w-[13rem] xl:w-[14rem]"
+            aria-label="Margin notes"
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Margin notes</p>
+            <div className="lg:sticky lg:top-3 lg:space-y-3">
+              <ReadMarginNoteCard
+                title="Citation check"
+                pages="Table 3 · p. 12"
+                quote="…verification of pagination and figure references is required before citation in policy briefs…"
+                summary="Verify Table 3 pagination and figure IDs before citing in policy briefs."
+                approval="pending"
+              />
+              <ReadMarginNoteCard
+                title="Demo scope"
+                pages="Preview"
+                summary="Static preview — highlights sync to Human queue in a full build."
+                approval="approved"
+              />
+            </div>
+          </aside>
         </div>
       </div>
     </div>
@@ -247,10 +413,10 @@ export function WritingPanel() {
   );
 
   return (
-    <div className="flex h-full flex-col bg-background text-sm">
-      <div className="flex items-center gap-1 border-b border-border px-3 py-1.5 overflow-x-auto">
+    <div className="flex h-full flex-col bg-transparent text-sm">
+      <div className="flex items-center gap-1 overflow-x-auto border-b border-border px-3 py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {['Page Format', '11pt', 'Heading', 'List'].map((t) => (
-          <button key={t} className="shrink-0 rounded px-2 py-1 text-[11px] text-muted-foreground hover:bg-muted transition-colors">
+          <button key={t} type="button" className="shrink-0 rounded px-2 py-1 text-[11px] text-muted-foreground hover:bg-muted transition-colors">
             {t}
           </button>
         ))}
@@ -299,7 +465,7 @@ export function NotesPanel() {
     });
 
   return (
-    <div className="flex h-full flex-col bg-background text-sm overflow-y-auto">
+    <div className="flex h-full flex-col overflow-y-auto bg-transparent text-sm">
       <div className="flex items-center gap-2 border-b border-border px-4 py-3">
         <FileText className="h-4 w-4 text-muted-foreground" />
         <p className="text-sm font-medium text-foreground">Notes</p>

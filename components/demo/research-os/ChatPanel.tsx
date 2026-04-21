@@ -1,10 +1,26 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { ChevronDown, Plus, ArrowUp, Bot } from 'lucide-react';
+import {
+  Plus,
+  Bot,
+  CornerDownLeft,
+  FileText,
+  GitBranch,
+} from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { AutoGrowTextarea } from './AutoGrowTextarea';
 import { HitlCard, DEMO_HITL_CARDS } from './HitlCard';
 import type { RightTab } from './types';
+
+/** One compact line to start; grows until max rows × line height */
+const COMPOSER_LINE_PX = 22;
+const COMPOSER_MAX_ROWS = 8;
 
 interface Message {
   role: 'user' | 'agent';
@@ -35,10 +51,8 @@ const INITIAL_MESSAGES: Message[] = [
 
 interface ChatPanelProps {
   onOpenTab?: (tab: RightTab) => void;
-  /** One-shot append from Library (and similar); `id` bumps when a new payload is queued */
   composerInject?: { id: number; text: string } | null;
   onComposerInjectConsumed?: () => void;
-  /** Override the default seeded thread (component is keyed externally to reset) */
   initialMessages?: Message[];
 }
 
@@ -83,7 +97,6 @@ export function ChatPanel({
     if (!input.trim()) return;
     setMessages((m) => [...m, { role: 'user', content: input }]);
     setInput('');
-    // Fake agent reply
     setTimeout(() => {
       setMessages((m) => [
         ...m,
@@ -96,30 +109,34 @@ export function ChatPanel({
   };
 
   return (
-    <div className="flex h-full flex-col bg-background">
-      {/* Header */}
-      <div className="flex h-[44px] shrink-0 items-center gap-2 border-b border-border px-4">
-        <span className="text-sm font-medium text-foreground">Chat</span>
-        <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
+    <div className="flex h-full min-h-0 flex-col bg-background">
+      <div className="flex h-10 shrink-0 items-center border-b border-border/50 px-4">
+        <span className="text-[13px] font-medium tracking-tight text-foreground/90">Chat</span>
       </div>
 
-      {/* Messages */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
+      <div
+        ref={scrollRef}
+        className="min-h-0 flex-1 space-y-3 overflow-y-auto bg-muted/15 px-3 py-4 dark:bg-muted/5 sm:px-5"
+      >
         {messages.map((msg, i) => (
-          <div key={i} className="animate-in fade-in-0 slide-in-from-bottom-1 duration-300" style={{ animationDelay: `${Math.min(i * 60, 300)}ms`, animationFillMode: 'backwards' }}>
+          <div
+            key={i}
+            className="animate-in fade-in-0 slide-in-from-bottom-1 duration-300"
+            style={{ animationDelay: `${Math.min(i * 60, 300)}ms`, animationFillMode: 'backwards' }}
+          >
             {msg.role === 'user' ? (
               <div className="flex justify-end">
-                <div className="max-w-[80%] rounded-2xl rounded-tr-sm bg-primary px-3.5 py-2.5 text-xs leading-relaxed text-primary-foreground">
+                <div className="max-w-[min(100%,26rem)] rounded-2xl rounded-tr-md bg-primary px-3.5 py-2.5 text-[13px] leading-relaxed text-primary-foreground">
                   {msg.content}
                 </div>
               </div>
             ) : (
-              <div className="flex gap-2">
-                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 mt-0.5">
-                  <Bot className="h-3.5 w-3.5 text-primary/70" />
+              <div className="flex gap-2.5">
+                <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/12">
+                  <Bot className="h-3.5 w-3.5 text-primary/75" />
                 </div>
-                <div className="flex-1 min-w-0">
-                  <div className="rounded-2xl rounded-tl-sm border border-border bg-muted/30 px-3.5 py-2.5 text-xs leading-relaxed text-foreground whitespace-pre-wrap">
+                <div className="min-w-0 flex-1">
+                  <div className="rounded-2xl rounded-tl-md border border-border/50 bg-muted/25 px-3.5 py-2.5 text-[13px] leading-relaxed text-foreground whitespace-pre-wrap dark:bg-muted/15">
                     {msg.content}
                   </div>
                   {msg.hitlId && (
@@ -135,45 +152,145 @@ export function ChatPanel({
         ))}
       </div>
 
-      {/* Input */}
-      <div className="shrink-0 border-t border-border px-3 py-2">
-        <div className="flex items-end gap-2">
-          <button
-            type="button"
-            onClick={() => onOpenTab?.('library')}
-            className="mb-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-            aria-label="Open library"
-          >
-            <Plus className="h-4 w-4" />
-          </button>
-
-          <div className="flex-1 rounded-xl border border-border bg-muted/30 px-3 py-2">
-            <AutoGrowTextarea
-              placeholder="Continue the conversation…"
-              className="text-xs text-foreground placeholder:text-muted-foreground"
-              minRows={1}
-              maxRows={6}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              textareaRef={composerRef}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  send();
-                }
-              }}
-            />
+      {/* Composer: short default height, grows with text up to maxRows */}
+      <TooltipProvider delayDuration={200}>
+        <div className="shrink-0 px-3 pb-3 pt-1 sm:px-5 sm:pb-3">
+          <div className="rounded-xl border border-border/55 bg-muted/25 dark:border-border dark:bg-muted/20">
+            <div className="relative px-2.5 py-1.5 sm:px-3 sm:py-2">
+              <AutoGrowTextarea
+                placeholder="Type / for commands…"
+                className="text-[13px] text-foreground placeholder:text-muted-foreground/70 pr-9"
+                lineHeightPx={COMPOSER_LINE_PX}
+                minRows={1}
+                maxRows={COMPOSER_MAX_ROWS}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                textareaRef={composerRef}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    send();
+                  }
+                }}
+              />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    type="button"
+                    onClick={send}
+                    disabled={!input.trim()}
+                    className="absolute bottom-1 right-1 flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted/70 hover:text-foreground disabled:pointer-events-none disabled:opacity-25 dark:hover:bg-muted/50"
+                    aria-label="Send message"
+                  >
+                    <CornerDownLeft className="h-3.5 w-3.5" strokeWidth={1.75} />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="border border-border bg-popover text-popover-foreground">
+                  Send (Enter)
+                </TooltipContent>
+              </Tooltip>
+            </div>
           </div>
 
-          <button
-            onClick={send}
-            disabled={!input.trim()}
-            className="mb-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground disabled:opacity-30 transition-opacity"
-          >
-            <ArrowUp className="h-4 w-4" />
-          </button>
+          <div className="mt-2 flex items-center justify-between gap-3 px-0.5">
+            <div className="flex min-w-0 flex-1 items-center gap-1 text-[11px] text-muted-foreground sm:gap-1.5">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    type="button"
+                    onClick={() => onOpenTab?.('human')}
+                    className="hidden max-w-[7rem] truncate rounded-md px-1.5 py-1 text-left hover:bg-muted/70 hover:text-foreground dark:hover:bg-white/5 sm:inline-block"
+                  >
+                    Review queue
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent
+                  side="top"
+                  className="max-w-[16rem] border border-border bg-popover text-left text-popover-foreground"
+                >
+                  <span className="font-medium text-foreground">Human review queue</span>
+                  <span className="mt-0.5 block text-muted-foreground">
+                    3 items need approval. Opens the Human tab.
+                  </span>
+                </TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    type="button"
+                    onClick={() => onOpenTab?.('library')}
+                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md hover:bg-muted/80 hover:text-foreground dark:hover:bg-white/5"
+                    aria-label="Library"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="border border-border bg-popover text-popover-foreground">
+                  Add from library — attach sources to the message
+                </TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    type="button"
+                    onClick={() => onOpenTab?.('read')}
+                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md hover:bg-muted/80 hover:text-foreground dark:hover:bg-white/5"
+                    aria-label="Read"
+                  >
+                    <FileText className="h-3.5 w-3.5" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="border border-border bg-popover text-popover-foreground">
+                  Open reader — PDF and citations (demo)
+                </TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    type="button"
+                    onClick={() => onOpenTab?.('human')}
+                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md hover:bg-muted/80 hover:text-foreground dark:hover:bg-white/5"
+                    aria-label="Human review"
+                  >
+                    <GitBranch className="h-3.5 w-3.5" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="top" className="border border-border bg-popover text-popover-foreground">
+                  Branch to Human — approvals and HITL cards
+                </TooltipContent>
+              </Tooltip>
+            </div>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  className="flex shrink-0 items-center gap-2 rounded-md px-1 py-0.5 text-[11px] text-muted-foreground hover:bg-muted/50 hover:text-foreground dark:hover:bg-white/5"
+                >
+                  <span className="hidden sm:inline">Claude Sonnet</span>
+                  <span className="sm:hidden">Sonnet</span>
+                  <span
+                    className="h-3.5 w-3.5 rounded-full border-2 border-primary/60 border-t-transparent"
+                    aria-hidden
+                  />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent
+                side="top"
+                className="max-w-[14rem] border border-border bg-popover text-left text-popover-foreground"
+              >
+                <span className="font-medium text-foreground">Model (demo)</span>
+                <span className="mt-0.5 block text-muted-foreground">
+                  Static label for this mock — not a live model selector.
+                </span>
+              </TooltipContent>
+            </Tooltip>
+          </div>
         </div>
-      </div>
+      </TooltipProvider>
     </div>
   );
 }

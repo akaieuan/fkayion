@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  useCallback,
   useEffect,
   useRef,
   type MutableRefObject,
@@ -13,6 +14,8 @@ interface AutoGrowTextareaProps
   extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'rows'> {
   minRows?: number;
   maxRows?: number;
+  /** Pixel line height for min/max height math (match your `leading-*` / font size) */
+  lineHeightPx?: number;
   /** Optional ref to the underlying textarea (e.g. focus after programmatic updates) */
   textareaRef?: RefObject<HTMLTextAreaElement | null>;
 }
@@ -21,6 +24,7 @@ export function AutoGrowTextarea({
   className,
   minRows = 1,
   maxRows = 12,
+  lineHeightPx = 24,
   value,
   defaultValue,
   onChange,
@@ -28,25 +32,20 @@ export function AutoGrowTextarea({
   ...props
 }: AutoGrowTextareaProps) {
   const ref = useRef<HTMLTextAreaElement | null>(null);
-  const lineHeight = 24; // px, matches leading-6
 
-  const resize = () => {
+  const resize = useCallback(() => {
     const el = ref.current;
     if (!el) return;
     el.style.height = 'auto';
-    const min = minRows * lineHeight;
-    const max = maxRows * lineHeight;
+    const min = minRows * lineHeightPx;
+    const max = maxRows * lineHeightPx;
     el.style.height = `${Math.min(Math.max(el.scrollHeight, min), max)}px`;
     el.style.overflowY = el.scrollHeight > max ? 'auto' : 'hidden';
-  };
+  }, [lineHeightPx, minRows, maxRows]);
 
   useEffect(() => {
     resize();
-  }, [value]);
-
-  useEffect(() => {
-    resize();
-  }, []);
+  }, [value, resize]);
 
   const setRefs = (node: HTMLTextAreaElement | null) => {
     (ref as MutableRefObject<HTMLTextAreaElement | null>).current = node;
@@ -59,10 +58,10 @@ export function AutoGrowTextarea({
     <textarea
       ref={setRefs}
       className={cn(
-        'w-full resize-none bg-transparent leading-6 outline-none',
+        'w-full resize-none bg-transparent outline-none',
         className,
       )}
-      style={{ minHeight: minRows * lineHeight }}
+      style={{ minHeight: minRows * lineHeightPx, lineHeight: `${lineHeightPx}px` }}
       value={value}
       defaultValue={defaultValue}
       onChange={(e) => {

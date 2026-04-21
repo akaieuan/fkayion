@@ -1,7 +1,6 @@
 export { MacTitleBar } from './MacTitleBar';
 export { HomeSidebar } from './HomeSidebar';
 export { WorkspaceSidebar } from './WorkspaceSidebar';
-export { SidebarCollapsedRail } from './SidebarCollapsedRail';
 export { HomeMainPanel } from './HomeMainPanel';
 export { ChatPanel } from './ChatPanel';
 export { HitlCard, DEMO_HITL_CARDS } from './HitlCard';

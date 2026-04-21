@@ -21,7 +21,7 @@ const FourUHSection = dynamic(() => import('./sections/four-uh-section').then(m 
 
 export function UnifiedClient() {
   return (
-    <main className="w-full bg-background">
+    <main className="relative min-h-0 w-full min-w-0 overflow-x-clip bg-background">
       <HomeSection />
       <LinksSection />
       <ProductSection />

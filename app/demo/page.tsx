@@ -7,6 +7,13 @@ const tagAccent =
 
 const projects = [
   {
+    title: 'Ubik Studio',
+    type: 'Product',
+    description:
+      'Co-founded and lead product design Ubik Studio, a desktop-native AI research platform for human-in-the-loop workflows.',
+    href: 'https://ubik.studio',
+  },
+  {
     title: 'Research OS',
     type: 'Interactive demo',
     description:
@@ -64,13 +71,13 @@ export default function DemoIndexPage() {
           className="mb-5 inline-flex items-center gap-1.5 text-[11px] text-muted-foreground/90 transition-colors hover:text-foreground"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
-          aka4uh
+          home
         </Link>
 
         <header>
           
           <p className="mt-1 text-[13px] font-light leading-snug text-muted-foreground">
-            Demos, tools, and write-ups. Each opens in place; nothing here is production infrastructure.
+            Prototypes, tools, side-quests, and write-ups.
           </p>
         </header>
 

@@ -7,6 +7,9 @@ import { APP_NAME } from './data';
 import { AutoGrowTextarea } from './AutoGrowTextarea';
 import { LibraryPanel } from './Panels';
 
+/** Match workspace `ChatPanel` composer line math so home doesn’t start as a tall empty block */
+const HOME_COMPOSER_LINE_PX = 22;
+
 interface HomeMainPanelProps {
   libraryOpen: boolean;
   onLibraryOpenChange: (open: boolean) => void;
@@ -41,11 +44,12 @@ export function HomeMainPanel({ libraryOpen, onLibraryOpenChange, onOpenInReader
         </div>
 
         {/* Input box */}
-        <div className="rounded-2xl border border-border bg-muted/20 px-4 py-3 shadow-sm transition-shadow focus-within:shadow-md focus-within:border-foreground/15">
+        <div className="rounded-2xl border border-border bg-muted/20 px-4 py-2.5 shadow-sm transition-shadow focus-within:shadow-md focus-within:border-foreground/15">
           <AutoGrowTextarea
             placeholder="Choose a topic below, or type anything…"
             className="text-sm text-foreground placeholder:text-muted-foreground"
-            minRows={2}
+            lineHeightPx={HOME_COMPOSER_LINE_PX}
+            minRows={1}
             maxRows={10}
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -75,10 +79,10 @@ export function HomeMainPanel({ libraryOpen, onLibraryOpenChange, onOpenInReader
                 <Plus className="h-4 w-4" />
               </button>
 
-              <div className="flex items-center gap-1 rounded-md border border-border px-2 py-1 text-xs text-muted-foreground hover:bg-muted cursor-pointer transition-colors">
+              <span className="inline-flex items-center gap-1 rounded-md border border-border/60 px-2 py-1 text-xs text-muted-foreground">
                 Agent
-                <ChevronDown className="h-3 w-3" />
-              </div>
+                <ChevronDown className="h-3 w-3 opacity-60" aria-hidden />
+              </span>
 
               <span className="text-xs text-muted-foreground">Claude Sonnet</span>
             </div>

@@ -13,7 +13,7 @@ export function HumanPanel() {
   const [section, setSection] = useState<Section>('review');
 
   return (
-    <div className="flex h-full flex-col bg-background text-sm">
+    <div className="flex h-full flex-col bg-transparent text-sm">
       <div className="flex items-center gap-2 border-b border-border px-4 py-3">
         <UserRound className="h-4 w-4 text-muted-foreground" />
         <div>
@@ -81,7 +81,12 @@ function ReviewSection() {
   ];
 
   const toggle = (i: number) =>
-    setExpanded((prev) => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
+    setExpanded((prev) => {
+      const n = new Set(prev);
+      if (n.has(i)) n.delete(i);
+      else n.add(i);
+      return n;
+    });
 
   return (
     <div className="space-y-2">

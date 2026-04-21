@@ -58,6 +58,7 @@ export function HitlCard({ config, onOpenTab }: HitlCardProps) {
   return (
     <div className="my-1 rounded-lg border border-border text-xs">
       <button
+        type="button"
         onClick={() => setState((s) => (s === 'expanded' ? 'idle' : 'expanded'))}
         className="flex w-full items-center gap-2 px-3 py-2.5"
       >
@@ -105,6 +106,7 @@ export function HitlCard({ config, onOpenTab }: HitlCardProps) {
 
           <div className="flex items-center gap-2">
             <button
+              type="button"
               onClick={() => setState('confirmed')}
               className="flex items-center gap-1.5 rounded-md bg-muted px-3 py-1.5 font-medium text-foreground transition-opacity hover:opacity-80"
             >
@@ -114,6 +116,7 @@ export function HitlCard({ config, onOpenTab }: HitlCardProps) {
 
             {onOpenTab && (
               <button
+                type="button"
                 onClick={() => onOpenTab(config.openTab)}
                 className="flex items-center gap-1 rounded-md border border-border px-2.5 py-1.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
               >
@@ -123,6 +126,7 @@ export function HitlCard({ config, onOpenTab }: HitlCardProps) {
             )}
 
             <button
+              type="button"
               onClick={() => setState('dismissed')}
               className="ml-auto flex h-6 w-6 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
             >

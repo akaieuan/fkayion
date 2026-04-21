@@ -1,16 +1,17 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import type { PanelImperativeHandle } from 'react-resizable-panels';
 import {
   ResizablePanelGroup,
   ResizablePanel,
   ResizableHandle,
 } from '@/components/ui/resizable';
+import { useMediaQuery } from '@/components/demo/research-os/use-media-query';
 
 import { MacTitleBar } from '@/components/demo/research-os/MacTitleBar';
 import { HomeSidebar } from '@/components/demo/research-os/HomeSidebar';
 import { WorkspaceSidebar } from '@/components/demo/research-os/WorkspaceSidebar';
-import { SidebarCollapsedRail } from '@/components/demo/research-os/SidebarCollapsedRail';
 import { HomeMainPanel } from '@/components/demo/research-os/HomeMainPanel';
 import { ChatPanel } from '@/components/demo/research-os/ChatPanel';
 import { RightPanel } from '@/components/demo/research-os/RightPanel';
@@ -20,6 +21,7 @@ import type { TopicMessage } from '@/components/demo/research-os/data';
 import type { ViewMode, RightTab } from '@/components/demo/research-os/types';
 
 export default function ResearchOSPage() {
+  const wideWorkspace = useMediaQuery('(min-width: 1024px)');
   const [view, setView] = useState<ViewMode>('home');
   const [activeTab, setActiveTab] = useState<RightTab>('human');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -31,6 +33,17 @@ export default function ResearchOSPage() {
   );
   const [chatKey, setChatKey] = useState(0);
   const [initialMessages, setInitialMessages] = useState<TopicMessage[] | null>(null);
+
+  const chatPanelRef = useRef<PanelImperativeHandle | null>(null);
+
+  /** Right stack visible: keep chat at 30% / panel at 70% (also when switching Human → Read → Notes, etc.) */
+  useEffect(() => {
+    if (!rightPanelVisible) return;
+    const id = requestAnimationFrame(() => {
+      chatPanelRef.current?.resize(30);
+    });
+    return () => cancelAnimationFrame(id);
+  }, [activeTab, rightPanelVisible]);
 
   const handleNavigate = (v: ViewMode) => setView(v);
   const handleOpenTab = (tab: RightTab) => {
@@ -75,30 +88,30 @@ export default function ResearchOSPage() {
       <MacTitleBar
         showBackToHome={view !== 'home'}
         onBack={() => setView('home')}
-        rightPanelVisible={rightPanelVisible}
-        onToggleRightPanel={view === 'workspace' ? () => setRightPanelVisible((v) => !v) : undefined}
+        sidebarCollapsed={sidebarCollapsed}
+        onToggleSidebar={() => setSidebarCollapsed((c) => !c)}
+        showSidebarToggle={view === 'home' || view === 'workspace' || view === 'annotate'}
+        rightPanelMenu={
+          view === 'workspace'
+            ? {
+                visible: rightPanelVisible,
+                activeTab,
+                onSelectTab: (tab) => {
+                  setActiveTab(tab);
+                  setRightPanelVisible(true);
+                },
+                onHide: () => setRightPanelVisible(false),
+                humanCount: 3,
+              }
+            : undefined
+        }
       />
 
       {/* Body */}
       <div className="flex flex-1 min-h-0 overflow-hidden">
         {/* Sidebar */}
-        {sidebarCollapsed ? (
-          <SidebarCollapsedRail
-            view={view}
-            onExpand={() => setSidebarCollapsed(false)}
-            humanCount={3}
-            libraryPanelOpen={libraryPanelOpen}
-            onHomeAction={(action) => {
-              if (action === 'library') setLibraryPanelOpen((o) => !o);
-              else if (action === 'web' || action === 'research') goWorkspace('search');
-              else if (action === 'write') goWorkspace('write');
-              else if (action === 'annotate') setView('annotate');
-            }}
-            onWorkspaceTab={handleOpenTab}
-          />
-        ) : view === 'home' ? (
+        {sidebarCollapsed ? null : view === 'home' ? (
           <HomeSidebar
-            onCollapse={() => setSidebarCollapsed(true)}
             onNavigate={handleNavigate}
             libraryPanelOpen={libraryPanelOpen}
             onOpenLibrary={() => setLibraryPanelOpen((o) => !o)}
@@ -106,9 +119,9 @@ export default function ResearchOSPage() {
           />
         ) : (
           <WorkspaceSidebar
-            onCollapse={() => setSidebarCollapsed(true)}
             humanCount={3}
             onOpenTab={handleOpenTab}
+            onOpenFile={() => handleOpenTab('read')}
           />
         )}
 
@@ -132,9 +145,15 @@ export default function ResearchOSPage() {
 
           {view === 'workspace' && (
             <div className="flex flex-1 min-h-0 overflow-hidden">
-              <ResizablePanelGroup direction="horizontal" className="flex-1">
-                {/* Chat panel */}
-                <ResizablePanel defaultSize={rightPanelVisible ? 45 : 100} minSize={30}>
+              <ResizablePanelGroup
+                direction={wideWorkspace ? 'horizontal' : 'vertical'}
+                className="flex-1"
+              >
+                <ResizablePanel
+                  panelRef={chatPanelRef}
+                  defaultSize={rightPanelVisible ? 30 : 100}
+                  minSize={wideWorkspace ? 22 : 18}
+                >
                   <ChatPanel
                     key={chatKey}
                     onOpenTab={handleOpenTab}
@@ -144,11 +163,13 @@ export default function ResearchOSPage() {
                   />
                 </ResizablePanel>
 
-                {/* Right panel */}
                 {rightPanelVisible && (
                   <>
-                    <ResizableHandle withHandle />
-                    <ResizablePanel defaultSize={55} minSize={30}>
+                    <ResizableHandle withHandle={wideWorkspace} />
+                    <ResizablePanel
+                      defaultSize={70}
+                      minSize={wideWorkspace ? 28 : 22}
+                    >
                       <RightPanel
                         activeTab={activeTab}
                         onTabChange={setActiveTab}

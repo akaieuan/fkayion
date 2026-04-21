@@ -1,7 +1,7 @@
 'use client';
 
-import { cn } from '@/lib/utils';
 import type { RightTab } from './types';
+import { RIGHT_PANEL_TABS } from './types';
 import { HumanPanel } from './HumanPanel';
 import { LibraryPanel, SearchPanel, PdfViewerPanel, WritingPanel, NotesPanel } from './Panels';
 
@@ -12,51 +12,27 @@ interface RightPanelProps {
   onLibrarySendToChat?: (items: { id: string; name: string }[]) => void;
 }
 
-const TABS: { id: RightTab; label: string }[] = [
-  { id: 'human', label: 'Human' },
-  { id: 'library', label: 'Library' },
-  { id: 'search', label: 'Search' },
-  { id: 'read', label: 'Read' },
-  { id: 'write', label: 'Write' },
-  { id: 'notes', label: 'All Notes' },
-];
-
 export function RightPanel({
   activeTab,
   onTabChange,
   humanCount = 3,
   onLibrarySendToChat,
 }: RightPanelProps) {
+  const label = RIGHT_PANEL_TABS.find((t) => t.id === activeTab)?.label ?? 'Panel';
+
   return (
-    <div className="flex h-full flex-col bg-background">
-      {/* Tab bar */}
-      <div className="flex shrink-0 items-center border-b border-border">
-        {TABS.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => onTabChange(tab.id)}
-            className={cn(
-              'relative flex items-center gap-1.5 px-3 py-2.5 text-xs transition-colors duration-200',
-              activeTab === tab.id
-                ? 'text-foreground font-medium'
-                : 'text-muted-foreground/70 hover:text-muted-foreground',
-            )}
-          >
-            {tab.label}
-            {tab.id === 'human' && humanCount > 0 && (
-              <span className="flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-muted px-1 text-[8px] font-medium text-foreground">
-                {humanCount}
-              </span>
-            )}
-            {activeTab === tab.id && (
-              <span className="absolute bottom-0 left-1 right-1 h-[1.5px] rounded-t-full bg-foreground" />
-            )}
-          </button>
-        ))}
+    <div className="flex h-full min-h-0 flex-col border-border bg-card text-card-foreground lg:border-l">
+      {/* Single active view — switch panels from the title bar menu only */}
+      <div className="flex h-8 shrink-0 items-center gap-2 border-b border-border/80 bg-muted/15 px-3 dark:bg-muted/10">
+        <span className="truncate text-xs font-medium text-foreground">{label}</span>
+        {activeTab === 'human' && humanCount > 0 && (
+          <span className="shrink-0 rounded-full bg-muted px-1.5 py-0.5 text-[10px] font-medium tabular-nums text-foreground">
+            {humanCount}
+          </span>
+        )}
       </div>
 
-      {/* Content */}
-      <div className="flex-1 min-h-0 overflow-hidden">
+      <div className="min-h-0 flex-1 overflow-hidden">
         {activeTab === 'human' && <HumanPanel />}
         {activeTab === 'library' && (
           <LibraryPanel
