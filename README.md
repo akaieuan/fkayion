@@ -18,8 +18,8 @@ A single index of demos and write-ups. Each entry links to its own route:
 |-------|------------|
 | `/demo/research-os` | Full-screen **Research OS** demo: multi-panel workspace, chat, HITL-style flows (mock data). |
 | `/demo/brooklyn-dead` | **Write-up** on a private Godot game: procedural Blender→glTF pipeline, code-driven assets, browser previews (text-first). |
+| `/demo/hitl-ai` | **HITL-AI** widget showcase: registry-driven HITL primitives. |
 | `/demo/hitl-ai/sheet` | **HITL-AI** component sheet: live UI reference for approvals, agents, search, tokens, etc. |
-| `/demo/hitl-ai` / `/demo/hitl-ai/components` | Alternate HITL demo shell and widget showcase. |
 | `/demo/music-analysis-chat` | **Music Analysis Chat**: roster-style UI, analytics views, rich chat blocks (mock API). |
 | `/Visualizer-Eden` | **Visualizer Eden**: WebGL/R3F audio visualizer, GLSL materials, upload and controls (see below). |
 

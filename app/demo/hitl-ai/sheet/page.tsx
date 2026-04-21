@@ -1,19 +1,28 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, AlertCircle, PenLine, Check, X,
-  ChevronRight, ChevronDown, Bot, UserRound, FileText, Globe,
-  GraduationCap, ClipboardList, ListChecks, Cpu, Loader2,
-  SkipForward, AlertOctagon, Ban, ZoomIn, ZoomOut,
-  ChevronLeft, Plus, File,
+import {
+  Search,
+  PenLine,
+  Check,
+  X,
+  ChevronRight,
+  ChevronDown,
+  Globe,
+  GraduationCap,
+  ClipboardList,
+  Cpu,
+  Loader2,
+  SkipForward,
+  AlertOctagon,
+  Ban,
+  ArrowLeft,
 } from 'lucide-react';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { HitlCard, DEMO_HITL_CARDS } from '@/components/demo/hitl-ai/HitlCard';
-import { SEARCH_RESULTS, DOWNLOAD_PAPERS, BIBLIOGRAPHY_ENTRIES } from '@/components/demo/hitl-ai/data';
-import { NOTES_GROUPS } from '@/components/demo/hitl-ai/notes-shared';
-import type { AgentStatus, RightTab } from '@/components/demo/hitl-ai/types';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { SEARCH_RESULTS } from '@/components/demo/hitl-ai/data';
+import type { AgentStatus } from '@/components/demo/hitl-ai/types';
 
 // ─── Section wrapper ──────────────────────────────────────────────────────────
 
@@ -136,7 +145,13 @@ const TRACE_COLORS = {
 
 function MiniTraceSection() {
   const [expanded, setExpanded] = useState<Set<number>>(new Set());
-  const toggle = (i: number) => setExpanded(p => { const n = new Set(p); n.has(i) ? n.delete(i) : n.add(i); return n; });
+  const toggle = (i: number) =>
+    setExpanded((p) => {
+      const n = new Set(p);
+      if (n.has(i)) n.delete(i);
+      else n.add(i);
+      return n;
+    });
 
   return (
     <Section
@@ -264,7 +279,13 @@ function QASection() {
   const [multi, setMulti]   = useState<Set<string>>(new Set());
   const [other, setOther]   = useState('');
   const [done, setDone]     = useState(false);
-  const toggle = (o: string) => setMulti(p => { const n = new Set(p); n.has(o) ? n.delete(o) : n.add(o); return n; });
+  const toggle = (o: string) =>
+    setMulti((p) => {
+      const n = new Set(p);
+      if (n.has(o)) n.delete(o);
+      else n.add(o);
+      return n;
+    });
   const single = ['Carbon pricing', 'Regulation', 'Voluntary markets', 'Technology mandates'];
   const multi_  = ['Stakeholder alignment', 'Monitoring & verification', 'Political feasibility', 'Cost-effectiveness'];
 
@@ -561,9 +582,9 @@ export default function SheetPage() {
   }, []);
 
   return (
-    <div className="flex h-full bg-background text-foreground">
+    <div className="flex min-h-[100dvh] bg-background text-foreground">
       {/* Fixed left TOC */}
-      <aside className="hidden lg:flex h-full w-52 shrink-0 flex-col border-r border-border overflow-y-auto sticky top-0">
+      <aside className="hidden lg:flex min-h-[100dvh] w-52 shrink-0 flex-col border-r border-border overflow-y-auto lg:sticky lg:top-0 lg:self-start">
         <div className="border-b border-border px-4 py-3">
           <p className="text-xs font-medium text-foreground">Component Sheet</p>
           <p className="text-[10px] text-muted-foreground mt-0.5">HITL-AI system · Agatha</p>

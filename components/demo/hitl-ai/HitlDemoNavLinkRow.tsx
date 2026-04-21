@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { House, LayoutDashboard, ScrollText, LayoutGrid } from 'lucide-react';
+import { House, ScrollText, LayoutGrid } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   HITL_DEMO_NAV,
@@ -13,17 +13,15 @@ import {
 
 const HITL_DEMO_NAV_ICONS: Record<HitlDemoNavKey, typeof House> = {
   site: House,
-  shell: LayoutDashboard,
-  sheet: ScrollText,
   widgets: LayoutGrid,
+  sheet: ScrollText,
 };
 
 /** Short labels for the top bar (full labels in sheet sidebar). */
 const BAR_LABEL: Record<HitlDemoNavKey, string> = {
   site: HITL_DEMO_NAV.site.label,
-  shell: HITL_DEMO_NAV.shell.label,
-  sheet: HITL_DEMO_NAV.sheet.label,
   widgets: 'Widgets',
+  sheet: HITL_DEMO_NAV.sheet.label,
 };
 
 export function HitlDemoNavLinkRow({

@@ -1,15 +1,5 @@
 export { MacTitleBar } from './MacTitleBar';
-export { HomeSidebar } from './HomeSidebar';
-export { WorkspaceSidebar } from './WorkspaceSidebar';
-export { SidebarCollapsedRail } from './SidebarCollapsedRail';
-export { HomeMainPanel } from './HomeMainPanel';
-export { ChatPanel } from './ChatPanel';
 export { HitlCard, DEMO_HITL_CARDS } from './HitlCard';
-export { RightPanel } from './RightPanel';
-export { HumanPanel } from './HumanPanel';
-export { SearchPanel, PdfViewerPanel, WritingPanel, NotesPanel } from './Panels';
-export { AnnotatePanel, WorkspaceStatusBar, WorkspaceCreateModal } from './Misc';
-export { AutoGrowTextarea } from './AutoGrowTextarea';
 export * from './data';
 export * from './notes-shared';
 export * from './types';

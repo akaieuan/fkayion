@@ -1,9 +1,9 @@
 /**
- * Single source of truth for cross-links inside the HITL-AI demo.
- * Avoids `/demo` index so users are not routed toward other demos (e.g. Research OS).
+ * Single source of truth for cross-links inside the HITL-AI demo routes
+ * (widget showcase at `/demo/hitl-ai` + sheet at `/demo/hitl-ai/sheet`).
  */
 
-export const HITL_DEMO_NAV_KEYS = ['site', 'shell', 'sheet', 'widgets'] as const;
+export const HITL_DEMO_NAV_KEYS = ['site', 'widgets', 'sheet'] as const;
 
 export type HitlDemoNavKey = (typeof HITL_DEMO_NAV_KEYS)[number];
 
@@ -12,9 +12,8 @@ export const HITL_DEMO_NAV: Record<
   { href: string; label: string }
 > = {
   site: { href: '/', label: 'Site' },
-  shell: { href: '/demo/hitl-ai', label: 'Demo' },
+  widgets: { href: '/demo/hitl-ai', label: 'Widget showcase' },
   sheet: { href: '/demo/hitl-ai/sheet', label: 'Sheet' },
-  widgets: { href: '/demo/hitl-ai/components', label: 'Widget showcase' },
 };
 
 /** Title bar / horizontal strip */

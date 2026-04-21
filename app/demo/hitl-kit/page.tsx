@@ -76,12 +76,12 @@ export default function HitlKitProjectPage() {
         </p>
 
         <p className="mt-6 text-[12px] leading-relaxed text-muted-foreground">
-          <span className="font-medium text-foreground/85">Earlier prototype on aka4uh:</span>{' '}
+          <span className="font-medium text-foreground/85">Earlier reference on this site:</span>{' '}
           <Link
             href="/demo/hitl-ai"
             className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50"
           >
-            HITL-AI demo shell
+            widget showcase
           </Link>
           {' · '}
           <Link
@@ -90,15 +90,8 @@ export default function HitlKitProjectPage() {
           >
             component sheet
           </Link>
-          {' · '}
-          <Link
-            href="/demo/hitl-ai/components"
-            className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50"
-          >
-            widget showcase
-          </Link>
-          . The shipped kit at hitlkit.dev supersedes this in-repo mock, but it&apos;s still here for
-          comparison.
+          . The shipped kit at hitlkit.dev supersedes this in-repo mock, but these are still
+          useful for comparison.
         </p>
 
         <p className="mt-10 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
