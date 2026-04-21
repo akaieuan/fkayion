@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { DemoPageThemeToggle } from './demo-page-theme-toggle'
 
 /** Sage green from landing product section (`labelAccent` / hue ~152 oklch) */
 const tagAccent =
@@ -14,11 +15,11 @@ const projects = [
     href: 'https://ubik.studio',
   },
   {
-    title: 'Research OS',
-    type: 'Interactive demo',
+    title: 'HITL Kit',
+    type: 'Open source · Write-up',
     description:
-      'Multi-panel workspace with agentic search, chat, and human-in-the-loop approval flows.',
-    href: '/demo/research-os',
+      'Design system, eleven HITL primitives, shadcn registry, and personal research paper.',
+    href: '/demo/hitl-kit',
   },
   {
     title: 'Procedural Asset Pipeline Engineering',
@@ -28,11 +29,18 @@ const projects = [
     href: '/demo/brooklyn-dead',
   },
   {
-    title: 'HITL-AI',
-    type: 'Component sheet',
+    title: 'Worlde remake: Wrdef (Wordle + definition)',
+    type: 'Write-up',
     description:
-      'Reference sheet for approval states, agent UI primitives, and HITL design patterns.',
-    href: '/demo/hitl-ai/sheet',
+      'A five-letter guessing game powered by definitions, bonus rounds, and a locally saved dictionary.',
+    href: '/demo/wrdef',
+  },
+  {
+    title: 'Research OS',
+    type: 'Interactive demo',
+    description:
+      'Multi-panel workspace with agentic search, chat, and human-in-the-loop approval flows.',
+    href: '/demo/research-os',
   },
   {
     title: 'Music Analysis Chat',
@@ -40,13 +48,6 @@ const projects = [
     description:
       'Music analytics assistant with roster dashboards, creator discovery, and rich chat blocks.',
     href: '/demo/music-analysis-chat',
-  },
-  {
-    title: 'Worlde remake: Wrdef (Wordle + definition)',
-    type: 'Write-up',
-    description:
-      'A five-letter guessing game powered by definitions, bonus rounds, and a locally saved dictionary.',
-    href: '/demo/wrdef',
   },
   {
     title: 'Visualizer Eden',
@@ -66,13 +67,16 @@ export default function DemoIndexPage() {
   return (
     <div className="min-h-screen bg-background px-6 py-9 sm:py-11">
       <div className="mx-auto w-full max-w-lg">
-        <Link
-          href="/"
-          className="mb-5 inline-flex items-center gap-1.5 text-[11px] text-muted-foreground/90 transition-colors hover:text-foreground"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
-          home
-        </Link>
+        <div className="mb-5 flex w-full items-center justify-between gap-3">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground/90 transition-colors hover:text-foreground"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            home
+          </Link>
+          <DemoPageThemeToggle />
+        </div>
 
         <header>
           

@@ -39,8 +39,11 @@ export function AutoGrowTextarea({
     el.style.height = 'auto';
     const min = minRows * lineHeightPx;
     const max = maxRows * lineHeightPx;
-    el.style.height = `${Math.min(Math.max(el.scrollHeight, min), max)}px`;
-    el.style.overflowY = el.scrollHeight > max ? 'auto' : 'hidden';
+    /** Empty textareas often report an oversized scrollHeight; keep a single-line footprint until there is content. */
+    const isEmpty = el.value.length === 0;
+    const contentHeight = isEmpty ? min : Math.max(el.scrollHeight, min);
+    el.style.height = `${Math.min(contentHeight, max)}px`;
+    el.style.overflowY = !isEmpty && el.scrollHeight > max ? 'auto' : 'hidden';
   }, [lineHeightPx, minRows, maxRows]);
 
   useEffect(() => {

@@ -82,9 +82,9 @@ const projectEntries = [
     href: '/demo/brooklyn-dead',
   },
   {
-    label: 'HITL-AI',
-    desc: 'Reference sheet for approval states, agent UI primitives, and HITL design patterns.',
-    href: '/demo/hitl-ai/sheet',
+    label: 'HITL Kit',
+    desc: 'Design system, primitives, shadcn registry, and paper — measured properly.',
+    href: '/demo/hitl-kit',
   },
   {
     label: 'Music Analysis Chat',

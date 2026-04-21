@@ -152,7 +152,7 @@ export function SearchPanel() {
           />
           <button
             type="button"
-            className="rounded-md bg-muted px-2.5 py-1 text-[10px] font-medium text-foreground hover:bg-muted/80 transition-colors"
+            className="rounded-md bg-primary px-2.5 py-1 text-[10px] font-medium text-primary-foreground hover:opacity-90 transition-opacity"
           >
             Search
           </button>
@@ -165,7 +165,9 @@ export function SearchPanel() {
               onClick={() => setFilter(f)}
               className={cn(
                 'rounded-full px-2 py-0.5 text-[10px] font-medium transition-colors duration-200',
-                filter === f ? 'bg-muted text-foreground' : 'text-muted-foreground hover:bg-muted/60',
+                filter === f
+                  ? 'bg-primary/15 text-primary ring-1 ring-primary/25 dark:bg-primary/20 dark:text-primary'
+                  : 'text-muted-foreground hover:bg-muted/60',
               )}
             >
               {f}
@@ -265,47 +267,47 @@ export function PdfViewerPanel() {
         </div>
 
         <div className="ml-auto flex flex-wrap items-center justify-end gap-2">
-          <div className="flex items-center gap-0.5 rounded-lg border border-border/70 bg-muted/50 px-1 py-0.5 dark:bg-muted/30">
+          <div className="flex items-center gap-0.5 rounded-lg border border-sky-500/25 bg-sky-500/10 px-1 py-0.5 dark:border-sky-500/30 dark:bg-sky-500/12">
             <button
               type="button"
               onClick={zoomOut}
               disabled={zoomIdx === 0}
-              className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-background/80 disabled:opacity-40 dark:hover:bg-card/80"
+              className="flex h-7 w-7 items-center justify-center rounded-md text-sky-700 hover:bg-sky-500/15 disabled:opacity-40 dark:text-sky-300 dark:hover:bg-sky-500/20"
             >
               <ZoomOut className="h-3.5 w-3.5" />
             </button>
-            <span className="min-w-[2.75rem] text-center text-[11px] font-medium tabular-nums text-foreground">
+            <span className="min-w-[2.75rem] text-center text-[11px] font-medium tabular-nums text-sky-900 dark:text-sky-100">
               {zoomPct}%
             </span>
             <button
               type="button"
               onClick={zoomIn}
               disabled={zoomIdx === ZOOM_LEVELS.length - 1}
-              className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-background/80 disabled:opacity-40 dark:hover:bg-card/80"
+              className="flex h-7 w-7 items-center justify-center rounded-md text-sky-700 hover:bg-sky-500/15 disabled:opacity-40 dark:text-sky-300 dark:hover:bg-sky-500/20"
             >
               <ZoomIn className="h-3.5 w-3.5" />
             </button>
           </div>
 
-          <div className="flex items-center gap-0.5 rounded-lg border border-border/70 bg-muted/50 px-1 py-0.5 dark:bg-muted/30">
+          <div className="flex items-center gap-0.5 rounded-lg border border-violet-500/25 bg-violet-500/10 px-1 py-0.5 dark:border-violet-500/30 dark:bg-violet-500/12">
             <button
               type="button"
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-background/80 dark:hover:bg-card/80"
+              className="flex h-7 w-7 items-center justify-center rounded-md text-violet-700 hover:bg-violet-500/15 dark:text-violet-300 dark:hover:bg-violet-500/20"
             >
               <ChevronLeft className="h-3.5 w-3.5" />
             </button>
-            <span className="min-w-[4rem] text-center text-[11px] tabular-nums text-muted-foreground">p. {page}</span>
+            <span className="min-w-[4rem] text-center text-[11px] tabular-nums text-violet-800/90 dark:text-violet-200/90">p. {page}</span>
             <button
               type="button"
               onClick={() => setPage((p) => p + 1)}
-              className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground hover:bg-background/80 dark:hover:bg-card/80"
+              className="flex h-7 w-7 items-center justify-center rounded-md text-violet-700 hover:bg-violet-500/15 dark:text-violet-300 dark:hover:bg-violet-500/20"
             >
               <ChevronRight className="h-3.5 w-3.5" />
             </button>
           </div>
 
-          <span className="rounded-md border border-border/60 bg-background/50 px-2 py-1 text-[10px] font-medium text-muted-foreground dark:bg-card/60">
+          <span className="rounded-md border border-emerald-500/35 bg-emerald-500/12 px-2 py-1 text-[10px] font-medium text-emerald-900 dark:border-emerald-500/30 dark:bg-emerald-500/15 dark:text-emerald-100">
             Read-only
           </span>
         </div>
@@ -414,9 +416,26 @@ export function WritingPanel() {
 
   return (
     <div className="flex h-full flex-col bg-transparent text-sm">
-      <div className="flex items-center gap-1 overflow-x-auto border-b border-border px-3 py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {['Page Format', '11pt', 'Heading', 'List'].map((t) => (
-          <button key={t} type="button" className="shrink-0 rounded px-2 py-1 text-[11px] text-muted-foreground hover:bg-muted transition-colors">
+      <div className="flex items-center gap-1 overflow-x-auto border-b border-border bg-muted/20 px-3 py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {(
+          [
+            ['Page Format', 'sky'],
+            ['11pt', 'violet'],
+            ['Heading', 'amber'],
+            ['List', 'rose'],
+          ] as const
+        ).map(([t, hue]) => (
+          <button
+            key={t}
+            type="button"
+            className={cn(
+              'shrink-0 rounded px-2 py-1 text-[11px] transition-colors',
+              hue === 'sky' && 'text-sky-700 hover:bg-sky-500/15 dark:text-sky-300',
+              hue === 'violet' && 'text-violet-700 hover:bg-violet-500/15 dark:text-violet-300',
+              hue === 'amber' && 'text-amber-800 hover:bg-amber-500/15 dark:text-amber-300',
+              hue === 'rose' && 'text-rose-700 hover:bg-rose-500/15 dark:text-rose-300',
+            )}
+          >
             {t}
           </button>
         ))}

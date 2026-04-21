@@ -31,6 +31,15 @@ const TAB_ICONS: Record<RightTab, typeof UserRound> = {
   notes: ClipboardList,
 };
 
+const TAB_ICON_COLORS: Record<RightTab, string> = {
+  human: 'text-amber-600 dark:text-amber-400',
+  library: 'text-sky-600 dark:text-sky-400',
+  search: 'text-cyan-600 dark:text-cyan-400',
+  read: 'text-violet-600 dark:text-violet-400',
+  write: 'text-rose-600 dark:text-rose-400',
+  notes: 'text-emerald-600 dark:text-emerald-400',
+};
+
 export interface RightPanelMenuConfig {
   visible: boolean;
   activeTab: RightTab;
@@ -212,7 +221,7 @@ export function MacTitleBar({
                           : 'text-muted-foreground hover:bg-muted hover:text-foreground',
                       )}
                     >
-                      <Icon className="h-3.5 w-3.5 shrink-0 opacity-80" />
+                      <Icon className={cn('h-3.5 w-3.5 shrink-0', TAB_ICON_COLORS[id])} />
                       <span className="flex-1 truncate">{label}</span>
                       {count != null && count > 0 && (
                         <span className="flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-muted px-1 text-[9px] font-medium text-foreground">

@@ -14,24 +14,36 @@ export function HumanPanel() {
 
   return (
     <div className="flex h-full flex-col bg-transparent text-sm">
-      <div className="flex items-center gap-2 border-b border-border px-4 py-3">
-        <UserRound className="h-4 w-4 text-muted-foreground" />
+      <div className="flex items-center gap-2 border-b border-border bg-gradient-to-r from-amber-500/8 via-transparent to-transparent px-4 py-3">
+        <UserRound className="h-4 w-4 text-amber-600 dark:text-amber-400" />
         <div>
           <p className="text-sm font-medium text-foreground">Human Review</p>
           <p className="text-xs text-muted-foreground">3 items need your attention</p>
         </div>
       </div>
 
-      <div className="flex gap-1 border-b border-border px-3 py-2">
-        {(['review', 'download', 'notes', 'bibliography'] as Section[]).map((s) => (
+      <div className="flex gap-1 border-b border-border bg-muted/10 px-3 py-2">
+        {(
+          [
+            ['review', 'amber'] as const,
+            ['download', 'sky'] as const,
+            ['notes', 'violet'] as const,
+            ['bibliography', 'emerald'] as const,
+          ] as const
+        ).map(([s, hue]) => (
           <button
             key={s}
             onClick={() => setSection(s)}
             className={cn(
               'rounded-full px-2.5 py-1 text-xs font-medium capitalize transition-colors duration-200',
-              section === s
-                ? 'bg-muted text-foreground'
-                : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground',
+              section === s && hue === 'amber' && 'bg-amber-500/18 text-amber-950 ring-1 ring-amber-500/30 dark:bg-amber-500/20 dark:text-amber-100',
+              section === s && hue === 'sky' && 'bg-sky-500/18 text-sky-950 ring-1 ring-sky-500/30 dark:bg-sky-500/20 dark:text-sky-100',
+              section === s && hue === 'violet' && 'bg-violet-500/18 text-violet-950 ring-1 ring-violet-500/30 dark:bg-violet-500/20 dark:text-violet-100',
+              section === s && hue === 'emerald' && 'bg-emerald-500/18 text-emerald-950 ring-1 ring-emerald-500/30 dark:bg-emerald-500/20 dark:text-emerald-100',
+              section !== s && hue === 'amber' && 'text-muted-foreground hover:bg-amber-500/12 hover:text-amber-900 dark:hover:text-amber-200',
+              section !== s && hue === 'sky' && 'text-muted-foreground hover:bg-sky-500/12 hover:text-sky-900 dark:hover:text-sky-200',
+              section !== s && hue === 'violet' && 'text-muted-foreground hover:bg-violet-500/12 hover:text-violet-900 dark:hover:text-violet-200',
+              section !== s && hue === 'emerald' && 'text-muted-foreground hover:bg-emerald-500/12 hover:text-emerald-900 dark:hover:text-emerald-200',
             )}
           >
             {s === 'download' ? 'To Download' : s === 'bibliography' ? 'Bibliography' : s.charAt(0).toUpperCase() + s.slice(1)}

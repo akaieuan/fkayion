@@ -20,9 +20,9 @@ const projectLinks = [
     description: 'Procedural 3D pipeline (write-up)',
   },
   {
-    label: 'HITL-AI',
-    url: '/demo/hitl-ai/sheet',
-    description: 'Approval flows & agent UI primitives',
+    label: 'HITL Kit',
+    url: '/demo/hitl-kit',
+    description: 'Open write-up — hitlkit.dev, GitHub, earlier in-repo demo',
   },
   {
     label: 'Music Analysis Chat',

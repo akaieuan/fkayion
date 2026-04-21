@@ -116,7 +116,7 @@ export function ChatPanel({
 
       <div
         ref={scrollRef}
-        className="min-h-0 flex-1 space-y-3 overflow-y-auto bg-muted/15 px-3 py-4 dark:bg-muted/5 sm:px-5"
+        className="min-h-0 flex-1 space-y-3 overflow-y-auto bg-muted/15 px-3 py-4 dark:bg-muted/5 sm:px-5 [scrollbar-width:thin] [scrollbar-color:hsl(var(--muted-foreground)/0.28)_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-foreground/18 [&::-webkit-scrollbar-thumb:hover]:bg-foreground/28"
       >
         {messages.map((msg, i) => (
           <div
@@ -156,7 +156,7 @@ export function ChatPanel({
       <TooltipProvider delayDuration={200}>
         <div className="shrink-0 px-3 pb-3 pt-1 sm:px-5 sm:pb-3">
           <div className="rounded-xl border border-border/55 bg-muted/25 dark:border-border dark:bg-muted/20">
-            <div className="relative px-2.5 py-1.5 sm:px-3 sm:py-2">
+            <div className="relative px-2.5 pt-1.5 pb-1 sm:px-3 sm:pt-2 sm:pb-1.5">
               <AutoGrowTextarea
                 placeholder="Type / for commands…"
                 className="text-[13px] text-foreground placeholder:text-muted-foreground/70 pr-9"
@@ -199,7 +199,7 @@ export function ChatPanel({
                   <button
                     type="button"
                     onClick={() => onOpenTab?.('human')}
-                    className="hidden max-w-[7rem] truncate rounded-md px-1.5 py-1 text-left hover:bg-muted/70 hover:text-foreground dark:hover:bg-white/5 sm:inline-block"
+                    className="hidden max-w-[7rem] truncate rounded-md px-1.5 py-1 text-left text-amber-700/90 hover:bg-amber-500/12 hover:text-amber-800 dark:text-amber-400/90 dark:hover:bg-amber-500/15 dark:hover:text-amber-300 sm:inline-block"
                   >
                     Review queue
                   </button>
@@ -220,7 +220,7 @@ export function ChatPanel({
                   <button
                     type="button"
                     onClick={() => onOpenTab?.('library')}
-                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md hover:bg-muted/80 hover:text-foreground dark:hover:bg-white/5"
+                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-sky-600 hover:bg-sky-500/15 hover:text-sky-700 dark:text-sky-400 dark:hover:bg-sky-500/20 dark:hover:text-sky-300"
                     aria-label="Library"
                   >
                     <Plus className="h-3.5 w-3.5" />
@@ -236,7 +236,7 @@ export function ChatPanel({
                   <button
                     type="button"
                     onClick={() => onOpenTab?.('read')}
-                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md hover:bg-muted/80 hover:text-foreground dark:hover:bg-white/5"
+                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-violet-600 hover:bg-violet-500/12 hover:text-violet-700 dark:text-violet-400 dark:hover:bg-violet-500/18 dark:hover:text-violet-300"
                     aria-label="Read"
                   >
                     <FileText className="h-3.5 w-3.5" />
@@ -252,7 +252,7 @@ export function ChatPanel({
                   <button
                     type="button"
                     onClick={() => onOpenTab?.('human')}
-                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md hover:bg-muted/80 hover:text-foreground dark:hover:bg-white/5"
+                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-emerald-600 hover:bg-emerald-500/12 hover:text-emerald-700 dark:text-emerald-400 dark:hover:bg-emerald-500/18 dark:hover:text-emerald-300"
                     aria-label="Human review"
                   >
                     <GitBranch className="h-3.5 w-3.5" />

@@ -35,15 +35,18 @@ export default function ResearchOSPage() {
   const [initialMessages, setInitialMessages] = useState<TopicMessage[] | null>(null);
 
   const chatPanelRef = useRef<PanelImperativeHandle | null>(null);
+  const prevRightPanelVisible = useRef(rightPanelVisible);
 
-  /** Right stack visible: keep chat at 30% / panel at 70% (also when switching Human → Read → Notes, etc.) */
+  /** Only snap the split when the right stack is shown again — not on every tab switch (avoids jerky resizing). */
   useEffect(() => {
-    if (!rightPanelVisible) return;
+    const wasHidden = !prevRightPanelVisible.current;
+    prevRightPanelVisible.current = rightPanelVisible;
+    if (!rightPanelVisible || !wasHidden) return;
     const id = requestAnimationFrame(() => {
       chatPanelRef.current?.resize(30);
     });
     return () => cancelAnimationFrame(id);
-  }, [activeTab, rightPanelVisible]);
+  }, [rightPanelVisible]);
 
   const handleNavigate = (v: ViewMode) => setView(v);
   const handleOpenTab = (tab: RightTab) => {
