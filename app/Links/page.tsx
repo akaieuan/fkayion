@@ -25,6 +25,11 @@ const projectLinks = [
     description: 'Open write-up — hitlkit.dev, GitHub, earlier in-repo demo',
   },
   {
+    label: 'HITL practice',
+    url: '/demo/hitl-practice',
+    description: 'Narrative: product section, Research OS, team test, Kit lineage',
+  },
+  {
     label: 'Music Analysis Chat',
     url: '/demo/music-analysis-chat',
     description: 'Roster dashboards & rich chat blocks',

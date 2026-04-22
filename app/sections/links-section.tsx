@@ -70,11 +70,27 @@ const musicEntries = [
   { label: 'YouTube', desc: 'videos & DJ sets', url: 'https://www.youtube.com/channel/UC6etRnx7fZEtoVAI-phCu6Q' },
 ]
 
-const projectEntries = [
+/** Kept in lockstep with `app/demo/page.tsx` `projects` (order, title, description, href). */
+const projectEntries: { label: string; desc: string; href: string }[] = [
   {
-    label: 'Research OS',
-    desc: 'Multi-panel workspace with agentic search, chat, and human-in-the-loop approval flows.',
-    href: '/demo/research-os',
+    label: 'Ubik Studio',
+    desc: 'Co-founded and lead product design Ubik Studio, a desktop-native AI research platform for human-in-the-loop workflows.',
+    href: 'https://ubik.studio',
+  },
+  {
+    label: 'HITL Kit',
+    desc: 'Design system, eleven HITL primitives, shadcn registry, and personal research paper.',
+    href: '/demo/hitl-kit',
+  },
+  {
+    label: 'How I Work',
+    desc: 'Product design, validation, and how the Kit, Research OS, and team test log connect.',
+    href: '/demo/hitl-practice',
+  },
+  {
+    label: 'User feedback + design log',
+    desc: 'HITL-AI team test log on Kraa.',
+    href: 'https://kraa.io/team-test-log042',
   },
   {
     label: 'Procedural Asset Pipeline Engineering',
@@ -82,9 +98,14 @@ const projectEntries = [
     href: '/demo/brooklyn-dead',
   },
   {
-    label: 'HITL Kit',
-    desc: 'Design system, primitives, shadcn registry, and paper — measured properly.',
-    href: '/demo/hitl-kit',
+    label: 'Worlde remake: Wrdef (Wordle + definition)',
+    desc: 'A five-letter guessing game powered by definitions, bonus rounds, and a locally saved dictionary.',
+    href: '/demo/wrdef',
+  },
+  {
+    label: 'Research OS',
+    desc: 'Multi-panel workspace with agentic search, chat, and human-in-the-loop approval flows.',
+    href: '/demo/research-os',
   },
   {
     label: 'Music Analysis Chat',
@@ -92,13 +113,8 @@ const projectEntries = [
     href: '/demo/music-analysis-chat',
   },
   {
-    label: 'Worlde remake: Wrdef (Wordle + definition)',
-    desc: 'A five-letter guessing game powered by definitions, bonus rounds, and a locally saved dictionary.',
-    href: '/demo/wrdef',
-  },
-  {
     label: 'Visualizer Eden',
-    desc: 'Web Audio FFT into GLSL uniforms, React Three Fiber, custom vertex/fragment shaders, material presets.',
+    desc: 'Browser-based 3D audio visualizer with reactive mesh deformation, custom GLSL shaders, and material presets.',
     href: '/demo/visualizer-eden',
   },
 ]
@@ -230,19 +246,38 @@ function DetailPanel({ item }: { item: LinkItem }) {
 
       {isProjects && (
         <div className="mt-3 space-y-2.5 border-t border-border/40 pt-3">
-          {projectEntries.map((entry) => (
-            <Link key={entry.href} href={entry.href} className="block group">
-              <p className="text-[12px] font-light text-foreground/65 group-hover:text-foreground/90 transition-colors duration-150 flex items-center gap-1">
-                {entry.label}
-                <span className="text-[10px] text-foreground/25 group-hover:text-foreground/55 transition-colors duration-150">
-                  →
-                </span>
-              </p>
-              <p className="text-[11px] font-light text-muted-foreground/45 leading-relaxed mt-0.5">
-                {entry.desc}
-              </p>
-            </Link>
-          ))}
+          {projectEntries.map((entry) => {
+            const isExternal = /^https?:\/\//.test(entry.href)
+            const className = 'block group'
+            const inner = (
+              <>
+                <p className="text-[12px] font-light text-foreground/65 group-hover:text-foreground/90 transition-colors duration-150 flex items-center gap-1">
+                  {entry.label}
+                  <span className="text-[10px] text-foreground/25 group-hover:text-foreground/55 transition-colors duration-150">
+                    {isExternal ? '↗' : '→'}
+                  </span>
+                </p>
+                <p className="text-[11px] font-light text-muted-foreground/45 leading-relaxed mt-0.5">
+                  {entry.desc}
+                </p>
+              </>
+            )
+            return isExternal ? (
+              <a
+                key={entry.href}
+                href={entry.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={className}
+              >
+                {inner}
+              </a>
+            ) : (
+              <Link key={entry.href} href={entry.href} className={className}>
+                {inner}
+              </Link>
+            )
+          })}
         </div>
       )}
 

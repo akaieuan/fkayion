@@ -91,6 +91,9 @@ export function SiteHeader() {
   const navTextInactive = isDark ? 'text-white/40 hover:text-white/70' : 'text-foreground/40 hover:text-foreground/70'
   const logoText = isDark ? 'text-white/80 hover:text-white' : 'text-foreground/80 hover:text-foreground'
 
+  /** Inline color so bars always match header chrome; `bg-foreground` can desync from `isDark` during theme/hydration. */
+  const mobileMenuBarColor = isDark ? 'rgba(255,255,255,0.65)' : 'oklch(0.122 0.001 0 / 0.88)'
+
   /** Fullscreen demos manage their own chrome */
   if (pathname?.startsWith('/demo')) {
     return null
@@ -144,16 +147,25 @@ export function SiteHeader() {
             aria-label="Toggle navigation menu"
           >
             <span
-              className={`block h-[1.5px] w-5 transition-all duration-200 ${isDark ? 'bg-white/60' : 'bg-foreground/60'}`}
-              style={{ transform: mobileMenuOpen ? 'translateY(5px) rotate(45deg)' : 'none' }}
+              className="block h-0.5 w-5 transition-all duration-200"
+              style={{
+                backgroundColor: mobileMenuBarColor,
+                transform: mobileMenuOpen ? 'translateY(6px) rotate(45deg)' : 'none',
+              }}
             />
             <span
-              className={`block h-[1.5px] w-4 transition-opacity duration-200 ${isDark ? 'bg-white/60' : 'bg-foreground/60'}`}
-              style={{ opacity: mobileMenuOpen ? 0 : 1 }}
+              className="block h-0.5 w-4 transition-opacity duration-200"
+              style={{
+                backgroundColor: mobileMenuBarColor,
+                opacity: mobileMenuOpen ? 0 : 1,
+              }}
             />
             <span
-              className={`block h-[1.5px] w-5 transition-all duration-200 ${isDark ? 'bg-white/60' : 'bg-foreground/60'}`}
-              style={{ transform: mobileMenuOpen ? 'translateY(-5px) rotate(-45deg)' : 'none' }}
+              className="block h-0.5 w-5 transition-all duration-200"
+              style={{
+                backgroundColor: mobileMenuBarColor,
+                transform: mobileMenuOpen ? 'translateY(-6px) rotate(-45deg)' : 'none',
+              }}
             />
           </button>
         </div>

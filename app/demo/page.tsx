@@ -22,6 +22,19 @@ const projects = [
     href: '/demo/hitl-kit',
   },
   {
+    title: 'How I Work',
+    type: 'Narrative · Demos',
+    description:
+      'Product design, validation, and how the Kit, Research OS, and team test log connect.',
+    href: '/demo/hitl-practice',
+  },
+  {
+    title: 'User feedback + design log',
+    type: 'HITL-AI · External',
+    description: 'HITL-AI team test log on Kraa.',
+    href: 'https://kraa.io/team-test-log042',
+  },
+  {
     title: 'Procedural Asset Pipeline Engineering',
     type: 'Write-up',
     description:
