@@ -417,62 +417,9 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
   ], [])
 
   const lastColorChangeRef = useRef(0)
-
-  // Audio analysis setup function
-  const setupAudioAnalysis = useCallback((audioElement: HTMLAudioElement) => {
-    try {
-      console.log('🎵 Setting up audio analysis...')
-      
-      if (!audioContextRef.current) {
-        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)()
-      }
-      
-      const audioContext = audioContextRef.current
-      
-      if (audioContext.state === 'suspended') {
-        audioContext.resume().catch(() => {})
-      }
-      
-      // Create or reuse analyser
-      if (!analyserRef.current) {
-        const analyser = audioContext.createAnalyser()
-        analyser.fftSize = 512
-        analyser.smoothingTimeConstant = 0.3
-        analyser.minDecibels = -90
-        analyser.maxDecibels = -10
-        analyserRef.current = analyser
-      }
-      
-      // Create source only once per HTMLAudioElement for this AudioContext
-      if (!sourceRef.current || sourceElementRef.current !== audioElement) {
-        if (sourceRef.current) {
-          try { sourceRef.current.disconnect() } catch {}
-        }
-        const source = audioContext.createMediaElementSource(audioElement)
-        sourceRef.current = source
-        sourceElementRef.current = audioElement
-      }
-      
-      // Reconnect graph safely
-      try { sourceRef.current.disconnect() } catch {}
-      try { analyserRef.current.disconnect() } catch {}
-      sourceRef.current.connect(analyserRef.current!)
-      analyserRef.current!.connect(audioContext.destination)
-      
-      if (!dataArrayRef.current || dataArrayRef.current.length !== analyserRef.current!.frequencyBinCount) {
-        dataArrayRef.current = new Uint8Array(analyserRef.current!.frequencyBinCount)
-      }
-      
-      console.log('Audio analysis setup complete')
-      startAudioAnalysis()
-      
-    } catch (error) {
-      console.error('Error setting up audio analysis:', error)
-    }
-  }, [])
+  const lastAnalysisTimeRef = useRef(0)
 
   // Audio analysis loop
-  const lastAnalysisTimeRef = useRef(0)
   const startAudioAnalysis = useCallback(() => {
     const analyzeAudio = () => {
       if (!analyserRef.current || !dataArrayRef.current) return
@@ -585,6 +532,59 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
     
     analyzeAudio()
   }, [])
+
+  // Audio analysis setup function
+  const setupAudioAnalysis = useCallback((audioElement: HTMLAudioElement) => {
+    try {
+      console.log('🎵 Setting up audio analysis...')
+      
+      if (!audioContextRef.current) {
+        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)()
+      }
+      
+      const audioContext = audioContextRef.current
+      
+      if (audioContext.state === 'suspended') {
+        audioContext.resume().catch(() => {})
+      }
+      
+      // Create or reuse analyser
+      if (!analyserRef.current) {
+        const analyser = audioContext.createAnalyser()
+        analyser.fftSize = 512
+        analyser.smoothingTimeConstant = 0.3
+        analyser.minDecibels = -90
+        analyser.maxDecibels = -10
+        analyserRef.current = analyser
+      }
+      
+      // Create source only once per HTMLAudioElement for this AudioContext
+      if (!sourceRef.current || sourceElementRef.current !== audioElement) {
+        if (sourceRef.current) {
+          try { sourceRef.current.disconnect() } catch {}
+        }
+        const source = audioContext.createMediaElementSource(audioElement)
+        sourceRef.current = source
+        sourceElementRef.current = audioElement
+      }
+      
+      // Reconnect graph safely
+      try { sourceRef.current.disconnect() } catch {}
+      try { analyserRef.current.disconnect() } catch {}
+      sourceRef.current.connect(analyserRef.current!)
+      analyserRef.current!.connect(audioContext.destination)
+      
+      if (!dataArrayRef.current || dataArrayRef.current.length !== analyserRef.current!.frequencyBinCount) {
+        dataArrayRef.current = new Uint8Array(analyserRef.current!.frequencyBinCount)
+      }
+      
+      console.log('Audio analysis setup complete')
+      startAudioAnalysis()
+      
+    } catch (error) {
+      console.error('Error setting up audio analysis:', error)
+    }
+  }, [startAudioAnalysis])
 
   // Clean up audio analysis
   const cleanupAudioAnalysis = useCallback(() => {

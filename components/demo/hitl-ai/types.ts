@@ -1,3 +1,5 @@
+export type ViewMode = 'home' | 'annotate' | 'workspace';
+
 export type RightTab = 'human' | 'search' | 'read' | 'write' | 'notes';
 export type ApprovalStatus = 'pending' | 'approved' | 'rejected';
 export type HitlCardState = 'idle' | 'expanded' | 'confirmed' | 'dismissed';

@@ -39,7 +39,7 @@ function DefaultTorus({ size = 1, mousePos = { x: 0, y: 0 } }: { size?: number; 
     uniforms: {
       time: { value: 0 },
       splitLevel: { value: 0.6 },
-      mousePos: { value: new THREE.Vector2(mousePos.x, mousePos.y) },
+      mousePos: { value: new THREE.Vector2(0, 0) },
       baseColor: { value: new THREE.Color('#6655cc') },
       mercuryColor: { value: new THREE.Color('#aa88ff') },
     },

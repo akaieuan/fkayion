@@ -41,7 +41,7 @@ export function LiquidMorphOrb({
       time: { value: 0 },
       flowIntensity: { value: 0.6 }, // Always flowing at base level
       viscosity: { value: 0.5 }, // Always viscous
-      mousePos: { value: new THREE.Vector2(mousePos.x, mousePos.y) },
+      mousePos: { value: new THREE.Vector2(0, 0) },
       baseColor: { value: new THREE.Color('#226644') }, // Visible teal base
       liquidColor: { value: new THREE.Color('#44ddaa') },
       foamColor: { value: new THREE.Color('#ffffff') },

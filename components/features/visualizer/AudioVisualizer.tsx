@@ -2016,9 +2016,24 @@ function BeatCamera() {
   return null
 }
 
+type VisualizerCycleControls = {
+  autoColorCycle?: boolean
+  autoShapeCycle?: boolean
+  colorCycleSpeed?: number
+  shapeCycleSpeed?: number
+}
+
 export function AudioVisualizer() {
   const { audioSrc, isPlaying, audioData, controls, setControls } = useAudio()
   const router = useRouter()
+
+  const colorCycleSpeedMs =
+    ((controls as VisualizerCycleControls).colorCycleSpeed ?? 15) * 1000
+  const shapeCycleSpeedMs =
+    ((controls as VisualizerCycleControls).shapeCycleSpeed ?? 20) * 1000
+
+  const controlsRef = useRef(controls)
+  controlsRef.current = controls
   
   console.log('AudioVisualizer rendering...', { 
     audioSrc, 
@@ -2051,7 +2066,7 @@ export function AudioVisualizer() {
 
     const colorInterval = setInterval(() => {
       // Don't auto-cycle if user has disabled color cycling
-      if (!controls.autoColorCycle) return
+      if (!controlsRef.current.autoColorCycle) return
 
       const newColor = colorPalette[currentColorIndex]
       
@@ -2082,19 +2097,20 @@ export function AudioVisualizer() {
       currentSlot = (currentSlot + 1) % 4
 
       // Removed console.log to avoid indicators when active
-    }, ((controls as any).colorCycleSpeed || 15) * 1000) // Use user-controlled speed
+    }, colorCycleSpeedMs)
 
     return () => clearInterval(colorInterval)
-  }, [controls.autoColorCycle, (controls as any).colorCycleSpeed, setControls])
+  }, [colorCycleSpeedMs, setControls])
 
   // Auto shape cycling - one shape every 20 seconds
   useEffect(() => {
     const shapeList = ['sphere', 'cube', 'cylinder', 'cone', 'torus', 'torusKnot']
 
-    let currentShapeIndex = (shapeList.indexOf(controls.shape) + 1) % shapeList.length
+    let currentShapeIndex =
+      (shapeList.indexOf(controls.shape) + 1) % shapeList.length
 
     const shapeInterval = setInterval(() => {
-      if (!controls.autoShapeCycle) return
+      if (!controlsRef.current.autoShapeCycle) return
 
       const newShape = shapeList[currentShapeIndex]
       setControls((prev: any) => ({
@@ -2104,26 +2120,29 @@ export function AudioVisualizer() {
 
       currentShapeIndex = (currentShapeIndex + 1) % shapeList.length
       // Removed console.log to avoid indicators when active
-    }, ((controls as any).shapeCycleSpeed || 20) * 1000) // Use user-controlled speed
+    }, shapeCycleSpeedMs)
 
     return () => clearInterval(shapeInterval)
-  }, [controls.shape, controls.autoShapeCycle, (controls as any).shapeCycleSpeed, setControls])
+  }, [controls.shape, controls.autoShapeCycle, shapeCycleSpeedMs, setControls])
 
   // Auto cycle attractor types when Strange Attractor mode + autoShapeCycle are enabled
   useEffect(() => {
     if (!controls.strangeAttractorMode) return
     const attractorList = ['thomas', 'lorenz', 'rossler', 'aizawa', 'halvorsen', 'chen', 'dadras']
-    let currentIndex = (attractorList.indexOf(controls.strangeAttractorType || 'thomas') + 1) % attractorList.length
+    let currentIndex =
+      (attractorList.indexOf(controls.strangeAttractorType || 'thomas') + 1) %
+      attractorList.length
 
     const cycle = setInterval(() => {
-      if (!controls.autoShapeCycle || !controls.strangeAttractorMode) return
+      const c = controlsRef.current
+      if (!c.autoShapeCycle || !c.strangeAttractorMode) return
       const nextType = attractorList[currentIndex]
       setControls((prev: any) => ({ ...prev, strangeAttractorType: nextType }))
       currentIndex = (currentIndex + 1) % attractorList.length
-    }, ((controls as any).shapeCycleSpeed || 20) * 1000)
+    }, shapeCycleSpeedMs)
 
     return () => clearInterval(cycle)
-  }, [controls.strangeAttractorMode, controls.strangeAttractorType, controls.autoShapeCycle, (controls as any).shapeCycleSpeed, setControls])
+  }, [controls.strangeAttractorMode, controls.strangeAttractorType, controls.autoShapeCycle, shapeCycleSpeedMs, setControls])
 
   // Auto dot separation animation while Dot Matrix mode is active
   // Remove React interval dot animation to reduce re-renders (replaced by frame-based above)

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, type TextareaHTMLAttributes } from 'react';
+import { useCallback, useEffect, useRef, type TextareaHTMLAttributes } from 'react';
 import { cn } from '@/lib/utils';
 
 interface AutoGrowTextareaProps
@@ -21,7 +21,7 @@ export function AutoGrowTextarea({
   const ref = useRef<HTMLTextAreaElement>(null);
   const lineHeight = 24; // px, matches leading-6
 
-  const resize = () => {
+  const resize = useCallback(() => {
     const el = ref.current;
     if (!el) return;
     el.style.height = 'auto';
@@ -29,15 +29,11 @@ export function AutoGrowTextarea({
     const max = maxRows * lineHeight;
     el.style.height = `${Math.min(Math.max(el.scrollHeight, min), max)}px`;
     el.style.overflowY = el.scrollHeight > max ? 'auto' : 'hidden';
-  };
+  }, [minRows, maxRows]);
 
   useEffect(() => {
     resize();
-  }, [value]);
-
-  useEffect(() => {
-    resize();
-  }, []);
+  }, [value, resize]);
 
   return (
     <textarea

@@ -37,6 +37,8 @@ const STATUS_META: Record<AgentStatus, { icon: React.ElementType; color: string;
   cancelled: { icon: Ban,         color: 'text-muted-foreground', label: 'Cancelled' },
 };
 
+const AGENT_STATUS_CYCLE: AgentStatus[] = ['idle', 'running', 'completed', 'error', 'skipped', 'cancelled'];
+
 function SubagentStatusCard({ status, label, detail, size }: {
   status: AgentStatus; label: string; detail?: string; size: Size
 }) {
@@ -313,14 +315,13 @@ function ContextItems({ size }: { size: Size }) {
 
 function WritingAgent({ size, liveData }: { size: Size; liveData?: boolean }) {
   const [status, setStatus] = useState<AgentStatus>('idle');
-  const statuses: AgentStatus[] = ['idle', 'running', 'completed', 'error', 'skipped', 'cancelled'];
 
   useEffect(() => {
     if (!liveData) return;
     let i = 0;
     const t = setInterval(() => {
-      i = (i + 1) % statuses.length;
-      setStatus(statuses[i]);
+      i = (i + 1) % AGENT_STATUS_CYCLE.length;
+      setStatus(AGENT_STATUS_CYCLE[i]);
     }, 1500);
     return () => clearInterval(t);
   }, [liveData]);
@@ -370,7 +371,7 @@ function WritingAgent({ size, liveData }: { size: Size; liveData?: boolean }) {
 
       {!liveData && (
         <div className="flex flex-wrap gap-1.5">
-          {statuses.map((s) => (
+          {AGENT_STATUS_CYCLE.map((s) => (
             <button
               key={s}
               onClick={() => setStatus(s)}
@@ -625,17 +626,16 @@ export const WIDGET_REGISTRY: WidgetDemoConfig[] = [
     supportsLiveData: true,
     Content: ({ size, liveData }) => {
       const [idx, setIdx] = useState(0);
-      const statuses: AgentStatus[] = ['idle', 'running', 'completed', 'error', 'skipped', 'cancelled'];
       useEffect(() => {
         if (!liveData) return;
-        const t = setInterval(() => setIdx((i) => (i + 1) % statuses.length), 1500);
+        const t = setInterval(() => setIdx((i) => (i + 1) % AGENT_STATUS_CYCLE.length), 1500);
         return () => clearInterval(t);
       }, [liveData]);
       const count = size === 'xs' ? 3 : 6;
       return (
         <div className="space-y-1.5">
-          {statuses.slice(0, count).map((s) => (
-            <SubagentStatusCard key={s} status={liveData ? statuses[idx] : s} label={`Agent: ${s}`} detail="Climate Policy workspace" size={size} />
+          {AGENT_STATUS_CYCLE.slice(0, count).map((s) => (
+            <SubagentStatusCard key={s} status={liveData ? AGENT_STATUS_CYCLE[idx] : s} label={`Agent: ${s}`} detail="Climate Policy workspace" size={size} />
           ))}
         </div>
       );
