@@ -32,7 +32,7 @@ const projects = [
     title: 'EVAL Kit',
     type: 'Open source · Write-up',
     description:
-      'Agent eval framework: human scoring, YAML suites, local dashboard, CLI — five dimensions LLM judges miss.',
+      'Agent eval framework: human scoring, YAML suites, local dashboard, CLI; five dimensions LLM judges miss.',
     href: '/demo/eval-kit',
   },
   {
@@ -47,6 +47,13 @@ const projects = [
     type: 'HITL-AI · External',
     description: 'HITL-AI team test log on Kraa.',
     href: 'https://kraa.io/team-test-log042',
+  },
+  {
+    title: 'Null',
+    type: 'Open source · Write-up',
+    description:
+      'Privacy-first Tauri browser: zero telemetry, local-first AI, six invariants, every connection visible. Pre-v0.1.',
+    href: '/demo/null-browser',
   },
   {
     title: 'Procedural Asset Pipeline Engineering',
