@@ -49,7 +49,7 @@ const projects = [
     href: 'https://kraa.io/team-test-log042',
   },
   {
-    title: 'Null',
+    title: 'Null Browser',
     type: 'Open source · Write-up',
     description:
       'Privacy-first Tauri browser: zero telemetry, local-first AI, six invariants, every connection visible. Pre-v0.1.',

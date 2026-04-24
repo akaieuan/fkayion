@@ -11,7 +11,7 @@ const philosophyHref =
   'https://github.com/akaieuan/null-browser/blob/main/docs/PHILOSOPHY.md'
 
 export const metadata = {
-  title: 'Null: privacy-first Tauri browser | aka4uh',
+  title: 'Null Browser: privacy-first Tauri browser | aka4uh',
   description:
     'Open source, pre-v0.1. Tauri 2.0, zero telemetry, local-first AI (Ollama), every outbound connection visible, six invariants enforced in code and review.',
 }
@@ -35,6 +35,7 @@ export default function NullBrowserProjectPage() {
           >
             <span className="text-foreground/90">N</span>
             <span className={nullAccent}>ull</span>
+            <span className={nullAccent}>Browser</span>
           </p>
         </header>
 
@@ -49,16 +50,7 @@ export default function NullBrowserProjectPage() {
             <ArrowUpRight className="ml-0.5 inline h-3.5 w-3.5 align-[-0.1em] opacity-70" aria-hidden />
           </a>
           <span className="text-muted-foreground/50"> · </span>
-          <a
-            href="https://null.sh"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={extLink}
-          >
-            null.sh
-            <ArrowUpRight className="ml-0.5 inline h-3.5 w-3.5 align-[-0.1em] opacity-70" aria-hidden />
-          </a>
-          <span className="text-muted-foreground/50"> · </span>
+          
           <a
             href={philosophyHref}
             target="_blank"
@@ -80,15 +72,7 @@ export default function NullBrowserProjectPage() {
             GitHub
             <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
           </a>
-          <a
-            href="https://null.sh"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/40"
-          >
-            null.sh
-            <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
-          </a>
+          
           <a
             href={philosophyHref}
             target="_blank"
