@@ -29,6 +29,13 @@ const projects = [
     href: '/demo/hitl-kit',
   },
   {
+    title: 'EVAL Kit',
+    type: 'Open source · Write-up',
+    description:
+      'Agent eval framework: human scoring, YAML suites, local dashboard, CLI — five dimensions LLM judges miss.',
+    href: '/demo/eval-kit',
+  },
+  {
     title: 'How I Work',
     type: 'Narrative · Demos',
     description:
