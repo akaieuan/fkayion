@@ -39,7 +39,21 @@ export default function NullBrowserProjectPage() {
           </p>
         </header>
 
-        <p className="text-[13px] font-light leading-relaxed text-muted-foreground">
+        <div className="-mx-6 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
+          <video
+            className="block h-auto w-full"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            aria-label="Null Browser preview"
+          >
+            <source src="/null-browser-hero.webm" type="video/webm" />
+          </video>
+        </div>
+
+        <p className="mt-5 text-[13px] font-light leading-relaxed text-muted-foreground">
           <a
             href="https://github.com/akaieuan/null-browser"
             target="_blank"
@@ -106,7 +120,7 @@ export default function NullBrowserProjectPage() {
             target="_blank"
             rel="noopener noreferrer"
             className={extLink}
-          >
+>
             null.sh
           </a>
         </p>
