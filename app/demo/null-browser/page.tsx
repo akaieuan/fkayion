@@ -13,7 +13,7 @@ const philosophyHref =
 export const metadata = {
   title: 'Null Browser: privacy-first Tauri browser | aka4uh',
   description:
-    'Open source, pre-v0.1. Tauri 2.0, zero telemetry, local-first AI (Ollama), every outbound connection visible, six invariants enforced in code and review.',
+    'Open source, pre-v0.1. Tauri 2.0, zero telemetry, local-first Ollama, four AI modes (Chat, Summarize, Search, Save), SQLite artifacts with streaming pipelines, every outbound connection visible, six invariants enforced in code and review.',
 }
 
 export default function NullBrowserProjectPage() {
@@ -135,7 +135,10 @@ export default function NullBrowserProjectPage() {
               shell built on Tauri 2.0 + the system WebView: not a Chromium fork, not a vendored
               engine, roughly 15k lines of Rust and TypeScript doing the work of a million; and a
               manifest, six rules that every feature has to earn against, enforced in code and in the
-              PR template. The argument, the implementation, and the constraints, in one place.
+              PR template. The shipped app adds four separate AI surfaces (grounded tab chat, tab
+              summarize, user-configured search, save to artifacts), a SQLite artifacts browser, and
+              Tauri channel streaming for those flows, all inspectable. The argument, the
+              implementation, and the constraints, in one place.
             </p>
           </section>
 
@@ -146,47 +149,70 @@ export default function NullBrowserProjectPage() {
                 <strong className="font-medium text-foreground/85">Six invariants, enforced in code.</strong>{' '}
                 Zero telemetry. No default cloud connections. All AI inference local by default
                 (Ollama). Every outbound connection visible in the inspector. Data on disk, not in an
-                account. No dark patterns, no forced onboarding, no &quot;Skip for now.&quot; Each one is
-                a line item in <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">docs/PHILOSOPHY.md</code> and a gate in review.
+                account. No dark patterns. Each one is a line item in{' '}
+                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">docs/PHILOSOPHY.md</code>{' '}
+                and a gate in review.
               </li>
               <li>
                 <strong className="font-medium text-foreground/85">The three questions.</strong> Every
-                change that touches networking, storage, or AI routing has to answer, from the diff
-                alone: what does this store, what does this transmit, what does this remember? If a
-                reviewer can&apos;t answer those, the change isn&apos;t ready.
+                change that touches networking, storage, or AI routing answers from the diff alone:
+                what does this store, transmit, remember?
               </li>
               <li>
-                <strong className="font-medium text-foreground/85">Tauri 2.0 multi-webview architecture.</strong>{' '}
-                Each tab is its own child WebView with its own cookie jar. The React shell lives in the
-                main webview and never sees page content. Tab switching is native show/hide, not CSS
-                visibility hacks. The content frame repositions live when the top bar height changes.
+                <strong className="font-medium text-foreground/85">Tauri 2.0 multi-webview shell.</strong>{' '}
+                Every tab is its own child WebView with its own cookie jar. The React chrome lives in
+                the main webview and never sees page content. Tab switching is native show/hide, not
+                CSS visibility tricks.
               </li>
               <li>
-                <strong className="font-medium text-foreground/85">Local-first AI router.</strong> Ollama is
-                the only provider enabled at startup. OpenAI-compatible and Anthropic are opt-in,
-                per-key, per-call. Keys live in the OS keychain, not localStorage, not SQLite. Every
-                cloud request passes a permission broker and lands as a row in the network inspector
-                before it leaves the machine.
+                <strong className="font-medium text-foreground/85">AI as four collaborator modes, not an agent.</strong>{' '}
+                <strong className="font-medium text-foreground/90">Chat</strong> is grounded in the
+                active tab through <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">chatWithPage</code>
+                {'. '}It streams <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">ChatEvents</code>{' '}
+                (grounded, chunk, done, error) over a Tauri channel. <strong className="font-medium text-foreground/90">Summarize</strong> uses{' '}
+                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">summarizeCurrentTab</code> to
+                read the page, stream a summary with optional focus, and save a persistent artifact.{' '}
+                <strong className="font-medium text-foreground/90">Search</strong> uses a
+                user-configured search instance via <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">searchGetInstance</code>, rendered as{' '}
+                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">SearchResult[]</code> cards.{' '}
+                <strong className="font-medium text-foreground/90">Save</strong> uses{' '}
+                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">saveCurrentTab</code> to
+                snapshot the page into the artifacts collection. Every mode streams on Tauri channels (no
+                polling for those flows). Every cloud call passes a permission broker and shows in the
+                network inspector before it leaves. &quot;Assist, don&apos;t complete&quot; is literal: the
+                model never clicks, types, or navigates on its own. It answers about the tab, saves what
+                you are already looking at, or searches at your request.
+              </li>
+              <li>
+                <strong className="font-medium text-foreground/85">Artifacts as a first-class object.</strong>{' '}
+                SQLite stores saved pages and summaries, with <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">listArtifacts</code>,{' '}
+                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">getArtifact</code>, and{' '}
+                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">deleteArtifact</code>, a
+                list-and-detail browser, and markdown in the reader via{' '}
+                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">react-markdown</code> and{' '}
+                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">remark-gfm</code>, openable
+                in a dedicated view in the drawer. A streaming <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">ArtifactEvent</code> path (extracted, chunk, saved, error) uses Tauri channels, local, visible in
+                the inspector. The app does not use AI to take you somewhere new; it saves what the user
+                already chose to open.
+              </li>
+              <li>
+                <strong className="font-medium text-foreground/85">Local-first provider router.</strong>{' '}
+                Ollama is the only provider enabled at startup. Anthropic and OpenAI-compatible
+                providers are opt-in, per key, per call. Keys live in the OS keychain, not localStorage,
+                not SQLite. <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">ProviderRow</code> in
+                the profile dropdown lets you paste a key in place without leaving the chrome.
               </li>
               <li>
                 <strong className="font-medium text-foreground/85">The inspector is a surface, not a devtool.</strong>{' '}
-                Every subresource, every AI call, every connection. Origins can be blocked live with a
-                SQLite-backed allowlist; the blocklist feeds a <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">beforeRequest</code> hook that rejects
-                matches before the network stack touches them.
+                Every subresource, every AI call, every connection. Origins can be blocked live
+                through a SQLite-backed allowlist wired into a{' '}
+                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">beforeRequest</code> hook.
               </li>
               <li>
                 <strong className="font-medium text-foreground/85">One button to forget everything.</strong>{' '}
-                &quot;Clear history &amp; logins&quot; wipes the SQLite history table and clears
-                localStorage, sessionStorage, <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">document.cookie</code>, and IndexedDB across every live
-                tab webview in one transaction.
-              </li>
-              <li>
-                <strong className="font-medium text-foreground/85">A philosophy, not a feature flag.</strong>{' '}
-                Every invariant traces to a specific failure mode in shipped browsers:{' '}
-                <span className="text-foreground/80">telemetry → Chrome&apos;s Enhanced Ad Privacy</span>,{' '}
-                <span className="text-foreground/80">default cloud → Edge&apos;s Bing sidebar</span>,{' '}
-                <span className="text-foreground/80">dark patterns → Safari&apos;s &quot;Keep in Dock&quot; upsell</span>.
-                The rules are the diff of what not to become.
+                &quot;Clear history &amp; logins&quot; wipes the SQLite history table and clears cookies,{' '}
+                localStorage, sessionStorage, and IndexedDB across every live tab webview in one
+                transaction.
               </li>
             </ul>
           </section>
