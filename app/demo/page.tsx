@@ -18,7 +18,7 @@ const projects = [
     title: 'Ubik Studio',
     type: 'Product',
     description:
-      'Co-founded and lead product design Ubik Studio, a desktop-native AI research platform for human-in-the-loop workflows.',
+      'Co-founded and led product design at Ubik Studio, a desktop-native AI research platform for human-in-the-loop workflows.',
     href: 'https://ubik.studio',
   },
   {
@@ -63,7 +63,7 @@ const projects = [
     href: '/demo/brooklyn-dead',
   },
   {
-    title: 'Worlde remake: Wrdef (Wordle + definition)',
+    title: 'Wordle remake: Wrdef (Wordle + definition)',
     type: 'Write-up',
     description:
       'A five-letter guessing game powered by definitions, bonus rounds, and a locally saved dictionary.',

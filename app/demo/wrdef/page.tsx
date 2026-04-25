@@ -66,7 +66,7 @@ export default function WrdefProjectPage() {
           Game
         </p>
         <h1 className="mt-2 text-2xl font-light tracking-tight text-foreground md:text-[26px]">
-          Worlde remake: Wrdef (Wordle + definition)
+          Wordle remake: Wrdef (Wordle + definition)
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Same 5-letter, 6-guess mechanic: clues are dictionary definitions; bonus round fills blanks in

@@ -74,7 +74,7 @@ const musicEntries = [
 const projectEntries: { label: string; desc: string; href: string }[] = [
   {
     label: 'Ubik Studio',
-    desc: 'Co-founded and lead product design Ubik Studio, a desktop-native AI research platform for human-in-the-loop workflows.',
+    desc: 'Co-founded and led product design at Ubik Studio, a desktop-native AI research platform for human-in-the-loop workflows.',
     href: 'https://ubik.studio',
   },
   {
@@ -98,7 +98,7 @@ const projectEntries: { label: string; desc: string; href: string }[] = [
     href: '/demo/brooklyn-dead',
   },
   {
-    label: 'Worlde remake: Wrdef (Wordle + definition)',
+    label: 'Wordle remake: Wrdef (Wordle + definition)',
     desc: 'A five-letter guessing game powered by definitions, bonus rounds, and a locally saved dictionary.',
     href: '/demo/wrdef',
   },

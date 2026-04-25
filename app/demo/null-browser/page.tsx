@@ -120,7 +120,7 @@ export default function NullBrowserProjectPage() {
             target="_blank"
             rel="noopener noreferrer"
             className={extLink}
->
+          >
             null.sh
           </a>
         </p>
@@ -164,43 +164,62 @@ export default function NullBrowserProjectPage() {
                 the main webview and never sees page content. Tab switching is native show/hide, not
                 CSS visibility tricks.
               </li>
-              <li>
-                <strong className="font-medium text-foreground/85">AI as four collaborator modes, not an agent.</strong>{' '}
-                <strong className="font-medium text-foreground/90">Chat</strong> is grounded in the
-                active tab through <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">chatWithPage</code>
-                {'. '}It streams <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">ChatEvents</code>{' '}
-                (grounded, chunk, done, error) over a Tauri channel. <strong className="font-medium text-foreground/90">Summarize</strong> uses{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">summarizeCurrentTab</code> to
-                read the page, stream a summary with optional focus, and save a persistent artifact.{' '}
-                <strong className="font-medium text-foreground/90">Search</strong> uses a
-                user-configured search instance via <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">searchGetInstance</code>, rendered as{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">SearchResult[]</code> cards.{' '}
-                <strong className="font-medium text-foreground/90">Save</strong> uses{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">saveCurrentTab</code> to
-                snapshot the page into the artifacts collection. Every mode streams on Tauri channels (no
-                polling for those flows). Every cloud call passes a permission broker and shows in the
-                network inspector before it leaves. &quot;Assist, don&apos;t complete&quot; is literal: the
-                model never clicks, types, or navigates on its own. It answers about the tab, saves what
-                you are already looking at, or searches at your request.
+              <li className="space-y-2.5">
+                <p>
+                  <strong className="font-medium text-foreground/85">AI as four collaborator modes, not one chat.</strong>{' '}
+                  The modes are the philosophy in code. The model never clicks, types, or navigates on
+                  its own, it summarizes what is on screen, answers questions about it, saves it, or
+                  runs search at your request.
+                </p>
+                <ul className="ml-0 list-disc space-y-1.5 pl-5 text-muted-foreground marker:text-muted-foreground/50">
+                  <li>
+                    <strong className="font-medium text-foreground/90">Chat.</strong> Grounded in the active
+                    tab with <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">chatWithPage</code>
+                    {', '}streams <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">ChatEvents</code>{' '}
+                    (grounded, chunk, done, error) over a Tauri channel.
+                  </li>
+                  <li>
+                    <strong className="font-medium text-foreground/90">Summarize.</strong>{' '}
+                    <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">summarizeCurrentTab</code>
+                    {' '}extracts the page, streams a summary with optional focus, and can save a persistent artifact.
+                  </li>
+                  <li>
+                    <strong className="font-medium text-foreground/90">Search.</strong> Web search via a
+                    user-configured search instance from{' '}
+                    <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">searchGetInstance</code>
+                    {', rendered as '}
+                    <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">SearchResult[]</code>
+                    {` cards.`}
+                  </li>
+                  <li>
+                    <strong className="font-medium text-foreground/90">Save.</strong>{' '}
+                    <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">saveCurrentTab</code>
+                    {' '}snapshots a page into the artifacts collection.
+                  </li>
+                </ul>
+                <p>
+                  Every mode streams on Tauri channels, not polling for those flows. Every cloud call passes a
+                  permission broker and shows in the network inspector before it leaves the machine.
+                </p>
               </li>
               <li>
                 <strong className="font-medium text-foreground/85">Artifacts as a first-class object.</strong>{' '}
                 SQLite stores saved pages and summaries, with <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">listArtifacts</code>,{' '}
                 <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">getArtifact</code>, and{' '}
                 <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">deleteArtifact</code>, a
-                list-and-detail browser, and markdown in the reader via{' '}
+                full list-and-detail browser, and markdown in the reader via{' '}
                 <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">react-markdown</code> and{' '}
                 <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">remark-gfm</code>, openable
-                in a dedicated view in the drawer. A streaming <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">ArtifactEvent</code> path (extracted, chunk, saved, error) uses Tauri channels, local, visible in
-                the inspector. The app does not use AI to take you somewhere new; it saves what the user
-                already chose to open.
+                in a dedicated view inside the drawer. The streaming <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">ArtifactEvent</code> path (extracted, chunk, saved, error) is built on Tauri channels instead of polling, local, and visible. The AI never routes you to a new place; it saves what the user
+                is already looking at.
               </li>
               <li>
                 <strong className="font-medium text-foreground/85">Local-first provider router.</strong>{' '}
                 Ollama is the only provider enabled at startup. Anthropic and OpenAI-compatible
-                providers are opt-in, per key, per call. Keys live in the OS keychain, not localStorage,
-                not SQLite. <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">ProviderRow</code> in
-                the profile dropdown lets you paste a key in place without leaving the chrome.
+                providers are opt-in, per-key, per-call. Keys live in the OS keychain, not
+                localStorage, not SQLite. <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">ProviderRow</code> is
+                provider key management inline: paste an Anthropic or OpenAI key there without
+                leaving the chrome.
               </li>
               <li>
                 <strong className="font-medium text-foreground/85">The inspector is a surface, not a devtool.</strong>{' '}
@@ -235,8 +254,9 @@ export default function NullBrowserProjectPage() {
             <h2 className="text-sm font-medium tracking-wide text-foreground">How I describe the skill set</h2>
             <p>
               Rust and Tauri 2.0 runtime internals, multi-webview architecture, SQLite schema
-              authorship and migrations, React 19 + TypeScript, Tailwind v4 design tokens, AI router and
-              permission-broker design, OS-keychain credential handling, network instrumentation,
+              authorship and migrations, React 19 + TypeScript, Tailwind v4 design tokens, Tauri channel
+              streaming for chat and artifacts, AI router and permission-broker design, OS keychain
+              and inline provider setup, network instrumentation,
               open-source principled positioning, and the discipline to refuse features the invariants
               don&apos;t accept.
             </p>
