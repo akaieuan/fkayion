@@ -49,6 +49,13 @@ const projects = [
     href: 'https://kraa.io/team-test-log042',
   },
   {
+    title: 'Inertial - Content Moderation Tool',
+    type: 'Open source · Write-up',
+    description:
+      'HITL AI content moderation for federated and centralized platforms. Inertials emit signals, the Runciter dispatches them, humans decide. Hash-chained audit, per-instance YAML policy, four composable tiers. Pre-alpha.',
+    href: '/demo/inertial',
+  },
+  {
     title: 'Null Browser',
     type: 'Open source · Write-up',
     description:

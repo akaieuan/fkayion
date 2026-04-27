@@ -93,6 +93,11 @@ const projectEntries: { label: string; desc: string; href: string }[] = [
     href: 'https://kraa.io/team-test-log042',
   },
   {
+    label: 'Inertial - Content Moderation Tool',
+    desc: 'HITL AI content moderation for federated and centralized platforms. Hash-chained audit, per-instance YAML policy, four composable tiers. Pre-alpha.',
+    href: '/demo/inertial',
+  },
+  {
     label: 'Procedural Asset Pipeline Engineering',
     desc: 'Private WIP: procedural Blender→glTF→Godot pipeline, programmatic animation, browser previews.',
     href: '/demo/brooklyn-dead',
