@@ -1,8 +1,8 @@
-# fkayion (aka4uh.com)
+# fkayion (akabuild.com)
 
 Personal site and playground for **akaieuan**: portfolio, music, and interactive work. Built with **Next.js 14** (App Router), **TypeScript**, **Tailwind CSS**, and **shadcn/ui**-style primitives.
 
-Live: [aka4uh.com](https://aka4uh.com)
+Live: [akabuild.com](https://akabuild.com)
 
 ## What’s in the build
 

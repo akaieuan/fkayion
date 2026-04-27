@@ -39,10 +39,18 @@ export function SiteHeader() {
 
   const [activeSection, setActiveSection] = useState<string | null>('section-0')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const { theme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => setMounted(true), [])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const isHome = pathname === '/'
   const isDark = !mounted || theme === 'dark'
@@ -94,26 +102,36 @@ export function SiteHeader() {
   /** Inline color so bars always match header chrome; `bg-foreground` can desync from `isDark` during theme/hydration. */
   const mobileMenuBarColor = isDark ? 'rgba(255,255,255,0.65)' : 'oklch(0.122 0.001 0 / 0.88)'
 
-  /** Fullscreen demos manage their own chrome */
-  if (pathname?.startsWith('/demo')) {
+  /** Fullscreen demo subpages manage their own chrome; the demo index keeps the site header for consistency */
+  if (pathname?.startsWith('/demo/')) {
     return null
   }
 
   return (
-    <header
-      className="fixed top-0 left-0 right-0 z-[100] py-3 md:py-4 backdrop-blur-sm"
-      style={{ background: isDark ? 'oklch(0.182 0.014 94.03 / 0.85)' : 'oklch(0.866 0.004 106.485 / 0.85)' }}
-    >
-      <nav className="flex max-w-site mx-auto items-center justify-between site-inset">
+    <header className="fixed top-0 left-0 right-0 z-[100] pointer-events-none">
+      {/* Glass backdrop — invisible at top of page, fades in once scrolled past hero */}
+      <div
+        aria-hidden
+        className="absolute inset-0 backdrop-blur-md transition-opacity duration-300"
+        style={{
+          opacity: scrolled ? 1 : 0,
+          background: isDark ? 'oklch(0.182 0.014 94.03 / 0.55)' : 'oklch(0.866 0.004 106.485 / 0.55)',
+          borderBottom: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid oklch(0.475 0.001 0 / 0.08)',
+          maskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
+        }}
+      />
+
+      <nav className="relative flex max-w-site mx-auto items-center justify-between site-inset pt-5 md:pt-6 pb-4 md:pb-5">
         <button
           onClick={() => handleNavClick(mainNavItems[0])}
-          className={`text-lg sm:text-xl font-light tracking-wide transition-colors duration-200 ${logoText}`}
+          className={`pointer-events-auto text-sm sm:text-base font-light tracking-wide transition-colors duration-200 ${logoText}`}
         >
-          aka4uh
+          akaBuild
         </button>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center space-x-4 sm:space-x-6">
+        <div className="pointer-events-auto hidden md:flex items-center space-x-5 sm:space-x-7">
           {mainNavItems.map((item) => (
             <button
               key={item.sectionId}
@@ -139,7 +157,7 @@ export function SiteHeader() {
         </div>
 
         {/* Mobile right side: theme toggle + hamburger */}
-        <div className="md:hidden flex items-center gap-3">
+        <div className="pointer-events-auto md:hidden flex items-center gap-3">
           <ThemeToggle />
           <button
             className="flex flex-col justify-center items-end gap-1 p-1 hover:opacity-80 transition-opacity"

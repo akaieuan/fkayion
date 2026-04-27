@@ -8,7 +8,7 @@ import { ThemeProvider } from '@/components/ui/theme-provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'aka4uh | akaieuan',
+  title: 'akaBuild | akaieuan',
   description: 'akaieuan is a front-end developer, designer, and artist',
 }
 

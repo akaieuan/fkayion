@@ -7,7 +7,7 @@ const hitlBlue =
   'text-[oklch(0.52_0.19_250)] dark:text-[oklch(0.68_0.14_250)]'
 
 export const metadata = {
-  title: 'HITL Kit — Human-in-the-Loop AI, Measured Properly | aka4uh',
+  title: 'HITL Kit — Human-in-the-Loop AI, Measured Properly | akaBuild',
   description:
     'An open-source design system, component library, and perspective paper on human-in-the-loop AI. Eleven primitives, a shadcn registry, and a research argument connecting them.',
 }

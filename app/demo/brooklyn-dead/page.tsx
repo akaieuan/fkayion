@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 
 export const metadata = {
-  title: 'Procedural Asset Pipeline Engineering | aka4uh',
+  title: 'Procedural Asset Pipeline Engineering | akaBuild',
   description:
     'Code-driven 3D asset production for a private Godot 4 game: Blender Python, glTF, programmatic animation, and cross-tool pipelines.',
 }

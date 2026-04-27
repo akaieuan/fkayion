@@ -5,7 +5,7 @@ const edenGreen =
   'text-[oklch(0.38_0.055_152.2)] dark:text-[oklch(0.62_0.09_152)]'
 
 export const metadata = {
-  title: 'Visualizer Eden | aka4uh',
+  title: 'Visualizer Eden | akaBuild',
   description:
     'Web Audio analyser, React Three Fiber, and custom GLSL: FFT-driven mesh deformation for a browser audio visualizer.',
 }

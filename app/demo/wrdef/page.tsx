@@ -6,7 +6,7 @@ const wrdefGreen =
   'text-[oklch(0.38_0.055_152.2)] dark:text-[oklch(0.62_0.09_152)]'
 
 export const metadata = {
-  title: 'Wrdef (Wordle + definition) | aka4uh',
+  title: 'Wrdef (Wordle + definition) | akaBuild',
   description:
     'A five-letter guessing game powered by dictionary definitions, sense ranking, bonus blanks, and a local dictionary you earn.',
 }

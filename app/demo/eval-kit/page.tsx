@@ -9,7 +9,7 @@ const extLink =
   'underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50'
 
 export const metadata = {
-  title: 'eval-kit: Human scoring for research agents | aka4uh',
+  title: 'eval-kit: Human scoring for research agents | akaBuild',
   description:
     'The scoring cockpit for research agents: Zod schema-first monorepo, @eval-kit packages, Next.js dashboard, CLI, human 0-3 rubric, OSS release discipline. Pre-1.0, v0.3.0 stable.',
 }

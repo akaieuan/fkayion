@@ -1,6 +1,5 @@
 import Link from 'next/link'
-import { ArrowLeft, ArrowUpRight } from 'lucide-react'
-import { DemoPageThemeToggle } from './demo-page-theme-toggle'
+import { ArrowUpRight } from 'lucide-react'
 
 /** Sage green from landing product section (`labelAccent` / hue ~152 oklch) */
 const tagAccent =
@@ -100,27 +99,17 @@ const projects = [
 ]
 
 export const metadata = {
-  title: 'Projects | aka4uh',
+  title: 'Projects | akaBuild',
   description: 'Interactive product demos and component showcases.',
 }
 
 export default function DemoIndexPage() {
   return (
-    <div className="min-h-screen bg-background px-6 py-9 sm:py-11">
-      <div className="mx-auto w-full max-w-lg">
-        <div className="mb-5 flex w-full items-center justify-between gap-3">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground/90 transition-colors hover:text-foreground"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" />
-            home
-          </Link>
-          <DemoPageThemeToggle />
-        </div>
-
+    <div className="min-h-screen bg-background pt-24 pb-9 sm:pt-28 sm:pb-11">
+      <div className="max-w-site mx-auto site-inset">
+        <div className="mx-auto md:mx-0 w-full max-w-lg">
         <header>
-          
+
           <p className="mt-1 text-[13px] font-light leading-snug text-muted-foreground">
             Prototypes, tools, side-quests, and write-ups.
           </p>
@@ -191,6 +180,7 @@ export default function DemoIndexPage() {
             ))}
           </nav>
         </footer>
+        </div>
       </div>
     </div>
   )

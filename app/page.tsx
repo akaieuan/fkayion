@@ -1,7 +1,7 @@
 import { UnifiedClient } from './unified-client'
 
 export const metadata = {
-  title: 'aka4uh | akaieuan | aka4uh.com',
+  title: 'akaBuild | akaieuan | akabuild.com',
   description: 'akaieuan is a front-end developer, designer, and artist',
 }
 

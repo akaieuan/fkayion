@@ -52,7 +52,7 @@ const writingLinks = [
 
 // Server-side metadata
 export const metadata = {
-  title: 'Links | aka4uh',
+  title: 'Links | akaBuild',
   description: 'Social links and connections'
 }
 

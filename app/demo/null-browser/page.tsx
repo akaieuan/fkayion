@@ -11,7 +11,7 @@ const philosophyHref =
   'https://github.com/akaieuan/null-browser/blob/main/docs/PHILOSOPHY.md'
 
 export const metadata = {
-  title: 'Null Browser: privacy-first Tauri browser | aka4uh',
+  title: 'Null Browser: privacy-first Tauri browser | akaBuild',
   description:
     'Open source, pre-v0.1. Tauri 2.0, zero telemetry, local-first Ollama, four AI modes (Chat, Summarize, Search, Save), SQLite artifacts with streaming pipelines, every outbound connection visible, six invariants enforced in code and review.',
 }

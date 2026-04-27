@@ -9,7 +9,7 @@ const repoHref = 'https://github.com/akaieuan/inertial-moderation-tool'
 const readmeHref = 'https://github.com/akaieuan/inertial-moderation-tool/blob/main/README.md'
 
 export const metadata = {
-  title: 'Inertial: HITL AI content moderation | aka4uh',
+  title: 'Inertial: HITL AI content moderation | akaBuild',
   description:
     'Open source, pre-alpha. Multimodal AI moderation with human-in-the-loop review for Mastodon, Bluesky, Lemmy, Discord, Slack, and custom apps. Inertials emit structured signals, the Runciter dispatches them, humans decide. Hash-chained audit, per-instance YAML policy, four composable tiers from heuristics to cloud.',
 }

@@ -10,7 +10,7 @@ const linkMuted =
   'text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground'
 
 export const metadata = {
-  title: 'HITL practice — product design & research | aka4uh',
+  title: 'HITL practice — product design & research | akaBuild',
   description:
     'How product work, user validation, and the HITL Kit fit together—with links to interactive demos and write-ups on this site.',
 }

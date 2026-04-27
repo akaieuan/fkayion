@@ -11,7 +11,7 @@ export function SiteFooter() {
         <Separator className="bg-border mb-6" />
         <div className="flex items-center justify-between">
           <p className="text-xs font-light tracking-wide text-muted-foreground/50">
-            © {currentYear} aka4uh
+            © {currentYear} akaBuild
           </p>
           <div className="flex items-center space-x-6">
             <a
