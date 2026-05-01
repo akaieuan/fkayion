@@ -35,6 +35,13 @@ const projects = [
     href: '/demo/eval-kit',
   },
   {
+    title: 'Trickle UI Kit',
+    type: 'Open source · Write-up',
+    description:
+      '47 pure-CSS text-animation primitives for React. Zero runtime, SSR-safe, copy-paste install via the shadcn registry.',
+    href: '/demo/trickle-ui-kit',
+  },
+  {
     title: 'How I Work',
     type: 'Narrative · Demos',
     description:
