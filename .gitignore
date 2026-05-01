@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local git recovery backup (safe to delete once verified)
+/.git.broken-backup/
