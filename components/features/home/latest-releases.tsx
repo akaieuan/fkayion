@@ -1,7 +1,5 @@
 'use client'
 
-import { useState } from 'react'
-
 interface Release {
   title: string
   type: string
@@ -24,23 +22,15 @@ const releases: Release[] = [
 ]
 
 function ReleaseRow({ release }: { release: Release }) {
-  const [isHovered, setIsHovered] = useState(false)
-
   return (
     <a
       href={release.url}
       target="_blank"
       rel="noopener noreferrer"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="flex items-center justify-between py-2 border-b border-border/30 last:border-b-0"
+      className="group flex items-center justify-between py-2 border-b border-border/30 last:border-b-0"
     >
-      <span
-        className="text-[12px] font-light tracking-wide truncate mr-3 transition-colors duration-150"
-        style={{ color: isHovered ? '#44ddaa' : undefined }}
-      >
-        {!isHovered && <span className="text-foreground/55">{release.title}</span>}
-        {isHovered && release.title}
+      <span className="text-[12px] font-light tracking-wide truncate mr-3 text-foreground/55 transition-colors duration-150 group-hover:text-[oklch(0.4_0.08_152.2)] dark:group-hover:text-[oklch(0.707_0.108_152.216)]">
+        {release.title}
       </span>
       <span className="text-[10px] font-light tracking-wide shrink-0 text-muted-foreground/40">
         {release.type}

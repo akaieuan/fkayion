@@ -54,7 +54,7 @@ const groups: Group[] = [
       {
         title: 'Inertial — Content Moderation Tool',
         description:
-          'HITL AI moderation for federated and centralized platforms. Hash-chained audit, per-instance YAML policy. Pre-alpha.',
+          'Reference architecture for auditable AI content review: typed signals, YAML policy, hash-chained audit log, reviewer dashboard, eval harness.',
         href: '/demo/inertial',
       },
       {

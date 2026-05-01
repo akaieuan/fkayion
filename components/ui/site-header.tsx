@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { Sun, Moon } from 'lucide-react'
@@ -11,6 +11,8 @@ const mainNavItems = [
   { name: 'Product', sectionId: 'section-2' },
   { name: '4UH', sectionId: 'section-4' },
 ]
+
+const SCROLL_THRESHOLD = 24
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme()
@@ -45,11 +47,34 @@ export function SiteHeader() {
 
   useEffect(() => setMounted(true), [])
 
+  // rAF-throttled scroll listener; only updates state when crossing the threshold,
+  // so React renders at most twice (once each direction) instead of every frame.
+  const scrolledRef = useRef(false)
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
-    onScroll()
+    let frame = 0
+    let queued = false
+
+    const update = () => {
+      queued = false
+      const next = window.scrollY > SCROLL_THRESHOLD
+      if (next !== scrolledRef.current) {
+        scrolledRef.current = next
+        setScrolled(next)
+      }
+    }
+
+    const onScroll = () => {
+      if (queued) return
+      queued = true
+      frame = requestAnimationFrame(update)
+    }
+
+    update()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(frame)
+    }
   }, [])
 
   const isHome = pathname === '/'
@@ -102,24 +127,50 @@ export function SiteHeader() {
   /** Inline color so bars always match header chrome; `bg-foreground` can desync from `isDark` during theme/hydration. */
   const mobileMenuBarColor = isDark ? 'rgba(255,255,255,0.65)' : 'oklch(0.122 0.001 0 / 0.88)'
 
+  // Memoized so identity is stable across scroll-triggered renders. This keeps the
+  // browser from flagging the glass layer as "changed" and re-rasterizing the blur.
+  const glassStyle = useMemo<React.CSSProperties>(() => ({
+    opacity: scrolled ? 1 : 0,
+    background: isDark ? 'oklch(0.182 0.014 94.03 / 0.55)' : 'oklch(0.866 0.004 106.485 / 0.55)',
+    borderBottom: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid oklch(0.475 0.001 0 / 0.08)',
+    transform: 'translateZ(0)',
+    willChange: 'opacity',
+    backfaceVisibility: 'hidden',
+  }), [scrolled, isDark])
+
+  const fadeStyle = useMemo<React.CSSProperties>(() => ({
+    opacity: scrolled ? 1 : 0,
+    background: isDark
+      ? 'linear-gradient(to bottom, oklch(0.182 0.014 94.03 / 0.55), oklch(0.182 0.014 94.03 / 0))'
+      : 'linear-gradient(to bottom, oklch(0.866 0.004 106.485 / 0.55), oklch(0.866 0.004 106.485 / 0))',
+    transform: 'translateZ(0)',
+    willChange: 'opacity',
+  }), [scrolled, isDark])
+
   /** Fullscreen demo subpages manage their own chrome; the demo index keeps the site header for consistency */
   if (pathname?.startsWith('/demo/')) {
     return null
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-[100] pointer-events-none">
-      {/* Glass backdrop — invisible at top of page, fades in once scrolled past hero */}
+    <header
+      className="fixed top-0 left-0 right-0 z-[100] pointer-events-none"
+      style={{ transform: 'translateZ(0)', isolation: 'isolate' }}
+    >
+      {/* Glass chrome — solid backdrop blur with a hard bottom edge. No mask-image:
+          combining mask-image with backdrop-filter is a known repaint-flicker source. */}
       <div
         aria-hidden
         className="absolute inset-0 backdrop-blur-md transition-opacity duration-300"
-        style={{
-          opacity: scrolled ? 1 : 0,
-          background: isDark ? 'oklch(0.182 0.014 94.03 / 0.55)' : 'oklch(0.866 0.004 106.485 / 0.55)',
-          borderBottom: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid oklch(0.475 0.001 0 / 0.08)',
-          maskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
-        }}
+        style={glassStyle}
+      />
+
+      {/* Soft fade beneath the chrome to avoid a hard edge against the page. Uses a
+          plain gradient (no blur) so it composites cheaply and never flickers. */}
+      <div
+        aria-hidden
+        className="absolute left-0 right-0 top-full h-6 transition-opacity duration-300"
+        style={fadeStyle}
       />
 
       <nav className="relative flex max-w-site mx-auto items-center justify-between site-inset pt-5 md:pt-6 pb-4 md:pb-5">

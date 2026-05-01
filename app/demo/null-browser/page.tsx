@@ -46,7 +46,8 @@ export default function NullBrowserProjectPage() {
             loop
             muted
             playsInline
-            preload="metadata"
+            preload="none"
+            poster="/null-browser-hero-poster.jpg"
             aria-label="Null Browser preview"
           >
             <source src="/null-browser-hero.webm" type="video/webm" />

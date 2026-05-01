@@ -51,7 +51,7 @@ const projects = [
     title: 'Inertial - Content Moderation Tool',
     type: 'Open source · Write-up',
     description:
-      'HITL AI content moderation for federated and centralized platforms. Inertials emit signals, the Runciter dispatches them, humans decide. Hash-chained audit, per-instance YAML policy, four composable tiers. Pre-alpha.',
+      'Reference architecture for auditable AI content review: typed signals, YAML policy, hash-chained audit log, reviewer dashboard, eval harness.',
     href: '/demo/inertial',
   },
   {

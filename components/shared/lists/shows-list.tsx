@@ -1,12 +1,11 @@
 'use client'
 
-import { useState } from 'react'
 import type { Event } from '@/types'
 import { fourUhScrollPanelClass, fourUhSectionLabelAccent, fourUhSectionLabelMuted } from './four-uh-shared'
 import { onFourUhPanelWheel } from './four-uh-wheel'
 
 export const eventsData: Event[] = [
-  { date: 'Apr 21, 2026', title: 'DIFFÜSION VOL 002', venue: 'TBA', location: 'TBA', url: 'https://ra.co/events/2388618', isPast: false, isTicketLink: true },
+  { date: 'Apr 21, 2026', title: 'DIFFÜSION VOL 002', venue: 'TBA', location: 'TBA', url: 'https://ra.co/events/2388618', isPast: true },
   { date: 'Mar 21, 2026', title: 'LEGA AT RAW AREA', venue: 'Raw Area', location: 'TBA', url: 'https://ra.co/events/2377939', isPast: true },
   { date: 'Feb 13, 2026', title: 'HeartBurn Afters by FENDER BENDER', venue: 'TBA', location: 'New York City', url: 'https://posh.vip/e/heartburn-afters-by-fender-bender', isPast: true },
   { date: 'Jan 30, 2026', title: 'Submerged: aka ieuan, DJ I.V., Jae Hanz', venue: 'The Crucible', location: 'Madison, WI', url: 'https://ra.co/events/2350541', isPast: true },
@@ -26,35 +25,22 @@ export const eventsData: Event[] = [
 ]
 
 function EventItem({ event }: { event: Event }) {
-  const [isHovered, setIsHovered] = useState(false)
-
   return (
     <a
       href={event.url}
       target="_blank"
       rel="noopener noreferrer"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="block py-1.5"
+      className="group block py-1.5 transition-colors"
       style={{ opacity: event.isPast ? 0.55 : 1 }}
     >
       <div className="flex flex-col gap-0">
-        <span
-          className="text-[9px] font-light tracking-wide text-muted-foreground/60"
-          style={{ color: isHovered ? '#44ddaa' : undefined }}
-        >
+        <span className="text-[9px] font-light tracking-wide text-muted-foreground/60 transition-colors group-hover:text-[oklch(0.4_0.08_152.2)] dark:group-hover:text-[oklch(0.707_0.108_152.216)]">
           {event.date}
         </span>
-        <span
-          className="text-[11px] font-normal leading-snug text-foreground/85"
-          style={{ color: isHovered ? '#44ddaa' : undefined }}
-        >
+        <span className="text-[11px] font-normal leading-snug text-foreground/85 transition-colors group-hover:text-[oklch(0.4_0.08_152.2)] dark:group-hover:text-[oklch(0.707_0.108_152.216)]">
           {event.title}
         </span>
-        <span
-          className="text-[9px] font-light text-muted-foreground/50"
-          style={{ color: isHovered ? 'rgba(68,221,170,0.55)' : undefined }}
-        >
+        <span className="text-[9px] font-light text-muted-foreground/50 transition-colors group-hover:text-[oklch(0.4_0.08_152.2/0.7)] dark:group-hover:text-[oklch(0.707_0.108_152.216/0.7)]">
           @ {event.venue}
         </span>
         {event.isTicketLink && !event.isPast && (

@@ -27,6 +27,8 @@ export function FourUHSection() {
           loop
           muted
           playsInline
+          preload="none"
+          poster="/4uh-aka-poster.jpg"
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full w-auto h-auto object-cover opacity-20 dark:opacity-40"
         >
           <source src="/4uh-aka.webm" type="video/webm" />

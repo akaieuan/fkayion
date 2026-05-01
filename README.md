@@ -8,7 +8,7 @@ Live: [akabuild.com](https://akabuild.com)
 
 ### Landing (`/`)
 
-Scroll-based home with sectioned content: hero, links preview, product design notes, Visualizer Eden teaser, music (4UH), and more. Uses client-side orchestration (`unified-client.tsx`), shared 3D orb components, and sage-toned accents consistent across sections.
+Single composed home page with sectioned content: hero, links, product design notes, and music (4UH). Uses client-side orchestration (`unified-client.tsx`), shared 3D orb components, and sage-toned accents consistent across sections. The `links` and `4UH` content live as sections inside the homepage rather than standalone routes.
 
 ### Projects hub (`/demo`)
 
@@ -25,8 +25,7 @@ A single index of demos and write-ups. Each entry links to its own route:
 
 ### Other routes
 
-- **`/Links`** — Standalone links grid with orb background, writing links, music links, and project shortcuts.
-- **`/4UH`** — Music-focused page with its own layout.
+- **`/Visualizer-Eden`** — Standalone full-screen audio visualizer app (the only non-`/demo` route outside the homepage).
 
 ### Visualizer Eden (summary)
 
@@ -59,17 +58,15 @@ Requires **Node.js 18+** and a modern browser (WebGL for Visualizer Eden).
 ```
 app/
   page.tsx                 # Home entry → UnifiedClient
-  unified-client.tsx       # Sections / scroll experience
+  unified-client.tsx       # Sections composed into the homepage
   layout.tsx               # Root layout, globals
   globals.css
-  sections/                # Home sections (home, links, product, visualizer, four-uh, …)
+  sections/                # Home sections (home, links, product, four-uh)
   demo/                    # Projects index + per-demo routes
-  Links/                   # /Links
   Visualizer-Eden/         # /Visualizer-Eden
-  4UH/                     # /4UH
 components/
-  ui/                      # Buttons, sheet, tabs, header, theme, …
-  features/                # Home, visualizer, 4uh, …
+  ui/                      # Buttons, sheet, header, theme, …
+  features/                # Home, visualizer
   demo/                    # Large demo UIs (research-os, hitl-ai, music-chat-comp, …)
   shared/                  # Orbs, shared lists, etc.
 ```

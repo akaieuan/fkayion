@@ -40,7 +40,8 @@ export default function WrdefProjectPage() {
             loop
             muted
             playsInline
-            preload="metadata"
+            preload="none"
+            poster="/wrdef-hero-poster.jpg"
             aria-label="Wrdef gameplay preview"
           >
             <source src="/wrdef-hero.webm" type="video/webm" />

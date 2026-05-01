@@ -3,11 +3,23 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { useState, useCallback, useEffect, useSyncExternalStore } from 'react'
+import dynamic from 'next/dynamic'
 import { Canvas } from '@react-three/fiber'
 import * as THREE from 'three'
-import { LiquidMorphOrb } from '@/components/features/home'
-import { LiquidMorphTorus } from '@/components/shared/orbs/liquid-morph-torus'
-import { MetallicMeltingTorus } from '@/components/shared/orbs/metallic-melting-torus'
+
+// Each orb variant is its own webpack chunk. Only the active variant downloads.
+const LiquidMorphOrb = dynamic(
+  () => import('@/components/features/home/liquid-morph-orb').then(m => ({ default: m.LiquidMorphOrb })),
+  { ssr: false }
+)
+const LiquidMorphTorus = dynamic(
+  () => import('@/components/shared/orbs/liquid-morph-torus').then(m => ({ default: m.LiquidMorphTorus })),
+  { ssr: false }
+)
+const MetallicMeltingTorus = dynamic(
+  () => import('@/components/shared/orbs/metallic-melting-torus').then(m => ({ default: m.MetallicMeltingTorus })),
+  { ssr: false }
+)
 
 type HomeOrbVariant = 0 | 1 | 2
 

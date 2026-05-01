@@ -39,7 +39,8 @@ export default function VisualizerEdenDemoPage() {
             loop
             muted
             playsInline
-            preload="metadata"
+            preload="none"
+            poster="/visualizer-eden-preview-poster.jpg"
             aria-label="Visualizer Eden preview"
           >
             <source src="/visualizer-eden-preview.webm" type="video/webm" />

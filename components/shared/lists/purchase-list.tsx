@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import type { PurchaseItem } from '@/types'
 import { fourUhScrollPanelClass, fourUhSectionLabelAccent } from './four-uh-shared'
 import { onFourUhPanelWheel } from './four-uh-wheel'
@@ -34,23 +33,16 @@ export const purchaseData: PurchaseItem[] = [
 ]
 
 function PurchaseItemComponent({ item }: { item: PurchaseItem }) {
-  const [isHovered, setIsHovered] = useState(false)
-  
   return (
     <a
       href={item.url}
       target="_blank"
       rel="noopener noreferrer"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="block py-2"
+      className="group block py-2"
     >
       <div className="flex flex-col gap-0.5">
         <span className="text-[9px] font-medium uppercase tracking-wider text-muted-foreground/50">{item.type}</span>
-        <span
-          className="text-[13px] font-normal leading-tight text-foreground/80"
-          style={{ color: isHovered ? '#44ddaa' : undefined }}
-        >
+        <span className="text-[13px] font-normal leading-tight text-foreground/80 transition-colors group-hover:text-[oklch(0.4_0.08_152.2)] dark:group-hover:text-[oklch(0.707_0.108_152.216)]">
           {item.title}
         </span>
       </div>
