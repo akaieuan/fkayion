@@ -161,14 +161,15 @@ export default function InertialProjectPage() {
             <h2 className="text-sm font-medium tracking-wide text-foreground">What&apos;s real</h2>
             <ul className="list-disc space-y-2.5 pl-5 marker:text-muted-foreground/50">
               <li>
-                <strong className="font-medium text-foreground/85">Schema-first Zod contracts</strong> across 12+
-                shapes: <code className={codeChip}>ContentEvent</code>, <code className={codeChip}>StructuredSignal</code>,{' '}
-                <code className={codeChip}>AgentTrace</code>, <code className={codeChip}>ReviewItem</code>,{' '}
-                <code className={codeChip}>ReviewDecision</code>, <code className={codeChip}>Policy</code>,{' '}
-                <code className={codeChip}>AuditEntry</code>, <code className={codeChip}>SkillRegistration</code>,{' '}
-                <code className={codeChip}>GoldEvent</code>, <code className={codeChip}>EvalRun</code>,{' '}
-                <code className={codeChip}>SkillCalibration</code>, <code className={codeChip}>ReviewerTag</code> +
-                scope, <code className={codeChip}>TagAgreement</code>.
+                <strong className="font-medium text-foreground/85">Schema-first Zod contracts</strong> across 33 typed
+                shapes (README&apos;s inventory centers on 12+ primary schemas in{' '}
+                <code className={codeChip}>@inertial/schemas</code>): <code className={codeChip}>ContentEvent</code>,{' '}
+                <code className={codeChip}>StructuredSignal</code>, <code className={codeChip}>AgentTrace</code>,{' '}
+                <code className={codeChip}>ReviewItem</code>, <code className={codeChip}>ReviewDecision</code>,{' '}
+                <code className={codeChip}>Policy</code>, <code className={codeChip}>AuditEntry</code>,{' '}
+                <code className={codeChip}>SkillRegistration</code>, <code className={codeChip}>GoldEvent</code>,{' '}
+                <code className={codeChip}>EvalRun</code>, <code className={codeChip}>SkillCalibration</code>,{' '}
+                <code className={codeChip}>ReviewerTag</code> + scope, <code className={codeChip}>TagAgreement</code>.
               </li>
               <li>
                 <strong className="font-medium text-foreground/85">A skill / tool registry</strong> with a catalog plus
@@ -187,9 +188,12 @@ export default function InertialProjectPage() {
               <li>
                 <strong className="font-medium text-foreground/85">An eval harness scoring per-(skill, channel) Brier /
                   ECE / agreement</strong>. <code className={codeChip}>pnpm eval</code> boots an in-memory pipeline,
-                dispatches the 31-event gold set against the live skill registry, and prints calibration as a
-                hash-chained artifact, not vibes. Reviewer commits auto-promote to{' '}
-                <code className={codeChip}>gold_events</code> rows, so the corpus grows on every decision.
+                dispatches the 31-event gold set (
+                <code className={codeChip}>config/evals/gold-set-v1.jsonl</code> — 27 text + 3 image + 1 video)
+                against the live skill registry, and prints calibration as a hash-chained artifact, not vibes. Reviewer
+                commits auto-promote via <code className={codeChip}>signalFeedback</code> +{' '}
+                <code className={codeChip}>reviewerTags</code> into <code className={codeChip}>gold_events</code> (
+                source <code className={codeChip}>reviewer-derived</code>), so the corpus grows on every decision.
               </li>
               <li>
                 <strong className="font-medium text-foreground/85">A reviewer-tag layer with per-modality / per-segment
@@ -218,24 +222,30 @@ export default function InertialProjectPage() {
             <h2 className="text-sm font-medium tracking-wide text-foreground">What&apos;s stubbed (deliberately)</h2>
             <ul className="list-disc space-y-2.5 pl-5 marker:text-muted-foreground/50">
               <li>
-                Every source connector — Mastodon (ActivityPub), Bluesky (AT Protocol), Lemmy, Discord, Slack, generic
-                webhook. Without these, no real platform&apos;s events ever reach the runciter; the system can only
-                process events posted directly to <code className={codeChip}>POST /v1/events</code> by a script. This
-                is the single biggest gap between this project and a moderation tool.
+                Every source connector — Mastodon (ActivityPub), Bluesky (AT Protocol), Lemmy, Discord, Slack, and the
+                generic webhook package (<code className={codeChip}>sdk-webhook</code>). All four connector packages are
+                interface stubs with no real ingestion. Without these, no real platform&apos;s events ever reach the
+                runciter; the system can only process events posted directly to{' '}
+                <code className={codeChip}>POST /v1/events</code> by a script. This is the single biggest gap between
+                this project and a moderation tool.
               </li>
               <li>
                 The action dispatcher that pushes decisions back to source platforms. A moderation system that
                 can&apos;t act on its decisions is a logging system.
               </li>
               <li>
-                Every <code className={codeChip}>@inertial/agents-*</code> package except text and context. Cloud
-                vision works through <code className={codeChip}>image-classify@anthropic</code>, but{' '}
-                <code className={codeChip}>vision-*</code>, <code className={codeChip}>identity-*</code>, and{' '}
-                <code className={codeChip}>audio-*</code> packages return empty arrays.
+                <code className={codeChip}>@inertial/agents-audio</code> and{' '}
+                <code className={codeChip}>@inertial/agents-identity</code> — each is a single stub class whose{' '}
+                <code className={codeChip}>analyze</code> returns <code className={codeChip}>[]</code>. Image still flows
+                through <code className={codeChip}>image-classify@anthropic</code>; video is local ffmpeg keyframe extract
+                → that classifier. Package-level <code className={codeChip}>vision-*</code> inertials are empty stubs in
+                the README capability table.
               </li>
               <li>
-                Audio entirely — no transcription, no classification, no even-stub audio analysis.
-                &quot;Multimodal&quot; is overstated; today it&apos;s text + image + frame-grabbed video.
+                Gateway <strong className="font-medium text-foreground/85">media download + perceptual hashing</strong>{' '}
+                — not implemented (README architecture diagram: media download + phash TODO). Honest framing:
+                &quot;multimodal&quot; is text + image + frame-grabbed video; audio has no transcription or classifier
+                path yet.
               </li>
               <li>
                 Auth and observability layers. Anyone who can reach{' '}
@@ -263,8 +273,9 @@ export default function InertialProjectPage() {
             </p>
             <ul className="list-disc space-y-2.5 pl-5 marker:text-muted-foreground/50">
               <li>
-                Inertials emit typed structured signals, <em>not</em> verdicts. Probability + confidence + evidence
-                pointers. The policy layer turns signals into routing; humans turn routing into actions.
+                <strong className="font-medium text-foreground/85">Inertials (sub-agents)</strong> emit typed structured
+                signals, <em>not</em> verdicts. Probability + confidence + evidence pointers. The policy layer turns
+                signals into routing; humans turn routing into actions.
               </li>
               <li>
                 Per-instance YAML policy so federation is a first-class case, not an afterthought. The same code serves
@@ -304,6 +315,14 @@ export default function InertialProjectPage() {
                 classification — no temporal reasoning, no audio track, no scene-change detection.
               </li>
               <li>
+                <strong className="font-medium text-foreground/85">Not a complete moderation toolkit.</strong> The
+                dashboard, audit log, eval harness, and skill registry are real. Two of the seven{' '}
+                <code className={codeChip}>@inertial/agents-*</code> packages (audio, identity) are pure stubs that
+                return <code className={codeChip}>[]</code>; the remaining five (text, vision, video, context, cloud)
+                ship real composition logic. Connector packages are placeholders — none ingest from a real source
+                platform.
+              </li>
+              <li>
                 <strong className="font-medium text-foreground/85">Not a maintained OSS project.</strong> No
                 CONTRIBUTING.md, no issue templates, no triage commitment. If you want to use any of this, fork it.
               </li>
@@ -315,7 +334,9 @@ export default function InertialProjectPage() {
               Skill tiers — what&apos;s actually demonstrated
             </h2>
             <p>
-              The architecture supports four execution tiers; today, only two are exercised end-to-end. Honest mapping:
+              The architecture supports four execution tiers.{' '}
+              <strong className="font-medium text-foreground/85">Three of the four are exercised today</strong> — Tier 2
+              (local server / Ollama) has no shipped skill yet. Honest mapping:
             </p>
             <div className="space-y-2.5">
               <div className="flex flex-col gap-1 border-b border-border/60 pb-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
@@ -323,7 +344,8 @@ export default function InertialProjectPage() {
                   Tier 0
                 </span>
                 <span className="text-[13px] text-muted-foreground/80 sm:text-right">
-                  In-process JS · <code className={codeChip}>text-detect-spam-link</code> (regex)
+                  In-process JS · <code className={codeChip}>text-detect-spam-link</code> (regex URL detection),{' '}
+                  <code className={codeChip}>text-context-author@local</code> (DB-backed author-history lookup)
                 </span>
               </div>
               <div className="flex flex-col gap-1 border-b border-border/60 pb-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
@@ -340,7 +362,8 @@ export default function InertialProjectPage() {
                   Tier 2
                 </span>
                 <span className="text-[13px] text-muted-foreground/80 sm:text-right">
-                  Local server (Ollama @ <code className={codeChip}>:11434</code>) · nothing yet — planned vision-ollama
+                  Local server (Ollama @ <code className={codeChip}>:11434</code>) · nothing yet — planned for the
+                  in-flight <code className={codeChip}>vision-ollama</code> work
                 </span>
               </div>
               <div className="flex flex-col gap-1 pb-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
@@ -373,9 +396,10 @@ export default function InertialProjectPage() {
             <p>The vocabulary comes from Philip K. Dick&apos;s <em>Ubik</em> (1969).</p>
             <ul className="list-disc space-y-2.5 pl-5 marker:text-muted-foreground/50">
               <li>
-                <strong className="font-medium text-foreground/85">inertials</strong> — anti-telepaths whose function
-                is to neutralize harmful psychic intrusion on behalf of clients. Here: each sub-agent neutralizes a
-                class of harmful signal (toxicity, spam, NSFW, identity hate, brigading) for the communities it serves.
+                <strong className="font-medium text-foreground/85">inertial</strong> — in <em>Ubik</em>, &quot;inertials&quot;
+                are anti-telepaths whose function is to neutralize harmful psychic intrusion on behalf of clients.
+                The toolkit&apos;s sub-agents are <em>inertials</em> — each one neutralizes a class of harmful signal
+                (toxicity, spam, NSFW, identity hate, brigading…) for the communities it serves.
               </li>
               <li>
                 <strong className="font-medium text-foreground/85">Runciter</strong> — Glen Runciter, the operator who
@@ -401,7 +425,8 @@ export default function InertialProjectPage() {
               <li>
                 <strong className="font-medium text-foreground/85">eval-kit</strong> — evaluation framework for
                 collaborative-task agents. Inertial uses <code className={codeChip}>@eval-kit/ui</code> primitives in
-                its eval cockpit and <code className={codeChip}>@eval-kit/core</code> for calibration scoring.
+                its eval cockpit; calibration scoring runs through <code className={codeChip}>@eval-kit/core</code>{' '}
+                (README: <code className={codeChip}>@inertial/eval</code> wraps it).
               </li>
               <li>
                 <strong className="font-medium text-foreground/85">HITL-KIT</strong> — human-in-the-loop UI primitives.{' '}
