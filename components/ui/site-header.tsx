@@ -5,11 +5,20 @@ import { useRouter, usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { Sun, Moon } from 'lucide-react'
 
-const mainNavItems = [
+const FOUR_UH_URL = 'https://4uhnyc.com'
+
+type MainNavItem = {
+  name: string
+  sectionId: string
+  /** If set, nav label is an external link instead of in-page scroll */
+  externalHref?: string
+}
+
+const mainNavItems: MainNavItem[] = [
   { name: 'Home', sectionId: 'section-0' },
   { name: 'Links', sectionId: 'section-1' },
   { name: 'Product', sectionId: 'section-2' },
-  { name: '4UH', sectionId: 'section-4' },
+  { name: '4UH', sectionId: 'section-4', externalHref: FOUR_UH_URL },
 ]
 
 const SCROLL_THRESHOLD = 24
@@ -106,7 +115,12 @@ export function SiteHeader() {
     setMobileMenuOpen(false)
   }, [pathname])
 
-  const handleNavClick = (item: typeof mainNavItems[0]) => {
+  const handleNavClick = (item: MainNavItem) => {
+    if (item.externalHref) {
+      window.open(item.externalHref, '_blank', 'noopener,noreferrer')
+      setMobileMenuOpen(false)
+      return
+    }
     if (isHome) {
       const section = document.getElementById(item.sectionId)
       if (section) section.scrollIntoView({ behavior: 'smooth' })

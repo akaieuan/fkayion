@@ -1,14 +1,15 @@
 'use client'
 
-import { Separator } from '@/components/ui/separator'
-
 export function SiteFooter() {
   const currentYear = new Date().getFullYear()
 
   return (
     <footer className="w-full py-8 bg-background">
       <div className="mx-auto max-w-site site-inset">
-        <Separator className="bg-border mb-6" />
+        <div
+          className="mb-6 h-px w-full shrink-0 bg-[linear-gradient(90deg,transparent_0%,var(--border)_14%,var(--border)_86%,transparent_100%)]"
+          aria-hidden
+        />
         <div className="flex items-center justify-between">
           <p className="text-xs font-light tracking-wide text-muted-foreground/50">
             © {currentYear} akaBuild

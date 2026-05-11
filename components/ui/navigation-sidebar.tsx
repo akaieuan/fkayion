@@ -28,7 +28,7 @@ const navigationItems = [
   },
   {
     name: '4UH.NYC',
-    href: '/4UH',
+    href: 'https://4uhnyc.com',
     icon: Music,
     description: 'Music releases and content'
   }
@@ -44,8 +44,12 @@ export function NavigationSidebar({ className }: NavigationSidebarProps) {
   const pathname = usePathname()
 
   const handleNavigation = (href: string) => {
-    router.push(href)
-    setIsOpen(false) // Close sidebar after navigation
+    if (href.startsWith('http://') || href.startsWith('https://')) {
+      window.open(href, '_blank', 'noopener,noreferrer')
+    } else {
+      router.push(href)
+    }
+    setIsOpen(false)
   }
 
   const FloatingButton = () => (
