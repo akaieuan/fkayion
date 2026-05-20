@@ -24,7 +24,7 @@ const MetallicMeltingTorus = dynamic(
 type HomeOrbVariant = 0 | 1 | 2
 
 const keyLinks = [
-  { label: 'Ubik Studio', href: 'https://ubik.studio' },
+  { label: 'Ubik Studio', href: 'https://github.com/ubik-inc/ubik-electron' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ieuan-king/' },
   { label: 'aka.write', href: 'https://kraa.io/akaieuan' },
 ]

@@ -16,7 +16,7 @@ export function SiteFooter() {
           </p>
           <div className="flex items-center space-x-6">
             <a
-              href="https://www.ubik.studio"
+              href="https://github.com/ubik-inc/ubik-electron"
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs font-light tracking-wide text-muted-foreground/50 hover:text-foreground/50 transition-colors duration-200"

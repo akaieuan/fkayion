@@ -27,7 +27,7 @@ const groups: Group[] = [
         title: 'Ubik Studio',
         description:
           'Co-founded a desktop-native AI research platform built around human-in-the-loop workflows.',
-        href: 'https://ubik.studio',
+        href: 'https://github.com/ubik-inc/ubik-electron',
       },
       {
         title: 'HITL Kit',

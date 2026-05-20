@@ -18,7 +18,7 @@ const projects = [
     type: 'Product',
     description:
       'Co-founded and led product design at Ubik Studio, a desktop-native AI research platform for human-in-the-loop workflows.',
-    href: 'https://ubik.studio',
+    href: 'https://github.com/ubik-inc/ubik-electron',
   },
   {
     title: 'HITL Kit',
