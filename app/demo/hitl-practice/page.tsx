@@ -42,7 +42,7 @@ export default function HitlPracticePage() {
 
         <div className="mt-2 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:items-center">
           <a
-            href="https://github.com/ubik-inc/ubik-electron"
+            href="https://www.reddit.com/user/akaieuan/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
@@ -208,7 +208,7 @@ export default function HitlPracticePage() {
             <h2 className="text-sm font-medium tracking-wide text-foreground">Current work</h2>
             <p>
               Co-founded{' '}
-              <a href="https://github.com/ubik-inc/ubik-electron" target="_blank" rel="noopener noreferrer" className={linkSage}>
+              <a href="https://www.reddit.com/user/akaieuan/" target="_blank" rel="noopener noreferrer" className={linkSage}>
                 Ubik Studio
               </a>
               , a desktop-native AI research platform. Tied to that: production-ready UI in Next.js and

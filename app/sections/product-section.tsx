@@ -60,7 +60,7 @@ export function ProductSection() {
               <p className="text-xs font-light leading-relaxed text-muted-foreground mb-2 md:mb-0 md:max-w-[200px]">
                 Co-founded{' '}
                 <a
-                  href="https://github.com/ubik-inc/ubik-electron"
+                  href="https://www.reddit.com/user/akaieuan/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={linkAccent}
