@@ -32,7 +32,7 @@ const groups: Group[] = [
       {
         title: 'Box Populi',
         description:
-          'Client build: one-page site for an NYC live techno collective — roster-driven, custom SoundCloud players.',
+          'On-brand site for a NYC live-techno collective. Custom audio players over the SoundCloud Widget, multiple live streams coordinated so they never overlap, an iOS quirk handled honestly.',
         href: '/demo/box-populi',
       },
       {

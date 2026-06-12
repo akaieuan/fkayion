@@ -24,7 +24,7 @@ const projects = [
     title: 'Box Populi',
     type: 'Client project · Live site',
     description:
-      'One-page site for an NYC live techno improvisation collective: roster-driven data model, custom SoundCloud players, Resend bookings.',
+      'On-brand site for a NYC live-techno collective. Custom audio players over the SoundCloud Widget, multiple live streams coordinated so they never overlap, an iOS quirk handled honestly.',
     href: '/demo/box-populi',
   },
   {
