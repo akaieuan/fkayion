@@ -21,6 +21,13 @@ const projects = [
     href: 'https://www.reddit.com/user/akaieuan/',
   },
   {
+    title: 'Box Populi',
+    type: 'Client project · Live site',
+    description:
+      'One-page site for an NYC live techno improvisation collective: roster-driven data model, custom SoundCloud players, Resend bookings.',
+    href: '/demo/box-populi',
+  },
+  {
     title: 'HITL Kit',
     type: 'Open source · Write-up',
     description:

@@ -11,10 +11,6 @@ const LinksSection = dynamic(() => import('./sections/links-section').then(m => 
   loading: () => <section id="section-1" className="w-full py-24 bg-background" />,
 })
 
-const ProductSection = dynamic(() => import('./sections/product-section').then(m => ({ default: m.ProductSection })), {
-  loading: () => <section id="section-2" className="w-full py-24 bg-background" />,
-})
-
 const FourUHSection = dynamic(() => import('./sections/four-uh-section').then(m => ({ default: m.FourUHSection })), {
   loading: () => <section id="section-4" className="w-full py-24 bg-background" />,
 })
@@ -24,7 +20,6 @@ export function UnifiedClient() {
     <main className="relative min-h-0 w-full min-w-0 overflow-x-clip bg-background">
       <HomeSection />
       <LinksSection />
-      <ProductSection />
       <FourUHSection />
     </main>
   )

@@ -17,7 +17,6 @@ type MainNavItem = {
 const mainNavItems: MainNavItem[] = [
   { name: 'Home', sectionId: 'section-0' },
   { name: 'Links', sectionId: 'section-1' },
-  { name: 'Product', sectionId: 'section-2' },
   { name: '4UH', sectionId: 'section-4', externalHref: FOUR_UH_URL },
 ]
 

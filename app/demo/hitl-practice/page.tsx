@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 
-/** Sage from landing product section (matches `app/sections/product-section.tsx`) */
+/** Sage from landing hero highlights (matches `app/sections/links-section.tsx` accents) */
 const sage =
   'text-[oklch(0.38_0.055_152.2)] dark:text-[oklch(0.62_0.09_152)]'
 const linkSage =
@@ -235,8 +235,8 @@ export default function HitlPracticePage() {
             </p>
             <p className="mt-3 text-[12px] text-muted-foreground">
               Mirror:{' '}
-              <a href="/#section-2" className={linkMuted}>
-                Product section
+              <a href="/#section-1" className={linkMuted}>
+                links section
               </a>{' '}
               on the home page.
             </p>

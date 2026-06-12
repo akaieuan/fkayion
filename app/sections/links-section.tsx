@@ -30,6 +30,12 @@ const groups: Group[] = [
         href: 'https://www.reddit.com/user/akaieuan/',
       },
       {
+        title: 'Box Populi',
+        description:
+          'Client build: one-page site for an NYC live techno collective — roster-driven, custom SoundCloud players.',
+        href: '/demo/box-populi',
+      },
+      {
         title: 'HITL Kit',
         description: 'Eleven HITL primitives, shadcn registry, and a personal research paper.',
         href: '/demo/hitl-kit',
@@ -269,20 +275,28 @@ export function LinksSection() {
     <section ref={sectionRef} id="section-1" className="relative w-full py-20">
       <div className="w-full max-w-site mx-auto site-inset">
         <div
-          className="mb-5 flex items-baseline justify-between gap-3"
+          className="mb-6"
           style={{
             opacity: isInView ? 1 : 0,
             transform: isInView ? 'translateY(0)' : 'translateY(16px)',
             transition: 'opacity 0.45s ease, transform 0.45s ease',
           }}
         >
-          <h1 className="text-xl text-muted-foreground font-light tracking-wide">links</h1>
-          {active.more && <MoreLink more={active.more} />}
+          <h1 className="text-xl text-muted-foreground font-light tracking-wide">who i am</h1>
+          <p className="text-muted-foreground/50 text-xs mt-0.5 font-light">
+            applied ai · anthropology · product design · electronic music
+          </p>
+          <p className="mt-4 text-sm font-light leading-relaxed text-muted-foreground max-w-xl">
+            Applied AI, built on anthropology and product design. I&apos;m interested in one
+            problem: making humans and agents actually work well together. Also an electronic
+            musician under multiple aliases.
+          </p>
         </div>
 
         <div className="w-full">
           {/* `-ml-2.5` offsets the active pill's left padding so the first tab's text aligns with the heading above. */}
-          <div className="flex flex-wrap items-center gap-x-1 gap-y-1 mb-5 -ml-2.5">
+          <div className="flex items-center justify-between gap-3 mb-5">
+            <div className="flex flex-wrap items-center gap-x-1 gap-y-1 -ml-2.5">
             {groups.map((g) => {
               const isActive = g.id === activeId
               return (
@@ -301,6 +315,8 @@ export function LinksSection() {
                 </button>
               )
             })}
+            </div>
+            {active.more && <MoreLink more={active.more} />}
           </div>
 
           {/* Pinned per-breakpoint min-heights keep the section from reflowing as you switch tabs.
