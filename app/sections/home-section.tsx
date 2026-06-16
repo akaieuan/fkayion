@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { useState, useCallback, useEffect, useSyncExternalStore } from 'react'
+import { useState, useCallback, useEffect, useRef, useSyncExternalStore } from 'react'
 import dynamic from 'next/dynamic'
 import { Canvas } from '@react-three/fiber'
 import * as THREE from 'three'
@@ -120,8 +120,26 @@ function getServerNarrow() {
 
 export function HomeSection() {
   const narrowViewport = useSyncExternalStore(subscribeNarrow, getNarrowSnapshot, getServerNarrow)
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  // Mouse position lives in a ref, not state: the orb reads it inside useFrame, so updating it
+  // on every pointer move costs nothing and never triggers a React re-render of the Canvas tree.
+  const mousePosRef = useRef({ x: 0, y: 0 })
   const [orbVariant, setOrbVariant] = useState<HomeOrbVariant>(0)
+
+  // Pause the orb's render loop while the hero is scrolled out of view — no point burning GPU on
+  // an off-screen liquid shader while you're reading the rest of the page.
+  const sectionRef = useRef<HTMLElement>(null)
+  const [heroInView, setHeroInView] = useState(true)
+
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setHeroInView(entry.isIntersecting),
+      { threshold: 0 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   const cycleOrb = useCallback(() => {
     setOrbVariant((prev) => (((prev + 1) % 3) as HomeOrbVariant))
@@ -129,13 +147,12 @@ export function HomeSection() {
 
   const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect()
-    const x = ((event.clientX - rect.left) / rect.width) * 2 - 1
-    const y = -((event.clientY - rect.top) / rect.height) * 2 + 1
-    setMousePos({ x, y })
+    mousePosRef.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1
+    mousePosRef.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1
   }, [])
 
   return (
-    <section id="section-0" className="relative min-h-dvh w-full" onPointerMove={handlePointerMove}>
+    <section ref={sectionRef} id="section-0" className="relative min-h-dvh w-full" onPointerMove={handlePointerMove}>
       <div className="absolute inset-0 max-md:pointer-events-none">
         <Canvas
           className="pointer-events-none touch-pan-y"
@@ -143,6 +160,7 @@ export function HomeSection() {
           style={{ width: '100%', height: '100%' }}
           gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0 }}
           dpr={narrowViewport ? 1 : [1, 1.5]}
+          frameloop={heroInView ? 'always' : 'never'}
           performance={{ min: 0.5 }}
         >
           <ambientLight intensity={0.15} />
@@ -157,7 +175,7 @@ export function HomeSection() {
               onClick={() => {}}
               isHovered={true}
               onHover={() => {}}
-              mousePos={mousePos}
+              mousePosRef={mousePosRef}
               narrowViewport={narrowViewport}
             />
           )}

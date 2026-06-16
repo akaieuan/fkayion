@@ -1,10 +1,6 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 
-/** Sage green, aligned with landing /demo project tags */
-const wrdefGreen =
-  'text-[oklch(0.38_0.055_152.2)] dark:text-[oklch(0.62_0.09_152)]'
-
 export const metadata = {
   title: 'Wrdef (Wordle + definition) | akaBuild',
   description:
@@ -25,11 +21,10 @@ export default function WrdefProjectPage() {
 
         <header className="mb-6">
           <p
-            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance"
+            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance text-foreground/90"
             aria-label="wrdef"
           >
-            <span className="text-foreground/90">wr</span>
-            <span className={wrdefGreen}>def</span>
+            wrdef
           </p>
         </header>
 

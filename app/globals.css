@@ -46,15 +46,16 @@
   }
 }
 
-/* Gradient text selection */
+/* Text selection — on-brand sage green (hue ~152), was blue */
 ::selection {
-  background: rgba(59, 130, 246, 0.3);
+  background: oklch(0.62 0.09 152 / 0.25);
 }
 
-/* Custom focus styles */
-button:focus,
-a:focus {
-  outline: 2px solid rgba(59, 130, 246, 0.5);
+/* Focus styles — keyboard-only sage green ring. `:focus-visible` (not `:focus`)
+   so a mouse click never paints an outline; no harsh blue. */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid oklch(0.62 0.09 152 / 0.6);
   outline-offset: 2px;
 }
 

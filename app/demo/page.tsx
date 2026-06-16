@@ -28,6 +28,27 @@ const projects = [
     href: '/demo/box-populi',
   },
   {
+    title: 'Hologram',
+    type: 'Open source · Dev tool · Write-up',
+    description:
+      'Live observability and a read-only MCP surface for Blender → glTF pipelines — watch your AI agent work on your game assets in real time.',
+    href: '/demo/hologram',
+  },
+  {
+    title: 'akaVSTs',
+    type: 'Instruments · VST3 / AU · Live',
+    description:
+      'Three Ableton-ready instrument plugins I play live and use in my own music — an acid synth + P-lock sequencer, a 4-layer lo-fi synth, and a sculpting sampler. JUCE 8 · C++17 · VST3 / AU / Standalone.',
+    href: '/demo/akavsts',
+  },
+  {
+    title: 'Collapse',
+    type: 'Open source · Dev tool · Write-up',
+    description:
+      'Pattern → SKILL.md compiler for Claude Code. Three pluggable ingestors (MDX, Jupyter, custom) feed a typed pipeline with local atomic writes to ~/.claude/skills/. Next.js 16 + TypeScript.',
+    href: '/demo/collapse',
+  },
+  {
     title: 'HITL Kit',
     type: 'Open source · Write-up',
     description:

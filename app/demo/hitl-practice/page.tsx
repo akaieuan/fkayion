@@ -1,9 +1,6 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 
-/** Sage from landing hero highlights (matches `app/sections/links-section.tsx` accents) */
-const sage =
-  'text-[oklch(0.38_0.055_152.2)] dark:text-[oklch(0.62_0.09_152)]'
 const linkSage =
   'text-[oklch(0.4_0.08_152.2)] underline decoration-border underline-offset-[3px] transition-colors hover:text-[oklch(0.32_0.085_152)] dark:text-[oklch(0.707_0.108_152.216)] dark:hover:text-[oklch(0.78_0.1_152)]'
 const linkMuted =
@@ -32,7 +29,7 @@ export default function HitlPracticePage() {
             Product design &amp; research
           </p>
           <h1 className="mt-2 text-2xl font-light tracking-tight text-foreground md:text-[26px]">
-            HITL <span className={sage}>practice</span>
+            HITL practice
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
             The same story as the home page product section, with paths into prototypes, the Kit, and

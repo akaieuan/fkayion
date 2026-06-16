@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useMemo, useLayoutEffect } from 'react'
+import { useRef, useMemo, useLayoutEffect, type MutableRefObject } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Float, Sphere } from '@react-three/drei'
 import * as THREE from 'three'
@@ -17,7 +17,8 @@ interface LiquidMorphOrbProps {
   isHovered: boolean
   onHover: (hovered: boolean) => void
   size?: number
-  mousePos?: MousePos
+  /** Read inside useFrame so pointer moves never re-render the React tree. */
+  mousePosRef?: MutableRefObject<MousePos>
   /** Softer shaders + less motion — avoids grain moiré on small screens */
   narrowViewport?: boolean
 }
@@ -29,7 +30,7 @@ export function LiquidMorphOrb({
   isHovered, 
   onHover,
   size = 1,
-  mousePos = { x: 0, y: 0 },
+  mousePosRef,
   narrowViewport = false,
 }: LiquidMorphOrbProps) {
   const groupRef = useRef<THREE.Group>(null)
@@ -234,7 +235,8 @@ export function LiquidMorphOrb({
     
     // Update material uniforms
     liquidMaterial.uniforms.time.value = time
-    liquidMaterial.uniforms.mousePos.value.set(mousePos.x, mousePos.y)
+    const mp = mousePosRef?.current
+    liquidMaterial.uniforms.mousePos.value.set(mp ? mp.x : 0, mp ? mp.y : 0)
     
     // Flow intensity - always animated, increases more when hovered
     const baseFlow = 0.6
@@ -285,11 +287,10 @@ export function LiquidMorphOrb({
             <Sphere args={[size * 0.12, 16, 16]} position={[size * 0.8, -size * 0.3, 0]}>
               <meshPhysicalMaterial 
                 color="#225544"
-                transmission={0.9}
-                thickness={0.08}
-                roughness={0.05}
-                metalness={0.0}
-                ior={1.33}
+                roughness={0.15}
+                metalness={0}
+                clearcoat={1}
+                clearcoatRoughness={0.1}
                 transparent
                 opacity={0.85}
               />
@@ -297,11 +298,10 @@ export function LiquidMorphOrb({
             <Sphere args={[size * 0.09, 16, 16]} position={[-size * 0.6, size * 0.4, size * 0.3]}>
               <meshPhysicalMaterial 
                 color="#225544"
-                transmission={0.9}
-                thickness={0.08}
-                roughness={0.05}
-                metalness={0.0}
-                ior={1.33}
+                roughness={0.15}
+                metalness={0}
+                clearcoat={1}
+                clearcoatRoughness={0.1}
                 transparent
                 opacity={0.85}
               />
@@ -309,11 +309,10 @@ export function LiquidMorphOrb({
             <Sphere args={[size * 0.06, 16, 16]} position={[size * 0.25, size * 0.7, -size * 0.4]}>
               <meshPhysicalMaterial 
                 color="#225544"
-                transmission={0.9}
-                thickness={0.08}
-                roughness={0.05}
-                metalness={0.0}
-                ior={1.33}
+                roughness={0.15}
+                metalness={0}
+                clearcoat={1}
+                clearcoatRoughness={0.1}
                 transparent
                 opacity={0.85}
               />

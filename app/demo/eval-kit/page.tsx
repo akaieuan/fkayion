@@ -1,10 +1,6 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 
-/** Warm accent on “kit”, distinct from HITL blue / sage green on other project pages */
-const evalKitAccent =
-  'text-[oklch(0.5_0.12_55)] dark:text-[oklch(0.7_0.1_55)]'
-
 const extLink =
   'underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50'
 
@@ -28,11 +24,10 @@ export default function EvalKitProjectPage() {
 
         <header className="mb-6">
           <p
-            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance"
+            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance text-foreground/90"
             aria-label="eval-kit"
           >
-            <span className="text-foreground/90">eval</span>
-            <span className={evalKitAccent}>kit</span>
+            evalkit
           </p>
         </header>
 

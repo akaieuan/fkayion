@@ -1,15 +1,34 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 
 const FOUR_UH_URL = 'https://4uhnyc.com'
 
 export function FourUHSection() {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  // Only decode the background video while the section is on screen. Autoplaying it from page
+  // load means it runs the whole time you're up at the hero — wasted CPU/GPU and a stutter source.
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) video.play().catch(() => {})
+        else video.pause()
+      },
+      { threshold: 0.15 }
+    )
+    observer.observe(video)
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <section id="section-4" className="relative min-h-screen w-full overflow-hidden">
       <div className="absolute inset-0">
         <video
-          autoPlay
+          ref={videoRef}
           loop
           muted
           playsInline

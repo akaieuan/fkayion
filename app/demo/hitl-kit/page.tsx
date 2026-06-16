@@ -2,10 +2,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 
-/** Blue accent aligned with hitlkit.dev hero */
-const hitlBlue =
-  'text-[oklch(0.52_0.19_250)] dark:text-[oklch(0.68_0.14_250)]'
-
 export const metadata = {
   title: 'HITL Kit — Human-in-the-Loop AI, Measured Properly | akaBuild',
   description:
@@ -26,11 +22,10 @@ export default function HitlKitProjectPage() {
 
         <header className="mb-6">
           <p
-            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance"
+            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance text-foreground/90"
             aria-label="HITLKit"
           >
-            <span className="text-foreground/90">HITL</span>
-            <span className={hitlBlue}>Kit</span>
+            HITLKit
           </p>
         </header>
 

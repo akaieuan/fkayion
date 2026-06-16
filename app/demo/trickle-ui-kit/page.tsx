@@ -1,10 +1,6 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 
-/** Violet accent — distinct from HITL blue / eval-kit warm orange. */
-const trickleAccent =
-  'text-[oklch(0.55_0.18_290)] dark:text-[oklch(0.74_0.14_290)]'
-
 const extLink =
   'underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50'
 
@@ -28,11 +24,10 @@ export default function TrickleKitProjectPage() {
 
         <header className="mb-6">
           <p
-            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance"
+            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance text-foreground/90"
             aria-label="trickle"
           >
-            <span className="text-foreground/90">trickle</span>
-            <span className={trickleAccent}>kit</span>
+            tricklekit
           </p>
         </header>
 

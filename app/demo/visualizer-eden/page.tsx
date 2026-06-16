@@ -1,9 +1,6 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 
-const edenGreen =
-  'text-[oklch(0.38_0.055_152.2)] dark:text-[oklch(0.62_0.09_152)]'
-
 export const metadata = {
   title: 'Visualizer Eden | akaBuild',
   description:
@@ -24,11 +21,10 @@ export default function VisualizerEdenDemoPage() {
 
         <header className="mb-6">
           <p
-            className="text-[clamp(1.65rem,4.5vw,2.5rem)] font-extralight leading-none tracking-tight text-balance"
+            className="text-[clamp(1.65rem,4.5vw,2.5rem)] font-extralight leading-none tracking-tight text-balance text-foreground/90"
             aria-label="Visualizer Eden"
           >
-            <span className="text-foreground/90">Visualizer </span>
-            <span className={edenGreen}>Eden</span>
+            Visualizer Eden
           </p>
         </header>
 

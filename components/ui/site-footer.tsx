@@ -16,12 +16,12 @@ export function SiteFooter() {
           </p>
           <div className="flex items-center space-x-6">
             <a
-              href="https://github.com/ubik-inc/ubik-electron"
+              href="https://github.com/akaieuan"
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs font-light tracking-wide text-muted-foreground/50 hover:text-foreground/50 transition-colors duration-200"
             >
-              Ubik
+              GitHub
             </a>
             <a
               href="https://www.linkedin.com/in/ieuan-king/"

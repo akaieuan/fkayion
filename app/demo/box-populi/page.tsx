@@ -2,10 +2,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 
-/** Indigo accent aligned with the boxpopuli.live deep-blue club aesthetic */
-const populiIndigo =
-  'text-[oklch(0.45_0.18_275)] dark:text-[oklch(0.7_0.13_275)]'
-
 export const metadata = {
   title: 'Box Populi — Live Techno Collective Site | akaBuild',
   description:
@@ -29,8 +25,7 @@ export default function BoxPopuliProjectPage() {
             className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance"
             aria-label="Box Populi"
           >
-            <span className="text-foreground/90">Box </span>
-            <span className={populiIndigo}>Populi</span>
+            <span className="text-foreground/90">Box Populi</span>
           </p>
         </header>
 

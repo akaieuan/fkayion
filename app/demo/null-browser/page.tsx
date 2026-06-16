@@ -1,9 +1,6 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 
-/** Muted violet-gray accent for “ull”, distinct from other project pages */
-const nullAccent = 'text-[oklch(0.55_0.04_280)] dark:text-[oklch(0.72_0.05_280)]'
-
 const extLink =
   'underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50'
 
@@ -30,12 +27,10 @@ export default function NullBrowserProjectPage() {
 
         <header className="mb-6">
           <p
-            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance"
+            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance text-foreground/90"
             aria-label="Null browser"
           >
-            <span className="text-foreground/90">N</span>
-            <span className={nullAccent}>ull</span>
-            <span className={nullAccent}>Browser</span>
+            NullBrowser
           </p>
         </header>
 
