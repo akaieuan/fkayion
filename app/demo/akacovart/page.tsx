@@ -10,6 +10,7 @@ type Shot = { src: string; w: number; h: number; label: string }
 
 const hero: Shot = { src: '/covart-splash.webp', w: 1600, h: 839, label: 'akaCOVART — a generative album-art engine' }
 const gallery: Shot[] = [
+  { src: '/covart-controls.webp', w: 488, h: 1100, label: 'Controls — engine, seed, palette, motion' },
   { src: '/covart-cover-wave.webp', w: 860, h: 796, label: 'A finished Waves cover' },
   { src: '/covart-engine-grid.webp', w: 1706, h: 937, label: 'Grid + Waves engines' },
   { src: '/covart-engine-wave.webp', w: 1715, h: 876, label: 'Waves, up close' },
