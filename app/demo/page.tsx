@@ -1,10 +1,6 @@
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 
-/** Sage green from landing product section (`labelAccent` / hue ~152 oklch) */
-const tagAccent =
-  'text-[12px] font-medium leading-snug text-[oklch(0.38_0.055_152.2)] transition-colors dark:text-[oklch(0.62_0.09_152)] group-hover:text-[oklch(0.32_0.085_152)] dark:group-hover:text-[oklch(0.78_0.1_152)]'
-
 const profileLinks = [
   { label: 'GitHub', href: 'https://github.com/akaieuan' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ieuan-king/' },
@@ -157,21 +153,32 @@ export default function DemoIndexPage() {
           </p>
         </header>
 
-        <ul className="mt-5 flex list-none flex-col gap-0.5 p-0">
+        <ul className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 list-none p-0">
           {projects.map((project) => {
             const isExternal = /^https?:\/\//.test(project.href)
-            const linkClass =
-              'group block rounded-md px-2 py-1.5 -mx-2 transition-colors hover:bg-muted/30'
+            const cardClass =
+              'group flex h-full flex-col rounded-xl border border-border bg-card/40 p-4 transition-colors hover:bg-muted/30'
             const body = (
               <>
                 <div className="flex items-start justify-between gap-3">
-                  <h2 className="text-[15px] font-light leading-snug tracking-[-0.02em] text-foreground pr-2">
+                  <h3 className="text-[14px] font-light leading-snug tracking-[-0.01em] text-foreground">
                     {project.title}
-                  </h2>
-                  <ArrowUpRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground/35 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[oklch(0.4_0.08_152.2)] dark:group-hover:text-[oklch(0.707_0.108_152.216)]" />
+                  </h3>
+                  <ArrowUpRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground/35 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground" />
                 </div>
-                <p className={`mt-px ${tagAccent}`}>{project.type}</p>
-                <p className="mt-0.5 text-[13px] font-light leading-snug text-muted-foreground">
+                {project.type && (
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {project.type.split('·').map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-[oklch(0.4_0.08_152.2)] dark:text-[oklch(0.62_0.09_152)]"
+                      >
+                        {tag.trim()}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <p className="mt-2 text-[12px] font-light leading-snug text-muted-foreground/75">
                   {project.description}
                 </p>
               </>
@@ -183,12 +190,12 @@ export default function DemoIndexPage() {
                     href={project.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={linkClass}
+                    className={cardClass}
                   >
                     {body}
                   </a>
                 ) : (
-                  <Link href={project.href} className={linkClass}>
+                  <Link href={project.href} className={cardClass}>
                     {body}
                   </Link>
                 )}

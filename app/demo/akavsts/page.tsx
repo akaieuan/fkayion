@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { DemoImage } from '@/components/ui/demo-image'
 
 const microLabel =
   'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
@@ -130,7 +130,7 @@ function HeroImage({ shot }: { shot: Shot }) {
     <figure className="-mx-6 mt-6 sm:mx-0">
       <a href={shot.src} target="_blank" rel="noopener noreferrer" className="group block">
         <div className="overflow-hidden rounded-xl border border-border/80 bg-muted/10">
-          <Image
+          <DemoImage
             src={shot.src}
             alt={shot.label}
             width={shot.w}
@@ -156,7 +156,7 @@ function Gallery({ shots }: { shots: Shot[] }) {
           <figure key={shot.src}>
             <a href={shot.src} target="_blank" rel="noopener noreferrer" className="group block">
               <div className="overflow-hidden rounded-lg border border-border/80 bg-muted/10">
-                <Image
+                <DemoImage
                   src={shot.src}
                   alt={shot.label}
                   width={shot.w}

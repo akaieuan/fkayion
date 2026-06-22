@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { DemoImage } from '@/components/ui/demo-image'
 
 export const metadata = {
   title: 'Box Populi — Live Techno Collective Site | akaBuild',
@@ -30,11 +30,12 @@ export default function BoxPopuliProjectPage() {
         </header>
 
         <div className="-mx-6 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
-          <Image
-            src="/box-populi-hero.png"
+          <DemoImage
+            src="/box-populi-hero.webp"
             alt="Box Populi — hero with rotating word-cloud logo, set player, and booking CTA"
-            width={1377}
-            height={779}
+            width={1600}
+            height={905}
+            sizes="(min-width: 672px) 640px, 100vw"
             className="block h-auto w-full"
             priority
           />

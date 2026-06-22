@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { DemoImage } from '@/components/ui/demo-image'
 
 const code = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]'
 const microLabel =
@@ -46,7 +46,7 @@ export default function AkaCovartProjectPage() {
 
         <figure className="-mx-6 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
           <a href={hero.src} target="_blank" rel="noopener noreferrer" className="group block">
-            <Image
+            <DemoImage
               src={hero.src}
               alt={hero.label}
               width={hero.w}
@@ -210,7 +210,7 @@ export default function AkaCovartProjectPage() {
                 <figure key={shot.src}>
                   <a href={shot.src} target="_blank" rel="noopener noreferrer" className="group block">
                     <div className="overflow-hidden rounded-lg border border-border/80 bg-muted/10">
-                      <Image
+                      <DemoImage
                         src={shot.src}
                         alt={shot.label}
                         width={shot.w}

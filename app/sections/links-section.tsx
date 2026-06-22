@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
+import { ProjectCarousel } from '@/components/features/links/project-carousel'
 
 /* Active tab — minimal "green secondary": sage green text + faint green tint,
    no ring. Matches the hue ~152 accent on the projects index page. */
@@ -385,18 +386,24 @@ export function LinksSection() {
             {active.more && <MoreLink more={active.more} />}
           </div>
 
-          {/* Pinned per-breakpoint min-heights keep the section from reflowing as you switch tabs.
-              Sized to fit `projects` (17 rows) — the tallest tab — at each column count.
-              `content-start` + `items-start` stop the grid from stretching tracks vertically when
-              short tabs leave free space, so row spacing is uniform regardless of content length. */}
-          <ul
-            key={activeId}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-3 p-0 list-none content-start items-start min-h-[1720px] sm:min-h-[1030px] lg:min-h-[760px] animate-in fade-in duration-200"
-          >
-            {active.rows.map((row) => (
-              <RowItem key={row.href} row={row} />
-            ))}
-          </ul>
+          {/* The `projects` tab is a horizontal card carousel (distinct from the /demo index).
+              Every other tab keeps the original text-list rendering below. */}
+          {activeId === 'projects' ? (
+            <ProjectCarousel />
+          ) : (
+            /* Pinned per-breakpoint min-heights keep the section from reflowing as you switch tabs.
+               Now sized to fit the tallest list tab, `writing` (6 rows), at each column count.
+               `content-start` + `items-start` stop the grid from stretching tracks vertically when
+               short tabs leave free space, so row spacing is uniform regardless of content length. */
+            <ul
+              key={activeId}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-3 p-0 list-none content-start items-start min-h-[360px] sm:min-h-[210px] lg:min-h-[120px] animate-in fade-in duration-200"
+            >
+              {active.rows.map((row) => (
+                <RowItem key={row.href} row={row} />
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </section>
