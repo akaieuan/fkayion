@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
+import { SpotlightCard } from '@/components/ui/spotlight-card'
 
 const profileLinks = [
   { label: 'GitHub', href: 'https://github.com/akaieuan' },
@@ -48,7 +48,7 @@ const projects = [
     title: 'akaCOVART',
     type: 'Open source · Generative studio',
     description:
-      'Browser-based generative album-art studio — pick an engine, drop a seed, export a print-ready cover or a synced video loop. Every cover is reproducible data. Next.js · React · Canvas 2D · Web Audio.',
+      'A generative album-art engine — shape it, sync the motion to your track, and export the cover. Every cover is reproducible: engine + seed + a few parameters.',
     href: '/demo/akacovart',
   },
   {
@@ -155,8 +155,6 @@ export default function DemoIndexPage() {
         <ul className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 list-none p-0">
           {projects.map((project) => {
             const isExternal = /^https?:\/\//.test(project.href)
-            const cardClass =
-              'group flex h-full flex-col rounded-xl border border-border bg-card/40 p-4 transition-colors hover:bg-muted/30'
             const body = (
               <>
                 <div className="flex items-start justify-between gap-3">
@@ -177,27 +175,16 @@ export default function DemoIndexPage() {
                     ))}
                   </div>
                 )}
-                <p className="mt-2 line-clamp-3 text-[12px] font-light leading-snug text-muted-foreground/75">
+                <p className="mt-2 line-clamp-4 text-[12px] font-light leading-snug text-muted-foreground/75">
                   {project.description}
                 </p>
               </>
             )
             return (
               <li key={project.href}>
-                {isExternal ? (
-                  <a
-                    href={project.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={cardClass}
-                  >
-                    {body}
-                  </a>
-                ) : (
-                  <Link href={project.href} className={cardClass}>
-                    {body}
-                  </Link>
-                )}
+                <SpotlightCard href={project.href} external={isExternal}>
+                  {body}
+                </SpotlightCard>
               </li>
             )
           })}

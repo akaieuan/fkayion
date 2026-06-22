@@ -8,7 +8,7 @@ const microLabel =
 
 type Shot = { src: string; w: number; h: number; label: string }
 
-const hero: Shot = { src: '/covart-studio.webp', w: 1600, h: 1000, label: 'The studio — a generated cover beside the control panel' }
+const hero: Shot = { src: '/covart-splash.webp', w: 1600, h: 839, label: 'akaCOVART — a generative album-art engine' }
 const gallery: Shot[] = [
   { src: '/covart-cover-wave.webp', w: 860, h: 796, label: 'A finished Waves cover' },
   { src: '/covart-engine-grid.webp', w: 1706, h: 937, label: 'Grid + Waves engines' },
@@ -60,13 +60,22 @@ export default function AkaCovartProjectPage() {
 
         <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
           <a
-            href="https://github.com/akaieuan/akaCovart"
+            href="https://akacovart.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
           >
-            GitHub — akaieuan/akaCovart
+            Visit akacovart.com
             <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
+          </a>
+          <a
+            href="https://github.com/akaieuan/akaCovart"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/40"
+          >
+            GitHub — akaieuan/akaCovart
+            <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
           </a>
         </div>
         <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
@@ -82,15 +91,15 @@ export default function AkaCovartProjectPage() {
           akaCOVART
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          A browser-based generative album-art studio — pick an engine, drop a seed, export a
-          print-ready cover or a looping video.{' '}
+          A generative album-art engine — shape it, sync the motion to your track, and export the
+          cover.{' '}
           <a
-            href="https://github.com/akaieuan/akaCovart"
+            href="https://akacovart.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="underline decoration-border hover:decoration-foreground/60 underline-offset-[3px] transition-colors"
           >
-            github.com/akaieuan/akaCovart
+            akacovart.com
           </a>
         </p>
 

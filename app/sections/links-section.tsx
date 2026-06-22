@@ -75,7 +75,7 @@ const groups: Group[] = [
         title: 'akaCOVART',
         type: 'Open source · Generative studio',
         description:
-          'Browser-based generative album-art studio — pick an engine, drop a seed, export a print-ready cover or a synced video loop. Every cover is reproducible: engine + seed + a few parameters.',
+          'A generative album-art engine — shape it, sync the motion to your track, and export the cover. Every cover is reproducible: engine + seed + a few parameters.',
         href: '/demo/akacovart',
       },
       {
