@@ -145,10 +145,9 @@ export default function DemoIndexPage() {
   return (
     <div className="min-h-screen bg-background pt-24 pb-9 sm:pt-28 sm:pb-11">
       <div className="max-w-site mx-auto site-inset">
-        <div className="mx-auto md:mx-0 w-full max-w-lg">
-        <header>
-
-          <p className="mt-1 text-[13px] font-light leading-snug text-muted-foreground">
+        <header className="mb-6">
+          <h1 className="text-xl font-light tracking-wide text-muted-foreground">projects</h1>
+          <p className="mt-1 text-[13px] font-light leading-snug text-muted-foreground/70">
             Prototypes, tools, side-quests, and write-ups.
           </p>
         </header>
@@ -178,7 +177,7 @@ export default function DemoIndexPage() {
                     ))}
                   </div>
                 )}
-                <p className="mt-2 text-[12px] font-light leading-snug text-muted-foreground/75">
+                <p className="mt-2 line-clamp-3 text-[12px] font-light leading-snug text-muted-foreground/75">
                   {project.description}
                 </p>
               </>
@@ -229,7 +228,6 @@ export default function DemoIndexPage() {
             ))}
           </nav>
         </footer>
-        </div>
       </div>
     </div>
   )

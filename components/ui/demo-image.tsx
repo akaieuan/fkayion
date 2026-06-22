@@ -1,7 +1,4 @@
-'use client'
-
 import Image from 'next/image'
-import { useState } from 'react'
 
 type DemoImageProps = {
   src: string
@@ -13,18 +10,12 @@ type DemoImageProps = {
   className?: string
 }
 
-export function DemoImage({
-  src,
-  alt,
-  width,
-  height,
-  sizes,
-  priority,
-  className,
-}: DemoImageProps) {
-  // Priority images are eager — show them immediately, no fade needed.
-  const [loaded, setLoaded] = useState(Boolean(priority))
-
+/**
+ * Thin wrapper over next/image with sane defaults for the demo write-up pages.
+ * No opacity gating — gating on onLoad can leave already-cached images stuck
+ * invisible, so we just render the image and let next/image lazy-load it.
+ */
+export function DemoImage({ src, alt, width, height, sizes, priority, className }: DemoImageProps) {
   return (
     <Image
       src={src}
@@ -33,11 +24,8 @@ export function DemoImage({
       height={height}
       sizes={sizes}
       priority={priority}
-      quality={74}
-      onLoad={() => setLoaded(true)}
-      className={`transition-opacity duration-500 ${
-        loaded ? 'opacity-100' : 'opacity-0'
-      } ${className ?? ''}`}
+      quality={72}
+      className={className}
     />
   )
 }

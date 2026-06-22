@@ -205,9 +205,9 @@ export default function AkaCovartProjectPage() {
 
           <div>
             <p className={microLabel}>More views</p>
-            <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="mt-3 columns-1 gap-4 sm:columns-2">
               {gallery.map((shot) => (
-                <figure key={shot.src}>
+                <figure key={shot.src} className="mb-4 break-inside-avoid">
                   <a href={shot.src} target="_blank" rel="noopener noreferrer" className="group block">
                     <div className="overflow-hidden rounded-lg border border-border/80 bg-muted/10">
                       <DemoImage
