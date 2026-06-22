@@ -49,6 +49,13 @@ const projects = [
     href: '/demo/collapse',
   },
   {
+    title: 'akaCOVART',
+    type: 'Open source · Generative studio',
+    description:
+      'Browser-based generative album-art studio — pick an engine, drop a seed, export a print-ready cover or a synced video loop. Every cover is reproducible data. Next.js · React · Canvas 2D · Web Audio.',
+    href: '/demo/akacovart',
+  },
+  {
     title: 'HITL Kit',
     type: 'Open source · Write-up',
     description:

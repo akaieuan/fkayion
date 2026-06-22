@@ -122,7 +122,7 @@ const plugins: Plugin[] = [
 export const metadata = {
   title: 'akaVSTs — Instrument & Sampler Plugins | akaBuild',
   description:
-    'Three Ableton-ready macOS instrument plugins I play live and use in my own music: akaBleep (acid synth + P-lock sequencer), akaEnzyme (4-layer lo-fi multi-timbral synth), and i4 (sculpting sampler). JUCE 8, C++17, Apple Silicon native.',
+    'Three macOS DAW plugins (VST3 / AU / Standalone) I play live and use in my own music: akaBleep (acid synth + P-lock sequencer), akaEnzyme (4-layer lo-fi multi-timbral synth), and i4 (sculpting sampler). JUCE 8, C++17, Apple Silicon native.',
 }
 
 function HeroImage({ shot }: { shot: Shot }) {
@@ -196,10 +196,11 @@ export default function AkaVstsPage() {
             akaVSTs
           </h1>
           <p className="mt-3 text-sm font-light leading-relaxed text-muted-foreground max-w-xl">
-            Three macOS instrument plugins I build and play — and use in my own music today. VST3 / AU
-            / Standalone, JUCE 8, C++17, Apple Silicon native; they drop straight into Ableton (or any
-            DAW). Each one is made to be recorded live: immediate, hands-on parameter control,
-            dedicated FX pages, and master sections built around tension and performance.
+            Three macOS DAW plugins I build and play — and use in my own music today. They load as
+            VST3 / AU instruments in Ableton, Logic, Bitwig, or any host (and run standalone too),
+            built with JUCE 8 and C++17, Apple Silicon native. Each one is made to be recorded live:
+            immediate, hands-on parameter control, dedicated FX pages, and master sections built
+            around tension and performance.
           </p>
         </header>
 

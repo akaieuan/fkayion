@@ -71,6 +71,13 @@ const groups: Group[] = [
         href: '/demo/collapse',
       },
       {
+        title: 'akaCOVART',
+        type: 'Open source · Generative studio',
+        description:
+          'Browser-based generative album-art studio — pick an engine, drop a seed, export a print-ready cover or a synced video loop. Every cover is reproducible: engine + seed + a few parameters.',
+        href: '/demo/akacovart',
+      },
+      {
         title: 'HITL Kit',
         type: 'Open source · Write-up',
         description: 'Eleven HITL primitives, shadcn registry, and a personal research paper.',
@@ -379,12 +386,12 @@ export function LinksSection() {
           </div>
 
           {/* Pinned per-breakpoint min-heights keep the section from reflowing as you switch tabs.
-              Sized to fit `projects` (16 rows) — the tallest tab — at each column count.
+              Sized to fit `projects` (17 rows) — the tallest tab — at each column count.
               `content-start` + `items-start` stop the grid from stretching tracks vertically when
               short tabs leave free space, so row spacing is uniform regardless of content length. */}
           <ul
             key={activeId}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-3 p-0 list-none content-start items-start min-h-[1620px] sm:min-h-[916px] lg:min-h-[760px] animate-in fade-in duration-200"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-3 p-0 list-none content-start items-start min-h-[1720px] sm:min-h-[1030px] lg:min-h-[760px] animate-in fade-in duration-200"
           >
             {active.rows.map((row) => (
               <RowItem key={row.href} row={row} />
