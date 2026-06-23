@@ -129,6 +129,11 @@ export function HomeSection() {
   // an off-screen liquid shader while you're reading the rest of the page.
   const sectionRef = useRef<HTMLElement>(null)
   const [heroInView, setHeroInView] = useState(true)
+  // Only mount the WebGL orb after hydration AND on wider viewports. On phones the
+  // full-screen canvas (global `touch-action: none`) swallows page scroll, so we skip
+  // it entirely there — which also saves the GPU cost of a live shader on mobile.
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
 
   useEffect(() => {
     const el = sectionRef.current
@@ -154,6 +159,7 @@ export function HomeSection() {
   return (
     <section ref={sectionRef} id="section-0" className="relative min-h-dvh w-full" onPointerMove={handlePointerMove}>
       <div className="absolute inset-0 max-md:pointer-events-none">
+        {mounted && !narrowViewport && (
         <Canvas
           className="pointer-events-none touch-pan-y"
           camera={{ position: [0, 0, 10], fov: 45 }}
@@ -206,6 +212,7 @@ export function HomeSection() {
             />
           )}
         </Canvas>
+        )}
       </div>
 
       <div className="absolute inset-0 pointer-events-none">
@@ -241,7 +248,7 @@ export function HomeSection() {
               <button
                 type="button"
                 onClick={cycleOrb}
-                className="text-[10px] font-light tracking-widest uppercase text-foreground/15 hover:text-primary/60 transition-colors duration-300"
+                className="max-md:hidden text-[10px] font-light tracking-widest uppercase text-foreground/15 hover:text-primary/60 transition-colors duration-300"
               >
                 change orb ↻
               </button>
