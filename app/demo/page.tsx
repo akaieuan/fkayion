@@ -10,6 +10,13 @@ const profileLinks = [
 
 const projects = [
   {
+    title: 'Circleheads',
+    type: 'Studio · Applied AI',
+    description:
+      'The two-person Brooklyn applied-AI studio I co-run — agents in production, a short senior consulting bench, and original games. Taking a few projects a year.',
+    href: '/demo/circleheads',
+  },
+  {
     title: 'Ubik Studio',
     type: 'Product',
     description:

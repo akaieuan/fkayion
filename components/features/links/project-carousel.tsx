@@ -13,6 +13,7 @@ import collapseHome from '@/public/collapse-home.webp'
 import boxPopuliHero from '@/public/box-populi-hero.webp'
 import hitlKitHero from '@/public/hitl-kit-hero.png'
 import inertialDashboard from '@/public/inertial-dashboard.png'
+import circleheadsMark from '@/public/circleheads.webp'
 
 type CarouselItem = {
   name: string
@@ -23,6 +24,13 @@ type CarouselItem = {
 }
 
 const FEATURED: CarouselItem[] = [
+  {
+    name: 'Circleheads',
+    href: '/demo/circleheads',
+    img: circleheadsMark,
+    brief: 'Applied-AI software studio — agents in production, a short consulting bench, and games.',
+    tags: ['Studio', 'Applied AI'],
+  },
   {
     name: 'akaCOVART',
     href: '/demo/akacovart',
