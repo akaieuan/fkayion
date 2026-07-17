@@ -41,14 +41,12 @@ const line1: TextSegment[] = [
 
 const line2: TextSegment[] = [
   { text: 'I am a ' },
-  { text: 'digital anthropologist', highlight: true },
+  { text: 'product designer', highlight: true },
   { text: ' and ' },
-  { text: 'front-end dev', highlight: true },
-  { text: ' focusing on ' },
-  { text: 'human-computer interaction', highlight: true },
-  { text: ' and ' },
-  { text: 'HITL-AI', highlight: true },
-  { text: ' tools.' },
+  { text: 'technical anthropologist', highlight: true },
+  { text: ' working on the ' },
+  { text: 'human side of applied AI', highlight: true },
+  { text: '.' },
 ]
 
 function AnimatedText({ segments, baseDelay }: { segments: TextSegment[]; baseDelay: number }) {

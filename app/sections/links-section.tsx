@@ -356,9 +356,9 @@ export function LinksSection() {
             applied ai · anthropology · product design · electronic music
           </p>
           <p className="mt-4 text-sm font-light leading-relaxed text-muted-foreground max-w-xl">
-            Applied AI, built on anthropology and product design. I&apos;m interested in one
-            problem: making humans and agents actually work well together. Also an electronic
-            musician under multiple aliases.
+            A product designer and technical anthropologist working on the human side of applied
+            AI: discovery, approval flows, and the interfaces that make agents legible and worth
+            trusting. Plus the agent training, front-end, and procedural 3D work behind them.
           </p>
         </div>
 
