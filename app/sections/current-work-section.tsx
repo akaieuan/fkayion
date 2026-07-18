@@ -1,22 +1,48 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
+import type { StaticImageData } from 'next/image'
 import circleheadsMark from '@/public/circleheads.webp'
+import akaossMark from '@/public/akaoss.webp'
 
-const pillars = [
+type Studio = {
+  name: string
+  mark: StaticImageData
+  alt: string
+  eyebrow: string
+  blurb: string
+  tags: string[]
+  site: { label: string; href: string }
+  demo: { label: string; href: string }
+}
+
+const studios: Studio[] = [
   {
-    label: 'Applied AI',
-    body: 'Agentic systems that do real work — shipped to production with approval gates that keep humans in control.',
+    name: 'Circleheads',
+    mark: circleheadsMark,
+    alt: 'Circleheads mark',
+    eyebrow: 'Studio · Applied AI · Brooklyn',
+    blurb:
+      'The two-person Brooklyn studio I co-run. We watch the work first, then ship agents that do it in production — with the data, skills, and approval gates that keep humans in control. Plus a short senior consulting bench and original games.',
+    tags: ['Applied AI', 'Consulting', 'Games'],
+    site: { label: 'circleheads.com', href: 'https://circleheads.com' },
+    demo: { label: 'what we do', href: '/demo/circleheads' },
   },
   {
-    label: 'Consulting',
-    body: 'A short, senior-only bench: a few engagements a year — architecture, AI strategy, brand, and design that ships.',
-  },
-  {
-    label: 'Games',
-    body: 'Original titles, quietly built in-house on scopes two people can hold in their heads.',
+    name: 'akaOSS',
+    mark: akaossMark,
+    alt: 'akaOSS mark',
+    eyebrow: 'Studio · Open source · HITL AI',
+    blurb:
+      'The open-source arm — software for human-in-the-loop AI. Five projects (HITL Kit, EVAL Kit, tag-kit, Collapse, Hologram), the Assist-Not-Complete thesis, and a reproducible research feed, served as one site.',
+    tags: ['Open source', 'HITL AI', 'Research'],
+    site: { label: 'akaoss.dev', href: 'https://www.akaoss.dev' },
+    demo: { label: 'the projects', href: '/demo/akaoss' },
   },
 ]
+
+const chip =
+  'rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-[oklch(0.4_0.08_152.2)] dark:text-[oklch(0.62_0.09_152)]'
 
 export function CurrentWorkSection() {
   return (
@@ -25,62 +51,67 @@ export function CurrentWorkSection() {
         <div className="mb-6">
           <h1 className="text-xl text-muted-foreground font-light tracking-wide">current work</h1>
           <p className="text-muted-foreground/50 text-xs mt-0.5 font-light">
-            circleheads · applied-ai software studio · brooklyn
+            applied AI — in production with clients, and in the open
           </p>
         </div>
 
-        <div className="rounded-2xl border border-border bg-card/40 backdrop-blur-md p-5 sm:p-7">
-          <div className="grid gap-6 md:grid-cols-[168px_1fr] md:gap-8 md:items-start">
-            <figure className="mx-auto w-40 shrink-0 overflow-hidden rounded-xl border border-border/80 bg-black md:mx-0 md:w-[168px]">
-              <Image
-                src={circleheadsMark}
-                alt="Circleheads — two circle-headed figures"
-                placeholder="blur"
-                sizes="168px"
-                className="block h-auto w-full"
-              />
-            </figure>
+        <div className="grid gap-4 md:grid-cols-2">
+          {studios.map((s) => (
+            <div
+              key={s.name}
+              className="flex h-full flex-col rounded-2xl border border-border bg-card/40 p-5 backdrop-blur-md sm:p-6"
+            >
+              <div className="flex items-center gap-3">
+                <figure className="h-12 w-12 shrink-0 overflow-hidden rounded-lg border border-border/80 bg-black">
+                  <Image
+                    src={s.mark}
+                    alt={s.alt}
+                    placeholder="blur"
+                    sizes="48px"
+                    className="block h-full w-full object-cover"
+                  />
+                </figure>
+                <div>
+                  <p className="text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground/70">
+                    {s.eyebrow}
+                  </p>
+                  <p className="mt-0.5 text-base font-light tracking-tight text-foreground/90">
+                    {s.name}
+                  </p>
+                </div>
+              </div>
 
-            <div>
-              <p className="text-sm font-light leading-relaxed text-muted-foreground max-w-xl">
-                <span className="text-foreground/90">Circleheads</span> is the two-person Brooklyn
-                studio I co-run — applied AI in production, a short consulting bench, and original
-                games on the side. We watch the work first, then ship agents that do it, with
-                approval gates that keep humans in control.
+              <p className="mt-4 text-[13px] font-light leading-relaxed text-muted-foreground">
+                {s.blurb}
               </p>
 
-              <ul className="mt-5 grid gap-3 sm:grid-cols-3">
-                {pillars.map((p) => (
-                  <li key={p.label} className="rounded-lg border border-border/60 bg-background/30 p-3">
-                    <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/80">
-                      {p.label}
-                    </p>
-                    <p className="mt-1.5 text-[12px] font-light leading-snug text-muted-foreground/80">
-                      {p.body}
-                    </p>
-                  </li>
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {s.tags.map((t) => (
+                  <span key={t} className={chip}>
+                    {t}
+                  </span>
                 ))}
-              </ul>
+              </div>
 
-              <div className="mt-6 flex flex-wrap items-center gap-3">
+              <div className="mt-auto flex flex-wrap items-center gap-3 pt-5">
                 <a
-                  href="https://circleheads.com"
+                  href={s.site.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+                  className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
                 >
-                  Visit circleheads.com
-                  <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
+                  {s.site.label}
+                  <ArrowUpRight className="h-3.5 w-3.5 opacity-80" aria-hidden />
                 </a>
                 <Link
-                  href="/demo/circleheads"
+                  href={s.demo.href}
                   className="text-[13px] font-light text-muted-foreground/70 transition-colors hover:text-foreground"
                 >
-                  what we do →
+                  {s.demo.label} →
                 </Link>
               </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
