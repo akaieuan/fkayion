@@ -71,7 +71,9 @@ export default function CollapseProjectPage() {
         </div>
         <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
           Open source, public repo. Clone, <code className={code}>pnpm dev</code>, and collapse a lesson
-          into a skill.
+          into a skill. Part of the{' '}
+          <Link href="/demo/akaoss" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">akaOSS</Link>{' '}
+          studio.
         </p>
 
         <p className="mt-10 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">

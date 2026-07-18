@@ -17,6 +17,13 @@ const projects = [
     href: '/demo/circleheads',
   },
   {
+    title: 'akaOSS',
+    type: 'Studio · Open source',
+    description:
+      'The open-source studio for human-in-the-loop AI — five projects (HITL Kit, EVAL Kit, tag-kit, Collapse, Hologram), the Assist-Not-Complete thesis, and a reproducible research feed.',
+    href: '/demo/akaoss',
+  },
+  {
     title: 'Ubik Studio',
     type: 'Product',
     description:

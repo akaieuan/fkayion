@@ -43,7 +43,9 @@ export default function HologramProjectPage() {
         </div>
         <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
           Open source, MIT. No release to download — <code className={code}>uvx</code> fetches and runs
-          it on demand.
+          it on demand. Part of the{' '}
+          <Link href="/demo/akaoss" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">akaOSS</Link>{' '}
+          studio.
         </p>
 
         <p className="mt-10 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">

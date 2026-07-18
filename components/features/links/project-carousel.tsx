@@ -14,6 +14,7 @@ import boxPopuliHero from '@/public/box-populi-hero.webp'
 import hitlKitHero from '@/public/hitl-kit-hero.png'
 import inertialDashboard from '@/public/inertial-dashboard.png'
 import circleheadsMark from '@/public/circleheads.webp'
+import akaossMark from '@/public/akaoss.webp'
 
 type CarouselItem = {
   name: string
@@ -30,6 +31,13 @@ const FEATURED: CarouselItem[] = [
     img: circleheadsMark,
     brief: 'Applied-AI software studio — agents in production, a short consulting bench, and games.',
     tags: ['Studio', 'Applied AI'],
+  },
+  {
+    name: 'akaOSS',
+    href: '/demo/akaoss',
+    img: akaossMark,
+    brief: 'Open-source studio for human-in-the-loop AI — five projects, one thesis, a live research feed.',
+    tags: ['Open source', 'HITL AI'],
   },
   {
     name: 'akaCOVART',
