@@ -12,15 +12,15 @@ const hero: Shot = {
   src: '/ubik-workspace.webp',
   w: 1600,
   h: 1039,
-  label: 'The workspace — agent chat, the source PDF, and an evidence panel where every claim is accepted or rejected by hand',
+  label: 'The three-pane workspace — agent chat on the left, the source paper in the middle, and an evidence panel on the right where each extracted claim is accepted or rejected by hand (two still pending in the header)',
 }
 
 const gallery: Shot[] = [
-  { src: '/ubik-evidence.webp', w: 1600, h: 950, label: 'Evidence attribution — a claim, its supporting quotes, and the margin notes that verify it' },
-  { src: '/ubik-human-needed.webp', w: 1600, h: 1167, label: 'A Human Needed block inside a generated document — the AI pauses mid-draft and asks for judgment' },
-  { src: '/ubik-litreview.webp', w: 1600, h: 952, label: 'Review Sources — every flagged paper is previewed and human-approved before it enters the workspace' },
-  { src: '/ubik-explorer.webp', w: 1600, h: 917, label: 'Result Explorer — agentic literature search with recency, peer-review, and methodology scoring' },
-  { src: '/ubik-summary.webp', w: 1600, h: 940, label: 'The Context Engine indexing a workspace while an edit workflow trims a draft — with the review queue standing guard' },
+  { src: '/ubik-evidence.webp', w: 1600, h: 950, label: 'An evidence card — a single claim, the paragraph it was drawn from, and the eight supporting quotes (with page numbers) that back it, opened beside the highlighted source note' },
+  { src: '/ubik-human-needed.webp', w: 1600, h: 1167, label: 'A Human Needed block embedded mid-document: the agent stops, states the judgment it needs, offers two candidate drafts and a free-write, and waits — skip or submit, tracked in the status bar' },
+  { src: '/ubik-litreview.webp', w: 1600, h: 952, label: 'The Review Sources queue — each flagged paper (some auto, one manual/paywalled) previewed in full before it is accepted, driven entirely by the keyboard: arrow to navigate, enter to accept, esc to reject' },
+  { src: '/ubik-explorer.webp', w: 1600, h: 917, label: 'Agentic search returns a ranked shortlist of flagged papers on the left; on the right, a drafted document where every claim carries an inline citation back to a real source (King 1, King 2 …)' },
+  { src: '/ubik-summary.webp', w: 1600, h: 940, label: 'The Result Explorer scoring sources on recency, peer-review, methodology, and relevance — behind a Review Needed gate that makes you review-and-download rather than download blindly. Left: an edit workflow trimming a draft at a chosen intensity while the Context Engine indexes' },
 ]
 
 export const metadata = {
@@ -73,16 +73,10 @@ export default function UbikProjectPage() {
             Team test log
             <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
           </a>
-          <Link
-            href="/demo/hitl-kit"
-            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/40"
-          >
-            What it became: HITL Kit
-          </Link>
         </div>
         <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
-          2023–2026 · co-founded · the public site and builds are retired; the test log and the ideas
-          are what remain in the open.
+          2023–2026 · co-founded · the public site and builds are retired; the test log is what
+          remains in the open.
         </p>
 
         <p className="mt-10 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
@@ -118,8 +112,8 @@ export default function UbikProjectPage() {
               so seamless it feels like one mind thinking.&rdquo;
             </blockquote>
             <p>
-              That sentence, written years before &ldquo;human-in-the-loop&rdquo; became a talking
-              point, is the through-line of everything I&apos;ve built since.
+              That sentence was written years before &ldquo;human-in-the-loop&rdquo; became an
+              industry talking point. Ubik spent three and a half years trying to actually earn it.
             </p>
           </section>
 
@@ -265,26 +259,32 @@ export default function UbikProjectPage() {
             <p>
               I co-founded Ubik and led product design end to end: the workspace model, the review
               surfaces, the evidence and citation UX, the Human Needed grammar, and the copy and
-              interaction conventions across every surface. I also built front-end throughout, ran the
+              interaction conventions across every surface. I built front-end throughout, and ran the
               user research cycles — interviews, behavioral observation, session replays, and the{' '}
               <a href="https://kraa.io/team-test-log042" target="_blank" rel="noopener noreferrer" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">team test log</a>{' '}
-              that documented them in public — and did the agent work behind the product: system
-              prompts, skills, custom datasets, and the testing that kept outputs honest.
+              that documented them in public.
+            </p>
+            <p>
+              On the agent side I owned the system prompts, skills, and custom datasets — and I
+              designed and built the <strong className="font-medium text-foreground/90">custom
+              evaluation framework and ARC eval suite</strong> we used to train, tune, and regression-test
+              our agents and the agent-orchestration systems that coordinated them. That evaluation
+              work is what actually moved the product: measurable gains in output accuracy, answer
+              quality, and real-world usability — not benchmark numbers in isolation, but whether a
+              researcher could trust and use what came back. It&apos;s the part of Ubik least visible
+              in a screenshot and the part that mattered most to the results.
             </p>
           </section>
 
           <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">What it became</h2>
+            <h2 className="text-sm font-medium tracking-wide text-foreground">A closed chapter</h2>
             <p className="mt-2 text-[14px] leading-relaxed text-foreground/85">
-              Ubik&apos;s public face is gone, but nothing about it ended. The measurement argument
-              became <Link href="/demo/akaoss" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">akaOSS</Link>{' '}
-              and the <em>Assist-Not-Complete</em> paper. The review patterns became the{' '}
-              <Link href="/demo/hitl-kit" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">HITL Kit</Link>{' '}
-              primitives. The evaluation discipline became{' '}
-              <Link href="/demo/eval-kit" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">eval-kit</Link>.
-              And the conviction — that agents earn trust through legible, auditable, human-governed
-              work — became <Link href="/demo/circleheads" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">Circleheads</Link>.
-              Three and a half years well spent.
+              The public site and the builds are retired, and I&apos;m at peace with that — Ubik was a
+              complete thing, and it stands on its own. Three and a half years of asking one question
+              in earnest: what does it take to make an AI research tool a person can actually trust?
+              Everything I learned answering it — about evaluation, about evidence, about where a human
+              has to stay in the loop — I still carry. But this page is the record of the work itself,
+              not a stepping stone to something else.
             </p>
           </section>
         </div>
