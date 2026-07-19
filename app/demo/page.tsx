@@ -21,6 +21,7 @@ import musicChat from '@/public/music-analysis-chat.webp'
 import brooklynDead from '@/public/brooklyn-dead.webp'
 import iconHowIWork from '@/public/icon-howiwork.webp'
 import iconFeedback from '@/public/icon-feedback.webp'
+import ubikWorkspace from '@/public/ubik-workspace.webp'
 
 const profileLinks = [
   { label: 'GitHub', href: 'https://github.com/akaieuan' },
@@ -48,10 +49,11 @@ const projects: ProjectCardItem[] = [
   },
   {
     title: 'Ubik Studio',
-    tags: ['Product'],
+    tags: ['Product', '2023–2026'],
     description:
-      'Co-founded and led product design at Ubik Studio, a desktop-native AI research platform for human-in-the-loop workflows.',
-    href: 'https://www.reddit.com/user/akaieuan/',
+      'Three and a half years co-founding a desktop-native, local-first AI research platform — multi-agent orchestration behind batch approval gates, an auditable review ledger, and evidence gates that stop agents from writing claims they cannot cite.',
+    href: '/demo/ubik',
+    img: ubikWorkspace,
   },
   {
     title: 'Box Populi',
