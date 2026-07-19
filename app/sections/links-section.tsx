@@ -28,129 +28,6 @@ type Group = {
 
 const groups: Group[] = [
   {
-    id: 'projects',
-    label: 'projects',
-    more: { label: 'all projects', href: '/demo' },
-    rows: [
-      {
-        title: 'Ubik Studio',
-        type: 'Product',
-        description:
-          'Co-founded a desktop-native AI research platform built around human-in-the-loop workflows.',
-        href: 'https://www.reddit.com/user/akaieuan/',
-      },
-      {
-        title: 'Box Populi',
-        type: 'Client project · Live site',
-        description:
-          'On-brand site for a NYC live-techno collective. Custom audio players over the SoundCloud Widget, multiple live streams coordinated so they never overlap, an iOS quirk handled honestly.',
-        href: '/demo/box-populi',
-      },
-      {
-        title: 'Hologram',
-        type: 'Open source · Dev tool · Write-up',
-        description:
-          'Live observability and a read-only MCP surface for Blender → glTF pipelines — watch your AI agent work on your game assets in real time.',
-        href: '/demo/hologram',
-      },
-      {
-        title: 'akaVSTs',
-        type: 'Instruments · VST3 / AU · Live',
-        description:
-          'Three Ableton-ready instrument plugins I play live — acid synth + sequencer, 4-layer lo-fi synth, and a sculpting sampler. Built for live recording with dedicated FX and performance-focused master controls.',
-        href: '/demo/akavsts',
-      },
-      {
-        title: 'Collapse',
-        type: 'Open source · Dev tool',
-        description:
-          'Pattern → SKILL.md compiler for Claude Code — pluggable ingestors feed a typed pipeline with local atomic writes. Cross-stack skills that move with you between React, Vue, Nuxt, and Qiskit.',
-        href: '/demo/collapse',
-      },
-      {
-        title: 'akaCOVART',
-        type: 'Open source · Generative studio',
-        description:
-          'A generative album-art engine — shape it, sync the motion to your track, and export the cover. Every cover is reproducible: engine + seed + a few parameters.',
-        href: '/demo/akacovart',
-      },
-      {
-        title: 'HITL Kit',
-        type: 'Open source · Write-up',
-        description: 'Eleven HITL primitives, shadcn registry, and a personal research paper.',
-        href: '/demo/hitl-kit',
-      },
-      {
-        title: 'EVAL Kit',
-        type: 'Open source · Write-up',
-        description:
-          'Agent eval framework: human scoring, YAML suites, local dashboard, CLI; five dimensions LLM judges miss.',
-        href: '/demo/eval-kit',
-      },
-      {
-        title: 'How I Work',
-        type: 'Narrative · Demos',
-        description:
-          'Product design, validation, and how the Kit, Research OS, and team test log connect.',
-        href: '/demo/hitl-practice',
-      },
-      {
-        title: 'User feedback + design log',
-        type: 'HITL-AI · External',
-        description: 'HITL-AI team test log on Kraa.',
-        href: 'https://kraa.io/team-test-log042',
-      },
-      {
-        title: 'Inertial — Content Moderation Tool',
-        type: 'Open source · Write-up',
-        description:
-          'Reference architecture for auditable AI content review: typed signals, YAML policy, hash-chained audit log, reviewer dashboard, eval harness.',
-        href: '/demo/inertial',
-      },
-      {
-        title: 'Null Browser',
-        type: 'Open source · Write-up',
-        description:
-          'Privacy-first Tauri browser: zero telemetry, local-first AI, six invariants, every connection visible. Pre-v0.1.',
-        href: '/demo/null-browser',
-      },
-      {
-        title: 'Procedural Asset Pipeline Engineering',
-        type: 'Write-up',
-        description:
-          'Private WIP: procedural Blender→glTF→Godot pipeline, programmatic animation, browser previews.',
-        href: '/demo/brooklyn-dead',
-      },
-      {
-        title: 'Wrdef (Wordle + definition)',
-        type: 'Write-up',
-        description:
-          'Five-letter guessing game powered by definitions, bonus rounds, and a locally saved dictionary.',
-        href: '/demo/wrdef',
-      },
-      {
-        title: 'Research OS',
-        type: 'Interactive demo',
-        description:
-          'Multi-panel workspace with agentic search and human-in-the-loop approval flows.',
-        href: '/demo/research-os',
-      },
-      {
-        title: 'Music Analysis Chat',
-        type: 'Interactive demo',
-        description: 'Music analytics assistant with roster dashboards and rich chat blocks.',
-        href: '/demo/music-analysis-chat',
-      },
-      {
-        title: 'Visualizer Eden',
-        type: 'Audio tool',
-        description:
-          '3D audio visualizer — reactive mesh deformation and custom GLSL shaders.',
-        href: '/demo/visualizer-eden',
-      },
-    ],
-  },
-  {
     id: 'writing',
     label: 'writing',
     more: { label: 'aka.write', href: 'https://kraa.io/akaieuan' },
@@ -318,7 +195,7 @@ function MoreLink({ more }: { more: { label: string; href: string } }) {
 export function LinksSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const [isInView, setIsInView] = useState(false)
-  const [activeId, setActiveId] = useState<string>('projects')
+  const [activeId, setActiveId] = useState<string>('writing')
 
   useEffect(() => {
     const section = sectionRef.current
@@ -382,8 +259,9 @@ export function LinksSection() {
           </div>
 
           {/* Every tab renders the same quiet list. The shared min-height is sized to the
-              tallest tab (`projects`) at each breakpoint so switching tabs never moves the page. */}
-          <div className="min-h-[1760px] sm:min-h-[1010px] lg:min-h-[660px]">
+              tallest tab (`writing`) at each breakpoint so switching tabs never moves the page.
+              Projects intentionally have no landing list — /demo is the single projects surface. */}
+          <div className="min-h-[580px] sm:min-h-[290px] lg:min-h-[190px]">
             <ul
               key={activeId}
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-3 p-0 list-none content-start items-start animate-in fade-in duration-200"

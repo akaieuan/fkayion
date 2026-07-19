@@ -192,8 +192,8 @@ export function SiteHeader() {
           onClick={() => handleNavClick(mainNavItems[0])}
           className={`pointer-events-auto inline-flex items-center gap-2.5 text-sm sm:text-base font-light tracking-[0.06em] transition-colors duration-200 ${logoText}`}
         >
-          <PixelHead size={22} grid={14} gap={0.1} still />
-          akaBuild
+          <PixelHead size={30} grid={14} gap={0.12} icon="aka" still className="shrink-0" />
+          <span className="-ml-1">Build</span>
         </button>
 
         {/* Desktop nav */}

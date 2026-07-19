@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { PixelHead } from '@/components/features/brand/pixel-head'
+import { AkaMark } from '@/components/features/brand/aka-mark'
 
 const keyLinks = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ieuan-king/' },
@@ -23,7 +23,7 @@ export function HomeSection() {
             {/* animation first so it sits above the copy when the grid stacks;
                 md:order restores text left, mark right on wide. */}
             <div className={`flex justify-center md:order-2 md:justify-end ${reveal}`}>
-              <PixelHead size={400} grid={24} faces fluid />
+              <AkaMark size={400} grid={24} fluid />
             </div>
 
             <div className="flex max-w-md flex-col gap-6 md:order-1">
