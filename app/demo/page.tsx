@@ -13,6 +13,12 @@ import inertialDashboard from '@/public/inertial-dashboard.png'
 import nullBrowserPoster from '@/public/null-browser-hero-poster.jpg'
 import wrdefPoster from '@/public/wrdef-hero-poster.jpg'
 import visualizerPoster from '@/public/visualizer-eden-preview-poster.jpg'
+import hologramDash from '@/public/hologram.webp'
+import evalKitOverview from '@/public/eval-kit.webp'
+import trickleKit from '@/public/trickle-ui-kit.webp'
+import researchOs from '@/public/research-os.webp'
+import musicChat from '@/public/music-analysis-chat.webp'
+import brooklynDead from '@/public/brooklyn-dead.webp'
 
 const profileLinks = [
   { label: 'GitHub', href: 'https://github.com/akaieuan' },
@@ -59,6 +65,7 @@ const projects: ProjectCardItem[] = [
     description:
       'Live observability and a read-only MCP surface for Blender → glTF pipelines — watch your AI agent work on your game assets in real time.',
     href: '/demo/hologram',
+    img: hologramDash,
   },
   {
     title: 'akaVSTs',
@@ -98,6 +105,7 @@ const projects: ProjectCardItem[] = [
     description:
       'Agent eval framework: human scoring, YAML suites, local dashboard, CLI; five dimensions LLM judges miss.',
     href: '/demo/eval-kit',
+    img: evalKitOverview,
   },
   {
     title: 'Trickle UI Kit',
@@ -105,6 +113,7 @@ const projects: ProjectCardItem[] = [
     description:
       '47 pure-CSS text-animation primitives for React. Zero runtime, SSR-safe, copy-paste install via the shadcn registry.',
     href: '/demo/trickle-ui-kit',
+    img: trickleKit,
   },
   {
     title: 'How I Work',
@@ -141,6 +150,7 @@ const projects: ProjectCardItem[] = [
     description:
       'Private WIP: procedural Blender→glTF→Godot pipeline, programmatic animation, browser previews.',
     href: '/demo/brooklyn-dead',
+    img: brooklynDead,
   },
   {
     title: 'Wordle remake: Wrdef (Wordle + definition)',
@@ -156,6 +166,7 @@ const projects: ProjectCardItem[] = [
     description:
       'Multi-panel workspace with agentic search, chat, and human-in-the-loop approval flows.',
     href: '/demo/research-os',
+    img: researchOs,
   },
   {
     title: 'Music Analysis Chat',
@@ -163,6 +174,7 @@ const projects: ProjectCardItem[] = [
     description:
       'Music analytics assistant with roster dashboards, creator discovery, and rich chat blocks.',
     href: '/demo/music-analysis-chat',
+    img: musicChat,
   },
   {
     title: 'Visualizer Eden',
