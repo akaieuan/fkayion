@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, useRef } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { Sun, Moon } from 'lucide-react'
+import { PixelHead } from '@/components/features/brand/pixel-head'
 
 const FOUR_UH_URL = 'https://4uhnyc.com'
 
@@ -189,8 +190,9 @@ export function SiteHeader() {
       <nav className="relative flex max-w-site mx-auto items-center justify-between site-inset pt-5 md:pt-6 pb-4 md:pb-5">
         <button
           onClick={() => handleNavClick(mainNavItems[0])}
-          className={`pointer-events-auto text-sm sm:text-base font-light tracking-wide transition-colors duration-200 ${logoText}`}
+          className={`pointer-events-auto inline-flex items-center gap-2.5 text-sm sm:text-base font-light tracking-[0.06em] transition-colors duration-200 ${logoText}`}
         >
+          <PixelHead size={22} grid={14} gap={0.1} still />
           akaBuild
         </button>
 

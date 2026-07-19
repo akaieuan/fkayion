@@ -3,4 +3,3 @@
  */
 
 export { LiquidMorphOrb } from './liquid-morph-orb'
-export { LatestReleases } from './latest-releases'

@@ -42,15 +42,17 @@ const studios: Studio[] = [
 ]
 
 const chip =
-  'rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-[oklch(0.4_0.08_152.2)] dark:text-[oklch(0.62_0.09_152)]'
+  'rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground/70'
 
 export function CurrentWorkSection() {
   return (
     <section id="section-3" className="relative w-full py-20">
       <div className="max-w-site mx-auto site-inset">
         <div className="mb-6">
-          <h1 className="text-xl text-muted-foreground font-light tracking-wide">current work</h1>
-          <p className="text-muted-foreground/50 text-xs mt-0.5 font-light">
+          <h1 className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
+            Current work
+          </h1>
+          <p className="mt-1 text-xs font-light text-muted-foreground/50">
             applied AI — in production with clients, and in the open
           </p>
         </div>

@@ -160,7 +160,7 @@ export default function DemoIndexPage() {
     <div className="min-h-screen bg-background pt-24 pb-9 sm:pt-28 sm:pb-11">
       <div className="max-w-site mx-auto site-inset">
         <header className="mb-6">
-          <h1 className="text-xl font-light tracking-wide text-muted-foreground">projects</h1>
+          <h1 className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">Projects</h1>
           <p className="mt-1 text-[13px] font-light leading-snug text-muted-foreground/70">
             Prototypes, tools, side-quests, and write-ups.
           </p>
@@ -182,7 +182,7 @@ export default function DemoIndexPage() {
                     {project.type.split('·').map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-[oklch(0.4_0.08_152.2)] dark:text-[oklch(0.62_0.09_152)]"
+                        className="rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground/70"
                       >
                         {tag.trim()}
                       </span>

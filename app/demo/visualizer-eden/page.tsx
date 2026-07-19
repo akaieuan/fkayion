@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { OrbHero } from '@/components/features/demo/orb-hero'
 
 export const metadata = {
   title: 'Visualizer Eden | akaBuild',
@@ -29,18 +30,8 @@ export default function VisualizerEdenDemoPage() {
         </header>
 
         <div className="-mx-6 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
-          <video
-            className="block h-auto w-full"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="none"
-            poster="/visualizer-eden-preview-poster.jpg"
-            aria-label="Visualizer Eden preview"
-          >
-            <source src="/visualizer-eden-preview.webm" type="video/webm" />
-          </video>
+          {/* The liquid orb from the old landing hero, live — reactive to your cursor. */}
+          <OrbHero />
         </div>
 
         <div className="mt-5">

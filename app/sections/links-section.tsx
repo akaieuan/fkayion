@@ -3,18 +3,14 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import { ProjectCarousel } from '@/components/features/links/project-carousel'
 
-/* Active tab — minimal "green secondary": sage green text + faint green tint,
-   no ring. Matches the hue ~152 accent on the projects index page. */
-const activeTabClass =
-  'text-[oklch(0.42_0.08_152.2)] bg-[oklch(0.45_0.08_152.2_/_0.1)] dark:text-[oklch(0.74_0.1_152)] dark:bg-[oklch(0.72_0.1_152_/_0.16)]'
-const inactiveTabClass =
-  'text-muted-foreground/50 hover:text-foreground hover:bg-muted/40'
+/* Tabs: quiet monochrome; the active tab carries the site's single green accent. */
+const activeTabClass = 'text-primary'
+const inactiveTabClass = 'text-muted-foreground/50 hover:text-foreground'
 
-/* Green category tag — mirrors the projects index (/demo) page (hue ~152) for shared visual language. */
+/* Category tag — neutral, mirrors the /demo index chips. */
 const tagAccent =
-  'text-[12px] font-medium leading-snug text-[oklch(0.38_0.055_152.2)] transition-colors dark:text-[oklch(0.62_0.09_152)] group-hover:text-[oklch(0.32_0.085_152)] dark:group-hover:text-[oklch(0.78_0.1_152)]'
+  'text-[12px] font-medium leading-snug text-muted-foreground/55'
 
 type Row = {
   title: string
@@ -351,10 +347,9 @@ export function LinksSection() {
             transition: 'opacity 0.45s ease, transform 0.45s ease',
           }}
         >
-          <h1 className="text-xl text-muted-foreground font-light tracking-wide">Who i am</h1>
-          <p className="text-muted-foreground/50 text-xs mt-0.5 font-light">
-            applied ai · anthropology · product design · electronic music
-          </p>
+          <h1 className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
+            Who I am
+          </h1>
           <p className="mt-4 text-sm font-light leading-relaxed text-muted-foreground max-w-xl">
             A product designer and technical anthropologist working on the human side of applied
             AI: discovery, approval flows, and the interfaces that make agents legible and worth
@@ -386,22 +381,17 @@ export function LinksSection() {
             {active.more && <MoreLink more={active.more} />}
           </div>
 
-          {/* The `projects` tab is a horizontal card carousel (distinct from the /demo index);
-              every other tab keeps the text-list rendering. The shared min-height below is sized to
-              the tallest tab at each breakpoint so switching tabs NEVER moves the page. */}
-          <div className="min-h-[580px] sm:min-h-[384px]">
-            {activeId === 'projects' ? (
-              <ProjectCarousel />
-            ) : (
-              <ul
-                key={activeId}
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-3 p-0 list-none content-start items-start animate-in fade-in duration-200"
-              >
-                {active.rows.map((row) => (
-                  <RowItem key={row.href} row={row} />
-                ))}
-              </ul>
-            )}
+          {/* Every tab renders the same quiet list. The shared min-height is sized to the
+              tallest tab (`projects`) at each breakpoint so switching tabs never moves the page. */}
+          <div className="min-h-[1760px] sm:min-h-[1010px] lg:min-h-[660px]">
+            <ul
+              key={activeId}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-3 p-0 list-none content-start items-start animate-in fade-in duration-200"
+            >
+              {active.rows.map((row) => (
+                <RowItem key={row.href} row={row} />
+              ))}
+            </ul>
           </div>
         </div>
       </div>

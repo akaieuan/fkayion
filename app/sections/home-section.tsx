@@ -2,261 +2,81 @@
 
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { useState, useCallback, useEffect, useRef, useSyncExternalStore } from 'react'
-import dynamic from 'next/dynamic'
-import { Canvas } from '@react-three/fiber'
-import * as THREE from 'three'
-
-// Each orb variant is its own webpack chunk. Only the active variant downloads.
-const LiquidMorphOrb = dynamic(
-  () => import('@/components/features/home/liquid-morph-orb').then(m => ({ default: m.LiquidMorphOrb })),
-  { ssr: false }
-)
-const LiquidMorphTorus = dynamic(
-  () => import('@/components/shared/orbs/liquid-morph-torus').then(m => ({ default: m.LiquidMorphTorus })),
-  { ssr: false }
-)
-const MetallicMeltingTorus = dynamic(
-  () => import('@/components/shared/orbs/metallic-melting-torus').then(m => ({ default: m.MetallicMeltingTorus })),
-  { ssr: false }
-)
-
-type HomeOrbVariant = 0 | 1 | 2
+import { PixelHead } from '@/components/features/brand/pixel-head'
 
 const keyLinks = [
-  
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ieuan-king/' },
   { label: 'aka.write', href: 'https://kraa.io/akaieuan' },
 ]
 
-type TextSegment = { text: string; highlight?: boolean }
-
-const line1: TextSegment[] = [
-  { text: 'I build ' },
-  { text: 'tools', highlight: true },
-  { text: ' and create ' },
-  { text: 'art', highlight: true },
-  { text: '.' },
-]
-
-const line2: TextSegment[] = [
-  { text: 'I am a ' },
-  { text: 'product designer', highlight: true },
-  { text: ' and ' },
-  { text: 'technical anthropologist', highlight: true },
-  { text: ' working on the ' },
-  { text: 'human side of applied AI', highlight: true },
-  { text: '.' },
-]
-
-function AnimatedText({ segments, baseDelay }: { segments: TextSegment[]; baseDelay: number }) {
-  const [revealed, setRevealed] = useState<Set<number>>(new Set())
-
-  useEffect(() => {
-    let highlightIndex = 0
-    const highlights = segments.map((s, i) => s.highlight ? i : -1).filter(i => i >= 0)
-
-    const timers: ReturnType<typeof setTimeout>[] = []
-    highlights.forEach((segIndex) => {
-      const timer = setTimeout(() => {
-        setRevealed(prev => new Set(prev).add(segIndex))
-      }, baseDelay + highlightIndex * 220)
-      timers.push(timer)
-      highlightIndex++
-    })
-
-    return () => timers.forEach(clearTimeout)
-  }, [segments, baseDelay])
-
-  return (
-    <>
-      {segments.map((seg, i) => {
-        if (!seg.highlight) return <span key={i}>{seg.text}</span>
-        const isRevealed = revealed.has(i)
-        return (
-          <span
-            key={i}
-            className="inline-block relative transition-all duration-500 ease-out"
-            style={{
-              color: isRevealed ? 'oklch(0.707 0.108 152.216)' : undefined,
-              opacity: isRevealed ? 1 : 0.4,
-            }}
-          >
-            {seg.text}
-            <span
-              className="absolute bottom-0 left-0 h-[1.5px] transition-all duration-500 ease-out"
-              style={{
-                width: isRevealed ? '100%' : '0%',
-                background: 'oklch(0.707 0.108 152.216 / 0.4)',
-              }}
-            />
-          </span>
-        )
-      })}
-    </>
-  )
-}
-
-const ORB_POSITION: [number, number, number] = [3.2, 0, 0]
-const ORB_SIZE = 1.0
-
-const NARROW_MEDIA = '(max-width: 768px)'
-
-function subscribeNarrow(cb: () => void) {
-  const mq = window.matchMedia(NARROW_MEDIA)
-  mq.addEventListener('change', cb)
-  return () => mq.removeEventListener('change', cb)
-}
-
-function getNarrowSnapshot() {
-  return window.matchMedia(NARROW_MEDIA).matches
-}
-
-function getServerNarrow() {
-  return false
-}
+/** Entrance stagger for the hero stack, top to bottom (mirrors the studio sites). */
+const reveal =
+  'motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2 motion-safe:fill-mode-backwards motion-safe:duration-700'
+const staggerDelay = (step: number) => ({ animationDelay: `${step * 120}ms` })
 
 export function HomeSection() {
-  const narrowViewport = useSyncExternalStore(subscribeNarrow, getNarrowSnapshot, getServerNarrow)
-  // Mouse position lives in a ref, not state: the orb reads it inside useFrame, so updating it
-  // on every pointer move costs nothing and never triggers a React re-render of the Canvas tree.
-  const mousePosRef = useRef({ x: 0, y: 0 })
-  const [orbVariant, setOrbVariant] = useState<HomeOrbVariant>(0)
-
-  // Pause the orb's render loop while the hero is scrolled out of view — no point burning GPU on
-  // an off-screen liquid shader while you're reading the rest of the page.
-  const sectionRef = useRef<HTMLElement>(null)
-  const [heroInView, setHeroInView] = useState(true)
-  // Only mount the WebGL orb after hydration AND on wider viewports. On phones the
-  // full-screen canvas (global `touch-action: none`) swallows page scroll, so we skip
-  // it entirely there — which also saves the GPU cost of a live shader on mobile.
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => setMounted(true), [])
-
-  useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => setHeroInView(entry.isIntersecting),
-      { threshold: 0 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
-  const cycleOrb = useCallback(() => {
-    setOrbVariant((prev) => (((prev + 1) % 3) as HomeOrbVariant))
-  }, [])
-
-  const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect()
-    mousePosRef.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1
-    mousePosRef.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1
-  }, [])
-
   return (
-    <section ref={sectionRef} id="section-0" className="relative min-h-dvh w-full" onPointerMove={handlePointerMove}>
-      <div className="absolute inset-0 max-md:pointer-events-none">
-        {mounted && !narrowViewport && (
-        <Canvas
-          className="pointer-events-none touch-pan-y"
-          camera={{ position: [0, 0, 10], fov: 45 }}
-          style={{ width: '100%', height: '100%' }}
-          gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0 }}
-          dpr={narrowViewport ? 1 : [1, 1.5]}
-          frameloop={heroInView ? 'always' : 'never'}
-          performance={{ min: 0.5 }}
-        >
-          <ambientLight intensity={0.15} />
-          <pointLight position={[-4, 2, 4]} intensity={1.5} color="#44ddaa" distance={15} />
-          <pointLight position={[4, -2, 4]} intensity={1} color="#228866" distance={15} />
-          <pointLight position={[0, 3, 2]} intensity={0.8} color="#ffffff" distance={20} />
-          {orbVariant === 0 && (
-            <LiquidMorphOrb
-              position={ORB_POSITION}
-              colors={{ primary: '#228866', secondary: '#44ddaa', rim: '#66cc99' }}
-              size={ORB_SIZE}
-              onClick={() => {}}
-              isHovered={true}
-              onHover={() => {}}
-              mousePosRef={mousePosRef}
-              narrowViewport={narrowViewport}
-            />
-          )}
-          {orbVariant === 1 && (
-            <LiquidMorphTorus
-              position={ORB_POSITION}
-              color="#cc4422"
-              hoverColor="#ff6644"
-              onClick={() => {}}
-              isHovered={true}
-              onHover={() => {}}
-              size={1.4}
-              variant={0}
-              narrowViewport={narrowViewport}
-            />
-          )}
-          {orbVariant === 2 && (
-            <MetallicMeltingTorus
-              position={ORB_POSITION}
-              color="#6644cc"
-              hoverColor="#aa88ff"
-              onClick={() => {}}
-              isHovered={true}
-              onHover={() => {}}
-              size={1.5}
-              variant={0}
-              narrowViewport={narrowViewport}
-            />
-          )}
-        </Canvas>
-        )}
-      </div>
-
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="h-full w-full flex items-center">
-          <div className="pointer-events-auto site-inset max-w-site mx-auto w-full">
-            <h1 className="text-lg sm:text-xl md:text-2xl font-light tracking-tight text-foreground/90 leading-[1.35] max-w-md">
-              <AnimatedText segments={line1} baseDelay={400} />
-            </h1>
-
-            <p className="text-xs sm:text-sm text-foreground/50 mt-3 max-w-md font-light leading-relaxed">
-              <AnimatedText segments={line2} baseDelay={1200} />
-            </p>
-
-            <p className="text-[11px] text-foreground/25 mt-2 font-light tracking-wide italic">
-              {'// I also produce and perform electronic music'}
-            </p>
-
-            <div className="flex items-center gap-5 mt-6">
-              {keyLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[11px] font-light tracking-wide text-foreground/30 hover:text-primary transition-colors duration-200"
-                >
-                  {link.label}
-                </a>
-              ))}
+    <section id="section-0" className="relative min-h-dvh w-full">
+      <div className="flex min-h-dvh items-center">
+        <div className="site-inset max-w-site mx-auto w-full">
+          <div className="grid items-center gap-10 md:grid-cols-2 md:gap-8">
+            {/* animation first so it sits above the copy when the grid stacks;
+                md:order restores text left, mark right on wide. */}
+            <div className={`flex justify-center md:order-2 md:justify-end ${reveal}`}>
+              <PixelHead size={400} grid={24} faces fluid />
             </div>
 
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-1 mt-4">
-              <button
-                type="button"
-                onClick={cycleOrb}
-                className="max-md:hidden text-[10px] font-light tracking-widest uppercase text-foreground/15 hover:text-primary/60 transition-colors duration-300"
+            <div className="flex max-w-md flex-col gap-6 md:order-1">
+              <p
+                className={`text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70 ${reveal}`}
+                style={staggerDelay(0)}
               >
-                change orb ↻
-              </button>
-              <Link
-                href="/demo"
-                className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-light tracking-wide text-foreground/15 hover:text-primary/60 transition-colors duration-300"
+                Product design · Technical anthropology · Brooklyn
+              </p>
+
+              <h1
+                className={`text-xl font-light tracking-tight text-foreground/90 md:text-2xl ${reveal}`}
+                style={staggerDelay(1)}
               >
-                see projects
-                <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 opacity-70" aria-hidden />
-              </Link>
+                I build tools and create art.
+              </h1>
+
+              <p
+                className={`text-sm font-light leading-relaxed text-muted-foreground ${reveal}`}
+                style={staggerDelay(2)}
+              >
+                A product designer and technical anthropologist working on the human side of
+                applied AI — discovery, approval flows, and the interfaces that make agents
+                legible and worth trusting.
+              </p>
+
+              <p
+                className={`text-[11px] font-light tracking-wide text-foreground/30 ${reveal}`}
+                style={staggerDelay(3)}
+              >
+                {'// I also produce and perform electronic music'}
+              </p>
+
+              <div className={`flex flex-wrap items-center gap-5 ${reveal}`} style={staggerDelay(4)}>
+                <Link
+                  href="/demo"
+                  className="inline-flex items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+                >
+                  See the work
+                  <ArrowRight className="h-4 w-4 opacity-80" aria-hidden />
+                </Link>
+                {keyLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[13px] font-light text-muted-foreground/70 transition-colors hover:text-primary"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </div>
