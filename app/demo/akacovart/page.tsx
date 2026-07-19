@@ -136,7 +136,10 @@ export default function AkaCovartProjectPage() {
 
           <section className="space-y-4">
             <h2 className="text-sm font-medium tracking-wide text-foreground">What you make</h2>
-            <p>Four engines give four visual languages:</p>
+            <p>
+              Three focuses, seven engines. The <span className="text-foreground/85">Art</span> focus
+              gives four abstract field engines:
+            </p>
             <ul className="list-disc space-y-2 pl-5 marker:text-muted-foreground/50">
               <li>
                 <span className="text-foreground/85">Blob.</span> Soft, painterly clouds of colour with
@@ -147,34 +150,41 @@ export default function AkaCovartProjectPage() {
                 from sparse to packed.
               </li>
               <li>
-                <span className="text-foreground/85">Waves.</span> Stacked line waves, from calm to
-                turbulent.
+                <span className="text-foreground/85">Contours.</span> A 3D heightfield terrain drawn as
+                receding ridgelines.
               </li>
               <li>
-                <span className="text-foreground/85">Orb.</span> A single melted, shaded sphere over a
-                halftone field.
+                <span className="text-foreground/85">Signal.</span> Overlapping wave gratings that add
+                into shimmering moiré interference.
               </li>
             </ul>
+            <p>
+              The <span className="text-foreground/85">TxT</span> focus makes your display text the
+              subject, styled by three type engines — Dither (pixelated + broken), Lines (round-cap
+              hatching clipped to the glyphs), and Blur (gooey blur-to-threshold metaballs) — and{' '}
+              <span className="text-foreground/85">Stack</span> composites a type layer over an Art
+              background, as an on-top overlay or an art-filled knockout.
+            </p>
             <p>
               On top of any engine: hand-tuned palettes (dark, cream, grey, or a seed-picked random), a
               colour picker that pushes the whole palette toward any hue, and a light-to-dark tone
               control. A film-finish pass layers in grain, dust, scratches, vignette, and bloom for a
               printed, physical feel, and a type layer handles title and artist with selectable fonts,
-              case and glitch options, and drag-to-place positioning. A variations gallery renders your
-              current settings across nine alternate seeds; eight presets give one-click starts; export
-              drops a 3000×3000 PNG sized independently of what’s on screen.
+              case and glitch options, and drag-to-place positioning. A focus-aware grid of curated starting
+              points (with live hover previews) gives one-click starts; export drops a 3000×3000 PNG
+              sized independently of what’s on screen.
             </p>
           </section>
 
           <section className="space-y-3">
             <h2 className="text-sm font-medium tracking-wide text-foreground">Motion &amp; music</h2>
             <p>
-              Three modes. <span className="text-foreground/85">Still</span> is a single frame.{' '}
+              Two modes. <span className="text-foreground/85">Still</span> is a single frame.{' '}
               <span className="text-foreground/85">Animate</span> makes the cover move to a beat you set
-              by hand — BPM, pump, kick, plus motion tuned per engine.{' '}
-              <span className="text-foreground/85">Audio</span> takes it further: drop in an MP3 or WAV,
-              trim a clip, and the art reacts to the track’s energy and beats, ready to export as a
-              synced video loop.
+              by hand — BPM, pump, kick, plus motion tuned per engine — or, with the{' '}
+              <span className="text-foreground/85">Track</span> source, drop in an MP3 or WAV, trim a
+              clip, and the art reacts to the track’s energy and beats, exporting a real MP4 with the
+              audio muxed in.
             </p>
             <p>
               There’s one rule the motion never breaks: energy only ever moves{' '}
@@ -199,17 +209,17 @@ export default function AkaCovartProjectPage() {
             </p>
             <p className="text-[12px] text-muted-foreground/70">
               Next.js (static export) · React · TypeScript · Tailwind · Zustand · Canvas 2D · Web Audio
-              API
+              API · WebCodecs (H.264/AAC) MP4 export
             </p>
           </section>
 
           <section className="space-y-3">
             <h2 className="text-sm font-medium tracking-wide text-foreground">Status &amp; what’s next</h2>
             <p>
-              Built and usable today: four engines, the three modes, presets, the variations gallery,
-              and PNG + video export. Planned, not yet shipped: a hosted instance with shareable
-              permalinks that encode the seed and parameters (so any cover reopens from a URL), more
-              engines, and deeper audio mapping.
+              Built, live at akacovart.com, and usable today: three focuses and seven engines, Still and
+              Animate modes with BPM or track-driven motion, curated starting points, and PNG + MP4
+              export (audio muxed in for track-synced clips). Planned: more engines and deeper audio
+              mapping.
             </p>
           </section>
 

@@ -19,6 +19,8 @@ import trickleKit from '@/public/trickle-ui-kit.webp'
 import researchOs from '@/public/research-os.webp'
 import musicChat from '@/public/music-analysis-chat.webp'
 import brooklynDead from '@/public/brooklyn-dead.webp'
+import iconHowIWork from '@/public/icon-howiwork.webp'
+import iconFeedback from '@/public/icon-feedback.webp'
 
 const profileLinks = [
   { label: 'GitHub', href: 'https://github.com/akaieuan' },
@@ -95,7 +97,7 @@ const projects: ProjectCardItem[] = [
     title: 'HITL Kit',
     tags: ['Open source', 'Write-up'],
     description:
-      'Design system, eleven HITL primitives, shadcn registry, and personal research paper.',
+      'Design system, fifteen HITL primitives, six @hitl-kit/* npm packages, shadcn registry, and personal research paper.',
     href: '/demo/hitl-kit',
     img: hitlKitHero,
   },
@@ -121,12 +123,14 @@ const projects: ProjectCardItem[] = [
     description:
       'Product design, validation, and how the Kit, Research OS, and team test log connect.',
     href: '/demo/hitl-practice',
+    img: iconHowIWork,
   },
   {
     title: 'User feedback + design log',
     tags: ['HITL-AI', 'External'],
     description: 'HITL-AI team test log on Kraa.',
     href: 'https://kraa.io/team-test-log042',
+    img: iconFeedback,
   },
   {
     title: 'Inertial - Content Moderation Tool',

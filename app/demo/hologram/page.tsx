@@ -163,7 +163,7 @@ export default function HologramProjectPage() {
             <h2 className="text-sm font-medium tracking-wide text-foreground">The MCP surface</h2>
             <p>
               The server imports no project code — it only reads files and your config. An agent gets
-              five read-only tools:
+              five tools — four read-only, plus a non-destructive render:
             </p>
             <ul className="list-disc space-y-2 pl-5 marker:text-muted-foreground/50">
               <li>
@@ -220,7 +220,7 @@ live Blender ──(socket :9876)── render_asset ─> PNG`}
             </p>
             <pre className="overflow-x-auto rounded-lg border border-border/80 bg-muted/30 p-4 text-[11.5px] leading-relaxed text-foreground/80">
 {`# the dashboard — point it at any project with exported GLBs
-uvx --from git+https://github.com/akaieuan/Hologram hologram dashboard
+uvx --from hologram-gltf hologram dashboard
 
 # the Claude Code plugin — live feed + MCP tools + skills
 /plugin marketplace add akaieuan/Hologram
@@ -229,8 +229,9 @@ uvx --from git+https://github.com/akaieuan/Hologram hologram dashboard
             <p>
               <code className={code}>uvx</code> downloads the code (and a matching Python 3.10+) the
               first time and caches it, so there&apos;s no release to download and no environment to
-              maintain. Prefer a classic install? From a clone,{' '}
-              <code className={code}>pip install -e .</code> still gives you a plain{' '}
+              maintain. Prefer a classic install?{' '}
+              <code className={code}>pip install hologram-gltf</code> (or, from a clone,{' '}
+              <code className={code}>pip install -e .</code>) still gives you a plain{' '}
               <code className={code}>hologram</code> command.
             </p>
           </section>

@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 export const metadata = {
   title: 'HITL Kit — Human-in-the-Loop AI, Measured Properly | akaBuild',
   description:
-    'An open-source design system, component library, and perspective paper on human-in-the-loop AI. Eleven primitives, a shadcn registry, and a research argument connecting them.',
+    'An open-source design system, component library, and perspective paper on human-in-the-loop AI. Fifteen primitives, six @hitl-kit/* npm packages, a shadcn registry, and a research argument connecting them.',
 }
 
 export default function HitlKitProjectPage() {
@@ -90,7 +90,7 @@ export default function HitlKitProjectPage() {
         </p>
 
         <p className="mt-10 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
-          Open source · v0.1 shipped
+          Open source · v0.6
         </p>
         <h1 className="mt-2 text-2xl font-light tracking-tight text-foreground md:text-[26px]">
           HITL Kit
@@ -115,11 +115,13 @@ export default function HitlKitProjectPage() {
               <strong className="font-medium text-foreground/90">perspective paper</strong> arguing that
               95% of enterprise AI pilots fail because we evaluate systems for autonomous completion when
               deployment demands human-AI collaboration; a{' '}
-              <strong className="font-medium text-foreground/90">component library</strong> of eleven HITL
-              primitives that installs into any shadcn/ui project via one CLI command; and a{' '}
+              <strong className="font-medium text-foreground/90">component library</strong> of fifteen HITL
+              primitives that installs into any shadcn/ui project via one CLI command, plus six{' '}
+              <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">@hitl-kit/*</code> npm
+              packages; and a{' '}
               <strong className="font-medium text-foreground/90">shadcn-compatible registry</strong> I
-              built and host at hitlkit.dev. The argument, the implementation, and the distribution, in
-              one place.
+              built, now served from the akaOSS site (the hitlkit.dev registry URLs keep resolving). The
+              argument, the implementation, and the distribution, in one place.
             </p>
           </section>
 
@@ -134,9 +136,9 @@ export default function HitlKitProjectPage() {
                 and editorial typography.
               </li>
               <li>
-                <span className="text-foreground/85">Eleven HITL primitives.</span> Interrupt Card,
-                Subagent Status, MiniTrace, AI Generation Scale, Context Chips, QA Flow, Writing Agent,
-                Research Agent, Batch Queue, Search Result Card, Approve/Reject Row. Each one is the
+                <span className="text-foreground/85">Fifteen HITL primitives.</span> Among them: Interrupt
+                Card, Subagent Status, MiniTrace, AI Generation Scale, Context Chips, QA Flow, Writing
+                Agent, Research Agent, Batch Queue, Search Result Card, Approve/Reject Row. Each one is the
                 physical embodiment of a specific claim from the paper.
               </li>
               <li>

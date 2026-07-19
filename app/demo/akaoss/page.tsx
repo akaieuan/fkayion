@@ -28,10 +28,10 @@ const measurement: Project[] = [
     status: 'v0.6',
   },
   {
-    name: 'EVAL Kit',
+    name: 'eval-kit',
     href: '/demo/eval-kit',
     blurb: 'A measurement instrument for multi-step research agents: YAML suites, per-step tool-match auto-scoring, a five-dimension human rubric, deterministic replay. Humans score, not LLMs.',
-    status: 'v0.3',
+    status: 'v0.3.1',
   },
   {
     name: 'tag-kit',
@@ -47,13 +47,13 @@ const tooling: Project[] = [
     name: 'Collapse',
     href: '/demo/collapse',
     blurb: 'A Claude Code skill-building framework — compile MDX lessons and Jupyter notebooks into SKILL.md files Claude reaches for first.',
-    status: 'v0.1',
+    status: 'v0.1.0',
   },
   {
     name: 'Hologram',
     href: '/demo/hologram',
     blurb: 'Live observability, guided skills, and a non-destructive MCP surface for Blender → glTF pipelines. Stdlib Python, no build step.',
-    status: 'v0.5',
+    status: 'v0.5.0',
   },
 ]
 

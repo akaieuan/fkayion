@@ -103,7 +103,7 @@ export default function CollapseProjectPage() {
               boundaries, circuit composition — lands differently in React, Vue, Nuxt, and Qiskit, and
               a “generic” answer costs round-trips. Collapsed skills carry your cross-stack vocabulary
               so Claude reaches for the right idiom on the first try, with trigger phrases derived from
-              your annotations. The repo ships with 17 cross-stack reference lessons and a sample
+              your annotations. The repo ships with 21 cross-stack reference lessons and a sample
               notebook that exercises the import flow end to end.
             </p>
           </section>
@@ -123,7 +123,7 @@ export default function CollapseProjectPage() {
 (on-ramps)      lib/skill-template      /api/skills
 
 MDX · .ipynb    generateSkillDraft()    ~/.claude/skills/{name}/SKILL.md
-MyST · custom   renderSkillFile()       (roadmap: MCP server scaffold)`}
+MyST · custom   renderSkillFile()       (v0.2: MCP server scaffold)`}
             </pre>
           </section>
 
@@ -194,13 +194,13 @@ MyST · custom   renderSkillFile()       (roadmap: MCP server scaffold)`}
             <h2 className="text-sm font-medium tracking-wide text-foreground">Status &amp; roadmap</h2>
             <p>
               Active development. Shipped: the MDX ingestor (<code className={code}>&lt;LangTab&gt;</code>{' '}
-              / <code className={code}>&lt;Note&gt;</code> model, 17 reference lessons), the notebook
+              / <code className={code}>&lt;Note&gt;</code> model, 21 reference lessons), the notebook
               ingestor (.ipynb + MyST with admonition prefill), the template engine with
               cross-language equivalents, the atomic persistence layer with 409 handling, the
-              three-tier quality linter, the lesson + import + skills-directory UIs, and a green Vitest
-              suite (39/39). On the roadmap: MCP server scaffold output as a second persistence target
-              sharing the template engine, multi-cell notebook composition, and a MyST chapter URL
-              fetcher.
+              three-tier quality linter, the lesson + import + skills-directory UIs, the MCP server
+              scaffold output (v0.2) as a second output target sharing the template engine, and a
+              green Vitest suite (99 tests). On the roadmap: multi-cell notebook composition and a
+              MyST chapter URL fetcher.
             </p>
             <p className="text-[12px] text-muted-foreground/70">
               TypeScript 5 · Next.js 16 (App Router, RSC, Turbopack) · Tailwind v4 · shadcn/ui · Shiki

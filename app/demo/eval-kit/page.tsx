@@ -7,7 +7,7 @@ const extLink =
 export const metadata = {
   title: 'eval-kit: Human scoring for research agents | akaBuild',
   description:
-    'The scoring cockpit for research agents: Zod schema-first monorepo, @eval-kit packages, Next.js dashboard, CLI, human 0-3 rubric, OSS release discipline. Pre-1.0, v0.3.0 stable.',
+    'The scoring cockpit for research agents: Zod schema-first monorepo, @eval-kit packages, Next.js dashboard, CLI, human 0-3 rubric, OSS release discipline. Pre-1.0, v0.3.1 stable.',
 }
 
 export default function EvalKitProjectPage() {
@@ -98,13 +98,13 @@ export default function EvalKitProjectPage() {
         </p>
 
         <p className="mt-10 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
-          Open source · pre-1.0 · v0.3.0
+          Open source · pre-1.0 · v0.3.1
         </p>
         <h1 className="mt-2 text-2xl font-light tracking-tight text-foreground md:text-[26px]">
           eval-kit
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          The scoring cockpit for research agents. Open source. Pre-1.0. v0.3.0 stable shipped 2026-04-23.
+          The scoring cockpit for research agents. Open source. Pre-1.0. v0.3.1 stable.
         </p>
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
@@ -210,7 +210,7 @@ export default function EvalKitProjectPage() {
             <div className="space-y-3">
               <h3 className="text-[13px] font-medium text-foreground/90">It&apos;s pre-1.0 but ships like it isn&apos;t</h3>
               <p>
-                v0.3.0 is published with provenance attestations, the release workflow uses{' '}
+                v0.3.1 is published with provenance attestations, the release workflow uses{' '}
                 <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">pnpm pack</code> +{' '}
                 <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">npm publish</code> for OIDC trusted publishing, the <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">main</code> branch
                 requires four green CI matrix jobs before any merge, and the CHANGELOG has honest notes
