@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
+import { FeaturedGrid } from '@/components/features/links/featured-grid'
 
 /* Tabs: quiet monochrome; the active tab carries the site's single green accent. */
 const activeTabClass = 'text-primary'
@@ -27,6 +28,12 @@ type Group = {
 }
 
 const groups: Group[] = [
+  {
+    id: 'projects',
+    label: 'projects',
+    more: { label: 'all projects', href: '/demo' },
+    rows: [], // rendered as the FeaturedGrid card set, not text rows
+  },
   {
     id: 'writing',
     label: 'writing',
@@ -195,7 +202,7 @@ function MoreLink({ more }: { more: { label: string; href: string } }) {
 export function LinksSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const [isInView, setIsInView] = useState(false)
-  const [activeId, setActiveId] = useState<string>('writing')
+  const [activeId, setActiveId] = useState<string>('projects')
 
   useEffect(() => {
     const section = sectionRef.current
@@ -258,18 +265,22 @@ export function LinksSection() {
             {active.more && <MoreLink more={active.more} />}
           </div>
 
-          {/* Every tab renders the same quiet list. The shared min-height is sized to the
-              tallest tab (`writing`) at each breakpoint so switching tabs never moves the page.
-              Projects intentionally have no landing list — /demo is the single projects surface. */}
-          <div className="min-h-[580px] sm:min-h-[290px] lg:min-h-[190px]">
-            <ul
-              key={activeId}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-3 p-0 list-none content-start items-start animate-in fade-in duration-200"
-            >
-              {active.rows.map((row) => (
-                <RowItem key={row.href} row={row} />
-              ))}
-            </ul>
+          {/* `projects` renders the six flagship image cards; other tabs are quiet text
+              lists. The shared min-height is sized to the tallest tab (`projects`) at each
+              breakpoint so switching tabs never moves the page. */}
+          <div className="min-h-[2100px] sm:min-h-[1000px] lg:min-h-[690px]">
+            {activeId === 'projects' ? (
+              <FeaturedGrid />
+            ) : (
+              <ul
+                key={activeId}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-3 p-0 list-none content-start items-start animate-in fade-in duration-200"
+              >
+                {active.rows.map((row) => (
+                  <RowItem key={row.href} row={row} />
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       </div>
