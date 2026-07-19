@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import circleheadsMark from '@/public/circleheads.webp'
+import { PixelRoundabout } from '@/components/features/brand/pixel-roundabout'
 
 const CONTACT = 'https://circleheads.com/about'
 const SITE = 'https://circleheads.com'
@@ -94,6 +95,11 @@ export default function CircleheadsProjectPage() {
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
           <section className="space-y-3">
             <h2 className="text-sm font-medium tracking-wide text-foreground">Who we are</h2>
+            {/* Bartel-Pritchard Square itself, in the brand's bit style — the live traffic
+                sim from the circleheads engine, next to the story it illustrates. */}
+            <div className="float-right ml-5 mb-2 w-[170px] sm:w-[210px]">
+              <PixelRoundabout size={210} />
+            </div>
             <p>
               Circleheads is a two-person studio born and based out of Brooklyn, NY. The name comes
               from the traffic circle we grew up around on the southwest corner of Prospect Park,

@@ -247,6 +247,12 @@ body {
   --radius: 0.625rem;
   --twt-red: oklch(0.577 0.245 27.325);
   --twt-red-foreground: oklch(0.985 0 0);
+  /* Car palette for the pixel roundabout (shared with the circleheads brand engine) */
+  --accent-blue: oklch(0.55 0.19 259);
+  --accent-green: oklch(0.5 0.09 152);
+  --accent-amber: oklch(0.62 0.13 75);
+  --accent-rose: oklch(0.58 0.16 15);
+  --accent-violet: oklch(0.52 0.15 295);
 }
 
 .dark {
@@ -284,6 +290,11 @@ body {
   --sidebar-ring: oklch(0.439 0 0);
   --twt-red: oklch(0.611 0.25 28.967);
   --twt-red-foreground: oklch(0.985 0 0);
+  --accent-blue: oklch(0.68 0.15 259);
+  --accent-green: oklch(0.71 0.11 152);
+  --accent-amber: oklch(0.83 0.12 80);
+  --accent-rose: oklch(0.7 0.15 15);
+  --accent-violet: oklch(0.75 0.11 295);
 }
 
 @layer base {
