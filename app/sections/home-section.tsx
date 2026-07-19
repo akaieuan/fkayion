@@ -7,6 +7,7 @@ import { AkaMark } from '@/components/features/brand/aka-mark'
 const keyLinks = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ieuan-king/' },
   { label: 'aka.write', href: 'https://kraa.io/akaieuan' },
+  { label: 'akaOSS', href: 'https://www.akaoss.dev' },
 ]
 
 /** Entrance stagger for the hero stack, top to bottom (mirrors the studio sites). */
@@ -17,7 +18,7 @@ const staggerDelay = (step: number) => ({ animationDelay: `${step * 120}ms` })
 export function HomeSection() {
   return (
     <section id="section-0" className="relative min-h-dvh w-full">
-      <div className="flex min-h-dvh items-center">
+      <div className="flex min-h-dvh items-center pt-24 md:pt-0">
         <div className="site-inset max-w-site mx-auto w-full">
           <div className="grid items-center gap-10 md:grid-cols-2 md:gap-8">
             {/* animation first so it sits above the copy when the grid stacks;
