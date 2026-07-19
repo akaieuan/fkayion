@@ -11,16 +11,16 @@ type Shot = { src: string; w: number; h: number; label: string }
 const hero: Shot = {
   src: '/ubik-workspace.webp',
   w: 1600,
-  h: 1039,
+  h: 962,
   label: 'The three-pane workspace — agent chat on the left, the source paper in the middle, and an evidence panel on the right where each extracted claim is accepted or rejected by hand (two still pending in the header)',
 }
 
 const gallery: Shot[] = [
-  { src: '/ubik-evidence.webp', w: 1600, h: 950, label: 'An evidence card — a single claim, the paragraph it was drawn from, and the eight supporting quotes (with page numbers) that back it, opened beside the highlighted source note' },
-  { src: '/ubik-human-needed.webp', w: 1600, h: 1167, label: 'A Human Needed block embedded mid-document: the agent stops, states the judgment it needs, offers two candidate drafts and a free-write, and waits — skip or submit, tracked in the status bar' },
-  { src: '/ubik-litreview.webp', w: 1600, h: 952, label: 'The Review Sources queue — each flagged paper (some auto, one manual/paywalled) previewed in full before it is accepted, driven entirely by the keyboard: arrow to navigate, enter to accept, esc to reject' },
-  { src: '/ubik-explorer.webp', w: 1600, h: 917, label: 'Agentic search returns a ranked shortlist of flagged papers on the left; on the right, a drafted document where every claim carries an inline citation back to a real source (King 1, King 2 …)' },
-  { src: '/ubik-summary.webp', w: 1600, h: 940, label: 'The Result Explorer scoring sources on recency, peer-review, methodology, and relevance — behind a Review Needed gate that makes you review-and-download rather than download blindly. Left: an edit workflow trimming a draft at a chosen intensity while the Context Engine indexes' },
+  { src: '/ubik-evidence.webp', w: 1600, h: 945, label: 'An evidence card — a single claim, the paragraph it was drawn from, and the eight supporting quotes (with page numbers) that back it, opened beside the highlighted source note' },
+  { src: '/ubik-human-needed.webp', w: 1600, h: 1206, label: 'A Human Needed block embedded mid-document: the agent stops, states the judgment it needs, offers two candidate drafts and a free-write, and waits — skip or submit, tracked in the status bar' },
+  { src: '/ubik-litreview.webp', w: 1600, h: 1156, label: 'The Review Sources queue — each flagged paper (some auto, one manual/paywalled) previewed in full before it is accepted, driven entirely by the keyboard: arrow to navigate, enter to accept, esc to reject' },
+  { src: '/ubik-explorer.webp', w: 1600, h: 975, label: 'Agentic search returns a ranked shortlist of flagged papers on the left; on the right, a drafted document where every claim carries an inline citation back to a real source (King 1, King 2 …)' },
+  { src: '/ubik-summary.webp', w: 1600, h: 932, label: 'The Result Explorer scoring sources on recency, peer-review, methodology, and relevance — behind a Review Needed gate that makes you review-and-download rather than download blindly. Left: an edit workflow trimming a draft at a chosen intensity while the Context Engine indexes' },
 ]
 
 export const metadata = {
