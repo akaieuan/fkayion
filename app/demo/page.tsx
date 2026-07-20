@@ -123,7 +123,7 @@ const projects: ProjectCardItem[] = [
     title: 'How I Work',
     tags: ['Narrative', 'Demos'],
     description:
-      'Product design, validation, and how the Kit, Research OS, and team test log connect.',
+      'The method behind the site: watch the work first, prototype in code, measure what matters — and how the Kit, Research OS, and the public test log connect.',
     href: '/demo/hitl-practice',
     img: iconHowIWork,
   },

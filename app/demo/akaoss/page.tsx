@@ -46,14 +46,14 @@ const tooling: Project[] = [
   {
     name: 'Collapse',
     href: '/demo/collapse',
-    blurb: 'A Claude Code skill-building framework — compile MDX lessons and Jupyter notebooks into SKILL.md files Claude reaches for first.',
-    status: 'v0.1.0',
+    blurb: 'A Claude Code skill-building framework — compile MDX lessons and Jupyter notebooks into SKILL.md files, or into MCP server scaffolds, that Claude reaches for first.',
+    status: 'v0.2',
   },
   {
     name: 'Hologram',
     href: '/demo/hologram',
     blurb: 'Live observability, guided skills, and a non-destructive MCP surface for Blender → glTF pipelines. Stdlib Python, no build step.',
-    status: 'v0.5.0',
+    status: 'v0.6.0',
   },
 ]
 
