@@ -20,13 +20,13 @@ const gallery: Shot[] = [
   { src: '/ubik-human-needed.webp', w: 1600, h: 1206, label: 'A Human Needed block embedded mid-document: the agent stops, states the judgment it needs, offers two candidate drafts and a free-write, and waits — skip or submit, tracked in the status bar' },
   { src: '/ubik-litreview.webp', w: 1600, h: 1156, label: 'The Review Sources queue — each flagged paper (some auto, one manual/paywalled) previewed in full before it is accepted, driven entirely by the keyboard: arrow to navigate, enter to accept, esc to reject' },
   { src: '/ubik-explorer.webp', w: 1600, h: 975, label: 'Agentic search returns a ranked shortlist of flagged papers on the left; on the right, a drafted document where every claim carries an inline citation back to a real source (King 1, King 2 …)' },
-  { src: '/ubik-summary.webp', w: 1600, h: 932, label: 'The Result Explorer scoring sources on recency, peer-review, methodology, and relevance — behind a Review Needed gate that makes you review-and-download rather than download blindly. Left: an edit workflow trimming a draft at a chosen intensity while the Context Engine indexes' },
+  { src: '/ubik-summary.webp', w: 1600, h: 932, label: 'The Result Explorer scoring sources on recency, peer-review, methodology, and relevance — behind a Review Needed gate that makes you review-and-download rather than download blindly. Left: an edit workflow trimming a draft at a chosen intensity while sources index in the background' },
 ]
 
 export const metadata = {
   title: 'Ubik Studio — A Desktop-Native AI Research Platform | akaBuild',
   description:
-    'Three and a half years building a local-first, desktop-native AI research platform: multi-agent orchestration with batch approval gates, an auditable review-blocker ledger, Human Needed blocks inside documents, and evidence gates that stop an agent from writing claims it cannot cite.',
+    'Three and a half years co-founding a desktop-native AI research platform where agents did the gathering and drafting, and humans kept the final say — with evidence behind every claim.',
 }
 
 export default function UbikProjectPage() {
@@ -117,101 +117,32 @@ export default function UbikProjectPage() {
             </p>
           </section>
 
-          <section className="space-y-4">
+          <section className="space-y-3">
             <h2 className="text-sm font-medium tracking-wide text-foreground">The product</h2>
-            <ul className="list-disc space-y-2 pl-5 marker:text-muted-foreground/50">
-              <li>
-                <span className="text-foreground/85">Workspaces.</span> Folder-based and local-first —
-                a <code className={code}>.ubik</code> directory turned any folder into a research
-                workspace. Storage was SQLite, Yjs CRDT documents, and file bundles on your own disk.
-              </li>
-              <li>
-                <span className="text-foreground/85">The Context Engine.</span> A PDF-ingest pipeline
-                indexed sources into searchable bundles, with live indexing status and per-bundle
-                stats — the workspace&apos;s memory, built locally.
-              </li>
-              <li>
-                <span className="text-foreground/85">Agentic search.</span> Web and academic search
-                across Semantic Scholar and the open web, with results scored for recency,
-                peer-review, and methodology — and a review queue between &ldquo;found&rdquo; and
-                &ldquo;in your workspace.&rdquo; Flagged papers were previewed and human-approved,
-                one by one or not at all.
-              </li>
-              <li>
-                <span className="text-foreground/85">Multi-agent orchestration.</span> A workspace
-                orchestrator delegated to a PDF agent (up to five in parallel), a writing agent, and a
-                remote research agent — LangGraph state machines with a middleware stack for model
-                selection, tool filtering, and parallel limits.
-              </li>
-              <li>
-                <span className="text-foreground/85">UDoc.</span> A rich-text document format
-                (TipTap/Yjs) with first-class citation nodes, search-result references, math, page
-                breaks — and Human Needed blocks as a native node type. Agents drafted in markdown and
-                converted into the editor through a revision pipeline, never editing your document
-                directly.
-              </li>
-              <li>
-                <span className="text-foreground/85">Evidence attribution.</span> Citations resolved
-                to <code className={code}>[noteId:page]</code> — a claim in a draft linked to the
-                quote, the page, and the source PDF. An @-mention system made every artifact
-                addressable in chat: PDFs, searches, documents, notes, individual results.
-              </li>
-              <li>
-                <span className="text-foreground/85">Ubik Hopper.</span> A companion Chrome extension
-                that &ldquo;hopped&rdquo; webpages and PDFs into the workspace — detecting scholarly
-                pages by their citation metadata, capturing true PDF bytes through the DevTools
-                protocol, and printing clean pages to PDF when there wasn&apos;t one.
-              </li>
-              <li>
-                <span className="text-foreground/85">And the rest.</span> Zotero integration,
-                grep-style search inside source bundles, multi-model support across providers, and a
-                web gateway for accounts and sync.
-              </li>
-            </ul>
+            <p>
+              A desktop app where any folder became a research workspace. Sources went in — papers,
+              PDFs, webpages captured by a companion browser extension — and were indexed locally.
+              Agents searched the literature, read sources in parallel, and drafted documents where
+              every claim traced back to a real quote on a real page. Everything an agent wanted to
+              do of consequence passed through a human first: sources were approved before they
+              entered the workspace, drafts paused for judgment where judgment was needed, and
+              nothing was written that couldn&apos;t be cited.
+            </p>
           </section>
 
-          <section className="space-y-4">
+          <section className="space-y-3">
             <h2 className="text-sm font-medium tracking-wide text-foreground">
               The human-in-the-loop architecture
             </h2>
             <p>
               The part of Ubik I&apos;m proudest of is that human control wasn&apos;t a confirmation
-              dialog bolted on at the end — it was load-bearing architecture, designed in at three
-              layers:
+              dialog bolted on at the end — it was load-bearing architecture. Agent actions were
+              approved in batches, not rubber-stamped one toast at a time. Every review decision was
+              recorded in an auditable trail you could revisit after the fact. Agents could stop
+              mid-document and ask for human judgment exactly where it belonged, at a depth you could
+              dial from rough scaffold to polished draft. And the rule I still think about most: if
+              there was no evidence to cite, the agent didn&apos;t get to write the claim.
             </p>
-            <ul className="list-disc space-y-2 pl-5 marker:text-muted-foreground/50">
-              <li>
-                <span className="text-foreground/85">Batch approval gates.</span> A{' '}
-                <code className={code}>hitl_batch_gate</code> middleware collected agent tool calls
-                into approval batches and interrupted the graph — the human approved or rejected
-                actions in one pass, and agents could ask structured questions back through the same
-                channel.
-              </li>
-              <li>
-                <span className="text-foreground/85">The review-blocker ledger.</span> Every gating
-                decision lived in an append-only, audited record on disk — independent of the mutable
-                document state — with a full status machine from{' '}
-                <code className={code}>open</code> through{' '}
-                <code className={code}>answered</code>, <code className={code}>resolved</code>,{' '}
-                <code className={code}>skipped</code>, and{' '}
-                <code className={code}>accepted_with_override</code>. Provenance you could audit after
-                the fact, not just a toast you dismissed.
-              </li>
-              <li>
-                <span className="text-foreground/85">Human Needed blocks.</span> Agents emitted typed,
-                in-document requests for judgment — a question, a decision, an approval, a
-                fill-in — rendered as first-class blocks exactly where the judgment belonged.
-                Documents generated at three levels: an annotated scaffold the human fleshes out, an
-                aggressive draft that pauses at every inflection point, or polished prose. The
-                philosophy had a dial.
-              </li>
-              <li>
-                <span className="text-foreground/85">The evidence gate.</span> My favorite single
-                rule in the system: <code className={code}>evidence_needed</code> stopped the writing
-                agent from producing academic claims when no citeable notes existed. No evidence, no
-                prose. Full stop.
-              </li>
-            </ul>
           </section>
 
           <div>
@@ -240,17 +171,13 @@ export default function UbikProjectPage() {
           <section className="space-y-3">
             <h2 className="text-sm font-medium tracking-wide text-foreground">The engineering</h2>
             <p>
-              A pnpm monorepo of twenty packages and roughly three thousand TypeScript files, plus a
-              Python agent sidecar: an Electron desktop app talking over local HTTP to a LangGraph
-              runtime, a Next.js web gateway, two cloud agent deployments, and the Chrome extension. A
-              local-first workspace protocol (<code className={code}>protocol-v2</code>) defined the
-              schemas for bundles, notes, citations, manifests, snapshots, resource locks, and the
-              review-blocker ledger. 1,038 commits from September 2023 to May 2026 — with the design
-              and research that preceded the first commit, about three and a half years of my life.
+              A large multi-package system: a desktop app, a web gateway, cloud agent deployments,
+              and a browser extension, with a local-first storage model underneath it all. 1,038
+              commits from September 2023 to May 2026 — with the design and research that preceded
+              the first commit, about three and a half years of my life.
             </p>
             <p className="text-[12px] text-muted-foreground/70">
-              Electron · Next.js · TypeScript · Python · LangGraph + LangChain · TipTap + Yjs · SQLite
-              · local-first · Clerk · Semantic Scholar
+              Electron · Next.js · TypeScript · Python · local-first
             </p>
           </section>
 
