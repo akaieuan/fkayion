@@ -51,7 +51,7 @@ const projects: ProjectCardItem[] = [
     title: 'Ubik Studio',
     tags: ['Product', '2023–2026'],
     description:
-      'Three and a half years co-founding a desktop-native, local-first AI research platform — multi-agent orchestration behind batch approval gates, an auditable review ledger, and evidence gates that stop agents from writing claims they cannot cite.',
+      'Three and a half years co-founding a desktop-native AI research platform — agents that gather, read, and draft, with humans keeping the final say and evidence behind every claim.',
     href: '/demo/ubik',
     img: ubikWorkspace,
   },
