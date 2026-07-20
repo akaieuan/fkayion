@@ -219,15 +219,26 @@ export default function DemoIndexPage() {
         </ul>
 
         <footer className="mt-10 border-t border-border/60 pt-6">
-          <a
-            href="/2026-ieuan-king.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-[12px] font-light text-muted-foreground/90 transition-colors hover:text-foreground"
-          >
-            CV (PDF, 2026)
-            <ArrowUpRight className="h-3 w-3 opacity-70" aria-hidden />
-          </a>
+          <div className="flex flex-col gap-2">
+            <a
+              href="/2026-ieuan-king.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-fit items-center gap-1.5 text-[12px] font-light text-muted-foreground/90 transition-colors hover:text-foreground"
+            >
+              CV (PDF, 2026)
+              <ArrowUpRight className="h-3 w-3 opacity-70" aria-hidden />
+            </a>
+            <a
+              href="/ieuan-king-portfolio-2026.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-fit items-center gap-1.5 text-[12px] font-light text-muted-foreground/90 transition-colors hover:text-foreground"
+            >
+              Portfolio (PDF, 2026)
+              <ArrowUpRight className="h-3 w-3 opacity-70" aria-hidden />
+            </a>
+          </div>
           <nav aria-label="Profiles" className="mt-4 flex flex-col gap-2">
             {profileLinks.map(({ label, href }) => (
               <a
