@@ -23,6 +23,35 @@ const gallery: Shot[] = [
   { src: '/ubik-summary.webp', w: 1600, h: 932, label: 'The Result Explorer scoring sources on recency, peer-review, methodology, and relevance — behind a Review Needed gate that makes you review-and-download rather than download blindly. Left: an edit workflow trimming a draft at a chosen intensity while sources index in the background' },
 ]
 
+type Demo = { src: string; poster: string; title: string; length: string; summary: string }
+
+const demos: Demo[] = [
+  {
+    src: '/ubik-demo-walkthrough.webm',
+    poster: '/ubik-demo-walkthrough-poster.webp',
+    title: 'Workspace walkthrough',
+    length: '3:26',
+    summary:
+      'The full loop, end to end: ask the agent what’s working in a draft, and it reads the essay against the source PDFs, writes analytical notes, and queues every one for review — accepted or rejected claim by claim, with the evidence panel surfacing the supporting quotes as you go.',
+  },
+  {
+    src: '/ubik-demo-synthesis.webm',
+    poster: '/ubik-demo-synthesis-poster.webp',
+    title: 'Cross-source synthesis',
+    length: '2:33',
+    summary:
+      'Five papers @-mentioned into a single prompt — “find the commonalities” — while the Context Engine indexes the workspace live. The agent reads the peer-reviewed PDFs side by side and builds a synthesis grounded in all five sources, not a summary of one.',
+  },
+  {
+    src: '/ubik-demo-files.webm',
+    poster: '/ubik-demo-files-poster.webp',
+    title: 'The workspace library',
+    length: '2:36',
+    summary:
+      'The file explorer as a research surface: PDFs, documents, saved searches, and folders in one indexed library. Then a multi-note agent run — grep across source bundles, evidence distributed in bulk, three notes finalized — with every artifact landing in the explorer as it’s produced.',
+  },
+]
+
 export const metadata = {
   title: 'Ubik Studio — A Desktop-Native AI Research Platform | akaBuild',
   description:
@@ -144,6 +173,36 @@ export default function UbikProjectPage() {
               there was no evidence to cite, the agent didn&apos;t get to write the claim.
             </p>
           </section>
+
+          <div>
+            <p className={microLabel}>The product, in motion</p>
+            <div className="mt-3 space-y-8">
+              {demos.map((demo) => (
+                <figure key={demo.src}>
+                  <div className="overflow-hidden rounded-xl border border-border/80 bg-muted/10">
+                    {/* eslint-disable-next-line jsx-a11y/media-has-caption -- silent screen recordings */}
+                    <video
+                      controls
+                      muted
+                      playsInline
+                      preload="none"
+                      poster={demo.poster}
+                      className="block h-auto w-full"
+                    >
+                      <source src={demo.src} type="video/webm" />
+                    </video>
+                  </div>
+                  <figcaption className="mt-2">
+                    <span className="text-[13px] font-medium text-foreground/85">{demo.title}</span>
+                    <span className="ml-2 text-[11px] text-muted-foreground/50">{demo.length}</span>
+                    <p className="mt-1 text-[12px] font-light leading-relaxed text-muted-foreground/75">
+                      {demo.summary}
+                    </p>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
 
           <div>
             <p className={microLabel}>The product, in frames</p>
