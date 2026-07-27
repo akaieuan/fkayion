@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { ProjectCard, type ProjectCardItem } from '@/components/ui/project-card'
 
@@ -238,6 +239,12 @@ export default function DemoIndexPage() {
               Portfolio (PDF, 2026)
               <ArrowUpRight className="h-3 w-3 opacity-70" aria-hidden />
             </a>
+            <Link
+              href="/aka-style"
+              className="inline-flex w-fit items-center gap-1.5 text-[12px] font-light text-muted-foreground/90 transition-colors hover:text-foreground"
+            >
+              akaSTYLE — design system &amp; primitives
+            </Link>
           </div>
           <nav aria-label="Profiles" className="mt-4 flex flex-col gap-2">
             {profileLinks.map(({ label, href }) => (
