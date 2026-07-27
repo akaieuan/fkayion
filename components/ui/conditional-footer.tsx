@@ -5,10 +5,10 @@ import { SiteFooter } from './site-footer'
 
 export function ConditionalFooter() {
   const pathname = usePathname()
+  // Only the immersive visualizer opts out; every other route gets the site map.
   const isVisualizerPage = pathname?.startsWith('/Visualizer-Eden')
-  const isDemoPage = pathname?.startsWith('/demo')
 
-  if (isVisualizerPage || isDemoPage) return null
+  if (isVisualizerPage) return null
 
   return <SiteFooter />
 }

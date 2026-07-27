@@ -1,5 +1,3 @@
-import Link from 'next/link'
-import { ArrowUpRight } from 'lucide-react'
 import { ProjectCard, type ProjectCardItem } from '@/components/ui/project-card'
 
 // Card media — static imports for build-time blur placeholders.
@@ -23,13 +21,6 @@ import brooklynDead from '@/public/brooklyn-dead.webp'
 import iconHowIWork from '@/public/icon-howiwork.webp'
 import iconFeedback from '@/public/icon-feedback.webp'
 import ubikWorkspace from '@/public/ubik-workspace.webp'
-
-const profileLinks = [
-  { label: 'GitHub', href: 'https://github.com/akaieuan' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ieuan-king/' },
-  { label: 'Reddit', href: 'https://www.reddit.com/user/akaieuan/' },
-  { label: 'akawrite', href: 'https://kraa.io/akaieuan' },
-] as const
 
 const projects: ProjectCardItem[] = [
   {
@@ -219,48 +210,6 @@ export default function DemoIndexPage() {
           ))}
         </ul>
 
-        <footer className="mt-10 border-t border-border/60 pt-6">
-          <div className="flex flex-col gap-2">
-            <a
-              href="/2026-ieuan-king.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex w-fit items-center gap-1.5 text-[12px] font-light text-muted-foreground/90 transition-colors hover:text-foreground"
-            >
-              CV (PDF, 2026)
-              <ArrowUpRight className="h-3 w-3 opacity-70" aria-hidden />
-            </a>
-            <a
-              href="/ieuan-king-portfolio-2026.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex w-fit items-center gap-1.5 text-[12px] font-light text-muted-foreground/90 transition-colors hover:text-foreground"
-            >
-              Portfolio (PDF, 2026)
-              <ArrowUpRight className="h-3 w-3 opacity-70" aria-hidden />
-            </a>
-            <Link
-              href="/aka-style"
-              className="inline-flex w-fit items-center gap-1.5 text-[12px] font-light text-muted-foreground/90 transition-colors hover:text-foreground"
-            >
-              akaSTYLE — design system &amp; primitives
-            </Link>
-          </div>
-          <nav aria-label="Profiles" className="mt-4 flex flex-col gap-2">
-            {profileLinks.map(({ label, href }) => (
-              <a
-                key={href}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex w-fit items-center gap-1.5 text-[12px] font-light text-muted-foreground/90 transition-colors hover:text-foreground"
-              >
-                {label}
-                <ArrowUpRight className="h-3 w-3 opacity-70" aria-hidden />
-              </a>
-            ))}
-          </nav>
-        </footer>
       </div>
     </div>
   )
