@@ -19,6 +19,16 @@ export const metadata = {
     'A reference architecture for auditable AI content review. Not a deployable moderation service — a working demonstration of one architectural thesis: AI classification outputs and human review actions both land in a hash-chained audit log, with typed structured signals as the unit of evidence and per-instance YAML as the unit of policy.',
 }
 
+const gallery = [
+  { src: '/inertial-queue.webp', label: 'The queue — three deck columns, worked as decks rather than an infinite list' },
+  { src: '/inertial-pipelines.webp', label: 'Pipelines — a visual canvas of the routing graph beside the active per-instance configs' },
+  { src: '/inertial-skills.webp', label: 'Skills — the classifier registry: stat row, per-skill status, catalog + registration table' },
+  { src: '/inertial-skills-create-sheet.webp', label: 'The create sheet — registering a new classifier with its typed signal contract' },
+  { src: '/inertial-compliance.webp', label: 'Compliance — shadow agreement between AI and human decisions, over the hash-chained audit feed' },
+  { src: '/inertial-insights.webp', label: 'Insights — per-skill calibration (Brier/ECE), the reviewer-tag corpus, and eval run history' },
+  { src: '/inertial-dashboard-chat-panel.webp', label: 'The chat panel docked into the dashboard — side panels for chat, notes, and agent activity' },
+]
+
 export default function InertialProjectPage() {
   return (
     <div className="min-h-screen bg-background px-6 py-16">
@@ -43,20 +53,20 @@ export default function InertialProjectPage() {
         <div className="-mx-6 space-y-3 sm:mx-0">
           <div className="overflow-hidden rounded-xl border border-border/80 bg-muted/10">
             <Image
-              src="/inertial-dashboard.png"
-              alt="Inertial dashboard: 52-week flag activity heatmap, day-by-day stats grid, queue mix"
-              width={1024}
-              height={611}
+              src="/inertial-dashboard.webp"
+              alt="Inertial dashboard: flag-activity heatmap, day-by-day stats grid, queue mix"
+              width={1600}
+              height={1000}
               className="block h-auto w-full"
               priority
             />
           </div>
           <div className="overflow-hidden rounded-xl border border-border/80 bg-muted/10">
             <Image
-              src="/inertial-queue.png"
-              alt="Inertial review queue: per-item channel chips, reviewer-tag picker, agent traces, similar events"
-              width={1024}
-              height={611}
+              src="/inertial-queue-review.webp"
+              alt="A queue review session: channels, reviewer tags, and similar events on one card"
+              width={1600}
+              height={1000}
               className="block h-auto w-full"
             />
           </div>
@@ -444,6 +454,31 @@ export default function InertialProjectPage() {
               </li>
             </ul>
           </section>
+
+          <div>
+            <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
+              The reviewer surface, in frames
+            </p>
+            <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {gallery.map((shot) => (
+                <figure key={shot.src}>
+                  <div className="overflow-hidden rounded-lg border border-border/80 bg-muted/10">
+                    <Image
+                      src={shot.src}
+                      alt={shot.label}
+                      width={1600}
+                      height={1000}
+                      sizes="(min-width: 640px) 320px, 100vw"
+                      className="block h-auto w-full"
+                    />
+                  </div>
+                  <figcaption className="mt-1.5 text-[11px] font-light text-muted-foreground/70">
+                    {shot.label}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
 
           <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
             <p className="text-[14px] leading-relaxed text-foreground/85">
