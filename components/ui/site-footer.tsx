@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+
 export function SiteFooter() {
   const currentYear = new Date().getFullYear()
 
@@ -15,6 +17,12 @@ export function SiteFooter() {
             © {currentYear} akaBuild
           </p>
           <div className="flex items-center space-x-6">
+            <Link
+              href="/aka-style"
+              className="text-xs font-light tracking-wide text-muted-foreground/50 hover:text-foreground/50 transition-colors duration-200"
+            >
+              akaSTYLE
+            </Link>
             <a
               href="https://github.com/akaieuan"
               target="_blank"

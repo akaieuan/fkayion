@@ -219,15 +219,6 @@ export function SiteHeader() {
             Projects
           </button>
 
-          <button
-            onClick={() => router.push('/aka-style')}
-            className={`text-xs sm:text-sm font-light tracking-wide transition-colors duration-200 ${
-              pathname?.startsWith('/aka-style') ? navTextActive : navTextInactive
-            }`}
-          >
-            akaSTYLE
-          </button>
-
           <ThemeToggle />
         </div>
 
@@ -322,17 +313,6 @@ export function SiteHeader() {
               }`}
             >
               Projects
-            </button>
-
-            <button
-              onClick={() => { router.push('/aka-style'); setMobileMenuOpen(false) }}
-              className={`w-full text-left text-base font-light tracking-wide py-2 transition-colors duration-200 ${
-                pathname?.startsWith('/aka-style')
-                  ? isDark ? 'text-white/90' : 'text-foreground/90'
-                  : isDark ? 'text-white/60 hover:text-white/90' : 'text-foreground/60 hover:text-foreground/90'
-              }`}
-            >
-              akaSTYLE
             </button>
           </div>
         </div>
