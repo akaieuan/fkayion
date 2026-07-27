@@ -285,7 +285,24 @@ export default function LibraryPage() {
             client JavaScript to look right.
           </p>
 
-          <div className="mt-6 space-y-4">
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <Link href="/aka-style/primitives" className={`${cardCls} transition-colors hover:bg-muted/25`}>
+              <p className="text-[14px] font-light text-foreground/90">Primitives →</p>
+              <p className="mt-1 text-[12px] font-light leading-relaxed text-muted-foreground">
+                Every control and surface with its class string printed beside it — buttons, forms,
+                tables, code, media frames. The page exists to be copied from.
+              </p>
+            </Link>
+            <Link href="/aka-style/foundations" className={`${cardCls} transition-colors hover:bg-muted/25`}>
+              <p className="text-[14px] font-light text-foreground/90">Foundations →</p>
+              <p className="mt-1 text-[12px] font-light leading-relaxed text-muted-foreground">
+                Spacing, radii, the type ramp, motion timings, breakpoints — and the globals.css
+                block that carries the whole system to a new repo.
+              </p>
+            </Link>
+          </div>
+
+          <div className="mt-4 space-y-4">
             <div className={cardCls}>
               <p className={label}>Buttons</p>
               <div className="mt-3 flex flex-wrap items-center gap-3">
