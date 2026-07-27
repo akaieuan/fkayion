@@ -383,7 +383,53 @@ export default function LibraryPage() {
             reduced motion.
           </p>
 
-          <div className="mt-6 space-y-4">
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <Link href="/aka-style/marks" className={`${cardCls} group transition-colors hover:bg-muted/25`}>
+              <div className="flex items-center gap-4">
+                <PixelHead size={60} grid={24} icon="disc-aka" still />
+                <div>
+                  <p className="text-[14px] font-light text-foreground/90">Marks →</p>
+                  <p className="mt-0.5 text-[12px] font-light text-muted-foreground">
+                    The disc family, variants, dissolve modes, grid range, and the full prop table.
+                  </p>
+                </div>
+              </div>
+            </Link>
+            <Link href="/aka-style/faces" className={`${cardCls} group transition-colors hover:bg-muted/25`}>
+              <div className="flex items-center gap-4">
+                <PixelHead size={60} grid={22} face="wink" still />
+                <div>
+                  <p className="text-[14px] font-light text-foreground/90">Faces →</p>
+                  <p className="mt-0.5 text-[12px] font-light text-muted-foreground">
+                    Twenty-six expressions, the named personas, and when a mark may have a face.
+                  </p>
+                </div>
+              </div>
+            </Link>
+          </div>
+
+          <div className="mt-4 space-y-4">
+            <div className={cardCls}>
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                <div className="shrink-0">
+                  <PixelHead size={150} grid={30} icon="disc-aka" still />
+                </div>
+                <div>
+                  <p className="text-[14px] font-light text-foreground/90">
+                    The akaBuild mark <span className="text-muted-foreground/50">· disc-aka</span>
+                  </p>
+                  <p className="mt-1 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+                    A solid disc with the lowercase wordmark subtracted. The glyph samples in
+                    normalized space rather than baking to a fixed grid, so one definition serves the
+                    favicon, the chrome, and the hero. This is the site&apos;s icon.
+                  </p>
+                  <p className="mt-1.5 font-mono text-[10.5px] text-muted-foreground/60">
+                    {'<PixelHead icon="disc-aka" grid={32} still />'}
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <div className={cardCls}>
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                 <div className="shrink-0">

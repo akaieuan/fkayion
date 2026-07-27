@@ -204,11 +204,51 @@ const ICON_MASKS = {
 ................`,
 } as const
 
+/**
+ * Knockout masks: unlike ICON_MASKS (which draw the glyph itself), these are
+ * subtracted from a solid disc — the mark is the ring of pixels left behind.
+ * Sampled in normalized space, so they render at any `grid`.
+ */
+const KNOCKOUT_MASKS = {
+  aka: `........................
+........................
+........................
+........................
+........................
+........................
+........................
+........................
+....###..#......###.....
+.......#.#..#......#....
+....####.#.#....####....
+...#...#.##....#...#....
+...#..##.#.#...#..##....
+....##.#.#..#...##.#....
+.........#...#..........
+........................
+........................
+........................
+........................
+........................
+........................
+........................
+........................
+........................`,
+} as const
+
+type KnockoutMask = keyof typeof KNOCKOUT_MASKS
+
+/** Parse a knockout mask into a square lookup grid. */
+function parseKnockoutMask(name: KnockoutMask) {
+  const rows = KNOCKOUT_MASKS[name].trim().split("\n").map((r) => r.trim())
+  return { rows, n: rows.length }
+}
+
 const ICON_MASK_ROWS = Object.fromEntries(
   Object.entries(ICON_MASKS).map(([k, v]) => [k, v.trim().split("\n")]),
 ) as Record<keyof typeof ICON_MASKS, string[]>
 
-export type PixelIcon = keyof typeof KNOCKOUTS | keyof typeof ICON_MASKS
+export type PixelIcon = keyof typeof KNOCKOUTS | keyof typeof ICON_MASKS | `disc-${KnockoutMask}`
 
 /**
  * Named picks from the expression cycle, adoptable as persona marks (the
@@ -629,9 +669,16 @@ export function PixelHead({
     const canvas = canvasRef.current
     if (!host || !canvas) return
 
+    // Disc-knockout marks (`disc-aka`): a solid disc with a glyph subtracted.
+    const knockMask =
+      typeof icon === "string" && icon.startsWith("disc-")
+        ? parseKnockoutMask(icon.slice(5) as KnockoutMask)
+        : null
+
     // Mask-rendered icons: wordmarks always, the head at chrome sizes.
-    const maskRows =
-      icon in ICON_MASK_ROWS
+    const maskRows = knockMask
+      ? null
+      : icon in ICON_MASK_ROWS
         ? ICON_MASK_ROWS[icon as keyof typeof ICON_MASKS]
         : icon === "head" && grid <= SMALL_MASK_MAX_GRID
           ? SMALL_MASK
@@ -639,7 +686,7 @@ export function PixelHead({
     const N = maskRows ? maskRows.length : grid
     const figScale = 0.78
     // Analytic shapes only; the mask branch below never reads this.
-    const knockout = maskRows ? null : KNOCKOUTS[icon as keyof typeof KNOCKOUTS]
+    const knockout = maskRows || knockMask ? null : KNOCKOUTS[icon as keyof typeof KNOCKOUTS]
     const dpr = Math.min(2, window.devicePixelRatio || 1)
     canvas.width = size * dpr
     canvas.height = size * dpr
@@ -681,7 +728,17 @@ export function PixelHead({
         const ny = ((j + 0.5) / N) * 2 - 1
         const d = Math.sqrt(nx * nx + ny * ny)
         let on = false
-        if (maskRows) {
+        if (knockMask) {
+          // Solid disc with the mask subtracted — sampled in normalized space
+          // so the mark stays correct at any grid resolution.
+          const t = (v: number) => Math.floor(((v / (figScale + 0.06) + 1) / 2) * knockMask.n)
+          const mi = t(nx)
+          const mj = t(ny)
+          const inGlyph =
+            mi >= 0 && mi < knockMask.n && mj >= 0 && mj < knockMask.n &&
+            knockMask.rows[mj]?.[mi] === "#"
+          on = d < 0.98 && !inGlyph
+        } else if (maskRows) {
           on = maskRows[j]?.[i] === "#"
         } else if (variant === "negative") {
           on = d < 0.98 && !knockout!(nx / (figScale + 0.04), ny / (figScale + 0.04))
