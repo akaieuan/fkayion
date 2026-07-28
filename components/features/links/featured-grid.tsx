@@ -33,10 +33,10 @@ const FEATURED: ProjectCardItem[] = [
     tags: ['Generative', 'Album art'],
   },
   {
-    title: 'akaVSTs',
+    title: 'akaVST',
     href: '/demo/akavsts',
     img: akableepSynth,
-    description: 'Three Ableton-ready instrument plugins, built to be played live.',
+    description: 'Three JUCE instruments for macOS — acid voice, lo-fi layers, sculpting sampler.',
     tags: ['VST3 / AU', 'Live'],
   },
   {

@@ -64,10 +64,10 @@ const projects: ProjectCardItem[] = [
     img: hologramDash,
   },
   {
-    title: 'akaVSTs',
-    tags: ['Instruments', 'VST3 / AU', 'Live'],
+    title: 'akaVST',
+    tags: ['Instruments', 'VST3 / AU', 'macOS'],
     description:
-      'Three Ableton-ready instrument plugins I play live and use in my own music — an acid synth + P-lock sequencer, a 4-layer lo-fi synth, and a sculpting sampler. JUCE 8 · C++17 · VST3 / AU / Standalone.',
+      'Three JUCE instruments built one at a time and documented as they go — an acid voice with a 64-step sequencer (v0.4.0), four lo-fi layers on one voice pool (v1.0.0), and a sampler that resamples itself (v0.1.0).',
     href: '/demo/akavsts',
     img: akableepSynth,
   },

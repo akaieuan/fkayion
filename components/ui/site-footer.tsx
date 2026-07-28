@@ -13,7 +13,7 @@ const columns: { heading: string; links: FooterLink[] }[] = [
       { label: 'Ubik Studio', href: '/demo/ubik' },
       { label: 'Box Populi', href: '/demo/box-populi' },
       { label: 'akaCOVART', href: '/demo/akacovart' },
-      { label: 'akaVSTs', href: '/demo/akavsts' },
+      { label: 'akaVST', href: '/demo/akavsts' },
     ],
   },
   {

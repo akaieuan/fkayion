@@ -10,6 +10,9 @@ type Feature = { h: string; t: string }
 type Plugin = {
   id: string
   suffix: string
+  /** Shipped version + build specs, straight from akavst.com. */
+  version: string
+  specs: string
   accent: string
   github: string
   eyebrow: string
@@ -27,10 +30,12 @@ const plugins: Plugin[] = [
   {
     id: 'akableep',
     suffix: 'Bleep',
+    version: 'v0.4.0',
+    specs: 'VST3 · AU · Standalone · macOS 11.0+ · Apple Silicon and Intel · 39 presets',
     // magenta — matches the akaBleep UI accent
     accent: 'text-[oklch(0.5_0.2_350)] dark:text-[oklch(0.72_0.17_350)]',
     github: 'https://github.com/akaieuan/akaBleep-VST',
-    eyebrow: 'Instrument · VST3 / AU / Standalone · Ableton-ready',
+    eyebrow: 'Instrument · Acid synth + sequencer',
     tagline: 'A hypnotic-techno acid voice and 64-step P-lock sequencer in one plugin — built to be performed.',
     loadsAs: 'Loads as akaBleep.',
     hero: { src: '/akableep-synth.webp', w: 1163, h: 556, label: 'Synth — oscillators, envelopes, ladder filter' },
@@ -51,7 +56,7 @@ const plugins: Plugin[] = [
         └─ ring ──┘   LFO · filter env · noise · velocity ─▶ patch bay │
                                                                      ▼
    out ◀─ reverb ◀─ ping-pong delay ◀─ bitcrush ◀─ phaser ◀─ chorus`,
-    tech: 'JUCE 8.0.4 · C++17 · VST3 / AU / Standalone · macOS 11+ universal (Apple Silicon + Intel)',
+    tech: 'JUCE · C++17 · VST3 / AU / Standalone · macOS 11.0+ · Apple Silicon and Intel',
     gallery: [
       { src: '/akableep-sequencer.webp', w: 1179, h: 560, label: 'Sequencer · EDIT — per-step parameter locks' },
       { src: '/akableep-patchbay.webp', w: 1171, h: 563, label: 'Patch bay — drag-to-wire modulation' },
@@ -62,14 +67,16 @@ const plugins: Plugin[] = [
   {
     id: 'akaenzyme',
     suffix: 'Enzyme',
+    version: 'v1.0.0',
+    specs: 'VST3 · AU · Standalone · macOS 11.0+ · Apple Silicon and Intel · 18 presets',
     // Waldorf blue — matches the "Protein" theme
     accent: 'text-[oklch(0.52_0.17_245)] dark:text-[oklch(0.72_0.14_245)]',
     github: 'https://github.com/akaieuan/akaEnzyme-VST',
-    eyebrow: 'Instrument · VST3 / AU / Standalone · Ableton-ready',
+    eyebrow: 'Instrument · Lo-fi multi-timbral synth',
     tagline: 'A 4-layer lo-fi multi-timbral synth inspired by the Waldorf Protein — stacked, split, and mangled live.',
     loadsAs: 'Loads as Enzyme in your plugin list.',
     hero: { src: '/enzyme-layer.webp', w: 1600, h: 1131, label: 'Layer — per-layer synth voice' },
-    what: 'akaEnzyme reimagines the Waldorf Protein’s 8-bit tabletop character as a modern plugin: four independent layers sharing a single 8-voice pool, routed by a hardware-style Multi engine, then smeared through a switchable FX rack and a dedicated lo-fi / “sample-breaking” mangle section. The grit comes from bitcrush, sample-rate reduction, and drive waveshaping. It ships as a signed universal VST3/AU that passes Apple’s auval and drops straight into Ableton, Logic, or Bitwig — designed to be stacked, split, and mangled fast, live.',
+    what: 'Enzyme reimagines the Waldorf Protein’s 8-bit tabletop character as a modern plugin: four independent layers sharing a single 8-voice pool, routed by a hardware-style Multi engine, then smeared through a switchable FX rack and a dedicated lo-fi / “sample-breaking” mangle section. The grit comes from bitcrush, sample-rate reduction, and drive waveshaping. It ships as a signed universal VST3/AU that passes Apple’s auval and drops straight into Ableton, Logic, or Bitwig — designed to be stacked, split, and mangled fast, live.',
     features: [
       { h: 'Four layers, one pool', t: 'Independent A/B/C/D layers share a single 8-voice pool with global voice-stealing — a hardware-style Multi engine, not four separate synths.' },
       { h: 'Five Multi modes', t: 'Single, Layered, Round-Robin, Random-Robin, and MIDI-Split with three key-split points — stack a pad, split the keyboard, or cycle layers per note.' },
@@ -79,7 +86,7 @@ const plugins: Plugin[] = [
       { h: 'Built for the stage', t: 'Ableton-style QWERTY play from anywhere in the editor, ±2-semitone pitch bend, click-free master gain, and an output bus guarded by a DC blocker + soft clipper so extreme settings never spike the master.' },
       { h: 'Production-ready', t: 'Signed universal VST3/AU that passes auval on both architectures, reports correct tail/latency, and smooths automation — it behaves like a finished instrument in any host.' },
     ],
-    tech: 'JUCE 8.0.4 · C++17 · VST3 / AU / Standalone · macOS 11+ universal (Apple Silicon + Intel)',
+    tech: 'JUCE · C++17 · VST3 / AU / Standalone · macOS 11.0+ · Apple Silicon and Intel',
     gallery: [
       { src: '/enzyme-multi.webp', w: 1600, h: 1127, label: 'Multi — 4-layer routing + splits' },
       { src: '/enzyme-arp.webp', w: 1600, h: 1134, label: 'Arp — host-synced arpeggiator' },
@@ -90,10 +97,12 @@ const plugins: Plugin[] = [
   {
     id: 'aka-i4',
     suffix: '-i4',
+    version: 'v0.1.0',
+    specs: 'VST3 · AU · Standalone · macOS 11.0+ · Apple Silicon · 5 presets',
     // teal / slate — matches the i4 UI accent
     accent: 'text-[oklch(0.5_0.08_220)] dark:text-[oklch(0.72_0.08_220)]',
     github: 'https://github.com/akaieuan/akaI4-VST',
-    eyebrow: 'Sampler · VST3 / AU / Standalone · Ableton-ready',
+    eyebrow: 'Instrument · Sculpting sampler',
     tagline: 'A sculpting sampler inspired by the Torso S-4 — built for live resampling and performance.',
     loadsAs: 'Loads as i4.',
     hero: { src: '/i4-tape.webp', w: 1600, h: 951, label: 'Tape — varispeed source' },
@@ -109,7 +118,7 @@ const plugins: Plugin[] = [
     ],
     signalFlow: ` Tape + 16 Pads ─▶ Mosaic ─▶ Ring ─▶ Deform ─▶ Vast ─▶ Beat Repeat ─▶ Master Filter ─▶ out
                                                                        └▶ Loop Recorder ─▶ new Pad`,
-    tech: 'JUCE 8.0.4 · C++17 · VST3 / AU / Standalone · macOS 11+ (Apple Silicon + Intel)',
+    tech: 'JUCE · C++17 · VST3 / AU / Standalone · macOS 11.0+ · Apple Silicon',
     gallery: [
       { src: '/i4-mosaic.webp', w: 1600, h: 953, label: 'Mosaic — granular cloud' },
       { src: '/i4-ring.webp', w: 1600, h: 952, label: 'Ring — 48-band resonator' },
@@ -120,9 +129,9 @@ const plugins: Plugin[] = [
 ]
 
 export const metadata = {
-  title: 'akaVSTs — Instrument & Sampler Plugins | akaBuild',
+  title: 'akaVST — Three JUCE Instruments for macOS | akaBuild',
   description:
-    'Three macOS DAW plugins (VST3 / AU / Standalone) I play live and use in my own music: akaBleep (acid synth + P-lock sequencer), akaEnzyme (4-layer lo-fi multi-timbral synth), and i4 (sculpting sampler). JUCE 8, C++17, Apple Silicon native.',
+    'Three JUCE instruments for macOS, built one at a time and documented as they go: akaBleep (acid voice + 64-step sequencer, v0.4.0), Enzyme (four lo-fi layers on one voice pool, v1.0.0), and i4 (sculpting sampler, v0.1.0). VST3 · AU · Standalone.',
 }
 
 function HeroImage({ shot }: { shot: Shot }) {
@@ -191,18 +200,74 @@ export default function AkaVstsPage() {
         <header>
           <h1
             className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-foreground/90"
-            aria-label="akaVSTs"
+            aria-label="akaVST"
           >
-            akaVSTs
+            akaVST
           </h1>
-          <p className="mt-3 text-sm font-light leading-relaxed text-muted-foreground max-w-xl">
-            Three macOS DAW plugins I build and play — and use in my own music today. They load as
-            VST3 / AU instruments in Ableton, Logic, Bitwig, or any host (and run standalone too),
-            built with JUCE 8 and C++17, Apple Silicon native. Each one is made to be recorded live:
-            immediate, hands-on parameter control, dedicated FX pages, and master sections built
-            around tension and performance.
+          <p className="mt-3 max-w-xl text-sm font-light leading-relaxed text-muted-foreground">
+            Three instruments, built one at a time and documented as they go: an acid voice wrapped
+            around a 64-step sequencer, a four-layer lo-fi synth sharing one voice pool, and a
+            sampler that resamples itself. JUCE and C++17, for macOS — VST3, AU, and Standalone.
+            They&apos;re at v0.1, v0.4, and v1.0, and the pages say so: what&apos;s finished is
+            listed, what&apos;s queued is listed, and none of them are finished.
           </p>
+
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <a
+              href="https://www.akavst.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+            >
+              Visit akavst.com
+              <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
+            </a>
+            <a
+              href="https://github.com/akaieuan"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/40"
+            >
+              GitHub
+              <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
+            </a>
+          </div>
         </header>
+
+        <section className="mt-14 border-t border-border/60 pt-10">
+          <p className={microLabel}>How these get made</p>
+          <div className="mt-5 space-y-5">
+            {[
+              {
+                n: '01',
+                h: 'One window, not a rack',
+                t: 'Each of these exists because the thing it does was possible already, and miserable. Wiring a synth to a sequencer to a fistful of utilities gets you an acid line; it does not get you something you can perform. The instrument is the part where the wiring disappears.',
+              },
+              {
+                n: '02',
+                h: 'Character over emulation',
+                t: 'None of these model a specific circuit. Enzyme evokes the Protein’s lo-fi bite with bitcrush, sample-rate reduction, and waveshaping rather than reproducing a wavetable engine. The reference is a target, not a spec.',
+              },
+              {
+                n: '03',
+                h: 'Shipped states, honestly',
+                t: 'These are at v0.1, v0.4, and v1.0, and the pages say so. What is finished is listed, what is queued is listed, and where a README overpromises against the build, the build wins.',
+              },
+            ].map((r) => (
+              <div key={r.n} className="flex gap-4">
+                <span className="mt-0.5 shrink-0 font-mono text-[11px] text-muted-foreground/40">
+                  {r.n}
+                </span>
+                <div>
+                  <p className="text-[14px] text-foreground/85">{r.h}</p>
+                  <p className="mt-1 text-[13px] font-light leading-relaxed text-muted-foreground">
+                    {r.t}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {plugins.map((p, i) => (
           <section
@@ -211,9 +276,15 @@ export default function AkaVstsPage() {
             className={i === 0 ? 'mt-14 scroll-mt-20' : 'mt-16 border-t border-border/60 pt-14 scroll-mt-20'}
           >
             <p className={microLabel}>{p.eyebrow}</p>
-            <h2 className="mt-2 text-2xl font-light tracking-tight text-foreground/90 md:text-[26px]">
-              aka{p.suffix}
-            </h2>
+            <div className="mt-2 flex flex-wrap items-baseline gap-3">
+              <h2 className="text-2xl font-light tracking-tight text-foreground/90 md:text-[26px]">
+                aka{p.suffix}
+              </h2>
+              <span className="rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground/70">
+                {p.version}
+              </span>
+            </div>
+            <p className="mt-1.5 text-[11.5px] font-light text-muted-foreground/60">{p.specs}</p>
             <p className="mt-1 text-sm text-muted-foreground">
               {p.tagline}
               {p.loadsAs && <span className="text-muted-foreground/70"> {p.loadsAs}</span>}
