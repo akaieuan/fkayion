@@ -100,7 +100,7 @@ const usage = [
   },
   {
     name: 'HITL Kit',
-    what: 'Fifteen human-in-the-loop React primitives, installable via the shadcn CLI. The interaction half of this language.',
+    what: 'Nineteen human-in-the-loop React primitives, installable via the shadcn CLI. The interaction half of this language.',
     href: '/demo/hitl-kit',
     internal: true,
   },

@@ -201,7 +201,9 @@ export default function EvalKitProjectPage() {
                 Every other eval framework I looked at lets an LLM grade the output because human
                 scoring is expensive. eval-kit treats that expense as the point. If the same family
                 of model that produced the answer also grades it, the eval inherits the model&apos;s
-                blind spots. The accepted RFC for v0.5&apos;s continuous-learning flywheel doubles down: AI
+                blind spots. LLM-as-judge exists in the tool only as an opt-in pre-fill, and every
+                score it touches is flagged as such — so a human-scored run and an assisted one are
+                never mistaken for each other. The accepted RFC for v0.5&apos;s continuous-learning flywheel doubles down: AI
                 agents can <em>propose</em> training updates, but a human must approve each proposal
                 before it can feed an export. Auto-approval is named in the spec as a guardrail
                 violation that should fork the project, not amend it.

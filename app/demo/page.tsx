@@ -75,7 +75,7 @@ const projects: ProjectCardItem[] = [
     title: 'Collapse',
     tags: ['Open source', 'Dev tool', 'Write-up'],
     description:
-      'Pattern → SKILL.md compiler for Claude Code. Three pluggable ingestors (MDX, Jupyter, custom) feed a typed pipeline with local atomic writes to ~/.claude/skills/. Next.js 16 + TypeScript.',
+      'Skills and MCP tools from your lessons. Three pluggable ingestors (MDX, Jupyter/MyST, and a one-file pattern for anything else) feed a typed pipeline with local atomic writes to ~/.claude/skills/. v0.2.',
     href: '/demo/collapse',
     img: collapseHome,
   },
@@ -91,7 +91,7 @@ const projects: ProjectCardItem[] = [
     title: 'HITL Kit',
     tags: ['Open source', 'Write-up'],
     description:
-      'Design system, fifteen HITL primitives, six @hitl-kit/* npm packages, shadcn registry, and personal research paper.',
+      'Design system, nineteen HITL primitives, six @hitl-kit/* npm packages, shadcn registry, and personal research paper.',
     href: '/demo/hitl-kit',
     img: hitlKitHero,
   },
@@ -99,7 +99,7 @@ const projects: ProjectCardItem[] = [
     title: 'EVAL Kit',
     tags: ['Open source', 'Write-up'],
     description:
-      'Agent eval framework: human scoring, YAML suites, local dashboard, CLI; five dimensions LLM judges miss.',
+      'Agent eval framework: humans score, not LLMs — LLM-as-judge is only an opt-in pre-fill, flagged on every score. YAML suites, local dashboard, CLI, five dimensions LLM judges miss.',
     href: '/demo/eval-kit',
     img: evalKitOverview,
   },

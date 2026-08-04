@@ -24,20 +24,20 @@ const measurement: Project[] = [
   {
     name: 'HITL Kit',
     href: '/demo/hitl-kit',
-    blurb: 'Human-in-the-loop AI, measured properly. 15 React primitives installable via the shadcn CLI (registry served from this repo) and six @hitl-kit/* npm packages — schemas, gates, and LangGraph / AI-SDK / MCP adapters.',
+    blurb: 'Human-in-the-loop AI, measured properly. Nineteen React primitives installable via the shadcn CLI and six @hitl-kit/* npm packages — schemas, gates, and LangGraph / AI-SDK / MCP adapters. Each primitive is the physical embodiment of a specific claim from the paper.',
     status: 'v0.6',
   },
   {
     name: 'eval-kit',
     href: '/demo/eval-kit',
-    blurb: 'A measurement instrument for multi-step research agents: YAML suites, per-step tool-match auto-scoring, a five-dimension human rubric, deterministic replay. Humans score, not LLMs.',
+    blurb: 'A measurement instrument for multi-step research agents: YAML suites, per-step tool-match auto-scoring, a five-dimension human rubric, deterministic replay. Humans score, not LLMs — LLM-as-judge is only an opt-in pre-fill, flagged on every score.',
     status: 'v0.3.1',
   },
   {
     name: 'tag-kit',
     href: 'https://www.akaoss.dev/projects/tag-kit',
     external: true,
-    blurb: 'Structured tagging primitives for annotation workflows: per-modality scoping, scope-aware agreement scoring, headless React.',
+    blurb: 'Structured tagging primitives for annotation workflows. Most tagging in HITL tools is unstructured strings you can never aggregate or score across; tag-kit gives them per-modality scoping, scope-aware agreement scoring, and headless React. Zero runtime deps.',
     status: 'stable',
   },
 ]
@@ -46,7 +46,7 @@ const tooling: Project[] = [
   {
     name: 'Collapse',
     href: '/demo/collapse',
-    blurb: 'A Claude Code skill-building framework — compile MDX lessons and Jupyter notebooks into SKILL.md files, or into MCP server scaffolds, that Claude reaches for first.',
+    blurb: 'Skills and MCP tools from your lessons. Three pluggable ingestors — MDX lessons, Jupyter/MyST notebooks, and a one-file extension pattern for any other format — feed a typed pipeline that compiles each pattern into a SKILL.md or an MCP server scaffold.',
     status: 'v0.2',
   },
   {

@@ -20,7 +20,7 @@ const gallery: Shot[] = [
 export const metadata = {
   title: 'Collapse — Pattern → SKILL.md Compiler for Claude Code | akaBuild',
   description:
-    'A Claude Code skill-building framework: three pluggable ingestors (MDX lessons, Jupyter notebooks, custom) feed a typed pipeline that compiles each pattern into a SKILL.md and atomically writes it to ~/.claude/skills/. Next.js 16 + TypeScript.',
+    'A Claude Code skill-building framework: three pluggable ingestors — MDX lessons, Jupyter .ipynb / MyST .md, and a one-file extension pattern for any other source format — feed a typed pipeline that compiles each pattern into a SKILL.md or an MCP server scaffold, written atomically to ~/.claude/skills/. Next.js 16 + TypeScript.',
 }
 
 export default function CollapseProjectPage() {

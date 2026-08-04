@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 export const metadata = {
   title: 'HITL Kit — Human-in-the-Loop AI, Measured Properly | akaBuild',
   description:
-    'An open-source design system, component library, and perspective paper on human-in-the-loop AI. Fifteen primitives, six @hitl-kit/* npm packages, a shadcn registry, and a research argument connecting them.',
+    'An open-source design system, component library, and perspective paper on human-in-the-loop AI. Nineteen primitives, six @hitl-kit/* npm packages, a shadcn registry, and a research argument connecting them.',
 }
 
 export default function HitlKitProjectPage() {
@@ -115,7 +115,7 @@ export default function HitlKitProjectPage() {
               <strong className="font-medium text-foreground/90">perspective paper</strong> arguing that
               95% of enterprise AI pilots fail because we evaluate systems for autonomous completion when
               deployment demands human-AI collaboration; a{' '}
-              <strong className="font-medium text-foreground/90">component library</strong> of fifteen HITL
+              <strong className="font-medium text-foreground/90">component library</strong> of nineteen HITL
               primitives that installs into any shadcn/ui project via one CLI command, plus six{' '}
               <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">@hitl-kit/*</code> npm
               packages; and a{' '}
@@ -136,14 +136,14 @@ export default function HitlKitProjectPage() {
                 and editorial typography.
               </li>
               <li>
-                <span className="text-foreground/85">Fifteen HITL primitives.</span> Among them: Interrupt
+                <span className="text-foreground/85">Nineteen HITL primitives.</span> Among them: Interrupt
                 Card, Subagent Status, MiniTrace, AI Generation Scale, Context Chips, QA Flow, Writing
                 Agent, Research Agent, Batch Queue, Search Result Card, Approve/Reject Row. Each one is the
                 physical embodiment of a specific claim from the paper.
               </li>
               <li>
-                <span className="text-foreground/85">Shadcn registry with fifteen endpoints.</span>{' '}
-                registry.json, a build pipeline (pnpm registry:build), and fifteen JSON manifests served
+                <span className="text-foreground/85">Shadcn registry with nineteen endpoints.</span>{' '}
+                registry.json, a build pipeline (pnpm registry:build), and nineteen JSON manifests served
                 at hitlkit.dev/r/*.json. Transitive dependencies resolve correctly. End-to-end tested:
                 anyone on the open internet can run{' '}
                 <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">

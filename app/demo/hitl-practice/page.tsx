@@ -89,7 +89,7 @@ export default function HitlPracticePage() {
               <Link href="/demo/hitl-kit" className={linkSage}>
                 HITL Kit
               </Link>{' '}
-              packages the patterns as fifteen installable primitives.
+              packages the patterns as nineteen installable primitives.
             </p>
           </section>
 
