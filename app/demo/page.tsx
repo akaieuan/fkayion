@@ -1,18 +1,16 @@
 import { ProjectCard, type ProjectCardItem } from '@/components/ui/project-card'
 
 // Card media — static imports for build-time blur placeholders.
-import covartSplash from '@/public/covart-splash.webp'
-import boxPopuliHero from '@/public/box-populi-hero.webp'
 import inertialDashboard from '@/public/inertial-dashboard.png'
-import nullBrowserPoster from '@/public/null-browser-hero-poster.jpg'
-import wrdefPoster from '@/public/wrdef-hero-poster.jpg'
 import visualizerPoster from '@/public/visualizer-eden-preview-poster.jpg'
-import researchOs from '@/public/research-os.webp'
-import musicChat from '@/public/music-analysis-chat.webp'
 import brooklynDead from '@/public/brooklyn-dead.webp'
 import iconHowIWork from '@/public/icon-howiwork.webp'
 import iconFeedback from '@/public/icon-feedback.webp'
-import ubikWorkspace from '@/public/ubik-workspace.webp'
+
+// Bitmap logos the projects ship — drawn as app-icon tiles on the card plate.
+import ubikLogo from '@/components/ui/logos/ubik.png'
+import boxPopuliLogo from '@/components/ui/logos/box-populi.webp'
+import covartLogo from '@/components/ui/logos/akacovart.png'
 
 const projects: ProjectCardItem[] = [
   {
@@ -23,6 +21,7 @@ const projects: ProjectCardItem[] = [
     href: '/demo/circleheads',
     logo: 'circleheads',
     accent: '#7fb896',
+    motion: 'rise',
   },
   {
     title: 'akaOSS',
@@ -32,6 +31,7 @@ const projects: ProjectCardItem[] = [
     href: '/demo/akaoss',
     logo: 'akaoss-mark',
     accent: '#69b57f',
+    motion: 'bloom',
   },
   {
     title: 'BodyLog',
@@ -41,6 +41,7 @@ const projects: ProjectCardItem[] = [
     href: '/demo/bodylog',
     logo: 'bodylog',
     accent: '#5d98f4',
+    motion: 'fill',
   },
   {
     title: 'Ubik Studio',
@@ -48,7 +49,9 @@ const projects: ProjectCardItem[] = [
     description:
       'Three and a half years co-founding a desktop-native AI research platform — agents that gather, read, and draft, with humans keeping the final say and evidence behind every claim.',
     href: '/demo/ubik',
-    img: ubikWorkspace,
+    logoImg: ubikLogo,
+    accent: '#4a86d8',
+    motion: 'rise',
   },
   {
     title: 'Box Populi',
@@ -56,7 +59,9 @@ const projects: ProjectCardItem[] = [
     description:
       'On-brand site for a NYC live-techno collective. Custom audio players over the SoundCloud Widget, multiple live streams coordinated so they never overlap, an iOS quirk handled honestly.',
     href: '/demo/box-populi',
-    img: boxPopuliHero,
+    logoImg: boxPopuliLogo,
+    accent: '#b9b9b4',
+    motion: 'slide',
   },
   {
     title: 'Hologram',
@@ -66,6 +71,7 @@ const projects: ProjectCardItem[] = [
     href: '/demo/hologram',
     logo: 'hologram',
     accent: '#5fb4c4',
+    motion: 'scan',
   },
   {
     title: 'akaVST',
@@ -75,6 +81,7 @@ const projects: ProjectCardItem[] = [
     href: '/demo/akavsts',
     logo: 'akavst-pixel',
     accent: '#9b7cf0',
+    motion: 'pulse',
   },
   {
     title: 'Collapse',
@@ -84,6 +91,7 @@ const projects: ProjectCardItem[] = [
     href: '/demo/collapse',
     logo: 'collapse',
     accent: '#c9a227',
+    motion: 'slide',
   },
   {
     title: 'akaCOVART',
@@ -91,7 +99,9 @@ const projects: ProjectCardItem[] = [
     description:
       'A generative album-art engine — shape it, sync the motion to your track, and export the cover. Every cover is reproducible: engine + seed + a few parameters.',
     href: '/demo/akacovart',
-    img: covartSplash,
+    logoImg: covartLogo,
+    accent: '#7b9084',
+    motion: 'bloom',
   },
   {
     title: 'HITL Kit',
@@ -101,6 +111,7 @@ const projects: ProjectCardItem[] = [
     href: '/demo/hitl-kit',
     logo: 'hitl-kit',
     accent: '#8d7ce8',
+    motion: 'rise',
   },
   {
     title: 'EVAL Kit',
@@ -110,6 +121,7 @@ const projects: ProjectCardItem[] = [
     href: '/demo/eval-kit',
     logo: 'eval-kit',
     accent: '#e08a5d',
+    motion: 'fill',
   },
   {
     title: 'Trickle UI Kit',
@@ -119,6 +131,7 @@ const projects: ProjectCardItem[] = [
     href: '/demo/trickle-ui-kit',
     logo: 'trickle',
     accent: '#d4738f',
+    motion: 'scan',
   },
   {
     title: 'How I Work',
@@ -128,6 +141,7 @@ const projects: ProjectCardItem[] = [
     href: '/demo/hitl-practice',
     mark: 'gear',
     accent: '#8fa3b8',
+    motion: 'bloom',
   },
   {
     title: 'User feedback + design log',
@@ -136,6 +150,7 @@ const projects: ProjectCardItem[] = [
     href: 'https://kraa.io/team-test-log042',
     mark: 'bubble',
     accent: '#c98f6b',
+    motion: 'pulse',
   },
   {
     title: 'Inertial - Content Moderation Tool',
@@ -151,7 +166,9 @@ const projects: ProjectCardItem[] = [
     description:
       'Privacy-first Tauri browser: zero telemetry, local-first AI, six invariants, every connection visible. Pre-v0.1.',
     href: '/demo/null-browser',
-    img: nullBrowserPoster,
+    logo: 'zero',
+    accent: '#7e8a99',
+    motion: 'fill',
   },
   {
     title: 'Procedural Asset Pipeline Engineering',
@@ -167,7 +184,9 @@ const projects: ProjectCardItem[] = [
     description:
       'A five-letter guessing game powered by definitions, bonus rounds, and a locally saved dictionary.',
     href: '/demo/wrdef',
-    img: wrdefPoster,
+    wordmark: 'Wrdef',
+    accent: '#6fae86',
+    motion: 'scan',
   },
   {
     title: 'Research OS',
@@ -175,7 +194,9 @@ const projects: ProjectCardItem[] = [
     description:
       'Multi-panel workspace with agentic search, chat, and human-in-the-loop approval flows.',
     href: '/demo/research-os',
-    img: researchOs,
+    logo: 'research-os',
+    accent: '#6f93c4',
+    motion: 'slide',
   },
   {
     title: 'Music Analysis Chat',
@@ -183,7 +204,9 @@ const projects: ProjectCardItem[] = [
     description:
       'Music analytics assistant with roster dashboards, creator discovery, and rich chat blocks.',
     href: '/demo/music-analysis-chat',
-    img: musicChat,
+    logo: 'music-chat',
+    accent: '#c07fa8',
+    motion: 'pulse',
   },
   {
     title: 'Visualizer Eden',

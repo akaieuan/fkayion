@@ -5,13 +5,26 @@ import { PixelHead, type PixelIcon } from '@/components/features/brand/pixel-hea
 import { BodyLogMark } from '@/components/demo/bodylog/bodylog-mark'
 import { CircleheadsLogo } from '@/components/ui/brand-logos'
 import { ProjectLogo } from '@/components/ui/project-logo'
-import { PixelPattern, patternFor } from '@/components/ui/pixel-pattern'
+import { MarkGlyph, hasGlyph } from '@/components/ui/mark-glyphs'
+import { PixelPattern, patternFor, type FieldMotion } from '@/components/ui/pixel-pattern'
+import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 
 /**
  * The one project-card vocabulary, shared by the landing featured grid and
- * the /demo index: media on top (static import → build-time blur placeholder),
- * then name, brief, and neutral tag chips. Server-rendered; no client JS.
+ * the /demo index: art on top, then name, brief, and neutral tag chips.
+ * Server-rendered, and the hover life is pure CSS, so no client JS either.
+ *
+ * Two kinds of art:
+ *   · a screenshot (static import → build-time blur placeholder), or
+ *   · a brand plate — the `.aka-plate` primitive: opaque ground, a pixel field
+ *     in the project's hue, and its mark in an `.aka-icon-tile` in front.
+ *
+ * On hover only the field moves; the mark is identity and holds still.
  */
+
+/** Field behaviours, from akaSTYLE. Named so a grid never repeats itself. */
+export type Motion = FieldMotion
 
 export type ProjectCardItem = {
   title: string
@@ -21,52 +34,79 @@ export type ProjectCardItem = {
   img?: StaticImageData
   imgAlt?: string
   priority?: boolean
-  /** Draw the brand mark instead of a screenshot — for toolkits that ship an icon. */
+  /** Draw a brand mark from the pixel engine instead of a screenshot. */
   mark?: PixelIcon
-  /** Projects that ship their own logo — from the logo kits, or a local mark. */
-  logo?: 'bodylog' | 'circleheads' | string
+  /** A logo the project ships: a name from the logo kits, or a drawn glyph. */
+  logo?: string
+  /** A logo that only exists as a bitmap — it fills its own icon tile. */
+  logoImg?: StaticImageData
+  /** Projects whose logo is just their name set in type. */
+  wordmark?: string
   /**
-   * The project's own hue. Tints its media well and its mark so a wall of
-   * cards reads as a family of distinct things rather than one repeated one.
+   * The project's own hue. Tints its pixel field so a wall of cards reads as a
+   * family of distinct things rather than one repeated one.
    */
   accent?: string
+  /** How the field reacts to hover. Omit for a still plate. */
+  motion?: Motion
 }
-
-const chip =
-  'rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground/70'
 
 export function ProjectCard({ item }: { item: ProjectCardItem }) {
   const isExternal = /^https?:\/\//.test(item.href)
   // Fall back to the site's own accent so an untagged card still looks intentional.
   const accent = item.accent ?? '#8a8a86'
   const pattern = patternFor(item.logo ?? item.mark ?? item.title)
+  const hasPlate = Boolean(item.logo || item.logoImg || item.wordmark || item.mark)
+
   const body = (
     <>
-      {item.logo || item.mark ? (
-        // A pixel-cell field in the project's own hue, with the logo in front —
-        // same bit language as the marks themselves, drawn as server SVG.
-        <div className="relative flex h-[124px] w-full items-center justify-center overflow-hidden border-b border-border/60">
+      {hasPlate ? (
+        <div className="aka-plate">
           <PixelPattern
             kind={pattern.kind}
             seed={pattern.seed}
             accent={accent}
-            className="absolute inset-0 h-full w-full"
+            motion={item.motion}
+            className="aka-plate-field"
           />
-          <span className="relative text-foreground/90">
-            {item.logo === 'bodylog' ? (
-              <BodyLogMark size={64} title="" />
+          <span
+            className={[
+              'aka-icon-tile',
+              item.logoImg ? 'aka-icon-tile-bleed' : '',
+              item.wordmark ? 'aka-icon-tile-wide' : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+          >
+            {item.logoImg ? (
+              <Image
+                src={item.logoImg}
+                alt=""
+                width={62}
+                height={62}
+                sizes="62px"
+                className="h-full w-full object-cover"
+              />
+            ) : item.wordmark ? (
+              <span className="font-mono text-[16px] font-medium uppercase tracking-[0.32em] text-foreground/85">
+                {item.wordmark}
+              </span>
+            ) : item.logo === 'bodylog' ? (
+              <BodyLogMark size={42} title="" />
             ) : item.logo === 'circleheads' ? (
-              <CircleheadsLogo size={62} />
+              <CircleheadsLogo size={40} />
+            ) : item.logo && hasGlyph(item.logo) ? (
+              <MarkGlyph name={item.logo} size={38} accent={accent} />
             ) : item.logo ? (
-              <ProjectLogo name={item.logo} size={62} />
+              <ProjectLogo name={item.logo} size={40} />
             ) : (
-              item.mark && <PixelHead size={68} grid={22} icon={item.mark} still />
+              item.mark && <PixelHead size={44} grid={22} icon={item.mark} still />
             )}
           </span>
         </div>
       ) : (
         item.img && (
-          <div className="relative h-[124px] w-full overflow-hidden border-b border-border/60 bg-muted/10">
+          <div className="aka-plate">
             <Image
               src={item.img}
               alt={item.imgAlt ?? item.title}
@@ -74,43 +114,43 @@ export function ProjectCard({ item }: { item: ProjectCardItem }) {
               placeholder="blur"
               priority={item.priority}
               sizes="(min-width:1024px) 340px, (min-width:640px) 45vw, 90vw"
-              className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]"
+              className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:transform-none"
             />
           </div>
         )
       )}
-      <div className="flex flex-1 flex-col p-4">
+      <CardHeader className="flex-1">
         <div className="flex items-start justify-between gap-3">
-          <h3 className="text-[14px] font-light leading-snug tracking-[-0.01em] text-foreground">
-            {item.title}
-          </h3>
+          <CardTitle className="text-[14px] tracking-[-0.01em]">{item.title}</CardTitle>
           <ArrowUpRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground/35 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground" />
         </div>
-        <p className="mt-1 line-clamp-3 text-[12px] font-light leading-snug text-muted-foreground/75">
+        <p className="line-clamp-3 text-[12px] font-light leading-snug text-muted-foreground/75">
           {item.description}
         </p>
-        {item.tags && item.tags.length > 0 && (
-          <div className="mt-auto flex flex-wrap gap-1.5 pt-2.5">
-            {item.tags.map((tag) => (
-              <span key={tag} className={chip}>
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
+      </CardHeader>
+      {item.tags && item.tags.length > 0 && (
+        <CardFooter className="flex-wrap gap-1.5 pt-2.5">
+          {item.tags.map((tag) => (
+            <Badge key={tag} variant="tag">
+              {tag}
+            </Badge>
+          ))}
+        </CardFooter>
+      )}
     </>
   )
 
   const cls =
-    'group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card/40 transition-colors hover:bg-muted/30'
+    'group h-full gap-0 overflow-hidden py-0 transition-colors hover:border-foreground/20 hover:bg-muted/30'
   return isExternal ? (
-    <a href={item.href} target="_blank" rel="noopener noreferrer" className={cls}>
-      {body}
-    </a>
+    <Card asChild className={cls}>
+      <a href={item.href} target="_blank" rel="noopener noreferrer">
+        {body}
+      </a>
+    </Card>
   ) : (
-    <Link href={item.href} className={cls}>
-      {body}
-    </Link>
+    <Card asChild className={cls}>
+      <Link href={item.href}>{body}</Link>
+    </Card>
   )
 }

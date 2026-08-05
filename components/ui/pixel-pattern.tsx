@@ -8,9 +8,16 @@
  *
  * Four arrangements so a wall of cards doesn't repeat itself. Each stays quiet:
  * these sit *behind* a logo, so they never exceed ~18% alpha.
+ *
+ * Hover reforms the field cell by cell, the way the hero mark assembles — each
+ * cell carries its own `--d` delay, and the keyframes live in akaSTYLE. The
+ * order the delays run in is what gives each card its character.
  */
 
 export type PatternKind = 'drift' | 'scatter' | 'strata' | 'bloom'
+
+/** Field behaviours. The name picks both the keyframe and the delay order. */
+export type FieldMotion = 'fill' | 'scan' | 'slide' | 'rise' | 'bloom' | 'pulse'
 
 /** Deterministic 0–1 — same card, same pattern, every render and reload. */
 function rand(seed: number, i: number) {
@@ -50,12 +57,41 @@ function weightFor(kind: PatternKind, col: number, row: number, cols: number, ro
   }
 }
 
+/** The reform order, 0–1, for a cell. This is what makes each card its own. */
+function orderFor(motion: FieldMotion, cx: number, cy: number, r: number) {
+  switch (motion) {
+    case 'fill':
+      return 1 - cy // fills upward, like a record accumulating
+    case 'scan':
+      return cy // a readout passing down the plate
+    case 'slide':
+      return cx // a stage advancing left to right
+    case 'rise':
+      return (1 - cy) * 0.7 + (1 - cx) * 0.3 // up and out of the corner
+    case 'bloom':
+      return Math.hypot(cx - 0.5, cy - 0.5) / 0.71 // outward from the mark
+    case 'pulse':
+      return r // no order at all — pure static
+  }
+}
+
+/** Keyframe per behaviour, defined in akaSTYLE. */
+const KEYFRAME: Record<FieldMotion, string> = {
+  fill: 'pop',
+  scan: 'rise',
+  slide: 'glitch',
+  rise: 'rise',
+  bloom: 'pop',
+  pulse: 'flicker',
+}
+
 export function PixelPattern({
   kind = 'drift',
   accent,
   seed = 1,
   cols = 26,
   rows = 11,
+  motion,
   className,
 }: {
   kind?: PatternKind
@@ -64,12 +100,16 @@ export function PixelPattern({
   seed?: number
   cols?: number
   rows?: number
+  /** Omit for a still field. */
+  motion?: FieldMotion
   className?: string
 }) {
   const gap = 0.18 // fraction of a cell
   const cell = 100 / cols
   const size = cell * (1 - gap)
   const rectH = 100 / rows
+  /** The whole reform runs inside this window, however many cells there are. */
+  const STAGGER = 460
 
   const cells: React.ReactElement[] = []
   let i = 0
@@ -77,6 +117,11 @@ export function PixelPattern({
     for (let col = 0; col < cols; col++, i++) {
       const w = weightFor(kind, col, row, cols, rows, seed, i)
       if (!w) continue
+      const r = rand(seed, i + 3)
+      // A little jitter on top of the order, so no rank arrives as a hard line.
+      const order = motion
+        ? Math.min(1, Math.max(0, orderFor(motion, (col + 0.5) / cols, (row + 0.5) / rows, r) * 0.85 + r * 0.15))
+        : 0
       cells.push(
         <rect
           key={i}
@@ -86,7 +131,10 @@ export function PixelPattern({
           height={rectH * (1 - gap)}
           rx={size * 0.22}
           fill={accent}
-          fillOpacity={w * 0.18}
+          // Rounded: Math.sin's last bits differ between Node and the browser,
+          // and React compares the serialized attribute on hydration.
+          fillOpacity={Math.round(w * 0.18 * 1000) / 1000}
+          style={motion ? ({ '--d': `${Math.round(order * STAGGER)}ms` } as React.CSSProperties) : undefined}
         />,
       )
     }
@@ -96,7 +144,9 @@ export function PixelPattern({
     <svg
       viewBox="0 0 100 100"
       preserveAspectRatio="none"
-      className={className}
+      className={[className, motion ? `aka-field aka-field-${KEYFRAME[motion]}` : '']
+        .filter(Boolean)
+        .join(' ')}
       aria-hidden
       focusable="false"
     >

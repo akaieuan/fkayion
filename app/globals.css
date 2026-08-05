@@ -229,6 +229,9 @@ body {
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(0.88 0.003 106);
+  /* Card art plate — a recessed ground the marks sit on, one step off the card. */
+  --plate: oklch(0.945 0.003 106);
+  --plate-border: oklch(0.855 0.003 106);
   --input: oklch(0.925 0 0);
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.646 0.222 41.116);
@@ -273,6 +276,8 @@ body {
   --destructive: oklch(0.611 0.25 28.967);
   --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(1 0 0 / 10%);
+  --plate: oklch(0.148 0.008 95.5);
+  --plate-border: oklch(1 0 0 / 8%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
   --chart-1: oklch(0.621 0.136 268.368);
@@ -333,3 +338,163 @@ body {
     color-mix(in oklch, var(--background) 12%, transparent) 100%
   );
 } 
+/* ---------------------------------------------------------------------------
+ * akaSTYLE — the card plate
+ *
+ * The art well every project card shares: a recessed ground one step off the
+ * card surface, a pixel field in the project's own hue, and its mark in an
+ * app-icon tile in front. Both themes get their own ground, so a light page
+ * never carries a black band across every card.
+ *
+ * On hover only the *field* moves. The mark is identity; it holds still.
+ * Everything animates on transform and opacity alone, so hover stays on the
+ * compositor and never triggers layout.
+ * ------------------------------------------------------------------------ */
+@layer components {
+  .aka-plate {
+    @apply relative flex h-[124px] w-full items-center justify-center overflow-hidden;
+    background-color: var(--plate);
+    border-bottom: 1px solid var(--plate-border);
+  }
+
+  .aka-plate-field {
+    @apply absolute inset-0 h-full w-full opacity-80;
+    @apply transition-[transform,opacity] duration-500 ease-out;
+    @apply motion-reduce:transition-none;
+  }
+
+  /* The app-icon tile: filled, bordered, lit from above — a real icon at 62px. */
+  .aka-icon-tile {
+    @apply relative grid h-[62px] w-[62px] place-items-center overflow-hidden rounded-[14px];
+    @apply border;
+    color: color-mix(in oklch, var(--foreground) 90%, transparent);
+    border-color: color-mix(in oklch, var(--foreground) 14%, transparent);
+    background:
+      linear-gradient(
+        160deg,
+        color-mix(in oklch, var(--card) 92%, var(--foreground)) 0%,
+        var(--card) 55%,
+        color-mix(in oklch, var(--card) 94%, var(--background)) 100%
+      );
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklch, var(--foreground) 8%, transparent),
+      0 1px 3px rgb(0 0 0 / 0.18);
+  }
+
+  /*
+   * A bitmap logo is already an icon, drawn on its own ground — let it fill the
+   * tile edge to edge. The ground stays dark in both themes because these three
+   * were authored for a dark icon plate.
+   */
+  .aka-icon-tile-bleed {
+    background: #0b0b0c;
+  }
+
+  /* Wordmark logos: same tile language, sized to the type. */
+  .aka-icon-tile-wide {
+    @apply h-[46px] w-auto px-4;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Field behaviours — the plate's cells reform one by one on hover, the way the
+ * hero mark assembles. Each cell carries its own `--d` delay from the server;
+ * the delay *order* (up, down, across, outward, none) is what gives each card
+ * its character, so one vocabulary covers the whole grid without repeating.
+ *
+ * Only opacity and transform animate, and only while a card is hovered — so at
+ * most one plate is ever running, and it runs on the compositor.
+ * ------------------------------------------------------------------------ */
+.aka-field rect {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/*
+ * Every keyframe starts and ends at rest. A cell moves *from where it already
+ * is* and returns — so hovering sends a wave through the field rather than
+ * clearing it and rebuilding, which reads as a hard cut.
+ */
+
+/* A swell passes through — cells bloom and settle back. */
+@keyframes aka-cell-pop {
+  0%,
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+  45% {
+    transform: scale(1.6);
+    opacity: 1;
+  }
+}
+
+/* A ripple lifts each cell and sets it back down. */
+@keyframes aka-cell-rise {
+  0%,
+  100% {
+    transform: none;
+  }
+  45% {
+    transform: translateY(-110%);
+  }
+}
+
+/* The hero's dissolve: cells jump whole cells sideways and find their place. */
+@keyframes aka-cell-glitch {
+  0%,
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+  25% {
+    transform: translateX(170%);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate(-130%, 70%);
+    opacity: 1;
+  }
+  75% {
+    transform: translateY(-90%);
+    opacity: 0.55;
+  }
+}
+
+/* Static — cells dim and come back, never off. */
+@keyframes aka-cell-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  35% {
+    opacity: 0.3;
+  }
+  70% {
+    opacity: 0.85;
+  }
+}
+
+.group:hover .aka-field-pop rect {
+  animation: aka-cell-pop 760ms cubic-bezier(0.4, 0, 0.2, 1) var(--d, 0ms) both;
+}
+.group:hover .aka-field-rise rect {
+  animation: aka-cell-rise 720ms cubic-bezier(0.4, 0, 0.2, 1) var(--d, 0ms) both;
+}
+.group:hover .aka-field-glitch rect {
+  animation: aka-cell-glitch 820ms steps(4, end) var(--d, 0ms) both;
+}
+.group:hover .aka-field-flicker rect {
+  animation: aka-cell-flicker 680ms ease-in-out var(--d, 0ms) both;
+}
+
+/* The field as a whole lifts out of the ground while it reforms. */
+.group:hover .aka-field {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group:hover .aka-field rect {
+    animation: none;
+  }
+}

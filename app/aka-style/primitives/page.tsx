@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Search } from 'lucide-react'
+import { PixelPattern } from '@/components/ui/pixel-pattern'
+import { ProjectLogo } from '@/components/ui/project-logo'
 
 const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
 const label = 'text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50'
@@ -200,6 +202,61 @@ danger   text-[oklch(0.62_0.2_25)]`}
                 {t}
               </span>
             ))}
+          </Spec>
+        </section>
+
+        {/* CARD PLATE */}
+        <section className="mt-14 space-y-3">
+          <p className={kicker}>Card plate</p>
+
+          <Spec
+            name="Brand plate"
+            note="opaque ground · pixel field in the project hue · mark in an icon tile"
+            cls={`plate  .aka-plate            h-[124px], bg var(--plate), one step off the card
+field  .aka-plate-field      absolute inset-0, opacity .8, the hue's pixel grid
+tile   .aka-icon-tile        62px, rounded-[14px], filled + bordered + lit from above
+       .aka-icon-tile-bleed  bitmap logos fill their own tile edge to edge
+       .aka-icon-tile-wide   wordmark logos, sized to the type`}
+          >
+            <div className="flex flex-wrap gap-3">
+              {(['bodylog', 'hitl-kit', 'trickle'] as const).map((n, i) => (
+                <div key={n} className="w-[168px] overflow-hidden rounded-xl border border-border">
+                  <div className="aka-plate !h-[76px]">
+                    <PixelPattern
+                      kind={(['drift', 'scatter', 'strata'] as const)[i]}
+                      seed={17 + i * 40}
+                      accent={['#5d98f4', '#8d7ce8', '#d4738f'][i]!}
+                      className="aka-plate-field"
+                    />
+                    <span className="aka-icon-tile !h-[42px] !w-[42px] !rounded-[10px]">
+                      <ProjectLogo name={n === 'bodylog' ? 'hologram' : n} size={26} />
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Spec>
+
+          <Spec
+            name="Field behaviour"
+            note="hover sends a wave through the cells — every keyframe starts and ends at rest"
+            cls={`pop      swell outward and settle       .aka-field-pop
+rise     ripple lifts and sets down     .aka-field-rise
+glitch   cells jump whole cells         .aka-field-glitch
+flicker  dim and return, never off      .aka-field-flicker
+
+Each cell carries its own --d delay, written server-side. The delay *order*
+(up, down, across, outward, none) is what gives a card its character, so one
+vocabulary covers the whole grid. Only opacity and transform animate, and only
+while a card is hovered.`}
+          >
+            <p className="text-[12px] font-light text-muted-foreground/70">
+              Hover any card on{' '}
+              <Link href="/demo" className="text-foreground underline underline-offset-2">
+                /demo
+              </Link>{' '}
+              to see all four.
+            </p>
           </Spec>
         </section>
 

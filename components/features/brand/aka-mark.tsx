@@ -226,10 +226,13 @@ export function AkaMark({
     let visible = true
 
     const frame = (now: number) => {
-      const elapsed = ((now - t0) / 1000) * speed
+      // rAF hands back the frame's *start* time, which can precede the t0 we
+      // captured a moment ago — floor at zero or the first frame indexes
+      // cellSets at -1 and the loop throws on an undefined set.
+      const elapsed = Math.max(0, ((now - t0) / 1000) * speed)
       const cycle = Math.floor(elapsed / TOTAL)
       const time = elapsed % TOTAL
-      const cells = cellSets[cycle % cellSets.length]!
+      const cells = cellSets[cycle % cellSets.length] ?? cellSets[0]!
       let g // 0 assembled -> 1 gone
       if (time < REFORM) g = 1 - time / REFORM
       else if (time < REFORM + hold) g = 0
