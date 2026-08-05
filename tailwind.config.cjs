@@ -4,6 +4,12 @@ const tailwindcssAnimate = require('tailwindcss-animate')
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
+  // Every `hover:` and `group-hover:` utility compiles inside
+  // `@media (hover: hover)`. On a touch screen `:hover` latches after a tap and
+  // never releases, so without this a tapped card keeps its hover state — and
+  // any transform or animation attached to it — until the page is left.
+  // (Default in Tailwind v4; opt-in here on v3.)
+  future: { hoverOnlyWhenSupported: true },
   content: [
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',

@@ -590,42 +590,55 @@ body {
 }
 
 /*
- * Only the hovered card promotes its groups, and only while it is hovered — a
- * standing `will-change` across twenty cards would hold twenty sets of layers
- * for nothing.
+ * Hover behaviour is gated on the pointer, not on width.
+ *
+ * On a touch screen `:hover` latches after a tap and never releases, so an
+ * infinite animation would keep running on a phone until the page is left —
+ * burning battery for an effect nobody asked for and nobody can see finish.
+ * `hover: hover` and `pointer: fine` together mean a real pointing device.
+ *
+ * Everything below is progressive: without it the plates simply sit still,
+ * which is the correct resting state anyway.
  */
-.group:hover .aka-field path {
-  will-change: transform, opacity;
-}
-.group:hover .aka-field-scatter path {
-  animation: aka-cell-scatter 1400ms steps(9, end) var(--d, 0ms) infinite both;
-}
-.group:hover .aka-field-sweep path {
-  animation: aka-cell-sweep 1600ms cubic-bezier(0.22, 1, 0.32, 1) var(--d, 0ms) infinite both;
-}
-.group:hover .aka-field-jitter path {
-  animation: aka-cell-jitter 1100ms steps(7, end) var(--d, 0ms) infinite both;
-}
-.group:hover .aka-field-collapse path {
-  animation: aka-cell-collapse 1700ms cubic-bezier(0.5, 0, 0.2, 1) var(--d, 0ms) infinite both;
-}
-.group:hover .aka-field-drift path {
-  animation: aka-cell-drift 2000ms cubic-bezier(0.37, 0, 0.28, 1) var(--d, 0ms) infinite both;
-}
-.group:hover .aka-field-burst path {
-  animation: aka-cell-burst 1500ms steps(6, end) var(--d, 0ms) infinite both;
-}
+@media (hover: hover) and (pointer: fine) {
+  /*
+   * Only the hovered card promotes its groups, and only while it is hovered — a
+   * standing `will-change` across twenty cards would hold twenty sets of layers
+   * for nothing.
+   */
+  .group:hover .aka-field path {
+    will-change: transform, opacity;
+  }
+  .group:hover .aka-field-scatter path {
+    animation: aka-cell-scatter 1400ms steps(9, end) var(--d, 0ms) infinite both;
+  }
+  .group:hover .aka-field-sweep path {
+    animation: aka-cell-sweep 1600ms cubic-bezier(0.22, 1, 0.32, 1) var(--d, 0ms) infinite both;
+  }
+  .group:hover .aka-field-jitter path {
+    animation: aka-cell-jitter 1100ms steps(7, end) var(--d, 0ms) infinite both;
+  }
+  .group:hover .aka-field-collapse path {
+    animation: aka-cell-collapse 1700ms cubic-bezier(0.5, 0, 0.2, 1) var(--d, 0ms) infinite both;
+  }
+  .group:hover .aka-field-drift path {
+    animation: aka-cell-drift 2000ms cubic-bezier(0.37, 0, 0.28, 1) var(--d, 0ms) infinite both;
+  }
+  .group:hover .aka-field-burst path {
+    animation: aka-cell-burst 1500ms steps(6, end) var(--d, 0ms) infinite both;
+  }
 
-/* The whole field lifts out of the ground the instant the pointer lands. */
-.aka-field {
-  transition: opacity 180ms ease-out;
-}
-.group:hover .aka-field {
-  opacity: 1;
+  /* The whole field lifts out of the ground the instant the pointer lands. */
+  .aka-field {
+    transition: opacity 180ms ease-out;
+  }
+  .group:hover .aka-field {
+    opacity: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .group:hover .aka-field path {
-    animation: none;
+    animation: none !important;
   }
 }
