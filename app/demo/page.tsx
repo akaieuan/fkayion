@@ -1,20 +1,12 @@
 import { ProjectCard, type ProjectCardItem } from '@/components/ui/project-card'
 
 // Card media — static imports for build-time blur placeholders.
-import circleheadsMark from '@/public/circleheads.webp'
-import akaossMark from '@/public/akaoss.webp'
 import covartSplash from '@/public/covart-splash.webp'
-import akableepSynth from '@/public/akableep-synth.webp'
-import collapseHome from '@/public/collapse-home.webp'
 import boxPopuliHero from '@/public/box-populi-hero.webp'
-import hitlKitHero from '@/public/hitl-kit-hero.png'
 import inertialDashboard from '@/public/inertial-dashboard.png'
 import nullBrowserPoster from '@/public/null-browser-hero-poster.jpg'
 import wrdefPoster from '@/public/wrdef-hero-poster.jpg'
 import visualizerPoster from '@/public/visualizer-eden-preview-poster.jpg'
-import hologramDash from '@/public/hologram.webp'
-import evalKitOverview from '@/public/eval-kit.webp'
-import trickleKit from '@/public/trickle-ui-kit.webp'
 import researchOs from '@/public/research-os.webp'
 import musicChat from '@/public/music-analysis-chat.webp'
 import brooklynDead from '@/public/brooklyn-dead.webp'
@@ -29,7 +21,7 @@ const projects: ProjectCardItem[] = [
     description:
       'The two-person Brooklyn applied-AI studio I co-run — agents in production, a short senior consulting bench, and original games. Taking a few projects a year.',
     href: '/demo/circleheads',
-    img: circleheadsMark,
+    mark: 'head',
   },
   {
     title: 'akaOSS',
@@ -37,7 +29,15 @@ const projects: ProjectCardItem[] = [
     description:
       'The open-source studio for human-in-the-loop AI — five projects (HITL Kit, EVAL Kit, tag-kit, Collapse, Hologram), the Assist-Not-Complete thesis, and a reproducible research feed.',
     href: '/demo/akaoss',
-    img: akaossMark,
+    mark: 'spark',
+  },
+  {
+    title: 'BodyLog',
+    tags: ['Product', 'iOS', 'Circleheads'],
+    description:
+      'An iOS app for tracking any visible body or skin condition between doctor visits — acne, psoriasis, eczema, bruising, PT progress. Photos stay on device; the app never diagnoses.',
+    href: '/demo/bodylog',
+    mark: 'bodylog',
   },
   {
     title: 'Ubik Studio',
@@ -61,7 +61,7 @@ const projects: ProjectCardItem[] = [
     description:
       'Live observability and a read-only MCP surface for Blender → glTF pipelines — watch your AI agent work on your game assets in real time.',
     href: '/demo/hologram',
-    img: hologramDash,
+    mark: 'watch',
   },
   {
     title: 'akaVST',
@@ -69,7 +69,7 @@ const projects: ProjectCardItem[] = [
     description:
       'Three JUCE instruments built one at a time and documented as they go — an acid voice with a 64-step sequencer (v0.4.0), four lo-fi layers on one voice pool (v1.0.0), and a sampler that resamples itself (v0.1.0).',
     href: '/demo/akavsts',
-    img: akableepSynth,
+    mark: 'knob',
   },
   {
     title: 'Collapse',
@@ -77,7 +77,7 @@ const projects: ProjectCardItem[] = [
     description:
       'Skills and MCP tools from your lessons. Three pluggable ingestors (MDX, Jupyter/MyST, and a one-file pattern for anything else) feed a typed pipeline with local atomic writes to ~/.claude/skills/. v0.2.',
     href: '/demo/collapse',
-    img: collapseHome,
+    mark: 'collapse',
   },
   {
     title: 'akaCOVART',
@@ -93,7 +93,7 @@ const projects: ProjectCardItem[] = [
     description:
       'Design system, nineteen HITL primitives, six @hitl-kit/* npm packages, shadcn registry, and personal research paper.',
     href: '/demo/hitl-kit',
-    img: hitlKitHero,
+    mark: 'gate',
   },
   {
     title: 'EVAL Kit',
@@ -101,7 +101,7 @@ const projects: ProjectCardItem[] = [
     description:
       'Agent eval framework: humans score, not LLMs — LLM-as-judge is only an opt-in pre-fill, flagged on every score. YAML suites, local dashboard, CLI, five dimensions LLM judges miss.',
     href: '/demo/eval-kit',
-    img: evalKitOverview,
+    mark: 'score',
   },
   {
     title: 'Trickle UI Kit',
@@ -109,7 +109,7 @@ const projects: ProjectCardItem[] = [
     description:
       '47 pure-CSS text-animation primitives for React. Zero runtime, SSR-safe, copy-paste install via the shadcn registry.',
     href: '/demo/trickle-ui-kit',
-    img: trickleKit,
+    mark: 'strata',
   },
   {
     title: 'How I Work',

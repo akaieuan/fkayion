@@ -143,11 +143,88 @@ function inGamepad(x: number, y: number) {
   return false
 }
 
+
+/** Cross + pencil — the BodyLog mark: a medical log, drawn not diagnosed. */
+function inCrossPencil(x: number, y: number) {
+  const arm = 0.17
+  const cross = (Math.abs(x + 0.12) < arm && Math.abs(y) < 0.5) || (Math.abs(y) < arm && Math.abs(x + 0.12) < 0.5)
+  const nib = Math.abs(x - 0.44) + Math.abs(y - 0.44) < 0.11
+  const shaft = segHit(x, y, 0.18, -0.18, 0.4, 0.4, 0.1)
+  return cross || nib || shaft
+}
+
+/** Eye in a bracket — Hologram: watching a pipeline, read-only. */
+function inWatch(x: number, y: number) {
+  const lid = Math.abs(y) < 0.34 - 0.5 * x * x && Math.abs(x) < 0.62
+  const pupil = x * x + y * y < 0.14 * 0.14
+  return lid && !pupil
+}
+
+/** Down-arrow into a tray — Collapse: many lessons into one skill. */
+function inCollapseGlyph(x: number, y: number) {
+  const stem = Math.abs(x) < 0.1 && y > -0.52 && y < 0.1
+  const head = Math.abs(x) + Math.abs(y - 0.24) < 0.3 && y > 0.02
+  const tray = Math.abs(y - 0.46) < 0.09 && Math.abs(x) < 0.46
+  return stem || head || tray
+}
+
+/** Checked box over a bar — eval-kit: humans score, not models. */
+function inScore(x: number, y: number) {
+  const bars = [
+    { cx: -0.34, top: 0.02 },
+    { cx: 0.0, top: -0.24 },
+    { cx: 0.34, top: -0.48 },
+  ]
+  const bar = bars.some((b) => Math.abs(x - b.cx) < 0.12 && y > b.top && y < 0.44)
+  const base = Math.abs(y - 0.5) < 0.07 && Math.abs(x) < 0.52
+  return bar || base
+}
+
+/** Stacked strata — Trickle: text animation primitives, layered. */
+function inStrata(x: number, y: number) {
+  if (Math.abs(x) > 0.56) return false
+  const rows = [-0.36, -0.12, 0.12, 0.36]
+  return rows.some((r, i) => Math.abs(y - r) < 0.08 && Math.abs(x) < 0.56 - i * 0.1)
+}
+
+/** A gate with a gap — HITL Kit: the moment control returns to a human. */
+function inGate(x: number, y: number) {
+  const posts = Math.abs(Math.abs(x) - 0.42) < 0.1 && Math.abs(y) < 0.5
+  const lintel = Math.abs(y + 0.42) < 0.1 && Math.abs(x) < 0.52
+  const halfBar = Math.abs(y - 0.06) < 0.09 && x > -0.42 && x < 0.02
+  return posts || lintel || halfBar
+}
+
+/** Knob + wave — akaVST: an instrument you play. */
+function inKnob(x: number, y: number) {
+  const r = Math.hypot(x, y)
+  const ring = r < 0.46 && r > 0.33
+  const pointer = segHit(x, y, 0, 0, 0, -0.46, 0.09)
+  return ring || pointer
+}
+
+/** Segment-distance helper shared by the glyphs above. */
+function segHit(x: number, y: number, ax: number, ay: number, bx: number, by: number, w: number) {
+  const dx = bx - ax
+  const dy = by - ay
+  const t = Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / (dx * dx + dy * dy)))
+  const px = ax + t * dx
+  const py = ay + t * dy
+  return (x - px) ** 2 + (y - py) ** 2 < w * w
+}
+
 const KNOCKOUTS = {
   head: inFigure,
   spark: inSpark,
   bubble: inBubble,
   gamepad: inGamepad,
+  bodylog: inCrossPencil,
+  watch: inWatch,
+  collapse: inCollapseGlyph,
+  score: inScore,
+  strata: inStrata,
+  gate: inGate,
+  knob: inKnob,
 } as const
 
 /**

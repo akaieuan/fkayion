@@ -2,11 +2,7 @@ import { ProjectCard, type ProjectCardItem } from '@/components/ui/project-card'
 
 // Static imports → Next reads dimensions at build time and inlines a blur
 // placeholder, so cards paint instantly instead of holding blank.
-import circleheadsMark from '@/public/circleheads.webp'
-import akaossMark from '@/public/akaoss.webp'
 import covartSplash from '@/public/covart-splash.webp'
-import akableepSynth from '@/public/akableep-synth.webp'
-import collapseHome from '@/public/collapse-home.webp'
 import boxPopuliHero from '@/public/box-populi-hero.webp'
 
 /** The six current flagships — a static grid, no carousel mechanics. */
@@ -14,16 +10,23 @@ const FEATURED: ProjectCardItem[] = [
   {
     title: 'Circleheads',
     href: '/demo/circleheads',
-    img: circleheadsMark,
+    mark: 'head',
     description: 'Applied-AI software studio — agents in production, a short consulting bench, and games.',
     tags: ['Studio', 'Applied AI'],
   },
   {
     title: 'akaOSS',
     href: '/demo/akaoss',
-    img: akaossMark,
+    mark: 'spark',
     description: 'Open-source studio for human-in-the-loop AI — five projects, one thesis, a live research feed.',
     tags: ['Open source', 'HITL AI'],
+  },
+  {
+    title: 'BodyLog',
+    href: '/demo/bodylog',
+    mark: 'bodylog',
+    description: 'Track a skin or body condition between doctor visits — on device, never diagnosed.',
+    tags: ['iOS', 'Circleheads'],
   },
   {
     title: 'akaCOVART',
@@ -35,14 +38,14 @@ const FEATURED: ProjectCardItem[] = [
   {
     title: 'akaVST',
     href: '/demo/akavsts',
-    img: akableepSynth,
+    mark: 'knob',
     description: 'Three JUCE instruments for macOS — acid voice, lo-fi layers, sculpting sampler.',
     tags: ['VST3 / AU', 'Live'],
   },
   {
     title: 'Collapse',
     href: '/demo/collapse',
-    img: collapseHome,
+    mark: 'collapse',
     description: 'Pattern → SKILL.md compiler — cross-stack skills that move with you.',
     tags: ['Dev tool', 'Claude Code'],
   },

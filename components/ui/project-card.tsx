@@ -1,6 +1,7 @@
 import Image, { type StaticImageData } from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
+import { PixelHead, type PixelIcon } from '@/components/features/brand/pixel-head'
 
 /**
  * The one project-card vocabulary, shared by the landing featured grid and
@@ -16,6 +17,8 @@ export type ProjectCardItem = {
   img?: StaticImageData
   imgAlt?: string
   priority?: boolean
+  /** Draw the brand mark instead of a screenshot — for toolkits that ship an icon. */
+  mark?: PixelIcon
 }
 
 const chip =
@@ -25,18 +28,25 @@ export function ProjectCard({ item }: { item: ProjectCardItem }) {
   const isExternal = /^https?:\/\//.test(item.href)
   const body = (
     <>
-      {item.img && (
-        <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted/10">
-          <Image
-            src={item.img}
-            alt={item.imgAlt ?? item.title}
-            fill
-            placeholder="blur"
-            priority={item.priority}
-            sizes="(min-width:1024px) 340px, (min-width:640px) 45vw, 90vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-          />
+      {item.mark ? (
+        <div className="flex aspect-[16/10] w-full items-center justify-center bg-muted/10">
+          <PixelHead size={128} grid={24} icon={item.mark} still />
         </div>
+      ) : (
+        item.img && (
+          // p-3 keeps the shot clear of the card edge; `contain` never crops it.
+          <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted/10 p-3">
+            <Image
+              src={item.img}
+              alt={item.imgAlt ?? item.title}
+              fill
+              placeholder="blur"
+              priority={item.priority}
+              sizes="(min-width:1024px) 340px, (min-width:640px) 45vw, 90vw"
+              className="object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+            />
+          </div>
+        )
       )}
       <div className="flex flex-1 flex-col p-4">
         <div className="flex items-start justify-between gap-3">
