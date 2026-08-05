@@ -30,7 +30,7 @@ const projects: ProjectCardItem[] = [
     description:
       'The open-source studio for human-in-the-loop AI — five projects (HITL Kit, EVAL Kit, tag-kit, Collapse, Hologram), the Assist-Not-Complete thesis, and a reproducible research feed.',
     href: '/demo/akaoss',
-    logo: 'akaoss',
+    logo: 'akaoss-mark',
     accent: '#69b57f',
   },
   {
@@ -64,7 +64,7 @@ const projects: ProjectCardItem[] = [
     description:
       'Live observability and a read-only MCP surface for Blender → glTF pipelines — watch your AI agent work on your game assets in real time.',
     href: '/demo/hologram',
-    mark: 'watch',
+    logo: 'hologram',
     accent: '#5fb4c4',
   },
   {
@@ -73,7 +73,7 @@ const projects: ProjectCardItem[] = [
     description:
       'Three JUCE instruments built one at a time and documented as they go — an acid voice with a 64-step sequencer (v0.4.0), four lo-fi layers on one voice pool (v1.0.0), and a sampler that resamples itself (v0.1.0).',
     href: '/demo/akavsts',
-    logo: 'akavst',
+    logo: 'akavst-pixel',
     accent: '#9b7cf0',
   },
   {
@@ -82,7 +82,7 @@ const projects: ProjectCardItem[] = [
     description:
       'Skills and MCP tools from your lessons. Three pluggable ingestors (MDX, Jupyter/MyST, and a one-file pattern for anything else) feed a typed pipeline with local atomic writes to ~/.claude/skills/. v0.2.',
     href: '/demo/collapse',
-    mark: 'collapse',
+    logo: 'collapse',
     accent: '#c9a227',
   },
   {
@@ -99,7 +99,7 @@ const projects: ProjectCardItem[] = [
     description:
       'Design system, nineteen HITL primitives, six @hitl-kit/* npm packages, shadcn registry, and personal research paper.',
     href: '/demo/hitl-kit',
-    mark: 'gate',
+    logo: 'hitl-kit',
     accent: '#8d7ce8',
   },
   {
@@ -108,7 +108,7 @@ const projects: ProjectCardItem[] = [
     description:
       'Agent eval framework: humans score, not LLMs — LLM-as-judge is only an opt-in pre-fill, flagged on every score. YAML suites, local dashboard, CLI, five dimensions LLM judges miss.',
     href: '/demo/eval-kit',
-    mark: 'score',
+    logo: 'eval-kit',
     accent: '#e08a5d',
   },
   {
@@ -117,7 +117,7 @@ const projects: ProjectCardItem[] = [
     description:
       '47 pure-CSS text-animation primitives for React. Zero runtime, SSR-safe, copy-paste install via the shadcn registry.',
     href: '/demo/trickle-ui-kit',
-    mark: 'strata',
+    logo: 'trickle',
     accent: '#d4738f',
   },
   {

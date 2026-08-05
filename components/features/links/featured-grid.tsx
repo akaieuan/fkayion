@@ -18,7 +18,7 @@ const FEATURED: ProjectCardItem[] = [
   {
     title: 'akaOSS',
     href: '/demo/akaoss',
-    logo: 'akaoss',
+    logo: 'akaoss-mark',
     accent: '#69b57f',
     description: 'Open-source studio for human-in-the-loop AI — five projects, one thesis, a live research feed.',
     tags: ['Open source', 'HITL AI'],
@@ -41,7 +41,7 @@ const FEATURED: ProjectCardItem[] = [
   {
     title: 'akaVST',
     href: '/demo/akavsts',
-    logo: 'akavst',
+    logo: 'akavst-pixel',
     accent: '#9b7cf0',
     description: 'Three JUCE instruments for macOS — acid voice, lo-fi layers, sculpting sampler.',
     tags: ['VST3 / AU', 'Live'],
@@ -49,7 +49,7 @@ const FEATURED: ProjectCardItem[] = [
   {
     title: 'Collapse',
     href: '/demo/collapse',
-    mark: 'collapse',
+    logo: 'collapse',
     accent: '#c9a227',
     description: 'Pattern → SKILL.md compiler — cross-stack skills that move with you.',
     tags: ['Dev tool', 'Claude Code'],

@@ -3,7 +3,9 @@ import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { PixelHead, type PixelIcon } from '@/components/features/brand/pixel-head'
 import { BodyLogMark } from '@/components/demo/bodylog/bodylog-mark'
-import { AkaOssLogo, AkaVstLogo, CircleheadsLogo } from '@/components/ui/brand-logos'
+import { CircleheadsLogo } from '@/components/ui/brand-logos'
+import { ProjectLogo } from '@/components/ui/project-logo'
+import { PixelPattern, patternFor } from '@/components/ui/pixel-pattern'
 
 /**
  * The one project-card vocabulary, shared by the landing featured grid and
@@ -21,8 +23,8 @@ export type ProjectCardItem = {
   priority?: boolean
   /** Draw the brand mark instead of a screenshot — for toolkits that ship an icon. */
   mark?: PixelIcon
-  /** Projects that ship their own logo — drawn from the source repo's icon.svg. */
-  logo?: 'bodylog' | 'circleheads' | 'akaoss' | 'akavst'
+  /** Projects that ship their own logo — from the logo kits, or a local mark. */
+  logo?: 'bodylog' | 'circleheads' | string
   /**
    * The project's own hue. Tints its media well and its mark so a wall of
    * cards reads as a family of distinct things rather than one repeated one.
@@ -37,41 +39,34 @@ export function ProjectCard({ item }: { item: ProjectCardItem }) {
   const isExternal = /^https?:\/\//.test(item.href)
   // Fall back to the site's own accent so an untagged card still looks intentional.
   const accent = item.accent ?? '#8a8a86'
+  const pattern = patternFor(item.logo ?? item.mark ?? item.title)
   const body = (
     <>
       {item.logo || item.mark ? (
-        // A filled well, tinted with the project's own hue: a soft wash plus a
-        // hairline of the accent along the bottom, so cards differ without the
-        // grid turning into a colour chart.
-        <div
-          className="relative flex aspect-[16/10] w-full items-center justify-center overflow-hidden border-b"
-          style={{
-            background: accent
-              ? `radial-gradient(120% 110% at 50% 18%, ${accent}22, ${accent}0B 62%, transparent)`
-              : undefined,
-            borderBottomColor: accent ? `${accent}55` : undefined,
-            color: accent ?? undefined,
-          }}
-        >
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0"
-            style={{ background: accent ? `${accent}0A` : undefined }}
+        // A pixel-cell field in the project's own hue, with the logo in front —
+        // same bit language as the marks themselves, drawn as server SVG.
+        <div className="relative flex h-[124px] w-full items-center justify-center overflow-hidden border-b border-border/60">
+          <PixelPattern
+            kind={pattern.kind}
+            seed={pattern.seed}
+            accent={accent}
+            className="absolute inset-0 h-full w-full"
           />
-          <div className="relative">
-            {item.logo === 'bodylog' && <BodyLogMark size={104} title="" />}
-            {item.logo === 'circleheads' && <CircleheadsLogo size={100} />}
-            {item.logo === 'akaoss' && <AkaOssLogo size={100} />}
-            {item.logo === 'akavst' && <AkaVstLogo size={92} />}
-            {!item.logo && item.mark && (
-              <PixelHead size={112} grid={24} icon={item.mark} still color={accent} />
+          <span className="relative text-foreground/90">
+            {item.logo === 'bodylog' ? (
+              <BodyLogMark size={64} title="" />
+            ) : item.logo === 'circleheads' ? (
+              <CircleheadsLogo size={62} />
+            ) : item.logo ? (
+              <ProjectLogo name={item.logo} size={62} />
+            ) : (
+              item.mark && <PixelHead size={68} grid={22} icon={item.mark} still />
             )}
-          </div>
+          </span>
         </div>
       ) : (
         item.img && (
-          // p-3 keeps the shot clear of the card edge; `contain` never crops it.
-          <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted/10 p-3">
+          <div className="relative h-[124px] w-full overflow-hidden border-b border-border/60 bg-muted/10">
             <Image
               src={item.img}
               alt={item.imgAlt ?? item.title}
@@ -79,7 +74,7 @@ export function ProjectCard({ item }: { item: ProjectCardItem }) {
               placeholder="blur"
               priority={item.priority}
               sizes="(min-width:1024px) 340px, (min-width:640px) 45vw, 90vw"
-              className="object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+              className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]"
             />
           </div>
         )
