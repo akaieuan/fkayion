@@ -21,7 +21,8 @@ const projects: ProjectCardItem[] = [
     description:
       'The two-person Brooklyn applied-AI studio I co-run — agents in production, a short senior consulting bench, and original games. Taking a few projects a year.',
     href: '/demo/circleheads',
-    mark: 'head',
+    logo: 'circleheads',
+    accent: '#7fb896',
   },
   {
     title: 'akaOSS',
@@ -29,7 +30,8 @@ const projects: ProjectCardItem[] = [
     description:
       'The open-source studio for human-in-the-loop AI — five projects (HITL Kit, EVAL Kit, tag-kit, Collapse, Hologram), the Assist-Not-Complete thesis, and a reproducible research feed.',
     href: '/demo/akaoss',
-    mark: 'spark',
+    logo: 'akaoss',
+    accent: '#69b57f',
   },
   {
     title: 'BodyLog',
@@ -38,6 +40,7 @@ const projects: ProjectCardItem[] = [
       'An iOS app for tracking any visible body or skin condition between doctor visits — acne, psoriasis, eczema, bruising, PT progress. Photos stay on device; the app never diagnoses.',
     href: '/demo/bodylog',
     logo: 'bodylog',
+    accent: '#5d98f4',
   },
   {
     title: 'Ubik Studio',
@@ -62,6 +65,7 @@ const projects: ProjectCardItem[] = [
       'Live observability and a read-only MCP surface for Blender → glTF pipelines — watch your AI agent work on your game assets in real time.',
     href: '/demo/hologram',
     mark: 'watch',
+    accent: '#5fb4c4',
   },
   {
     title: 'akaVST',
@@ -69,7 +73,8 @@ const projects: ProjectCardItem[] = [
     description:
       'Three JUCE instruments built one at a time and documented as they go — an acid voice with a 64-step sequencer (v0.4.0), four lo-fi layers on one voice pool (v1.0.0), and a sampler that resamples itself (v0.1.0).',
     href: '/demo/akavsts',
-    mark: 'knob',
+    logo: 'akavst',
+    accent: '#9b7cf0',
   },
   {
     title: 'Collapse',
@@ -78,6 +83,7 @@ const projects: ProjectCardItem[] = [
       'Skills and MCP tools from your lessons. Three pluggable ingestors (MDX, Jupyter/MyST, and a one-file pattern for anything else) feed a typed pipeline with local atomic writes to ~/.claude/skills/. v0.2.',
     href: '/demo/collapse',
     mark: 'collapse',
+    accent: '#c9a227',
   },
   {
     title: 'akaCOVART',
@@ -94,6 +100,7 @@ const projects: ProjectCardItem[] = [
       'Design system, nineteen HITL primitives, six @hitl-kit/* npm packages, shadcn registry, and personal research paper.',
     href: '/demo/hitl-kit',
     mark: 'gate',
+    accent: '#8d7ce8',
   },
   {
     title: 'EVAL Kit',
@@ -102,6 +109,7 @@ const projects: ProjectCardItem[] = [
       'Agent eval framework: humans score, not LLMs — LLM-as-judge is only an opt-in pre-fill, flagged on every score. YAML suites, local dashboard, CLI, five dimensions LLM judges miss.',
     href: '/demo/eval-kit',
     mark: 'score',
+    accent: '#e08a5d',
   },
   {
     title: 'Trickle UI Kit',
@@ -110,6 +118,7 @@ const projects: ProjectCardItem[] = [
       '47 pure-CSS text-animation primitives for React. Zero runtime, SSR-safe, copy-paste install via the shadcn registry.',
     href: '/demo/trickle-ui-kit',
     mark: 'strata',
+    accent: '#d4738f',
   },
   {
     title: 'How I Work',
@@ -117,14 +126,16 @@ const projects: ProjectCardItem[] = [
     description:
       'The method behind the site: watch the work first, prototype in code, measure what matters — and how the Kit, Research OS, and the public test log connect.',
     href: '/demo/hitl-practice',
-    img: iconHowIWork,
+    mark: 'gear',
+    accent: '#8fa3b8',
   },
   {
     title: 'User feedback + design log',
     tags: ['HITL-AI', 'External'],
     description: 'HITL-AI team test log on Kraa.',
     href: 'https://kraa.io/team-test-log042',
-    img: iconFeedback,
+    mark: 'bubble',
+    accent: '#c98f6b',
   },
   {
     title: 'Inertial - Content Moderation Tool',

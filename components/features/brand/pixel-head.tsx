@@ -203,6 +203,15 @@ function inKnob(x: number, y: number) {
   return ring || pointer
 }
 
+/** A gear — the practice/method mark. */
+function inGear(x: number, y: number) {
+  const r = Math.hypot(x, y)
+  if (r < 0.17) return false
+  const a = Math.atan2(y, x)
+  const tooth = Math.abs(((a / (Math.PI / 4)) % 1) - 0.5) < 0.28
+  return r < (tooth ? 0.54 : 0.4)
+}
+
 /** Segment-distance helper shared by the glyphs above. */
 function segHit(x: number, y: number, ax: number, ay: number, bx: number, by: number, w: number) {
   const dx = bx - ax
@@ -225,6 +234,7 @@ const KNOCKOUTS = {
   strata: inStrata,
   gate: inGate,
   knob: inKnob,
+  gear: inGear,
 } as const
 
 /**

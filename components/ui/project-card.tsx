@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { PixelHead, type PixelIcon } from '@/components/features/brand/pixel-head'
 import { BodyLogMark } from '@/components/demo/bodylog/bodylog-mark'
+import { AkaOssLogo, AkaVstLogo, CircleheadsLogo } from '@/components/ui/brand-logos'
 
 /**
  * The one project-card vocabulary, shared by the landing featured grid and
@@ -20,8 +21,13 @@ export type ProjectCardItem = {
   priority?: boolean
   /** Draw the brand mark instead of a screenshot — for toolkits that ship an icon. */
   mark?: PixelIcon
-  /** Products with their own logo (not a pixel-engine knockout). */
-  logo?: 'bodylog'
+  /** Projects that ship their own logo — drawn from the source repo's icon.svg. */
+  logo?: 'bodylog' | 'circleheads' | 'akaoss' | 'akavst'
+  /**
+   * The project's own hue. Tints its media well and its mark so a wall of
+   * cards reads as a family of distinct things rather than one repeated one.
+   */
+  accent?: string
 }
 
 const chip =
@@ -29,15 +35,38 @@ const chip =
 
 export function ProjectCard({ item }: { item: ProjectCardItem }) {
   const isExternal = /^https?:\/\//.test(item.href)
+  // Fall back to the site's own accent so an untagged card still looks intentional.
+  const accent = item.accent ?? '#8a8a86'
   const body = (
     <>
-      {item.logo === 'bodylog' ? (
-        <div className="flex aspect-[16/10] w-full items-center justify-center bg-muted/10">
-          <BodyLogMark size={116} title="" />
-        </div>
-      ) : item.mark ? (
-        <div className="flex aspect-[16/10] w-full items-center justify-center bg-muted/10">
-          <PixelHead size={128} grid={24} icon={item.mark} still />
+      {item.logo || item.mark ? (
+        // A filled well, tinted with the project's own hue: a soft wash plus a
+        // hairline of the accent along the bottom, so cards differ without the
+        // grid turning into a colour chart.
+        <div
+          className="relative flex aspect-[16/10] w-full items-center justify-center overflow-hidden border-b"
+          style={{
+            background: accent
+              ? `radial-gradient(120% 110% at 50% 18%, ${accent}22, ${accent}0B 62%, transparent)`
+              : undefined,
+            borderBottomColor: accent ? `${accent}55` : undefined,
+            color: accent ?? undefined,
+          }}
+        >
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{ background: accent ? `${accent}0A` : undefined }}
+          />
+          <div className="relative">
+            {item.logo === 'bodylog' && <BodyLogMark size={104} title="" />}
+            {item.logo === 'circleheads' && <CircleheadsLogo size={100} />}
+            {item.logo === 'akaoss' && <AkaOssLogo size={100} />}
+            {item.logo === 'akavst' && <AkaVstLogo size={92} />}
+            {!item.logo && item.mark && (
+              <PixelHead size={112} grid={24} icon={item.mark} still color={accent} />
+            )}
+          </div>
         </div>
       ) : (
         item.img && (

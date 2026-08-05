@@ -28,13 +28,6 @@ export function HomeSection() {
             </div>
 
             <div className="flex max-w-md flex-col gap-6 md:order-1">
-              <p
-                className={`text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70 ${reveal}`}
-                style={staggerDelay(0)}
-              >
-                Product design · Technical anthropology · Brooklyn
-              </p>
-
               <h1
                 className={`text-xl font-light tracking-tight text-foreground/90 md:text-2xl ${reveal}`}
                 style={staggerDelay(1)}
@@ -52,13 +45,20 @@ export function HomeSection() {
               </p>
 
               <p
-                className={`text-[11px] font-light tracking-wide text-foreground/30 ${reveal}`}
+                className={`text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground/45 ${reveal}`}
                 style={staggerDelay(3)}
+              >
+                Product design · Technical anthropology · Brooklyn
+              </p>
+
+              <p
+                className={`text-[11px] font-light tracking-wide text-foreground/30 ${reveal}`}
+                style={staggerDelay(4)}
               >
                 {'// I also produce and perform electronic music'}
               </p>
 
-              <div className={`flex flex-wrap items-center gap-5 ${reveal}`} style={staggerDelay(4)}>
+              <div className={`flex flex-wrap items-center gap-5 ${reveal}`} style={staggerDelay(5)}>
                 <Link
                   href="/demo"
                   className="inline-flex items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
