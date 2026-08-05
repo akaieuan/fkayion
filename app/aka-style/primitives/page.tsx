@@ -211,19 +211,21 @@ danger   text-[oklch(0.62_0.2_25)]`}
 
           <Spec
             name="Brand plate"
-            note="a disc of cells with the project's subject knocked out, mark in front"
-            cls={`plate  .aka-plate            h-[124px], bg var(--plate), one step off the card
+            note="a dithered gradient in the project's hue, with the mark in front"
+            cls={`plate  .aka-plate            h-[168px], bg var(--plate), one step off the card
 field  .aka-plate-field      absolute inset-0, opacity .8, the hue's pixel grid
 tile   .aka-icon-tile        62px, rounded-[14px], filled + bordered + lit from above
        .aka-icon-tile-bleed  bitmap logos fill their own tile edge to edge
-       .aka-icon-tile-wide   wordmark logos, sized to the type`}
+       .aka-icon-tile-wide   wordmark logos, sized to the type
+shot   .aka-shot             inset framed window for screenshot cards`}
           >
             <div className="flex flex-wrap gap-3">
               {(['bodylog', 'hitl-kit', 'trickle'] as const).map((n, i) => (
                 <div key={n} className="w-[168px] overflow-hidden rounded-xl border border-border">
                   <div className="aka-plate !h-[76px]">
                     <PixelField
-                      shape={(['grid', 'check', 'drop'] as const)[i]!}
+                      ramp={(['diagonal', 'band', 'radial'] as const)[i]!}
+                      dither={(['bayer', 'scan', 'lattice'] as const)[i]!}
                       seed={17 + i * 40}
                       accent={['#5d98f4', '#8d7ce8', '#d4738f'][i]!}
                       className="aka-plate-field"
@@ -255,8 +257,11 @@ field's viewBox is the cell lattice itself, so a jump of one cell is one unit
 at any zoom. Only transform and opacity animate, only on the hovered card.`}
           >
             <p className="text-[12px] font-light text-muted-foreground/70">
-              Six dither styles (bayer, halftone, checker, scan, rule, lattice) over four fine
-              grids and a per-project crop, so no two plates share a texture. Hover any card on{' '}
+              Five ramps (diagonal, radial, edge, band, fold) x seven dithers (bayer, halftone,
+              checker, scan, rule, lattice, drizzle) x four grains, mirrored and offset per
+              project, each in its own hue. The
+              plate is texture, never a form: a silhouette back there would read as a second logo
+              behind the real one. Hover any card on{' '}
               <Link href="/demo" className="text-foreground underline underline-offset-2">
                 /demo
               </Link>{' '}

@@ -21,7 +21,6 @@ const projects: ProjectCardItem[] = [
     href: '/demo/circleheads',
     logo: 'circleheads',
     accent: '#c2c2bc',
-    shape: 'ring',
     motion: 'scatter',
   },
   {
@@ -32,7 +31,6 @@ const projects: ProjectCardItem[] = [
     href: '/demo/akaoss',
     logo: 'akaoss-mark',
     accent: '#69b57f',
-    shape: 'spark',
     motion: 'drift',
     grain: 46,
   },
@@ -44,7 +42,6 @@ const projects: ProjectCardItem[] = [
     href: '/demo/bodylog',
     logo: 'bodylog',
     accent: '#5d98f4',
-    shape: 'grid',
     motion: 'drift',
   },
   {
@@ -54,8 +51,7 @@ const projects: ProjectCardItem[] = [
       'Three and a half years co-founding a desktop-native AI research platform. Agents gather, read, and draft; humans keep the final say, with evidence behind every claim.',
     href: '/demo/ubik',
     logoImg: ubikLogo,
-    accent: '#4a86d8',
-    shape: 'terminal',
+    accent: '#d9a441',
     motion: 'sweep',
   },
   {
@@ -65,8 +61,7 @@ const projects: ProjectCardItem[] = [
       'On-brand site for a NYC live-techno collective. Custom audio players over the SoundCloud Widget, multiple live streams coordinated so they never overlap, and an iOS quirk handled honestly.',
     href: '/demo/box-populi',
     logoImg: boxPopuliLogo,
-    accent: '#b9b9b4',
-    shape: 'box',
+    accent: '#cf6fb0',
     motion: 'jitter',
   },
   {
@@ -76,8 +71,7 @@ const projects: ProjectCardItem[] = [
       'Live observability and a read-only MCP surface for Blender to glTF pipelines. Watch your AI agent work on your game assets in real time.',
     href: '/demo/hologram',
     logo: 'hologram',
-    accent: '#5fb4c4',
-    shape: 'cube',
+    accent: '#3fc9c0',
     motion: 'drift',
   },
   {
@@ -88,7 +82,6 @@ const projects: ProjectCardItem[] = [
     href: '/demo/akavsts',
     logo: 'akavst-pixel',
     accent: '#9b7cf0',
-    shape: 'wave',
     motion: 'sweep',
   },
   {
@@ -98,8 +91,7 @@ const projects: ProjectCardItem[] = [
       'Skills and MCP tools from your lessons. Three pluggable ingestors (MDX, Jupyter/MyST, and a one-file pattern for anything else) feed a typed pipeline with local atomic writes to ~/.claude/skills/. v0.2.',
     href: '/demo/collapse',
     logo: 'collapse',
-    accent: '#c9a227',
-    shape: 'layers',
+    accent: '#a3c25a',
     motion: 'collapse',
   },
   {
@@ -109,8 +101,7 @@ const projects: ProjectCardItem[] = [
       'A generative album-art engine. Shape it, sync the motion to your track, and export the cover. Every cover is reproducible from an engine, a seed, and a few parameters.',
     href: '/demo/akacovart',
     logoImg: covartLogo,
-    accent: '#7b9084',
-    shape: 'note',
+    accent: '#4fc0a6',
     motion: 'jitter',
     grain: 46,
   },
@@ -121,8 +112,7 @@ const projects: ProjectCardItem[] = [
       'Design system, nineteen HITL primitives, six @hitl-kit/* npm packages, shadcn registry, and personal research paper.',
     href: '/demo/hitl-kit',
     logo: 'hitl-kit',
-    accent: '#8d7ce8',
-    shape: 'check',
+    accent: '#7b83ea',
     motion: 'scatter',
   },
   {
@@ -133,7 +123,6 @@ const projects: ProjectCardItem[] = [
     href: '/demo/eval-kit',
     logo: 'eval-kit',
     accent: '#e08a5d',
-    shape: 'bars',
     motion: 'jitter',
   },
   {
@@ -143,8 +132,7 @@ const projects: ProjectCardItem[] = [
       '47 pure-CSS text-animation primitives for React. Zero runtime, SSR-safe, copy-paste install via the shadcn registry.',
     href: '/demo/trickle-ui-kit',
     logo: 'trickle',
-    accent: '#d4738f',
-    shape: 'drop',
+    accent: '#e06a76',
     motion: 'drift',
   },
   {
@@ -154,8 +142,7 @@ const projects: ProjectCardItem[] = [
       'The method behind the site: watch the work first, prototype in code, measure what matters. Plus how the Kit, Research OS, and the public test log connect.',
     href: '/demo/hitl-practice',
     mark: 'gear',
-    accent: '#8fa3b8',
-    shape: 'pen',
+    accent: '#a8a196',
     motion: 'sweep',
   },
   {
@@ -164,8 +151,7 @@ const projects: ProjectCardItem[] = [
     description: 'HITL-AI team test log on Kraa.',
     href: 'https://kraa.io/team-test-log042',
     mark: 'bubble',
-    accent: '#c98f6b',
-    shape: 'bubble',
+    accent: '#c2b64f',
     motion: 'jitter',
   },
   {
@@ -175,6 +161,8 @@ const projects: ProjectCardItem[] = [
       'Reference architecture for auditable AI content review: typed signals, YAML policy, hash-chained audit log, reviewer dashboard, eval harness.',
     href: '/demo/inertial',
     img: inertialDashboard,
+    accent: '#8fb0d6',
+    motion: 'sweep',
   },
   {
     title: 'Null Browser',
@@ -183,8 +171,7 @@ const projects: ProjectCardItem[] = [
       'Privacy-first Tauri browser: zero telemetry, local-first AI, six invariants, every connection visible. Pre-v0.1.',
     href: '/demo/null-browser',
     logo: 'zero',
-    accent: '#7e8a99',
-    shape: 'zero',
+    accent: '#b478d8',
     motion: 'collapse',
   },
   {
@@ -194,6 +181,8 @@ const projects: ProjectCardItem[] = [
       'Private WIP: procedural Blender→glTF→Godot pipeline, programmatic animation, browser previews.',
     href: '/demo/brooklyn-dead',
     img: brooklynDead,
+    accent: '#c98f6b',
+    motion: 'drift',
   },
   {
     title: 'Wordle remake: Wrdef (Wordle + definition)',
@@ -202,8 +191,7 @@ const projects: ProjectCardItem[] = [
       'A five-letter guessing game powered by definitions, bonus rounds, and a locally saved dictionary.',
     href: '/demo/wrdef',
     wordmark: 'Wrdef',
-    accent: '#6fae86',
-    shape: 'tiles',
+    accent: '#7cc072',
     motion: 'scatter',
   },
   {
@@ -213,8 +201,7 @@ const projects: ProjectCardItem[] = [
       'Multi-panel workspace with agentic search, chat, and human-in-the-loop approval flows.',
     href: '/demo/research-os',
     logo: 'research-os',
-    accent: '#6f93c4',
-    shape: 'lens',
+    accent: '#5aa8d8',
     motion: 'sweep',
   },
   {
@@ -224,8 +211,7 @@ const projects: ProjectCardItem[] = [
       'Music analytics assistant with roster dashboards, creator discovery, and rich chat blocks.',
     href: '/demo/music-analysis-chat',
     logo: 'music-chat',
-    accent: '#c07fa8',
-    shape: 'note',
+    accent: '#d97fae',
     motion: 'jitter',
   },
   {
@@ -235,6 +221,8 @@ const projects: ProjectCardItem[] = [
       'Browser-based 3D audio visualizer with reactive mesh deformation, custom GLSL shaders, and material presets.',
     href: '/demo/visualizer-eden',
     img: visualizerPoster,
+    accent: '#8ad0b8',
+    motion: 'jitter',
   },
 ]
 

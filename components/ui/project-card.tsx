@@ -4,10 +4,9 @@ import { ArrowUpRight } from 'lucide-react'
 import { PixelHead, type PixelIcon } from '@/components/features/brand/pixel-head'
 import { BodyLogMark } from '@/components/demo/bodylog/bodylog-mark'
 import { CircleheadsLogo } from '@/components/ui/brand-logos'
-import { ProjectLogo } from '@/components/ui/project-logo'
+import { ProjectLogo, logoAspect } from '@/components/ui/project-logo'
 import { MarkGlyph, hasGlyph } from '@/components/ui/mark-glyphs'
-import { PixelField, type FieldMotion } from '@/components/ui/pixel-field'
-import { type ShapeName } from '@/components/features/brand/shapes'
+import { PixelField, type Dither, type FieldMotion, type Ramp } from '@/components/ui/pixel-field'
 import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
@@ -48,15 +47,14 @@ export type ProjectCardItem = {
    * family of distinct things rather than one repeated one.
    */
   accent?: string
-  /**
-   * The subject knocked out of the card's field — the same knockouts the hero
-   * disc cycles through. Each card gets its own, so no two plates read alike.
-   */
-  shape?: ShapeName
   /** How the field's cells come apart on hover. Omit for a still plate. */
   motion?: Motion
   /** Force the field's resolution in columns; omit to take it from the seed. */
   grain?: number
+  /** Force the gradient's direction; omit to take it from the seed. */
+  ramp?: Ramp
+  /** Force how the gradient breaks into cells; omit to take it from the seed. */
+  dither?: Dither
 }
 
 /** A stable seed from the project's own name — the crop is part of its identity. */
@@ -72,25 +70,25 @@ export function ProjectCard({ item }: { item: ProjectCardItem }) {
   const accent = item.accent ?? '#8a8a86'
   const seed = seedFor(item.logo ?? item.mark ?? item.title)
   const hasPlate = Boolean(item.logo || item.logoImg || item.wordmark || item.mark)
+  // A wordmark needs a wordmark's tile. Squeezed into a square it either
+  // squashes or shrinks to unreadable, which is what happened to Trickle.
+  const isWide = Boolean(item.wordmark) || (item.logo ? logoAspect(item.logo) > 2.2 : false)
 
   const body = (
     <>
       {hasPlate ? (
         <div className="aka-plate">
           <PixelField
-            shape={item.shape ?? 'spark'}
             seed={seed}
             accent={accent}
             motion={item.motion}
+            ramp={item.ramp}
+            dither={item.dither}
             cols={item.grain}
             className="aka-plate-field"
           />
           <span
-            className={[
-              'aka-icon-tile',
-              item.logoImg ? 'aka-icon-tile-bleed' : '',
-              item.wordmark ? 'aka-icon-tile-wide' : '',
-            ]
+            className={['aka-icon-tile', item.logoImg ? 'aka-icon-tile-bleed' : '', isWide ? 'aka-icon-tile-wide' : '']
               .filter(Boolean)
               .join(' ')}
           >
@@ -114,7 +112,7 @@ export function ProjectCard({ item }: { item: ProjectCardItem }) {
             ) : item.logo && hasGlyph(item.logo) ? (
               <MarkGlyph name={item.logo} size={52} accent={accent} />
             ) : item.logo ? (
-              <ProjectLogo name={item.logo} size={56} />
+              <ProjectLogo name={item.logo} size={isWide ? 168 : 56} />
             ) : (
               item.mark && <PixelHead size={60} grid={22} icon={item.mark} still />
             )}
@@ -123,15 +121,26 @@ export function ProjectCard({ item }: { item: ProjectCardItem }) {
       ) : (
         item.img && (
           <div className="aka-plate">
-            <Image
-              src={item.img}
-              alt={item.imgAlt ?? item.title}
-              fill
-              placeholder="blur"
-              priority={item.priority}
-              sizes="(min-width:1024px) 340px, (min-width:640px) 45vw, 90vw"
-              className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:transform-none"
+            <PixelField
+              seed={seed}
+              accent={accent}
+              motion={item.motion}
+              ramp={item.ramp}
+              dither={item.dither}
+              cols={item.grain}
+              className="aka-plate-field"
             />
+            <span className="aka-shot">
+              <Image
+                src={item.img}
+                alt={item.imgAlt ?? item.title}
+                fill
+                placeholder="blur"
+                priority={item.priority}
+                sizes="(min-width:1024px) 300px, (min-width:640px) 40vw, 80vw"
+                className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:transform-none"
+              />
+            </span>
           </div>
         )
       )}
