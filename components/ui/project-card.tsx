@@ -82,25 +82,25 @@ export function ProjectCard({ item }: { item: ProjectCardItem }) {
               <Image
                 src={item.logoImg}
                 alt=""
-                width={62}
-                height={62}
-                sizes="62px"
+                width={86}
+                height={86}
+                sizes="86px"
                 className="h-full w-full object-cover"
               />
             ) : item.wordmark ? (
-              <span className="font-mono text-[16px] font-medium uppercase tracking-[0.32em] text-foreground/85">
+              <span className="font-mono text-[20px] font-medium uppercase tracking-[0.32em] text-foreground/85">
                 {item.wordmark}
               </span>
             ) : item.logo === 'bodylog' ? (
-              <BodyLogMark size={42} title="" />
+              <BodyLogMark size={58} title="" />
             ) : item.logo === 'circleheads' ? (
-              <CircleheadsLogo size={40} />
+              <CircleheadsLogo size={56} />
             ) : item.logo && hasGlyph(item.logo) ? (
-              <MarkGlyph name={item.logo} size={38} accent={accent} />
+              <MarkGlyph name={item.logo} size={52} accent={accent} />
             ) : item.logo ? (
-              <ProjectLogo name={item.logo} size={40} />
+              <ProjectLogo name={item.logo} size={56} />
             ) : (
-              item.mark && <PixelHead size={44} grid={22} icon={item.mark} still />
+              item.mark && <PixelHead size={60} grid={22} icon={item.mark} still />
             )}
           </span>
         </div>

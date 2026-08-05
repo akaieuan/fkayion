@@ -352,20 +352,20 @@ body {
  * ------------------------------------------------------------------------ */
 @layer components {
   .aka-plate {
-    @apply relative flex h-[124px] w-full items-center justify-center overflow-hidden;
+    @apply relative flex h-[168px] w-full items-center justify-center overflow-hidden;
     background-color: var(--plate);
     border-bottom: 1px solid var(--plate-border);
   }
 
   .aka-plate-field {
-    @apply absolute inset-0 h-full w-full opacity-80;
+    @apply absolute inset-0 h-full w-full opacity-90;
     @apply transition-[transform,opacity] duration-500 ease-out;
     @apply motion-reduce:transition-none;
   }
 
   /* The app-icon tile: filled, bordered, lit from above — a real icon at 62px. */
   .aka-icon-tile {
-    @apply relative grid h-[62px] w-[62px] place-items-center overflow-hidden rounded-[14px];
+    @apply relative grid h-[86px] w-[86px] place-items-center overflow-hidden rounded-[19px];
     @apply border;
     color: color-mix(in oklch, var(--foreground) 90%, transparent);
     border-color: color-mix(in oklch, var(--foreground) 14%, transparent);
@@ -392,7 +392,7 @@ body {
 
   /* Wordmark logos: same tile language, sized to the type. */
   .aka-icon-tile-wide {
-    @apply h-[46px] w-auto px-4;
+    @apply h-[64px] w-auto px-6;
   }
 }
 
@@ -414,81 +414,150 @@ body {
  * Every keyframe starts and ends at rest. A cell moves *from where it already
  * is* and returns — so hovering sends a wave through the field rather than
  * clearing it and rebuilding, which reads as a hard cut.
+ *
+ * Six behaviours, one per card character, and none of them share a keyframe:
+ * two cards sitting next to each other have to read as two different things.
+ * The travel is deliberately large — these are the hero mark's cells, and the
+ * hero throws them whole cells across the grid.
  */
 
-/* A swell passes through — cells bloom and settle back. */
-@keyframes aka-cell-pop {
+/* Cells swell open and settle, brightening as they go — something filling. */
+@keyframes aka-cell-fill {
   0%,
   100% {
-    transform: none;
-    opacity: 1;
-  }
-  45% {
-    transform: scale(1.6);
-    opacity: 1;
-  }
-}
-
-/* A ripple lifts each cell and sets it back down. */
-@keyframes aka-cell-rise {
-  0%,
-  100% {
-    transform: none;
-  }
-  45% {
-    transform: translateY(-110%);
-  }
-}
-
-/* The hero's dissolve: cells jump whole cells sideways and find their place. */
-@keyframes aka-cell-glitch {
-  0%,
-  100% {
-    transform: none;
-    opacity: 1;
-  }
-  25% {
-    transform: translateX(170%);
-    opacity: 0.55;
-  }
-  50% {
-    transform: translate(-130%, 70%);
-    opacity: 1;
-  }
-  75% {
-    transform: translateY(-90%);
-    opacity: 0.55;
-  }
-}
-
-/* Static — cells dim and come back, never off. */
-@keyframes aka-cell-flicker {
-  0%,
-  100% {
+    transform: scale(1);
     opacity: 1;
   }
   35% {
-    opacity: 0.3;
+    transform: scale(2.1);
+    opacity: 1;
   }
   70% {
-    opacity: 0.85;
+    transform: scale(0.55);
+    opacity: 0.7;
   }
 }
 
-.group:hover .aka-field-pop rect {
-  animation: aka-cell-pop 760ms cubic-bezier(0.4, 0, 0.2, 1) var(--d, 0ms) both;
-}
-.group:hover .aka-field-rise rect {
-  animation: aka-cell-rise 720ms cubic-bezier(0.4, 0, 0.2, 1) var(--d, 0ms) both;
-}
-.group:hover .aka-field-glitch rect {
-  animation: aka-cell-glitch 820ms steps(4, end) var(--d, 0ms) both;
-}
-.group:hover .aka-field-flicker rect {
-  animation: aka-cell-flicker 680ms ease-in-out var(--d, 0ms) both;
+/* A scanline drops through: cells stretch down, snap back up. */
+@keyframes aka-cell-scan {
+  0%,
+  100% {
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+  }
+  30% {
+    transform: translateY(260%) scaleY(2.4);
+    opacity: 1;
+  }
+  65% {
+    transform: translateY(-90%) scaleY(0.6);
+    opacity: 0.75;
+  }
 }
 
-/* The field as a whole lifts out of the ground while it reforms. */
+/* A whip across the plate — cells overshoot left, then trail back. */
+@keyframes aka-cell-slide {
+  0%,
+  100% {
+    transform: translateX(0) scaleX(1);
+    opacity: 1;
+  }
+  28% {
+    transform: translateX(-320%) scaleX(3);
+    opacity: 1;
+  }
+  62% {
+    transform: translateX(140%) scaleX(0.5);
+    opacity: 0.7;
+  }
+}
+
+/* A ripple lifts each cell clear of the grid and sets it down. */
+@keyframes aka-cell-rise {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  32% {
+    transform: translateY(-240%) scale(1.5);
+    opacity: 1;
+  }
+  68% {
+    transform: translateY(70%) scale(0.6);
+    opacity: 0.75;
+  }
+}
+
+/* Outward from the mark — cells blow open and draw back in. */
+@keyframes aka-cell-bloom {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  38% {
+    transform: scale(2.6) rotate(45deg);
+    opacity: 1;
+  }
+  72% {
+    transform: scale(0.4) rotate(-20deg);
+    opacity: 0.65;
+  }
+}
+
+/* The hero's glitch: whole-cell jumps on hard steps, never off. */
+@keyframes aka-cell-pulse {
+  0%,
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+  20% {
+    transform: translate(320%, -110%);
+    opacity: 0.5;
+  }
+  40% {
+    transform: translate(-260%, 130%);
+    opacity: 1;
+  }
+  60% {
+    transform: translate(180%, 90%) scale(1.6);
+    opacity: 0.55;
+  }
+  80% {
+    transform: translate(-90%, -160%);
+    opacity: 1;
+  }
+}
+
+/*
+ * Snappy on the way in — the leading cells move within a frame of the pointer
+ * arriving, and the stagger carries the rest.
+ */
+.group:hover .aka-field-fill rect {
+  animation: aka-cell-fill 700ms cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms) both;
+}
+.group:hover .aka-field-scan rect {
+  animation: aka-cell-scan 660ms cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms) both;
+}
+.group:hover .aka-field-slide rect {
+  animation: aka-cell-slide 680ms cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms) both;
+}
+.group:hover .aka-field-rise rect {
+  animation: aka-cell-rise 640ms cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms) both;
+}
+.group:hover .aka-field-bloom rect {
+  animation: aka-cell-bloom 760ms cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms) both;
+}
+.group:hover .aka-field-pulse rect {
+  animation: aka-cell-pulse 720ms steps(5, end) var(--d, 0ms) both;
+}
+
+/* The whole field lifts out of the ground the instant the pointer lands. */
+.aka-field {
+  transition: opacity 180ms ease-out;
+}
 .group:hover .aka-field {
   opacity: 1;
 }

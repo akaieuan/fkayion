@@ -7,7 +7,7 @@
  * the first HTML.
  *
  * Four arrangements so a wall of cards doesn't repeat itself. Each stays quiet:
- * these sit *behind* a logo, so they never exceed ~18% alpha.
+ * these sit *behind* a logo, so they never exceed ~30% alpha.
  *
  * Hover reforms the field cell by cell, the way the hero mark assembles — each
  * cell carries its own `--d` delay, and the keyframes live in akaSTYLE. The
@@ -75,22 +75,25 @@ function orderFor(motion: FieldMotion, cx: number, cy: number, r: number) {
   }
 }
 
-/** Keyframe per behaviour, defined in akaSTYLE. */
+/**
+ * Each behaviour owns its keyframe — no sharing, or two cards that happen to
+ * sit next to each other read as the same card.
+ */
 const KEYFRAME: Record<FieldMotion, string> = {
-  fill: 'pop',
-  scan: 'rise',
-  slide: 'glitch',
+  fill: 'fill',
+  scan: 'scan',
+  slide: 'slide',
   rise: 'rise',
-  bloom: 'pop',
-  pulse: 'flicker',
+  bloom: 'bloom',
+  pulse: 'pulse',
 }
 
 export function PixelPattern({
   kind = 'drift',
   accent,
   seed = 1,
-  cols = 26,
-  rows = 11,
+  cols = 30,
+  rows = 15,
   motion,
   className,
 }: {
@@ -109,7 +112,7 @@ export function PixelPattern({
   const size = cell * (1 - gap)
   const rectH = 100 / rows
   /** The whole reform runs inside this window, however many cells there are. */
-  const STAGGER = 460
+  const STAGGER = 620
 
   const cells: React.ReactElement[] = []
   let i = 0
@@ -133,7 +136,7 @@ export function PixelPattern({
           fill={accent}
           // Rounded: Math.sin's last bits differ between Node and the browser,
           // and React compares the serialized attribute on hydration.
-          fillOpacity={Math.round(w * 0.18 * 1000) / 1000}
+          fillOpacity={Math.round(w * 0.3 * 1000) / 1000}
           style={motion ? ({ '--d': `${Math.round(order * STAGGER)}ms` } as React.CSSProperties) : undefined}
         />,
       )
