@@ -2,6 +2,7 @@ import Image, { type StaticImageData } from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { PixelHead, type PixelIcon } from '@/components/features/brand/pixel-head'
+import { BodyLogMark } from '@/components/demo/bodylog/bodylog-mark'
 
 /**
  * The one project-card vocabulary, shared by the landing featured grid and
@@ -19,6 +20,8 @@ export type ProjectCardItem = {
   priority?: boolean
   /** Draw the brand mark instead of a screenshot — for toolkits that ship an icon. */
   mark?: PixelIcon
+  /** Products with their own logo (not a pixel-engine knockout). */
+  logo?: 'bodylog'
 }
 
 const chip =
@@ -28,7 +31,11 @@ export function ProjectCard({ item }: { item: ProjectCardItem }) {
   const isExternal = /^https?:\/\//.test(item.href)
   const body = (
     <>
-      {item.mark ? (
+      {item.logo === 'bodylog' ? (
+        <div className="flex aspect-[16/10] w-full items-center justify-center bg-muted/10">
+          <BodyLogMark size={116} title="" />
+        </div>
+      ) : item.mark ? (
         <div className="flex aspect-[16/10] w-full items-center justify-center bg-muted/10">
           <PixelHead size={128} grid={24} icon={item.mark} still />
         </div>

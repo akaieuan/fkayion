@@ -24,7 +24,7 @@ const FEATURED: ProjectCardItem[] = [
   {
     title: 'BodyLog',
     href: '/demo/bodylog',
-    mark: 'bodylog',
+    logo: 'bodylog',
     description: 'Track a skin or body condition between doctor visits — on device, never diagnosed.',
     tags: ['iOS', 'Circleheads'],
   },

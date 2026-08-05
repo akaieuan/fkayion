@@ -1,0 +1,98 @@
+/**
+ * BodyLog's own design tokens, scoped so they never leak into the site.
+ *
+ * Straight from the shipping app: warm near-black default with a paper mode,
+ * hierarchy by alpha (six ink steps), one border weight, no shadows — depth is
+ * surface lightness (ground → card → inset). Accents are punctuation.
+ */
+
+.bl-scope,
+.bl-scope[data-bl-theme='dark'] {
+  --ground: #0a0a09;
+  --card: #111110;
+  --inset: #181817;
+  --ink1: #eaeae8;
+  --ink2: rgba(234, 234, 232, 0.85);
+  --ink3: #898987;
+  --ink4: rgba(137, 137, 135, 0.7);
+  --ink5: rgba(137, 137, 135, 0.5);
+  --ink6: rgba(137, 137, 135, 0.4);
+  --rule: rgba(255, 255, 255, 0.1);
+  --rule-soft: rgba(255, 255, 255, 0.04);
+  --inverse: #0c0c0b;
+  --blue: #5d98f4;
+  --green: #69b57f;
+  --amber: #f0be67;
+  --rose: #ec7380;
+  --violet: #b3a0ec;
+}
+
+.bl-scope[data-bl-theme='light'] {
+  --ground: #f9f9f8;
+  --card: #fdfdfb;
+  --inset: #e9e8e4;
+  --ink1: #0d0d0c;
+  --ink2: rgba(13, 13, 12, 0.85);
+  --ink3: #64635e;
+  --ink4: rgba(100, 99, 94, 0.7);
+  --ink5: rgba(100, 99, 94, 0.5);
+  --ink6: rgba(100, 99, 94, 0.4);
+  --rule: rgba(30, 30, 28, 0.12);
+  --rule-soft: rgba(30, 30, 28, 0.048);
+  --inverse: #fafaf9;
+  --blue: #1d6bde;
+  --green: #377249;
+  --amber: #b37903;
+  --rose: #c6495b;
+  --violet: #7152b5;
+}
+
+/* Type: system sans; 200 display, 300 body, 500 buttons + micro-labels. Bold
+   is never used. Headings are lowercase. */
+.bl-scope {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--ink1);
+}
+.bl-micro {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink5);
+}
+.bl-h1 {
+  font-weight: 200;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+}
+.bl-stat {
+  font-weight: 200;
+  letter-spacing: -0.02em;
+}
+
+/* The system's one press effect. No scale, no ripple, no colour flash. */
+.bl-press {
+  transition:
+    transform 120ms ease-out,
+    opacity 120ms ease-out;
+}
+.bl-press:active {
+  transform: translateY(1px);
+  opacity: 0.85;
+}
+
+.bl-card {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+}
+
+/* Hide the phone viewport's scrollbar — the device doesn't show one. */
+.bl-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.bl-scroll::-webkit-scrollbar {
+  display: none;
+}

@@ -37,7 +37,7 @@ const projects: ProjectCardItem[] = [
     description:
       'An iOS app for tracking any visible body or skin condition between doctor visits — acne, psoriasis, eczema, bruising, PT progress. Photos stay on device; the app never diagnoses.',
     href: '/demo/bodylog',
-    mark: 'bodylog',
+    logo: 'bodylog',
   },
   {
     title: 'Ubik Studio',

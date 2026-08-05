@@ -1,41 +1,52 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
-import { PixelHead } from '@/components/features/brand/pixel-head'
+import { BodyLogMark } from '@/components/demo/bodylog/bodylog-mark'
+import { BodyLogShowcase, BodyLogSpecimens } from '@/components/demo/bodylog/showcase'
 
 const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
 const label = 'text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50'
 const code = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]'
-const cardCls = 'rounded-xl border border-border bg-card/40 p-5'
 
 export const metadata = {
-  title: 'BodyLog — Track a Skin Condition Over Time | akaBuild',
+  title: 'BodyLog — A Record, Not a Verdict | akaBuild',
   description:
-    'An iOS app for tracking any visible body or skin condition between doctor visits — acne, psoriasis, eczema, cysts, ingrown hairs, alopecia, bruising, posture and physical-therapy progress. Photos stay on device. The app never diagnoses; every number on screen is one you typed.',
+    'An iOS app for tracking any visible body or skin condition between doctor visits — acne, psoriasis, eczema, cysts, bruising, PT progress. It never reads your skin, scores it, or tells you what to do, and nothing leaves the phone.',
 }
 
-/** What people actually track — kept broad on purpose, this is not a derm-only tool. */
+/** What people track — deliberately broad; this is not a derm-only tool. */
 const conditions = [
   'Acne', 'Psoriasis', 'Eczema', 'Cysts', 'Ingrown hairs', 'Alopecia',
   'Bruising', 'Scarring', 'Post-op healing', 'Posture / PT progress',
 ]
 
-/** The nine screens explored in v1 — placeholders until real captures land. */
-const screens = [
-  { name: 'Today', note: 'Greeting, streak line, what is still unlogged.' },
-  { name: 'Project detail', note: 'One condition, its sites, its whole history.' },
-  { name: 'Capture flow', note: 'Photo, region, feel slider, note — nothing required.' },
-  { name: 'Body map', note: 'Tap a region on face, front or back to pin a site.' },
-  { name: 'Progression grid', note: 'Twelve weeks of logging intensity, never severity.' },
-  { name: 'Notes', note: 'Your words, searchable, attached to entries.' },
-  { name: 'Rewards', note: 'Levels and XP for consistency, not for outcomes.' },
-  { name: 'Sprite builder', note: 'The one piece of pure play in the app.' },
-  { name: 'Onboarding', note: 'What it does, what it refuses to do, on device.' },
+/** The rules that settle design arguments, straight from the design doc. */
+const rules = [
+  {
+    h: 'Activity, never severity.',
+    t: 'Every visualisation is keyed to how much you logged. Colouring anything by rating would turn the app into a diagram of how bad you are.',
+  },
+  {
+    h: 'Colour tells things apart; it never ranks them.',
+    t: 'A hue means “this is the psoriasis one”. Depth means “more logged here”. Neither ever means “worse”.',
+  },
+  {
+    h: 'Gaps read as gaps.',
+    t: 'Days you didn’t log are drawn empty — including in the logo. A mark with no gaps would quietly claim a perfect streak.',
+  },
+  {
+    h: 'On device, full stop.',
+    t: 'No network layer exists in the app at all. Not disabled — absent. Adding one would require an explicit written privacy decision first.',
+  },
+  {
+    h: 'Everything is optional.',
+    t: 'Save is never disabled. An entry with nothing but a date is a perfectly good entry.',
+  },
 ]
 
 export default function BodyLogPage() {
   return (
     <div className="min-h-screen bg-background px-6 py-16">
-      <article className="mx-auto max-w-2xl">
+      <article className="mx-auto max-w-3xl">
         <Link
           href="/demo"
           className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
@@ -44,40 +55,58 @@ export default function BodyLogPage() {
           Projects
         </Link>
 
-        <header className="mb-6 flex items-center gap-4">
-          <figure className="shrink-0 rounded-xl border border-border/80 bg-black p-2">
-            <PixelHead size={56} grid={22} icon="bodylog" still />
-          </figure>
+        {/* ---------------------------------------------------------- hero */}
+        <header className="mb-6 flex items-center gap-5">
+          <BodyLogMark size={84} title="" className="shrink-0" />
           <div>
-            <p className={kicker}>Product · iOS · Circleheads</p>
-            <h1 className="mt-1 text-[clamp(1.6rem,5vw,2.4rem)] font-extralight leading-none tracking-tight text-foreground/90">
+            <p className={kicker}>Circleheads · iOS</p>
+            <h1 className="mt-1 text-[clamp(1.7rem,5vw,2.5rem)] font-extralight leading-none tracking-tight text-foreground/90">
               BodyLog
             </h1>
           </div>
         </header>
 
-        <p className="mt-5 max-w-xl text-sm text-muted-foreground">
-          Track any visible body or skin condition over time — so the change between doctor visits
-          is something you can show, not something you have to remember.
+        <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
+          A skin-tracking app for iPhone. You photograph a place on your body, say what it&apos;s
+          about, and the app keeps the record. It never reads your skin, scores it, or tells you
+          what to do — and nothing leaves the phone.
         </p>
 
         <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
           <span className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background">
             Publishing soon · iOS
           </span>
-          <Link
-            href="/demo/circleheads"
+          <a
+            href="https://circleheads.com"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/40"
           >
-            Circleheads
+            circleheads.com
             <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
-          </Link>
+          </a>
         </div>
         <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
-          $3/month or $25/year at launch. Swift + SwiftUI, iOS 17+, no external dependencies.
+          $3/month or $25/year at launch. Native SwiftUI + SwiftData, iOS 17+, zero external
+          dependencies — no image assets; every glyph, badge and figure is a character grid drawn
+          at runtime.
         </p>
 
-        <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
+        {/* ------------------------------------------------------ the phone */}
+        <div className="mt-12">
+          <p className={label}>The app</p>
+          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+            Rebuilt here as live React from the shipping app&apos;s own values — the figure is
+            rasterised from its vector anatomy, the logo is its frozen grid, and the colour, type
+            and spacing are the real ones. It works: tap around.
+          </p>
+          <div className="mt-5">
+            <BodyLogShowcase />
+          </div>
+        </div>
+
+        <div className="mt-12 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
+          {/* ----------------------------------------------------- why */}
           <section className="space-y-3">
             <h2 className="text-sm font-medium tracking-wide text-foreground">Why it exists</h2>
             <p>
@@ -88,12 +117,13 @@ export default function BodyLogPage() {
             </p>
             <p>
               BodyLog is the record that answers it. You photograph the thing when you notice it,
-              tag where on the body it is, say how it feels on a five-point scale, and move on. The
-              app&apos;s only job is to make that thirty-second habit sustainable, and to hand you
-              the history when it matters.
+              tag where on the body it is, say how it feels, and move on. The app&apos;s only job is
+              to make that thirty-second habit sustainable, and to hand you the history when it
+              matters.
             </p>
           </section>
 
+          {/* ------------------------------------------------ what people track */}
           <section className="space-y-4">
             <h2 className="text-sm font-medium tracking-wide text-foreground">What people track</h2>
             <p>
@@ -111,150 +141,241 @@ export default function BodyLogPage() {
               ))}
             </div>
             <p className="text-[13px]">
-              The two routes the app is built around: <span className="text-foreground/85">face
-              acne</span>, logged zone by zone on a face diagram, and{' '}
-              <span className="text-foreground/85">fold-prone persistent spots</span> — psoriasis
-              and eczema at the inner elbows, backs of knees, neck, scalp, waist — logged on front
-              and back body diagrams.
-            </p>
-          </section>
-
-          <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
-              The rule the product is built on
-            </h2>
-            <div className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
-              <p className="text-[14px] leading-relaxed text-foreground/85">
-                The app never interprets a photo, never scores a condition, and never suggests
-                treatment. Every number on screen is one you typed. Severity is self-rated. The
-                calendar counts logs, not health.
-              </p>
-            </div>
-            <p>
-              That constraint drove most of the design decisions. The tracking grid gets denser the
-              more you log — it is coloured by <em>activity</em>, never by severity, so a bad month
-              never looks like a red wall. Streaks break honestly, but the copy around a broken
-              streak stays neutral: no scolding, no guilt mechanics on a medical record.
+              And what you call it is <span className="text-foreground/85">free text you coin</span> —
+              &ldquo;psoriasis&rdquo;, &ldquo;jaw acne&rdquo;, &ldquo;hand eczema&rdquo; — not a fixed
+              menu. Two people with the same diagnosis rarely describe it the same way, and a closed
+              list would make the app argue with them about their own body.
             </p>
             <p className="text-[13px]">
-              It also decides what the app is not. There is no model in the loop, no &ldquo;your
-              acne is improving 12%&rdquo;, no triage. Those claims need clinical validation nobody
-              here has done, and inventing them would make the log less trustworthy, not more.
+              The two routes it is built around: <span className="text-foreground/85">face acne</span>,
+              logged zone by zone on a face diagram, and{' '}
+              <span className="text-foreground/85">fold-prone persistent spots</span> — psoriasis and
+              eczema at the inner elbows, backs of knees, neck, scalp, waist — on front and back body
+              diagrams.
             </p>
           </section>
 
+          {/* -------------------------------------------------------- rules */}
+          <section className="space-y-4">
+            <h2 className="text-sm font-medium tracking-wide text-foreground">
+              What decides arguments
+            </h2>
+            <p>
+              Not style preferences. When a design question comes up, these settle it — and a
+              component is wrong, even if it looks right, when it breaks one.
+            </p>
+            <div className="space-y-3">
+              {rules.map((r) => (
+                <div key={r.h} className="border-l-2 border-border pl-4">
+                  <p className="text-[13.5px] text-foreground/85">{r.h}</p>
+                  <p className="mt-1 text-[13px] font-light leading-relaxed text-muted-foreground">
+                    {r.t}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+              <p className={label}>Product voice</p>
+              <p className="mt-2 text-[13.5px] leading-relaxed text-foreground/85">
+                Lowercase headings, short sentences, no exclamation, no streak shaming, no medical
+                authority. The one rating vocabulary is{' '}
+                <span className="font-mono text-[12px]">flaring · irritated · okay · good · clear</span>{' '}
+                — five is the good end on purpose, so the scale reads as progress toward clear rather
+                than a severity score.
+              </p>
+            </div>
+          </section>
+
+          {/* --------------------------------------------------------- mark */}
+          <section className="space-y-3">
+            <h2 className="text-sm font-medium tracking-wide text-foreground">The mark is the data</h2>
+            <p>
+              The logo is five weeks of the logging grid. Hue says which thing was tracked, weight
+              says how much, and the empty cells are days nothing was logged. It is the
+              product&apos;s own data structure used as its signature —{' '}
+              <span className="text-foreground/85">not a metaphor for the record, but a picture of
+              one</span>.
+            </p>
+            <p className="text-[13px]">
+              Five by five, gap 24% of a cell, five hues in fixed order, weight 0 as the empty token.
+              A frozen constant rather than generated, so the header mark, the app icon and the
+              splash are byte-identical. Seventeen of twenty-five cells are lit and all five accents
+              appear — both facts are load-bearing. The system otherwise forbids multi-colour; the
+              mark is exempt because there, colour is data rather than decoration.
+            </p>
+          </section>
+
+          {/* --------------------------------------------------- specimens */}
+          <div>
+            <p className={label}>System specimens</p>
+            <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+              The same components the phone is built from, on their own. The history grid&apos;s two
+              readings are the clearest statement of the whole idea in one tap.
+            </p>
+            <div className="mt-5">
+              <BodyLogSpecimens />
+            </div>
+          </div>
+
+          {/* ------------------------------------------------------ logging */}
           <section className="space-y-4">
             <h2 className="text-sm font-medium tracking-wide text-foreground">How logging works</h2>
             <ul className="list-disc space-y-2 pl-5 marker:text-muted-foreground/50">
               <li>
                 <span className="text-foreground/85">Entries like posts, not forms.</span> Optional
-                photo slides with per-slide captions, tap-to-select regions on a face / front / back
-                diagram, a 1–5 &ldquo;how does it feel&rdquo; slider from Flaring to Clear, and a
-                free note. Nothing is required — save is never blocked.
+                photo slides with captions, tap-to-select regions on a face / front / back diagram, a
+                1–5 feel slider, and a free note. Nothing is required — save is never blocked.
               </li>
               <li>
-                <span className="text-foreground/85">Projects, not one big pile.</span> A project is
-                one condition at one set of sites — &ldquo;general acne, cheeks and jaw&rdquo;,
-                &ldquo;psoriasis, four sites&rdquo; — each with its own accent colour carried from
-                the project card to the body-map pin to the calendar cell.
+                <span className="text-foreground/85">The questions in the order a person thinks
+                them.</span> Where is it showing up → what are you tracking → how does it feel today →
+                what you notice → what you applied → anything else going on. That last one is
+                captioned honestly: the app draws no conclusions from it.
+              </li>
+              <li>
+                <span className="text-foreground/85">Shot conditions saved with the photo.</span>{' '}
+                Light (window / ring light / overhead / outdoors) and distance (macro / close /
+                arm&apos;s length), so future shots can match. Two pictures of the same spot under
+                different light are not a comparison.
               </li>
               <li>
                 <span className="text-foreground/85">Checkup nudges.</span> When a site you log
                 regularly has gone quiet for three to fourteen days, the home screen offers a
-                pre-filled &ldquo;quick checkup pic?&rdquo; card. Gaps in a chronic record are the
-                expensive kind of missing data.
+                pre-filled &ldquo;quick checkup pic?&rdquo; card — an offer, never a scold.
               </li>
               <li>
-                <span className="text-foreground/85">A twelve-week grid.</span> One cell per day,
-                denser with more entries, with a streak line. Intensity of logging only — the colour
-                never means severity.
+                <span className="text-foreground/85">Zoom is time, not tile size.</span> Week / month
+                / all-time changes how the photo timeline is bucketed. Filter to one tracked thing —
+                two progressions interleaved is two stories and neither reads.
               </li>
             </ul>
           </section>
 
-          {/* Screens — placeholders until captures land; keeps the layout honest for now. */}
-          <div>
-            <p className={label}>The app · nine screens</p>
-            <p className="mt-2 text-[13px] font-light">
-              Screens from the v1 design exploration. Captures from the build go here.
+          {/* ------------------------------------------------------ rewards */}
+          <section className="space-y-3">
+            <h2 className="text-sm font-medium tracking-wide text-foreground">
+              Earned by tracking, never by improving
+            </h2>
+            <p>
+              Twenty-six badges across five groups. Every one measures an act of recording — logging,
+              pinning, photographing, describing, writing.{' '}
+              <span className="text-foreground/85">None can be earned by a rating going down, and
+              none is lost when a flare gets worse.</span> The app asks people to photograph something
+              they may not enjoy looking at, every day, for months; this is the counterweight, and it
+              only works if it stays honest about what it measures.
             </p>
-            <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {screens.map((s) => (
-                <figure key={s.name} className="rounded-lg border border-border/70 bg-card/40 p-3">
-                  <div className="flex aspect-[9/16] items-center justify-center rounded-md border border-border/60 bg-muted/20">
-                    <span className="text-[10px] font-light text-muted-foreground/35">
-                      {s.name}
-                    </span>
-                  </div>
-                  <figcaption className="mt-2">
-                    <p className="text-[11.5px] text-foreground/80">{s.name}</p>
-                    <p className="mt-0.5 text-[10.5px] font-light leading-snug text-muted-foreground/60">
-                      {s.note}
-                    </p>
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-          </div>
+            <p className="text-[13px]">
+              The one I&apos;d point at: <span className="text-foreground/85">back again</span> — log
+              again after two weeks away. Deliberately not a streak badge. Missing a fortnight and
+              coming back is the moment most tracking apps make you feel worst; this one gives you
+              something for it. XP is flat by design, so a bad day logged is worth exactly what a
+              good one is.
+            </p>
+          </section>
 
+          {/* -------------------------------------------------------- privacy */}
           <section className="space-y-4">
             <h2 className="text-sm font-medium tracking-wide text-foreground">
               Photos are health data
             </h2>
             <p>
-              Skin photos are among the most sensitive images a person owns, so the storage model
-              was a product decision before it was an engineering one:{' '}
+              Skin photos are among the most sensitive images a person owns, so the storage model was
+              a product decision before it was an engineering one:{' '}
               <span className="text-foreground/85">everything stays on the device.</span> No cloud,
               no analytics, no network calls.
             </p>
             <ul className="list-disc space-y-2 pl-5 marker:text-muted-foreground/50">
               <li>
-                Photos are downscaled and <span className="text-foreground/85">EXIF/GPS-stripped</span>{' '}
-                before they are ever written — a dated photo of your own body should not also carry
-                your address.
+                Every stored image is downscaled and{' '}
+                <span className="text-foreground/85">EXIF/GPS-stripped</span> before it touches disk.
+                Capture dates are read off the original bytes and discarded with them — a dated photo
+                of your own body should not also carry your address.
               </li>
               <li>
-                They live in <code className={code}>SwiftData</code> external storage — files
+                Bytes live in <code className={code}>SwiftData</code> external storage — files
                 alongside the store rather than blobs inside it, so a long history stays fast.
               </li>
               <li>
-                The schema is <span className="text-foreground/85">versioned from day one</span>{' '}
-                behind a migration plan. A tracking record you cannot open in two years is worse
-                than no record.
+                The schema has been{' '}
+                <span className="text-foreground/85">versioned since V1</span> and no shipped version
+                is ever edited in place. Four have shipped, each a lightweight migration: V2 added
+                photo capture dates, V3 the tracked condition, V4 the remaining capture questions and
+                shot conditions.
+              </li>
+              <li>
+                Body-region identifiers are a stored contract — a shipped one is never renamed. An
+                entry logged before sides existed still parses and still means what it meant;
+                inventing a side for old data would be a lie in a health record.
+              </li>
+              <li>
+                Lists show abstract tiles rather than photographs by default, so the app is safe to
+                scroll in public without changing a setting.
               </li>
             </ul>
-            <p className="text-[13px]">
-              Any future sync would be a deliberate, privacy-first decision — not a default.
+          </section>
+
+          {/* ------------------------------------------- design → production */}
+          <section className="space-y-4">
+            <h2 className="text-sm font-medium tracking-wide text-foreground">
+              From design exploration to a shipping app
+            </h2>
+            <p>
+              It started as a design exploration — a working name, three dashboard variants, and nine
+              screens argued out in the browser before any Swift existed. That stage was for settling
+              questions cheaply: whether the history grid should be one hue or one per condition,
+              whether streaks should exist at all, what a broken streak is allowed to say to you.
+            </p>
+            <p>
+              What survived became a written system — tokens, the rules above, the frozen mark — and
+              then the real app. The production build is native SwiftUI with SwiftData underneath,
+              and the values on this page are read out of it rather than reconstructed. A few things
+              got better on the way: the figure went from an abstract diagram to real rasterised
+              anatomy with independent left and right limbs, and heat became something clipped by the
+              body&apos;s own silhouette so it spreads <em>along</em> a limb instead of stamping a
+              rectangle on it.
+            </p>
+            <p className="text-[13px] text-muted-foreground/80">
+              A few decisions are still open, and it&apos;s worth saying so rather than presenting
+              them as settled: whether the app should force dark rather than follow the system, what
+              a clinic export contains, and whether the multi-colour mark stays multi-colour given
+              the system&apos;s own accent rule.
             </p>
           </section>
 
+          {/* ------------------------------------------------------- credits */}
           <section className="space-y-3">
             <h2 className="text-sm font-medium tracking-wide text-foreground">Who built it</h2>
             <p>
-              A two-person <Link href="/demo/circleheads" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">Circleheads</Link>{' '}
+              A two-person{' '}
+              <Link href="/demo/circleheads" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">
+                Circleheads
+              </Link>{' '}
               build. I did the product: the user story, the whole front end, and the design language
               — the screen model, the body map, the capture flow, the tracking grid, the copy
-              conventions, and the pixel brand art (the mark, tab icons, badges, and the sprite are
-              all drawn by the same engine, so they scale from 14px to 180px with no assets).
+              conventions, and the pixel brand art. The mark, tab icons, badges, figure and sprite are
+              all drawn by one engine, which is why they hold from 14px to 512px with no assets.
             </p>
             <p>
-              <a href="https://blaiseab.com" target="_blank" rel="noopener noreferrer" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">Blaise</a>{' '}
-              built the back end — how photos are stored, processed, and traced through the app:
-              the image pipeline, the SwiftData schema and its migration plan, and the persistence
-              layer underneath the log.
+              <a href="https://blaiseab.com" target="_blank" rel="noopener noreferrer" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">
+                Blaise
+              </a>{' '}
+              built the back end — how photos are stored, processed and traced through the app: the
+              image pipeline, the SwiftData schema and its migration plan, and the persistence layer
+              underneath the log.
             </p>
             <p className="text-[12px] text-muted-foreground/70">
               Swift · SwiftUI · SwiftData · iOS 17+ · zero external dependencies
             </p>
           </section>
 
+          {/* -------------------------------------------------------- status */}
           <section className="space-y-3">
             <h2 className="text-sm font-medium tracking-wide text-foreground">Status</h2>
             <p>
-              Working build: persistent store, photo slides, body-map region picking, the tracking
-              heatmap, checkup nudges, and entry detail. Still to come before release: edit-entry,
-              region history and photo compare, reminders, home-metric presets, and the app icon
-              artwork. Publishing soon at $3/month or $25/year.
+              Working build with a real persistent store: photo slides, body-map region picking, the
+              tracking heatmap, checkup nudges, entry detail, spot history, compare, condition detail,
+              the badge shelf and onboarding. Four schema versions shipped. Still to come before
+              release: edit-entry, reminders, more home-metric presets, and the app icon artwork.
             </p>
           </section>
 
@@ -266,7 +387,8 @@ export default function BodyLogPage() {
               It is the same argument as the rest of my work, in a domain where the stakes are
               personal: the software does not tell you what is happening to your body. It keeps an
               honest record so that you, and the clinician you trust, can decide. Restraint is the
-              feature.
+              feature — which is why the first onboarding card is called{' '}
+              <em>a record, not a verdict</em>.
             </p>
           </section>
         </div>
