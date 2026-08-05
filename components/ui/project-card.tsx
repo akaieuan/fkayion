@@ -6,7 +6,8 @@ import { BodyLogMark } from '@/components/demo/bodylog/bodylog-mark'
 import { CircleheadsLogo } from '@/components/ui/brand-logos'
 import { ProjectLogo } from '@/components/ui/project-logo'
 import { MarkGlyph, hasGlyph } from '@/components/ui/mark-glyphs'
-import { PixelPattern, patternFor, type FieldMotion } from '@/components/ui/pixel-pattern'
+import { PixelField, type FieldMotion } from '@/components/ui/pixel-field'
+import { type ShapeName } from '@/components/features/brand/shapes'
 import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
@@ -47,24 +48,36 @@ export type ProjectCardItem = {
    * family of distinct things rather than one repeated one.
    */
   accent?: string
-  /** How the field reacts to hover. Omit for a still plate. */
+  /**
+   * The subject knocked out of the card's field — the same knockouts the hero
+   * disc cycles through. Each card gets its own, so no two plates read alike.
+   */
+  shape?: ShapeName
+  /** How the field's cells come apart on hover. Omit for a still plate. */
   motion?: Motion
+}
+
+/** A stable seed from the project's own name — the crop is part of its identity. */
+function seedFor(key: string) {
+  let h = 0
+  for (let i = 0; i < key.length; i++) h = (Math.imul(h, 31) + key.charCodeAt(i)) >>> 0
+  return (h % 997) + 1
 }
 
 export function ProjectCard({ item }: { item: ProjectCardItem }) {
   const isExternal = /^https?:\/\//.test(item.href)
   // Fall back to the site's own accent so an untagged card still looks intentional.
   const accent = item.accent ?? '#8a8a86'
-  const pattern = patternFor(item.logo ?? item.mark ?? item.title)
+  const seed = seedFor(item.logo ?? item.mark ?? item.title)
   const hasPlate = Boolean(item.logo || item.logoImg || item.wordmark || item.mark)
 
   const body = (
     <>
       {hasPlate ? (
         <div className="aka-plate">
-          <PixelPattern
-            kind={pattern.kind}
-            seed={pattern.seed}
+          <PixelField
+            shape={item.shape ?? 'spark'}
+            seed={seed}
             accent={accent}
             motion={item.motion}
             className="aka-plate-field"

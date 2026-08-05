@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Search } from 'lucide-react'
-import { PixelPattern } from '@/components/ui/pixel-pattern'
+import { PixelField } from '@/components/ui/pixel-field'
 import { ProjectLogo } from '@/components/ui/project-logo'
 
 const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
@@ -211,7 +211,7 @@ danger   text-[oklch(0.62_0.2_25)]`}
 
           <Spec
             name="Brand plate"
-            note="opaque ground · pixel field in the project hue · mark in an icon tile"
+            note="a disc of cells with the project's subject knocked out, mark in front"
             cls={`plate  .aka-plate            h-[124px], bg var(--plate), one step off the card
 field  .aka-plate-field      absolute inset-0, opacity .8, the hue's pixel grid
 tile   .aka-icon-tile        62px, rounded-[14px], filled + bordered + lit from above
@@ -222,8 +222,8 @@ tile   .aka-icon-tile        62px, rounded-[14px], filled + bordered + lit from 
               {(['bodylog', 'hitl-kit', 'trickle'] as const).map((n, i) => (
                 <div key={n} className="w-[168px] overflow-hidden rounded-xl border border-border">
                   <div className="aka-plate !h-[76px]">
-                    <PixelPattern
-                      kind={(['drift', 'scatter', 'strata'] as const)[i]}
+                    <PixelField
+                      shape={(['grid', 'check', 'drop'] as const)[i]!}
                       seed={17 + i * 40}
                       accent={['#5d98f4', '#8d7ce8', '#d4738f'][i]!}
                       className="aka-plate-field"
@@ -240,15 +240,17 @@ tile   .aka-icon-tile        62px, rounded-[14px], filled + bordered + lit from 
           <Spec
             name="Field behaviour"
             note="hover sends a wave through the cells — every keyframe starts and ends at rest"
-            cls={`pop      swell outward and settle       .aka-field-pop
-rise     ripple lifts and sets down     .aka-field-rise
-glitch   cells jump whole cells         .aka-field-glitch
-flicker  dim and return, never off      .aka-field-flicker
+            cls={`scatter   the full hero glitch, nine hard steps   .aka-field-scatter
+sweep     resolves to one side, then home         .aka-field-sweep
+jitter    tight, fast, unresolved                 .aka-field-jitter
+collapse  pulled to nothing, released back out    .aka-field-collapse
+drift     breathes apart rather than shattering   .aka-field-drift
+burst     thrown out on one step, drawn back      .aka-field-burst
 
-Each cell carries its own --d delay, written server-side. The delay *order*
-(up, down, across, outward, none) is what gives a card its character, so one
-vocabulary covers the whole grid. Only opacity and transform animate, and only
-while a card is hovered.`}
+Every cell carries its own --d (delay, banded by row) and --qx/--qy (whole-cell
+jumps) written server-side by the same hash() the canvas engine uses — so no
+two cells travel the same distance in the same direction. Only opacity and
+transform animate, and only while a card is hovered.`}
           >
             <p className="text-[12px] font-light text-muted-foreground/70">
               Hover any card on{' '}

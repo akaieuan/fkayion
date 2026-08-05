@@ -21,7 +21,8 @@ const projects: ProjectCardItem[] = [
     href: '/demo/circleheads',
     logo: 'circleheads',
     accent: '#7fb896',
-    motion: 'rise',
+    shape: 'ring',
+    motion: 'scatter',
   },
   {
     title: 'akaOSS',
@@ -31,7 +32,8 @@ const projects: ProjectCardItem[] = [
     href: '/demo/akaoss',
     logo: 'akaoss-mark',
     accent: '#69b57f',
-    motion: 'bloom',
+    shape: 'spark',
+    motion: 'burst',
   },
   {
     title: 'BodyLog',
@@ -41,7 +43,8 @@ const projects: ProjectCardItem[] = [
     href: '/demo/bodylog',
     logo: 'bodylog',
     accent: '#5d98f4',
-    motion: 'fill',
+    shape: 'grid',
+    motion: 'drift',
   },
   {
     title: 'Ubik Studio',
@@ -51,7 +54,8 @@ const projects: ProjectCardItem[] = [
     href: '/demo/ubik',
     logoImg: ubikLogo,
     accent: '#4a86d8',
-    motion: 'rise',
+    shape: 'terminal',
+    motion: 'sweep',
   },
   {
     title: 'Box Populi',
@@ -61,7 +65,8 @@ const projects: ProjectCardItem[] = [
     href: '/demo/box-populi',
     logoImg: boxPopuliLogo,
     accent: '#b9b9b4',
-    motion: 'slide',
+    shape: 'box',
+    motion: 'jitter',
   },
   {
     title: 'Hologram',
@@ -71,7 +76,8 @@ const projects: ProjectCardItem[] = [
     href: '/demo/hologram',
     logo: 'hologram',
     accent: '#5fb4c4',
-    motion: 'scan',
+    shape: 'cube',
+    motion: 'drift',
   },
   {
     title: 'akaVST',
@@ -81,7 +87,8 @@ const projects: ProjectCardItem[] = [
     href: '/demo/akavsts',
     logo: 'akavst-pixel',
     accent: '#9b7cf0',
-    motion: 'pulse',
+    shape: 'wave',
+    motion: 'sweep',
   },
   {
     title: 'Collapse',
@@ -91,7 +98,8 @@ const projects: ProjectCardItem[] = [
     href: '/demo/collapse',
     logo: 'collapse',
     accent: '#c9a227',
-    motion: 'slide',
+    shape: 'layers',
+    motion: 'collapse',
   },
   {
     title: 'akaCOVART',
@@ -101,7 +109,8 @@ const projects: ProjectCardItem[] = [
     href: '/demo/akacovart',
     logoImg: covartLogo,
     accent: '#7b9084',
-    motion: 'bloom',
+    shape: 'note',
+    motion: 'burst',
   },
   {
     title: 'HITL Kit',
@@ -111,7 +120,8 @@ const projects: ProjectCardItem[] = [
     href: '/demo/hitl-kit',
     logo: 'hitl-kit',
     accent: '#8d7ce8',
-    motion: 'rise',
+    shape: 'check',
+    motion: 'scatter',
   },
   {
     title: 'EVAL Kit',
@@ -121,7 +131,8 @@ const projects: ProjectCardItem[] = [
     href: '/demo/eval-kit',
     logo: 'eval-kit',
     accent: '#e08a5d',
-    motion: 'fill',
+    shape: 'bars',
+    motion: 'jitter',
   },
   {
     title: 'Trickle UI Kit',
@@ -131,7 +142,8 @@ const projects: ProjectCardItem[] = [
     href: '/demo/trickle-ui-kit',
     logo: 'trickle',
     accent: '#d4738f',
-    motion: 'scan',
+    shape: 'drop',
+    motion: 'drift',
   },
   {
     title: 'How I Work',
@@ -141,7 +153,8 @@ const projects: ProjectCardItem[] = [
     href: '/demo/hitl-practice',
     mark: 'gear',
     accent: '#8fa3b8',
-    motion: 'bloom',
+    shape: 'pen',
+    motion: 'sweep',
   },
   {
     title: 'User feedback + design log',
@@ -150,7 +163,8 @@ const projects: ProjectCardItem[] = [
     href: 'https://kraa.io/team-test-log042',
     mark: 'bubble',
     accent: '#c98f6b',
-    motion: 'pulse',
+    shape: 'bubble',
+    motion: 'jitter',
   },
   {
     title: 'Inertial - Content Moderation Tool',
@@ -168,7 +182,8 @@ const projects: ProjectCardItem[] = [
     href: '/demo/null-browser',
     logo: 'zero',
     accent: '#7e8a99',
-    motion: 'fill',
+    shape: 'zero',
+    motion: 'collapse',
   },
   {
     title: 'Procedural Asset Pipeline Engineering',
@@ -186,7 +201,8 @@ const projects: ProjectCardItem[] = [
     href: '/demo/wrdef',
     wordmark: 'Wrdef',
     accent: '#6fae86',
-    motion: 'scan',
+    shape: 'tiles',
+    motion: 'scatter',
   },
   {
     title: 'Research OS',
@@ -196,7 +212,8 @@ const projects: ProjectCardItem[] = [
     href: '/demo/research-os',
     logo: 'research-os',
     accent: '#6f93c4',
-    motion: 'slide',
+    shape: 'lens',
+    motion: 'sweep',
   },
   {
     title: 'Music Analysis Chat',
@@ -206,7 +223,8 @@ const projects: ProjectCardItem[] = [
     href: '/demo/music-analysis-chat',
     logo: 'music-chat',
     accent: '#c07fa8',
-    motion: 'pulse',
+    shape: 'note',
+    motion: 'jitter',
   },
   {
     title: 'Visualizer Eden',

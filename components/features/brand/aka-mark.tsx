@@ -1,6 +1,9 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+// The geometry lives in ./shapes so the server-rendered card fields draw from
+// exactly the same knockouts this canvas does.
+import { clamp01, hash, DISCIPLINES } from './shapes'
 
 /**
  * The akaBuild hero mark. Same pixel-disc language as the studio family
@@ -30,96 +33,7 @@ type AkaMarkProps = {
   className?: string
 }
 
-const hash = (n: number) => {
-  const s = Math.sin(n * 127.1 + 311.7) * 43758.5453
-  return s - Math.floor(s)
-}
-const clamp01 = (v: number) => Math.max(0, Math.min(1, v))
 
-/* ---- discipline knockouts, in normalized -1..1 space ------------------- */
-
-/** Distance-to-segment stroke: true inside a capsule around A→B. */
-function seg(
-  x: number, y: number,
-  ax: number, ay: number, bx: number, by: number,
-  w: number,
-) {
-  const dx = bx - ax
-  const dy = by - ay
-  const t = clamp01(((x - ax) * dx + (y - ay) * dy) / (dx * dx + dy * dy))
-  const px = ax + t * dx
-  const py = ay + t * dy
-  return (x - px) ** 2 + (y - py) ** 2 < w * w
-}
-
-function diamond(x: number, y: number, cx: number, cy: number, s: number) {
-  return Math.abs(x - cx) + Math.abs(y - cy) < s
-}
-
-/** Gen-AI sparkles — a large diamond and a small companion. */
-function inSpark(x: number, y: number) {
-  return diamond(x, y, -0.1, 0.12, 0.52) || diamond(x, y, 0.48, -0.44, 0.24)
-}
-
-/** Code — angle brackets with a leaning slash. */
-function inCode(x: number, y: number) {
-  const w = 0.1
-  return (
-    seg(x, y, -0.18, -0.42, -0.56, 0, w) ||
-    seg(x, y, -0.56, 0, -0.18, 0.42, w) ||
-    seg(x, y, 0.18, -0.42, 0.56, 0, w) ||
-    seg(x, y, 0.56, 0, 0.18, 0.42, w) ||
-    seg(x, y, 0.1, -0.5, -0.1, 0.5, w * 0.85)
-  )
-}
-
-/** Music — an eighth note: head, stem, flag. */
-function inNote(x: number, y: number) {
-  const hx = x + 0.2
-  const hy = y - 0.34
-  if (hx * hx + hy * hy < 0.19 * 0.19) return true
-  if (x >= -0.08 && x <= 0.04 && y >= -0.5 && y <= 0.36) return true
-  return seg(x, y, -0.02, -0.5, 0.34, -0.26, 0.1)
-}
-
-/** Procedural 3D — an isometric cube wireframe. */
-function inCube(x: number, y: number) {
-  const w = 0.09
-  const T: [number, number] = [0, -0.52]
-  const R: [number, number] = [0.46, -0.26]
-  const Rb: [number, number] = [0.46, 0.26]
-  const B: [number, number] = [0, 0.52]
-  const Lb: [number, number] = [-0.46, 0.26]
-  const L: [number, number] = [-0.46, -0.26]
-  const C: [number, number] = [0, 0]
-  const edges: [readonly [number, number], readonly [number, number]][] = [
-    [T, R], [R, Rb], [Rb, B], [B, Lb], [Lb, L], [L, T],
-    [C, L], [C, R], [C, B],
-  ]
-  return edges.some(([p, q]) => seg(x, y, p[0], p[1], q[0], q[1], w))
-}
-
-/** Agent tooling — a terminal prompt: chevron and cursor line. */
-function inTerminal(x: number, y: number) {
-  const w = 0.1
-  return (
-    seg(x, y, -0.48, -0.32, -0.12, 0, w) ||
-    seg(x, y, -0.12, 0, -0.48, 0.32, w) ||
-    seg(x, y, 0.08, 0.3, 0.46, 0.3, w)
-  )
-}
-
-/** Design — a pen stroke: nib tip and a drawn diagonal. */
-function inPen(x: number, y: number) {
-  return (
-    diamond(x, y, -0.36, 0.36, 0.16) ||
-    seg(x, y, -0.3, 0.3, 0.34, -0.34, 0.12) ||
-    diamond(x, y, 0.42, -0.42, 0.1)
-  )
-}
-
-/** The cycle: AI → code → music → 3D → agents → design. */
-const DISCIPLINES = [inSpark, inCode, inNote, inCube, inTerminal, inPen]
 
 export function AkaMark({
   size,
