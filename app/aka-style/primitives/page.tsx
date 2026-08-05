@@ -243,17 +243,20 @@ tile   .aka-icon-tile        62px, rounded-[14px], filled + bordered + lit from 
             cls={`scatter   the full hero glitch, nine hard steps   .aka-field-scatter
 sweep     resolves to one side, then home         .aka-field-sweep
 jitter    tight, fast, unresolved                 .aka-field-jitter
-collapse  pulled to nothing, released back out    .aka-field-collapse
+collapse  pulled inward, released back out        .aka-field-collapse
 drift     breathes apart rather than shattering   .aka-field-drift
 burst     thrown out on one step, drawn back      .aka-field-burst
 
-Every cell carries its own --d (delay, banded by row) and --qx/--qy (whole-cell
-jumps) written server-side by the same hash() the canvas engine uses — so no
-two cells travel the same distance in the same direction. Only opacity and
-transform animate, and only while a card is hovered.`}
+Cells are grouped by the motion they share — same delay band, same jump vector —
+and each group is drawn as one <path>. About 26 animated nodes per card instead
+of several hundred, which is the whole frame-rate story. The vectors and the
+row-banded delays come from the same hash() the canvas engine uses, and the
+field's viewBox is the cell lattice itself, so a jump of one cell is one unit
+at any zoom. Only transform and opacity animate, only on the hovered card.`}
           >
             <p className="text-[12px] font-light text-muted-foreground/70">
-              Hover any card on{' '}
+              Four grid resolutions (24/30/38/46 columns) and a per-project crop mean no two
+              plates read at the same zoom either. Hover any card on{' '}
               <Link href="/demo" className="text-foreground underline underline-offset-2">
                 /demo
               </Link>{' '}
