@@ -255,8 +255,8 @@ field's viewBox is the cell lattice itself, so a jump of one cell is one unit
 at any zoom. Only transform and opacity animate, only on the hovered card.`}
           >
             <p className="text-[12px] font-light text-muted-foreground/70">
-              Four grid resolutions (24/30/38/46 columns) and a per-project crop mean no two
-              plates read at the same zoom either. Hover any card on{' '}
+              Six dither styles (bayer, halftone, checker, scan, rule, lattice) over four fine
+              grids and a per-project crop, so no two plates share a texture. Hover any card on{' '}
               <Link href="/demo" className="text-foreground underline underline-offset-2">
                 /demo
               </Link>{' '}

@@ -33,11 +33,44 @@ import { SHAPES, hash, type ShapeName } from '@/components/features/brand/shapes
 export type FieldMotion = 'scatter' | 'sweep' | 'jitter' | 'collapse' | 'drift' | 'burst'
 
 /**
- * Grid resolutions. A card drawn at 46 columns reads as fine grain, one at 24
- * as chunky pixels — same engine, different zoom, and it does as much to tell
- * cards apart as the shapes do.
+ * Grid resolutions. All fine — the coarse ones read as noise at this size — with
+ * enough spread that a wall of cards is not one uniform grain.
  */
-const DENSITIES = [24, 30, 38, 46] as const
+const DENSITIES = [34, 40, 46, 52] as const
+
+/**
+ * How the disc thins toward its rim. This, not the grid size, is where the
+ * variation lives: the same shape at the same zoom reads completely differently
+ * ordered-dithered than checkered than scanlined. `depth` is 1 at the centre of
+ * the disc and 0 at its edge, so every one of these is solid in the middle and
+ * comes apart at the rim — the way a dither resolves a gradient.
+ */
+const BAYER = [
+  [0, 8, 2, 10],
+  [12, 4, 14, 6],
+  [3, 11, 1, 9],
+  [15, 7, 13, 5],
+]
+
+const DITHERS = {
+  /** Classic 4x4 ordered dither — the finest, most photographic falloff. */
+  bayer: (i: number, j: number, depth: number) => depth > BAYER[j % 4]![i % 4]! / 16,
+  /** Half-tone: a coarser 2x2 threshold, so the rim breaks into visible clumps. */
+  halftone: (i: number, j: number, depth: number) =>
+    depth > ((BAYER[(j % 4) as number]![(i % 4) as number]! >> 2) + 0.5) / 4,
+  /** Checkerboard past the core — a woven texture. */
+  checker: (i: number, j: number, depth: number) => depth > 0.55 || ((i + j) % 2 === 0 && depth > 0.12),
+  /** Scanlines past the core — reads like a CRT or a readout. */
+  scan: (i: number, j: number, depth: number) => depth > 0.6 || (j % 2 === 0 && depth > 0.1),
+  /** Vertical rules — the same idea turned ninety degrees. */
+  rule: (i: number, j: number, depth: number) => depth > 0.6 || (i % 2 === 0 && depth > 0.1),
+  /** A sparse lattice: one cell in four survives outside the core. */
+  lattice: (i: number, j: number, depth: number) =>
+    depth > 0.62 || (i % 2 === 0 && j % 2 === 0 && depth > 0.08),
+} as const
+
+export type Dither = keyof typeof DITHERS
+const DITHER_NAMES = Object.keys(DITHERS) as Dither[]
 
 /** Delay bands, and the jump vectors a cell can draw. Their product is the
  *  number of animated nodes, so both stay small on purpose. */
@@ -51,6 +84,8 @@ export function PixelField({
   motion,
   /** Cells across the plate; omit to take a resolution from the seed. */
   cols,
+  /** How the disc thins at its rim; omit to take one from the seed. */
+  dither,
   className,
 }: {
   shape: ShapeName
@@ -59,9 +94,13 @@ export function PixelField({
   seed?: number
   motion?: FieldMotion
   cols?: number
+  dither?: Dither
   className?: string
 }) {
   const knockout = SHAPES[shape]
+  const ditherName =
+    dither ?? DITHER_NAMES[Math.floor(hash(seed + 7) * DITHER_NAMES.length) % DITHER_NAMES.length]!
+  const thin = DITHERS[ditherName]
   const nCols = cols ?? DENSITIES[Math.floor(hash(seed + 5) * DENSITIES.length) % DENSITIES.length]!
   const nRows = Math.round(nCols / 2)
 
@@ -83,6 +122,8 @@ export function PixelField({
       const dist = Math.hypot(dx, dy)
       if (dist >= 0.98) continue
       if (knockout(dx / figScale, dy / figScale)) continue // the subject, knocked out
+      // The dither decides what survives near the rim.
+      if (!thin(i, j, 1 - dist)) continue
 
       const cellSeed = i * 37 + j * 101 + seed
       // The hero's own delay: banded by row, then jittered per cell, so the
@@ -108,7 +149,7 @@ export function PixelField({
     <svg
       viewBox={`0 0 ${nCols} ${nRows}`}
       preserveAspectRatio="none"
-      className={[className, 'aka-field', motion ? `aka-field-${motion}` : '']
+      className={[className, 'aka-field', `aka-dither-${ditherName}`, motion ? `aka-field-${motion}` : '']
         .filter(Boolean)
         .join(' ')}
       // One fill for the whole field. A jump of one cell is one user unit in
@@ -121,7 +162,7 @@ export function PixelField({
       {[...groups].map(([key, g]) => {
         // Alpha per group, from how deep in the disc its cells average — the
         // engine's falloff, kept without paying for a class on every cell.
-        const o = Math.min(5, Math.max(0, Math.floor((g.depth / g.n) * 7)))
+        const o = Math.min(5, Math.max(1, Math.round(2 + (g.depth / g.n) * 5)))
         const cls =
           key === 'still' ? `o${o}` : `o${o} d${key.split(':')[0]} v${key.split(':')[1]}`
         return <path key={key} className={cls} d={g.d.join('')} />

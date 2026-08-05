@@ -17,10 +17,10 @@ const projects: ProjectCardItem[] = [
     title: 'Circleheads',
     tags: ['Studio', 'Applied AI'],
     description:
-      'The two-person Brooklyn applied-AI studio I co-run — agents in production, a short senior consulting bench, and original games. Taking a few projects a year.',
+      'The two-person Brooklyn applied-AI studio I co-run. Agents in production, a short senior consulting bench, and original games. Taking a few projects a year.',
     href: '/demo/circleheads',
     logo: 'circleheads',
-    accent: '#7fb896',
+    accent: '#c2c2bc',
     shape: 'ring',
     motion: 'scatter',
   },
@@ -28,7 +28,7 @@ const projects: ProjectCardItem[] = [
     title: 'akaOSS',
     tags: ['Studio', 'Open source'],
     description:
-      'The open-source studio for human-in-the-loop AI — five projects (HITL Kit, EVAL Kit, tag-kit, Collapse, Hologram), the Assist-Not-Complete thesis, and a reproducible research feed.',
+      'The open-source studio for human-in-the-loop AI. Five projects (HITL Kit, EVAL Kit, tag-kit, Collapse, Hologram), the Assist-Not-Complete thesis, and a reproducible research feed.',
     href: '/demo/akaoss',
     logo: 'akaoss-mark',
     accent: '#69b57f',
@@ -40,7 +40,7 @@ const projects: ProjectCardItem[] = [
     title: 'BodyLog',
     tags: ['Product', 'iOS', 'Circleheads'],
     description:
-      'An iOS app for tracking any visible body or skin condition between doctor visits — acne, psoriasis, eczema, bruising, PT progress. Photos stay on device; the app never diagnoses.',
+      'An iOS app for tracking any visible body or skin condition between doctor visits: acne, psoriasis, eczema, bruising, PT progress. Photos stay on device, and the app never diagnoses.',
     href: '/demo/bodylog',
     logo: 'bodylog',
     accent: '#5d98f4',
@@ -51,7 +51,7 @@ const projects: ProjectCardItem[] = [
     title: 'Ubik Studio',
     tags: ['Product', '2023–2026'],
     description:
-      'Three and a half years co-founding a desktop-native AI research platform — agents that gather, read, and draft, with humans keeping the final say and evidence behind every claim.',
+      'Three and a half years co-founding a desktop-native AI research platform. Agents gather, read, and draft; humans keep the final say, with evidence behind every claim.',
     href: '/demo/ubik',
     logoImg: ubikLogo,
     accent: '#4a86d8',
@@ -62,7 +62,7 @@ const projects: ProjectCardItem[] = [
     title: 'Box Populi',
     tags: ['Client project', 'Live site'],
     description:
-      'On-brand site for a NYC live-techno collective. Custom audio players over the SoundCloud Widget, multiple live streams coordinated so they never overlap, an iOS quirk handled honestly.',
+      'On-brand site for a NYC live-techno collective. Custom audio players over the SoundCloud Widget, multiple live streams coordinated so they never overlap, and an iOS quirk handled honestly.',
     href: '/demo/box-populi',
     logoImg: boxPopuliLogo,
     accent: '#b9b9b4',
@@ -73,7 +73,7 @@ const projects: ProjectCardItem[] = [
     title: 'Hologram',
     tags: ['Open source', 'Dev tool', 'Write-up'],
     description:
-      'Live observability and a read-only MCP surface for Blender → glTF pipelines — watch your AI agent work on your game assets in real time.',
+      'Live observability and a read-only MCP surface for Blender to glTF pipelines. Watch your AI agent work on your game assets in real time.',
     href: '/demo/hologram',
     logo: 'hologram',
     accent: '#5fb4c4',
@@ -84,7 +84,7 @@ const projects: ProjectCardItem[] = [
     title: 'akaVST',
     tags: ['Instruments', 'VST3 / AU', 'macOS'],
     description:
-      'Three JUCE instruments built one at a time and documented as they go — an acid voice with a 64-step sequencer (v0.4.0), four lo-fi layers on one voice pool (v1.0.0), and a sampler that resamples itself (v0.1.0).',
+      'Three JUCE instruments, built one at a time and documented as they go: an acid voice with a 64-step sequencer (v0.4.0), four lo-fi layers on one voice pool (v1.0.0), and a sampler that resamples itself (v0.1.0).',
     href: '/demo/akavsts',
     logo: 'akavst-pixel',
     accent: '#9b7cf0',
@@ -106,7 +106,7 @@ const projects: ProjectCardItem[] = [
     title: 'akaCOVART',
     tags: ['Open source', 'Generative studio'],
     description:
-      'A generative album-art engine — shape it, sync the motion to your track, and export the cover. Every cover is reproducible: engine + seed + a few parameters.',
+      'A generative album-art engine. Shape it, sync the motion to your track, and export the cover. Every cover is reproducible from an engine, a seed, and a few parameters.',
     href: '/demo/akacovart',
     logoImg: covartLogo,
     accent: '#7b9084',
@@ -129,7 +129,7 @@ const projects: ProjectCardItem[] = [
     title: 'EVAL Kit',
     tags: ['Open source', 'Write-up'],
     description:
-      'Agent eval framework: humans score, not LLMs — LLM-as-judge is only an opt-in pre-fill, flagged on every score. YAML suites, local dashboard, CLI, five dimensions LLM judges miss.',
+      'Agent eval framework where humans score, not LLMs. LLM-as-judge is only an opt-in pre-fill, flagged on every score. YAML suites, local dashboard, CLI, and five dimensions LLM judges miss.',
     href: '/demo/eval-kit',
     logo: 'eval-kit',
     accent: '#e08a5d',
@@ -151,7 +151,7 @@ const projects: ProjectCardItem[] = [
     title: 'How I Work',
     tags: ['Narrative', 'Demos'],
     description:
-      'The method behind the site: watch the work first, prototype in code, measure what matters — and how the Kit, Research OS, and the public test log connect.',
+      'The method behind the site: watch the work first, prototype in code, measure what matters. Plus how the Kit, Research OS, and the public test log connect.',
     href: '/demo/hitl-practice',
     mark: 'gear',
     accent: '#8fa3b8',
@@ -254,9 +254,9 @@ export default function DemoIndexPage() {
           </p>
         </header>
 
-        <ul className="mt-5 grid grid-cols-1 items-start gap-4 sm:grid-cols-2 lg:grid-cols-3 list-none p-0">
+        <ul className="mt-5 grid auto-rows-fr grid-cols-1 gap-4 list-none p-0 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
-            <li key={project.href}>
+            <li key={project.href} className="h-full">
               <ProjectCard
                 item={{ ...project, tags: project.tags ?? [] }}
               />

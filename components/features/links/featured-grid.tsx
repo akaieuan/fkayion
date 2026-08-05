@@ -11,8 +11,8 @@ const FEATURED: ProjectCardItem[] = [
     title: 'Circleheads',
     href: '/demo/circleheads',
     logo: 'circleheads',
-    accent: '#7fb896',
-    description: 'Applied-AI software studio — agents in production, a short consulting bench, and games.',
+    accent: '#c2c2bc',
+    description: 'Applied-AI software studio. Agents in production, a short consulting bench, and games.',
     tags: ['Studio', 'Applied AI'],
     shape: 'ring',
     motion: 'scatter',
@@ -22,7 +22,7 @@ const FEATURED: ProjectCardItem[] = [
     href: '/demo/akaoss',
     logo: 'akaoss-mark',
     accent: '#69b57f',
-    description: 'Open-source studio for human-in-the-loop AI — five projects, one thesis, a live research feed.',
+    description: 'Open-source studio for human-in-the-loop AI. Five projects, one thesis, a live research feed.',
     tags: ['Open source', 'HITL AI'],
     shape: 'spark',
     motion: 'drift',
@@ -33,7 +33,7 @@ const FEATURED: ProjectCardItem[] = [
     href: '/demo/bodylog',
     logo: 'bodylog',
     accent: '#5d98f4',
-    description: 'Track a skin or body condition between doctor visits — on device, never diagnosed.',
+    description: 'Track a skin or body condition between doctor visits. On device, never diagnosed.',
     tags: ['iOS', 'Circleheads'],
     shape: 'grid',
     motion: 'drift',
@@ -43,7 +43,7 @@ const FEATURED: ProjectCardItem[] = [
     href: '/demo/akacovart',
     logoImg: covartLogo,
     accent: '#7b9084',
-    description: 'A generative album-art engine — shape it, sync motion to your track, export the cover.',
+    description: 'A generative album-art engine. Shape it, sync motion to your track, export the cover.',
     tags: ['Generative', 'Album art'],
     shape: 'note',
     motion: 'jitter',
@@ -54,20 +54,10 @@ const FEATURED: ProjectCardItem[] = [
     href: '/demo/akavsts',
     logo: 'akavst-pixel',
     accent: '#9b7cf0',
-    description: 'Three JUCE instruments for macOS — acid voice, lo-fi layers, sculpting sampler.',
+    description: 'Three JUCE instruments for macOS: acid voice, lo-fi layers, sculpting sampler.',
     tags: ['VST3 / AU', 'Live'],
     shape: 'wave',
     motion: 'sweep',
-  },
-  {
-    title: 'Collapse',
-    href: '/demo/collapse',
-    logo: 'collapse',
-    accent: '#c9a227',
-    description: 'Pattern → SKILL.md compiler — cross-stack skills that move with you.',
-    tags: ['Dev tool', 'Claude Code'],
-    shape: 'layers',
-    motion: 'collapse',
   },
   {
     title: 'Box Populi',
@@ -83,7 +73,7 @@ const FEATURED: ProjectCardItem[] = [
 
 export function FeaturedGrid() {
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-in fade-in duration-200">
+    <div className="grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-in fade-in duration-200">
       {FEATURED.map((item) => (
         <ProjectCard key={item.href} item={item} />
       ))}
