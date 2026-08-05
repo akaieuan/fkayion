@@ -25,7 +25,8 @@ const FEATURED: ProjectCardItem[] = [
     description: 'Open-source studio for human-in-the-loop AI — five projects, one thesis, a live research feed.',
     tags: ['Open source', 'HITL AI'],
     shape: 'spark',
-    motion: 'burst',
+    motion: 'drift',
+    grain: 46,
   },
   {
     title: 'BodyLog',
@@ -45,7 +46,8 @@ const FEATURED: ProjectCardItem[] = [
     description: 'A generative album-art engine — shape it, sync motion to your track, export the cover.',
     tags: ['Generative', 'Album art'],
     shape: 'note',
-    motion: 'burst',
+    motion: 'jitter',
+    grain: 46,
   },
   {
     title: 'akaVST',

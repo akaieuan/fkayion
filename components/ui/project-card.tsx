@@ -55,6 +55,8 @@ export type ProjectCardItem = {
   shape?: ShapeName
   /** How the field's cells come apart on hover. Omit for a still plate. */
   motion?: Motion
+  /** Force the field's resolution in columns; omit to take it from the seed. */
+  grain?: number
 }
 
 /** A stable seed from the project's own name — the crop is part of its identity. */
@@ -80,6 +82,7 @@ export function ProjectCard({ item }: { item: ProjectCardItem }) {
             seed={seed}
             accent={accent}
             motion={item.motion}
+            cols={item.grain}
             className="aka-plate-field"
           />
           <span

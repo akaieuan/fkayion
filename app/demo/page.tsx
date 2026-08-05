@@ -33,7 +33,8 @@ const projects: ProjectCardItem[] = [
     logo: 'akaoss-mark',
     accent: '#69b57f',
     shape: 'spark',
-    motion: 'burst',
+    motion: 'drift',
+    grain: 46,
   },
   {
     title: 'BodyLog',
@@ -110,7 +111,8 @@ const projects: ProjectCardItem[] = [
     logoImg: covartLogo,
     accent: '#7b9084',
     shape: 'note',
-    motion: 'burst',
+    motion: 'jitter',
+    grain: 46,
   },
   {
     title: 'HITL Kit',
