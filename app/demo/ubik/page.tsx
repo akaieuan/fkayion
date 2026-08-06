@@ -102,10 +102,19 @@ export default function UbikProjectPage() {
             Team test log
             <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
           </a>
+          <a
+            href="https://www.reddit.com/r/ubikstudio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/40"
+          >
+            r/ubikstudio
+            <ArrowUpRight className="h-4 w-4 opacity-60" aria-hidden />
+          </a>
         </div>
         <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
-          2023–2026 · co-founded · the public site and builds are retired; the test log is what
-          remains in the open.
+          2023–2026 · co-founded · the public site and builds are retired; the test log and the
+          subreddit are what remain in the open.
         </p>
 
         <p className="mt-10 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
