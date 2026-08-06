@@ -13,8 +13,7 @@ const FEATURED: ProjectCardItem[] = [
     logo: 'circleheads',
     accent: '#c2c2bc',
     description: 'Applied-AI software studio. Agents in production, a short consulting bench, and games.',
-    tags: ['Studio', 'Applied AI'],
-    motion: 'scatter',
+    tags: ['Studio', 'Applied AI', 'Agents', 'Brooklyn'],
   },
   {
     title: 'akaOSS',
@@ -22,9 +21,7 @@ const FEATURED: ProjectCardItem[] = [
     logo: 'akaoss-mark',
     accent: '#69b57f',
     description: 'Open-source studio for human-in-the-loop AI. Five projects, one thesis, a live research feed.',
-    tags: ['Open source', 'HITL AI'],
-    motion: 'drift',
-    grain: 46,
+    tags: ['Studio', 'Open source', 'HITL AI', 'Research'],
   },
   {
     title: 'BodyLog',
@@ -32,8 +29,7 @@ const FEATURED: ProjectCardItem[] = [
     logo: 'bodylog',
     accent: '#5d98f4',
     description: 'Track a skin or body condition between doctor visits. On device, never diagnosed.',
-    tags: ['iOS', 'Circleheads'],
-    motion: 'drift',
+    tags: ['Product', 'iOS', 'SwiftUI', 'Circleheads'],
   },
   {
     title: 'akaCOVART',
@@ -41,9 +37,7 @@ const FEATURED: ProjectCardItem[] = [
     logoImg: covartLogo,
     accent: '#4fc0a6',
     description: 'A generative album-art engine. Shape it, sync motion to your track, export the cover.',
-    tags: ['Generative', 'Album art'],
-    motion: 'jitter',
-    grain: 46,
+    tags: ['Open source', 'Generative', 'Album art', 'Canvas'],
   },
   {
     title: 'akaVST',
@@ -51,8 +45,7 @@ const FEATURED: ProjectCardItem[] = [
     logo: 'akavst-pixel',
     accent: '#9b7cf0',
     description: 'Three JUCE instruments for macOS: acid voice, lo-fi layers, sculpting sampler.',
-    tags: ['VST3 / AU', 'Live'],
-    motion: 'sweep',
+    tags: ['Instruments', 'VST3 / AU', 'JUCE', 'macOS'],
   },
   {
     title: 'Box Populi',
@@ -60,8 +53,7 @@ const FEATURED: ProjectCardItem[] = [
     logoImg: boxPopuliLogo,
     accent: '#cf6fb0',
     description: 'On-brand site for a NYC live-techno collective.',
-    tags: ['Client', 'Live site'],
-    motion: 'jitter',
+    tags: ['Client project', 'Live site', 'Next.js', 'Audio'],
   },
 ]
 

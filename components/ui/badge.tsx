@@ -13,7 +13,7 @@ const badgeVariants = cva(
         secondary: 'border-transparent bg-secondary text-secondary-foreground',
         outline: 'text-foreground',
         /** The site's own tag chip: quiet, uppercase, tracked out. */
-        tag: 'border-border/60 text-muted-foreground/70 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em]',
+        tag: 'border-border/70 text-muted-foreground/70 px-1.5 py-[1px] text-[9px] font-medium uppercase tracking-[0.1em] leading-[1.5]',
       },
     },
     defaultVariants: { variant: 'default' },

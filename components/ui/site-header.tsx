@@ -6,7 +6,6 @@ import { useTheme } from 'next-themes'
 import { Sun, Moon } from 'lucide-react'
 import { PixelHead } from '@/components/features/brand/pixel-head'
 
-const FOUR_UH_URL = 'https://4uhnyc.com'
 
 type MainNavItem = {
   name: string
@@ -17,8 +16,6 @@ type MainNavItem = {
 
 const mainNavItems: MainNavItem[] = [
   { name: 'Home', sectionId: 'section-0' },
-  { name: 'Links', sectionId: 'section-1' },
-  { name: '4UH', sectionId: 'section-4', externalHref: FOUR_UH_URL },
 ]
 
 const SCROLL_THRESHOLD = 24

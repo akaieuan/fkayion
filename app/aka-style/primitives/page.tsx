@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Search } from 'lucide-react'
-import { PixelField } from '@/components/ui/pixel-field'
 import { ProjectLogo } from '@/components/ui/project-logo'
 
 const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
@@ -205,68 +204,28 @@ danger   text-[oklch(0.62_0.2_25)]`}
           </Spec>
         </section>
 
-        {/* CARD PLATE */}
+        {/* CARD */}
         <section className="mt-14 space-y-3">
-          <p className={kicker}>Card plate</p>
+          <p className={kicker}>Card</p>
 
           <Spec
-            name="Brand plate"
-            note="a dithered gradient in the project's hue, with the mark in front"
-            cls={`plate  .aka-plate            h-[168px], bg var(--plate), one step off the card
-field  .aka-plate-field      absolute inset-0, opacity .8, the hue's pixel grid
-tile   .aka-icon-tile        62px, rounded-[14px], filled + bordered + lit from above
-       .aka-icon-tile-bleed  bitmap logos fill their own tile edge to edge
-lockup .aka-lockup           wordmark logos, set on the field with no tile
-shot   .aka-shot             inset framed window for screenshot cards`}
-          >
-            <div className="flex flex-wrap gap-3">
-              {(['bodylog', 'hitl-kit', 'trickle'] as const).map((n, i) => (
-                <div key={n} className="w-[168px] overflow-hidden rounded-xl border border-border">
-                  <div className="aka-plate !h-[76px]">
-                    <PixelField
-                      ramp={(['fall', 'settle', 'corner'] as const)[i]!}
-                      dither={(['bayer', 'scan', 'lattice'] as const)[i]!}
-                      seed={17 + i * 40}
-                      accent={['#5d98f4', '#8d7ce8', '#d4738f'][i]!}
-                      className="aka-plate-field"
-                    />
-                    <span className="aka-icon-tile !h-[42px] !w-[42px] !rounded-[10px]">
-                      <ProjectLogo name={n === 'bodylog' ? 'hologram' : n} size={26} />
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Spec>
+            name="Project card"
+            note="mark stamped top-left · title, description and tags stacked to its right"
+            cls={`card   .aka-card    flex-row, items-start, gap-3.5, p-4, h-full
+stamp  .aka-stamp   44px, rounded-[10px], bordered, the project's hue at 8%
+       .aka-stamp-bleed   bitmap logos and screenshots fill the stamp instead
 
-          <Spec
-            name="Field behaviour"
-            note="hover sends a wave through the cells — every keyframe starts and ends at rest"
-            cls={`scatter   the full hero glitch, nine hard steps   .aka-field-scatter
-sweep     resolves to one side, then home         .aka-field-sweep
-jitter    tight, fast, unresolved                 .aka-field-jitter
-collapse  pulled inward, released back out        .aka-field-collapse
-drift     breathes apart rather than shattering   .aka-field-drift
-burst     thrown out on one step, drawn back      .aka-field-burst
-
-Cells are grouped by the motion they share — same delay band, same jump vector —
-and each group is drawn as one <path>. About 26 animated nodes per card instead
-of several hundred, which is the whole frame-rate story. The vectors and the
-row-banded delays come from the same hash() the canvas engine uses, and the
-field's viewBox is the cell lattice itself, so a jump of one cell is one unit
-at any zoom. Only transform and opacity animate, only on the hovered card.`}
+One shape for the landing grid, the /demo index and the link tabs, so a wall of
+projects and a wall of links read as one system. There was a generated pixel
+field behind the mark here; it came out because a texture loud enough to notice
+competed with the logos it was meant to support.`}
           >
             <p className="text-[12px] font-light text-muted-foreground/70">
-              Five ramps (fall, settle, lean, corner, swell), each anchored solid along three
-              edges so the field fills its plate rather than floating in it, x seven dithers (bayer, halftone,
-              checker, scan, rule, lattice, drizzle) x four grains, mirrored and offset per
-              project, each in its own hue. The
-              plate is texture, never a form: a silhouette back there would read as a second logo
-              behind the real one. Hover any card on{' '}
+              Live on{' '}
               <Link href="/demo" className="text-foreground underline underline-offset-2">
                 /demo
               </Link>{' '}
-              to see all four.
+              and the landing links.
             </p>
           </Spec>
         </section>

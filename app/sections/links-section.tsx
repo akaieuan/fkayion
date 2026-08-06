@@ -7,8 +7,9 @@ import { FeaturedGrid } from '@/components/features/links/featured-grid'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
-/* Tabs: quiet monochrome; the active tab carries the site's single green accent. */
-const activeTabClass = 'text-primary'
+/* Tabs: quiet monochrome; the active tab carries the site's one accent —
+   blue on light, green on dark, from --select. */
+const activeTabClass = 'text-[var(--select)]'
 const inactiveTabClass = 'text-muted-foreground/50 hover:text-foreground'
 
 type Row = {
@@ -152,35 +153,33 @@ function RowItem({ row }: { row: Row }) {
   const isExternal = /^https?:\/\//.test(row.href)
   const body = (
     <>
-      <div className="flex items-start justify-between gap-3">
-        <h3 className="text-[14px] font-light leading-snug tracking-[-0.01em] text-foreground">
-          {row.title}
-        </h3>
-        <ArrowUpRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground/35 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground" />
-      </div>
-      <p className="mt-1 text-[12px] font-light leading-snug text-muted-foreground/75">
-        {row.description}
-      </p>
-      {row.type && (
-        <div className="mt-auto flex flex-wrap gap-1.5 pt-2.5">
-          {row.type.split(' · ').map((t) => (
-            <Badge key={t} variant="tag">
-              {t}
-            </Badge>
-          ))}
-        </div>
-      )}
+      <span className="flex min-w-0 flex-1 flex-col">
+        <span className="flex items-start justify-between gap-3">
+          <span className="text-[14px] font-light leading-snug tracking-[-0.01em] text-foreground">
+            {row.title}
+          </span>
+          <ArrowUpRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground/35 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground" />
+        </span>
+        <span className="mt-1 line-clamp-3 text-[12px] font-light leading-snug text-muted-foreground/75">
+          {row.description}
+        </span>
+        {row.type && (
+          <span className="mt-auto flex flex-wrap gap-1 pt-3">
+            {row.type.split(' · ').map((t) => (
+              <Badge key={t} variant="tag">
+                {t}
+              </Badge>
+            ))}
+          </span>
+        )}
+      </span>
     </>
   )
 
-  // Same class string as the project cards, so a wall of links and a wall of
-  // projects read as one system.
-  const cls =
-    'group flex h-full flex-col p-4 transition-colors hover:border-foreground/20 hover:bg-muted/30'
-
   return (
     <li className="h-full">
-      <Card asChild className={cls}>
+      {/* Same .aka-card as a project, without a mark — one shape for the site. */}
+      <Card asChild className="aka-card group flex-row">
         {isExternal ? (
           <a href={row.href} target="_blank" rel="noopener noreferrer">
             {body}
@@ -280,22 +279,36 @@ export function LinksSection() {
             {active.more && <MoreLink more={active.more} />}
           </div>
 
-          {/* `projects` renders the six flagship cards; the other tabs are link
-              lists. Sized to content — a min-height tuned to the tallest tab left
-              the three short ones opening onto a screen of dead space. */}
-          <div className="min-h-[320px]">
-            {activeId === 'projects' ? (
-              <FeaturedGrid />
-            ) : (
-              <ul
-                key={activeId}
-                className="grid auto-rows-fr grid-cols-1 gap-4 p-0 list-none sm:grid-cols-2 lg:grid-cols-3 animate-in fade-in duration-200"
-              >
-                {active.rows.map((row) => (
-                  <RowItem key={row.href} row={row} />
-                ))}
-              </ul>
-            )}
+          {/*
+            Every panel sits in the same grid cell, so the container is always
+            as tall as the tallest tab and switching tabs never moves the page.
+            The alternative — a fixed min-height tuned to `projects` — left the
+            three shorter tabs opening onto a screen of dead space.
+          */}
+          <div className="grid">
+            {groups.map((g) => {
+              const isActive = g.id === activeId
+              return (
+                <div
+                  key={g.id}
+                  role="tabpanel"
+                  aria-hidden={!isActive}
+                  className={`col-start-1 row-start-1 transition-opacity duration-200 ${
+                    isActive ? 'opacity-100' : 'pointer-events-none opacity-0'
+                  }`}
+                >
+                  {g.id === 'projects' ? (
+                    <FeaturedGrid />
+                  ) : (
+                    <ul className="grid auto-rows-fr grid-cols-1 gap-4 p-0 list-none sm:grid-cols-2 lg:grid-cols-3">
+                      {g.rows.map((row) => (
+                        <RowItem key={row.href} row={row} />
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>

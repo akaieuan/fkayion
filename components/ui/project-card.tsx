@@ -6,172 +6,126 @@ import { BodyLogMark } from '@/components/demo/bodylog/bodylog-mark'
 import { CircleheadsLogo } from '@/components/ui/brand-logos'
 import { ProjectLogo, logoAspect } from '@/components/ui/project-logo'
 import { MarkGlyph, hasGlyph } from '@/components/ui/mark-glyphs'
-import { PixelField, type Dither, type FieldMotion, type Ramp } from '@/components/ui/pixel-field'
-import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
 /**
- * The one project-card vocabulary, shared by the landing featured grid and
- * the /demo index: art on top, then name, brief, and neutral tag chips.
- * Server-rendered, and the hover life is pure CSS, so no client JS either.
+ * The one card vocabulary, shared by the landing featured grid, the /demo index
+ * and the link tabs: the mark stamped top-left, then title, description and
+ * tags stacked to its right.
  *
- * Two kinds of art:
- *   · a screenshot (static import → build-time blur placeholder), or
- *   · a brand plate — the `.aka-plate` primitive: opaque ground, a pixel field
- *     in the project's hue, and its mark in an `.aka-icon-tile` in front.
+ * There used to be a generated pixel field behind the mark. It went because it
+ * never resolved — a texture loud enough to notice competed with the very clean
+ * logos it was supposed to support. The logo carries the identity now and the
+ * card gets out of its way. Hue survives only as a whisper on the stamp, enough
+ * to tell a wall of cards apart without colouring the page.
  *
- * On hover only the field moves; the mark is identity and holds still.
+ * Server-rendered; the hover is pure CSS, so no client JS either.
  */
-
-/** Field behaviours, from akaSTYLE. Named so a grid never repeats itself. */
-export type Motion = FieldMotion
 
 export type ProjectCardItem = {
   title: string
   href: string
   description: string
   tags?: string[]
+  /** A screenshot; cropped into the stamp when the project has no logo. */
   img?: StaticImageData
   imgAlt?: string
   priority?: boolean
-  /** Draw a brand mark from the pixel engine instead of a screenshot. */
+  /** Draw a brand mark from the pixel engine. */
   mark?: PixelIcon
   /** A logo the project ships: a name from the logo kits, or a drawn glyph. */
   logo?: string
-  /** A logo that only exists as a bitmap — it fills its own icon tile. */
+  /** A logo that only exists as a bitmap — it fills the stamp edge to edge. */
   logoImg?: StaticImageData
   /** Projects whose logo is just their name set in type. */
   wordmark?: string
-  /**
-   * The project's own hue. Tints its pixel field so a wall of cards reads as a
-   * family of distinct things rather than one repeated one.
-   */
+  /** The project's own hue, used only to tint its stamp. */
   accent?: string
-  /** How the field's cells come apart on hover. Omit for a still plate. */
-  motion?: Motion
-  /** Force the field's resolution in columns; omit to take it from the seed. */
-  grain?: number
-  /** Force the gradient's direction; omit to take it from the seed. */
-  ramp?: Ramp
-  /** Force how the gradient breaks into cells; omit to take it from the seed. */
-  dither?: Dither
 }
 
-/** A stable seed from the project's own name — the crop is part of its identity. */
-function seedFor(key: string) {
-  let h = 0
-  for (let i = 0; i < key.length; i++) h = (Math.imul(h, 31) + key.charCodeAt(i)) >>> 0
-  return (h % 997) + 1
+/** Two letters, when a mark cannot survive being 26px wide. */
+function monogram(title: string) {
+  const word = title.replace(/^aka/i, '').trim() || title
+  return word.slice(0, 2).toUpperCase()
+}
+
+/** The mark, at stamp size. */
+function Stamp({ item, accent }: { item: ProjectCardItem; accent: string }) {
+  const bleed = Boolean(item.logoImg || (item.img && !item.logo && !item.mark && !item.wordmark))
+  // A wordmark 6.8x wider than it is tall is a grey smear in a 44px square.
+  // Those fall back to a monogram, which is what a favicon would do.
+  const tooWide = Boolean(item.wordmark) || (item.logo ? logoAspect(item.logo) > 2.2 : false)
+
+  return (
+    <span
+      className={`aka-stamp${bleed ? ' aka-stamp-bleed' : ''}`}
+      style={bleed ? undefined : { ['--stamp-tint' as string]: accent }}
+    >
+      {item.logoImg ? (
+        <Image src={item.logoImg} alt="" width={80} height={80} sizes="80px" className="h-full w-full object-cover" />
+      ) : item.logo === 'bodylog' ? (
+        <BodyLogMark size={28} title="" />
+      ) : item.logo === 'circleheads' ? (
+        <CircleheadsLogo size={26} />
+      ) : tooWide ? (
+        <span className="font-mono text-[13px] font-medium uppercase tracking-[0.02em] text-foreground/80">
+          {monogram(item.wordmark ?? item.title)}
+        </span>
+      ) : item.logo && hasGlyph(item.logo) ? (
+        <MarkGlyph name={item.logo} size={24} />
+      ) : item.logo ? (
+        <ProjectLogo name={item.logo} size={26} />
+      ) : item.mark ? (
+        <PixelHead size={28} grid={22} icon={item.mark} still />
+      ) : (
+        item.img && (
+          <Image
+            src={item.img}
+            alt=""
+            fill
+            placeholder="blur"
+            priority={item.priority}
+            sizes="80px"
+            className="object-cover object-top"
+          />
+        )
+      )}
+    </span>
+  )
 }
 
 export function ProjectCard({ item }: { item: ProjectCardItem }) {
   const isExternal = /^https?:\/\//.test(item.href)
-  // Fall back to the site's own accent so an untagged card still looks intentional.
-  const accent = item.accent ?? '#8a8a86'
-  const seed = seedFor(item.logo ?? item.mark ?? item.title)
-  const hasPlate = Boolean(item.logo || item.logoImg || item.wordmark || item.mark)
-  // A wordmark needs a wordmark's tile. Squeezed into a square it either
-  // squashes or shrinks to unreadable, which is what happened to Trickle.
-  const isWide = Boolean(item.wordmark) || (item.logo ? logoAspect(item.logo) > 2.2 : false)
+  const accent = item.accent ?? 'var(--foreground)'
 
   const body = (
     <>
-      {hasPlate ? (
-        <div className="aka-plate">
-          <PixelField
-            seed={seed}
-            accent={accent}
-            motion={item.motion}
-            ramp={item.ramp}
-            dither={item.dither}
-            cols={item.grain}
-            className="aka-plate-field"
-          />
-          <span
-            className={[
-              // A wordmark is type, not an app icon — a pill around it reads as
-              // a button. It sits straight on the field instead.
-              isWide ? 'aka-lockup' : 'aka-icon-tile',
-              item.logoImg ? 'aka-icon-tile-bleed' : '',
-            ]
-              .filter(Boolean)
-              .join(' ')}
-          >
-            {item.logoImg ? (
-              <Image
-                src={item.logoImg}
-                alt=""
-                width={86}
-                height={86}
-                sizes="86px"
-                className="h-full w-full object-cover"
-              />
-            ) : item.wordmark ? (
-              <span className="font-mono text-[22px] font-medium uppercase tracking-[0.3em]">
-                {item.wordmark}
-              </span>
-            ) : item.logo === 'bodylog' ? (
-              <BodyLogMark size={58} title="" />
-            ) : item.logo === 'circleheads' ? (
-              <CircleheadsLogo size={56} />
-            ) : item.logo && hasGlyph(item.logo) ? (
-              <MarkGlyph name={item.logo} size={52} accent={accent} />
-            ) : item.logo ? (
-              <ProjectLogo name={item.logo} size={isWide ? 186 : 56} />
-            ) : (
-              item.mark && <PixelHead size={60} grid={22} icon={item.mark} still />
-            )}
+      <Stamp item={item} accent={accent} />
+      <span className="flex min-w-0 flex-1 flex-col">
+        <span className="flex items-start justify-between gap-3">
+          <span className="text-[14px] font-light leading-snug tracking-[-0.01em] text-foreground">
+            {item.title}
           </span>
-        </div>
-      ) : (
-        item.img && (
-          <div className="aka-plate">
-            <PixelField
-              seed={seed}
-              accent={accent}
-              motion={item.motion}
-              ramp={item.ramp}
-              dither={item.dither}
-              cols={item.grain}
-              className="aka-plate-field"
-            />
-            <span className="aka-shot">
-              <Image
-                src={item.img}
-                alt={item.imgAlt ?? item.title}
-                fill
-                placeholder="blur"
-                priority={item.priority}
-                sizes="(min-width:1024px) 300px, (min-width:640px) 40vw, 80vw"
-                className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:transform-none"
-              />
-            </span>
-          </div>
-        )
-      )}
-      <CardHeader className="flex-1">
-        <div className="flex items-start justify-between gap-3">
-          <CardTitle className="text-[14px] tracking-[-0.01em]">{item.title}</CardTitle>
           <ArrowUpRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground/35 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground" />
-        </div>
-        <p className="line-clamp-3 text-[12px] font-light leading-snug text-muted-foreground/75">
+        </span>
+        <span className="mt-1 line-clamp-3 text-[12px] font-light leading-snug text-muted-foreground/75">
           {item.description}
-        </p>
-      </CardHeader>
-      {item.tags && item.tags.length > 0 && (
-        <CardFooter className="flex-wrap gap-1.5 pt-2.5">
-          {item.tags.map((tag) => (
-            <Badge key={tag} variant="tag">
-              {tag}
-            </Badge>
-          ))}
-        </CardFooter>
-      )}
+        </span>
+        {item.tags && item.tags.length > 0 && (
+          <span className="mt-auto flex flex-wrap gap-1 pt-3">
+            {item.tags.map((tag) => (
+              <Badge key={tag} variant="tag">
+                {tag}
+              </Badge>
+            ))}
+          </span>
+        )}
+      </span>
     </>
   )
 
-  const cls =
-    'group h-full gap-0 overflow-hidden py-0 transition-colors hover:border-foreground/20 hover:bg-muted/30'
+  const cls = 'aka-card group flex-row'
   return isExternal ? (
     <Card asChild className={cls}>
       <a href={item.href} target="_blank" rel="noopener noreferrer">
