@@ -266,11 +266,11 @@ body {
 }
 
 .dark {
-  --background: oklch(0.182 0.014 94.03);
+  --background: oklch(0.09 0 0);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.168 0.008 95.531);
+  --card: oklch(0.138 0 0);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.327 0.012 107.047);
+  --popover: oklch(0.2 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.707 0.108 152.216);
   --primary-foreground: oklch(0.36 0.001 0);
@@ -283,7 +283,7 @@ body {
   --destructive: oklch(0.611 0.25 28.967);
   --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(1 0 0 / 10%);
-  --plate: oklch(0.148 0.008 95.5);
+  --plate: oklch(0.115 0 0);
   --plate-border: oklch(1 0 0 / 8%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
@@ -292,7 +292,7 @@ body {
   --chart-3: oklch(0.79 0.143 75.382);
   --chart-4: oklch(0.576 0.275 302.917);
   --chart-5: oklch(0.395 0.158 18.745);
-  --sidebar: oklch(0.182 0.014 94.03);
+  --sidebar: oklch(0.09 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.625 0.118 158.973);
   --sidebar-primary-foreground: oklch(0.985 0 0);
@@ -445,12 +445,12 @@ body {
  * three attributes per cell. The field's viewBox is the cell lattice itself, so one
  * cell is one unit and every jump below is written in whole cells.
  */
-.aka-field .o0 { fill-opacity: 0.14 }
-.aka-field .o1 { fill-opacity: 0.18 }
-.aka-field .o2 { fill-opacity: 0.22 }
-.aka-field .o3 { fill-opacity: 0.26 }
-.aka-field .o4 { fill-opacity: 0.3 }
-.aka-field .o5 { fill-opacity: 0.35 }
+.aka-field .o0 { fill-opacity: 0.26 }
+.aka-field .o1 { fill-opacity: 0.33 }
+.aka-field .o2 { fill-opacity: 0.4 }
+.aka-field .o3 { fill-opacity: 0.47 }
+.aka-field .o4 { fill-opacity: 0.54 }
+.aka-field .o5 { fill-opacity: 0.62 }
 
 /* Dark ground swallows a tint; light ground amplifies it. Same art, two ramps. */
 .dark .aka-field .o0 { fill-opacity: 0.2 }

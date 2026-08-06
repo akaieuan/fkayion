@@ -145,7 +145,9 @@ export function SiteHeader() {
   // browser from flagging the glass layer as "changed" and re-rasterizing the blur.
   const glassStyle = useMemo<React.CSSProperties>(() => ({
     opacity: scrolled ? 1 : 0,
-    background: isDark ? 'oklch(0.182 0.014 94.03 / 0.55)' : 'oklch(0.866 0.004 106.485 / 0.55)',
+    background: isDark
+      ? 'color-mix(in oklch, var(--background) 55%, transparent)'
+      : 'oklch(0.866 0.004 106.485 / 0.55)',
     borderBottom: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid oklch(0.475 0.001 0 / 0.08)',
     transform: 'translateZ(0)',
     willChange: 'opacity',
@@ -155,7 +157,7 @@ export function SiteHeader() {
   const fadeStyle = useMemo<React.CSSProperties>(() => ({
     opacity: scrolled ? 1 : 0,
     background: isDark
-      ? 'linear-gradient(to bottom, oklch(0.182 0.014 94.03 / 0.55), oklch(0.182 0.014 94.03 / 0))'
+      ? 'linear-gradient(to bottom, color-mix(in oklch, var(--background) 55%, transparent), transparent)'
       : 'linear-gradient(to bottom, oklch(0.866 0.004 106.485 / 0.55), oklch(0.866 0.004 106.485 / 0))',
     transform: 'translateZ(0)',
     willChange: 'opacity',
