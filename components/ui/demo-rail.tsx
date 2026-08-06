@@ -36,16 +36,17 @@ export function DemoRail() {
   const pathname = usePathname()
   const [entries, setEntries] = useState<Entry[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
+  // /demo is the index; the rail belongs to the detail pages under it.
+  const onDetailPage = Boolean(pathname && /^\/demo\/.+/.test(pathname))
 
   useEffect(() => {
-    const headings = [...document.querySelectorAll<HTMLHeadingElement>('main h2, article h2')]
-      // Skip anything decorative or inside an interactive demo panel.
-      .filter((h) => h.textContent?.trim() && !h.closest('[data-rail-skip]'))
-
-    if (headings.length < 3) {
+    if (!onDetailPage) {
       setEntries([])
       return
     }
+    const headings = [...document.querySelectorAll<HTMLHeadingElement>('main h2, article h2')]
+      // Skip anything decorative or inside an interactive demo panel.
+      .filter((h) => h.textContent?.trim() && !h.closest('[data-rail-skip]'))
 
     const seen = new Map<string, number>()
     const found: Entry[] = headings.map((h) => {
@@ -79,14 +80,23 @@ export function DemoRail() {
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [pathname])
+  }, [pathname, onDetailPage])
+
+  if (!onDetailPage) return null
 
   return (
+    /*
+     * Aligned to the header, not to the viewport: the outer div carries the
+     * exact container the site header uses (`max-w-site mx-auto site-inset`),
+     * so the rail's left edge lands on the same line as the wordmark at every
+     * breakpoint instead of floating against the window.
+     */
     <nav
       aria-label="On this page"
-      className="pointer-events-none fixed top-0 left-0 z-40 hidden h-screen w-[max(1rem,calc((100vw-42rem)/2))] xl:block"
+      className="pointer-events-none fixed inset-y-0 left-0 right-0 z-40 hidden xl:block"
     >
-      <div className="pointer-events-auto flex h-full flex-col gap-6 py-24 pl-6 pr-4">
+      <div className="site-inset max-w-site mx-auto h-full">
+        <div className="pointer-events-auto flex h-full w-44 flex-col gap-6 py-24">
         <Link
           href="/demo"
           className="inline-flex w-fit items-center gap-1.5 text-[11px] text-muted-foreground transition-colors hover:text-foreground"
@@ -116,7 +126,8 @@ export function DemoRail() {
               )
             })}
           </ol>
-        )}
+          )}
+        </div>
       </div>
     </nav>
   )
