@@ -160,11 +160,6 @@ export function SiteHeader() {
     willChange: 'opacity',
   }), [scrolled, isDark])
 
-  /** Fullscreen demo subpages manage their own chrome; the demo index keeps the site header for consistency */
-  if (pathname?.startsWith('/demo/')) {
-    return null
-  }
-
   return (
     <header
       className="fixed top-0 left-0 right-0 z-[100] pointer-events-none"

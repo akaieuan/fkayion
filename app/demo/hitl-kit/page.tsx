@@ -14,7 +14,7 @@ export default function HitlKitProjectPage() {
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground xl:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects

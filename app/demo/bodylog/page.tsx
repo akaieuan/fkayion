@@ -49,7 +49,7 @@ export default function BodyLogPage() {
       <article className="mx-auto max-w-3xl">
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground xl:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects
