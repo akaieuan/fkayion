@@ -88,7 +88,12 @@ export function ProjectCard({ item }: { item: ProjectCardItem }) {
             className="aka-plate-field"
           />
           <span
-            className={['aka-icon-tile', item.logoImg ? 'aka-icon-tile-bleed' : '', isWide ? 'aka-icon-tile-wide' : '']
+            className={[
+              // A wordmark is type, not an app icon — a pill around it reads as
+              // a button. It sits straight on the field instead.
+              isWide ? 'aka-lockup' : 'aka-icon-tile',
+              item.logoImg ? 'aka-icon-tile-bleed' : '',
+            ]
               .filter(Boolean)
               .join(' ')}
           >
@@ -102,7 +107,7 @@ export function ProjectCard({ item }: { item: ProjectCardItem }) {
                 className="h-full w-full object-cover"
               />
             ) : item.wordmark ? (
-              <span className="font-mono text-[20px] font-medium uppercase tracking-[0.32em] text-foreground/85">
+              <span className="font-mono text-[22px] font-medium uppercase tracking-[0.3em]">
                 {item.wordmark}
               </span>
             ) : item.logo === 'bodylog' ? (
@@ -112,7 +117,7 @@ export function ProjectCard({ item }: { item: ProjectCardItem }) {
             ) : item.logo && hasGlyph(item.logo) ? (
               <MarkGlyph name={item.logo} size={52} accent={accent} />
             ) : item.logo ? (
-              <ProjectLogo name={item.logo} size={isWide ? 168 : 56} />
+              <ProjectLogo name={item.logo} size={isWide ? 186 : 56} />
             ) : (
               item.mark && <PixelHead size={60} grid={22} icon={item.mark} still />
             )}

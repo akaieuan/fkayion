@@ -356,7 +356,8 @@ body {
     /* Its own paint region — a card's dissolve can never dirty the page. */
     contain: paint;
     background-color: var(--plate);
-    border-bottom: 1px solid var(--plate-border);
+    /* A hairline, not a frame — the field runs to the card's own edges. */
+    border-bottom: 1px solid color-mix(in oklch, var(--plate-border) 55%, transparent);
   }
 
   .aka-plate-field {
@@ -392,9 +393,16 @@ body {
     background: #0b0b0c;
   }
 
-  /* Wordmark logos: same tile language, sized to the type. */
-  .aka-icon-tile-wide {
-    @apply h-[64px] w-auto px-6;
+  /*
+   * Wordmark logos. No tile: a pill around a wordmark reads as a button, which
+   * is how Trickle and Wrdef were coming across. The type sits straight on the
+   * field, lifted off it by a soft halo rather than a container.
+   */
+  .aka-lockup {
+    @apply relative grid place-items-center px-2 text-foreground;
+    text-shadow:
+      0 0 18px var(--plate),
+      0 0 6px var(--plate);
   }
 
   /*
@@ -430,12 +438,20 @@ body {
  * three attributes per cell. The field's viewBox is the cell lattice itself, so one
  * cell is one unit and every jump below is written in whole cells.
  */
-.aka-field .o0 { fill-opacity: 0.17 }
-.aka-field .o1 { fill-opacity: 0.22 }
-.aka-field .o2 { fill-opacity: 0.27 }
-.aka-field .o3 { fill-opacity: 0.32 }
-.aka-field .o4 { fill-opacity: 0.38 }
-.aka-field .o5 { fill-opacity: 0.44 }
+.aka-field .o0 { fill-opacity: 0.14 }
+.aka-field .o1 { fill-opacity: 0.18 }
+.aka-field .o2 { fill-opacity: 0.22 }
+.aka-field .o3 { fill-opacity: 0.26 }
+.aka-field .o4 { fill-opacity: 0.3 }
+.aka-field .o5 { fill-opacity: 0.35 }
+
+/* Dark ground swallows a tint; light ground amplifies it. Same art, two ramps. */
+.dark .aka-field .o0 { fill-opacity: 0.2 }
+.dark .aka-field .o1 { fill-opacity: 0.26 }
+.dark .aka-field .o2 { fill-opacity: 0.32 }
+.dark .aka-field .o3 { fill-opacity: 0.38 }
+.dark .aka-field .o4 { fill-opacity: 0.44 }
+.dark .aka-field .o5 { fill-opacity: 0.5 }
 
 .aka-field .d0 { --d: 0ms }
 .aka-field .d1 { --d: 96ms }

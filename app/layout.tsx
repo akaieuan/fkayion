@@ -20,7 +20,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} bg-background text-foreground antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+        {/* disableTransitionOnChange: every `transition-colors` on the page
+            animates when the theme class flips, so borders and surfaces flash
+            through an intermediate colour on the way over. This suppresses
+            transitions for the one frame the swap takes. */}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          disableTransitionOnChange
+        >
           <SiteHeader />
           {children}
           <ConditionalFooter />

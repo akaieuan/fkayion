@@ -30,18 +30,25 @@ export type FieldMotion = 'scatter' | 'sweep' | 'jitter' | 'collapse' | 'drift' 
 /**
  * How the gradient runs across the plate. `u` and `v` are 0–1 across and down;
  * each returns the level at that point, 1 being solid and 0 being empty.
+ *
+ * Every one of these is anchored solid along at least three edges and falls
+ * away toward a single corner or side. Two reasons. It has to read as a
+ * background, which means filling its plate rather than floating in the middle
+ * of it with margins around it. And it has to stay abstract: a ramp that peaks
+ * somewhere interior draws a band or a blob, and any closed form back there
+ * reads as a second mark competing with the icon in front.
  */
 const RAMPS = {
-  /** Corner to corner. */
-  diagonal: (u: number, v: number) => 1 - (u * 0.62 + v * 0.38),
-  /** Out of one side, falling away. */
-  radial: (u: number, v: number) => 1 - Math.hypot(u - 0.12, (v - 0.5) * 0.7) * 1.15,
-  /** Heavy along one edge, thinning across. */
-  edge: (u: number, v: number) => 1 - v * 0.62 - u * 0.14,
-  /** A band through the middle, falling away both ways. */
-  band: (u: number, v: number) => 1 - Math.abs(v - 0.42) * 1.9 - u * 0.1,
-  /** Meeting in the centre from both sides. */
-  fold: (u: number, v: number) => 1 - Math.abs(u - 0.5) * 1.5 - v * 0.18,
+  /** Solid top-left, falling to the bottom-right corner. */
+  fall: (u: number, v: number) => 1.35 - (u * 0.72 + v * 0.62),
+  /** Solid along the top, thinning downward. */
+  settle: (u: number, v: number) => 1.3 - v * 1.15 - u * 0.12,
+  /** Solid along the left, thinning across. */
+  lean: (u: number, v: number) => 1.28 - u * 1.1 - v * 0.14,
+  /** Solid but for one corner falling away. */
+  corner: (u: number, v: number) => 1.32 - Math.hypot(u - 0.92, (v - 0.9) * 0.8) * 1.05,
+  /** Densest at the top-left, easing off in a slow arc. */
+  swell: (u: number, v: number) => 1.24 - Math.hypot(u - 0.04, (v - 0.1) * 0.8) * 0.78,
 } as const
 
 export type Ramp = keyof typeof RAMPS

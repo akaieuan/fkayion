@@ -216,7 +216,7 @@ danger   text-[oklch(0.62_0.2_25)]`}
 field  .aka-plate-field      absolute inset-0, opacity .8, the hue's pixel grid
 tile   .aka-icon-tile        62px, rounded-[14px], filled + bordered + lit from above
        .aka-icon-tile-bleed  bitmap logos fill their own tile edge to edge
-       .aka-icon-tile-wide   wordmark logos, sized to the type
+lockup .aka-lockup           wordmark logos, set on the field with no tile
 shot   .aka-shot             inset framed window for screenshot cards`}
           >
             <div className="flex flex-wrap gap-3">
@@ -224,7 +224,7 @@ shot   .aka-shot             inset framed window for screenshot cards`}
                 <div key={n} className="w-[168px] overflow-hidden rounded-xl border border-border">
                   <div className="aka-plate !h-[76px]">
                     <PixelField
-                      ramp={(['diagonal', 'band', 'radial'] as const)[i]!}
+                      ramp={(['fall', 'settle', 'corner'] as const)[i]!}
                       dither={(['bayer', 'scan', 'lattice'] as const)[i]!}
                       seed={17 + i * 40}
                       accent={['#5d98f4', '#8d7ce8', '#d4738f'][i]!}
@@ -257,7 +257,8 @@ field's viewBox is the cell lattice itself, so a jump of one cell is one unit
 at any zoom. Only transform and opacity animate, only on the hovered card.`}
           >
             <p className="text-[12px] font-light text-muted-foreground/70">
-              Five ramps (diagonal, radial, edge, band, fold) x seven dithers (bayer, halftone,
+              Five ramps (fall, settle, lean, corner, swell), each anchored solid along three
+              edges so the field fills its plate rather than floating in it, x seven dithers (bayer, halftone,
               checker, scan, rule, lattice, drizzle) x four grains, mirrored and offset per
               project, each in its own hue. The
               plate is texture, never a form: a silhouette back there would read as a second logo
