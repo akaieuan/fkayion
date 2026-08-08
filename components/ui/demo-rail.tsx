@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
+import { isFullscreenDemo } from '@/lib/fullscreen-demos'
 
 /**
  * The left rail on a demo page: a way back, and a map of the page that tracks
@@ -37,7 +38,8 @@ export function DemoRail() {
   const [entries, setEntries] = useState<Entry[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
   // /demo is the index; the rail belongs to the detail pages under it.
-  const onDetailPage = Boolean(pathname && /^\/demo\/.+/.test(pathname))
+  const onDetailPage =
+    Boolean(pathname && /^\/demo\/.+/.test(pathname)) && !isFullscreenDemo(pathname)
 
   useEffect(() => {
     if (!onDetailPage) {
@@ -86,17 +88,24 @@ export function DemoRail() {
 
   return (
     /*
-     * Aligned to the header, not to the viewport: the outer div carries the
-     * exact container the site header uses (`max-w-site mx-auto site-inset`),
-     * so the rail's left edge lands on the same line as the wordmark at every
-     * breakpoint instead of floating against the window.
+     * Positioned from both edges rather than given a width:
+     *   left  — the site container's content edge, so it lines up with the
+     *           header wordmark (the rail only shows at xl, where the inset is
+     *           always 4rem and the container is capped at its max width).
+     *   right — 1rem short of where a centred 42rem article begins.
+     * The width falls out of those two, so the rail can never reach the text
+     * however wide a page sets its own column. BodyLog was the only page at
+     * 48rem and it was the only one that collided.
      */
     <nav
       aria-label="On this page"
-      className="pointer-events-none fixed inset-y-0 left-0 right-0 z-40 hidden xl:block"
+      className="pointer-events-none fixed inset-y-0 z-40 hidden xl:block"
+      style={{
+        left: 'calc((100vw - 1180px) / 2 + 4rem)',
+        right: 'calc(50vw + 21rem + 1rem)',
+      }}
     >
-      <div className="site-inset max-w-site mx-auto h-full">
-        <div className="pointer-events-auto flex h-full w-44 flex-col gap-6 py-24">
+      <div className="pointer-events-auto flex h-full flex-col gap-6 py-24">
         <Link
           href="/demo"
           className="inline-flex w-fit items-center gap-1.5 text-[11px] text-muted-foreground transition-colors hover:text-foreground"
@@ -126,8 +135,7 @@ export function DemoRail() {
               )
             })}
           </ol>
-          )}
-        </div>
+        )}
       </div>
     </nav>
   )

@@ -5,6 +5,7 @@ import { useRouter, usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { Sun, Moon } from 'lucide-react'
 import { PixelHead } from '@/components/features/brand/pixel-head'
+import { isFullscreenDemo } from '@/lib/fullscreen-demos'
 
 
 type MainNavItem = {
@@ -159,6 +160,12 @@ export function SiteHeader() {
     transform: 'translateZ(0)',
     willChange: 'opacity',
   }), [scrolled, isDark])
+
+  // The full-bleed demos draw their own chrome; a fixed header lands on top of
+  // their toolbar. Article pages under /demo keep it.
+  if (isFullscreenDemo(pathname)) {
+    return null
+  }
 
   return (
     <header

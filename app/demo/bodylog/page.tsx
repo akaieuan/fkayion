@@ -46,7 +46,7 @@ const rules = [
 export default function BodyLogPage() {
   return (
     <div className="min-h-screen bg-background px-6 py-16">
-      <article className="mx-auto max-w-3xl">
+      <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
           className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground xl:hidden"
