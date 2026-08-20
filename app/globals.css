@@ -574,47 +574,93 @@ body {
 }
 
 /*
- * The trickle plate's cycle.
+ * The trickle plate's two loops.
  *
- * Eight words share one grid cell and one loop, each offset by a slot, so
- * exactly one is up at a time and the sequence drives itself. The window is a
- * little narrower than a full slot, which leaves a beat of nothing between
- * words — a catalogue turning a page rather than a crossfade.
+ * `swap` turns a line over between its three words: one visible at a time,
+ * with a beat of nothing between them so it reads as a page turning rather
+ * than a crossfade. `turn` moves emphasis down the stack, bringing one line to
+ * full ink while the rest sit back, so there is always a subject.
  *
- * Not part of the kit: the kit animates the text, this decides whose turn it is.
+ * Neither is part of the kit: the kit animates the text, these decide which
+ * word is up and whose turn it is. Percentages rather than seconds, so the
+ * duration set on each element decides the tempo and the shape stays the same.
  */
-@keyframes aka-trickle-slot {
+@keyframes aka-trickle-swap {
   0%,
   100% {
     opacity: 0;
-    transform: translateY(0.16em);
   }
-  2%,
-  10.5% {
+  1.5%,
+  31% {
     opacity: 1;
-    transform: none;
   }
-  12.5% {
+  33.333% {
     opacity: 0;
-    transform: translateY(-0.16em);
   }
 }
 
-.aka-trickle-slot {
+@keyframes aka-trickle-turn {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  2%,
+  16% {
+    opacity: 1;
+  }
+  19% {
+    opacity: 0.4;
+  }
+}
+
+.aka-trickle-swap {
   opacity: 0;
-  animation-name: aka-trickle-slot;
+  animation-name: aka-trickle-swap;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.aka-trickle-line {
+  opacity: 0.4;
+  animation-name: aka-trickle-turn;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* Stacked in one cell, so they cannot all simply be shown. The first one
-     stands for the set. */
-  .aka-trickle-slot {
+  /* Stacked in one cell, so the three cannot simply all be shown. The first
+     word of each line stands for its set, and nothing turns over. */
+  .aka-trickle-line {
+    animation: none;
+    opacity: 0.85;
+  }
+  .aka-trickle-swap {
     animation: none;
     opacity: 0;
   }
-  .aka-trickle-slot:first-child {
+  .aka-trickle-swap:first-child {
     opacity: 1;
   }
+}
+
+/*
+ * Spotlight, on a light page.
+ *
+ * The kit draws it for a dark one: a near-white spot fading to mid-grey, on a
+ * band half the element's width that sweeps across, with nothing painting the
+ * text outside the band. That is the effect — a light travelling over words in
+ * the dark — and it inverts cleanly, but on a light plate the white spot is
+ * invisible and the grey tail is the only thing you see.
+ *
+ * ShinyShimmer puts both ends behind custom properties for exactly this case;
+ * Spotlight does not, so the light theme restates the gradient in the page's
+ * own ink. Geometry, sizing and the keyframe are the kit's and are untouched.
+ */
+html:not(.dark) .animate-trickle-spotlight {
+  background-image: radial-gradient(
+    circle,
+    oklch(14% 0 0) 0%,
+    oklch(14% 0 0) 8%,
+    oklch(72% 0 0) 35%
+  );
 }
