@@ -409,6 +409,26 @@ body {
    * plate, and Box Populi's is white on transparent, so a light ground erases
    * it completely.
    */
+  /*
+   * The landing plate: the same idea as .aka-stamp, at the size where the mark
+   * is the thing you see rather than a bullet beside the words.
+   *
+   * The tint mixes in srgb, not oklch. Mixing a hue toward a neutral in oklch
+   * interpolates through its hue channel, and against a zero-chroma ground that
+   * sends every accent toward red, which is what once turned all of these pink.
+   */
+  .aka-plate {
+    @apply grid aspect-square w-full place-items-center overflow-hidden rounded-xl;
+    @apply transition-transform duration-500 ease-out;
+    background-color: color-mix(in srgb, var(--plate-tint, transparent) 7%, var(--stamp-ground));
+  }
+  .aka-plate-bleed {
+    background-color: color-mix(in srgb, var(--foreground) 4%, var(--stamp-ground));
+  }
+  .group:hover .aka-plate {
+    transform: translateY(-3px);
+  }
+
   .aka-stamp-bleed {
     border-color: color-mix(in oklch, var(--foreground) 12%, transparent);
     background-color: #0b0b0c;

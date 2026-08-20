@@ -24,7 +24,7 @@ export function HomeSection() {
             {/* animation first so it sits above the copy when the grid stacks;
                 md:order restores text left, mark right on wide. */}
             <div className={`flex justify-center md:order-2 md:justify-end ${reveal}`}>
-              <AkaMark size={400} grid={24} fluid />
+              <AkaMark size={300} grid={24} fluid />
             </div>
 
             <div className="flex max-w-md flex-col gap-7 md:order-1">

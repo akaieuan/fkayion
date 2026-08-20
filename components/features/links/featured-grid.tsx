@@ -1,12 +1,20 @@
-import { ProjectCard, type ProjectCardItem } from '@/components/ui/project-card'
+import { ProjectPlate } from '@/components/ui/project-plate'
+import type { ProjectCardItem } from '@/components/ui/project-card'
 
 // Static imports → Next reads dimensions at build time and inlines a blur
-// placeholder, so cards paint instantly instead of holding blank.
+// placeholder, so marks paint instantly instead of holding blank.
 import covartLogo from '@/components/ui/logos/akacovart.png'
 import boxPopuliLogo from '@/components/ui/logos/box-populi.webp'
 import ubikLogo from '@/components/ui/logos/ubik.png'
 
-/** The six current flagships — a static grid, no carousel mechanics. */
+/**
+ * The six current flagships, as plates.
+ *
+ * Only the first tag is shown on the landing, but all four stay here because
+ * this is the same shape /demo uses and a project should read the same in both
+ * places. The descriptions likewise: the plate does not print one, and the card
+ * on /demo does.
+ */
 const FEATURED: ProjectCardItem[] = [
   {
     title: 'Ubik Studio',
@@ -60,10 +68,12 @@ const FEATURED: ProjectCardItem[] = [
 
 export function FeaturedGrid() {
   return (
-    <div className="grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 animate-in fade-in duration-200">
+    <ul className="grid list-none grid-cols-2 gap-x-5 gap-y-9 p-0 sm:gap-x-6 lg:grid-cols-3">
       {FEATURED.map((item) => (
-        <ProjectCard key={item.href} item={item} />
+        <li key={item.href}>
+          <ProjectPlate item={item} />
+        </li>
       ))}
-    </div>
+    </ul>
   )
 }

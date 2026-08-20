@@ -85,6 +85,8 @@ const releases: Release[] = [
     title: 'Healthiest TRX',
     meta: 'Playlist · aka ieuan',
     href: 'https://soundcloud.com/akaieuan/sets/aka-ieuan-healthiest-trx',
+    // No cover yet. A row without one simply shows nothing, which is why
+    // `cover` is optional: a stand-in would be a picture of the wrong record.
   },
   {
     title: 'Releases, all',
@@ -132,12 +134,12 @@ function RowItem({ row }: { row: Row }) {
           href={row.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="group block max-w-xl py-2.5"
+          className="group block py-2.5"
         >
           {body}
         </a>
       ) : (
-        <Link href={row.href} className="group block max-w-xl py-2.5">
+        <Link href={row.href} className="group block py-2.5">
           {body}
         </Link>
       )}
@@ -146,9 +148,12 @@ function RowItem({ row }: { row: Row }) {
 }
 
 /**
- * The cover is hidden below `lg`, where there is no pointer to reveal it with
- * and no room to put it. `hoverOnlyWhenSupported` in tailwind.config.cjs keeps
- * it from latching open after a tap.
+ * The cover opens in the lane to the right of the column: `left-full` is the
+ * column's own edge, so the offset is derived from the measure rather than
+ * guessed at, and it can never drift back over the words. It is hidden below
+ * `lg`, where there is no pointer to reveal it with and no lane to open into,
+ * and `hoverOnlyWhenSupported` in tailwind.config.cjs stops it latching after a
+ * tap.
  */
 function ReleaseItem({ release }: { release: Release }) {
   return (
@@ -157,7 +162,7 @@ function ReleaseItem({ release }: { release: Release }) {
         href={release.href}
         target="_blank"
         rel="noopener noreferrer"
-        className="block max-w-xl py-2.5"
+        className="block py-2.5"
       >
         <span className="text-[14px] font-light tracking-tight text-foreground/85 underline decoration-transparent underline-offset-[5px] transition-colors duration-200 group-hover:text-foreground group-hover:decoration-foreground/30">
           {release.title}
@@ -170,7 +175,7 @@ function ReleaseItem({ release }: { release: Release }) {
       {release.cover && (
         <span
           aria-hidden
-          className="pointer-events-none absolute left-[22rem] top-1/2 z-20 hidden h-[11rem] w-[11rem] -translate-y-1/2 scale-95 overflow-hidden rounded-lg opacity-0 transition-[opacity,transform] duration-300 ease-out group-hover:scale-100 group-hover:opacity-100 lg:block"
+          className="pointer-events-none absolute left-full top-1/2 z-20 ml-10 hidden h-[11rem] w-[11rem] -translate-y-1/2 scale-95 overflow-hidden rounded-lg opacity-0 transition-[opacity,transform] duration-300 ease-out group-hover:scale-100 group-hover:opacity-100 lg:block"
         >
           <Image
             src={release.cover}
@@ -245,7 +250,7 @@ export function LinksSection() {
     <section ref={sectionRef} id="section-1" className="relative w-full py-20">
       <div className="w-full max-w-site mx-auto site-inset">
         <div
-          className="mb-16"
+          className="mb-16 max-w-[40rem]"
           style={{
             opacity: isInView ? 1 : 0,
             transform: isInView ? 'translateY(0)' : 'translateY(16px)',
@@ -253,7 +258,7 @@ export function LinksSection() {
           }}
         >
           <h1 className={heading}>Who I am</h1>
-          <p className="mt-4 text-sm font-light leading-relaxed text-muted-foreground max-w-xl">
+          <p className="mt-4 text-sm font-light leading-relaxed text-muted-foreground">
             A product designer and technical anthropologist working on the human side of applied
             AI: discovery, approval flows, and the interfaces that make agents legible and worth
             trusting. Plus the agent training, front-end, and procedural 3D work behind them.
@@ -265,7 +270,9 @@ export function LinksSection() {
           <FeaturedGrid />
         </div>
 
-        <div className="mb-16">
+        {/* Prose sits in its own measure, so a heading and its link stay
+            together instead of being flung to the container's far edge. */}
+        <div className="mb-16 max-w-[40rem]">
           <SectionHead title="Writing" more={{ label: 'aka.write', href: 'https://kraa.io/akaieuan' }} />
           <ul className="list-none p-0">
             {writing.map((row) => (
@@ -274,7 +281,7 @@ export function LinksSection() {
           </ul>
         </div>
 
-        <div>
+        <div className="max-w-[40rem]">
           <SectionHead title="Music" more={{ label: 'soundcloud', href: 'https://soundcloud.com/akaieuan' }} />
           <ul className="list-none p-0">
             {releases.map((release) => (
