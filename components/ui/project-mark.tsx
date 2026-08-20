@@ -2,6 +2,7 @@ import Image, { type StaticImageData } from 'next/image'
 import { PixelHead, type PixelIcon } from '@/components/features/brand/pixel-head'
 import { BodyLogMark } from '@/components/demo/bodylog/bodylog-mark'
 import { CovartMark } from '@/components/ui/covart-mark'
+import { BlockpadMark } from '@/components/ui/blockpad-mark'
 import { TrickleSpecimen } from '@/components/ui/trickle-specimen'
 import { CircleheadsLogo } from '@/components/ui/brand-logos'
 import { ProjectLogo, logoAspect } from '@/components/ui/project-logo'
@@ -127,6 +128,7 @@ export function ProjectMark({
   }
   if (item.logo === 'bodylog') return <BodyLogMark size={size} title="" />
   if (item.logo === 'akacovart') return <CovartMark size={size} />
+  if (item.logo === 'blockpad') return <BlockpadMark size={size} />
   if (item.logo === 'trickle-live') return <TrickleSpecimen />
   if (item.logo === 'circleheads') return <CircleheadsLogo size={size} />
   if (tooWide) {
