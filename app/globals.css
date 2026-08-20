@@ -422,11 +422,17 @@ body {
     @apply transition-transform duration-500 ease-out;
     background-color: color-mix(in srgb, var(--plate-tint, transparent) 7%, var(--stamp-ground));
   }
-  .aka-plate-bleed {
-    background-color: color-mix(in srgb, var(--foreground) 4%, var(--stamp-ground));
-  }
   .group:hover .aka-plate {
     transform: translateY(-3px);
+  }
+  /*
+   * Marks drawn light on nothing carry their own dark ground. Not a theme
+   * token, deliberately: the fact is about the artwork, not the page around it.
+   * It sits on the mark rather than the plate so a light theme keeps a light
+   * grid instead of two black tiles in the middle of it.
+   */
+  .aka-mark-ground {
+    background-color: #0b0b0c;
   }
 
   .aka-stamp-bleed {

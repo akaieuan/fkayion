@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ProjectMark, marksBleed, type ProjectItem } from '@/components/ui/project-mark'
+import { ProjectMark, type ProjectItem } from '@/components/ui/project-mark'
 
 /**
  * A project at landing size: its mark on a plate, its name, and one word.
@@ -15,11 +15,9 @@ import { ProjectMark, marksBleed, type ProjectItem } from '@/components/ui/proje
  * insetting the icons inside it, which is how they ended up looking shrunken
  * and off-centre.
  *
- * Two kinds of art, handled differently and for a reason. A shipped icon
- * already carries its own ground and corners, so it fills the plate and *is*
- * the plate. A drawn mark is a bare shape, so it sits centred on a whisper of
- * the project's accent. That split is the same one the small stamp already
- * makes; this only scales it.
+ * Every mark gets the same inset frame, so the grid reads as one set rather
+ * than as icons of six different sizes. Art that carries its own ground fills
+ * that frame; a bare glyph shows the plate's tint through it.
  *
  * The category is the project's first tag rather than a new field, so it cannot
  * drift from what /demo says about the same project.
@@ -27,29 +25,32 @@ import { ProjectMark, marksBleed, type ProjectItem } from '@/components/ui/proje
  * Server-rendered, hover is CSS.
  */
 export function ProjectPlate({ item }: { item: ProjectItem }) {
-  const bleed = marksBleed(item)
   const category = item.tags?.[0]
   const external = /^https?:\/\//.test(item.href)
 
   const body = (
     <>
       <span
-        className={`aka-plate${bleed ? ' aka-plate-bleed' : ''}`}
-        style={bleed ? undefined : { ['--plate-tint' as string]: item.accent ?? 'var(--foreground)' }}
+        className="aka-plate"
+        style={{ ['--plate-tint' as string]: item.accent ?? 'var(--foreground)' }}
       >
-        {bleed ? (
-          <ProjectMark item={item} size={160} sizes="(min-width: 1024px) 340px, 45vw" />
-        ) : (
-          /*
-           * Drawn at a large intrinsic size and scaled by width, so the mark
-           * stays a constant fraction of the plate at every breakpoint. Passing
-           * a pixel size straight through would make it correct on a desktop
-           * grid and enormous on a phone.
-           */
-          <span className="block w-[44%] [&_img]:h-auto [&_img]:w-full [&_svg]:h-auto [&_svg]:w-full">
-            <ProjectMark item={item} size={160} sizes="(min-width: 1024px) 150px, 20vw" />
+        {/*
+         * Every mark sits in the same inset square, whatever it is made of.
+         * Letting art that carries its own ground run to the plate edge made
+         * Ubik a full-bleed black tile beside five inset ones, and forcing the
+         * whole plate dark for the light-on-nothing marks put two black squares
+         * in an otherwise light grid. The ground belongs to the mark, so it
+         * lives on the mark's frame and the plate stays with the theme.
+         */}
+        <span
+          className={`block aspect-square w-[52%] overflow-hidden rounded-[16%] ${
+            item.onDark ? 'aka-mark-ground' : ''
+          }`}
+        >
+          <span className="block h-full w-full [&>*]:h-full [&>*]:w-full [&_img]:h-full [&_img]:w-full [&_img]:object-cover [&_svg]:h-full [&_svg]:w-full">
+            <ProjectMark item={item} size={160} sizes="(min-width: 1024px) 200px, 26vw" />
           </span>
-        )}
+        </span>
       </span>
 
       <span className="mt-3.5 block text-[14.5px] font-light tracking-tight text-foreground/90">

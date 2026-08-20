@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { FeaturedGrid } from '@/components/features/links/featured-grid'
+import { CoverList, type CoverRow } from '@/components/features/links/cover-list'
 
 /**
  * The middle of the landing: who I am, then the work, then the writing and the
@@ -67,20 +67,12 @@ const writing: Row[] = [
   },
 ]
 
-type Release = {
-  title: string
-  meta: string
-  href: string
-  /** Cover art, revealed beside the row on hover. Optional until one exists. */
-  cover?: string
-}
-
 /**
  * Playlists rather than an embedded player. A cover that appears when you point
  * at the name says what a record looks like without the page loading a widget,
  * autoplaying at anyone, or asking to be operated.
  */
-const releases: Release[] = [
+const releases: CoverRow[] = [
   {
     title: 'Healthiest TRX',
     meta: 'Playlist · aka ieuan',
@@ -142,51 +134,6 @@ function RowItem({ row }: { row: Row }) {
         <Link href={row.href} className="group block py-2.5">
           {body}
         </Link>
-      )}
-    </li>
-  )
-}
-
-/**
- * The cover opens in the lane to the right of the column: `left-full` is the
- * column's own edge, so the offset is derived from the measure rather than
- * guessed at, and it can never drift back over the words. It is hidden below
- * `lg`, where there is no pointer to reveal it with and no lane to open into,
- * and `hoverOnlyWhenSupported` in tailwind.config.cjs stops it latching after a
- * tap.
- */
-function ReleaseItem({ release }: { release: Release }) {
-  return (
-    <li className="group relative">
-      <a
-        href={release.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block py-2.5"
-      >
-        <span className="text-[14px] font-light tracking-tight text-foreground/85 underline decoration-transparent underline-offset-[5px] transition-colors duration-200 group-hover:text-foreground group-hover:decoration-foreground/30">
-          {release.title}
-        </span>
-        <span className="mt-0.5 block text-[12.5px] font-light leading-relaxed text-muted-foreground/55 transition-colors duration-200 group-hover:text-muted-foreground/80">
-          {release.meta}
-        </span>
-      </a>
-
-      {release.cover && (
-        <span
-          aria-hidden
-          className="pointer-events-none absolute left-full top-1/2 z-20 ml-10 hidden h-[11rem] w-[11rem] -translate-y-1/2 scale-95 overflow-hidden rounded-lg opacity-0 transition-[opacity,transform] duration-300 ease-out group-hover:scale-100 group-hover:opacity-100 lg:block"
-        >
-          <Image
-            src={release.cover}
-            alt=""
-            width={1000}
-            height={1000}
-            sizes="176px"
-            quality={72}
-            className="block h-full w-full object-cover"
-          />
-        </span>
       )}
     </li>
   )
@@ -283,11 +230,7 @@ export function LinksSection() {
 
         <div className="max-w-[40rem]">
           <SectionHead title="Music" more={{ label: 'soundcloud', href: 'https://soundcloud.com/akaieuan' }} />
-          <ul className="list-none p-0">
-            {releases.map((release) => (
-              <ReleaseItem key={release.href} release={release} />
-            ))}
-          </ul>
+          <CoverList items={releases} />
         </div>
       </div>
     </section>

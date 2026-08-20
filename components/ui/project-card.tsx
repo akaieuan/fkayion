@@ -24,7 +24,7 @@ export function ProjectCard({ item }: { item: ProjectCardItem }) {
   const body = (
     <>
       <span
-        className={`aka-stamp${marksBleed(item) ? ' aka-stamp-bleed' : ''}`}
+        className={`aka-stamp${marksBleed(item) ? ' aka-stamp-bleed' : ''}${item.onDark ? ' aka-mark-ground' : ''}`}
         style={marksBleed(item) ? undefined : { ['--stamp-tint' as string]: accent }}
       >
         <ProjectMark item={item} size={26} sizes="80px" />

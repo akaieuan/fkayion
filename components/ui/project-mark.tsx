@@ -1,6 +1,7 @@
 import Image, { type StaticImageData } from 'next/image'
 import { PixelHead, type PixelIcon } from '@/components/features/brand/pixel-head'
 import { BodyLogMark } from '@/components/demo/bodylog/bodylog-mark'
+import { CovartMark } from '@/components/ui/covart-mark'
 import { CircleheadsLogo } from '@/components/ui/brand-logos'
 import { ProjectLogo, logoAspect } from '@/components/ui/project-logo'
 import { MarkGlyph, hasGlyph } from '@/components/ui/mark-glyphs'
@@ -34,10 +35,23 @@ export type ProjectItem = {
   wordmark?: string
   /** The project's own hue, used only to tint the ground behind the mark. */
   accent?: string
+  /**
+   * Override whether the art fills its frame. A drawn mark that carries its own
+   * ground (akaCOVART) reads as an icon, not as a glyph sitting on a plate, and
+   * nothing about its shape says so on its own.
+   */
+  bleed?: boolean
+  /**
+   * The mark is drawn light on nothing, so it needs a dark ground under it in
+   * either theme. Box Populi's art is white on transparent; akaVST's is
+   * near-white with translucent white fills.
+   */
+  onDark?: boolean
 }
 
 /** True when the art fills its frame rather than sitting inside it. */
 export function marksBleed(item: ProjectItem) {
+  if (item.bleed !== undefined) return item.bleed
   return Boolean(item.logoImg || (item.img && !item.logo && !item.mark && !item.wordmark))
 }
 
@@ -70,11 +84,15 @@ export function ProjectMark({
         width={size * 3}
         height={size * 3}
         sizes={sizes}
+        // These are logos, and one of them is generative grain: the default 75
+        // smears it. Cheap here, since the sources are small and flat.
+        quality={90}
         className="h-full w-full object-cover"
       />
     )
   }
   if (item.logo === 'bodylog') return <BodyLogMark size={size} title="" />
+  if (item.logo === 'akacovart') return <CovartMark size={size} />
   if (item.logo === 'circleheads') return <CircleheadsLogo size={size} />
   if (tooWide) {
     return (

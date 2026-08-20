@@ -6,9 +6,8 @@ import visualizerPoster from '@/public/visualizer-eden-preview-poster.jpg'
 import brooklynDead from '@/public/brooklyn-dead.webp'
 
 // Bitmap logos the projects ship - drawn as app-icon tiles on the card plate.
-import ubikLogo from '@/components/ui/logos/ubik.png'
+import ubikLogo from '@/components/ui/logos/ubik.webp'
 import boxPopuliLogo from '@/components/ui/logos/box-populi.webp'
-import covartLogo from '@/components/ui/logos/akacovart.png'
 
 /**
  * Every project the site shows, in one place.
@@ -61,6 +60,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'On-brand site for a NYC live-techno collective. Custom audio players over the SoundCloud Widget, multiple live streams coordinated so they never overlap, and an iOS quirk handled honestly.',
     href: '/demo/box-populi',
     logoImg: boxPopuliLogo,
+    onDark: true,
     accent: '#cf6fb0',
   },
   {
@@ -78,7 +78,10 @@ export const PROJECTS: ProjectCardItem[] = [
     description:
       'Three JUCE instruments, built one at a time and documented as they go: an acid voice with a 64-step sequencer (v0.4.0), four lo-fi layers on one voice pool (v1.0.0), and a sampler that resamples itself (v0.1.0).',
     href: '/demo/akavsts',
-    logo: 'akavst-pixel',
+    // akavst-mark is drawn in currentColor, so it takes the page's ink and
+    // needs no ground of its own. The pixel variant it replaced was baked in
+    // near-white and only ever worked on a dark one.
+    logo: 'akavst-mark',
     accent: '#9b7cf0',
   },
   {
@@ -96,7 +99,8 @@ export const PROJECTS: ProjectCardItem[] = [
     description:
       'A generative album-art engine. Shape it, sync the motion to your track, and export the cover. Every cover is reproducible from an engine, a seed, and a few parameters.',
     href: '/demo/akacovart',
-    logoImg: covartLogo,
+    logo: 'akacovart',
+    bleed: true,
     accent: '#4fc0a6',
   },
   {
