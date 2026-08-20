@@ -1,0 +1,274 @@
+/*
+ * The v1 prototype's own stylesheet, scoped to `.bl1`.
+ *
+ * This is not Tailwind and deliberately so. The prototype is a record of a
+ * design that has already shipped in a different form, and its look comes from
+ * the circleheads token set: about forty custom properties and eight component
+ * classes. Rewriting those as utilities would mean re-deciding every value,
+ * which is a redesign, not a port. So the tokens stay tokens, the way
+ * `app/trickle.css` keeps the kit's own keyframes, and the page chrome around
+ * the prototype is ordinary Tailwind.
+ *
+ * Everything below is namespaced under `.bl1` so none of it reaches the site.
+ * The prototype has its own dark/light state, independent of the site's, so the
+ * theme hangs off `[data-bl-theme]` rather than the site's `.dark` class.
+ */
+
+.bl1 {
+  --font-sans: var(--bl1-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* --- base surfaces + ink (light: warm paper) --- */
+  --background: oklch(0.983 0.002 107);
+  --foreground: oklch(0.16 0.002 107);
+  --card: oklch(0.993 0.002 107);
+  --popover: oklch(0.993 0.002 107);
+  --primary: oklch(0.2 0.003 107);
+  --primary-foreground: oklch(0.985 0.002 107);
+  --muted: oklch(0.93 0.005 95);
+  --muted-foreground: oklch(0.5 0.008 95);
+  --border: oklch(0.19 0.01 95 / 12%);
+  --input: oklch(0.19 0.01 95 / 16%);
+  --ring: oklch(0.5 0.008 95);
+
+  /* --- accents. One hue per project, carried from the project card to the
+         body-map hotspot to the calendar cell. Punctuation, never fills. --- */
+  --accent-blue: oklch(0.55 0.19 259);
+  --accent-green: oklch(0.5 0.09 152);
+  --accent-amber: oklch(0.62 0.13 75);
+  --accent-rose: oklch(0.58 0.16 15);
+  --accent-violet: oklch(0.52 0.15 295);
+
+  /* --- semantic surfaces --- */
+  --surface-card: color-mix(in oklch, var(--card) 40%, transparent);
+  --surface-card-solid: var(--card);
+  --surface-inset: color-mix(in oklch, var(--muted) 15%, transparent);
+  --rule-soft: color-mix(in oklch, var(--border) 40%, transparent);
+
+  /* the opacity ladder — six steps, and that is the whole ink hierarchy */
+  --text-1: var(--foreground);
+  --text-2: color-mix(in oklch, var(--foreground) 85%, transparent);
+  --text-3: var(--muted-foreground);
+  --text-4: color-mix(in oklch, var(--muted-foreground) 70%, transparent);
+  --text-5: color-mix(in oklch, var(--muted-foreground) 50%, transparent);
+  --text-6: color-mix(in oklch, var(--muted-foreground) 40%, transparent);
+
+  /* --- type, radius, motion --- */
+  --weight-light: 300;
+  --weight-medium: 500;
+  --text-sm: 0.875rem;
+  --text-13: 0.8125rem;
+  --text-xs: 0.75rem;
+  --text-10: 0.625rem;
+  --leading-relaxed: 1.625;
+  --tracking-label: 0.12em;
+
+  --radius: 0.625rem;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-full: 9999px;
+
+  --dur-hover: 150ms;
+  --dur-swap: 200ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+  font-family: var(--font-sans);
+}
+
+/* Dark is the app's default.
+ *
+ * The aliases have to be redeclared here, not just the raw tokens they are
+ * written from: a custom property is substituted where it is *declared*, so
+ * `--text-1: var(--foreground)` on `.bl1` freezes into the paper ink and
+ * inherits down as that, whatever `--foreground` says further in. The original
+ * stylesheet carried the same second block for the same reason. */
+.bl1 [data-bl-theme="dark"] {
+  --background: oklch(0.146 0.002 107);
+  --foreground: oklch(0.937 0.003 107);
+  --card: oklch(0.176 0.002 107);
+  --popover: oklch(0.176 0.002 107);
+  --primary: oklch(0.937 0.003 107);
+  --primary-foreground: oklch(0.155 0.002 107);
+  --muted: oklch(0.21 0.002 107);
+  --muted-foreground: oklch(0.63 0.004 107);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 13%);
+  --ring: oklch(0.6 0.004 107);
+  --accent-blue: oklch(0.68 0.15 259);
+  --accent-green: oklch(0.71 0.11 152);
+  --accent-amber: oklch(0.83 0.12 80);
+  --accent-rose: oklch(0.7 0.15 15);
+  --accent-violet: oklch(0.75 0.11 295);
+
+  --surface-card: color-mix(in oklch, var(--card) 40%, transparent);
+  --surface-card-solid: var(--card);
+  --surface-inset: color-mix(in oklch, var(--muted) 15%, transparent);
+  --rule-soft: color-mix(in oklch, var(--border) 40%, transparent);
+  --text-1: var(--foreground);
+  --text-2: color-mix(in oklch, var(--foreground) 85%, transparent);
+  --text-3: var(--muted-foreground);
+  --text-4: color-mix(in oklch, var(--muted-foreground) 70%, transparent);
+  --text-5: color-mix(in oklch, var(--muted-foreground) 50%, transparent);
+  --text-6: color-mix(in oklch, var(--muted-foreground) 40%, transparent);
+}
+
+.bl1 button:not(:disabled) {
+  cursor: pointer;
+}
+
+/* ---- button ---------------------------------------------------------- */
+.bl1 .ch-btn {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: var(--radius-2xl);
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  white-space: nowrap;
+  user-select: none;
+  height: 32px;
+  padding: 0 12px;
+  transition: all var(--dur-hover) var(--ease-standard);
+  outline: none;
+}
+.bl1 .ch-btn:focus-visible {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 30%, transparent);
+}
+.bl1 .ch-btn:active:not(:disabled) { transform: translateY(1px); }
+.bl1 .ch-btn--xs { height: 24px; padding: 0 10px; gap: 4px; font-size: var(--text-xs); }
+.bl1 .ch-btn--lg { height: 36px; padding: 0 16px; }
+.bl1 .ch-btn--icon-sm { width: 28px; height: 28px; padding: 0; }
+.bl1 .ch-btn--icon-lg { width: 36px; height: 36px; padding: 0; }
+.bl1 .ch-btn--default { background: var(--primary); color: var(--primary-foreground); }
+.bl1 .ch-btn--default:hover { background: color-mix(in oklch, var(--primary) 80%, transparent); }
+.bl1 .ch-btn--outline { border-color: var(--border); background: var(--background); color: var(--foreground); }
+.bl1 .ch-btn--outline:hover { background: var(--muted); }
+.bl1 [data-bl-theme="dark"] .ch-btn--outline { background: transparent; }
+.bl1 [data-bl-theme="dark"] .ch-btn--outline:hover { background: color-mix(in oklch, var(--input) 30%, transparent); }
+.bl1 .ch-btn--ghost { background: transparent; color: var(--foreground); }
+.bl1 .ch-btn--ghost:hover { background: var(--muted); }
+.bl1 [data-bl-theme="dark"] .ch-btn--ghost:hover { background: color-mix(in oklch, var(--muted) 50%, transparent); }
+
+/* ---- tag ------------------------------------------------------------- */
+.bl1 .ch-tag {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in oklch, var(--border) 70%, transparent);
+  background: color-mix(in oklch, var(--muted) 30%, transparent);
+  padding: 2px 8px;
+  font-size: 10.5px;
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.bl1 .ch-tag--bare {
+  background: transparent;
+  border-color: color-mix(in oklch, var(--border) 60%, transparent);
+  padding: 2px 6px;
+  font-size: var(--text-10);
+  letter-spacing: var(--tracking-label);
+  color: var(--text-4);
+}
+
+/* ---- form controls --------------------------------------------------- */
+.bl1 .ch-input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--background);
+  padding: 10px 12px;
+  font-family: var(--font-sans);
+  font-size: var(--text-13);
+  color: var(--foreground);
+  transition: border-color var(--dur-hover) var(--ease-standard);
+}
+.bl1 .ch-input::placeholder { color: var(--text-6); }
+.bl1 .ch-input:focus { outline: none; border-color: color-mix(in oklch, var(--foreground) 30%, transparent); }
+.bl1 .ch-input--area { min-height: 80px; resize: vertical; line-height: var(--leading-relaxed); }
+.bl1 .ch-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--background);
+  padding: 10px 12px;
+}
+.bl1 .ch-search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  outline: none;
+  font-family: var(--font-sans);
+  font-size: var(--text-13);
+  color: var(--foreground);
+}
+.bl1 .ch-search input::placeholder { color: var(--text-6); }
+
+/* the work cards' hover lift. A transition, not an animation, so it reverses */
+.bl1 .ch-lift { transition: transform var(--dur-swap) var(--ease-standard), background var(--dur-swap) var(--ease-standard); }
+.bl1 .ch-lift:hover { transform: translateY(-2px); }
+
+/* ---- the phone's own scrollers: no bars, they are inside a device ----- */
+.bl1 .ph-scroll { scrollbar-width: none; -ms-overflow-style: none; }
+.bl1 .ph-scroll::-webkit-scrollbar { display: none; }
+
+/* ---- sliders --------------------------------------------------------- */
+.bl1 input[type="range"].dp {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  margin: 0;
+  box-sizing: border-box;
+  border-radius: 2px;
+  outline: none;
+}
+.bl1 input[type="range"].dp::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--foreground);
+  border: 3px solid var(--background);
+  box-shadow: 0 0 0 1px var(--border);
+  cursor: pointer;
+}
+.bl1 input[type="range"].dp::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--foreground);
+  border: 3px solid var(--background);
+  cursor: pointer;
+}
+
+@keyframes bl1-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes bl1-toast {
+  0% { opacity: 0; transform: translateY(10px); }
+  12% { opacity: 1; transform: none; }
+  88% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: translateY(-6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bl1 { --dur-hover: 0ms; --dur-swap: 0ms; }
+  .bl1 .ch-lift:hover { transform: none; }
+}

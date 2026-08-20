@@ -1,26 +1,39 @@
 import Link from 'next/link'
+import { Inter } from 'next/font/google'
 import { ArrowLeft } from 'lucide-react'
+import { Prototype } from '@/components/demo/bodylog-v1/prototype'
+import '@/components/demo/bodylog-v1/v1.css'
 
 /**
  * The v1 BodyLog prototype, kept whole.
  *
- * This is the original interactive exploration: every screen of the app as one
- * clickable artefact, which is still the clearest way to read the user story
- * end to end. It is a self-contained bundle, so it is served as a static file
- * and framed rather than ported. Porting it would mean maintaining a second
- * copy of a design that has already moved on, and the point of keeping it is
- * that it is the version we actually decided from.
+ * This is the original interactive exploration — every screen of the app as one
+ * clickable artefact, back when it was still called dermp — and it is still the
+ * clearest way to read the user story end to end.
  *
- * The bundle used to weigh 1.37 MB, of which about 1 MB was twenty base64
- * woff2 files: Inter and Geist Mono, every weight and every subset, inlined so
- * the artefact would work as a file on a desktop. Served from this site it
- * never needs that, so the faces now come from Google Fonts and the file is
- * around 310 KB. Nothing about the prototype itself changed; the React runtime
- * it carries stays, because the frame is its own document and needs one.
+ * It used to be a 1.37 MB self-contained bundle served out of `public/` and
+ * shown in an iframe: a React runtime, its own copy of Inter and Geist Mono as
+ * twenty inlined woff2 files, and the whole design in a string. It is now what
+ * it should have been, a page: typed data tables, server-rendered SVG art, and
+ * one client island for the state. Nothing about the prototype's behaviour
+ * changed, and the fixture data is identical down to the seeds.
+ *
+ * The two faces are loaded here rather than in the root layout, because they
+ * belong to the artefact and not to the site.
  *
  * The route is listed in `lib/fullscreen-demos.ts`, so the site header and the
  * section rail stay out of the prototype's own chrome.
  */
+
+const inter = Inter({ subsets: ['latin'], display: 'swap', variable: '--bl1-sans' })
+
+/**
+ * Geist Mono is not in this Next version's Google catalogue, so it comes in as
+ * a stylesheet link rather than through next/font. React hoists it to the head
+ * and dedupes it; the mono is only used for the prototype's micro-labels, and
+ * the stack below covers the swap.
+ */
+const GEIST_MONO = 'https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap'
 
 export const metadata = {
   title: 'BodyLog v1 Prototype | akaBuild',
@@ -30,8 +43,8 @@ export const metadata = {
 
 export default function BodyLogV1Page() {
   return (
-    <div className="fixed inset-0 flex flex-col bg-[#0e0e0d]">
-      <div className="flex shrink-0 items-center justify-between gap-4 border-b border-white/10 px-4 py-2.5">
+    <div className="flex min-h-screen flex-col bg-[#f0eee9]">
+      <div className="sticky top-0 z-10 flex shrink-0 items-center justify-between gap-4 border-b border-black/10 bg-[#0e0e0d] px-4 py-2.5">
         <Link
           href="/demo/bodylog"
           className="inline-flex items-center gap-1.5 text-[12px] font-light text-white/55 transition-colors hover:text-white"
@@ -43,11 +56,50 @@ export default function BodyLogV1Page() {
           v1 prototype · the user story, end to end
         </p>
       </div>
-      <iframe
-        src="/bodylog-v1.html"
-        title="BodyLog v1 interactive prototype"
-        className="min-h-0 w-full flex-1 border-0"
-      />
+
+      <link rel="stylesheet" href={GEIST_MONO} />
+
+      <div className={`bl1 ${inter.variable} flex-1 px-6 py-10 sm:px-11`}>
+        <div className="mb-5 flex items-baseline gap-2.5">
+          <span className="rounded bg-[#141413] px-[7px] py-[3px] font-mono text-[10px] font-medium text-[#fafaf8]">1</span>
+          <span className="text-[13px] font-light leading-tight text-[#141413]">
+            dermp — personal skin tracking. circleheads system, mobile.
+          </span>
+        </div>
+
+        <div className="mb-7 flex max-w-[860px] flex-col gap-2.5">
+          <p className="m-0 max-w-[640px] text-[13px] font-light leading-[1.65] text-black/60">
+            What I assumed, so you can correct me: the app never interprets a photo, never scores a condition and never suggests
+            treatment — every number on screen is something <em>you</em> typed. Severity is self-rated. The calendar grid counts logs,
+            not health. Streaks are hard-break as you asked, but the copy around a broken streak stays neutral — no scolding.
+          </p>
+          <p className="m-0 max-w-[640px] text-[13px] font-light leading-[1.65] text-black/60">
+            The system: warm near-black default with a paper toggle, one border weight, no shadows, ink hierarchy by alpha. Accents
+            are punctuation — one hue per project, carried consistently from the project card to the body-map hotspot to the calendar
+            cell. The pixel engine does all the brand art: the dermp mark (cross + pencil), tab icons, badges, and the sprite. No
+            photography, no illustration.
+          </p>
+        </div>
+
+        <Prototype />
+
+        <p className="mt-6 text-[12px] font-light leading-[1.6] text-black/50">
+          Try next: &ldquo;use the <OptRef id="1e" /> grid inside <OptRef id="1a" />&rdquo; · &ldquo;make the capture flow one sheet
+          instead of three steps&rdquo; · &ldquo;the body map should be anatomical, not abstract&rdquo; · &ldquo;show me the doctor
+          export&rdquo;
+        </p>
+      </div>
     </div>
+  )
+}
+
+function OptRef({ id }: { id: string }) {
+  return (
+    <a
+      href={`#${id}`}
+      className="rounded-[5px] bg-black/[0.07] px-[7px] py-[3px] font-mono text-[10.5px] font-medium text-[#141413] transition-colors hover:bg-black/[0.12]"
+    >
+      {id}
+    </a>
   )
 }
