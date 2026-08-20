@@ -1,5 +1,56 @@
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const tailwindcssAnimate = require('tailwindcss-animate')
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const plugin = require('tailwindcss/plugin')
+
+/**
+ * Scroll-linked reveals.
+ *
+ * The clock is the element's own progress through the viewport rather than
+ * elapsed time, so the browser runs these on the compositor and the page needs
+ * no observer, no scroll listener and no client component to drive them.
+ *
+ * Written as longhands rather than the `animation` shorthand. The shorthand
+ * resets `animation-timeline` to `auto`, so any rule using it would silently
+ * cancel the timeline depending on declaration order, and it cannot express the
+ * `auto` duration a scroll timeline needs.
+ *
+ * Every keyframe describes only where an element comes *from*. The resting
+ * style is the finished style, so an element whose animation never runs is
+ * already correct, and nothing can be left invisible waiting for a reveal.
+ *
+ * Scroll timelines ignore `animation-delay`, since their clock is position and
+ * not time, so staggering a group means offsetting its range: that is `--enter`.
+ */
+const scrollReveal = plugin(({ addBase, addUtilities }) => {
+  addBase({
+    '@keyframes rise': { from: { opacity: '0', transform: 'translateY(14px)' } },
+    '@keyframes fade-in': { from: { opacity: '0' } },
+    '@keyframes sweep': { from: { transform: 'scaleX(0)' } },
+  })
+
+  const onView = (name) => ({
+    'animation-name': name,
+    // `auto` is what makes a progress-based timeline work: the animation is
+    // stretched across its range instead of being given a wall-clock length. A
+    // real duration here completes the whole thing in the first fraction of a
+    // percent of the range, which looks exactly like no animation at all.
+    'animation-duration': 'auto',
+    'animation-timing-function': 'ease-out',
+    // Backwards fill is what holds an element at its `from` state until the
+    // scroll reaches it; forwards fill is what keeps it settled afterwards.
+    'animation-fill-mode': 'both',
+    'animation-timeline': 'view()',
+    'animation-range':
+      'entry calc(var(--enter, 0) * 1%) entry calc(58% + var(--enter, 0) * 1%)',
+  })
+
+  addUtilities({
+    '.reveal-rise': onView('rise'),
+    '.reveal-fade': onView('fade-in'),
+    '.reveal-sweep': { ...onView('sweep'), 'transform-origin': 'left center' },
+  })
+})
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -104,5 +155,5 @@ module.exports = {
       },
     },
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [tailwindcssAnimate, scrollReveal],
 }
