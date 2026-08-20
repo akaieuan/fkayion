@@ -326,6 +326,18 @@ export default function BodyLogPage() {
               whether streaks should exist at all, what a broken streak is allowed to say to you.
             </p>
             <p>
+              That exploration is still the best way to read the user story in one go, so it is kept
+              whole and playable rather than described. Every screen, in the order a person meets
+              them.
+            </p>
+            <Link
+              href="/demo/bodylog/v1"
+              className="inline-flex w-fit items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/40"
+            >
+              Open the v1 prototype
+              <ArrowUpRight className="h-4 w-4 opacity-60" aria-hidden />
+            </Link>
+            <p>
               What survived became a written system — tokens, the rules above, the frozen mark — and
               then the real app. The production build is native SwiftUI with SwiftData underneath,
               and the values on this page are read out of it rather than reconstructed. A few things

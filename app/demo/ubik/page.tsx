@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { DemoImage } from '@/components/ui/demo-image'
+import { UbikCanvasViewer } from '@/components/demo/ubik/canvas-viewer'
+import { WAYPOINTS } from '@/lib/ubik-canvas'
 
 const code = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]'
 const microLabel =
@@ -235,6 +237,34 @@ export default function UbikProjectPage() {
               ))}
             </div>
           </div>
+
+          <section className="space-y-3">
+            <h2 className="text-sm font-medium tracking-wide text-foreground">The design board</h2>
+            <p>
+              Ubik never had a design team, a seat of anything for everybody, or the time to keep a
+              spec in sync with itself. What it had was one Excalidraw file that nobody ever closed.
+              This is that file, exactly as it was left.
+            </p>
+            <p>
+              It worked because it refused to be one thing. The same board carried landing page
+              explorations, user story wireframes, screenshots of the running app with corrections
+              drawn straight over them, and plain notes to whoever opened it next. A sketch on the
+              left, the decision written beside it, and underneath that the file path it applied to.
+              That middle layer, looser than a spec and more durable than a conversation, is where
+              most of this product actually got decided.
+            </p>
+            <p>
+              It is messy in places and I have left it messy. Areas trail off, copy is labelled not
+              solid, and one region is simply the words ICONS NEEDED above a list of what still
+              needed drawing. That is what a working document looks like while it is still working.
+              Excalidraw being free is not a small detail either: in a team with scrappy limits it
+              meant everyone could open it, and no part of how we thought sat behind a licence we
+              were deciding whether to renew.
+            </p>
+            <div className="not-prose pt-1">
+              <UbikCanvasViewer waypoints={WAYPOINTS} />
+            </div>
+          </section>
 
           <section className="space-y-3">
             <h2 className="text-sm font-medium tracking-wide text-foreground">The engineering</h2>

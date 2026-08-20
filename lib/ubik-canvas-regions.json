@@ -1,0 +1,377 @@
+[
+ {
+  "x": 10,
+  "y": 10,
+  "w": 29833,
+  "h": 8148,
+  "n": 581,
+  "text": [
+   "Ubik Drive Product Design",
+   "h",
+   "W",
+   "o",
+   "r",
+   "r",
+   "r",
+   "v",
+   "k",
+   "S"
+  ]
+ },
+ {
+  "x": 54038,
+  "y": 7933,
+  "w": 2667,
+  "h": 971,
+  "n": 4,
+  "text": [
+   "Fiig (Academic Research Agent)"
+  ]
+ },
+ {
+  "x": 43838,
+  "y": 8018,
+  "w": 8260,
+  "h": 350,
+  "n": 3,
+  "text": [
+   "Search Bar",
+   "UDrive/All",
+   ">"
+  ]
+ },
+ {
+  "x": 4709,
+  "y": 8669,
+  "w": 23800,
+  "h": 16869,
+  "n": 898,
+  "text": [
+   "n",
+   "S",
+   "e",
+   "t",
+   "p",
+   "O",
+   "e",
+   "#",
+   "Revised",
+   "h"
+  ]
+ },
+ {
+  "x": 53998,
+  "y": 10543,
+  "w": 385,
+  "h": 388,
+  "n": 3,
+  "text": []
+ },
+ {
+  "x": 41670,
+  "y": 12382,
+  "w": 628,
+  "h": 221,
+  "n": 1,
+  "text": [
+   "Sidebar"
+  ]
+ },
+ {
+  "x": 53813,
+  "y": 13022,
+  "w": 3751,
+  "h": 1897,
+  "n": 3,
+  "text": [
+   "Precog (General AI Agent)",
+   "Send"
+  ]
+ },
+ {
+  "x": 49868,
+  "y": 16393,
+  "w": 963,
+  "h": 387,
+  "n": 11,
+  "text": [
+   "Search Files",
+   "Dashboard"
+  ]
+ },
+ {
+  "x": 57839,
+  "y": 16615,
+  "w": 145,
+  "h": 146,
+  "n": 3,
+  "text": []
+ },
+ {
+  "x": 60356,
+  "y": 17331,
+  "w": 12539,
+  "h": 5246,
+  "n": 16,
+  "text": [
+   "Keep the 3 cards but make more general in defintion",
+   "edits for use-case page (fields section)",
+   "title [specific example or use case]",
+   "title [specific example or use case]",
+   "title [specific example or use case]",
+   "title [specific example or use case]",
+   "title [specific example or use case]",
+   "Added space in each section (hieght)",
+   "Collapsable list with specific example in title (collapsed view) and in expanded view we should see 3 example prompts or hyper-specific definitions of points of use",
+   "example prompt or situaltion benefit (of ubik) [fdsajkfhdks alfhjsaklfhjakshfj klashfjksalhfjsalhfjaks lhfjkashfjsa fhdsakjlf hds ja kfhaslfhda sjklfh fdhjsaklfbdsajklfbdasjk fnjdkslafnbda fdjs dsaj]"
+  ]
+ },
+ {
+  "x": 41874,
+  "y": 20724,
+  "w": 5115,
+  "h": 971,
+  "n": 3,
+  "text": [
+   "Gif/IMG",
+   "Example Title",
+   "Example sudbeahder that will go here and this is where it should go."
+  ]
+ },
+ {
+  "x": 57579,
+  "y": 21402,
+  "w": 354,
+  "h": 143,
+  "n": 2,
+  "text": [
+   "Send"
+  ]
+ },
+ {
+  "x": 59077,
+  "y": 23152,
+  "w": 10839,
+  "h": 4946,
+  "n": 14,
+  "text": [
+   "And Repeat for each field section on web/marketing/use-case/page.tsx",
+   "title [specific example or use case]",
+   "title [specific example or use case]",
+   "title [specific example or use case]",
+   "title [specific example or use case]",
+   "title [specific example or use case]",
+   "example prompt or situaltion benefit (of ubik) [fdsajkfhdks alfhjsaklfhjakshfj klashfjksalhfjsalhfjaks lhfjkashfjsa fhdsakjlf hds ja kfhaslfhda sjklfh fdhjsaklfbdsajklfbdasjk fnjdkslafnbda fdjs dsaj]",
+   "example prompt or situaltion benefit (of ubik) [fdsajkfhdks alfhjsaklfhjakshfj klashfjksalhfjsalhfjaks lhfjkashfjsa fhdsakjlf hds ja kfhaslfhda sjklfh fdhjsaklfbdsajklfbdasjk fnjdkslafnbda fdjs dsaj]",
+   "example prompt or situaltion benefit (of ubik) [fdsajkfhdks alfhjsaklfhjakshfj klashfjksalhfjsalhfjaks lhfjkashfjsa fhdsakjlf hds ja kfhaslfhda sjklfh fdhjsaklfbdsajklfbdasjk fnjdkslafnbda fdjs dsaj]"
+  ]
+ },
+ {
+  "x": 72093,
+  "y": 23295,
+  "w": 0,
+  "h": 0,
+  "n": 1,
+  "text": []
+ },
+ {
+  "x": 41744,
+  "y": 23425,
+  "w": 7151,
+  "h": 530,
+  "n": 6,
+  "text": [
+   "Example Title",
+   "Example subheader - quick words that explain stuff.",
+   "Example subheader - quick words that explain stuff.",
+   "Example subheader - quick words that explain stuff.",
+   "Example Title",
+   "Example Title"
+  ]
+ },
+ {
+  "x": 42462,
+  "y": 24454,
+  "w": 5690,
+  "h": 378,
+  "n": 3,
+  "text": [
+   "Gif/IMG",
+   "Gif/IMG",
+   "Gif/IMG"
+  ]
+ },
+ {
+  "x": 54646,
+  "y": 26302,
+  "w": 1107,
+  "h": 259,
+  "n": 3,
+  "text": [
+   "+",
+   "NEW"
+  ]
+ },
+ {
+  "x": 5325,
+  "y": 26512,
+  "w": 5199,
+  "h": 7456,
+  "n": 85,
+  "text": [
+   "Scrolled down",
+   "Use Cases",
+   "Use Cases",
+   "Use Cases",
+   "Use Cases",
+   "News",
+   "News",
+   "News",
+   "News",
+   "For Everyone"
+  ]
+ },
+ {
+  "x": 10963,
+  "y": 26845,
+  "w": 4507,
+  "h": 2512,
+  "n": 15,
+  "text": [
+   "Nav through the carousel",
+   "Ubik Drive",
+   "Ubik Scholar"
+  ]
+ },
+ {
+  "x": 49264,
+  "y": 32816,
+  "w": 7346,
+  "h": 2669,
+  "n": 42,
+  "text": [
+   "Moving around in like a cloud and coming from the left of the card",
+   "funnel in to the funnel that is situated like this orientation",
+   "2.",
+   "1."
+  ]
+ },
+ {
+  "x": 59887,
+  "y": 33189,
+  "w": 6247,
+  "h": 4061,
+  "n": 11,
+  "text": [
+   "I think on dash this should have the options:  Workspaces (saved folders), Library (Recent-used files/all), Recent (History/all) (like now)",
+   "favs",
+   "remove - move to New in sidebar",
+   "maybe change this copy to something more like:  Import files or folders, work locally with any model, send a msg to start. Doesnt have to be this -- just think somehting more like something less",
+   "If no favorites show empty placeholder card that says somehting like: set favorite workspaces",
+   "Change \"New\" to: Create & Import"
+  ]
+ },
+ {
+  "x": 50456,
+  "y": 35910,
+  "w": 4448,
+  "h": 334,
+  "n": 2,
+  "text": [
+   "come out green and organized and move off the screen to the left",
+   "3."
+  ]
+ },
+ {
+  "x": 49148,
+  "y": 40554,
+  "w": 11643,
+  "h": 11408,
+  "n": 31,
+  "text": [
+   "instead of gray gots I think the open icon",
+   "replace w this icon",
+   "Chevrons for easy understanding of interactivity",
+   "Imporove the on selected item hi-lite bg so that it is clear when selecting",
+   "Repeat the double click tipping in sidebar titles",
+   "Maybe we call this File Manager?",
+   "Recent Chats",
+   "Research",
+   "Notes",
+   "Web Search"
+  ]
+ },
+ {
+  "x": 61332,
+  "y": 41473,
+  "w": 2564,
+  "h": 5796,
+  "n": 4,
+  "text": [
+   "In collapsed state we should add quick select buttons for the items  Folders PDFS UDOC USRCH  These quick buttons should open a quick view to stay in collapsesd state but open new tabs",
+   "^"
+  ]
+ },
+ {
+  "x": 64477,
+  "y": 43247,
+  "w": 7502,
+  "h": 8766,
+  "n": 23,
+  "text": [
+   "Opens in tab (center panel)"
+  ]
+ },
+ {
+  "x": 51678,
+  "y": 53460,
+  "w": 9005,
+  "h": 8058,
+  "n": 6,
+  "text": []
+ },
+ {
+  "x": 54688,
+  "y": 63286,
+  "w": 3380,
+  "h": 535,
+  "n": 1,
+  "text": [
+   "ICONS NEEDED"
+  ]
+ },
+ {
+  "x": 58632,
+  "y": 63581,
+  "w": 2706,
+  "h": 6485,
+  "n": 11,
+  "text": [
+   "Workspaces  >",
+   ">",
+   "Your Chats",
+   "Deep Research",
+   "Library",
+   "Web Search",
+   "New",
+   "Write UDOC",
+   "Ubik Studio/Home"
+  ]
+ },
+ {
+  "x": 58546,
+  "y": 71797,
+  "w": 2190,
+  "h": 428,
+  "n": 1,
+  "text": []
+ },
+ {
+  "x": 51218,
+  "y": 80815,
+  "w": 10703,
+  "h": 1179,
+  "n": 4,
+  "text": []
+ }
+]

@@ -13,6 +13,7 @@ export const FULLSCREEN_DEMOS = [
   '/demo/research-os',
   '/demo/music-analysis-chat',
   '/demo/hitl-ai',
+  '/demo/bodylog/v1',
 ] as const
 
 export function isFullscreenDemo(pathname: string | null | undefined) {
