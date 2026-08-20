@@ -1,11 +1,8 @@
-'use client'
-
-import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { FeaturedGrid } from '@/components/features/links/featured-grid'
 import { CoverList, type CoverRow } from '@/components/features/links/cover-list'
-import { WRITING, writingHref, type WritingEntry } from '@/lib/writing'
+import { WritingList } from '@/components/features/links/writing-list'
 
 /**
  * The middle of the landing: the work, a line about who made it, then the
@@ -63,44 +60,6 @@ const heading = 'text-[15px] font-normal tracking-tight text-foreground'
  */
 const MEASURE = 'mx-auto w-full max-w-3xl [&>*]:max-w-[40rem]'
 
-/** A list entry: the name, and one line saying what it is. */
-function RowItem({ row }: { row: WritingEntry }) {
-  const href = writingHref(row)
-  const external = /^https?:\/\//.test(href)
-  const body = (
-    <>
-      <span className="flex flex-wrap items-baseline gap-x-3">
-        <span className="text-[14px] font-light tracking-tight text-foreground/85 underline decoration-transparent underline-offset-[5px] transition-colors duration-200 group-hover:text-foreground group-hover:decoration-foreground/30">
-          {row.title}
-        </span>
-        <span className="text-[11px] font-light text-muted-foreground/40">{row.type}</span>
-      </span>
-      <span className="mt-0.5 block text-[12.5px] font-light leading-relaxed text-muted-foreground/55 transition-colors duration-200 group-hover:text-muted-foreground/80">
-        {row.description}
-      </span>
-    </>
-  )
-
-  return (
-    <li>
-      {external ? (
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group block py-2.5"
-        >
-          {body}
-        </a>
-      ) : (
-        <Link href={href} className="group block py-2.5">
-          {body}
-        </Link>
-      )}
-    </li>
-  )
-}
-
 function MoreLink({ more }: { more: { label: string; href: string } }) {
   const external = /^https?:\/\//.test(more.href)
   const cls =
@@ -144,25 +103,8 @@ function SectionHead({
 }
 
 export function LinksSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const [isInView, setIsInView] = useState(false)
-
-  useEffect(() => {
-    const section = sectionRef.current
-    if (!section) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && entry.intersectionRatio > 0.2) setIsInView(true)
-        else if (!entry.isIntersecting) setIsInView(false)
-      },
-      { threshold: [0, 0.2, 0.5, 1] }
-    )
-    observer.observe(section)
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <section ref={sectionRef} id="section-1" className="relative w-full pb-24 pt-4">
+    <section id="section-1" className="relative w-full pb-24 pt-4">
       <div className="w-full max-w-site mx-auto site-inset">
         <div className="mb-14">
           <SectionHead title="Projects" more={{ label: 'all projects', href: '/demo' }} />
@@ -174,14 +116,7 @@ export function LinksSection() {
          * introduction to it, so it comes after the grid and keeps the grid's
          * own alignment at the page gutter.
          */}
-        <div
-          className="mb-16 max-w-[40rem]"
-          style={{
-            opacity: isInView ? 1 : 0,
-            transform: isInView ? 'translateY(0)' : 'translateY(16px)',
-            transition: 'opacity 0.45s ease, transform 0.45s ease',
-          }}
-        >
+        <div className="aka-rise mb-16 max-w-[40rem]">
           <h1 className={heading}>Who I am</h1>
           <p className="mt-4 text-sm font-light leading-relaxed text-muted-foreground">
             A product designer and technical anthropologist working on the human side of applied
@@ -194,11 +129,7 @@ export function LinksSection() {
             together instead of being flung to the container's far edge. */}
         <div id="writing" className={`${MEASURE} mb-16 scroll-mt-24`}>
           <SectionHead title="Writing" more={{ label: 'aka.write', href: 'https://kraa.io/akaieuan' }} />
-          <ul className="list-none p-0">
-            {WRITING.map((row) => (
-              <RowItem key={writingHref(row)} row={row} />
-            ))}
-          </ul>
+          <WritingList />
         </div>
 
         <div id="music" className={`${MEASURE} scroll-mt-24`}>

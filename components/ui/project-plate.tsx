@@ -9,18 +9,16 @@ import { ProjectMark, fillsPlate, type ProjectItem } from '@/components/ui/proje
  * arrow, which made the cleanest element on it also the smallest. Here the
  * chrome goes and the mark takes the space instead.
  *
- * The plate is square because every mark is: the shipped logos are square app
- * icons, and the drawn ones are glyphs and grids. A landscape plate would mean
- * insetting the icons inside it, which is how they ended up looking shrunken
- * and off-centre.
+ * The plate is landscape and the mark inside it is square, because every mark
+ * is: the shipped logos are square app icons, and the drawn ones are glyphs and
+ * grids. The inset is sized off the plate's height for that reason. Taking it
+ * off the width, as it was, would grow the mark by a third the moment the plate
+ * stopped being square.
  *
  * Every logo gets the same inset frame, so a grid reads as one set rather than
  * as icons of six different sizes. Art that carries its own ground fills that
  * frame; a bare glyph shows the plate's tint through it. A project with no mark
  * at all, only a screenshot, is the one exception and takes the whole plate.
- *
- * `detail` is what the /demo index adds: the same plate, plus the sentence an
- * index needs. The landing shows the flagships and can stay at a name.
  *
  * The category is the project's first tag rather than a new field, so it cannot
  * drift from what /demo says about the same project.
@@ -36,16 +34,22 @@ import { ProjectMark, fillsPlate, type ProjectItem } from '@/components/ui/proje
  * Three columns at full width is smaller than that, not larger.
  */
 const PLATE_SIZES =
-  '(min-width: 1024px) 365px, (min-width: 768px) 480px, (min-width: 640px) 300px, 48vw'
+  '(min-width: 1024px) 380px, (min-width: 768px) 490px, (min-width: 640px) 305px, 48vw'
+
+/*
+ * An inset mark is a fraction of the plate, not the plate.
+ *
+ * Both slots used to be told the plate's width, so a logo filling less than
+ * half of one downloaded a frame about twice as wide as it could ever paint.
+ */
+const MARK_SIZES =
+  '(min-width: 1024px) 175px, (min-width: 768px) 225px, (min-width: 640px) 140px, 22vw'
 
 export function ProjectPlate({
   item,
-  detail = false,
   priority = false,
 }: {
   item: ProjectItem
-  /** Print the description under the name. */
-  detail?: boolean
   /** Preload the mark. True for the first plate in a grid, which is the LCP. */
   priority?: boolean
 }) {
@@ -55,7 +59,12 @@ export function ProjectPlate({
 
   const mark = (
     <span className="block h-full w-full [&>*]:h-full [&>*]:w-full [&_img]:h-full [&_img]:w-full [&_img]:object-cover [&_svg]:h-full [&_svg]:w-full">
-      <ProjectMark item={item} size={160} sizes={PLATE_SIZES} priority={priority} />
+      <ProjectMark
+        item={item}
+        size={160}
+        sizes={full ? PLATE_SIZES : MARK_SIZES}
+        priority={priority}
+      />
     </span>
   )
 
@@ -80,7 +89,7 @@ export function ProjectPlate({
           <span className="relative block h-full w-full">{mark}</span>
         ) : (
           <span
-            className={`relative block aspect-square w-[52%] overflow-hidden rounded-[16%] ${
+            className={`relative block aspect-square h-[62%] overflow-hidden rounded-[16%] ${
               item.onDark ? 'aka-mark-ground' : ''
             }`}
           >
@@ -95,11 +104,6 @@ export function ProjectPlate({
       {category && (
         <span className="mt-0.5 block text-[12.5px] font-light text-muted-foreground/55">
           {category}
-        </span>
-      )}
-      {detail && (
-        <span className="mt-2 line-clamp-3 block text-[12.5px] font-light leading-relaxed text-muted-foreground/55 transition-colors duration-200 group-hover:text-muted-foreground/80">
-          {item.description}
         </span>
       )}
     </>

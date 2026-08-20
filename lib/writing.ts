@@ -275,6 +275,12 @@ export const WRITING: WritingEntry[] = [
     href: 'https://www.akaoss.dev/paper',
   },
   {
+    title: 'Research feed',
+    type: 'Ongoing · akaOSS',
+    description: 'Working notes and papers as they go up, on the studio site.',
+    href: 'https://www.akaoss.dev/research',
+  },
+  {
     title: 'The Pursuit of Parsimony [Pt.1]',
     type: 'Essay · Science',
     description:
@@ -299,12 +305,6 @@ export const WRITING: WritingEntry[] = [
     deck: 'Some thoughts about my childhood, technology, and other things. //erosion',
     published: 'Written from Brooklyn',
     body: gentrification,
-  },
-  {
-    title: 'Research feed',
-    type: 'Ongoing · akaOSS',
-    description: 'Working notes and papers as they go up, on the studio site.',
-    href: 'https://www.akaoss.dev/research',
   },
 ]
 

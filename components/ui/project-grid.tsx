@@ -15,20 +15,13 @@ import type { ProjectItem } from '@/components/ui/project-mark'
  *
  * Server-rendered.
  */
-export function ProjectGrid({
-  items,
-  detail = false,
-}: {
-  items: ProjectItem[]
-  /** Print each project's description, which is what an index needs. */
-  detail?: boolean
-}) {
+export function ProjectGrid({ items }: { items: ProjectItem[] }) {
   return (
-    <ul className="-mx-2 grid list-none grid-cols-2 gap-x-5 gap-y-9 p-0 sm:-mx-3 sm:gap-x-6 md:-mx-6 lg:-mx-10 lg:grid-cols-3">
+    <ul className="-mx-3 grid list-none grid-cols-2 gap-x-5 gap-y-9 p-0 sm:-mx-4 sm:gap-x-6 md:-mx-7 lg:-mx-12 lg:grid-cols-3">
       {items.map((item, i) => (
         <li key={item.href}>
           {/* The first plate is above the fold on both pages that show this. */}
-          <ProjectPlate item={item} detail={detail} priority={i === 0} />
+          <ProjectPlate item={item} priority={i === 0} />
         </li>
       ))}
     </ul>

@@ -2,6 +2,7 @@ import Image, { type StaticImageData } from 'next/image'
 import { PixelHead, type PixelIcon } from '@/components/features/brand/pixel-head'
 import { BodyLogMark } from '@/components/demo/bodylog/bodylog-mark'
 import { CovartMark } from '@/components/ui/covart-mark'
+import { TrickleSpecimen } from '@/components/ui/trickle-specimen'
 import { CircleheadsLogo } from '@/components/ui/brand-logos'
 import { ProjectLogo, logoAspect } from '@/components/ui/project-logo'
 import { MarkGlyph, hasGlyph } from '@/components/ui/mark-glyphs'
@@ -42,6 +43,11 @@ export type ProjectItem = {
    */
   bleed?: boolean
   /**
+   * The art takes the whole plate. Inferred for a project whose only art is a
+   * screenshot; set by hand for one that draws its own full-plate piece.
+   */
+  fill?: boolean
+  /**
    * The mark is drawn light on nothing, so it needs a dark ground under it in
    * either theme. Box Populi's art is white on transparent; akaVST's is
    * near-white with translucent white fills.
@@ -56,7 +62,7 @@ export function marksBleed(item: ProjectItem) {
 }
 
 /**
- * True when the project has no mark at all, only a screenshot.
+ * True when the art takes the whole plate rather than sitting inside it.
  *
  * On a plate these behave differently from a logo. A logo is an object that
  * wants air around it, which is why they all sit in the same inset square. A
@@ -65,6 +71,7 @@ export function marksBleed(item: ProjectItem) {
  * whole plate instead.
  */
 export function fillsPlate(item: ProjectItem) {
+  if (item.fill !== undefined) return item.fill
   return Boolean(item.img && !item.logo && !item.logoImg && !item.mark && !item.wordmark)
 }
 
@@ -114,6 +121,7 @@ export function ProjectMark({
   }
   if (item.logo === 'bodylog') return <BodyLogMark size={size} title="" />
   if (item.logo === 'akacovart') return <CovartMark size={size} />
+  if (item.logo === 'trickle-live') return <TrickleSpecimen />
   if (item.logo === 'circleheads') return <CircleheadsLogo size={size} />
   if (tooWide) {
     return (

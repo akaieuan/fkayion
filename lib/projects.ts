@@ -27,15 +27,6 @@ export const PROJECTS: ProjectCardItem[] = [
     accent: '#d9a441',
   },
   {
-    title: 'Circleheads',
-    tags: ['Studio', 'Applied AI', 'Agents', 'Brooklyn'],
-    description:
-      'The two-person Brooklyn applied-AI studio I co-run. Agents in production, a short senior consulting bench, and original games. Taking a few projects a year.',
-    href: '/demo/circleheads',
-    logo: 'circleheads',
-    accent: '#c2c2bc',
-  },
-  {
     title: 'akaOSS',
     tags: ['Studio', 'Open source', 'HITL AI', 'Research'],
     description:
@@ -64,13 +55,26 @@ export const PROJECTS: ProjectCardItem[] = [
     accent: '#cf6fb0',
   },
   {
-    title: 'Hologram',
-    tags: ['Open source', 'Dev tool', 'Blender', 'MCP'],
+    title: 'Trickle UI Kit',
+    tags: ['Open source', 'React', 'Pure CSS', 'Write-up'],
     description:
-      'Live observability and a read-only MCP surface for Blender to glTF pipelines. Watch your AI agent work on your game assets in real time.',
-    href: '/demo/hologram',
-    logo: 'hologram',
-    accent: '#3fc9c0',
+      '47 pure-CSS text-animation primitives for React. Zero runtime, SSR-safe, copy-paste install via the shadcn registry.',
+    href: '/demo/trickle-ui-kit',
+    // Not the logo. The kit is text animation, so the plate runs four of its
+    // own primitives instead of showing a picture of a mark.
+    logo: 'trickle-live',
+    fill: true,
+    accent: '#e06a76',
+  },
+  {
+    title: 'akaCOVART',
+    tags: ['Open source', 'Generative', 'Album art', 'Canvas'],
+    description:
+      'A generative album-art engine. Shape it, sync the motion to your track, and export the cover. Every cover is reproducible from an engine, a seed, and a few parameters.',
+    href: '/demo/akacovart',
+    logo: 'akacovart',
+    bleed: true,
+    accent: '#4fc0a6',
   },
   {
     title: 'akaVST',
@@ -83,25 +87,6 @@ export const PROJECTS: ProjectCardItem[] = [
     // near-white and only ever worked on a dark one.
     logo: 'akavst-mark',
     accent: '#9b7cf0',
-  },
-  {
-    title: 'Collapse',
-    tags: ['Open source', 'Dev tool', 'Claude Code', 'Write-up'],
-    description:
-      'Skills and MCP tools from your lessons. Three pluggable ingestors (MDX, Jupyter/MyST, and a one-file pattern for anything else) feed a typed pipeline with local atomic writes to ~/.claude/skills/. v0.2.',
-    href: '/demo/collapse',
-    logo: 'collapse',
-    accent: '#a3c25a',
-  },
-  {
-    title: 'akaCOVART',
-    tags: ['Open source', 'Generative', 'Album art', 'Canvas'],
-    description:
-      'A generative album-art engine. Shape it, sync the motion to your track, and export the cover. Every cover is reproducible from an engine, a seed, and a few parameters.',
-    href: '/demo/akacovart',
-    logo: 'akacovart',
-    bleed: true,
-    accent: '#4fc0a6',
   },
   {
     title: 'HITL Kit',
@@ -122,13 +107,13 @@ export const PROJECTS: ProjectCardItem[] = [
     accent: '#e08a5d',
   },
   {
-    title: 'Trickle UI Kit',
-    tags: ['Open source', 'React', 'Pure CSS', 'Write-up'],
+    title: 'Null Browser',
+    tags: ['Open source', 'Tauri', 'Privacy', 'Write-up'],
     description:
-      '47 pure-CSS text-animation primitives for React. Zero runtime, SSR-safe, copy-paste install via the shadcn registry.',
-    href: '/demo/trickle-ui-kit',
-    logo: 'trickle',
-    accent: '#e06a76',
+      'Privacy-first Tauri browser: zero telemetry, local-first AI, six invariants, every connection visible. Pre-v0.1.',
+    href: '/demo/null-browser',
+    logo: 'zero',
+    accent: '#b478d8',
   },
   {
     title: 'How I Work',
@@ -148,6 +133,33 @@ export const PROJECTS: ProjectCardItem[] = [
     accent: '#c2b64f',
   },
   {
+    title: 'Circleheads',
+    tags: ['Studio', 'Applied AI', 'Agents', 'Brooklyn'],
+    description:
+      'The two-person Brooklyn applied-AI studio I co-run. Agents in production, a short senior consulting bench, and original games. Taking a few projects a year.',
+    href: '/demo/circleheads',
+    logo: 'circleheads',
+    accent: '#c2c2bc',
+  },
+  {
+    title: 'Hologram',
+    tags: ['Open source', 'Dev tool', 'Blender', 'MCP'],
+    description:
+      'Live observability and a read-only MCP surface for Blender to glTF pipelines. Watch your AI agent work on your game assets in real time.',
+    href: '/demo/hologram',
+    logo: 'hologram',
+    accent: '#3fc9c0',
+  },
+  {
+    title: 'Collapse',
+    tags: ['Open source', 'Dev tool', 'Claude Code', 'Write-up'],
+    description:
+      'Skills and MCP tools from your lessons. Three pluggable ingestors (MDX, Jupyter/MyST, and a one-file pattern for anything else) feed a typed pipeline with local atomic writes to ~/.claude/skills/. v0.2.',
+    href: '/demo/collapse',
+    logo: 'collapse',
+    accent: '#a3c25a',
+  },
+  {
     title: 'Inertial - Content Moderation Tool',
     tags: ['Open source', 'Moderation', 'Audit log', 'Write-up'],
     description:
@@ -155,33 +167,6 @@ export const PROJECTS: ProjectCardItem[] = [
     href: '/demo/inertial',
     img: inertialDashboard,
     accent: '#8fb0d6',
-  },
-  {
-    title: 'Null Browser',
-    tags: ['Open source', 'Tauri', 'Privacy', 'Write-up'],
-    description:
-      'Privacy-first Tauri browser: zero telemetry, local-first AI, six invariants, every connection visible. Pre-v0.1.',
-    href: '/demo/null-browser',
-    logo: 'zero',
-    accent: '#b478d8',
-  },
-  {
-    title: 'Procedural Asset Pipeline Engineering',
-    tags: ['Blender', 'Godot', 'Pipeline', 'Write-up'],
-    description:
-      'Private WIP: procedural Blender→glTF→Godot pipeline, programmatic animation, browser previews.',
-    href: '/demo/brooklyn-dead',
-    img: brooklynDead,
-    accent: '#c98f6b',
-  },
-  {
-    title: 'Wordle remake: Wrdef (Wordle + definition)',
-    tags: ['Game', 'Next.js', 'Dictionary', 'Write-up'],
-    description:
-      'A five-letter guessing game powered by definitions, bonus rounds, and a locally saved dictionary.',
-    href: '/demo/wrdef',
-    wordmark: 'Wrdef',
-    accent: '#7cc072',
   },
   {
     title: 'Research OS',
@@ -210,4 +195,23 @@ export const PROJECTS: ProjectCardItem[] = [
     img: visualizerPoster,
     accent: '#8ad0b8',
   },
+  {
+    title: 'Procedural Asset Pipeline Engineering',
+    tags: ['Blender', 'Godot', 'Pipeline', 'Write-up'],
+    description:
+      'Private WIP: procedural Blender→glTF→Godot pipeline, programmatic animation, browser previews.',
+    href: '/demo/brooklyn-dead',
+    img: brooklynDead,
+    accent: '#c98f6b',
+  },
+  {
+    title: 'Wordle remake: Wrdef (Wordle + definition)',
+    tags: ['Game', 'Next.js', 'Dictionary', 'Write-up'],
+    description:
+      'A five-letter guessing game powered by definitions, bonus rounds, and a locally saved dictionary.',
+    href: '/demo/wrdef',
+    wordmark: 'Wrdef',
+    accent: '#7cc072',
+  },
+
 ]

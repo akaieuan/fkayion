@@ -9,10 +9,11 @@ export const metadata = {
 /**
  * Every project, as plates.
  *
- * The landing shows six of these and this page shows all of them, so they are
- * the same plate at the same size in the same three columns: scrolling from one
- * to the other should feel like the list got longer, not like the site changed.
- * The only thing this page adds is the sentence an index needs.
+ * The landing shows six of these and this page shows all of them, and they are
+ * otherwise identical: the same plate at the same size in the same columns, so
+ * moving between the two pages should feel like the list got longer rather than
+ * like the site changed. A name and one word is all a plate says in either
+ * place; the full description belongs on the project's own page.
  *
  * Fully server-rendered. Nothing here is interactive, and the hover is CSS.
  */
@@ -27,7 +28,7 @@ export default function DemoIndexPage() {
           </p>
         </header>
 
-        <ProjectGrid items={PROJECTS} detail />
+        <ProjectGrid items={PROJECTS} />
 
       </div>
     </div>

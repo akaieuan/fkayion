@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* trickle's keyframes, transcribed from its registry for Tailwind v3. */
+@import './trickle.css';
+
 /* Tailwind's default transition utilities handle per-element transitions.
    A global * rule here would force transition calculations on every DOM node
    including R3F internals — removed for performance. */
@@ -241,7 +244,28 @@ body {
   --surface-hover: oklch(0.925 0.005 106);
   --surface-border: oklch(0.895 0.004 106);
   --surface-border-hover: oklch(0.84 0.004 106);
-  --stamp-ground: oklch(0.985 0.002 106);
+  /*
+   * The ground under a mark: a step off the page, in whichever direction the
+   * page leaves room. Light used to sit at 0.985 against a 0.97 background, so
+   * the plate was fifteen thousandths *lighter* than the page it sat on and
+   * effectively invisible. Dark steps up from 0.09 to 0.2; light steps down.
+   *
+   * Neutral, not warm, and that is load-bearing. The mix below happens in
+   * sRGB, so the ground's own hue is mixed in along with the project's: a
+   * ground carrying the page's warmth pushed every green toward olive and left
+   * akaOSS, akaCOVART, Hologram and Wrdef reading as four shades of sage.
+   */
+  --stamp-ground: oklch(0.935 0 0);
+  /*
+   * How much of a project's hue reaches its plate.
+   *
+   * Dark is the reference: a near-black tile with a whisper of the project in
+   * it, quiet enough that a wall of twenty-one reads as one material. Light is
+   * kept to the same character rather than the same number, because a hue laid
+   * over a light ground shows up more readily than the same hue over a dark
+   * one. The visibility problem light had was the ground, not the tint.
+   */
+  --plate-mix: 10%;
   /* The one accent: what a selected tab, selected text and a focus ring take. */
   --select: oklch(0.58 0.13 250);
   --input: oklch(0.925 0 0);
@@ -293,6 +317,7 @@ body {
   --surface-border: oklch(1 0 0 / 9%);
   --surface-border-hover: oklch(1 0 0 / 18%);
   --stamp-ground: oklch(0.2 0 0);
+  --plate-mix: 7%;
   --select: oklch(0.707 0.108 152.216);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
@@ -400,7 +425,11 @@ body {
     @apply relative grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-[10px];
     @apply border text-foreground;
     border-color: var(--surface-border);
-    background-color: color-mix(in srgb, var(--stamp-tint, transparent) 7%, var(--stamp-ground));
+    background-color: color-mix(
+      in srgb,
+      var(--stamp-tint, transparent) var(--plate-mix, 7%),
+      var(--stamp-ground)
+    );
   }
 
   /*
@@ -417,10 +446,20 @@ body {
    * interpolates through its hue channel, and against a zero-chroma ground that
    * sends every accent toward red, which is what once turned all of these pink.
    */
+  /*
+   * Landscape, not square. A square plate at this width is a lot of height per
+   * project, and a wall of twenty-one of them made a very long page for a grid
+   * of logos. Four-by-three also crops far less off the projects whose art is
+   * a 16:10 screenshot.
+   */
   .aka-plate {
-    @apply grid aspect-square w-full place-items-center overflow-hidden rounded-xl;
+    @apply grid aspect-[4/3] w-full place-items-center overflow-hidden rounded-xl;
     @apply transition-transform duration-500 ease-out;
-    background-color: color-mix(in srgb, var(--plate-tint, transparent) 7%, var(--stamp-ground));
+    background-color: color-mix(
+      in srgb,
+      var(--plate-tint, transparent) var(--plate-mix, 7%),
+      var(--stamp-ground)
+    );
   }
   .group:hover .aka-plate {
     transform: translateY(-3px);
@@ -462,6 +501,33 @@ body {
     color: color-mix(in srgb, var(--foreground) 62%, transparent);
   }
 
+  /*
+   * A block that rises as it comes into view, with no JavaScript.
+   *
+   * This replaces an IntersectionObserver that existed to fade in one
+   * paragraph, and which forced the whole landing section — every plate, every
+   * link — to be a client component to hold its one boolean.
+   *
+   * Longhands, not the `animation` shorthand: the shorthand resets
+   * `animation-timeline` to `auto`, and the reveal silently becomes a
+   * time-based animation that has already finished. `animation-duration: auto`
+   * for the same reason in reverse — on a scroll timeline a real duration
+   * completes within the first fraction of a percent of the range, which looks
+   * like nothing happening at all.
+   */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .aka-rise {
+        animation-name: aka-rise;
+        animation-duration: auto;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: entry 8% cover 28%;
+      }
+    }
+  }
+
   /* A link inside running text: full ink, and a rule faint enough that a
      paragraph with three of them still reads as a paragraph. */
   .aka-ink-link {
@@ -494,4 +560,47 @@ body {
     color-mix(in oklch, var(--background) 35%, transparent) 35%,
     color-mix(in oklch, var(--background) 12%, transparent) 100%
   );
+}
+
+@keyframes aka-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+ * The trickle plate's turn-taking loop. Four lines share one eight-second
+ * cycle, each offset by two, so one is at full ink while the others sit back.
+ * Not part of the kit: the kit animates text, this decides which line is
+ * currently the subject.
+ */
+@keyframes aka-trickle-turn {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  6%,
+  19% {
+    opacity: 1;
+  }
+  32% {
+    opacity: 0.45;
+  }
+}
+
+.aka-trickle-line {
+  opacity: 0.45;
+  animation: aka-trickle-turn 8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aka-trickle-line {
+    animation: none;
+    opacity: 0.85;
+  }
 }

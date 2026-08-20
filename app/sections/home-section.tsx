@@ -1,6 +1,4 @@
-'use client'
-
-import { AkaMark } from '@/components/features/brand/aka-mark'
+import { AkaMarkLazy } from '@/components/features/brand/aka-mark-lazy'
 
 const keyLinks = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ieuan-king/' },
@@ -42,7 +40,7 @@ export function HomeSection() {
             {/* animation first so it sits above the copy when the grid stacks;
                 md:order restores text left, mark right on wide. */}
             <div className={`flex justify-center md:order-2 md:justify-end ${reveal}`}>
-              <AkaMark size={200} grid={24} fluid />
+              <AkaMarkLazy size={200} grid={24} fluid />
             </div>
 
             <div className="flex flex-col gap-5 md:order-1">
