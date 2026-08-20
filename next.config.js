@@ -10,7 +10,6 @@ const nextConfig = {
       '@radix-ui/react-slider',
       '@radix-ui/react-switch',
       '@radix-ui/react-tooltip',
-      '@radix-ui/react-separator',
       '@react-three/drei',
     ],
   },
