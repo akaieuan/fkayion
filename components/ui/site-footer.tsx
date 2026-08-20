@@ -39,10 +39,10 @@ const columns: { heading: string; links: FooterLink[] }[] = [
   {
     heading: 'Elsewhere',
     links: [
+      { label: 'Instagram', href: 'https://instagram.com/aka.ieuan/', external: true },
       { label: 'GitHub', href: 'https://github.com/akaieuan', external: true },
       { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ieuan-king/', external: true },
-      { label: 'aka.write', href: 'https://kraa.io/akaieuan', external: true },
-      { label: 'SoundCloud', href: 'https://soundcloud.com/akaieuan', external: true },
+      { label: 'Reddit', href: 'https://www.reddit.com/user/akaieuan/', external: true },
       { label: 'How I work', href: '/demo/hitl-practice' },
     ],
   },
