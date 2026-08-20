@@ -55,6 +55,12 @@ export type ProjectItem = {
   onDark?: boolean
 }
 
+/**
+ * The older name for the same shape, kept because two files and a page of data
+ * still read better with it.
+ */
+export type ProjectCardItem = ProjectItem
+
 /** True when the art fills its frame rather than sitting inside it. */
 export function marksBleed(item: ProjectItem) {
   if (item.bleed !== undefined) return item.bleed

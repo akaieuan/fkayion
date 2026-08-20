@@ -90,14 +90,6 @@ export function SiteFooter() {
               <a href="/2026-ieuan-king.pdf" target="_blank" rel="noopener noreferrer" className={linkCls}>
                 CV
               </a>
-              <a
-                href="/ieuan-king-portfolio-2026.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={linkCls}
-              >
-                Portfolio
-              </a>
               <a href="mailto:ieuan@yionvisual.com" className={linkCls}>
                 ieuan@yionvisual.com
               </a>

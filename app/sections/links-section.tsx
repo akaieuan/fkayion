@@ -3,6 +3,7 @@ import { ArrowUpRight } from 'lucide-react'
 import { FeaturedGrid } from '@/components/features/links/featured-grid'
 import { CoverList, type CoverRow } from '@/components/features/links/cover-list'
 import { WritingList } from '@/components/features/links/writing-list'
+import { MEASURE } from './measure'
 
 /**
  * The middle of the landing: the work, a line about who made it, then the
@@ -48,17 +49,6 @@ const releases: CoverRow[] = [
  */
 const heading = 'text-[15px] font-normal tracking-tight text-foreground'
 
-/*
- * The reading measure for Writing and Music, shared with the hero.
- *
- * The hero sits in a centred 48rem box inside the page container, so on a wide
- * screen its text starts well inside the gutter, and these two lists start on
- * that same line. The outer box is what does the aligning; the inner width is
- * what keeps the line length honest.
- *
- * Projects and the note under it stay at the gutter, where the grid is.
- */
-const MEASURE = 'mx-auto w-full max-w-3xl [&>*]:max-w-[40rem]'
 
 function MoreLink({ more }: { more: { label: string; href: string } }) {
   const external = /^https?:\/\//.test(more.href)

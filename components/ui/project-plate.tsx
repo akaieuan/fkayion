@@ -57,8 +57,12 @@ export function ProjectPlate({
   const external = /^https?:\/\//.test(item.href)
   const full = fillsPlate(item)
 
+  // `relative` on the frame the image is actually inside, not just on its
+  // grandparent: a screenshot renders through next/image with `fill`, which
+  // positions against the nearest positioned ancestor and warns about anything
+  // else directly above it.
   const mark = (
-    <span className="block h-full w-full [&>*]:h-full [&>*]:w-full [&_img]:h-full [&_img]:w-full [&_img]:object-cover [&_svg]:h-full [&_svg]:w-full">
+    <span className="relative block h-full w-full [&>*]:h-full [&>*]:w-full [&_img]:h-full [&_img]:w-full [&_img]:object-cover [&_svg]:h-full [&_svg]:w-full">
       <ProjectMark
         item={item}
         size={160}
@@ -86,7 +90,7 @@ export function ProjectPlate({
          * with `fill`, which positions against its nearest positioned ancestor.
          */}
         {full ? (
-          <span className="relative block h-full w-full">{mark}</span>
+          mark
         ) : (
           <span
             className={`relative block aspect-square h-[62%] overflow-hidden rounded-[16%] ${

@@ -43,25 +43,42 @@ export function HoverBlurb({
   children: ReactNode
 }) {
   const [row, setRow] = useState<number | null>(null)
-  const { enabled, ref, onPointerMove } = useCursorPanel(HOVER_PANEL_QUERY)
+  const { enabled, ref, onPointerMove, onPointerLeave, pointAt } = useCursorPanel(HOVER_PANEL_QUERY)
+
+  /** The nearest row above whatever the event landed on, if any. */
+  const rowOf = (target: EventTarget | null) =>
+    target instanceof Element ? target.closest('[data-blurb]') : null
 
   const pick = useCallback((e: { target: EventTarget | null }) => {
-    const el = e.target instanceof Element ? e.target.closest('[data-blurb]') : null
+    const el = rowOf(e.target)
     const i = el ? Number(el.getAttribute('data-blurb')) : NaN
     // Setting the same row is a no-op in React, so pointerover firing on every
     // descendant of a link costs nothing.
     setRow(Number.isInteger(i) ? i : null)
   }, [])
 
-  const clear = useCallback(() => setRow(null), [])
+  /** Focus carries no coordinates, so the panel is placed against the row. */
+  const focus = useCallback(
+    (e: { target: EventTarget | null }) => {
+      const el = rowOf(e.target)
+      if (el) pointAt(el)
+      pick(e)
+    },
+    [pick, pointAt]
+  )
+
+  const leave = useCallback(() => {
+    setRow(null)
+    onPointerLeave()
+  }, [onPointerLeave])
 
   return (
     <div
       onPointerMove={onPointerMove}
       onPointerOver={pick}
-      onPointerLeave={clear}
-      onFocusCapture={pick}
-      onBlurCapture={clear}
+      onPointerLeave={leave}
+      onFocusCapture={focus}
+      onBlurCapture={leave}
     >
       {children}
 
@@ -69,7 +86,7 @@ export function HoverBlurb({
         <div
           ref={ref}
           aria-hidden
-          className={`pointer-events-none fixed left-0 top-0 z-50 transition-opacity duration-200 ease-out ${panelClassName} ${
+          className={`pointer-events-none fixed left-0 top-0 z-50 will-change-transform transition-opacity duration-200 ease-out ${panelClassName} ${
             row === null ? 'opacity-0' : 'opacity-100'
           }`}
           style={panelStyle}

@@ -1,4 +1,4 @@
-import type { ProjectCardItem } from '@/components/ui/project-card'
+import type { ProjectCardItem } from '@/components/ui/project-mark'
 
 // Card media - static imports for build-time blur placeholders.
 import inertialDashboard from '@/public/inertial-dashboard.png'

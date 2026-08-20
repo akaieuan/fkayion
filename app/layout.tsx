@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { SiteHeader } from '@/components/ui/site-header'
 import { ConditionalFooter } from '@/components/ui/conditional-footer'
+import { SiteFooter } from '@/components/ui/site-footer'
 import { ThemeProvider } from '@/components/ui/theme-provider'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -32,7 +33,9 @@ export default function RootLayout({
         >
           <SiteHeader />
           {children}
-          <ConditionalFooter />
+          <ConditionalFooter>
+            <SiteFooter />
+          </ConditionalFooter>
         </ThemeProvider>
       </body>
     </html>

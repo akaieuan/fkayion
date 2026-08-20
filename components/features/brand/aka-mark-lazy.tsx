@@ -18,14 +18,21 @@ import dynamic from 'next/dynamic'
  * This wrapper exists because `dynamic(..., { ssr: false })` is a client-only
  * API and the section that renders it is a server component.
  */
-const Mark = dynamic(
-  () => import('./aka-mark').then((m) => ({ default: m.AkaMark })),
-  {
-    ssr: false,
-    loading: () => <span className="block aspect-square w-[200px] max-w-full" aria-hidden />,
-  }
-)
+const Mark = dynamic(() => import('./aka-mark').then((m) => ({ default: m.AkaMark })), {
+  ssr: false,
+})
 
 export function AkaMarkLazy(props: { size: number; grid?: number; fluid?: boolean }) {
-  return <Mark {...props} />
+  return (
+    // The square is reserved here rather than in dynamic()'s `loading`, so the
+    // placeholder is always the size the caller asked for and the hero cannot
+    // reflow when the engine arrives.
+    <span
+      className="block aspect-square max-w-full"
+      style={{ width: props.size }}
+      aria-hidden={undefined}
+    >
+      <Mark {...props} />
+    </span>
+  )
 }
