@@ -77,13 +77,13 @@ const releases: CoverRow[] = [
     title: 'Healthiest TRX',
     meta: 'Playlist · aka ieuan',
     href: 'https://soundcloud.com/akaieuan/sets/aka-ieuan-healthiest-trx',
-    // No cover yet. A row without one simply shows nothing, which is why
-    // `cover` is optional: a stand-in would be a picture of the wrong record.
+    cover: '/music-healthiest-trx.webp',
   },
   {
     title: 'Releases, all',
     meta: 'Playlist · the whole catalogue',
     href: 'https://soundcloud.com/akaieuan/sets/aka-ieuan-releases-all',
+    cover: '/music-releases-all.webp',
   },
   {
     title: 'VM4UH · Vitamixes 4 Ur Health',
