@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { DemoImage } from '@/components/ui/demo-image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 
@@ -30,7 +30,7 @@ export default function HitlKitProjectPage() {
         </header>
 
         <div className="-mx-6 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
-          <Image
+          <DemoImage
             src="/hitl-kit-hero.png"
             alt="HITL Kit — landing preview with headline and navigation"
             width={1024}

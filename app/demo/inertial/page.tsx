@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { DemoImage } from '@/components/ui/demo-image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 
@@ -52,7 +52,7 @@ export default function InertialProjectPage() {
 
         <div className="-mx-6 space-y-3 sm:mx-0">
           <div className="overflow-hidden rounded-xl border border-border/80 bg-muted/10">
-            <Image
+            <DemoImage
               src="/inertial-dashboard.webp"
               alt="Inertial dashboard: flag-activity heatmap, day-by-day stats grid, queue mix"
               width={1600}
@@ -62,7 +62,7 @@ export default function InertialProjectPage() {
             />
           </div>
           <div className="overflow-hidden rounded-xl border border-border/80 bg-muted/10">
-            <Image
+            <DemoImage
               src="/inertial-queue-review.webp"
               alt="A queue review session — Approve / Remove / Escalate commits the decision and every applied tag into the hash-chained audit log"
               width={1600}
@@ -463,7 +463,7 @@ export default function InertialProjectPage() {
               {gallery.map((shot) => (
                 <figure key={shot.src}>
                   <div className="overflow-hidden rounded-lg border border-border/80 bg-muted/10">
-                    <Image
+                    <DemoImage
                       src={shot.src}
                       alt={shot.label}
                       width={1600}

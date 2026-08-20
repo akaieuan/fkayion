@@ -1,4 +1,4 @@
-import { ProjectPlate } from '@/components/ui/project-plate'
+import { ProjectGrid } from '@/components/ui/project-grid'
 import type { ProjectCardItem } from '@/components/ui/project-card'
 
 // Static imports → Next reads dimensions at build time and inlines a blur
@@ -71,13 +71,5 @@ const FEATURED: ProjectCardItem[] = [
 ]
 
 export function FeaturedGrid() {
-  return (
-    <ul className="grid list-none grid-cols-2 gap-x-5 gap-y-9 p-0 sm:gap-x-6 lg:grid-cols-3">
-      {FEATURED.map((item) => (
-        <li key={item.href}>
-          <ProjectPlate item={item} />
-        </li>
-      ))}
-    </ul>
-  )
+  return <ProjectGrid items={FEATURED} />
 }

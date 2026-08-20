@@ -8,8 +8,8 @@ import { CoverList, type CoverRow } from '@/components/features/links/cover-list
 import { WRITING, writingHref, type WritingEntry } from '@/lib/writing'
 
 /**
- * The middle of the landing: who I am, then the work, then the writing and the
- * music.
+ * The middle of the landing: the work, a line about who made it, then the
+ * writing and the music.
  *
  * These used to be four tabs. Stacking them is fewer decisions for a reader and
  * one less thing to operate: the whole page is now something you scroll rather
@@ -50,6 +50,18 @@ const releases: CoverRow[] = [
  * someone talking, which is the register the rest of the page is in.
  */
 const heading = 'text-[15px] font-normal tracking-tight text-foreground'
+
+/*
+ * The reading measure for Writing and Music, shared with the hero.
+ *
+ * The hero sits in a centred 48rem box inside the page container, so on a wide
+ * screen its text starts well inside the gutter, and these two lists start on
+ * that same line. The outer box is what does the aligning; the inner width is
+ * what keeps the line length honest.
+ *
+ * Projects and the note under it stay at the gutter, where the grid is.
+ */
+const MEASURE = 'mx-auto w-full max-w-3xl [&>*]:max-w-[40rem]'
 
 /** A list entry: the name, and one line saying what it is. */
 function RowItem({ row }: { row: WritingEntry }) {
@@ -150,8 +162,18 @@ export function LinksSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="section-1" className="relative w-full py-20">
+    <section ref={sectionRef} id="section-1" className="relative w-full pb-24 pt-4">
       <div className="w-full max-w-site mx-auto site-inset">
+        <div className="mb-14">
+          <SectionHead title="Projects" more={{ label: 'all projects', href: '/demo' }} />
+          <FeaturedGrid />
+        </div>
+
+        {/*
+         * Who I am reads as a caption to the work rather than as an
+         * introduction to it, so it comes after the grid and keeps the grid's
+         * own alignment at the page gutter.
+         */}
         <div
           className="mb-16 max-w-[40rem]"
           style={{
@@ -168,14 +190,9 @@ export function LinksSection() {
           </p>
         </div>
 
-        <div className="mb-16">
-          <SectionHead title="Projects" more={{ label: 'all projects', href: '/demo' }} />
-          <FeaturedGrid />
-        </div>
-
         {/* Prose sits in its own measure, so a heading and its link stay
             together instead of being flung to the container's far edge. */}
-        <div id="writing" className="mb-16 max-w-[40rem] scroll-mt-24">
+        <div id="writing" className={`${MEASURE} mb-16 scroll-mt-24`}>
           <SectionHead title="Writing" more={{ label: 'aka.write', href: 'https://kraa.io/akaieuan' }} />
           <ul className="list-none p-0">
             {WRITING.map((row) => (
@@ -184,7 +201,7 @@ export function LinksSection() {
           </ul>
         </div>
 
-        <div id="music" className="max-w-[40rem] scroll-mt-24">
+        <div id="music" className={`${MEASURE} scroll-mt-24`}>
           <SectionHead title="Music" more={{ label: 'soundcloud', href: 'https://soundcloud.com/akaieuan' }} />
           <CoverList items={releases} />
         </div>

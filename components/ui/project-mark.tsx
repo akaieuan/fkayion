@@ -55,6 +55,19 @@ export function marksBleed(item: ProjectItem) {
   return Boolean(item.logoImg || (item.img && !item.logo && !item.mark && !item.wordmark))
 }
 
+/**
+ * True when the project has no mark at all, only a screenshot.
+ *
+ * On a plate these behave differently from a logo. A logo is an object that
+ * wants air around it, which is why they all sit in the same inset square. A
+ * screenshot is a picture of the work, and cropping one into a small square in
+ * the middle of a large plate reads as a thumbnail of a thumbnail. It takes the
+ * whole plate instead.
+ */
+export function fillsPlate(item: ProjectItem) {
+  return Boolean(item.img && !item.logo && !item.logoImg && !item.mark && !item.wordmark)
+}
+
 /** Two letters, for a mark that cannot survive being shrunk. */
 function monogram(title: string) {
   const word = title.replace(/^aka/i, '').trim() || title
@@ -65,13 +78,20 @@ export function ProjectMark({
   item,
   size,
   sizes = '96px',
+  priority,
 }: {
   item: ProjectItem
   /** Rendered size of the mark itself, in px. */
   size: number
   /** next/image `sizes`, for the bitmap branches. */
   sizes?: string
+  /**
+   * Preload this one. A grid's first plate is above the fold on both pages that
+   * show it, and a lazy bitmap there is the largest contentful paint.
+   */
+  priority?: boolean
 }) {
+  const eager = priority ?? item.priority
   // A wordmark much wider than it is tall is a grey smear once shrunk, so it
   // falls back to a monogram, which is what a favicon would do.
   const tooWide = Boolean(item.wordmark) || (item.logo ? logoAspect(item.logo) > 2.2 : false)
@@ -84,6 +104,7 @@ export function ProjectMark({
         width={size * 3}
         height={size * 3}
         sizes={sizes}
+        priority={eager}
         // These are logos, and one of them is generative grain: the default 75
         // smears it. Cheap here, since the sources are small and flat.
         quality={90}
@@ -114,8 +135,11 @@ export function ProjectMark({
         alt=""
         fill
         placeholder="blur"
-        priority={item.priority}
+        priority={eager}
         sizes={sizes}
+        // A screenshot on a plate is shown at a third of a metre of screen, not
+        // as a 26px stamp. The default 75 is visible at that size.
+        quality={90}
         className="object-cover object-top"
       />
     )

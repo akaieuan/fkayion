@@ -2,9 +2,18 @@
 
 import dynamic from 'next/dynamic'
 
+/*
+ * Both sections are code-split but server-rendered.
+ *
+ * The hero used to be `ssr: false`, which meant the first thing a reader or a
+ * crawler received for this page was an empty full-height box, and the title
+ * only appeared once the bundle had arrived. Nothing in it needs a browser to
+ * render: the mark is a canvas that paints itself in an effect, so the server
+ * emits the same empty canvas the client would and the animation starts on
+ * mount exactly as before.
+ */
 const HomeSection = dynamic(() => import('./sections/home-section').then(m => ({ default: m.HomeSection })), {
-  ssr: false,
-  loading: () => <section id="section-0" className="min-h-screen w-full bg-background" />,
+  loading: () => <section id="section-0" className="min-h-[26rem] w-full bg-background" />,
 })
 
 const LinksSection = dynamic(() => import('./sections/links-section').then(m => ({ default: m.LinksSection })), {

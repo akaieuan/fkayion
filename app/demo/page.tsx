@@ -1,4 +1,4 @@
-import { ProjectCard } from '@/components/ui/project-card'
+import { ProjectGrid } from '@/components/ui/project-grid'
 import { PROJECTS } from '@/lib/projects'
 
 export const metadata = {
@@ -6,26 +6,28 @@ export const metadata = {
   description: 'Interactive product demos and component showcases.',
 }
 
+/**
+ * Every project, as plates.
+ *
+ * The landing shows six of these and this page shows all of them, so they are
+ * the same plate at the same size in the same three columns: scrolling from one
+ * to the other should feel like the list got longer, not like the site changed.
+ * The only thing this page adds is the sentence an index needs.
+ *
+ * Fully server-rendered. Nothing here is interactive, and the hover is CSS.
+ */
 export default function DemoIndexPage() {
   return (
-    <div className="min-h-screen bg-background pt-24 pb-9 sm:pt-28 sm:pb-11">
+    <div className="min-h-screen bg-background pb-16 pt-24 sm:pt-28">
       <div className="max-w-site mx-auto site-inset">
-        <header className="mb-6">
-          <h1 className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">Projects</h1>
-          <p className="mt-1 text-[13px] font-light leading-snug text-muted-foreground/70">
+        <header className="mb-10">
+          <h1 className="text-[15px] font-normal tracking-tight text-foreground">Projects</h1>
+          <p className="mt-1 text-[13px] font-light leading-snug text-muted-foreground">
             Prototypes, tools, side-quests, and write-ups.
           </p>
         </header>
 
-        <ul className="mt-5 grid auto-rows-fr grid-cols-1 gap-4 list-none p-0 sm:grid-cols-2 lg:grid-cols-3">
-          {PROJECTS.map((project) => (
-            <li key={project.href} className="h-full">
-              <ProjectCard
-                item={{ ...project, tags: project.tags ?? [] }}
-              />
-            </li>
-          ))}
-        </ul>
+        <ProjectGrid items={PROJECTS} detail />
 
       </div>
     </div>

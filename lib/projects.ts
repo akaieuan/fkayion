@@ -18,6 +18,15 @@ import boxPopuliLogo from '@/components/ui/logos/box-populi.webp'
  */
 export const PROJECTS: ProjectCardItem[] = [
   {
+    title: 'Ubik Studio',
+    tags: ['Product', 'Desktop', 'Agents', '2023–2026'],
+    description:
+      'Three and a half years co-founding a desktop-native AI research platform. Agents gather, read, and draft; humans keep the final say, with evidence behind every claim.',
+    href: '/demo/ubik',
+    logoImg: ubikLogo,
+    accent: '#d9a441',
+  },
+  {
     title: 'Circleheads',
     tags: ['Studio', 'Applied AI', 'Agents', 'Brooklyn'],
     description:
@@ -43,15 +52,6 @@ export const PROJECTS: ProjectCardItem[] = [
     href: '/demo/bodylog',
     logo: 'bodylog',
     accent: '#5d98f4',
-  },
-  {
-    title: 'Ubik Studio',
-    tags: ['Product', 'Desktop', 'Agents', '2023–2026'],
-    description:
-      'Three and a half years co-founding a desktop-native AI research platform. Agents gather, read, and draft; humans keep the final say, with evidence behind every claim.',
-    href: '/demo/ubik',
-    logoImg: ubikLogo,
-    accent: '#d9a441',
   },
   {
     title: 'Box Populi',
