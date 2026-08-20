@@ -85,6 +85,13 @@ export default function BodyLogPage() {
             circleheads.com
             <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
           </a>
+          <Link
+            href="/demo/bodylog/v1"
+            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/40"
+          >
+            The v1 prototype
+            <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
+          </Link>
         </div>
         <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
           $3/month or $25/year at launch. Native SwiftUI + SwiftData, iOS 17+, zero external
@@ -326,17 +333,15 @@ export default function BodyLogPage() {
               whether streaks should exist at all, what a broken streak is allowed to say to you.
             </p>
             <p>
-              That exploration is still the best way to read the user story in one go, so it is kept
-              whole and playable rather than described. Every screen, in the order a person meets
-              them.
+              That exploration is still the best way to read the user story in one go, so it is{' '}
+              <Link
+                href="/demo/bodylog/v1"
+                className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50"
+              >
+                kept whole and playable
+              </Link>{' '}
+              rather than described. Every screen, in the order a person meets them.
             </p>
-            <Link
-              href="/demo/bodylog/v1"
-              className="inline-flex w-fit items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/40"
-            >
-              Open the v1 prototype
-              <ArrowUpRight className="h-4 w-4 opacity-60" aria-hidden />
-            </Link>
             <p>
               What survived became a written system — tokens, the rules above, the frozen mark — and
               then the real app. The production build is native SwiftUI with SwiftData underneath,
