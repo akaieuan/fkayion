@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { FeaturedGrid } from '@/components/features/links/featured-grid'
@@ -66,40 +67,44 @@ const writing: Row[] = [
   },
 ]
 
-const music: Row[] = [
+type Release = {
+  title: string
+  meta: string
+  href: string
+  /** Cover art, revealed beside the row on hover. Optional until one exists. */
+  cover?: string
+}
+
+/**
+ * Playlists rather than an embedded player. A cover that appears when you point
+ * at the name says what a record looks like without the page loading a widget,
+ * autoplaying at anyone, or asking to be operated.
+ */
+const releases: Release[] = [
   {
-    title: 'SoundCloud',
-    type: 'Audio · Streaming',
-    description: 'tracks · sets · mixes',
-    href: 'https://soundcloud.com/akaieuan',
+    title: 'Healthiest TRX',
+    meta: 'Playlist · aka ieuan',
+    href: 'https://soundcloud.com/akaieuan/sets/aka-ieuan-healthiest-trx',
   },
   {
-    title: 'Bandcamp',
-    type: 'Music · Store',
-    description: 'music · merch',
-    href: 'https://akaieuan.bandcamp.com/',
+    title: 'Releases, all',
+    meta: 'Playlist · the whole catalogue',
+    href: 'https://soundcloud.com/akaieuan/sets/aka-ieuan-releases-all',
   },
   {
-    title: 'Spotify',
-    type: 'Audio · Streaming',
-    description: 'aka ieuan',
-    href: 'https://open.spotify.com/artist/5OwuCYMg2wmmh3QofLLIPe',
-  },
-  {
-    title: 'YouTube',
-    type: 'Video · Streaming',
-    description: 'videos · DJ sets',
-    href: 'https://www.youtube.com/channel/UC6etRnx7fZEtoVAI-phCu6Q',
-  },
-  {
-    title: '4UH',
-    type: 'Live · NYC',
-    description: 'the party, the lineups, the recordings',
-    href: 'https://4uhnyc.com',
+    title: 'VM4UH · Vitamixes 4 Ur Health',
+    meta: 'Playlist · mixes',
+    href: 'https://soundcloud.com/akaieuan/sets/vm4uh-vitamixes-4-ur-health',
+    cover: '/music-vm4uh.webp',
   },
 ]
 
-const heading = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
+/*
+ * Set in plain sentence case at reading size rather than as tiny letterspaced
+ * capitals. The caps read as a system label; the word on its own reads as
+ * someone talking, which is the register the rest of the page is in.
+ */
+const heading = 'text-[15px] font-normal tracking-tight text-foreground'
 
 /** A list entry: the name, and one line saying what it is. */
 function RowItem({ row }: { row: Row }) {
@@ -135,6 +140,48 @@ function RowItem({ row }: { row: Row }) {
         <Link href={row.href} className="group block max-w-xl py-2.5">
           {body}
         </Link>
+      )}
+    </li>
+  )
+}
+
+/**
+ * The cover is hidden below `lg`, where there is no pointer to reveal it with
+ * and no room to put it. `hoverOnlyWhenSupported` in tailwind.config.cjs keeps
+ * it from latching open after a tap.
+ */
+function ReleaseItem({ release }: { release: Release }) {
+  return (
+    <li className="group relative">
+      <a
+        href={release.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block max-w-xl py-2.5"
+      >
+        <span className="text-[14px] font-light tracking-tight text-foreground/85 underline decoration-transparent underline-offset-[5px] transition-colors duration-200 group-hover:text-foreground group-hover:decoration-foreground/30">
+          {release.title}
+        </span>
+        <span className="mt-0.5 block text-[12.5px] font-light leading-relaxed text-muted-foreground/55 transition-colors duration-200 group-hover:text-muted-foreground/80">
+          {release.meta}
+        </span>
+      </a>
+
+      {release.cover && (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute left-[22rem] top-1/2 z-20 hidden h-[11rem] w-[11rem] -translate-y-1/2 scale-95 overflow-hidden rounded-lg opacity-0 transition-[opacity,transform] duration-300 ease-out group-hover:scale-100 group-hover:opacity-100 lg:block"
+        >
+          <Image
+            src={release.cover}
+            alt=""
+            width={1000}
+            height={1000}
+            sizes="176px"
+            quality={72}
+            className="block h-full w-full object-cover"
+          />
+        </span>
       )}
     </li>
   )
@@ -228,10 +275,10 @@ export function LinksSection() {
         </div>
 
         <div>
-          <SectionHead title="Music" />
+          <SectionHead title="Music" more={{ label: 'soundcloud', href: 'https://soundcloud.com/akaieuan' }} />
           <ul className="list-none p-0">
-            {music.map((row) => (
-              <RowItem key={row.href} row={row} />
+            {releases.map((release) => (
+              <ReleaseItem key={release.href} release={release} />
             ))}
           </ul>
         </div>

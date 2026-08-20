@@ -43,6 +43,10 @@ const columns: { heading: string; links: FooterLink[] }[] = [
       { label: 'GitHub', href: 'https://github.com/akaieuan', external: true },
       { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ieuan-king/', external: true },
       { label: 'Reddit', href: 'https://www.reddit.com/user/akaieuan/', external: true },
+      // The landing's music section lists playlists, so the platforms live here.
+      { label: 'Bandcamp', href: 'https://akaieuan.bandcamp.com/', external: true },
+      { label: 'Spotify', href: 'https://open.spotify.com/artist/5OwuCYMg2wmmh3QofLLIPe', external: true },
+      { label: 'YouTube', href: 'https://www.youtube.com/channel/UC6etRnx7fZEtoVAI-phCu6Q', external: true },
       { label: 'How I work', href: '/demo/hitl-practice' },
     ],
   },
