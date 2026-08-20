@@ -3,7 +3,6 @@
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
-import { Sun, Moon } from 'lucide-react'
 import { PixelHead } from '@/components/features/brand/pixel-head'
 import { isFullscreenDemo } from '@/lib/fullscreen-demos'
 
@@ -21,23 +20,65 @@ const mainNavItems: MainNavItem[] = [
 
 const SCROLL_THRESHOLD = 24
 
+/**
+ * The theme control: a disc drawn as a character grid, like every other mark on
+ * the site, rather than a stock sun and moon.
+ *
+ * It is filled in the page's own ink, so it is black on light and white on dark
+ * without being told which. The word for what a click does is in the tooltip,
+ * where it can be read, instead of encoded in a glyph you have to interpret.
+ */
+const DISC = [
+  '..####..',
+  '.######.',
+  '########',
+  '########',
+  '########',
+  '########',
+  '.######.',
+  '..####..',
+]
+
+function PixelDisc({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 8 8" fill="currentColor" aria-hidden focusable="false">
+      {DISC.flatMap((row, y) =>
+        [...row].map((cell, x) =>
+          cell === '#' ? <rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" /> : null
+        )
+      )}
+    </svg>
+  )
+}
+
 function ThemeToggle() {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => setMounted(true), [])
 
-  if (!mounted) return <div className="w-4 h-4" />
+  // Reserve the space before the theme is known, so the row does not jump.
+  if (!mounted) return <div className="h-4 w-4" />
 
   const isDark = theme === 'dark'
+  const next = isDark ? 'Light mode' : 'Dark mode'
 
   return (
     <button
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      aria-label="Toggle theme"
-      className="text-foreground/50 hover:text-foreground/80 transition-colors duration-200 focus:outline-none"
+      aria-label={`Switch to ${next.toLowerCase()}`}
+      className="group relative inline-flex items-center justify-center rounded-full text-foreground/50 transition-colors duration-200 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--select)]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
-      {isDark ? <Sun size={16} /> : <Moon size={16} />}
+      <PixelDisc />
+      {/* Named rather than implied. `aria-hidden` because the button's own
+          label already says this, and hover-only variants keep it from
+          latching open after a tap. */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-full z-10 mt-2.5 -translate-x-1/2 whitespace-nowrap rounded-full bg-foreground px-2.5 py-1 text-[11px] font-medium tracking-wide text-background opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
+      >
+        {next}
+      </span>
     </button>
   )
 }
