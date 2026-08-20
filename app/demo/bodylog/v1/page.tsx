@@ -11,6 +11,13 @@ import { ArrowLeft } from 'lucide-react'
  * copy of a design that has already moved on, and the point of keeping it is
  * that it is the version we actually decided from.
  *
+ * The bundle used to weigh 1.37 MB, of which about 1 MB was twenty base64
+ * woff2 files: Inter and Geist Mono, every weight and every subset, inlined so
+ * the artefact would work as a file on a desktop. Served from this site it
+ * never needs that, so the faces now come from Google Fonts and the file is
+ * around 310 KB. Nothing about the prototype itself changed; the React runtime
+ * it carries stays, because the frame is its own document and needs one.
+ *
  * The route is listed in `lib/fullscreen-demos.ts`, so the site header and the
  * section rail stay out of the prototype's own chrome.
  */

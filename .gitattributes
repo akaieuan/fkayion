@@ -1,7 +1,7 @@
 # The BodyLog v1 prototype: a self-contained bundle we host at /demo/bodylog/v1.
-# It is a build artifact, not source, but at 1.3 MB against 1.1 MB of .tsx it
-# was the largest single file in the repo and GitHub's language bar was calling
-# this a mostly-HTML project because of it.
+# It is a build artifact, not source: 99.8% of it is <script>. The inlined web
+# fonts have been stripped out, but it is still the largest single file here and
+# without this GitHub's language bar calls the repo mostly-HTML.
 public/bodylog-v1.html linguist-vendored
 
 # Transcribed from the trickle registry rather than hand-written. See the note
