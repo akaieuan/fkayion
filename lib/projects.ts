@@ -16,6 +16,32 @@ import boxPopuliLogo from '@/components/ui/logos/box-populi.webp'
  * from the same list. Keeping the descriptions, tags and accents here means a
  * project is written once and cannot drift between the pages that show it.
  */
+/**
+ * Plate tints.
+ *
+ * A named set rather than a hex per project, so "no two the same" is something
+ * you can see in the file instead of something you have to compare by eye.
+ *
+ * No green. At ten percent over a light ground a green turns sage, and the six
+ * projects that had one read as six variations of the same murky tint rather
+ * than six different projects. The set runs warm to cool around the rest of the
+ * wheel and skips the whole green sector.
+ *
+ * Every plate takes one. An untinted plate is not neutral so much as darker:
+ * the tints are all lighter than the ground, so leaving one off drops that
+ * plate half a step below the rest of the row.
+ */
+const TINT = {
+  amber: '#d9a441',
+  terracotta: '#d3805a',
+  rose: '#d96a72',
+  magenta: '#c86fae',
+  orchid: '#a97ae0',
+  indigo: '#7b83ea',
+  blue: '#5d98f4',
+  steel: '#8fa8c6',
+} as const
+
 export const PROJECTS: ProjectCardItem[] = [
   {
     title: 'Ubik Studio',
@@ -24,7 +50,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'Three and a half years co-founding a desktop-native AI research platform. Agents gather, read, and draft; humans keep the final say, with evidence behind every claim.',
     href: '/demo/ubik',
     logoImg: ubikLogo,
-    accent: '#d9a441',
+    accent: TINT.amber,
   },
   {
     title: 'akaOSS',
@@ -33,7 +59,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'The open-source studio for human-in-the-loop AI. Five projects (HITL Kit, EVAL Kit, tag-kit, Collapse, Hologram), the Assist-Not-Complete thesis, and a reproducible research feed.',
     href: '/demo/akaoss',
     logo: 'akaoss-mark',
-    accent: '#69b57f',
+    accent: TINT.magenta,
   },
   {
     title: 'BodyLog',
@@ -42,7 +68,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'An iOS app for tracking any visible body or skin condition between doctor visits: acne, psoriasis, eczema, bruising, PT progress. Photos stay on device, and the app never diagnoses.',
     href: '/demo/bodylog',
     logo: 'bodylog',
-    accent: '#5d98f4',
+    accent: TINT.blue,
   },
   {
     title: 'Box Populi',
@@ -52,7 +78,7 @@ export const PROJECTS: ProjectCardItem[] = [
     href: '/demo/box-populi',
     logoImg: boxPopuliLogo,
     onDark: true,
-    accent: '#cf6fb0',
+    accent: TINT.steel,
   },
   {
     title: 'Trickle UI Kit',
@@ -64,7 +90,7 @@ export const PROJECTS: ProjectCardItem[] = [
     // own primitives instead of showing a picture of a mark.
     logo: 'trickle-live',
     fill: true,
-    accent: '#e06a76',
+    accent: TINT.terracotta,
   },
   {
     title: 'akaCOVART',
@@ -74,7 +100,7 @@ export const PROJECTS: ProjectCardItem[] = [
     href: '/demo/akacovart',
     logo: 'akacovart',
     bleed: true,
-    accent: '#4fc0a6',
+    accent: TINT.orchid,
   },
   {
     title: 'akaVST',
@@ -86,7 +112,7 @@ export const PROJECTS: ProjectCardItem[] = [
     // needs no ground of its own. The pixel variant it replaced was baked in
     // near-white and only ever worked on a dark one.
     logo: 'akavst-mark',
-    accent: '#9b7cf0',
+    accent: TINT.rose,
   },
   {
     title: 'HITL Kit',
@@ -95,7 +121,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'Design system, nineteen HITL primitives, six @hitl-kit/* npm packages, shadcn registry, and personal research paper.',
     href: '/demo/hitl-kit',
     logo: 'hitl-kit',
-    accent: '#7b83ea',
+    accent: TINT.indigo,
   },
   {
     title: 'EVAL Kit',
@@ -104,7 +130,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'Agent eval framework where humans score, not LLMs. LLM-as-judge is only an opt-in pre-fill, flagged on every score. YAML suites, local dashboard, CLI, and five dimensions LLM judges miss.',
     href: '/demo/eval-kit',
     logo: 'eval-kit',
-    accent: '#e08a5d',
+    accent: TINT.amber,
   },
   {
     title: 'Null Browser',
@@ -113,7 +139,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'Privacy-first Tauri browser: zero telemetry, local-first AI, six invariants, every connection visible. Pre-v0.1.',
     href: '/demo/null-browser',
     logo: 'zero',
-    accent: '#b478d8',
+    accent: TINT.orchid,
   },
   {
     title: 'How I Work',
@@ -122,7 +148,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'The method behind the site: watch the work first, prototype in code, measure what matters. Plus how the Kit, Research OS, and the public test log connect.',
     href: '/demo/hitl-practice',
     mark: 'gear',
-    accent: '#a8a196',
+    accent: TINT.steel,
   },
   {
     title: 'User feedback + design log',
@@ -130,7 +156,7 @@ export const PROJECTS: ProjectCardItem[] = [
     description: 'HITL-AI team test log on Kraa.',
     href: 'https://kraa.io/team-test-log042',
     mark: 'bubble',
-    accent: '#c2b64f',
+    accent: TINT.terracotta,
   },
   {
     title: 'Circleheads',
@@ -139,7 +165,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'The two-person Brooklyn applied-AI studio I co-run. Agents in production, a short senior consulting bench, and original games. Taking a few projects a year.',
     href: '/demo/circleheads',
     logo: 'circleheads',
-    accent: '#c2c2bc',
+    accent: TINT.magenta,
   },
   {
     title: 'Hologram',
@@ -148,7 +174,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'Live observability and a read-only MCP surface for Blender to glTF pipelines. Watch your AI agent work on your game assets in real time.',
     href: '/demo/hologram',
     logo: 'hologram',
-    accent: '#3fc9c0',
+    accent: TINT.blue,
   },
   {
     title: 'Collapse',
@@ -157,7 +183,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'Skills and MCP tools from your lessons. Three pluggable ingestors (MDX, Jupyter/MyST, and a one-file pattern for anything else) feed a typed pipeline with local atomic writes to ~/.claude/skills/. v0.2.',
     href: '/demo/collapse',
     logo: 'collapse',
-    accent: '#a3c25a',
+    accent: TINT.rose,
   },
   {
     title: 'Inertial - Content Moderation Tool',
@@ -166,7 +192,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'Reference architecture for auditable AI content review: typed signals, YAML policy, hash-chained audit log, reviewer dashboard, eval harness.',
     href: '/demo/inertial',
     img: inertialDashboard,
-    accent: '#8fb0d6',
+    accent: TINT.steel,
   },
   {
     title: 'Research OS',
@@ -175,7 +201,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'Multi-panel workspace with agentic search, chat, and human-in-the-loop approval flows.',
     href: '/demo/research-os',
     logo: 'research-os',
-    accent: '#5aa8d8',
+    accent: TINT.indigo,
   },
   {
     title: 'Music Analysis Chat',
@@ -184,7 +210,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'Music analytics assistant with roster dashboards, creator discovery, and rich chat blocks.',
     href: '/demo/music-analysis-chat',
     logo: 'music-chat',
-    accent: '#d97fae',
+    accent: TINT.magenta,
   },
   {
     title: 'Visualizer Eden',
@@ -193,7 +219,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'Browser-based 3D audio visualizer with reactive mesh deformation, custom GLSL shaders, and material presets.',
     href: '/demo/visualizer-eden',
     img: visualizerPoster,
-    accent: '#8ad0b8',
+    accent: TINT.orchid,
   },
   {
     title: 'Procedural Asset Pipeline Engineering',
@@ -202,7 +228,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'Private WIP: procedural Blender→glTF→Godot pipeline, programmatic animation, browser previews.',
     href: '/demo/brooklyn-dead',
     img: brooklynDead,
-    accent: '#c98f6b',
+    accent: TINT.terracotta,
   },
   {
     title: 'Wordle remake: Wrdef (Wordle + definition)',
@@ -211,7 +237,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'A five-letter guessing game powered by definitions, bonus rounds, and a locally saved dictionary.',
     href: '/demo/wrdef',
     wordmark: 'Wrdef',
-    accent: '#7cc072',
+    accent: TINT.amber,
   },
 
 ]

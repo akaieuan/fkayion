@@ -574,33 +574,47 @@ body {
 }
 
 /*
- * The trickle plate's turn-taking loop. Four lines share one eight-second
- * cycle, each offset by two, so one is at full ink while the others sit back.
- * Not part of the kit: the kit animates text, this decides which line is
- * currently the subject.
+ * The trickle plate's cycle.
+ *
+ * Eight words share one grid cell and one loop, each offset by a slot, so
+ * exactly one is up at a time and the sequence drives itself. The window is a
+ * little narrower than a full slot, which leaves a beat of nothing between
+ * words — a catalogue turning a page rather than a crossfade.
+ *
+ * Not part of the kit: the kit animates the text, this decides whose turn it is.
  */
-@keyframes aka-trickle-turn {
+@keyframes aka-trickle-slot {
   0%,
   100% {
-    opacity: 0.45;
+    opacity: 0;
+    transform: translateY(0.16em);
   }
-  6%,
-  19% {
+  2%,
+  10.5% {
     opacity: 1;
+    transform: none;
   }
-  32% {
-    opacity: 0.45;
+  12.5% {
+    opacity: 0;
+    transform: translateY(-0.16em);
   }
 }
 
-.aka-trickle-line {
-  opacity: 0.45;
-  animation: aka-trickle-turn 8s linear infinite;
+.aka-trickle-slot {
+  opacity: 0;
+  animation-name: aka-trickle-slot;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .aka-trickle-line {
+  /* Stacked in one cell, so they cannot all simply be shown. The first one
+     stands for the set. */
+  .aka-trickle-slot {
     animation: none;
-    opacity: 0.85;
+    opacity: 0;
+  }
+  .aka-trickle-slot:first-child {
+    opacity: 1;
   }
 }
