@@ -13,9 +13,9 @@ import covartLogo from '@/components/ui/logos/akacovart.png'
 /**
  * Every project the site shows, in one place.
  *
- * The /demo index renders all of them; /portfolio renders a curated subset
- * through the same card. Keeping the descriptions, tags and accents here means
- * a project is written once and cannot drift between the two pages.
+ * The /demo index renders all of them; the landing grid picks its flagships
+ * from the same list. Keeping the descriptions, tags and accents here means a
+ * project is written once and cannot drift between the pages that show it.
  */
 export const PROJECTS: ProjectCardItem[] = [
   {

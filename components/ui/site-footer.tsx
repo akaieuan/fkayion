@@ -69,11 +69,6 @@ export function SiteFooter() {
   return (
     <footer className="w-full bg-background pt-14 pb-8">
       <div className="mx-auto max-w-site site-inset">
-        <div
-          className="mb-10 h-px w-full shrink-0 bg-[linear-gradient(90deg,transparent_0%,var(--border)_14%,var(--border)_86%,transparent_100%)]"
-          aria-hidden
-        />
-
         <div className="flex flex-col gap-10 lg:flex-row lg:justify-between lg:gap-16">
           {/* Brand block */}
           <div className="max-w-xs">
@@ -126,7 +121,7 @@ export function SiteFooter() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 flex flex-col gap-3 border-t border-border/50 pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-14 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[11.5px] font-light tracking-wide text-muted-foreground/45">
             © 2026 akaBuild{' '}
             <span className="ml-1.5 italic text-muted-foreground/35">

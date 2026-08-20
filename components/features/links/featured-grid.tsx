@@ -4,16 +4,17 @@ import { ProjectCard, type ProjectCardItem } from '@/components/ui/project-card'
 // placeholder, so cards paint instantly instead of holding blank.
 import covartLogo from '@/components/ui/logos/akacovart.png'
 import boxPopuliLogo from '@/components/ui/logos/box-populi.webp'
+import ubikLogo from '@/components/ui/logos/ubik.png'
 
 /** The six current flagships — a static grid, no carousel mechanics. */
 const FEATURED: ProjectCardItem[] = [
   {
-    title: 'Circleheads',
-    href: '/demo/circleheads',
-    logo: 'circleheads',
-    accent: '#c2c2bc',
-    description: 'Applied-AI software studio. Agents in production, a short consulting bench, and games.',
-    tags: ['Studio', 'Applied AI', 'Agents', 'Brooklyn'],
+    title: 'Ubik Studio',
+    href: '/demo/ubik',
+    logoImg: ubikLogo,
+    accent: '#d9a441',
+    description: 'Three and a half years co-founding a desktop-native AI research platform.',
+    tags: ['Product', 'Desktop', 'Agents', '2023–2026'],
   },
   {
     title: 'akaOSS',

@@ -27,7 +27,7 @@ export function HomeSection() {
               <AkaMark size={400} grid={24} fluid />
             </div>
 
-            <div className="flex max-w-md flex-col gap-6 md:order-1">
+            <div className="flex max-w-md flex-col gap-7 md:order-1">
               <h1
                 className={`text-xl font-light tracking-tight text-foreground/90 md:text-2xl ${reveal}`}
                 style={staggerDelay(1)}
@@ -36,29 +36,13 @@ export function HomeSection() {
               </h1>
 
               <p
-                className={`text-sm font-light leading-relaxed text-muted-foreground ${reveal}`}
-                style={staggerDelay(2)}
-              >
-                A product designer and technical anthropologist working on the human side of
-                applied AI — discovery, approval flows, and the interfaces that make agents
-                legible and worth trusting.
-              </p>
-
-              <p
-                className={`text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground/45 ${reveal}`}
-                style={staggerDelay(3)}
-              >
-                Product design · Technical anthropology · Brooklyn
-              </p>
-
-              <p
                 className={`text-[11px] font-light tracking-wide text-foreground/30 ${reveal}`}
-                style={staggerDelay(4)}
+                style={staggerDelay(2)}
               >
                 {'// I also produce and perform electronic music'}
               </p>
 
-              <div className={`flex flex-wrap items-center gap-5 ${reveal}`} style={staggerDelay(5)}>
+              <div className={`flex flex-wrap items-center gap-5 ${reveal}`} style={staggerDelay(3)}>
                 <Link
                   href="/demo"
                   className="inline-flex items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
