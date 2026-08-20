@@ -439,6 +439,41 @@ body {
     border-color: color-mix(in oklch, var(--foreground) 12%, transparent);
     background-color: #0b0b0c;
   }
+
+  /*
+   * Reading ink.
+   *
+   * The theme colours are bare `var()` values with no `<alpha-value>` slot, so
+   * Tailwind cannot compute an alpha for them and a class like
+   * `text-foreground/75` emits no rule at all. Everything written that way is
+   * simply full ink today.
+   *
+   * A long essay needs the step between full ink and muted that those classes
+   * were reaching for: full white at 15px over forty paragraphs is glare, and
+   * muted is too faint to read at length. These two steps are mixed by hand.
+   *
+   * In srgb, like every other mix on this page: the tokens are achromatic but
+   * carry an explicit hue of 0, and an oklch mix interpolates that channel.
+   */
+  .aka-ink-body {
+    color: color-mix(in srgb, var(--foreground) 82%, transparent);
+  }
+  .aka-ink-quiet {
+    color: color-mix(in srgb, var(--foreground) 62%, transparent);
+  }
+
+  /* A link inside running text: full ink, and a rule faint enough that a
+     paragraph with three of them still reads as a paragraph. */
+  .aka-ink-link {
+    color: var(--foreground);
+    text-decoration-line: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in srgb, var(--foreground) 30%, transparent);
+    transition: text-decoration-color 150ms ease;
+  }
+  .aka-ink-link:hover {
+    text-decoration-color: color-mix(in srgb, var(--foreground) 75%, transparent);
+  }
 }
 
 /* Theme-aware gradient overlays for sections with background visuals */

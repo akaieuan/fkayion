@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { FeaturedGrid } from '@/components/features/links/featured-grid'
 import { CoverList, type CoverRow } from '@/components/features/links/cover-list'
+import { WRITING, writingHref, type WritingEntry } from '@/lib/writing'
 
 /**
  * The middle of the landing: who I am, then the work, then the writing and the
@@ -16,56 +17,6 @@ import { CoverList, type CoverRow } from '@/components/features/links/cover-list
  * Writing and music are lists, because a title and a line is all either needs,
  * and the socials moved to the footer where links of that kind belong.
  */
-
-type Row = {
-  title: string
-  type?: string
-  description: string
-  href: string
-}
-
-const writing: Row[] = [
-  {
-    title: 'A Benchmark Measurement Problem',
-    type: 'Essay · AI',
-    description: '95% of orgs achieve zero measurable return from generative AI, and why.',
-    href: 'https://www.akaoss.dev/paper',
-  },
-  {
-    title: 'The Pursuit of Parsimony [Pt.1]',
-    type: 'Essay · Science',
-    description:
-      'When science meets surprise it contorts and survives through faith in ambiguity.',
-    href: 'https://kraa.io/306857640304253952',
-  },
-  {
-    title: 'Of Course',
-    type: 'Essay · AI',
-    description:
-      'On Sam Altman announcing ChatGPT will provide generative erotic services to mature users.',
-    href: 'https://kraa.io/306857605553134592',
-  },
-  {
-    title: 'Digital Gentrification',
-    type: 'Essay · Tech',
-    description: 'Notes on transformative information technology, from a Y2K kid.',
-    href: 'https://kraa.io/306942411031387136',
-  },
-  {
-    title: 'The Gate Kept Public',
-    type: 'Essay · Urbanism',
-    description:
-      'Hostile architecture: public property designed to expel undesired behavior by people and animals.',
-    href: 'https://kraa.io/307129926200531968',
-  },
-  {
-    title: 'Teacher Issues: Classroom Crisis',
-    type: 'Essay · Education',
-    description:
-      'How the classroom has changed in the modern era, and the fallout for teachers.',
-    href: 'https://ubikstu.substack.com/p/teacher-issues-classroom-crisis',
-  },
-]
 
 /**
  * Playlists rather than an embedded player. A cover that appears when you point
@@ -101,17 +52,16 @@ const releases: CoverRow[] = [
 const heading = 'text-[15px] font-normal tracking-tight text-foreground'
 
 /** A list entry: the name, and one line saying what it is. */
-function RowItem({ row }: { row: Row }) {
-  const external = /^https?:\/\//.test(row.href)
+function RowItem({ row }: { row: WritingEntry }) {
+  const href = writingHref(row)
+  const external = /^https?:\/\//.test(href)
   const body = (
     <>
       <span className="flex flex-wrap items-baseline gap-x-3">
         <span className="text-[14px] font-light tracking-tight text-foreground/85 underline decoration-transparent underline-offset-[5px] transition-colors duration-200 group-hover:text-foreground group-hover:decoration-foreground/30">
           {row.title}
         </span>
-        {row.type && (
-          <span className="text-[11px] font-light text-muted-foreground/40">{row.type}</span>
-        )}
+        <span className="text-[11px] font-light text-muted-foreground/40">{row.type}</span>
       </span>
       <span className="mt-0.5 block text-[12.5px] font-light leading-relaxed text-muted-foreground/55 transition-colors duration-200 group-hover:text-muted-foreground/80">
         {row.description}
@@ -123,7 +73,7 @@ function RowItem({ row }: { row: Row }) {
     <li>
       {external ? (
         <a
-          href={row.href}
+          href={href}
           target="_blank"
           rel="noopener noreferrer"
           className="group block py-2.5"
@@ -131,7 +81,7 @@ function RowItem({ row }: { row: Row }) {
           {body}
         </a>
       ) : (
-        <Link href={row.href} className="group block py-2.5">
+        <Link href={href} className="group block py-2.5">
           {body}
         </Link>
       )}
@@ -167,8 +117,14 @@ function SectionHead({
   title: string
   more?: { label: string; href: string }
 }) {
+  /*
+   * The link sits next to the word, not at the other end of the column. Pushed
+   * apart, "soundcloud" reads as a piece of page furniture floating near the
+   * margin; set against the heading it reads as part of the same phrase, which
+   * is what it is.
+   */
   return (
-    <div className="mb-5 flex items-center justify-between gap-3">
+    <div className="mb-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
       <h2 className={heading}>{title}</h2>
       {more && <MoreLink more={more} />}
     </div>
@@ -219,16 +175,16 @@ export function LinksSection() {
 
         {/* Prose sits in its own measure, so a heading and its link stay
             together instead of being flung to the container's far edge. */}
-        <div className="mb-16 max-w-[40rem]">
+        <div id="writing" className="mb-16 max-w-[40rem] scroll-mt-24">
           <SectionHead title="Writing" more={{ label: 'aka.write', href: 'https://kraa.io/akaieuan' }} />
           <ul className="list-none p-0">
-            {writing.map((row) => (
-              <RowItem key={row.href} row={row} />
+            {WRITING.map((row) => (
+              <RowItem key={writingHref(row)} row={row} />
             ))}
           </ul>
         </div>
 
-        <div className="max-w-[40rem]">
+        <div id="music" className="max-w-[40rem] scroll-mt-24">
           <SectionHead title="Music" more={{ label: 'soundcloud', href: 'https://soundcloud.com/akaieuan' }} />
           <CoverList items={releases} />
         </div>
