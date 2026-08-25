@@ -406,67 +406,22 @@ body {
   );
 } 
 /* ---------------------------------------------------------------------------
- * akaSTYLE — the card
+ * akaSTYLE — the plate
  *
- * One shape for every card on the site: the mark stamped top-left, then title,
- * description and tags stacked to its right. Landing, /demo and the link tabs
- * all use it, so a wall of projects and a wall of links read as one system.
+ * One shape for every project on the site, on the landing grid and on /demo, so
+ * a wall of twenty-one of them reads as one system.
  *
- * There was a generated pixel field behind the mark here. It came out because
- * it never resolved: a texture loud enough to register competed with the very
- * clean logos it was meant to support. The logo carries identity; the card
- * stays out of its way.
+ * It replaced a card that put the mark in a 44px stamp beside a title, a
+ * description and four tags, which made the cleanest element on it also the
+ * smallest. There was a generated pixel field behind that mark, too; it came
+ * out because a texture loud enough to register competed with the very clean
+ * logos it was meant to support. The logo carries identity; the plate stays out
+ * of its way.
  * ------------------------------------------------------------------------ */
 @layer components {
   /*
-   * A filled secondary surface rather than a bordered white box. The border is
-   * a hairline that only exists to keep the card from dissolving into the page
-   * at the edges; the fill is what separates it.
-   */
-  .aka-card {
-    @apply flex h-full flex-row items-start gap-3.5 p-4;
-    @apply transition-colors duration-150;
-    background-color: var(--surface);
-    border-color: var(--surface-border);
-  }
-  .aka-card:hover {
-    background-color: var(--surface-hover);
-    border-color: var(--surface-border-hover);
-  }
-
-  /*
-   * The stamp. Square, quiet, and the only place a project's hue appears —
-   * a few percent behind the mark, enough to tell cards apart on a wall of
-   * them without colouring the page.
-   */
-  /*
-   * The stamp. Neutral by default; a project's hue appears only as a few
-   * percent behind the mark.
-   *
-   * Mixed in srgb, not oklch. `--card` is achromatic but written with an
-   * explicit hue of 0, so an oklch mix interpolates every accent's hue toward
-   * red — which is why a green, a blue and a violet all came out pink.
-   */
-  .aka-stamp {
-    @apply relative grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-[10px];
-    @apply border text-foreground;
-    border-color: var(--surface-border);
-    background-color: color-mix(
-      in srgb,
-      var(--stamp-tint, transparent) var(--plate-mix, 7%),
-      var(--stamp-ground)
-    );
-  }
-
-  /*
-   * A bitmap logo or a screenshot is its own artwork — let it fill the stamp.
-   * The ground stays dark in both themes: these icons were drawn for a dark
-   * plate, and Box Populi's is white on transparent, so a light ground erases
-   * it completely.
-   */
-  /*
-   * The landing plate: the same idea as .aka-stamp, at the size where the mark
-   * is the thing you see rather than a bullet beside the words.
+   * The plate: the mark at the size where it is the thing you see rather than a
+   * bullet beside the words.
    *
    * The tint mixes in srgb, not oklch. Mixing a hue toward a neutral in oklch
    * interpolates through its hue channel, and against a zero-chroma ground that
@@ -528,11 +483,6 @@ body {
     --bp-face-right: #a3a3ae;
     --bp-face-left: #6d6d77;
     --bp-edge: rgb(255 255 255 / 0.14);
-  }
-
-  .aka-stamp-bleed {
-    border-color: color-mix(in oklch, var(--foreground) 12%, transparent);
-    background-color: #0b0b0c;
   }
 
   /*

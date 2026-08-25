@@ -4,6 +4,7 @@ import { ArrowLeft } from 'lucide-react'
 const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
 const label = 'text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50'
 const cardCls = 'rounded-xl border border-border bg-card/40 p-5'
+const codeCls = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[10.5px]'
 
 export const metadata = {
   title: 'Foundations — tokens, scale & motion | akaSTYLE',
@@ -83,40 +84,151 @@ export default function FoundationsPage() {
         {/* COLOR */}
         <section className="scroll-mt-24">
           <p className={kicker}>Color</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">Four tokens</h2>
+          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">Ground and ink</h2>
           <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
-            Ground, ink, rule, accent. Everything else is one of those four at reduced opacity —
-            which is why the system reads as one surface instead of a palette. OKLCH throughout, so
-            lightness is perceptual and a dark-mode flip is a lightness change, not a re-pick.
+            Two tokens carry almost everything: a ground and an ink. OKLCH throughout, so a
+            dark-mode flip is a lightness change rather than a re-pick, and the values below are the
+            ones actually in <code className={codeCls}>globals.css</code>, light then dark.
           </p>
           <div className={`${cardCls} mt-6`}>
             <Table>
-              <Row name="--background" value="oklch(0.145 0.004 106)">
+              <Row name="--background" value="0.97 0.002 106 / 0.09 0 0">
                 <span className="block h-6 w-full max-w-[160px] rounded border border-border bg-background" />
               </Row>
-              <Row name="--foreground" value="oklch(0.93 0.003 106)">
+              <Row name="--foreground" value="0.122 0.001 0 / 0.985 0 0">
                 <span className="block h-6 w-full max-w-[160px] rounded border border-border bg-foreground" />
               </Row>
-              <Row name="--border" value="oklch(0.27 0.004 106)">
+              <Row name="--muted-foreground" value="0.46 0.001 0 / 0.708 0 0">
+                <span className="block h-6 w-full max-w-[160px] rounded border border-border bg-muted-foreground" />
+              </Row>
+              <Row name="--border" value="0.88 0.003 106 / white 10%">
                 <span className="block h-6 w-full max-w-[160px] rounded border border-border bg-border" />
               </Row>
-              <Row name="--primary" value="oklch(0.71 0.11 152)">
-                <span className="block h-6 w-full max-w-[160px] rounded border border-border bg-primary" />
-              </Row>
-              <Row name="--card" value="foreground @ 4%">
-                <span className="block h-6 w-full max-w-[160px] rounded border border-border bg-card" />
-              </Row>
-              <Row name="--muted" value="foreground @ 8%">
-                <span className="block h-6 w-full max-w-[160px] rounded border border-border bg-muted" />
+              <Row name="--select" value="0.58 0.13 250 / 0.707 0.108 152">
+                <span
+                  className="block h-6 w-full max-w-[160px] rounded border border-border"
+                  style={{ background: 'var(--select)' }}
+                />
               </Row>
             </Table>
             <p className="mt-4 text-[11.5px] font-light leading-relaxed text-muted-foreground/70">
-              <span className="text-foreground/80">The opacity ladder.</span> Text steps down{' '}
-              <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[10.5px]">
-                foreground → /85 → muted-foreground → /70 → /50 → /40
-              </code>
-              . Six steps is the whole hierarchy; if something needs a seventh, the layout is wrong,
-              not the palette.
+              <span className="text-foreground/80">One accent, and it is not --primary.</span>{' '}
+              <code className={codeCls}>--select</code> is what a selected tab, selected text and a
+              focus ring take, and it is the only place a hue is allowed to lead. It changes hue
+              across themes rather than lightness, because the blue that reads as &ldquo;chosen&rdquo;
+              on paper goes muddy on the dark ground.{' '}
+              <code className={codeCls}>--primary</code> is near-black ink in light and the green in
+              dark; it is a shadcn token the primitives inherited, not the system&apos;s accent.
+            </p>
+          </div>
+
+          <div className={`${cardCls} mt-3`}>
+            <p className={label}>The opacity ladder, and why it is not classes</p>
+            <p className="mt-2 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+              Ink steps down in six, and that is the whole hierarchy. It is written by hand rather
+              than with <code className={codeCls}>/nn</code> utilities, because on Tailwind v3 the
+              colours above are bare <code className={codeCls}>var()</code> values with no{' '}
+              <code className={codeCls}>&lt;alpha-value&gt;</code> slot. Tailwind cannot compute an
+              alpha for them, so <code className={codeCls}>text-foreground/85</code> compiles to
+              nothing at all: there is not one token slash-alpha utility in the built stylesheet,
+              only the literal <code className={codeCls}>white/</code> and{' '}
+              <code className={codeCls}>black/</code> ones.
+            </p>
+            <p className="mt-2 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+              So the two steps that carry long-form reading are mixed by hand, in sRGB, because the
+              tokens are achromatic with an explicit hue of 0 and an OKLCH mix would interpolate it.
+            </p>
+            <pre className="mt-3 overflow-x-auto rounded-lg border border-border/60 bg-muted/25 px-3 py-2 font-mono text-[10.5px] leading-relaxed text-muted-foreground/75">
+              {`.aka-ink-body  { color: color-mix(in srgb, var(--foreground) 82%, transparent) }
+.aka-ink-quiet { color: color-mix(in srgb, var(--foreground) 62%, transparent) }`}
+            </pre>
+            <p className="mt-3 text-[11.5px] font-light leading-relaxed text-muted-foreground/70">
+              Everything on the site still written as{' '}
+              <code className={codeCls}>text-foreground/85</code> is therefore full ink today. Giving
+              the tokens an alpha slot would fix it in one line and change the colour of a great deal
+              of text at once, so it is a design decision waiting to be made, not a bug to sneak in.
+            </p>
+          </div>
+        </section>
+
+        {/* SURFACES */}
+        <section className="mt-16">
+          <p className={kicker}>Surfaces</p>
+          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+            The ground under a mark
+          </h2>
+          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+            A project plate is one colour: the plate ground with a percentage of the project&apos;s
+            own hue mixed into it. Both halves are tokens, and both differ per theme for reasons that
+            are not symmetry.
+          </p>
+          <div className={`${cardCls} mt-6`}>
+            <Table>
+              <Row name="--stamp-ground" value="0.935 0 0 / 0.2 0 0">
+                <span
+                  className="block h-6 w-full max-w-[160px] rounded border border-border"
+                  style={{ background: 'var(--stamp-ground)' }}
+                />
+              </Row>
+              <Row name="--plate-mix" value="10% / 7%">
+                <span className="text-[11px] font-light text-muted-foreground/60">
+                  How much of the project&apos;s hue reaches the plate
+                </span>
+              </Row>
+              <Row name="--surface" value="0.945 0.004 106 / 0.145 0 0">
+                <span
+                  className="block h-6 w-full max-w-[160px] rounded border border-border"
+                  style={{ background: 'var(--surface)' }}
+                />
+              </Row>
+            </Table>
+            <p className="mt-4 text-[11.5px] font-light leading-relaxed text-muted-foreground/70">
+              <span className="text-foreground/80">Dark is the reference.</span> Light is not the
+              same number: a hue over a light ground shows up more readily than the same hue over a
+              dark one, so light takes more mix to read as the same character. And{' '}
+              <code className={codeCls}>--stamp-ground</code> steps <em>down</em> from the page in
+              light while it steps up in dark. It used to sit lighter than the background, which made
+              every plate in light mode effectively invisible.
+            </p>
+            <p className="mt-2 text-[11.5px] font-light leading-relaxed text-muted-foreground/70">
+              <span className="text-foreground/80">The mix is sRGB, not OKLCH.</span> The ground is
+              achromatic but carries an explicit hue, and an OKLCH mix interpolates that channel: a
+              green, a blue and a violet all came out pink. It is also why the plate ground is
+              neutral rather than warm.
+            </p>
+          </div>
+
+          <div className={`${cardCls} mt-3`}>
+            <p className={label}>Palettes that belong to one drawing</p>
+            <p className="mt-2 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+              When artwork has a value per theme, the palette goes in custom properties and the
+              browser picks. Reading the theme in JavaScript would make a static drawing a client
+              component, which is the whole cost being avoided. Two live examples:{' '}
+              <code className={codeCls}>--bp-*</code>, which carries Blockpad&apos;s dark and light
+              icon masters, and <code className={codeCls}>--pixel-face-*</code>, which re-homes the
+              five face accents the circleheads handoff supplies as literal hex.
+            </p>
+            <p className="mt-2 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+              The rule that keeps this honest: the source value stays written down where the design
+              put it, and the token is where it is <em>read</em> from. So dark restates the
+              handoff&apos;s hex exactly and only light diverges.
+            </p>
+          </div>
+
+          <div className={`${cardCls} mt-3`}>
+            <p className={label}>The one exception to Tailwind</p>
+            <p className="mt-2 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+              An artefact ported in from elsewhere keeps its own stylesheet, scoped to a class, the
+              way <code className={codeCls}>app/trickle.css</code> keeps the kit&apos;s keyframes and{' '}
+              <code className={codeCls}>bodylog-v1/v1.css</code> keeps the circleheads token set
+              under <code className={codeCls}>.bl1</code>. Rewriting a hundred and fifty custom
+              properties as utilities is a redesign, not a port, and the point of keeping an artefact
+              is that it is the version something was decided from.
+            </p>
+            <p className="mt-2 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+              Scoped, always, so none of it reaches the site. And a ported theme hangs off its own
+              attribute rather than the site&apos;s <code className={codeCls}>.dark</code>, because
+              the artefact&apos;s theme and the page&apos;s are not the same state.
             </p>
           </div>
         </section>
@@ -164,15 +276,22 @@ export default function FoundationsPage() {
           </h2>
           <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
             Radius scales with the surface: the bigger the box, the softer the corner. One border
-            weight everywhere — 1px at token color. No shadows anywhere in the system; depth comes
-            from surface lightness, not from a glow.
+            weight everywhere: 1px at token colour. Depth comes from surface lightness, not from a
+            glow. Nothing the system itself draws carries a shadow, and the ones you will find in
+            the repo are inside product mockups drawing someone else&apos;s interface.
+          </p>
+          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+            Three steps are derived from <code className={codeCls}>--radius: 0.625rem</code> in the
+            Tailwind config, so moving one number moves the set. Only{' '}
+            <code className={codeCls}>xl</code> and the default are Tailwind&apos;s own.
           </p>
           <div className={`${cardCls} mt-6`}>
             <div className="flex flex-wrap items-end gap-6">
               {[
                 ['rounded', '4px', 'code chips', 'rounded'],
-                ['rounded-md', '6px', 'tags, sm buttons', 'rounded-md'],
-                ['rounded-lg', '8px', 'buttons, inputs, media', 'rounded-lg'],
+                ['rounded-sm', '6px', 'tags, sm buttons', 'rounded-sm'],
+                ['rounded-md', '8px', 'inputs', 'rounded-md'],
+                ['rounded-lg', '10px', 'buttons, media', 'rounded-lg'],
                 ['rounded-xl', '12px', 'cards, panels', 'rounded-xl'],
                 ['rounded-full', '∞', 'dots, toggles, avatars', 'rounded-full'],
               ].map(([n, v, use, cls]) => (
@@ -270,8 +389,8 @@ export default function FoundationsPage() {
               {[
                 ['max-w-2xl', '672px', 'Write-ups — one column of prose'],
                 ['max-w-3xl', '768px', 'Reference pages, galleries'],
-                ['max-w-site', '1200px', 'Landing, project index'],
-                ['site-inset', 'px-6', 'The universal gutter'],
+                ['max-w-site', '1180px', 'Landing, project index'],
+                ['site-inset', 'px-5 → px-16', 'The universal gutter, widening by breakpoint'],
                 ['sm:', '640px', 'One column → two'],
                 ['md:', '768px', 'Stacked hero → side by side'],
                 ['lg:', '1024px', 'Two columns → three'],
@@ -301,45 +420,65 @@ export default function FoundationsPage() {
             The whole system, in one block
           </h2>
           <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
-            Paste into <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[11px]">globals.css</code>{' '}
-            and every primitive on this site renders correctly in the new repo. Tailwind v4 reads the
-            variables directly — no config file needed.
+            Two files, because this is Tailwind v3 and the mapping from token to utility lives in a
+            config. It used to be printed here as v4 (<code className={codeCls}>@import
+            &quot;tailwindcss&quot;</code>, <code className={codeCls}>@theme inline</code>, no config
+            file), which does not parse on v3 and is exactly the mistake a generator makes when it
+            guesses the version.
           </p>
           <pre className="mt-6 overflow-x-auto rounded-xl border border-border/80 bg-muted/30 p-5 font-mono text-[10.5px] leading-relaxed text-foreground/80">
-            {`@import "tailwindcss";
-
+            {`/* globals.css */
 :root {
-  --background:  oklch(0.985 0.002 106);
-  --foreground:  oklch(0.185 0.004 106);
-  --border:      oklch(0.90  0.003 106);
-  --primary:     oklch(0.42  0.08  152);   /* the one accent */
-  --card:        oklch(0.185 0.004 106 / 0.03);
-  --muted:       oklch(0.185 0.004 106 / 0.06);
-  --radius:      0.75rem;
+  --background:       oklch(0.97  0.002 106);
+  --foreground:       oklch(0.122 0.001 0);
+  --muted-foreground: oklch(0.46  0.001 0);
+  --border:           oklch(0.88  0.003 106);
+  --select:           oklch(0.58  0.13  250);  /* the one accent */
+  --radius:           0.625rem;
 }
 
 .dark {
-  --background:  oklch(0.145 0.004 106);
-  --foreground:  oklch(0.93  0.003 106);
-  --border:      oklch(0.27  0.004 106);
-  --primary:     oklch(0.71  0.11  152);
-  --card:        oklch(0.93  0.003 106 / 0.04);
-  --muted:       oklch(0.93  0.003 106 / 0.08);
+  --background:       oklch(0.09  0 0);
+  --foreground:       oklch(0.985 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --border:           oklch(1 0 0 / 10%);
+  --select:           oklch(0.707 0.108 152.216);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-border:     var(--border);
-  --color-primary:    var(--primary);
-  --color-card:       var(--card);
-  --color-muted:      var(--muted);
-  --color-muted-foreground: color-mix(in oklch, var(--foreground) 62%, transparent);
-}
-
-/* the two layout helpers everything uses */
-.max-w-site { max-width: 1200px; }
-.site-inset { padding-inline: 1.5rem; }`}
+@layer components {
+  .max-w-site { max-width: 1180px; }
+  .site-inset { @apply px-5 sm:px-6 md:px-12 lg:px-16; }
+  /* the ink steps, because /nn utilities do not compile on bare var() tokens */
+  .aka-ink-body  { color: color-mix(in srgb, var(--foreground) 82%, transparent); }
+  .aka-ink-quiet { color: color-mix(in srgb, var(--foreground) 62%, transparent); }
+}`}
+          </pre>
+          <pre className="mt-3 overflow-x-auto rounded-xl border border-border/80 bg-muted/30 p-5 font-mono text-[10.5px] leading-relaxed text-foreground/80">
+            {`// tailwind.config.cjs
+module.exports = {
+  darkMode: ['class'],
+  // every hover: compiles inside @media (hover: hover), so a tap on a
+  // touch screen cannot latch a hover state that never releases
+  future: { hoverOnlyWhenSupported: true },
+  content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
+  theme: {
+    extend: {
+      maxWidth: { site: '1180px' },
+      colors: {
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
+        border:     'var(--border)',
+        muted: { DEFAULT: 'var(--muted)', foreground: 'var(--muted-foreground)' },
+      },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
+      },
+    },
+  },
+  plugins: [require('tailwindcss-animate')],
+}`}
           </pre>
         </section>
 
