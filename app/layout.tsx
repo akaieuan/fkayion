@@ -59,6 +59,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/*
+         * The reveal-on-scroll starting state is hidden, and it is JavaScript
+         * that undoes it. If the script never runs — an old browser, a blocked
+         * bundle, a crawler that does not execute it — this puts everything
+         * back. One rule covers every `data-reveal` on the site.
+         */}
+        <noscript>
+          <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
+      </head>
       <body className={`${inter.className} bg-background text-foreground antialiased`}>
         {/* disableTransitionOnChange: every `transition-colors` on the page
             animates when the theme class flips, so borders and surfaces flash

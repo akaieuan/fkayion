@@ -748,3 +748,52 @@ html:not(.dark) .animate-trickle-spotlight {
   background: var(--bkz-open);
   opacity: 0.8;
 }
+
+/*
+ * Appear on scroll.
+ *
+ * The attribute is the whole API: components/ui/reveal.tsx sets it and this
+ * owns everything about how it looks. Keeping the animation here rather than in
+ * a swapped Tailwind class string means the timing is one decision in one
+ * place, and the component never has to re-render to change how it looks.
+ *
+ * Only `opacity` and `transform` move. Both are compositor properties, so a row
+ * arriving triggers no layout and no repaint however many plates are in it.
+ * Animating something like `height` or `top` here would put twenty-two layout
+ * passes on the main thread during a scroll.
+ *
+ * `pending` is the state the server renders. `shown` animates to the resting
+ * state; `instant` jumps to it, which is what anything already on screen at
+ * first paint gets, so the grid is never blank and the largest contentful paint
+ * is not held back by a fade.
+ */
+[data-reveal] {
+  transition:
+    opacity 520ms cubic-bezier(0.22, 0.61, 0.36, 1) var(--reveal-delay, 0ms),
+    transform 520ms cubic-bezier(0.22, 0.61, 0.36, 1) var(--reveal-delay, 0ms);
+}
+
+[data-reveal='pending'] {
+  opacity: 0;
+  /* Small on purpose. Far enough to read as arriving, near enough that a whole
+     grid doing it at once does not look like the page is falling into place. */
+  transform: translateY(10px);
+}
+
+[data-reveal='shown'],
+[data-reveal='instant'] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Nothing is animated, and nothing waits: the attribute stops meaning motion
+   and starts meaning nothing at all. */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    transition: none;
+  }
+  [data-reveal='pending'] {
+    opacity: 1;
+    transform: none;
+  }
+}
