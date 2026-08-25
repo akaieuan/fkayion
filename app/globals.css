@@ -670,3 +670,41 @@ html:not(.dark) .animate-trickle-spotlight {
     oklch(72% 0 0) 35%
   );
 }
+
+/*
+ * The BKZ lab log's two semantic colours.
+ *
+ * Every entry in the log is about a thing that was wrong and the thing that
+ * replaced it, so the diagrams, the before/after labels and the table all need
+ * the same two-colour reading: rose is the stand-in that was lying, green is
+ * the surface that tells the truth. They are the site's own accent ramp, not a
+ * new palette, so they land at the right lightness in either theme.
+ *
+ * They live here rather than in the drawings for the same reason the Blockpad
+ * mark's palette does: the figures stay server-rendered SVG and never read the
+ * theme. Green here is semantic, not `--select`; nothing in the log is
+ * selectable, so the two never appear together.
+ */
+.bkz-log,
+.bkz-fig {
+  --bkz-wrong: var(--accent-rose);
+  --bkz-true: var(--accent-green);
+  --bkz-true-soft: color-mix(in srgb, var(--accent-green) 34%, transparent);
+}
+
+.bkz-bad {
+  color: var(--bkz-wrong);
+}
+.bkz-good {
+  color: var(--bkz-true);
+}
+
+/* The before/after captions under a render pair. */
+.bkz-lbl-before {
+  color: var(--bkz-wrong);
+  background: color-mix(in srgb, var(--bkz-wrong) 12%, transparent);
+}
+.bkz-lbl-after {
+  color: var(--bkz-true);
+  background: color-mix(in srgb, var(--bkz-true) 12%, transparent);
+}

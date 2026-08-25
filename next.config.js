@@ -20,6 +20,13 @@ const nextConfig = {
         destination: '/demo/hitl-ai',
         permanent: true,
       },
+      // The pipeline write-up was named after the game; it is now named after
+      // the thing it is about, and the game is the subject inside it.
+      {
+        source: '/demo/brooklyn-dead',
+        destination: '/demo/blenderpipeline',
+        permanent: true,
+      },
     ]
   },
 }

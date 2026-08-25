@@ -238,11 +238,11 @@ export const PROJECTS: ProjectCardItem[] = [
     accent: TINT.orchid,
   },
   {
-    title: 'Procedural Asset Pipeline Engineering',
-    tags: ['Blender', 'Godot', 'Pipeline', 'Write-up'],
+    title: 'Brooklyn Dead: procedural asset pipeline',
+    tags: ['Blender', 'Godot', 'Pipeline', 'Lab log'],
     description:
-      'Private WIP: procedural Blender→glTF→Godot pipeline, programmatic animation, browser previews.',
-    href: '/demo/brooklyn-dead',
+      'Private WIP: a Godot 4 game whose assets are written in Python, gated by validators, and written up as findings.',
+    href: '/demo/blenderpipeline',
     img: brooklynDead,
     accent: TINT.terracotta,
   },
