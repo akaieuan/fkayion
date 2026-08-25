@@ -22,13 +22,6 @@ const hero: Shot = {
   label: 'The workspace in its final build: the file explorer and an indexed-four-minutes-ago context pill on the left, a source paper in the middle with every claim the agent drew highlighted in place, evidence cards queued for review along the bottom, and the agent working through a four-task plan on the right',
 }
 
-const gallery: Shot[] = [
-  { src: '/ubik-evidence.webp', w: 1600, h: 945, label: 'An evidence card — a single claim, the paragraph it was drawn from, and the eight supporting quotes (with page numbers) that back it, opened beside the highlighted source note' },
-  { src: '/ubik-human-needed.webp', w: 1600, h: 1206, label: 'A Human Needed block embedded mid-document: the agent stops, states the judgment it needs, offers two candidate drafts and a free-write, and waits — skip or submit, tracked in the status bar' },
-  { src: '/ubik-litreview.webp', w: 1600, h: 1156, label: 'The Review Sources queue — each flagged paper (some auto, one manual/paywalled) previewed in full before it is accepted, driven entirely by the keyboard: arrow to navigate, enter to accept, esc to reject' },
-  { src: '/ubik-explorer.webp', w: 1600, h: 975, label: 'Agentic search returns a ranked shortlist of flagged papers on the left; on the right, a drafted document where every claim carries an inline citation back to a real source (King 1, King 2 …)' },
-  { src: '/ubik-summary.webp', w: 1600, h: 932, label: 'The Result Explorer scoring sources on recency, peer-review, methodology, and relevance — behind a Review Needed gate that makes you review-and-download rather than download blindly. Left: an edit workflow trimming a draft at a chosen intensity while sources index in the background' },
-]
 
 /**
  * The 2026 build, recorded.
@@ -98,6 +91,22 @@ const longRuns: Omit<Demo, 'art'>[] = [
       'The file explorer as a research surface: PDFs, documents, saved searches, and folders in one indexed library. Then a multi-note agent run — grep across source bundles, evidence distributed in bulk, three notes finalized — with every artifact landing in the explorer as it’s produced.',
   },
 ]
+
+/**
+ * What the disclosure's tooltip cycles through.
+ *
+ * Three phrases rather than one, on the site's own trickle animation — the
+ * stacked-grid swap the Trickle kit uses, which is pure CSS and needs no
+ * JavaScript to run. Kept to a similar length because they share one grid cell,
+ * so the pill sizes to the widest and would jump if one were much longer.
+ *
+ * They say what the summary line does not: how much is in there, and that it is
+ * whole sessions rather than more of the same clips.
+ */
+const TIPS = ['More videos in here', 'Nine more minutes', 'The loop, end to end']
+
+/** One third of the cycle each, matching the kit's own swap timing. */
+const TIP_SWAP = 2.6
 
 /** The older runs are webm, from before the encoding was measured. */
 const LONG_H: Record<string, number> = {
@@ -375,48 +384,7 @@ export default function UbikProjectPage() {
             </p>
           </section>
 
-          <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">The design board</h2>
-            <p>
-              Ubik never had a design team, a seat of anything for everybody, or the time to keep a
-              spec in sync with itself. What it had was Excalidraw files that nobody ever closed.
-              This is one of them, running from 2024 into 2025, left exactly as it was.
-            </p>
-            <p>
-              It is a snapshot rather than the archive. Plenty of boards came before it, and the 2023
-              and 2024 ones from the Fiig years and the ed-tech work sprawl further than this. I
-              picked this one because it is a fair picture of how I actually think while a product is
-              still being decided.
-            </p>
-            <p>
-              It worked because it refused to be one thing. The same board carried landing page
-              explorations, user story wireframes, screenshots of the running app with corrections
-              drawn straight over them, and plain notes to whoever opened it next. A sketch on the
-              left, the decision written beside it, and underneath that the file path it applied to.
-              That middle layer, looser than a spec and more durable than a conversation, is where
-              most of this product actually got decided.
-            </p>
-            <p>
-              It is messy in places and I have left it messy. Areas trail off, copy is labelled not
-              solid, and one region is simply the words ICONS NEEDED above a list of what still
-              needed drawing. That is what a working document looks like while it is still working.
-              Excalidraw being free is not a small detail either: in a team with scrappy limits it
-              meant everyone could open it, and no part of how we thought sat behind a licence we
-              were deciding whether to renew.
-            </p>
-            <div className="not-prose pt-1">
-              <UbikCanvasViewer waypoints={WAYPOINTS} />
-            </div>
-            <p>
-              What the board eventually taught me was when to stop drawing. Once my engineer
-              teammate had a framework standing, it was faster to develop the flow directly in code:
-              build the primitives, get the real UI working inside the constraints that already
-              existed, and skip a wireframe that could only ever approximate them. That shift made me
-              pick up a lot of new skills on the way and it changed how I design. I still open a
-              board when a problem is genuinely unresolved, but much of what used to become a sketch
-              now goes straight into components.
-            </p>
-          </section>
+
 
 
           <section className="space-y-3">
@@ -458,13 +426,45 @@ export default function UbikProjectPage() {
           <div>
             <details className="group mt-8 rounded-xl border border-border/80 bg-muted/10 px-5 py-4">
               <summary className="cursor-pointer list-none text-[13px] font-medium text-foreground/85 marker:content-none">
-                <span className="inline-flex items-center gap-2">
+                {/*
+                  The label is the hover target, not the whole summary row: a
+                  tooltip centred on a full-width bar would float somewhere off
+                  in the margin. `group/tip` is named so it cannot be caught by
+                  the `group-open` the caret already uses.
+                */}
+                <span className="group/tip relative inline-flex items-center gap-2">
                   <span className="font-mono text-[10px] text-muted-foreground/60 transition-transform group-open:rotate-90">
                     ▸
                   </span>
                   Three longer runs from the 2025 build
                   <span className="text-[11px] font-light text-muted-foreground/55">
                     2:33 – 3:26
+                  </span>
+
+                  {/*
+                    Same pill as the header's theme control, so a tooltip means
+                    one thing on this site. `aria-hidden` for the same reason it
+                    is there: the disclosure already names itself, and a
+                    rotating label read aloud mid-cycle is noise.
+                  */}
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute left-1/2 top-full z-10 mt-2.5 grid -translate-x-1/2 justify-items-center whitespace-nowrap rounded-full bg-foreground px-2.5 py-1 text-[11px] font-medium tracking-wide text-background opacity-0 transition-opacity duration-200 group-hover/tip:opacity-100 group-focus-visible/tip:opacity-100"
+                  >
+                    {TIPS.map((tip, i) => (
+                      <span
+                        key={tip}
+                        // One cell for all three, so the pill keeps its width
+                        // whichever phrase is currently up.
+                        className="aka-trickle-swap col-start-1 row-start-1 block"
+                        style={{
+                          animationDelay: `${i * TIP_SWAP}s`,
+                          animationDuration: `${TIPS.length * TIP_SWAP}s`,
+                        }}
+                      >
+                        {tip}
+                      </span>
+                    ))}
                   </span>
                 </span>
               </summary>
@@ -532,29 +532,51 @@ export default function UbikProjectPage() {
             </p>
           </section>
 
-          <div>
-            <p className={microLabel}>The product, in frames</p>
-            <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {gallery.map((shot) => (
-                <figure key={shot.src}>
-                  <div className="overflow-hidden rounded-lg border border-border/80 bg-muted/10">
-                    <DemoImage
-                      src={shot.src}
-                      alt={shot.label}
-                      width={shot.w}
-                      height={shot.h}
-                      sizes="(min-width: 640px) 320px, 100vw"
-                      className="block h-auto w-full"
-                    />
-                  </div>
-                  <figcaption className="mt-1.5 text-[11px] font-light text-muted-foreground/70">
-                    {shot.label}
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-          </div>
 
+
+
+          <section className="space-y-3">
+            <h2 className="text-sm font-medium tracking-wide text-foreground">The design board</h2>
+            <p>
+              Ubik never had a design team, a seat of anything for everybody, or the time to keep a
+              spec in sync with itself. What it had was Excalidraw files that nobody ever closed.
+              This is one of them, running from 2024 into 2025, left exactly as it was.
+            </p>
+            <p>
+              It is a snapshot rather than the archive. Plenty of boards came before it, and the 2023
+              and 2024 ones from the Fiig years and the ed-tech work sprawl further than this. I
+              picked this one because it is a fair picture of how I actually think while a product is
+              still being decided.
+            </p>
+            <p>
+              It worked because it refused to be one thing. The same board carried landing page
+              explorations, user story wireframes, screenshots of the running app with corrections
+              drawn straight over them, and plain notes to whoever opened it next. A sketch on the
+              left, the decision written beside it, and underneath that the file path it applied to.
+              That middle layer, looser than a spec and more durable than a conversation, is where
+              most of this product actually got decided.
+            </p>
+            <p>
+              It is messy in places and I have left it messy. Areas trail off, copy is labelled not
+              solid, and one region is simply the words ICONS NEEDED above a list of what still
+              needed drawing. That is what a working document looks like while it is still working.
+              Excalidraw being free is not a small detail either: in a team with scrappy limits it
+              meant everyone could open it, and no part of how we thought sat behind a licence we
+              were deciding whether to renew.
+            </p>
+            <div className="not-prose pt-1">
+              <UbikCanvasViewer waypoints={WAYPOINTS} />
+            </div>
+            <p>
+              What the board eventually taught me was when to stop drawing. Once my engineer
+              teammate had a framework standing, it was faster to develop the flow directly in code:
+              build the primitives, get the real UI working inside the constraints that already
+              existed, and skip a wireframe that could only ever approximate them. That shift made me
+              pick up a lot of new skills on the way and it changed how I design. I still open a
+              board when a problem is genuinely unresolved, but much of what used to become a sketch
+              now goes straight into components.
+            </p>
+          </section>
 
           <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
             <h2 className="text-sm font-medium tracking-wide text-foreground">A closed chapter</h2>
