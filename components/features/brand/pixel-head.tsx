@@ -29,6 +29,17 @@ type PixelHeadProps = {
   icon?: PixelIcon
   /** Cycle expressions inside the head void during the assembled hold. */
   faces?: boolean
+  /**
+   * With `faces`: open on the first expression instead of assembling into it.
+   *
+   * The loop's own order is reform, hold, dissolve, and the face is only drawn
+   * once the disc is whole, so by default a mark spends its first 1.7s as
+   * scattered pixels and then the face appears at once. That reads as a loading
+   * state where the mark is the first thing on a page. Starting the clock at
+   * the top of the hold skips only that first assemble; every later loop still
+   * dissolves and reforms.
+   */
+  startAssembled?: boolean
   /** Render one assembled frame and never animate (logo/chrome usage). */
   still?: boolean
   /** Assemble once when first visible, then hold — no dissolve loop. */
@@ -738,6 +749,7 @@ export function PixelHead({
   gap = 0.16,
   icon = "head",
   faces = false,
+  startAssembled = false,
   still = false,
   once = false,
   shimmer = false,
@@ -1094,9 +1106,16 @@ export function PixelHead({
       }
     }
 
-    // faces mode starts mid-air and assembles on load; others start settled
-    // at a random phase so multiple marks on a page don't sync up.
-    const t0 = performance.now() - (faces ? 0 : hash(cells.length) * 1000)
+    // Faces mode starts mid-air and assembles on load, unless it was asked to
+    // open already whole, in which case the clock starts at the top of the hold
+    // and the first frame is the first expression. Everything else starts at a
+    // random phase so multiple marks on a page don't sync up.
+    const offset = faces
+      ? startAssembled
+        ? (REFORM * 1000) / speed
+        : 0
+      : hash(cells.length) * 1000
+    const t0 = performance.now() - offset
     let raf = 0
     let visible = true
     let lastSig = ""
@@ -1174,7 +1193,7 @@ export function PixelHead({
       document.removeEventListener("visibilitychange", sync)
       themeObserver.disconnect()
     }
-  }, [size, grid, mode, variant, gap, icon, faces, still, once, shimmer, face, faceIndex, fluid, color, speed])
+  }, [size, grid, mode, variant, gap, icon, faces, startAssembled, still, once, shimmer, face, faceIndex, fluid, color, speed])
 
   return (
     <span

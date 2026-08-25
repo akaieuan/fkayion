@@ -1,4 +1,4 @@
-import { AkaMarkLazy } from '@/components/features/brand/aka-mark-lazy'
+import { PixelHead } from '@/components/features/brand/pixel-head'
 import { MEASURE } from './measure'
 
 const keyLinks = [
@@ -28,7 +28,21 @@ const staggerDelay = (step: number) => ({ animationDelay: `${step * 120}ms` })
  * The height is a fixed measure rather than a fraction of the viewport. A vh
  * hero grows with the monitor, so the taller the screen the further the work
  * moves down it, which is exactly backwards.
+ *
+ * The mark is the circleheads head in faces mode, the same call the circleheads
+ * site makes on its own hero, only smaller. It replaced AkaMark, which cycled a
+ * knockout per discipline: AI spark, code, music, 3D, agent tooling, design.
+ * Naming the skills was the weaker version of the joke. A head running through
+ * twenty-six expressions is the same idea about range, made by someone rather
+ * than by a list, and it ties this site to the studio family it belongs to.
+ *
+ * Rendered directly rather than behind dynamic(): the header already imports
+ * PixelHead on every route, so the engine is in the shared bundle before the
+ * hero asks for it, and a second chunk would only add a request.
  */
+
+/** The mark's box. Sized to the measure it shares with the title. */
+const HERO_MARK = 165
 export function HomeSection() {
   return (
     <section id="section-0" className="relative w-full">
@@ -50,7 +64,19 @@ export function HomeSection() {
              * perfectly centred box still read as a hero shoved to the left.
              */}
             <div className={`flex justify-center md:order-2 md:justify-end ${reveal}`}>
-              <AkaMarkLazy size={165} grid={24} fluid />
+              {/*
+               * The square is reserved by the wrapper, not by the canvas. A
+               * canvas with no width/height attributes has an intrinsic 2:1,
+               * so between the server's HTML and the effect that sizes it the
+               * mark would be half height and the hero would settle downward.
+               *
+               * flex, not block: the engine's host is an inline-block, which on
+               * a block parent sits on the text baseline and adds a descender's
+               * worth of height under the square.
+               */}
+              <span className="flex aspect-square max-w-full" style={{ width: HERO_MARK }}>
+                <PixelHead size={HERO_MARK} grid={24} faces startAssembled fluid />
+              </span>
             </div>
 
             <div className="flex flex-col gap-5 md:order-1">
