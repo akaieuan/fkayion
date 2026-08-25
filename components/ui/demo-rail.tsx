@@ -18,6 +18,11 @@ import { isFullscreenDemo } from '@/lib/fullscreen-demos'
  * It sits in the gutter beside the article on wide screens and is simply absent
  * below that, where there is no gutter to sit in — the pages already read fine
  * without it, so there is no mobile drawer to build or maintain.
+ *
+ * It is fixed, so nothing in the document flow can push it out of the way. That
+ * means it has to be told where to stop: see `bottom` below, which keeps it off
+ * the footer. A fixed element that overlaps another is not only ugly, it eats
+ * the clicks meant for what is under it.
  */
 
 type Entry = { id: string; text: string }
@@ -37,6 +42,16 @@ export function DemoRail() {
   const pathname = usePathname()
   const [entries, setEntries] = useState<Entry[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
+  /*
+   * How far the rail has to stop short of the viewport bottom.
+   *
+   * The footer is rendered by the root layout, outside this one, so there is no
+   * containing block that would bound a sticky rail and no CSS that knows where
+   * the footer is. It gets measured instead: once the footer's top edge enters
+   * the viewport, the rail's bottom rises with it, and the list inside scrolls
+   * in whatever height is left rather than running on over the site map.
+   */
+  const [bottomGap, setBottomGap] = useState(0)
   // /demo is the index; the rail belongs to the detail pages under it.
   const onDetailPage =
     Boolean(pathname && /^\/demo\/.+/.test(pathname)) && !isFullscreenDemo(pathname)
@@ -78,13 +93,34 @@ export function DemoRail() {
         }
       }
       setActiveId(best ?? found[0]?.id ?? null)
+
+      const footer = document.querySelector('footer')
+      const footerTop = footer ? footer.getBoundingClientRect().top : Number.POSITIVE_INFINITY
+      // 24px of air, so the rail's last item never sits flush on the rule.
+      setBottomGap(Math.max(0, window.innerHeight - footerTop + 24))
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    window.addEventListener('resize', onScroll)
+    /*
+     * The document can get taller without a scroll or a resize: an image
+     * finishes decoding, a font swaps, a canvas mark sizes itself. Any of those
+     * moves the footer, and a stale measurement is exactly the case where the
+     * rail lands on top of it. Watching the body covers all of them at once.
+     */
+    const ro = new ResizeObserver(onScroll)
+    ro.observe(document.body)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      ro.disconnect()
+    }
   }, [pathname, onDetailPage])
 
   if (!onDetailPage) return null
+
+  // What the rail actually has to work with once the footer has taken its cut.
+  const available = (typeof window === 'undefined' ? 900 : window.innerHeight) - bottomGap
 
   return (
     /*
@@ -99,13 +135,17 @@ export function DemoRail() {
      */
     <nav
       aria-label="On this page"
-      className="pointer-events-none fixed inset-y-0 z-40 hidden xl:block"
+      className="pointer-events-none fixed top-0 z-40 hidden xl:block"
       style={{
         left: 'calc((100vw - 1180px) / 2 + 4rem)',
         right: 'calc(50vw + 21rem + 1rem)',
+        bottom: bottomGap,
+        // Below this there is not enough height left to show anything but a
+        // sliver, and a sliver of a table of contents is worse than none.
+        visibility: available < 140 ? 'hidden' : undefined,
       }}
     >
-      <div className="pointer-events-auto flex h-full flex-col gap-6 py-24">
+      <div className="pointer-events-auto flex h-full flex-col gap-6 pt-24 pb-4">
         <Link
           href="/demo"
           className="inline-flex w-fit items-center gap-1.5 text-[11px] text-muted-foreground transition-colors hover:text-foreground"
