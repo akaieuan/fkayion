@@ -19,3 +19,18 @@ export const FULLSCREEN_DEMOS = [
 export function isFullscreenDemo(pathname: string | null | undefined) {
   return Boolean(pathname && FULLSCREEN_DEMOS.some((p) => pathname.startsWith(p)))
 }
+
+
+/**
+ * Demo routes that keep the site header but drop the section rail.
+ *
+ * The rail is a reading aid for an article. /demo/ubik is not an article any
+ * more: it is a product page, cards and recordings at full width, and a table
+ * of contents pinned beside it makes it read as documentation about a product
+ * rather than as the product. It is the one page where the chrome is the point.
+ */
+export const RAILLESS_DEMOS = ['/demo/ubik'] as const
+
+export function hidesRail(pathname: string | null | undefined) {
+  return Boolean(pathname && RAILLESS_DEMOS.some((p) => pathname === p))
+}

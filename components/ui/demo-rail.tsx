@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
-import { isFullscreenDemo } from '@/lib/fullscreen-demos'
+import { isFullscreenDemo, hidesRail } from '@/lib/fullscreen-demos'
 
 /**
  * The left rail on a demo page: a way back, and a map of the page that tracks
@@ -58,7 +58,9 @@ export function DemoRail() {
   const [atEnd, setAtEnd] = useState(false)
   // /demo is the index; the rail belongs to the detail pages under it.
   const onDetailPage =
-    Boolean(pathname && /^\/demo\/.+/.test(pathname)) && !isFullscreenDemo(pathname)
+    Boolean(pathname && /^\/demo\/.+/.test(pathname)) &&
+    !isFullscreenDemo(pathname) &&
+    !hidesRail(pathname)
 
   useEffect(() => {
     if (!onDetailPage) {
