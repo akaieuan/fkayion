@@ -8,7 +8,35 @@
  * renderer in behind it.
  */
 
+import { ELEVEN_MERGES, MOB_SHEET } from './entries-round'
+
 export type Cell = string | { v: string; tone: 'bad' | 'good' }
+
+/** A render, with its real pixel dimensions so nothing reflows on load. */
+export type Img = {
+  src: string
+  w: number
+  h: number
+  alt: string
+  /** A line under this one render, when a shared caption cannot say which is which. */
+  note?: string
+}
+
+/** How a ledger entry ended. Drives the chip's colour and nothing else. */
+export type Status = 'landed' | 'landed red' | 'falsified' | 'corrected' | 'refused'
+
+export type LedgerEntry = {
+  /** Two digits. The order is the order the work happened in. */
+  n: string
+  status: Status
+  title: string
+  paras: string[]
+  /** The measurement that settles it. Set in mono, against a rule. */
+  meas: string
+  fig?:
+    | { kind: 'pair'; before: Img; after: Img; labels: [string, string]; caption: string }
+    | { kind: 'shot'; img: Img; caption: string }
+}
 
 export type Block =
   /** Body copy. `**bold**`, `_italic_` and `` `code` `` are parsed. */
@@ -20,12 +48,56 @@ export type Block =
   /** A drawn diagram from `figures.tsx`, keyed by name. */
   | { k: 'figure'; art: FigureName; caption: string }
   /** Two renders of the same thing, before and after. */
-  | { k: 'pair'; before: string; after: string; alt: string; caption: string }
+  | {
+      k: 'pair'
+      before: string
+      after: string
+      alt: string
+      caption: string
+      /** Defaults to the 420px square the ellipsoid renders came in. */
+      w?: number
+      h?: number
+      /** Defaults to before/after. */
+      labels?: [string, string]
+    }
+  /** One render, full measure. */
+  | { k: 'shot'; img: Img; caption: string }
+  /** A group of renders under one caption, with an optional register line. */
+  | {
+      k: 'plates'
+      label?: string
+      items: Img[]
+      caption: string
+      /** `stack` gives each render the full measure; the default puts two up. */
+      layout?: 'row' | 'stack'
+    }
   /** A contact sheet. */
   | { k: 'gallery'; items: { src: string; name: string; note: string }[]; caption: string }
   | { k: 'table'; head: string[]; rows: Cell[][] }
+  /** What moved this round, and what it was before. */
+  | { k: 'deltas'; items: { k: string; v: string; was?: string; hold?: boolean }[]; note?: string }
+  /** The round itself, one numbered row per pass. */
+  | { k: 'ledger'; entries: LedgerEntry[] }
+  /** A question the round did not close. */
+  | { k: 'open'; title: string; text: string }
+  /** The roster: one card per mob, with its dials and its share of the budget. */
+  | { k: 'roster'; sheet: string; cards: RosterCard[]; key: { label: string; tone: RosterTone }[] }
   /** The colophon: what it was built with, and how big the change was. */
   | { k: 'colophon'; lines: string[] }
+
+export type RosterTone = 'body' | 'grow' | 'hair'
+
+export type RosterCard = {
+  name: string
+  role: string
+  /** Which quarter of the four-up head sheet this card shows. */
+  tile: 0 | 1 | 2 | 3
+  dials: [string, string][]
+  tris: string
+  share: string
+  /** Share of the 40,000-triangle budget, as percentages. */
+  bars: { body: number; grow: number; hair: number }
+}
 
 export type FigureName = 'surfaces' | 'occiput'
 
@@ -39,6 +111,12 @@ export type LabEntry = {
   standfirst: string
   /** Written as an absolute date; a lab log is a record and records are dated. */
   published: string
+  /** The same date as an ISO day, for `datePublished` and `<time>`. */
+  date: string
+  /** The image a link preview and the structured data should use. */
+  hero: string
+  /** The byline the entry was filed under: commit, gate score, budget. */
+  meta?: string
   body: Block[]
 }
 
@@ -49,6 +127,8 @@ const ELLIPSOID: LabEntry = {
   standfirst:
     'A coverage test told me the hair was perfect. The render disagreed. The bug was not in the geometry or in the test — it was that both of them were wrong about the same thing, in the same direction, and so agreed.',
   published: 'August 2026',
+  date: '2026-08-25',
+  hero: '/bkz/buzz-front-after.webp',
   body: [
     { k: 'h', text: 'The setup' },
     {
@@ -243,7 +323,7 @@ const ELLIPSOID: LabEntry = {
 }
 
 /** Newest first. The index and `generateStaticParams` both read this. */
-export const LAB_ENTRIES: LabEntry[] = [ELLIPSOID]
+export const LAB_ENTRIES: LabEntry[] = [MOB_SHEET, ELEVEN_MERGES, ELLIPSOID]
 
 export function findEntry(slug: string) {
   return LAB_ENTRIES.find((e) => e.slug === slug)

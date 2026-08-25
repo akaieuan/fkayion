@@ -1,16 +1,47 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { LAB_ENTRIES } from '@/components/demo/bkz-lab-log/entries'
+import { JsonLd, breadcrumbSchema, collectionSchema } from '@/components/seo/json-ld'
 
-export const metadata = {
-  title: 'BKZ lab log | akaBuild',
-  description:
-    'Findings and methodology from the Brooklyn Dead asset pipeline: what broke, how it was measured, and what the numbers said before and after.',
+const PATH = '/demo/blenderpipeline/bkz-lab-log'
+const TITLE = 'BKZ lab log'
+const DESCRIPTION =
+  'Findings and methodology from the Brooklyn Dead asset pipeline: what broke, how it was measured, what the numbers said before and after, and what was priced and then refused.'
+const HERO = '/bkz/mob-lab-night.webp'
+
+export const metadata: Metadata = {
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: { canonical: PATH },
+  openGraph: {
+    type: 'website',
+    url: PATH,
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [{ url: HERO, width: 1280, height: 720, alt: 'The mob lab at night' }],
+  },
+  twitter: { card: 'summary_large_image', title: TITLE, description: DESCRIPTION, images: [HERO] },
 }
 
 export default function LabLogIndexPage() {
   return (
     <div className="min-h-screen bg-background px-6 py-16">
+      <JsonLd
+        data={[
+          collectionSchema({
+            path: PATH,
+            name: TITLE,
+            description: DESCRIPTION,
+            items: LAB_ENTRIES.map((e) => ({ name: e.title, path: `${PATH}/${e.slug}` })),
+          }),
+          breadcrumbSchema([
+            { name: 'Projects', path: '/demo' },
+            { name: 'Brooklyn Dead', path: '/demo/blenderpipeline' },
+            { name: TITLE, path: PATH },
+          ]),
+        ]}
+      />
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo/blenderpipeline"
@@ -38,9 +69,14 @@ export default function LabLogIndexPage() {
             invisible for months is the part that generalises.
           </p>
           <p>
-            Each entry follows the same shape. What the gate said, what the render said, how the gap
-            between them was measured, what changed, and what was deliberately left alone. Numbers
-            are given as measured, including the ones that make the old code look worse.
+            Entries come in two shapes. A finding is one bug followed all the way down: what the
+            gate said, what the render said, how the gap between them was measured, and what was
+            deliberately left alone. A sheet is the opposite, a snapshot of what the pipeline
+            currently produces with no history in it at all.
+          </p>
+          <p>
+            Numbers are given as measured, including the ones that make the old code look worse, and
+            the work that was priced and then refused is written up alongside the work that landed.
           </p>
         </div>
 

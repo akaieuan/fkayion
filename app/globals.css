@@ -690,6 +690,9 @@ html:not(.dark) .animate-trickle-spotlight {
   --bkz-wrong: var(--accent-rose);
   --bkz-true: var(--accent-green);
   --bkz-true-soft: color-mix(in srgb, var(--accent-green) 34%, transparent);
+  /* The third state: neither wrong nor settled. Open questions, corrections,
+     and the gate that landed red. */
+  --bkz-open: var(--accent-amber);
 }
 
 .bkz-bad {
@@ -707,4 +710,41 @@ html:not(.dark) .animate-trickle-spotlight {
 .bkz-lbl-after {
   color: var(--bkz-true);
   background: color-mix(in srgb, var(--bkz-true) 12%, transparent);
+}
+
+/*
+ * A session log's chips and bars.
+ *
+ * Three tones and no more: what landed, what was falsified, what is still
+ * open. They are the same three colours the figures use, so a chip and a
+ * diagram in the same entry mean the same thing by the same hue.
+ */
+.bkz-chip-ok {
+  color: var(--bkz-true);
+  background: color-mix(in srgb, var(--bkz-true) 13%, transparent);
+}
+.bkz-chip-no {
+  color: var(--bkz-wrong);
+  background: color-mix(in srgb, var(--bkz-wrong) 13%, transparent);
+}
+.bkz-chip-op {
+  color: var(--bkz-open);
+  background: color-mix(in srgb, var(--bkz-open) 15%, transparent);
+}
+.bkz-open-ink {
+  color: var(--bkz-open);
+}
+
+/* The triangle budget bar: body, then corruption growths, then hair. */
+.bkz-bar-body {
+  background: var(--bkz-true);
+  opacity: 0.85;
+}
+.bkz-bar-grow {
+  background: var(--bkz-wrong);
+  opacity: 0.7;
+}
+.bkz-bar-hair {
+  background: var(--bkz-open);
+  opacity: 0.8;
 }

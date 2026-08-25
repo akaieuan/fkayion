@@ -1,12 +1,43 @@
+import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { RenderPair } from '@/components/demo/bkz-lab-log/prose'
 import { LAB_ENTRIES } from '@/components/demo/bkz-lab-log/entries'
+import { JsonLd, breadcrumbSchema, projectSchema } from '@/components/seo/json-ld'
 
-export const metadata = {
-  title: 'Brooklyn Dead: procedural asset pipeline | akaBuild',
-  description:
-    'A private Godot 4 game whose 3D assets are written rather than modelled: Blender Python, glTF, programmatic animation, and validators that gate every rebuild.',
+const PATH = '/demo/blenderpipeline'
+const TITLE = 'Brooklyn Dead: procedural asset pipeline'
+const DESCRIPTION =
+  'A private Godot 4 game whose 3D assets are written rather than modelled: Blender Python, glTF 2.0, programmatic animation, and validators that gate every rebuild.'
+const HERO = '/bkz/mob-lab-night.webp'
+
+export const metadata: Metadata = {
+  title: TITLE,
+  description: DESCRIPTION,
+  keywords: [
+    'procedural modelling',
+    'Blender Python',
+    'technical art',
+    'glTF 2.0',
+    'Godot 4',
+    'asset pipeline',
+    'Brooklyn Dead',
+  ],
+  alternates: { canonical: PATH },
+  openGraph: {
+    type: 'article',
+    url: PATH,
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [{ url: HERO, width: 1280, height: 720, alt: 'The mob lab at night' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [HERO],
+  },
 }
 
 const skills = [
@@ -23,10 +54,23 @@ const skills = [
 ]
 
 export default function BlenderPipelinePage() {
-  const entry = LAB_ENTRIES[0]
-
   return (
     <div className="min-h-screen bg-background px-6 py-16">
+      <JsonLd
+        data={[
+          projectSchema({
+            path: PATH,
+            name: TITLE,
+            description: DESCRIPTION,
+            image: HERO,
+            keywords: skills,
+          }),
+          breadcrumbSchema([
+            { name: 'Projects', path: '/demo' },
+            { name: 'Brooklyn Dead', path: PATH },
+          ]),
+        ]}
+      />
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
@@ -45,6 +89,49 @@ export default function BlenderPipelinePage() {
         <p className="mt-1 text-sm text-muted-foreground">
           A game whose art is written, not modelled. Blender Python → glTF → Godot 4.
         </p>
+
+        {/*
+          The lab log sits directly under the opening render rather than at the
+          foot of the page. Somebody who wants the engineering wants it before
+          the overview, and the render is what makes them want it.
+        */}
+        <figure className="mt-8">
+          <Image
+            src="/bkz/mob-lab-night.webp"
+            alt="A night street in the mob lab, a group of zombies lit by a wall lamp"
+            width={1280}
+            height={720}
+            sizes="(min-width: 768px) 672px, 92vw"
+            priority
+            className="block h-auto w-full rounded-xl border border-border/80"
+          />
+          <figcaption className="mt-3 text-[12px] font-light leading-relaxed text-muted-foreground/70">
+            The detail tier at playing distance, in the mob lab at night. Every asset in the frame
+            was generated from Python.
+          </figcaption>
+        </figure>
+
+        <Link
+          href="/demo/blenderpipeline/bkz-lab-log"
+          className="group mt-6 block rounded-xl border border-border/80 bg-muted/15 px-5 py-4 transition-colors hover:border-foreground/25"
+        >
+          <span className="flex items-center justify-between gap-4">
+            <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground/70">
+              BKZ lab log · {LAB_ENTRIES.length} {LAB_ENTRIES.length === 1 ? 'entry' : 'entries'}
+            </span>
+            <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/60 transition-colors group-hover:text-foreground" />
+          </span>
+          <span className="mt-3 flex flex-col gap-2">
+            {LAB_ENTRIES.map((e) => (
+              <span key={e.slug} className="flex items-baseline justify-between gap-4">
+                <span className="text-[14px] font-light text-foreground">{e.title}</span>
+                <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground/60">
+                  {e.kicker.split(' · ')[0]}
+                </span>
+              </span>
+            ))}
+          </span>
+        </Link>
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
           <section className="space-y-3">
@@ -126,28 +213,17 @@ export default function BlenderPipelinePage() {
           <section className="space-y-3">
             <h2 className="text-sm font-medium tracking-wide text-foreground">The lab log</h2>
             <p>
-              Findings like that one get written up rather than fixed and forgotten. The lab log is
-              where the methodology lives: what broke, how it was measured, what the numbers said
-              before and after, and what I decided not to change. It is the record I would want if I
-              came back to this codebase in a year.
+              Findings like that one get written up rather than fixed and forgotten. The{' '}
+              <Link
+                href="/demo/blenderpipeline/bkz-lab-log"
+                className="text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
+              >
+                BKZ lab log
+              </Link>{' '}
+              is where the methodology lives: what broke, how it was measured, what the numbers said
+              before and after, and what I priced and then refused. It is the record I would want if
+              I came back to this codebase in a year.
             </p>
-
-            <Link
-              href="/demo/blenderpipeline/bkz-lab-log"
-              className="group mt-2 block rounded-xl border border-border/80 bg-muted/15 px-5 py-4 transition-colors hover:border-foreground/25"
-            >
-              <span className="flex items-center justify-between gap-4">
-                <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground/70">
-                  BKZ lab log · {LAB_ENTRIES.length}{' '}
-                  {LAB_ENTRIES.length === 1 ? 'entry' : 'entries'}
-                </span>
-                <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/60 transition-colors group-hover:text-foreground" />
-              </span>
-              <span className="mt-2 block text-[15px] text-foreground">{entry.title}</span>
-              <span className="mt-1 block text-[14px] leading-relaxed text-muted-foreground">
-                {entry.standfirst}
-              </span>
-            </Link>
           </section>
 
           <section className="space-y-3">
