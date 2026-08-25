@@ -118,13 +118,16 @@ export const PROJECTS: ProjectCardItem[] = [
     title: 'Blockpad',
     tags: ['Open source', 'macOS', 'Swift', 'Agents'],
     description:
-      'A macOS sketchpad that opens over your editor on a hotkey. Draw where the boxes go, press copy, paste: the agent gets an exact scene tree rather than a paragraph or a screenshot, at about a seventeenth of the tokens.',
+      'A macOS sketchpad that opens over your editor on a hotkey. Draw where the boxes go, press copy, paste: the agent gets an exact scene tree with coordinates and hex, not a paragraph and not a 2,000-token screenshot.',
     href: '/demo/blockpad',
-    // Drawn from the app's own vector master, so it stays sharp from the 26px
-    // stamp to the full plate. See components/ui/blockpad-mark.tsx.
+    // Drawn from the app's own two vector masters, dark and light, so it stays
+    // sharp from the 26px stamp to the full plate and follows the theme.
+    // See components/ui/blockpad-mark.tsx.
     logo: 'blockpad',
-    // Steel, because the mark's own main column is slate. Its neighbours in the
-    // grid are rose, indigo, terracotta and orchid, so it collides with none.
+    // Steel, because the mark is greyscale but for one orange face, and steel
+    // is the one cool neutral that leaves that face the only warm thing on the
+    // plate. Its neighbours in both grids are rose, indigo, terracotta and
+    // orchid, so it collides with none.
     accent: TINT.steel,
   },
   {

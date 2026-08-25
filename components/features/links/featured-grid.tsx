@@ -19,7 +19,7 @@ const FEATURED = [
   'BodyLog',
   'akaCOVART',
   'Trickle UI Kit',
-  'Box Populi',
+  'Blockpad',
 ]
 
 const featured = FEATURED.map((title) => {

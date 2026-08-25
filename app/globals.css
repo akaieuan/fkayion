@@ -474,6 +474,36 @@ body {
     background-color: #0b0b0c;
   }
 
+  /*
+   * Blockpad ships a dark icon master and a light one. Both are transcribed
+   * into one drawing (components/ui/blockpad-mark.tsx) and the palette swaps
+   * here, so the mark stays a server-rendered SVG instead of a component that
+   * has to read the theme. The orange face is the same in both masters and is
+   * therefore written into the drawing, not tokenised.
+   *
+   * `--bp-edge` is the one addition: the app's masters have no border, because
+   * the icon is only ever seen against a desktop. On a project plate the card
+   * lands within a step of the ground in either theme, so it needs an edge.
+   */
+  .aka-blockpad {
+    --bp-card-top: #f2f2f2;
+    --bp-card-bottom: #ffffff;
+    --bp-rule: #16161b;
+    --bp-rule-opacity: 0.38;
+    --bp-face-right: #2d2d34;
+    --bp-face-left: #16161b;
+    --bp-edge: rgb(0 0 0 / 0.1);
+  }
+  .dark .aka-blockpad {
+    --bp-card-top: #262628;
+    --bp-card-bottom: #0e0e10;
+    --bp-rule: #ffffff;
+    --bp-rule-opacity: 0.42;
+    --bp-face-right: #a3a3ae;
+    --bp-face-left: #6d6d77;
+    --bp-edge: rgb(255 255 255 / 0.14);
+  }
+
   .aka-stamp-bleed {
     border-color: color-mix(in oklch, var(--foreground) 12%, transparent);
     background-color: #0b0b0c;
