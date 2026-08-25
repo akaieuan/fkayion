@@ -15,7 +15,10 @@ export const metadata = {
  * like the site changed. A name and one word is all a plate says in either
  * place; the full description belongs on the project's own page.
  *
- * Fully server-rendered. Nothing here is interactive, and the hover is CSS.
+ * Fully server-rendered apart from the reveal wrapper the grid puts around each
+ * plate here: this is the long page, and the plates arriving as you reach them
+ * is the difference between the grid keeping up with the scroll and the grid
+ * assembling itself in front of you. The landing's six do not get it.
  */
 export default function DemoIndexPage() {
   return (
@@ -28,7 +31,7 @@ export default function DemoIndexPage() {
           </p>
         </header>
 
-        <ProjectGrid items={PROJECTS} />
+        <ProjectGrid items={PROJECTS} reveal />
 
       </div>
     </div>
