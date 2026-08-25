@@ -292,6 +292,25 @@ body {
   --accent-amber: oklch(0.62 0.13 75);
   --accent-rose: oklch(0.58 0.16 15);
   --accent-violet: oklch(0.52 0.15 295);
+
+  /*
+   * The face accents in the pixel engine's expression table.
+   *
+   * That table is the circleheads design handoff and its five accents are
+   * literal hex, tuned for the studio's near-black ground: at 15 of the 26
+   * expressions they are the only colour the mark has. On paper they wash out,
+   * because a pastel picked to glow on black has nowhere to go on white.
+   *
+   * So the engine resolves them through these instead of painting the hex.
+   * Light takes the site's own accent ramp, which is the same five hues at a
+   * lightness that holds; dark restates the handoff's values exactly, so the
+   * mark there stays pixel-identical to the one circleheads ships.
+   */
+  --pixel-face-amber: var(--accent-amber);
+  --pixel-face-green: var(--accent-green);
+  --pixel-face-blue: var(--accent-blue);
+  --pixel-face-violet: var(--accent-violet);
+  --pixel-face-rose: var(--accent-rose);
 }
 
 .dark {
@@ -341,6 +360,13 @@ body {
   --accent-amber: oklch(0.83 0.12 80);
   --accent-rose: oklch(0.7 0.15 15);
   --accent-violet: oklch(0.75 0.11 295);
+
+  /* The handoff's own values, restated. See the note in :root. */
+  --pixel-face-amber: #ebbb63;
+  --pixel-face-green: #8fd9a6;
+  --pixel-face-blue: #7fb0e3;
+  --pixel-face-violet: #b39de8;
+  --pixel-face-rose: #e88fae;
 }
 
 @layer base {

@@ -46,13 +46,20 @@ export default function FacesPage() {
         <section className={`${cell}`}>
           <p className={label}>The rule</p>
           <p className="mt-2 text-[14px] font-light leading-relaxed text-foreground/85">
-            Faces belong to <span className="text-foreground">Circleheads</span> — a studio of
-            people, so its mark has a face. akaBuild&apos;s mark cycles{' '}
+            A face needs room and it needs time. So it appears at hero scale and nowhere else: the
+            header and footer marks are the same engine held still with no face at all, because an
+            expression at 26px is noise, and a mark you look at for a second cannot say anything
+            with a 2.9-second slot.
+          </p>
+          <p className="mt-3 text-[14px] font-light leading-relaxed text-foreground/85">
+            The set comes from <span className="text-foreground">Circleheads</span>, a studio of
+            people, and akaBuild runs the same head through the same twenty-six expressions. It
+            used to cycle{' '}
             <Link href="/aka-style/marks" className="text-primary underline decoration-border underline-offset-[3px]">
               disciplines
             </Link>{' '}
-            instead, because the work is the subject, not the person. One engine, two philosophies —
-            and the decision of which to use is a brand decision, not a technical one.
+            instead. Naming the work was the weaker version of the point: range reads better as one
+            face changing than as a list.
           </p>
         </section>
 
@@ -67,9 +74,28 @@ export default function FacesPage() {
             hold — so the mark is never static but never busy either. Blinks fire on their own
             schedule, independent of the expression slot.
           </p>
-          <div className={`${cell} mt-6 flex flex-col items-center gap-4`}>
-            <PixelHead size={190} grid={24} faces />
-            <p className={mono}>{'<PixelHead size={400} grid={24} faces fluid />'}</p>
+          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+            The loop&apos;s order is reform, hold, dissolve, and a face is only drawn once the disc
+            is whole. So a mark opens on 1.7 seconds of scattered pixels and then the first face
+            appears at once, which reads as loading when the mark is the first thing on a page.{' '}
+            <code className={codeCls}>startAssembled</code> starts the clock at the top of the hold
+            instead. Only that first assemble is skipped; every later loop still dissolves.
+          </p>
+          <div className={`${cell} mt-6 grid gap-6 sm:grid-cols-2`}>
+            {[
+              { label: 'faces', node: <PixelHead size={150} grid={24} faces />, code: '<PixelHead grid={24} faces fluid />' },
+              {
+                label: 'faces + startAssembled',
+                node: <PixelHead size={150} grid={24} faces startAssembled />,
+                code: '<PixelHead grid={24} faces startAssembled fluid />',
+              },
+            ].map((v) => (
+              <div key={v.label} className="flex flex-col items-center gap-3">
+                {v.node}
+                <p className={label}>{v.label}</p>
+                <p className={`${mono} text-center`}>{v.code}</p>
+              </div>
+            ))}
           </div>
         </section>
 

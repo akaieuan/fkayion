@@ -376,6 +376,26 @@ type Expression = {
   px2?: [number, number][]
 }
 
+/**
+ * Where each of the table's five accents is actually read from.
+ *
+ * The hex keys below are the circleheads handoff's own values and stay the
+ * record of what the design says. They are not what gets painted: a pastel
+ * picked to glow on the studio's near-black ground washes out on paper, and on
+ * the fifteen expressions that carry one it is the only colour the mark has. So
+ * each resolves through a token with a value per theme (--pixel-face-* in
+ * globals.css), falling back to the hex if the stylesheet has not arrived.
+ *
+ * Dark restates the handoff's values exactly, so the mark there is unchanged.
+ */
+const ACCENT_TOKENS: Record<string, string> = {
+  "#EBBB63": "--pixel-face-amber",
+  "#8FD9A6": "--pixel-face-green",
+  "#7FB0E3": "--pixel-face-blue",
+  "#B39DE8": "--pixel-face-violet",
+  "#E88FAE": "--pixel-face-rose",
+}
+
 const EXPR: Expression[] = [
   {
     accent: null,
@@ -794,10 +814,22 @@ export function PixelHead({
 
     // Pixel color follows the theme: the host carries color: var(--foreground)
     // (set in JSX); resolve it now and again whenever the html class flips.
+    // The accents are read off the host alongside the foreground, so a theme
+    // flip re-resolves both in the one pass the observer already makes.
+    const readAccents = () => {
+      const cs = getComputedStyle(host)
+      const out: Record<string, string> = {}
+      for (const [hex, token] of Object.entries(ACCENT_TOKENS)) {
+        out[hex] = cs.getPropertyValue(token).trim() || hex
+      }
+      return out
+    }
     let fg = getComputedStyle(host).color
+    let accents = readAccents()
     let onceDone = false
     const themeObserver = new MutationObserver(() => {
       fg = getComputedStyle(host).color
+      accents = readAccents()
       if (reduced || onceDone) paintStill()
     })
     themeObserver.observe(document.documentElement, {
@@ -902,7 +934,7 @@ export function PixelHead({
         !morphing && expr.px2 && Math.floor(phase * 3) % 2 === 1
           ? expr.px2
           : expr.px
-      const color = expr.accent || fg
+      const color = expr.accent ? (accents[expr.accent] ?? expr.accent) : fg
 
       const draws: [number, number, number][] = []
       for (const [c, r] of pixels) {
@@ -941,7 +973,7 @@ export function PixelHead({
           const sx = Math.round((W * 0.5 + Math.cos(ang) * rad) / cell) * cell
           const sy =
             Math.round((headCenterPy + Math.sin(ang) * rad * 0.7) / cell) * cell
-          ctx.fillStyle = expr.accent
+          ctx.fillStyle = accents[expr.accent] ?? expr.accent
           ctx.globalAlpha = 0.55
           ctx.fillRect(sx + off, sy + off, px, px)
         }

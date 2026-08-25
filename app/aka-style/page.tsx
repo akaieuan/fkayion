@@ -84,7 +84,7 @@ const accents = [
 const usage = [
   {
     name: 'akabuild.dev',
-    what: 'This site. AkaMark hero, pixel aka wordmark, the project-card vocabulary, every write-up page.',
+    what: 'This site. The faces hero, pixel aka wordmark, the project-card vocabulary, every write-up page.',
     href: '/',
     internal: true,
   },
@@ -455,9 +455,9 @@ export default function LibraryPage() {
                 <div>
                   <p className="text-[14px] font-light text-foreground/90">AkaMark</p>
                   <p className="mt-1 text-[12.5px] font-light leading-relaxed text-muted-foreground">
-                    The akaBuild hero. Each reform reveals a different discipline — AI spark, code
-                    brackets, an eighth note, an isometric cube, a terminal prompt, a pen stroke.
-                    The dissolve <em>is</em> the discipline change.
+                    Each reform reveals a discipline rather than a face: AI spark, code brackets, an
+                    eighth note, an isometric cube, a terminal prompt, a pen stroke. The dissolve{' '}
+                    <em>is</em> the discipline change. The hero it was built for now cycles faces.
                   </p>
                   <p className="mt-1.5 font-mono text-[10.5px] text-muted-foreground/60">
                     {'<AkaMark size grid gap hold speed fluid />'}
