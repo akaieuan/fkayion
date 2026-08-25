@@ -451,9 +451,8 @@ export default function BlockpadPage() {
               ))}
             </div>
             <p className="!mt-5">
-              A card on Apple&apos;s icon geometry, 22.37% corner radius, inset in its canvas,
-              holding an isometric stack of three faces with three short rules radiating from where
-              they meet. It is a blockout of a layout seen in three dimensions, which is close to
+              A card on Apple&apos;s icon geometry, 22.37% corner radius, holding an isometric
+              stack of three faces with three short rules radiating from where they meet. It is a blockout of a layout seen in three dimensions, which is close to
               literally what the app does. The top face is the only colour in it.
             </p>
             <p>

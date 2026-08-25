@@ -4,10 +4,10 @@
  * Blockpad generates its own icon in Core Graphics from the app's palette and
  * emits an SVG from the same ratios, so vector and raster cannot drift. Those
  * ratios are transcribed here from the app's two masters: a rounded card on
- * Apple's icon geometry, 22.37% corner radius and inset 9.4% in its canvas,
- * holding an isometric stack of three faces with three short rules radiating
- * from where they meet. It is a blockout of a layout seen in three dimensions,
- * which is close to literally what the app does.
+ * Apple's icon geometry, 22.37% corner radius, holding an isometric stack of
+ * three faces with three short rules radiating from where they meet. It is a
+ * blockout of a layout seen in three dimensions, which is close to literally
+ * what the app does.
  *
  * Vector because it has to survive being an 18px specimen and a 300px plate on
  * the same page, and because a 1024px PNG resampled to 18px turns the three
@@ -20,8 +20,19 @@
  * one colour that is the same in both.
  */
 
-/** From the app's own SVG masters, in their 1024 canvas. */
+/**
+ * From the app's own SVG masters, in their 1024 canvas.
+ *
+ * The masters pad the card with a 9.4% margin inside that canvas. Kept as-is,
+ * the mark rendered about four fifths the size of every other logo on a project
+ * plate, all of which fill their frame edge to edge. So the viewBox is cropped
+ * to the card and the geometry is left alone: same drawing, no margin.
+ */
 const CARD = { inset: 96.26, size: 831.49, r: 186 }
+const VIEW_BOX = `${CARD.inset} ${CARD.inset} ${CARD.size} ${CARD.size}`
+
+/** The edge is centred on the card's boundary, so half of it would clip. */
+const EDGE_WIDTH = 4
 
 /** Three short rules from the centre, where the three faces meet. */
 const RULES = [
@@ -56,7 +67,7 @@ export function BlockpadMark({
 }) {
   return (
     <svg
-      viewBox="0 0 1024 1024"
+      viewBox={VIEW_BOX}
       width={size}
       height={size}
       className={className ? `aka-blockpad ${className}` : 'aka-blockpad'}
@@ -87,15 +98,15 @@ export function BlockpadMark({
        * masters, which only ever draw the icon against a desktop.
        */}
       <rect
-        x={CARD.inset}
-        y={CARD.inset}
-        width={CARD.size}
-        height={CARD.size}
-        rx={CARD.r}
-        ry={CARD.r}
+        x={CARD.inset + EDGE_WIDTH / 2}
+        y={CARD.inset + EDGE_WIDTH / 2}
+        width={CARD.size - EDGE_WIDTH}
+        height={CARD.size - EDGE_WIDTH}
+        rx={CARD.r - EDGE_WIDTH / 2}
+        ry={CARD.r - EDGE_WIDTH / 2}
         fill="none"
         stroke="var(--bp-edge)"
-        strokeWidth={4}
+        strokeWidth={EDGE_WIDTH}
       />
 
       <g stroke="var(--bp-rule)" strokeOpacity="var(--bp-rule-opacity)" strokeWidth={14.97} strokeLinecap="round">
