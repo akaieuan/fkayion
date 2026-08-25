@@ -129,7 +129,7 @@ const plugins: Plugin[] = [
 ]
 
 export const metadata = {
-  title: 'akaVST — Three JUCE Instruments for macOS | akaBuild',
+  title: 'akaVST — Three JUCE Instruments for macOS',
   description:
     'Three JUCE instruments for macOS, built one at a time and documented as they go: akaBleep (acid voice + 64-step sequencer, v0.4.0), Enzyme (four lo-fi layers on one voice pool, v1.0.0), and i4 (sculpting sampler, v0.1.0). VST3 · AU · Standalone.',
 }
@@ -191,7 +191,7 @@ export default function AkaVstsPage() {
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground xl:hidden"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects

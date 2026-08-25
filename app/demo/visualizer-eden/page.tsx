@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { OrbHero } from '@/components/features/demo/orb-hero'
 
 export const metadata = {
-  title: 'Visualizer Eden | akaBuild',
+  title: 'Visualizer Eden',
   description:
     'Web Audio analyser, React Three Fiber, and custom GLSL: FFT-driven mesh deformation for a browser audio visualizer.',
 }
@@ -14,7 +14,7 @@ export default function VisualizerEdenDemoPage() {
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground xl:hidden"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects

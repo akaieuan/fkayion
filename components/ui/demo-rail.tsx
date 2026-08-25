@@ -15,9 +15,15 @@ import { isFullscreenDemo } from '@/lib/fullscreen-demos'
  * that lack one a slug id, and watches them. Adding a section to a page adds it
  * to the rail; nothing to keep in sync.
  *
- * It sits in the gutter beside the article on wide screens and is simply absent
- * below that, where there is no gutter to sit in — the pages already read fine
- * without it, so there is no mobile drawer to build or maintain.
+ * It sits in the gutter beside the article and is simply absent below the width
+ * where that gutter stops existing — the pages already read fine without it, so
+ * there is no mobile drawer to build or maintain.
+ *
+ * That width is 1024px, not 1280px. It was gated at `xl` on the assumption that
+ * the site container is always at its 1180px cap, which is only true on a very
+ * wide window; a 1000px-wide browser has a 164px gutter either side of the
+ * 42rem article and plenty of room for the rail, but never saw it. Nobody
+ * reading on a laptop at less than full screen had section navigation at all.
  *
  * It is fixed, so nothing in the document flow can push it out of the way, and
  * it used to run the full height of the viewport for the whole page: at the end
@@ -113,8 +119,9 @@ export function DemoRail() {
     /*
      * Positioned from both edges rather than given a width:
      *   left  — the site container's content edge, so it lines up with the
-     *           header wordmark (the rail only shows at xl, where the inset is
-     *           always 4rem and the container is capped at its max width).
+     *           header wordmark once the container has reached its cap. Below
+     *           that the container is full-bleed and the expression goes
+     *           negative, so it floors at the page inset instead.
      *   right — 1rem short of where a centred 42rem article begins.
      * The width falls out of those two, so the rail can never reach the text
      * however wide a page sets its own column. BodyLog was the only page at
@@ -123,9 +130,9 @@ export function DemoRail() {
     <nav
       aria-label="On this page"
       aria-hidden={atEnd || undefined}
-      className="pointer-events-none fixed inset-y-0 z-40 hidden xl:block"
+      className="pointer-events-none fixed inset-y-0 z-40 hidden lg:block"
       style={{
-        left: 'calc((100vw - 1180px) / 2 + 4rem)',
+        left: 'max(1.5rem, calc((100vw - 1180px) / 2 + 4rem))',
         right: 'calc(50vw + 21rem + 1rem)',
         // visibility, not opacity: a transparent fixed element still takes the
         // clicks meant for the footer links behind it.

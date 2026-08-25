@@ -61,8 +61,22 @@ export function ProjectPlate({
   // grandparent: a screenshot renders through next/image with `fill`, which
   // positions against the nearest positioned ancestor and warns about anything
   // else directly above it.
+  /*
+   * Every kind of art is scaled to the frame here, including the canvas.
+   *
+   * The pixel engine draws at a fixed pixel size rather than a fluid one, so
+   * its canvas arrived at 160px whatever the frame was. Above about 640px the
+   * frame is larger than that and nothing showed; below it the canvas ran past
+   * the frame and `overflow-hidden` cut the mark off at the edges. Two plates
+   * on /demo and the same two on the landing lost their glyph on a phone, which
+   * is the only place most people saw them.
+   *
+   * The selector list is per-tag because each kind needs a different rule:
+   * a bitmap covers, a canvas and an SVG scale, and none of them may exceed the
+   * frame. `max-h-full max-w-full` is the backstop for anything added later.
+   */
   const mark = (
-    <span className="relative block h-full w-full [&>*]:h-full [&>*]:w-full [&_img]:h-full [&_img]:w-full [&_img]:object-cover [&_svg]:h-full [&_svg]:w-full">
+    <span className="relative block h-full w-full [&>*]:h-full [&>*]:w-full [&_canvas]:h-full [&_canvas]:w-full [&_canvas]:max-h-full [&_canvas]:max-w-full [&_img]:h-full [&_img]:w-full [&_img]:object-cover [&_svg]:h-full [&_svg]:w-full [&_svg]:max-h-full [&_svg]:max-w-full">
       <ProjectMark
         item={item}
         size={160}

@@ -24,7 +24,7 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   const entry = getWritingPage(params.slug)
   if (!entry) return {}
   return {
-    title: `${entry.title} | akaBuild`,
+    title: entry.title,
     description: entry.description,
   }
 }

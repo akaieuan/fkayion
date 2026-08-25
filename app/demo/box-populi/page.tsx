@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { DemoImage } from '@/components/ui/demo-image'
 
 export const metadata = {
-  title: 'Box Populi — Live Techno Collective Site | akaBuild',
+  title: 'Box Populi — Live Techno Collective Site',
   description:
     'On-brand site for a NYC live-techno collective. Custom audio players over the SoundCloud Widget, multiple live streams coordinated so they never overlap, an iOS quirk handled honestly.',
 }
@@ -14,7 +14,7 @@ export default function BoxPopuliProjectPage() {
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground xl:hidden"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects

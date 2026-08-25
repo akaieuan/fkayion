@@ -1,9 +1,17 @@
 import { HomeSection } from './sections/home-section'
 import { LinksSection } from './sections/links-section'
 
-export const metadata = {
-  title: 'akaBuild | akaieuan | akabuild.com',
-  description: 'akaieuan is a front-end developer, designer, and artist',
+import type { Metadata } from 'next'
+
+/**
+ * The landing is the site, so its title is the site's name rather than a page
+ * name run through the `%s | akaBuild` template, which would only stutter it.
+ * `absolute` is how Next says "this exact string, skip the template" — `null`
+ * looks like it should mean the same thing and instead ships no title at all.
+ */
+export const metadata: Metadata = {
+  title: { absolute: 'akaBuild | akaieuan' },
+  alternates: { canonical: '/' },
 }
 
 /**

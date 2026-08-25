@@ -55,7 +55,7 @@ const demos: Demo[] = [
 ]
 
 export const metadata = {
-  title: 'Ubik Studio — A Desktop-Native AI Research Platform | akaBuild',
+  title: 'Ubik Studio — A Desktop-Native AI Research Platform',
   description:
     'Three and a half years co-founding a desktop-native AI research platform where agents did the gathering and drafting, and humans kept the final say — with evidence behind every claim.',
 }
@@ -66,7 +66,7 @@ export default function UbikProjectPage() {
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground xl:hidden"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects

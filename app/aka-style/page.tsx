@@ -119,7 +119,7 @@ const usage = [
 ]
 
 export const metadata = {
-  title: 'akaSTYLE — design language, primitives & brand engines | akaBuild',
+  title: 'akaSTYLE — design language, primitives & brand engines',
   description:
     'akaSTYLE: the design language, component primitives, and canvas brand engines behind akabuild.dev, circleheads.com, akaoss.dev, and the kits — seven rules, a token set, and every primitive rendered live rather than screenshotted.',
 }

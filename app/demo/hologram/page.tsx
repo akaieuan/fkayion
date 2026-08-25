@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 const code = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]'
 
 export const metadata = {
-  title: 'Hologram — Live Observability for Blender → glTF Pipelines | akaBuild',
+  title: 'Hologram — Live Observability for Blender → glTF Pipelines',
   description:
     'Live observability and a read-only MCP surface for Blender → glTF pipelines. Watch your AI agent work on your game assets in real time, and hand the same pipeline back to the agent as read-only MCP tools.',
 }
@@ -15,7 +15,7 @@ export default function HologramProjectPage() {
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground xl:hidden"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects

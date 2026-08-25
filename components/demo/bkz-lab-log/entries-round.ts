@@ -24,8 +24,8 @@ const MOB_LAB = {
 
 const HEADS = {
   src: `${P}/mob-heads.webp`,
-  w: 1280,
-  h: 320,
+  w: 1500,
+  h: 375,
   alt: 'Four mob heads in three-quarter view, each with different hair and facial hair',
 }
 
@@ -78,14 +78,14 @@ export const ELEVEN_MERGES: LabEntry = {
             kind: 'pair',
             before: {
               src: `${P}/gait-hero-before.webp`,
-              w: 1280,
-              h: 605,
+              w: 1500,
+              h: 708,
               alt: 'The Breaker walking on the hero’s clip, arms buried in the torso',
             },
             after: {
               src: `${P}/gait-breaker-after.webp`,
-              w: 1280,
-              h: 596,
+              w: 1499,
+              h: 697,
               alt: 'The Breaker walking on its own gait, arms swinging clear of the torso',
             },
             labels: ['hero’s walk', 'own gait'],
@@ -386,15 +386,15 @@ export const MOB_SHEET: LabEntry = {
       items: [
         {
           src: `${P}/gait-breaker-after.webp`,
-          w: 1280,
-          h: 596,
+          w: 1499,
+          h: 697,
           alt: 'The Breaker’s walk cycle, shoulders forward',
           note: 'Breaker · lumbers, shoulders forward',
         },
         {
           src: `${P}/gait-crier.webp`,
-          w: 1280,
-          h: 601,
+          w: 1500,
+          h: 704,
           alt: 'The Crier’s walk cycle, neck craned low and arms wide',
           note: 'Crier · cranes low, arms wide and loose',
         },

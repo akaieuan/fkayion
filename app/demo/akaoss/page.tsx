@@ -7,7 +7,7 @@ const SITE = 'https://www.akaoss.dev'
 const REPO = 'https://github.com/akaieuan/akaOSS'
 
 export const metadata = {
-  title: 'akaOSS — Open-Source Software for Human-in-the-Loop AI | akaBuild',
+  title: 'akaOSS — Open-Source Software for Human-in-the-Loop AI',
   description:
     'The akaOSS studio: five open-source projects, one thesis (Assist-Not-Complete), a reproducible research feed, and the HITL Kit component registry — served as one site at akaoss.dev.',
 }
@@ -88,7 +88,7 @@ export default function AkaossProjectPage() {
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground xl:hidden"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects

@@ -18,7 +18,7 @@ const gallery: Shot[] = [
 ]
 
 export const metadata = {
-  title: 'Collapse — Pattern → SKILL.md Compiler for Claude Code | akaBuild',
+  title: 'Collapse — Pattern → SKILL.md Compiler for Claude Code',
   description:
     'A Claude Code skill-building framework: three pluggable ingestors — MDX lessons, Jupyter .ipynb / MyST .md, and a one-file extension pattern for any other source format — feed a typed pipeline that compiles each pattern into a SKILL.md or an MCP server scaffold, written atomically to ~/.claude/skills/. Next.js 16 + TypeScript.',
 }
@@ -29,7 +29,7 @@ export default function CollapseProjectPage() {
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground xl:hidden"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects

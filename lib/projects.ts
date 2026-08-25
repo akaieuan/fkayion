@@ -3,11 +3,12 @@ import type { ProjectCardItem } from '@/components/ui/project-mark'
 // Card media - static imports for build-time blur placeholders.
 import inertialDashboard from '@/public/inertial-dashboard.png'
 import visualizerPoster from '@/public/visualizer-eden-preview-poster.jpg'
-import brooklynDead from '@/public/brooklyn-dead.webp'
+import mobLabNight from '@/public/bkz/mob-lab-night.webp'
 
 // Bitmap logos the projects ship - drawn as app-icon tiles on the card plate.
 import ubikLogo from '@/components/ui/logos/ubik.webp'
 import boxPopuliLogo from '@/components/ui/logos/box-populi.webp'
+import nullBrowserLogo from '@/components/ui/logos/null-browser.webp'
 
 /**
  * Every project the site shows, in one place.
@@ -149,12 +150,21 @@ export const PROJECTS: ProjectCardItem[] = [
     accent: TINT.amber,
   },
   {
+    title: 'Brooklyn Dead: procedural asset pipeline',
+    tags: ['Blender', 'Godot', 'Pipeline', 'Lab log'],
+    description:
+      'Private WIP: a Godot 4 game whose assets are written in Python, gated by validators, and written up as findings.',
+    href: '/demo/blenderpipeline',
+    img: mobLabNight,
+    accent: TINT.terracotta,
+  },
+  {
     title: 'Null Browser',
     tags: ['Open source', 'Tauri', 'Privacy', 'Write-up'],
     description:
       'Privacy-first Tauri browser: zero telemetry, local-first AI, six invariants, every connection visible. Pre-v0.1.',
     href: '/demo/null-browser',
-    logo: 'zero',
+    logoImg: nullBrowserLogo,
     accent: TINT.orchid,
   },
   {
@@ -236,15 +246,6 @@ export const PROJECTS: ProjectCardItem[] = [
     href: '/demo/visualizer-eden',
     img: visualizerPoster,
     accent: TINT.orchid,
-  },
-  {
-    title: 'Brooklyn Dead: procedural asset pipeline',
-    tags: ['Blender', 'Godot', 'Pipeline', 'Lab log'],
-    description:
-      'Private WIP: a Godot 4 game whose assets are written in Python, gated by validators, and written up as findings.',
-    href: '/demo/blenderpipeline',
-    img: brooklynDead,
-    accent: TINT.terracotta,
   },
   {
     title: 'Wordle remake: Wrdef (Wordle + definition)',

@@ -8,7 +8,7 @@ const CONTACT = 'https://circleheads.com/about'
 const SITE = 'https://circleheads.com'
 
 export const metadata = {
-  title: 'Circleheads — Applied-AI Software Studio | akaBuild',
+  title: 'Circleheads — Applied-AI Software Studio',
   description:
     'Circleheads is a two-person Brooklyn studio building applied AI in production, taking a short senior consulting bench, and shipping original games. We watch the work first, then ship agents that do it with approval gates that keep humans in control.',
 }
@@ -37,7 +37,7 @@ export default function CircleheadsProjectPage() {
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground xl:hidden"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects

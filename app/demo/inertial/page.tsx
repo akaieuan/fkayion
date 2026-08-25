@@ -14,7 +14,7 @@ const techChip =
 const eyebrow = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80'
 
 export const metadata = {
-  title: 'Inertial: reference architecture for auditable AI content review | akaBuild',
+  title: 'Inertial: reference architecture for auditable AI content review',
   description:
     'A reference architecture for auditable AI content review. Not a deployable moderation service — a working demonstration of one architectural thesis: AI classification outputs and human review actions both land in a hash-chained audit log, with typed structured signals as the unit of evidence and per-instance YAML as the unit of policy.',
 }
@@ -35,7 +35,7 @@ export default function InertialProjectPage() {
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground xl:hidden"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects

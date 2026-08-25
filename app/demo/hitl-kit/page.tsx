@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 
 export const metadata = {
-  title: 'HITL Kit — Human-in-the-Loop AI, Measured Properly | akaBuild',
+  title: 'HITL Kit — Human-in-the-Loop AI, Measured Properly',
   description:
     'An open-source design system, component library, and perspective paper on human-in-the-loop AI. Nineteen primitives, six @hitl-kit/* npm packages, a shadcn registry, and a research argument connecting them.',
 }
@@ -14,7 +14,7 @@ export default function HitlKitProjectPage() {
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground xl:hidden"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects

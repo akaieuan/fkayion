@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { DemoImage } from '@/components/ui/demo-image'
 import { RenderPair } from '@/components/demo/bkz-lab-log/prose'
 import { LAB_ENTRIES } from '@/components/demo/bkz-lab-log/entries'
 import { JsonLd, breadcrumbSchema, projectSchema } from '@/components/seo/json-ld'
@@ -74,7 +74,7 @@ export default function BlenderPipelinePage() {
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
-          className="mb-10 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects
@@ -90,48 +90,38 @@ export default function BlenderPipelinePage() {
           A game whose art is written, not modelled. Blender Python → glTF → Godot 4.
         </p>
 
+        <figure className="-mx-6 mt-8 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
+          <DemoImage
+            src="/bkz/mob-lab-night.webp"
+            alt="A night street in the mob lab, a group of zombies lit by a wall lamp"
+            width={1280}
+            height={720}
+            priority
+            className="block h-auto w-full"
+          />
+        </figure>
+        <p className="mt-3 text-[12px] font-light leading-relaxed text-muted-foreground/70">
+          The detail tier at playing distance, in the mob lab at night. Every asset in the frame was
+          generated from Python.
+        </p>
+
         {/*
           The lab log sits directly under the opening render rather than at the
           foot of the page. Somebody who wants the engineering wants it before
           the overview, and the render is what makes them want it.
         */}
-        <figure className="mt-8">
-          <Image
-            src="/bkz/mob-lab-night.webp"
-            alt="A night street in the mob lab, a group of zombies lit by a wall lamp"
-            width={1280}
-            height={720}
-            sizes="(min-width: 768px) 672px, 92vw"
-            priority
-            className="block h-auto w-full rounded-xl border border-border/80"
-          />
-          <figcaption className="mt-3 text-[12px] font-light leading-relaxed text-muted-foreground/70">
-            The detail tier at playing distance, in the mob lab at night. Every asset in the frame
-            was generated from Python.
-          </figcaption>
-        </figure>
-
-        <Link
-          href="/demo/blenderpipeline/bkz-lab-log"
-          className="group mt-6 block rounded-xl border border-border/80 bg-muted/15 px-5 py-4 transition-colors hover:border-foreground/25"
-        >
-          <span className="flex items-center justify-between gap-4">
-            <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground/70">
-              BKZ lab log · {LAB_ENTRIES.length} {LAB_ENTRIES.length === 1 ? 'entry' : 'entries'}
-            </span>
-            <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/60 transition-colors group-hover:text-foreground" />
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <Link
+            href="/demo/blenderpipeline/bkz-lab-log"
+            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+          >
+            BKZ lab log · {LAB_ENTRIES.length} {LAB_ENTRIES.length === 1 ? 'entry' : 'entries'}
+            <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
+          </Link>
+          <span className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground">
+            Blender · Python · glTF 2.0 · Godot 4
           </span>
-          <span className="mt-3 flex flex-col gap-2">
-            {LAB_ENTRIES.map((e) => (
-              <span key={e.slug} className="flex items-baseline justify-between gap-4">
-                <span className="text-[14px] font-light text-foreground">{e.title}</span>
-                <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground/60">
-                  {e.kicker.split(' · ')[0]}
-                </span>
-              </span>
-            ))}
-          </span>
-        </Link>
+        </div>
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
           <section className="space-y-3">

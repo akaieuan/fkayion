@@ -7,7 +7,7 @@ const linkMuted =
   'text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground'
 
 export const metadata = {
-  title: 'How I work — product design & research practice | akaBuild',
+  title: 'How I work — product design & research practice',
   description:
     'How I design for human-in-the-loop AI: watch the work first, prototype in code, measure what matters. The practice behind the HITL Kit, the studios, and the demos on this site.',
 }
@@ -18,7 +18,7 @@ export default function HitlPracticePage() {
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground xl:hidden"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects

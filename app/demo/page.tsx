@@ -2,7 +2,7 @@ import { ProjectGrid } from '@/components/ui/project-grid'
 import { PROJECTS } from '@/lib/projects'
 
 export const metadata = {
-  title: 'Projects | akaBuild',
+  title: 'Projects',
   description: 'Interactive product demos and component showcases.',
 }
 

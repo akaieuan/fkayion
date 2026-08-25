@@ -19,7 +19,7 @@ const gallery: Shot[] = [
 ]
 
 export const metadata = {
-  title: 'akaCOVART — Generative Album-Art Studio | akaBuild',
+  title: 'akaCOVART — Generative Album-Art Studio',
   description:
     'A browser-based generative album-art studio: pick an engine, drop a seed, shape with palette / composition / film / type, and export a print-ready cover or a synced video loop. Every cover is reproducible data. Next.js, React, Canvas 2D, Web Audio.',
 }
@@ -30,7 +30,7 @@ export default function AkaCovartProjectPage() {
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground xl:hidden"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects

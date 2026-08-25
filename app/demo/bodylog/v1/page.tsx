@@ -36,7 +36,7 @@ const inter = Inter({ subsets: ['latin'], display: 'swap', variable: '--bl1-sans
 const GEIST_MONO = 'https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap'
 
 export const metadata = {
-  title: 'BodyLog v1 Prototype | akaBuild',
+  title: 'BodyLog v1 Prototype',
   description:
     'The original interactive BodyLog prototype: the whole user story as one clickable artefact, kept exactly as it was designed.',
 }

@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 
 export const metadata = {
-  title: 'Wrdef (Wordle + definition) | akaBuild',
+  title: 'Wrdef (Wordle + definition)',
   description:
     'A five-letter guessing game powered by dictionary definitions, sense ranking, bonus blanks, and a local dictionary you earn.',
 }
@@ -13,7 +13,7 @@ export default function WrdefProjectPage() {
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground xl:hidden"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects

@@ -5,7 +5,7 @@ const extLink =
   'underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50'
 
 export const metadata = {
-  title: 'eval-kit: Human scoring for research agents | akaBuild',
+  title: 'eval-kit: Human scoring for research agents',
   description:
     'The scoring cockpit for research agents: Zod schema-first monorepo, @eval-kit packages, Next.js dashboard, CLI, human 0-3 rubric, OSS release discipline. Pre-1.0, v0.3.1 stable.',
 }
@@ -16,7 +16,7 @@ export default function EvalKitProjectPage() {
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground xl:hidden"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects

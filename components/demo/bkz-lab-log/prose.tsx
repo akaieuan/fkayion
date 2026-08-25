@@ -57,6 +57,14 @@ export function inline(text: string, keyed: string) {
   return out
 }
 
+/*
+ * These renders arrive already compressed: they were JPEGs before they were
+ * WebP, and next/image re-encodes a third time at its default quality of 75.
+ * Three lossy passes on a 420px render of a low-poly head is exactly where the
+ * mush comes from, so the optimiser is told to stay out of the way.
+ */
+const Q = 92
+
 const caption = 'mt-3 text-[12px] font-light leading-relaxed text-muted-foreground/70'
 const frame = 'overflow-hidden rounded-xl border border-border/80 bg-muted/10'
 const plate = 'block h-auto w-full rounded-lg border border-border/80'
@@ -112,6 +120,7 @@ function Shot({ img, label: text, tone }: { img: Img; label: string; tone: 'befo
         width={img.w}
         height={img.h}
         sizes="(min-width: 640px) 340px, 90vw"
+        quality={Q}
         className={plate}
       />
       <span
@@ -134,6 +143,7 @@ function Plate({ img, priority, half }: { img: Img; priority?: boolean; half?: b
       width={img.w}
       height={img.h}
       sizes={half ? '(min-width: 640px) 340px, 92vw' : '(min-width: 768px) 672px, 92vw'}
+      quality={Q}
       priority={priority}
       className={plate}
     />
@@ -486,6 +496,7 @@ export function LabProse({ blocks }: { blocks: Block[] }) {
                       width={420}
                       height={420}
                       sizes="(min-width: 1024px) 130px, (min-width: 640px) 180px, 44vw"
+                      quality={Q}
                       className={plate}
                     />
                     <span className="flex justify-between gap-1.5 font-mono text-[10px] text-muted-foreground/70">

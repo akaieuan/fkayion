@@ -8,7 +8,7 @@ const philosophyHref =
   'https://github.com/akaieuan/null-browser/blob/main/docs/PHILOSOPHY.md'
 
 export const metadata = {
-  title: 'Null Browser: privacy-first Tauri browser | akaBuild',
+  title: 'Null Browser: privacy-first Tauri browser',
   description:
     'Open source, pre-v0.1. Tauri 2.0, zero telemetry, local-first Ollama, four AI modes (Chat, Summarize, Search, Save), SQLite artifacts with streaming pipelines, every outbound connection visible, six invariants enforced in code and review.',
 }
@@ -19,7 +19,7 @@ export default function NullBrowserProjectPage() {
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground xl:hidden"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects
