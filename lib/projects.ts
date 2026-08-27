@@ -162,7 +162,7 @@ export const PROJECTS: ProjectCardItem[] = [
     title: 'Null Browser',
     tags: ['Open source', 'Tauri', 'Privacy', 'Write-up'],
     description:
-      'Privacy-first Tauri browser: zero telemetry, local-first AI, six invariants, every connection visible. Pre-v0.1.',
+      'Privacy-first Tauri browser: zero telemetry, no AI, notes as markdown on disk, every connection visible and blockable. MPL 2.0.',
     href: '/demo/null-browser',
     logoImg: nullBrowserLogo,
     accent: TINT.orchid,
