@@ -51,6 +51,14 @@ export type ProjectItem = {
    */
   fill?: boolean
   /**
+   * This project lives inside another one, and the parent is where it is
+   * listed. It stays in `PROJECTS` so its write-up keeps its structured data,
+   * its share image and its place in the sitemap; it is simply left out of the
+   * index, which was showing five open-source toolkits and the studio that
+   * ships all five as six equal plates.
+   */
+  parent?: string
+  /**
    * The mark is drawn light on nothing, so it needs a dark ground under it in
    * either theme. Box Populi's art is white on transparent; akaVST's is
    * near-white with translucent white fills.

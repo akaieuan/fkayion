@@ -1,5 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { ProjectGrid } from '@/components/ui/project-grid'
+import { childProjects } from '@/lib/projects'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import akaossMark from '@/public/akaoss.webp'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
@@ -24,42 +26,18 @@ type Project = {
   status: string
 }
 
-const measurement: Project[] = [
-  {
-    name: 'HITL Kit',
-    href: '/demo/hitl-kit',
-    blurb: 'Human-in-the-loop AI, measured properly. Nineteen React primitives installable via the shadcn CLI and six @hitl-kit/* npm packages — schemas, gates, and LangGraph / AI-SDK / MCP adapters. Each primitive is the physical embodiment of a specific claim from the paper.',
-    status: 'v0.6',
-  },
-  {
-    name: 'eval-kit',
-    href: '/demo/eval-kit',
-    blurb: 'A measurement instrument for multi-step research agents: YAML suites, per-step tool-match auto-scoring, a five-dimension human rubric, deterministic replay. Humans score, not LLMs — LLM-as-judge is only an opt-in pre-fill, flagged on every score.',
-    status: 'v0.3.1',
-  },
-  {
-    name: 'tag-kit',
-    href: 'https://www.akaoss.dev/projects/tag-kit',
-    external: true,
-    blurb: 'Structured tagging primitives for annotation workflows. Most tagging in HITL tools is unstructured strings you can never aggregate or score across; tag-kit gives them per-modality scoping, scope-aware agreement scoring, and headless React. Zero runtime deps.',
-    status: 'stable',
-  },
-]
+/** Which track a toolkit belongs to, keyed by its title in the project list. */
+const MEASUREMENT = new Set(['HITL Kit', 'EVAL Kit'])
 
-const tooling: Project[] = [
-  {
-    name: 'Collapse',
-    href: '/demo/collapse',
-    blurb: 'Skills and MCP tools from your lessons. Three pluggable ingestors — MDX lessons, Jupyter/MyST notebooks, and a one-file extension pattern for any other format — feed a typed pipeline that compiles each pattern into a SKILL.md or an MCP server scaffold.',
-    status: 'v0.2',
-  },
-  {
-    name: 'Hologram',
-    href: '/demo/hologram',
-    blurb: 'Live observability, guided skills, and a non-destructive MCP surface for Blender → glTF pipelines. Stdlib Python, no build step.',
-    status: 'v0.6.0',
-  },
-]
+/** tag-kit has no write-up on this site, so it stays a row that links out. */
+const tagKit: Project = {
+  name: 'tag-kit',
+  href: 'https://www.akaoss.dev/projects/tag-kit',
+  external: true,
+  blurb:
+    'Structured tagging primitives for annotation workflows. Most tagging in HITL tools is unstructured strings you can never aggregate or score across; tag-kit gives them per-modality scoping, scope-aware agreement scoring, and headless React. Zero runtime deps.',
+  status: 'stable',
+}
 
 function ProjectRow({ p }: { p: Project }) {
   const inner = (
@@ -170,30 +148,48 @@ export default function AkaossProjectPage() {
             </p>
           </section>
 
+          {/*
+            The four toolkits with a page on this site are shown as the same
+            plates the index uses, drawn from the same records, so a toolkit
+            looks identical wherever you meet it. They were removed from /demo
+            itself: akaOSS and the things akaOSS ships were sitting there as
+            five equal entries, which made the wall longer without making it
+            say more. tag-kit keeps a text row because it has no page here.
+          */}
           <section className="space-y-4">
             <h2 className="text-sm font-medium tracking-wide text-foreground">The projects</h2>
-            <p>Five projects across two tracks. Each lives in its own repo; here they are on this site.</p>
-            <div className="space-y-4">
-              <div>
-                <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
-                  Human-in-the-loop measurement
-                </p>
-                <div className="space-y-2">
-                  {measurement.map((p) => (
-                    <ProjectRow key={p.name} p={p} />
-                  ))}
-                </div>
-              </div>
-              <div>
-                <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
-                  Developer tooling
-                </p>
-                <div className="space-y-2">
-                  {tooling.map((p) => (
-                    <ProjectRow key={p.name} p={p} />
-                  ))}
-                </div>
-              </div>
+            <p>
+              Five projects across two tracks. Each lives in its own repo; four of them have a
+              write-up here.
+            </p>
+
+            <div>
+              <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
+                Human-in-the-loop measurement
+              </p>
+              <ProjectGrid
+                items={childProjects('akaOSS').filter((p) => MEASUREMENT.has(p.title))}
+                flush
+                columns={2}
+              />
+            </div>
+
+            <div className="pt-2">
+              <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
+                Developer tooling
+              </p>
+              <ProjectGrid
+                items={childProjects('akaOSS').filter((p) => !MEASUREMENT.has(p.title))}
+                flush
+                columns={2}
+              />
+            </div>
+
+            <div className="pt-2">
+              <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
+                Also in the registry
+              </p>
+              <ProjectRow p={tagKit} />
             </div>
           </section>
 

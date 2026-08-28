@@ -28,13 +28,32 @@ import type { ProjectItem } from '@/components/ui/project-mark'
 export function ProjectGrid({
   items,
   reveal = false,
+  flush = false,
+  columns = 3,
 }: {
   items: ProjectItem[]
   /** Fade and lift each plate in as it is scrolled to. Off unless asked for. */
   reveal?: boolean
+  /**
+   * Drop the overhang. It is measured against the page gutter on /demo and the
+   * landing; inside a `max-w-2xl` article the overhang is wider than the
+   * padding around it, so the first column is cut off at the edge of the
+   * screen. A grid embedded in prose sits flush with the prose.
+   */
+  flush?: boolean
+  /**
+   * Widest-breakpoint column count. Three is the wall. A short group inside an
+   * article is better at two: three columns for two plates leaves a hole where
+   * the third would be.
+   */
+  columns?: 2 | 3
 }) {
   return (
-    <ul className="-mx-3 grid list-none grid-cols-2 gap-x-5 gap-y-9 p-0 sm:-mx-4 sm:gap-x-6 md:-mx-7 lg:-mx-12 lg:grid-cols-3">
+    <ul
+      className={`grid list-none grid-cols-2 gap-x-5 gap-y-9 p-0 sm:gap-x-6 ${
+        columns === 3 ? 'lg:grid-cols-3' : ''
+      } ${flush ? '' : '-mx-3 sm:-mx-4 md:-mx-7 lg:-mx-12'}`}
+    >
       {items.map((item, i) => (
         <li key={item.href}>
           {/*

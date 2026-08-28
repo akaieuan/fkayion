@@ -3,6 +3,7 @@ import type { ProjectCardItem } from '@/components/ui/project-mark'
 // Card media - static imports for build-time blur placeholders.
 import inertialDashboard from '@/public/inertial-dashboard.png'
 import visualizerPoster from '@/public/visualizer-eden-preview-poster.jpg'
+import howIWork from '@/public/how-i-work.webp'
 import mobLabNight from '@/public/bkz/mob-lab-night.webp'
 
 // Bitmap logos the projects ship - drawn as app-icon tiles on the card plate.
@@ -50,7 +51,7 @@ export const PROJECTS: ProjectCardItem[] = [
     description:
       'Who I am and how I design: field-work training applied to product, parameterized prototypes built to be felt rather than reviewed, and the small software I use every day because I built it.',
     href: '/demo/how-i-work',
-    logo: 'roundabout',
+    img: howIWork,
     accent: TINT.steel,
   },
   {
@@ -147,6 +148,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'Design system, nineteen HITL primitives, six @hitl-kit/* npm packages, shadcn registry, and personal research paper.',
     href: '/demo/hitl-kit',
     logo: 'hitl-kit',
+    parent: 'akaOSS',
     accent: TINT.indigo,
   },
   {
@@ -156,6 +158,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'Agent eval framework where humans score, not LLMs. LLM-as-judge is only an opt-in pre-fill, flagged on every score. YAML suites, local dashboard, CLI, and five dimensions LLM judges miss.',
     href: '/demo/eval-kit',
     logo: 'eval-kit',
+    parent: 'akaOSS',
     accent: TINT.amber,
   },
   {
@@ -214,6 +217,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'Live observability and a read-only MCP surface for Blender to glTF pipelines. Watch your AI agent work on your game assets in real time.',
     href: '/demo/hologram',
     logo: 'hologram',
+    parent: 'akaOSS',
     accent: TINT.blue,
   },
   {
@@ -223,6 +227,7 @@ export const PROJECTS: ProjectCardItem[] = [
       'Skills and MCP tools from your lessons. Three pluggable ingestors (MDX, Jupyter/MyST, and a one-file pattern for anything else) feed a typed pipeline with local atomic writes to ~/.claude/skills/. v0.2.',
     href: '/demo/collapse',
     logo: 'collapse',
+    parent: 'akaOSS',
     accent: TINT.rose,
   },
   {
@@ -254,3 +259,21 @@ export const PROJECTS: ProjectCardItem[] = [
   },
 
 ]
+
+/**
+ * The projects the index shows.
+ *
+ * `PROJECTS` is the whole catalogue and stays that way: the sitemap, the
+ * per-page structured data and the share images all read from it, so a project
+ * that is nested inside another one must still be in it. What changes is the
+ * wall on /demo, which was listing akaOSS and the four toolkits it ships as
+ * five equal plates. The studio is the entry; the toolkits are inside it.
+ */
+export function topLevelProjects() {
+  return PROJECTS.filter((p) => !p.parent)
+}
+
+/** The projects nested under a given parent, in catalogue order. */
+export function childProjects(parent: string) {
+  return PROJECTS.filter((p) => p.parent === parent)
+}

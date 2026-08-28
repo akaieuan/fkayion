@@ -1,5 +1,6 @@
+import Link from 'next/link'
 import { ProjectGrid } from '@/components/ui/project-grid'
-import { PROJECTS } from '@/lib/projects'
+import { topLevelProjects } from '@/lib/projects'
 
 export const metadata = {
   title: 'Projects',
@@ -27,11 +28,18 @@ export default function DemoIndexPage() {
         <header className="mb-10">
           <h1 className="text-[15px] font-normal tracking-tight text-foreground">Projects</h1>
           <p className="mt-1 text-[13px] font-light leading-snug text-muted-foreground">
-            Prototypes, tools, side-quests, and write-ups.
+            Prototypes, tools, side-quests, and write-ups. The open-source toolkits live inside{' '}
+            <Link
+              href="/demo/akaoss"
+              className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50"
+            >
+              akaOSS
+            </Link>
+            .
           </p>
         </header>
 
-        <ProjectGrid items={PROJECTS} reveal />
+        <ProjectGrid items={topLevelProjects()} reveal />
 
       </div>
     </div>

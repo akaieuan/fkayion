@@ -71,6 +71,7 @@ export const BLUR: Record<string, string> = {
   "/hitl-kit/writing-agent.webp": "data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAAAwAQCdASoQAA0AA4BaJaQAA3AA/vPsW2EJ1Bp46uhyE5hoAAA=",
   "/hitl-kit-hero.png": "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAAAwAQCdASoQAAkAA4BaJaQAA3AA/vQrcYjX+gPULtPtVW7vu2UMAAAA",
   "/hologram.webp": "data:image/webp;base64,UklGRi4AAABXRUJQVlA4ICIAAACwAQCdASoQAAcAA4BaJaQAAu18txEgAP73ebn5mR5QAAAA",
+  "/how-i-work.webp": "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAACQAQCdASoQAAYAA4BaJaACdAEOpkAA/uALkacFl6Etg5iEJy+Q2thJB5YSTr1mMAHEAAAA",
   "/i4-deform.webp": "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAADQAQCdASoQAAoAA4BaJZwAA1V2rLPYkAD+9cyJ8OPMrwumHmnNYm8C+idWxGXBOR/gAA==",
   "/i4-mosaic.webp": "data:image/webp;base64,UklGRjYAAABXRUJQVlA4ICoAAABwAQCdASoQAAoAA4BaJZ12AAHhAAD+8vY8dEP8rKSDdBHAsnvlMn+AAAA=",
   "/i4-ring.webp": "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAABQAQCdASoQAAoAA4BaJZwABDOAAP7y9jx0meM3gBnjvr2iwB3VdA7/T/AAAA==",
