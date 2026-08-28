@@ -135,10 +135,11 @@ export default function AkaStyleWriteUpPage() {
 
         {/* Full width under the header, not inside the header's left column. */}
         <div className={MEASURE}>
-          <PlainSummary path={PATH} />
         </div>
 
         {/* ── The rules ──────────────────────────────────────────────────── */}
+        <PlainSummary path={PATH} />
+
         <section className="mt-16">
           <p className={kicker}>The rules</p>
           <h2 className={sectionH}>Seven constraints, not seven preferences</h2>

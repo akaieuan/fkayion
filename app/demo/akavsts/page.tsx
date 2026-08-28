@@ -222,9 +222,6 @@ export default function AkaVstsPage() {
             They&apos;re at v0.1, v0.4, and v1.0, and the pages say so: what&apos;s finished is
             listed, what&apos;s queued is listed, and none of them are finished.
           </p>
-
-        <PlainSummary path={PATH} />
-
           <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <a
               href="https://www.akavst.com/"
@@ -246,6 +243,8 @@ export default function AkaVstsPage() {
             </a>
           </div>
         </header>
+
+        <PlainSummary path={PATH} />
 
         <section className="mt-14 border-t border-border/60 pt-10">
           <p className={microLabel}>How these get made</p>

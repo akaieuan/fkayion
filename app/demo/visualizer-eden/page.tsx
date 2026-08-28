@@ -68,7 +68,6 @@ export default function VisualizerEdenDemoPage() {
           Browser-only pipeline: decoded audio into an FFT, scalar features into shader uniforms, and a
           custom GLSL vertex stage that displaces a high-poly mesh every frame.
         </p>
-
         <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">

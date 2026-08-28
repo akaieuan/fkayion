@@ -166,9 +166,6 @@ export default function BlockpadPage() {
           you&apos;re in. You draw where the boxes go, press copy, and paste. The agent gets the
           layout as exact structure, not a paragraph and not a screenshot.
         </p>
-
-        <PlainSummary path={PATH} />
-
         <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
           <a
             href="https://github.com/akaieuan/blockpad"
@@ -202,6 +199,8 @@ export default function BlockpadPage() {
           One window, one canvas, one Copy button. It opens over whatever you are already in, and
           the dock sits along the bottom so the top edge of the drawing stays clear.
         </p>
+
+        <PlainSummary path={PATH} />
 
         <div className="mt-12 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
           {/* --------------------------------------------------- why */}

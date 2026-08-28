@@ -82,7 +82,6 @@ export default function EvalKitProjectPage() {
           Repo, scoped packages on npm, and the full project brief (philosophy, architecture, §13
           guardrails).
         </p>
-
         <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">

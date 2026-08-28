@@ -101,7 +101,6 @@ export default function CollapseProjectPage() {
           <Link href="/demo/akaoss" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">akaOSS</Link>{' '}
           studio.
         </p>
-
         <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">

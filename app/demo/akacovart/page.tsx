@@ -111,7 +111,6 @@ export default function AkaCovartProjectPage() {
           <span className="font-medium text-foreground/80">akaCOVART</span> name is a trademark of the
           project owner.
         </p>
-
         <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">

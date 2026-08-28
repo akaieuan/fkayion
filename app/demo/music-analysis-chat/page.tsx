@@ -139,7 +139,6 @@ export default function MusicAnalysisChatPage() {
           A roster workspace for a label, built to rehearse rich agent output in a domain I already
           know well.
         </p>
-
         <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">

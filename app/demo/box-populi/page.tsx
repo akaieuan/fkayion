@@ -83,7 +83,6 @@ export default function BoxPopuliProjectPage() {
           Live and deployed on Vercel — the collective&apos;s public face for sets, roster, and
           bookings.
         </p>
-
         <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">

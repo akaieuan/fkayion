@@ -150,9 +150,6 @@ export default function NullBrowserProjectPage() {
           A browser where nothing is sent, nothing is stored and nothing is tracked, unless you
           explicitly choose otherwise.
         </p>
-
-        <PlainSummary path={PATH} />
-
         <figure className="-mx-6 mt-8 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
           <DemoImage
             src={HERO}
@@ -192,6 +189,8 @@ export default function NullBrowserProjectPage() {
           Open source under MPL 2.0. macOS first. Tauri 2 + Rust + React, using the system WebView
           rather than a bundled engine. Not funded, not monetised, not for sale.
         </p>
+
+        <PlainSummary path={PATH} />
 
         <div className="mt-12 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
           <section className="space-y-3">

@@ -98,7 +98,6 @@ export default function TrickleKitProjectPage() {
             npx shadcn@latest add https://tricklekit.dev/r/typewriter.json
           </code>
         </p>
-
         <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">

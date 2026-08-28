@@ -82,9 +82,6 @@ export default function BodyLogPage() {
           about, and the app keeps the record. It never reads your skin, scores it, or tells you
           what to do — and nothing leaves the phone.
         </p>
-
-        <PlainSummary path={PATH} />
-
         <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
           <span className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background">
             Publishing soon · iOS
@@ -124,6 +121,8 @@ export default function BodyLogPage() {
             <BodyLogShowcase />
           </div>
         </div>
+
+        <PlainSummary path={PATH} />
 
         <div className="mt-12 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
           {/* ----------------------------------------------------- why */}

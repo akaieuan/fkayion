@@ -126,13 +126,12 @@ export default function AkaossProjectPage() {
         <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
           Five projects, one thesis, a live research feed. MIT.
         </p>
-
-        <PlainSummary path={PATH} />
-
         <p className="mt-8 max-w-xl text-sm text-muted-foreground">
           The open-source studio for human-in-the-loop AI. Five projects, one thesis, a reproducible
           research feed, and the HITL Kit component registry — served as one site.
         </p>
+
+        <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
           <section className="space-y-3">

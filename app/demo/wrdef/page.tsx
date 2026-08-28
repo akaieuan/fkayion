@@ -76,7 +76,6 @@ export default function WrdefProjectPage() {
             Live, playable in the browser. No install.
           </p>
         </div>
-
         <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">

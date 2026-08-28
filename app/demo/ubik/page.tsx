@@ -355,7 +355,6 @@ export default function UbikProjectPage() {
           2023–2026 · co-founded · the public site and builds are retired; the test log and the
           subreddit are what remain in the open.
         </p>
-
         <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">

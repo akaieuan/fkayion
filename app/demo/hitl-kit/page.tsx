@@ -200,7 +200,6 @@ export default function HitlKitProjectPage() {
           . The shipped kit at hitlkit.dev supersedes this in-repo mock, but these are still
           useful for comparison.
         </p>
-
         <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">

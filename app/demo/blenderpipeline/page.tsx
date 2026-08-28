@@ -90,9 +90,6 @@ export default function BlenderPipelinePage() {
         <p className="mt-1 text-sm text-muted-foreground">
           A game whose art is written, not modelled. Blender Python → glTF → Godot 4.
         </p>
-
-        <PlainSummary path={PATH} />
-
         <figure className="-mx-6 mt-8 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
           <DemoImage
             src="/bkz/mob-lab-night.webp"
@@ -125,6 +122,8 @@ export default function BlenderPipelinePage() {
             Blender · Python · glTF 2.0 · Godot 4
           </span>
         </div>
+
+        <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
           <section className="space-y-3">
