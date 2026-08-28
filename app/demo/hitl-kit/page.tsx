@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
+import { PlainSummary } from '@/components/ui/plain-summary'
 
 const PATH = '/demo/hitl-kit'
 
@@ -202,6 +203,8 @@ export default function HitlKitProjectPage() {
             hitlkit.dev
           </a>
         </p>
+
+        <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
           <section className="space-y-3">

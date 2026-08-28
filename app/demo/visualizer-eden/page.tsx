@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { OrbHero } from '@/components/features/demo/orb-hero'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
+import { PlainSummary } from '@/components/ui/plain-summary'
 
 const PATH = '/demo/visualizer-eden'
 
@@ -67,6 +68,8 @@ export default function VisualizerEdenDemoPage() {
           Browser-only pipeline: decoded audio into an FFT, scalar features into shader uniforms, and a
           custom GLSL vertex stage that displaces a high-poly mesh every frame.
         </p>
+
+        <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
           <section className="space-y-3">

@@ -4,6 +4,7 @@ import { PixelHead } from '@/components/features/brand/pixel-head'
 import { LAWS, SWATCHES, ACCENTS, USAGE, MARK_FAMILY } from '@/lib/aka-style'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
+import { PlainSummary } from '@/components/ui/plain-summary'
 
 const PATH = '/demo/aka-style'
 
@@ -131,6 +132,11 @@ export default function AkaStyleWriteUpPage() {
             </figcaption>
           </figure>
         </header>
+
+        {/* Full width under the header, not inside the header's left column. */}
+        <div className={MEASURE}>
+          <PlainSummary path={PATH} />
+        </div>
 
         {/* ── The rules ──────────────────────────────────────────────────── */}
         <section className="mt-16">

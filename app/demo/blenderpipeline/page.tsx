@@ -5,6 +5,7 @@ import { DemoImage } from '@/components/ui/demo-image'
 import { RenderPair } from '@/components/demo/bkz-lab-log/prose'
 import { LAB_ENTRIES } from '@/components/demo/bkz-lab-log/entries'
 import { JsonLd, breadcrumbSchema, projectSchema } from '@/components/seo/json-ld'
+import { PlainSummary } from '@/components/ui/plain-summary'
 
 const PATH = '/demo/blenderpipeline'
 const TITLE = 'Brooklyn Dead: procedural asset pipeline'
@@ -89,6 +90,8 @@ export default function BlenderPipelinePage() {
         <p className="mt-1 text-sm text-muted-foreground">
           A game whose art is written, not modelled. Blender Python → glTF → Godot 4.
         </p>
+
+        <PlainSummary path={PATH} />
 
         <figure className="-mx-6 mt-8 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
           <DemoImage

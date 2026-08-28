@@ -4,6 +4,7 @@ import { DemoImage } from '@/components/ui/demo-image'
 import { BlockpadMark } from '@/components/ui/blockpad-mark'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
+import { PlainSummary } from '@/components/ui/plain-summary'
 
 const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
 const label = 'text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50'
@@ -165,6 +166,8 @@ export default function BlockpadPage() {
           you&apos;re in. You draw where the boxes go, press copy, and paste. The agent gets the
           layout as exact structure, not a paragraph and not a screenshot.
         </p>
+
+        <PlainSummary path={PATH} />
 
         <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
           <a

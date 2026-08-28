@@ -8,6 +8,7 @@ import { UbikCardArt, type CardArt } from '@/components/demo/ubik/card-art'
 import { UbikCanvasViewer } from '@/components/demo/ubik/canvas-viewer'
 import { WAYPOINTS } from '@/lib/ubik-canvas'
 import { JsonLd, breadcrumbSchema, projectSchema } from '@/components/seo/json-ld'
+import { PlainSummary } from '@/components/ui/plain-summary'
 
 const code = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]'
 const microLabel =
@@ -357,6 +358,8 @@ export default function UbikProjectPage() {
           A desktop-native, local-first AI research platform — three and a half years of building the
           human side of agentic research, before it had a name.
         </p>
+
+        <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
           <section className="space-y-3">

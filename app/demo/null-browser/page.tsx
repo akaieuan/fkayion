@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { DemoImage } from '@/components/ui/demo-image'
 import { JsonLd, breadcrumbSchema, projectSchema } from '@/components/seo/json-ld'
+import { PlainSummary } from '@/components/ui/plain-summary'
 
 /**
  * Null, rewritten against the repo as it stands.
@@ -149,6 +150,8 @@ export default function NullBrowserProjectPage() {
           A browser where nothing is sent, nothing is stored and nothing is tracked, unless you
           explicitly choose otherwise.
         </p>
+
+        <PlainSummary path={PATH} />
 
         <figure className="-mx-6 mt-8 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
           <DemoImage

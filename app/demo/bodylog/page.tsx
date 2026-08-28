@@ -4,6 +4,7 @@ import { BodyLogMark } from '@/components/demo/bodylog/bodylog-mark'
 import { BodyLogShowcase, BodyLogSpecimens } from '@/components/demo/bodylog/showcase'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
+import { PlainSummary } from '@/components/ui/plain-summary'
 
 const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
 const label = 'text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50'
@@ -81,6 +82,8 @@ export default function BodyLogPage() {
           about, and the app keeps the record. It never reads your skin, scores it, or tells you
           what to do — and nothing leaves the phone.
         </p>
+
+        <PlainSummary path={PATH} />
 
         <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
           <span className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background">

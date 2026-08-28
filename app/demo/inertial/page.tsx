@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
+import { PlainSummary } from '@/components/ui/plain-summary'
 
 const extLink =
   'underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50'
@@ -146,6 +147,8 @@ export default function InertialProjectPage() {
           A reference architecture for auditable AI content review. Not a deployable moderation service — a working
           demonstration of one architectural thesis, end-to-end through real code.
         </p>
+
+        <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
           <section className="rounded-xl border border-border bg-muted/20 px-5 py-4">

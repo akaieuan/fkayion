@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import akaossMark from '@/public/akaoss.webp'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
+import { PlainSummary } from '@/components/ui/plain-summary'
 
 const SITE = 'https://www.akaoss.dev'
 const REPO = 'https://github.com/akaieuan/akaOSS'
@@ -125,6 +126,8 @@ export default function AkaossProjectPage() {
         <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
           Five projects, one thesis, a live research feed. MIT.
         </p>
+
+        <PlainSummary path={PATH} />
 
         <p className="mt-8 max-w-xl text-sm text-muted-foreground">
           The open-source studio for human-in-the-loop AI. Five projects, one thesis, a reproducible

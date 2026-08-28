@@ -11,6 +11,7 @@ import { RComp } from '@/components/demo/music-chat-comp/blocks/RComp'
 import { RCreators } from '@/components/demo/music-chat-comp/blocks/RCreators'
 import { REmail } from '@/components/demo/music-chat-comp/blocks/REmail'
 import { RSocialEmbed } from '@/components/demo/music-chat-comp/blocks/RSocialEmbed'
+import { PlainSummary } from '@/components/ui/plain-summary'
 
 const PATH = '/demo/music-analysis-chat'
 
@@ -138,6 +139,8 @@ export default function MusicAnalysisChatPage() {
           A roster workspace for a label, built to rehearse rich agent output in a domain I already
           know well.
         </p>
+
+        <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
           <section className="space-y-3">

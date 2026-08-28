@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { DemoImage } from '@/components/ui/demo-image'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
+import { PlainSummary } from '@/components/ui/plain-summary'
 
 const microLabel =
   'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
@@ -221,6 +222,8 @@ export default function AkaVstsPage() {
             They&apos;re at v0.1, v0.4, and v1.0, and the pages say so: what&apos;s finished is
             listed, what&apos;s queued is listed, and none of them are finished.
           </p>
+
+        <PlainSummary path={PATH} />
 
           <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
             <a
