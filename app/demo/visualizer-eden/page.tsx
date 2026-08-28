@@ -1,16 +1,26 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { OrbHero } from '@/components/features/demo/orb-hero'
+import { demoMetadata, demoSchema } from '@/lib/demo-seo'
+import { JsonLd } from '@/components/seo/json-ld'
 
-export const metadata = {
+const PATH = '/demo/visualizer-eden'
+
+export const metadata = demoMetadata(PATH, {
   title: 'Visualizer Eden',
   description:
     'Web Audio analyser, React Three Fiber, and custom GLSL: FFT-driven mesh deformation for a browser audio visualizer.',
-}
+})
 
 export default function VisualizerEdenDemoPage() {
   return (
     <div className="min-h-screen bg-background px-6 py-16">
+      <JsonLd
+        data={demoSchema(PATH, {
+          title: metadata.title as string,
+          description: metadata.description as string,
+        })}
+      />
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"

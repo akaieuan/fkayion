@@ -2,16 +2,20 @@ import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { DemoImage } from '@/components/ui/demo-image'
 import { BlockpadMark } from '@/components/ui/blockpad-mark'
+import { demoMetadata, demoSchema } from '@/lib/demo-seo'
+import { JsonLd } from '@/components/seo/json-ld'
 
 const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
 const label = 'text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50'
 const code = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]'
 
-export const metadata = {
+const PATH = '/demo/blockpad'
+
+export const metadata = demoMetadata(PATH, {
   title: 'Blockpad — Sketch a Layout, Hand an Agent the Structure',
   description:
     'A macOS sketchpad that opens over your editor on a hotkey. You draw where the boxes go, press copy, and paste. The agent gets the layout as an exact scene tree with coordinates and hex, not a paragraph and not a 2,000-token screenshot. Swift 6, SwiftUI, AppKit, MIT.',
-}
+})
 
 /** The design rules, stated as decisions rather than features. */
 const rules = [
@@ -114,6 +118,12 @@ const TREE = `Frame 1440x900  @0,0  "Desktop"
 function KeyTable({ rows }: { rows: [string, string][] }) {
   return (
     <div className="!mt-4 overflow-hidden rounded-xl border border-border/80">
+      <JsonLd
+        data={demoSchema(PATH, {
+          title: metadata.title as string,
+          description: metadata.description as string,
+        })}
+      />
       {rows.map(([k, v]) => (
         <div
           key={k}

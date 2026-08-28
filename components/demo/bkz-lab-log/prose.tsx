@@ -15,6 +15,7 @@
  * Entirely server-rendered. Nothing on a lab entry is interactive.
  */
 import Image from 'next/image'
+import { BLUR } from '@/lib/blur-map.generated'
 import { FIGURES } from './figures'
 import type { Block, Cell, Img, LedgerEntry, RosterCard, RosterTone, Status } from './entries'
 
@@ -64,6 +65,20 @@ export function inline(text: string, keyed: string) {
  * mush comes from, so the optimiser is told to stay out of the way.
  */
 const Q = 92
+
+/**
+ * The placeholder for a path-referenced render.
+ *
+ * next/image only generates a blur for a static import; these come from the
+ * entry data as strings, so without this every render below the fold lazily
+ * decoded into an empty frame and snapped in. `BLUR` is a build-time map of
+ * 16px thumbnails, read on the server, so the HTML carries one short string
+ * per image and the client receives no map.
+ */
+function blurProps(src: string) {
+  const blurDataURL = BLUR[src]
+  return blurDataURL ? ({ placeholder: 'blur', blurDataURL } as const) : {}
+}
 
 const caption = 'mt-3 text-[12px] font-light leading-relaxed text-muted-foreground/70'
 const frame = 'overflow-hidden rounded-xl border border-border/80 bg-muted/10'
@@ -121,6 +136,7 @@ function Shot({ img, label: text, tone }: { img: Img; label: string; tone: 'befo
         height={img.h}
         sizes="(min-width: 640px) 340px, 90vw"
         quality={Q}
+        {...blurProps(img.src)}
         className={plate}
       />
       <span
@@ -145,6 +161,7 @@ function Plate({ img, priority, half }: { img: Img; priority?: boolean; half?: b
       sizes={half ? '(min-width: 640px) 340px, 92vw' : '(min-width: 768px) 672px, 92vw'}
       quality={Q}
       priority={priority}
+      {...blurProps(img.src)}
       className={plate}
     />
   )
@@ -497,6 +514,7 @@ export function LabProse({ blocks }: { blocks: Block[] }) {
                       height={420}
                       sizes="(min-width: 1024px) 130px, (min-width: 640px) 180px, 44vw"
                       quality={Q}
+                      {...blurProps(item.src)}
                       className={plate}
                     />
                     <span className="flex justify-between gap-1.5 font-mono text-[10px] text-muted-foreground/70">

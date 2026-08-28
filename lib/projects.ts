@@ -168,10 +168,24 @@ export const PROJECTS: ProjectCardItem[] = [
     accent: TINT.orchid,
   },
   {
+    title: 'Wordle remake: Wrdef (Wordle + definition)',
+    tags: ['Game', 'Next.js', 'Dictionary', 'Write-up'],
+    description:
+      'A five-letter guessing game powered by definitions, bonus rounds, and a locally saved dictionary.',
+    href: '/demo/wrdef',
+    // The card plays seven seconds of the real capture rather than showing a
+    // wordmark: the thing worth seeing is a guess resolving, and no logo says
+    // that. Same plate, same size as every other card.
+    logo: 'wrdef-play',
+    fill: true,
+    onDark: true,
+    accent: TINT.amber,
+  },
+  {
     title: 'How I Work',
     tags: ['Narrative', 'Method', 'HITL', 'Demos'],
     description:
-      'The method behind the site: watch the work first, prototype in code, measure what matters. Plus how the Kit, Research OS, and the public test log connect.',
+      'The method behind the site: watch the work first, prototype in code, measure what matters. Plus how the Kit, the eval framework, and the public test log connect.',
     href: '/demo/hitl-practice',
     mark: 'gear',
     accent: TINT.steel,
@@ -221,15 +235,6 @@ export const PROJECTS: ProjectCardItem[] = [
     accent: TINT.steel,
   },
   {
-    title: 'Research OS',
-    tags: ['Interactive demo', 'Agents', 'HITL', 'Workspace'],
-    description:
-      'Multi-panel workspace with agentic search, chat, and human-in-the-loop approval flows.',
-    href: '/demo/research-os',
-    logo: 'research-os',
-    accent: TINT.indigo,
-  },
-  {
     title: 'Music Analysis Chat',
     tags: ['Interactive demo', 'Analytics', 'Chat', 'Roster'],
     description:
@@ -246,15 +251,6 @@ export const PROJECTS: ProjectCardItem[] = [
     href: '/demo/visualizer-eden',
     img: visualizerPoster,
     accent: TINT.orchid,
-  },
-  {
-    title: 'Wordle remake: Wrdef (Wordle + definition)',
-    tags: ['Game', 'Next.js', 'Dictionary', 'Write-up'],
-    description:
-      'A five-letter guessing game powered by definitions, bonus rounds, and a locally saved dictionary.',
-    href: '/demo/wrdef',
-    wordmark: 'Wrdef',
-    accent: TINT.amber,
   },
 
 ]

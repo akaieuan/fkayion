@@ -18,17 +18,6 @@ const GRIDS: Record<string, string[]> = {
     '.##..##.',
     '..####..',
   ],
-  /** Research OS — a lens with something found in it. */
-  'research-os': [
-    '.######.',
-    '##....##',
-    '#..aa..#',
-    '#.a..a.#',
-    '#.a..a.#',
-    '#..aa..#',
-    '##....##',
-    '.####.##',
-  ],
   /** Music Analysis Chat — a bubble with a note in it. */
   'music-chat': [
     '######..',

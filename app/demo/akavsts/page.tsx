@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { DemoImage } from '@/components/ui/demo-image'
+import { demoMetadata, demoSchema } from '@/lib/demo-seo'
+import { JsonLd } from '@/components/seo/json-ld'
 
 const microLabel =
   'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
@@ -128,11 +130,13 @@ const plugins: Plugin[] = [
   },
 ]
 
-export const metadata = {
+const PATH = '/demo/akavsts'
+
+export const metadata = demoMetadata(PATH, {
   title: 'akaVST — Three JUCE Instruments for macOS',
   description:
     'Three JUCE instruments for macOS, built one at a time and documented as they go: akaBleep (acid voice + 64-step sequencer, v0.4.0), Enzyme (four lo-fi layers on one voice pool, v1.0.0), and i4 (sculpting sampler, v0.1.0). VST3 · AU · Standalone.',
-}
+})
 
 function HeroImage({ shot }: { shot: Shot }) {
   return (
@@ -159,6 +163,12 @@ function HeroImage({ shot }: { shot: Shot }) {
 function Gallery({ shots }: { shots: Shot[] }) {
   return (
     <div className="mt-6">
+      <JsonLd
+        data={demoSchema(PATH, {
+          title: metadata.title as string,
+          description: metadata.description as string,
+        })}
+      />
       <p className={microLabel}>More views</p>
       <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
         {shots.map((shot) => (

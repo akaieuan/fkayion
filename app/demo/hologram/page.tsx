@@ -1,17 +1,27 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { demoMetadata, demoSchema } from '@/lib/demo-seo'
+import { JsonLd } from '@/components/seo/json-ld'
 
 const code = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]'
 
-export const metadata = {
+const PATH = '/demo/hologram'
+
+export const metadata = demoMetadata(PATH, {
   title: 'Hologram — Live Observability for Blender → glTF Pipelines',
   description:
     'Live observability and a read-only MCP surface for Blender → glTF pipelines. Watch your AI agent work on your game assets in real time, and hand the same pipeline back to the agent as read-only MCP tools.',
-}
+})
 
 export default function HologramProjectPage() {
   return (
     <div className="min-h-screen bg-background px-6 py-16">
+      <JsonLd
+        data={demoSchema(PATH, {
+          title: metadata.title as string,
+          description: metadata.description as string,
+        })}
+      />
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"

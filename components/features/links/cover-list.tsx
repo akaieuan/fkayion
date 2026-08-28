@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { BLUR } from '@/lib/blur-map.generated'
 import { HoverBlurb } from './hover-blurb'
 
 /**
@@ -34,6 +35,7 @@ export function CoverList({ items }: { items: CoverRow[] }) {
         width={SIZE * 2}
         height={SIZE * 2}
         quality={82}
+        {...(BLUR[row.cover] ? { placeholder: 'blur' as const, blurDataURL: BLUR[row.cover] } : {})}
         sizes={`${SIZE}px`}
         className="h-full w-full object-cover"
       />

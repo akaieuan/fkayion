@@ -1,18 +1,28 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { demoMetadata, demoSchema } from '@/lib/demo-seo'
+import { JsonLd } from '@/components/seo/json-ld'
 
 const extLink =
   'underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50'
 
-export const metadata = {
+const PATH = '/demo/eval-kit'
+
+export const metadata = demoMetadata(PATH, {
   title: 'eval-kit: Human scoring for research agents',
   description:
     'The scoring cockpit for research agents: Zod schema-first monorepo, @eval-kit packages, Next.js dashboard, CLI, human 0-3 rubric, OSS release discipline. Pre-1.0, v0.3.1 stable.',
-}
+})
 
 export default function EvalKitProjectPage() {
   return (
     <div className="min-h-screen bg-background px-6 py-16">
+      <JsonLd
+        data={demoSchema(PATH, {
+          title: metadata.title as string,
+          description: metadata.description as string,
+        })}
+      />
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"

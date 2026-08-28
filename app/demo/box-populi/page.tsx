@@ -1,16 +1,26 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { DemoImage } from '@/components/ui/demo-image'
+import { demoMetadata, demoSchema } from '@/lib/demo-seo'
+import { JsonLd } from '@/components/seo/json-ld'
 
-export const metadata = {
+const PATH = '/demo/box-populi'
+
+export const metadata = demoMetadata(PATH, {
   title: 'Box Populi — Live Techno Collective Site',
   description:
     'On-brand site for a NYC live-techno collective. Custom audio players over the SoundCloud Widget, multiple live streams coordinated so they never overlap, an iOS quirk handled honestly.',
-}
+})
 
 export default function BoxPopuliProjectPage() {
   return (
     <div className="min-h-screen bg-background px-6 py-16">
+      <JsonLd
+        data={demoSchema(PATH, {
+          title: metadata.title as string,
+          description: metadata.description as string,
+        })}
+      />
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"

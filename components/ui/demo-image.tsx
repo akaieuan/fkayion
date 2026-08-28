@@ -1,4 +1,5 @@
 import Image, { type StaticImageData } from 'next/image'
+import { BLUR } from '@/lib/blur-map.generated'
 
 type DemoImageProps = {
   /** A path under /public, or a static import (which brings its own blur). */
@@ -44,6 +45,21 @@ export function DemoImage({
 }: DemoImageProps) {
   const imported = typeof src !== 'string'
 
+  /*
+   * A placeholder for path-referenced images too.
+   *
+   * A static import gets a blur from next/image for free, because the file is
+   * in the module graph. A string path does not, so every screenshot on a
+   * write-up was lazily loading into an empty frame and snapping in — which is
+   * what "the images load poorly" looks like even though the markup was
+   * server-rendered the whole time.
+   *
+   * `BLUR` is a build-time map of 16px WebP thumbnails. This component is a
+   * server component, so the lookup happens during render and the HTML carries
+   * only the one string it needs; the client never receives the map.
+   */
+  const blur = imported ? undefined : BLUR[src as string]
+
   return (
     <Image
       src={src}
@@ -52,6 +68,7 @@ export function DemoImage({
       // passing them again would only be a chance to disagree with the file.
       {...(imported ? {} : { width, height })}
       {...(imported ? { placeholder: 'blur' as const } : {})}
+      {...(blur ? { placeholder: 'blur' as const, blurDataURL: blur } : {})}
       sizes={sizes}
       priority={priority}
       quality={90}

@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google'
 import { ArrowLeft } from 'lucide-react'
 import { Prototype } from '@/components/demo/bodylog-v1/prototype'
 import '@/components/demo/bodylog-v1/v1.css'
+import { demoSchema } from '@/lib/demo-seo'
+import { JsonLd } from '@/components/seo/json-ld'
 
 /**
  * The v1 BodyLog prototype, kept whole.
@@ -44,6 +46,12 @@ export const metadata = {
 export default function BodyLogV1Page() {
   return (
     <div className="flex min-h-screen flex-col bg-[#f0eee9]">
+      <JsonLd
+        data={demoSchema('/demo/bodylog/v1', {
+          title: metadata.title,
+          description: metadata.description,
+        })}
+      />
       <div className="sticky top-0 z-10 flex shrink-0 items-center justify-between gap-4 border-b border-black/10 bg-[#0e0e0d] px-4 py-2.5">
         <Link
           href="/demo/bodylog"

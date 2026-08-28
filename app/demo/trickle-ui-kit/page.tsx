@@ -1,18 +1,28 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { demoMetadata, demoSchema } from '@/lib/demo-seo'
+import { JsonLd } from '@/components/seo/json-ld'
 
 const extLink =
   'underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50'
 
-export const metadata = {
+const PATH = '/demo/trickle-ui-kit'
+
+export const metadata = demoMetadata(PATH, {
   title: 'trickle — Pure-CSS text animations for React',
   description:
     '47 hand-tuned text-animation primitives for React. Zero runtime, SSR-safe, copy-paste install via the shadcn registry. Tailwind v4, React 18+, Next.js 15+, MIT.',
-}
+})
 
 export default function TrickleKitProjectPage() {
   return (
     <div className="min-h-screen bg-background px-6 py-16">
+      <JsonLd
+        data={demoSchema(PATH, {
+          title: metadata.title as string,
+          description: metadata.description as string,
+        })}
+      />
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"

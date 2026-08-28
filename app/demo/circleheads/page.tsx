@@ -3,15 +3,19 @@ import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import circleheadsMark from '@/public/circleheads.webp'
 import { PixelRoundabout } from '@/components/features/brand/pixel-roundabout'
+import { demoMetadata, demoSchema } from '@/lib/demo-seo'
+import { JsonLd } from '@/components/seo/json-ld'
 
 const CONTACT = 'https://circleheads.com/about'
 const SITE = 'https://circleheads.com'
 
-export const metadata = {
+const PATH = '/demo/circleheads'
+
+export const metadata = demoMetadata(PATH, {
   title: 'Circleheads — Applied-AI Software Studio',
   description:
     'Circleheads is a two-person Brooklyn studio building applied AI in production, taking a short senior consulting bench, and shipping original games. We watch the work first, then ship agents that do it with approval gates that keep humans in control.',
-}
+})
 
 const pillars = [
   {
@@ -34,6 +38,12 @@ const pillars = [
 export default function CircleheadsProjectPage() {
   return (
     <div className="min-h-screen bg-background px-6 py-16">
+      <JsonLd
+        data={demoSchema(PATH, {
+          title: metadata.title as string,
+          description: metadata.description as string,
+        })}
+      />
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"

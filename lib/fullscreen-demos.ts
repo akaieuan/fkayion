@@ -10,7 +10,6 @@
  * header and the section rail.
  */
 export const FULLSCREEN_DEMOS = [
-  '/demo/research-os',
   '/demo/music-analysis-chat',
   '/demo/hitl-ai',
   '/demo/bodylog/v1',

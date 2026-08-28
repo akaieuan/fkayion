@@ -1,6 +1,8 @@
 import { DemoImage } from '@/components/ui/demo-image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { demoMetadata, demoSchema } from '@/lib/demo-seo'
+import { JsonLd } from '@/components/seo/json-ld'
 
 const extLink =
   'underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50'
@@ -13,11 +15,13 @@ const techChip =
   'inline-flex items-center rounded-md border border-border/70 bg-muted/30 px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-[0.14em] text-muted-foreground'
 const eyebrow = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80'
 
-export const metadata = {
+const PATH = '/demo/inertial'
+
+export const metadata = demoMetadata(PATH, {
   title: 'Inertial: reference architecture for auditable AI content review',
   description:
     'A reference architecture for auditable AI content review. Not a deployable moderation service — a working demonstration of one architectural thesis: AI classification outputs and human review actions both land in a hash-chained audit log, with typed structured signals as the unit of evidence and per-instance YAML as the unit of policy.',
-}
+})
 
 const gallery = [
   { src: '/inertial-queue.webp', label: 'The queue — three decks, click to review inline; worked as decks rather than an infinite list' },
@@ -32,6 +36,12 @@ const gallery = [
 export default function InertialProjectPage() {
   return (
     <div className="min-h-screen bg-background px-6 py-16">
+      <JsonLd
+        data={demoSchema(PATH, {
+          title: metadata.title as string,
+          description: metadata.description as string,
+        })}
+      />
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"

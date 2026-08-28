@@ -211,6 +211,20 @@ export const metadata: Metadata = {
  * client wrapper that starts and stops it on scroll. Nothing about the art, the
  * copy or the layout reaches the browser as JavaScript.
  */
+/**
+ * The card row's measure: the site's own container width, centred on the
+ * article's narrower column.
+ *
+ * An inline style rather than a Tailwind class because the value is a `calc`
+ * over a `min` over a viewport unit, which arbitrary-value syntax can express
+ * only as an unreadable string of underscores. This is one constant used once.
+ */
+const ROW_W = 'min(100vw - 3rem, 1180px)'
+const CARD_ROW: React.CSSProperties = {
+  width: ROW_W,
+  marginInline: `calc((100% - ${ROW_W}) / 2)`,
+}
+
 function ProductCard({ demo }: { demo: Demo }) {
   return (
     <figure className="relative overflow-hidden rounded-2xl border border-border/60">
@@ -253,7 +267,7 @@ function ProductCard({ demo }: { demo: Demo }) {
 
 export default function UbikProjectPage() {
   return (
-    <div className="min-h-screen bg-background px-6 py-16">
+    <div className="min-h-screen overflow-x-clip bg-background px-6 py-16">
       <JsonLd
         data={[
           projectSchema({
@@ -403,20 +417,47 @@ export default function UbikProjectPage() {
           </section>
 
           {/*
-            The cards break out past the article measure. Everything else on
-            this page is a column of text at 42rem, which is the right width to
-            read at and the wrong one to look at a screen recording in. The
-            breakout is bounded — 10rem either side at xl, 6rem at lg, nothing
-            below that — so the row grows into the gutter the site container
-            already has and never reaches the edge of the window.
+            The cards take the page, two across.
+            
+            ── Why they break out ────────────────────────────────────────────
+            
+            Everything else here is a column of text at the reading measure,
+            which is the right width to read at and the wrong one to watch a
+            screen recording in. These are recordings of a three-pane desktop
+            app; at reading width the panes are too small to tell apart, which
+            defeats the point of showing them.
+            
+            ── Why this width ────────────────────────────────────────────────
+            
+            1180px is not a new number. It is `max-w-site` — the width the
+            project plates take on the landing and on /demo — so a reader who
+            has seen the card wall meets the same grid here rather than a
+            third measure invented for one page. The old version used
+            breakpoint-tuned negative margins (-mx-24, -mx-40) that landed on
+            896px, which matched nothing.
+            
+            The arithmetic is one line: give the block a width, then split the
+            difference between it and the column across both margins. The
+            negative margins fall out automatically and stay symmetrical, and
+            `min()` against the viewport means the breakout shrinks into the
+            gutter on a narrow window instead of opening a scrollbar — so
+            there is no separate mobile rule to keep in sync.
+            
+            ── Why two across ────────────────────────────────────────────────
+            
+            Seven short loops of one product read as a set side by side. In a
+            single column each one is a separate event and the section runs
+            seven screens long. `items-start` because the clips have different
+            aspect ratios and a row should not stretch the shorter card to
+            match the taller one.
           */}
-          <div className="lg:-mx-24 xl:-mx-40">
+          <div style={CARD_ROW}>
             <p className={microLabel}>The product, in motion</p>
             <p className="mt-2 max-w-xl text-[12px] font-light leading-relaxed text-muted-foreground/70">
               Seven silent recordings of the last build, March 2026. Each one loads and starts when
               you reach it, and stops when you leave.
             </p>
-            <div className="mt-6 grid gap-5">
+            <div className="mt-6 grid items-start gap-5 lg:grid-cols-2">
               {demos.map((demo) => (
                 <ProductCard key={demo.src} demo={demo} />
               ))}

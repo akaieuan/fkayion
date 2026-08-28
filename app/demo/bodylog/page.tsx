@@ -2,16 +2,20 @@ import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { BodyLogMark } from '@/components/demo/bodylog/bodylog-mark'
 import { BodyLogShowcase, BodyLogSpecimens } from '@/components/demo/bodylog/showcase'
+import { demoMetadata, demoSchema } from '@/lib/demo-seo'
+import { JsonLd } from '@/components/seo/json-ld'
 
 const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
 const label = 'text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50'
 const code = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]'
 
-export const metadata = {
+const PATH = '/demo/bodylog'
+
+export const metadata = demoMetadata(PATH, {
   title: 'BodyLog — A Record, Not a Verdict',
   description:
     'An iOS app for tracking any visible body or skin condition between doctor visits — acne, psoriasis, eczema, cysts, bruising, PT progress. It never reads your skin, scores it, or tells you what to do, and nothing leaves the phone.',
-}
+})
 
 /** What people track — deliberately broad; this is not a derm-only tool. */
 const conditions = [
@@ -46,6 +50,12 @@ const rules = [
 export default function BodyLogPage() {
   return (
     <div className="min-h-screen bg-background px-6 py-16">
+      <JsonLd
+        data={demoSchema(PATH, {
+          title: metadata.title as string,
+          description: metadata.description as string,
+        })}
+      />
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"

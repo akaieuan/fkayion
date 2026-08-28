@@ -1,4 +1,5 @@
 import Image, { type StaticImageData } from 'next/image'
+import { PlateVideo } from '@/components/ui/plate-video'
 import { PixelHead, type PixelIcon } from '@/components/features/brand/pixel-head'
 import { BodyLogMark } from '@/components/demo/bodylog/bodylog-mark'
 import { CovartMark } from '@/components/ui/covart-mark'
@@ -118,6 +119,10 @@ export function ProjectMark({
         width={size * 3}
         height={size * 3}
         sizes={sizes}
+        // A static import carries a build-time blur; it only applies if asked
+        // for. Without this a lazy plate below the fold decodes into an empty
+        // tint and snaps in, which is the pop-in the reveal exists to cover.
+        placeholder="blur"
         priority={eager}
         // These are logos, and one of them is generative grain: the default 75
         // smears it. Cheap here, since the sources are small and flat.
@@ -126,6 +131,16 @@ export function ProjectMark({
       />
     )
   }
+  if (item.logo === 'wrdef-play')
+    return (
+      <PlateVideo
+        src="/wrdef-card.mp4"
+        poster="/wrdef-card-poster.webp"
+        label="Wrdef, mid-game: a guess resolving to green and amber tiles"
+        width={900}
+        height={640}
+      />
+    )
   if (item.logo === 'bodylog') return <BodyLogMark size={size} title="" />
   if (item.logo === 'akacovart') return <CovartMark size={size} />
   if (item.logo === 'blockpad') return <BlockpadMark size={size} />

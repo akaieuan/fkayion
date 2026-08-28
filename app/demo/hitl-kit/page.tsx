@@ -1,16 +1,26 @@
 import { DemoImage } from '@/components/ui/demo-image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { demoMetadata, demoSchema } from '@/lib/demo-seo'
+import { JsonLd } from '@/components/seo/json-ld'
 
-export const metadata = {
+const PATH = '/demo/hitl-kit'
+
+export const metadata = demoMetadata(PATH, {
   title: 'HITL Kit — Human-in-the-Loop AI, Measured Properly',
   description:
     'An open-source design system, component library, and perspective paper on human-in-the-loop AI. Nineteen primitives, six @hitl-kit/* npm packages, a shadcn registry, and a research argument connecting them.',
-}
+})
 
 export default function HitlKitProjectPage() {
   return (
     <div className="min-h-screen bg-background px-6 py-16">
+      <JsonLd
+        data={demoSchema(PATH, {
+          title: metadata.title as string,
+          description: metadata.description as string,
+        })}
+      />
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"

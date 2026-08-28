@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { DemoImage } from '@/components/ui/demo-image'
+import { demoMetadata, demoSchema } from '@/lib/demo-seo'
+import { JsonLd } from '@/components/seo/json-ld'
 
 const code = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]'
 const microLabel =
@@ -17,15 +19,23 @@ const gallery: Shot[] = [
   { src: '/collapse-skills.webp', w: 1600, h: 1000, label: '~/.claude/skills/ directory viewer' },
 ]
 
-export const metadata = {
+const PATH = '/demo/collapse'
+
+export const metadata = demoMetadata(PATH, {
   title: 'Collapse — Pattern → SKILL.md Compiler for Claude Code',
   description:
     'A Claude Code skill-building framework: three pluggable ingestors — MDX lessons, Jupyter .ipynb / MyST .md, and a one-file extension pattern for any other source format — feed a typed pipeline that compiles each pattern into a SKILL.md or an MCP server scaffold, written atomically to ~/.claude/skills/. Next.js 16 + TypeScript.',
-}
+})
 
 export default function CollapseProjectPage() {
   return (
     <div className="min-h-screen bg-background px-6 py-16">
+      <JsonLd
+        data={demoSchema(PATH, {
+          title: metadata.title as string,
+          description: metadata.description as string,
+        })}
+      />
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"

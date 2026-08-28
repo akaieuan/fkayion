@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { DemoImage } from '@/components/ui/demo-image'
+import { demoMetadata, demoSchema } from '@/lib/demo-seo'
+import { JsonLd } from '@/components/seo/json-ld'
 
 const code = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]'
 const microLabel =
@@ -18,15 +20,23 @@ const gallery: Shot[] = [
   { src: '/covart-audio.webp', w: 396, h: 649, label: 'Audio — react to a track' },
 ]
 
-export const metadata = {
+const PATH = '/demo/akacovart'
+
+export const metadata = demoMetadata(PATH, {
   title: 'akaCOVART — Generative Album-Art Studio',
   description:
     'A browser-based generative album-art studio: pick an engine, drop a seed, shape with palette / composition / film / type, and export a print-ready cover or a synced video loop. Every cover is reproducible data. Next.js, React, Canvas 2D, Web Audio.',
-}
+})
 
 export default function AkaCovartProjectPage() {
   return (
     <div className="min-h-screen bg-background px-6 py-16">
+      <JsonLd
+        data={demoSchema(PATH, {
+          title: metadata.title as string,
+          description: metadata.description as string,
+        })}
+      />
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"

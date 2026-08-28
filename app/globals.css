@@ -797,3 +797,24 @@ html:not(.dark) .animate-trickle-spotlight {
     transform: none;
   }
 }
+
+/*
+ * A looping clip's two states, decided in CSS rather than in JavaScript.
+ *
+ * Motion by default, the poster frame when the reader has asked their system
+ * for less. Doing the swap with a media query is what lets a card's video stay
+ * a server component: there is no moment where a script has to pick between
+ * the two, so neither waits for hydration.
+ */
+.ssr-loop-still {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ssr-loop {
+    display: none;
+  }
+  .ssr-loop-still {
+    display: block;
+  }
+}

@@ -2,15 +2,19 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import akaossMark from '@/public/akaoss.webp'
+import { demoMetadata, demoSchema } from '@/lib/demo-seo'
+import { JsonLd } from '@/components/seo/json-ld'
 
 const SITE = 'https://www.akaoss.dev'
 const REPO = 'https://github.com/akaieuan/akaOSS'
 
-export const metadata = {
+const PATH = '/demo/akaoss'
+
+export const metadata = demoMetadata(PATH, {
   title: 'akaOSS — Open-Source Software for Human-in-the-Loop AI',
   description:
     'The akaOSS studio: five open-source projects, one thesis (Assist-Not-Complete), a reproducible research feed, and the HITL Kit component registry — served as one site at akaoss.dev.',
-}
+})
 
 type Project = {
   name: string
@@ -85,6 +89,12 @@ function ProjectRow({ p }: { p: Project }) {
 export default function AkaossProjectPage() {
   return (
     <div className="min-h-screen bg-background px-6 py-16">
+      <JsonLd
+        data={demoSchema(PATH, {
+          title: metadata.title as string,
+          description: metadata.description as string,
+        })}
+      />
       <article className="mx-auto max-w-2xl">
         <Link
           href="/demo"

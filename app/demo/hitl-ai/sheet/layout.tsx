@@ -11,15 +11,15 @@ import { JsonLd } from '@/components/seo/json-ld'
  * JSON-LD without the schema becoming part of the client bundle.
  */
 
-const PATH = '/demo/music-analysis-chat'
+const PATH = '/demo/hitl-ai/sheet'
 
 export const metadata: Metadata = demoMetadata(PATH, {
-  title: 'Music Analysis Chat — Agent Output in a Domain I Know',
+  title: 'HITL-AI Component Sheet — Live UI Reference',
   description:
-    'A roster-style workspace rehearsing rich agent output: artist analytics, campaign projects, and generated artifacts — stats, charts, creator cards, timelines — driven by a mock API.',
+    'The full component sheet behind the HITL Kit: every approval, review, citation and evidence primitive laid out side by side as a working reference rather than a spec document.',
 })
 
-export default function MusicChatLayout({ children }: { children: React.ReactNode }) {
+export default function HitlSheetLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <JsonLd
@@ -28,9 +28,7 @@ export default function MusicChatLayout({ children }: { children: React.ReactNod
           description: metadata.description as string,
         })}
       />
-      <div style={{ position: 'fixed', inset: 0, zIndex: 50, overflow: 'hidden' }}>
-        {children}
-      </div>
+      {children}
     </>
   )
 }
