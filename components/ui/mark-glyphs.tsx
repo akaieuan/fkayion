@@ -18,25 +18,6 @@ const GRIDS: Record<string, string[]> = {
     '.##..##.',
     '..####..',
   ],
-  /**
-   * akaSTYLE — the type scale, as three blocks of falling length.
-   *
-   * The system's most visible rule is that hierarchy is carried by weight and
-   * measure rather than by size, so the mark is the scale itself: display,
-   * section head, caption. The accent lands on the smallest block, which is
-   * law 02 stated in eight cells — one accent, and it goes to the quietest
-   * thing on the plate rather than the loudest.
-   */
-  'aka-style': [
-    '.######.',
-    '.######.',
-    '........',
-    '.#####..',
-    '.#####..',
-    '........',
-    '.aaaa...',
-    '.aaaa...',
-  ],
   /** Music Analysis Chat — a bubble with a note in it. */
   'music-chat': [
     '######..',

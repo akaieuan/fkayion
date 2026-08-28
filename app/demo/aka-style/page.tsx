@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
-import { MarkGlyph } from '@/components/ui/mark-glyphs'
+import { PixelHead } from '@/components/features/brand/pixel-head'
+import { LAWS, SWATCHES, ACCENTS, USAGE, MARK_FAMILY } from '@/lib/aka-style'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
 
@@ -9,61 +10,80 @@ const PATH = '/demo/aka-style'
 export const metadata = demoMetadata(PATH, {
   title: 'akaSTYLE: a design language written as constraints',
   description:
-    'The design system behind every project on this site: seven constraints instead of preferences, OKLCH tokens, one type scale, server-rendered primitives, and a live specimen that cannot drift from what ships. Built at Ubik, and now the thing that lets an agent build in my language.',
+    'The design system behind every project on this site: seven constraints instead of preferences, OKLCH tokens, one type scale, one canvas engine for every brand mark, and server-rendered primitives. Built at Ubik, and now the thing that lets an agent build in my language.',
 })
 
+/*
+ * This page uses the site's own container rather than a write-up's reading
+ * column.
+ *
+ * It was a max-w-2xl article whose every specimen was a link to another page,
+ * which meant the page about the design system was the one place on the site
+ * that showed you none of it. The system is wide material — six swatches, a
+ * type scale, a family of marks — and the landing and /demo already have the
+ * grammar for laying wide material out. Prose keeps a reading measure inside
+ * that container; only the specimens use the full width.
+ */
+const SHELL = 'max-w-site mx-auto site-inset'
+const MEASURE = 'max-w-2xl'
+
+const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80'
+const sectionH = 'mt-2 text-xl font-light tracking-tight text-foreground/90'
+const card = 'rounded-xl border border-border/70 bg-muted/10'
 const link =
   'text-[oklch(0.4_0.08_152.2)] underline decoration-border underline-offset-[3px] transition-colors hover:text-[oklch(0.32_0.085_152)] dark:text-[oklch(0.707_0.108_152.216)] dark:hover:text-[oklch(0.78_0.1_152)]'
 const linkMuted =
   'text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground'
 
-const h2 = 'text-sm font-medium tracking-wide text-foreground'
-const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80'
+/** The type scale, shown at the sizes it actually ships at. */
+const SCALE = [
+  {
+    label: 'Kicker · 11px / 0.18em / uppercase / medium',
+    node: <p className={kicker}>Design system · Live specimen</p>,
+  },
+  {
+    label: 'Display · clamp(1.7–2.4rem) / extralight / tight',
+    node: (
+      <p className="text-[clamp(1.7rem,5vw,2.4rem)] font-extralight leading-none tracking-tight text-foreground/90">
+        A language written as constraints
+      </p>
+    ),
+  },
+  {
+    label: 'Section head · 20px / light',
+    node: <p className="text-xl font-light tracking-tight text-foreground/90">The rules</p>,
+  },
+  {
+    label: 'Body · 15px / light / 1.6',
+    node: (
+      <p className="text-[15px] font-light leading-relaxed text-muted-foreground">
+        A constraint can be checked in review, and it travels to a new codebase without me having
+        to be in the room.
+      </p>
+    ),
+  },
+  {
+    label: 'Caption · 11px / light / muted-70',
+    node: (
+      <p className="text-[11px] font-light text-muted-foreground/70">
+        Rendered live, never screenshotted.
+      </p>
+    ),
+  },
+]
 
-/**
- * The seven, restated for a reader rather than for a specimen.
- *
- * The live page at /aka-style states each law next to the thing it governs,
- * which is the right place to check one. Here they are the argument: the point
- * is not what the rules are, it is that they are rules and not preferences.
- */
-const LAWS = [
-  ['Mono for structure, sans for prose.', 'The contrast between the two carries the hierarchy, so headings rarely need to be big.'],
-  ['One accent, used sparingly.', 'If two things on screen are competing for the accent, neither gets it.'],
-  ['Borders over shadows.', 'Depth is a 1px border and a translucent fill. Never a drop shadow.'],
-  ['Motion moves space, never brightness.', 'It translates and displaces. It does not flash, strobe or pulse. This began as an accessibility rule for the audio-reactive work.'],
-  ['Loops pause when unwatched.', 'Every canvas gates its frame loop on an observer and on tab visibility, and draws one still frame under reduced motion.'],
-  ['Layout never jumps.', 'Tabbed regions are floored to the tallest tab. Images ship with dimensions and a placeholder.'],
-  ['Server by default.', 'The client boundary is drawn as deep in the tree as possible. A card is a server component even when its page is interactive.'],
-] as const
-
-/** The live system, and the four rooms of it worth linking separately. */
+/** The deeper rooms. Secondary now: the page shows the system before it links out. */
 const ROOMS = [
-  {
-    href: '/aka-style',
-    name: 'The system',
-    line: 'The whole language on one page: the seven laws next to what they govern, the tokens, the scale, and where it runs.',
-  },
-  {
-    href: '/aka-style/foundations',
-    name: 'Foundations',
-    line: 'The measurable half. Every number the system uses, with the reasoning attached, and a block you can drop into a new repo.',
-  },
-  {
-    href: '/aka-style/primitives',
-    name: 'Primitives',
-    line: 'Controls and surfaces with the class string printed beside each one. Nothing on that page needs client JavaScript to look right.',
-  },
-  {
-    href: '/aka-style/marks',
-    name: 'Marks',
-    line: 'One canvas engine and the whole family of logos. A disc of cells with something subtracted: change what is subtracted and you change brands, not code.',
-  },
-] as const
+  { href: '/aka-style', name: 'The full specimen', line: 'Every piece next to what it governs.' },
+  { href: '/aka-style/foundations', name: 'Foundations', line: 'Every number, with the reasoning attached.' },
+  { href: '/aka-style/primitives', name: 'Primitives', line: 'Controls and surfaces, class strings printed.' },
+  { href: '/aka-style/marks', name: 'Marks', line: 'The engine, and the whole family it draws.' },
+  { href: '/aka-style/faces', name: 'Faces', line: 'Twenty-six expressions on a 9×9 sub-grid.' },
+]
 
 export default function AkaStyleWriteUpPage() {
   return (
-    <div className="min-h-screen overflow-x-clip bg-background px-6 py-16">
+    <div className="min-h-screen overflow-x-clip bg-background pb-20 pt-16">
       <JsonLd
         data={demoSchema(PATH, {
           title: metadata.title as string,
@@ -71,203 +91,310 @@ export default function AkaStyleWriteUpPage() {
           crumb: 'akaSTYLE',
         })}
       />
-      <article className="mx-auto max-w-2xl">
+
+      <div className={SHELL}>
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects
         </Link>
 
-        <header className="mb-6">
-          <p
-            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance text-foreground/90"
-            aria-label="akaSTYLE"
-          >
-            aka<span className="font-mono font-normal text-primary">STYLE</span>
-          </p>
+        {/* ── Header ─────────────────────────────────────────────────────── */}
+        <header className="grid gap-8 md:grid-cols-[1fr_auto] md:items-start">
+          <div className={MEASURE}>
+            <p className={kicker}>Design system · Live specimen</p>
+            <h1 className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-foreground/90">
+              aka<span className="font-mono font-normal text-primary">STYLE</span>
+            </h1>
+            <p className="mt-4 text-[16px] font-light leading-relaxed text-foreground/85">
+              The vocabulary every project on this site is built from: the tokens, the one type
+              scale, the primitives, and the canvas engine that draws every brand mark. It exists as
+              rules rather than as taste, and as something that renders itself rather than a
+              document about itself.
+            </p>
+          </div>
+          {/*
+            The house mark, drawn by the engine this page is documenting. It is
+            a disc of pixel cells with the aka wordmark subtracted from it —
+            the same call the site header makes, at a size where you can see
+            the cells.
+          */}
+          <figure className="justify-self-start md:justify-self-end">
+            <div className={`${card} flex items-center justify-center px-8 py-8`}>
+              <PixelHead size={150} grid={30} icon="disc-aka" still />
+            </div>
+            <figcaption className="mt-2 max-w-[220px] text-[11px] font-light leading-relaxed text-muted-foreground/70">
+              Not a logo file. A disc of cells with the wordmark subtracted, drawn at render time by
+              the same engine every other mark in the family uses.
+            </figcaption>
+          </figure>
         </header>
 
-        {/*
-          The mark, at the size the plate shows it, on the plate's own ground.
-          A design-system page that opened on a screenshot of itself would be
-          making the exact mistake the system exists to prevent, so the hero is
-          the live component.
-        */}
-        <div className="-mx-6 flex items-center justify-center rounded-xl border border-border/80 bg-muted/10 px-6 py-12 sm:mx-0">
-          <span className="text-foreground/85">
-            <MarkGlyph name="aka-style" size={132} accent="#7b83ea" />
-          </span>
-        </div>
-        <p className="mt-3 text-[12px] font-light leading-relaxed text-muted-foreground/70">
-          The mark is the type scale: display, section head, caption. The accent goes to the
-          smallest block, because the rule is one accent and it belongs to the quietest thing on the
-          plate rather than the loudest.
-        </p>
-
-        <p className={`mt-10 ${kicker}`}>Design system · Live specimen</p>
-        <h1 className="mt-2 text-2xl font-light tracking-tight text-foreground md:text-[26px]">
-          A design language written as constraints
-        </h1>
-
-        <div className="mt-6 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
-          <p className="text-[16px] text-foreground/85">
-            akaSTYLE is the vocabulary every project on this site is built from: the tokens, the one
-            type scale, the primitives, and the brand engines that draw the marks. It exists as a
-            page that renders itself live rather than as a document about itself, and it exists as
-            rules rather than as taste.
+        {/* ── The rules ──────────────────────────────────────────────────── */}
+        <section className="mt-16">
+          <p className={kicker}>The rules</p>
+          <h2 className={sectionH}>Seven constraints, not seven preferences</h2>
+          <p className={`mt-3 ${MEASURE} text-[15px] font-light leading-relaxed text-muted-foreground`}>
+            A design system is usually sold as consistency, which is true and is not why I keep one.
+            The reason is that a preference has to be re-argued every time and a constraint does
+            not. &ldquo;This feels too heavy&rdquo; is a conversation. &ldquo;Depth is a border,
+            never a shadow&rdquo; is a thing you can check in review, and it travels to a new
+            codebase without me having to be in the room to defend it.
           </p>
 
-          <section className="space-y-3">
-            <h2 className={h2}>Why it exists</h2>
-            <p>
-              A design system is usually sold as consistency, which is true and is not the reason I
-              keep one. The reason is that a preference has to be re-argued every time and a
-              constraint does not. &ldquo;This feels too heavy&rdquo; is a conversation. &ldquo;Depth
-              is a border, never a shadow&rdquo; is a thing you can check in review, and it travels
-              to a new codebase without me having to be in the room to defend it.
-            </p>
-            <p>
-              So the language is stated as seven laws. They are deliberately narrow and deliberately
-              testable, and a few of them are load-bearing in ways that look like style until you
-              hit the case they were written for.
-            </p>
-            <ol className="mt-5 space-y-3">
-              {LAWS.map(([rule, body], i) => (
-                <li
-                  key={rule}
-                  className="flex gap-4 rounded-xl border border-border/70 bg-muted/10 px-4 py-3.5"
-                >
-                  <span className="shrink-0 pt-0.5 font-mono text-[11px] text-primary">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <div>
-                    <p className="text-[14px] text-foreground/90">{rule}</p>
-                    <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">{body}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-            <p className="!mt-5">
-              Law 04 is the clearest example. It reads like a taste call and started as an
-              accessibility requirement for audio-reactive work, where anything that pulses
-              brightness in time with sound is a genuine hazard. Once motion could only move space,
-              every engine in the family inherited a safer default without anyone having to remember
-              why.
-            </p>
-          </section>
+          <ol className="mt-7 grid list-none gap-3 p-0 md:grid-cols-2 xl:grid-cols-3">
+            {LAWS.map((l) => (
+              <li key={l.n} className={`${card} flex gap-4 px-4 py-4`}>
+                <span className="shrink-0 pt-0.5 font-mono text-[11px] text-primary">{l.n}</span>
+                <div>
+                  <p className="text-[14px] font-light text-foreground/90">{l.rule}</p>
+                  <p className="mt-1 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+                    {l.body}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
 
-          <section className="space-y-3">
-            <h2 className={h2}>Where the practice came from</h2>
-            <p>
-              This started at{' '}
-              <Link href="/demo/ubik" className={link}>
-                Ubik
-              </Link>
-              , and it started from a shortage rather than from ambition. There was no design team
-              and no time to keep a spec in sync with itself, so anything that needed a meeting to
-              settle got settled once and written down as a rule instead. What survived three and a
-              half years of that is what is on this page: the decisions that kept being correct
-              across a desktop app, a web gateway, a browser extension and the agent surfaces, which
-              is a wide enough spread to have killed anything that was only a preference.
-            </p>
-            <p>
-              The other half of the inheritance is the habit of the system being the running thing
-              rather than a description of it. At Ubik the board was Excalidraw files nobody closed
-              and the spec was the code; here the specimen is a page that imports the same
-              components the site does. Neither can drift, because there is no second copy to drift
-              from.
-            </p>
-          </section>
+          <p className={`mt-5 ${MEASURE} text-[15px] font-light leading-relaxed text-muted-foreground`}>
+            Law 04 is the clearest case. It reads like a taste call and started as an accessibility
+            requirement for the audio-reactive work, where anything pulsing brightness in time with
+            sound is a genuine hazard. Once motion could only move space, every engine in the family
+            inherited a safer default without anyone having to remember why.
+          </p>
+        </section>
 
-          <section className="space-y-3">
-            <h2 className={h2}>What it does for me now</h2>
-            <p>
-              The part I did not anticipate is how much a written constraint is worth once you build
-              with agents. I work in Claude Code, and the tokens, the scale and the seven laws are
-              loaded into the design context for every repo I run, so the language is not something I
-              re-explain per session or per project. A new surface arrives already speaking it,
-              because the rules are specific enough to be followed by something that has never seen
-              the rest of the codebase.
-            </p>
-            <p>
-              That is the difference between a style guide and this. A style guide is read by a
-              person who then interprets it. These are narrow enough to be applied directly, which
-              is why every project on this site looks like the same studio made it while none of
-              them took the setup time that usually implies. The system is the reason I can go from a
-              decision to a production surface in a day and have it land in the same language as
-              everything around it.
-            </p>
-            <p>
-              It runs across all of it: this site, the{' '}
-              <Link href="/demo/akaoss" className={link}>
-                akaOSS
-              </Link>{' '}
-              toolkits and their registry, the{' '}
-              <Link href="/demo/akavsts" className={link}>
-                plugin
-              </Link>{' '}
-              interfaces, and the client work. Same tokens, same scale, same rules about motion and
-              about where the client boundary goes.
-            </p>
-          </section>
+        {/* ── Color ──────────────────────────────────────────────────────── */}
+        <section className="mt-16">
+          <p className={kicker}>Color</p>
+          <h2 className={sectionH}>Tokens, in OKLCH</h2>
+          <p className={`mt-3 ${MEASURE} text-[15px] font-light leading-relaxed text-muted-foreground`}>
+            Every surface resolves from a CSS variable, so light and dark are one definition rather
+            than two stylesheets. These swatches are the live tokens: switch the theme and this row
+            repaints itself, because there is nothing here but the variables the rest of the site
+            uses.
+          </p>
 
-          <section className="space-y-4">
-            <h2 className={h2}>The system itself</h2>
-            <p>
-              Everything below renders live rather than as captured screenshots, which is the whole
-              point: a specimen that is a picture of the system is a specimen that is already out of
-              date.
-            </p>
-            <ul className="mt-1 list-none space-y-2 p-0">
-              {ROOMS.map((r) => (
-                <li key={r.href}>
-                  <Link
-                    href={r.href}
-                    className="group block rounded-xl border border-border/70 bg-muted/10 px-4 py-3.5 transition-colors hover:bg-muted/25"
-                  >
-                    <span className="flex items-baseline justify-between gap-3">
-                      <span className="text-[14px] text-foreground/90 group-hover:text-foreground">
-                        {r.name}
-                      </span>
+          <ul className="mt-6 grid list-none grid-cols-2 gap-3 p-0 sm:grid-cols-3 lg:grid-cols-6">
+            {SWATCHES.map((sw) => (
+              <li key={sw.name} className={`${card} overflow-hidden`}>
+                <div className={`h-16 w-full border-b border-border/60 ${sw.cls}`} />
+                <div className="px-3 py-2">
+                  <p className="text-[11px] text-foreground/85">{sw.name}</p>
+                  <p className="font-mono text-[10px] text-muted-foreground/60">{sw.varName}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <p className="mt-6 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground/70">
+            Accent set, carried by the canvas engines
+          </p>
+          <ul className="mt-3 flex list-none flex-wrap gap-2 p-0">
+            {ACCENTS.map((a) => (
+              <li
+                key={a.name}
+                className={`${card} flex items-center gap-2 px-3 py-1.5 font-mono text-[11px] text-muted-foreground`}
+              >
+                <span
+                  className="h-3 w-3 shrink-0 rounded-full"
+                  style={{ background: a.v }}
+                  aria-hidden
+                />
+                {a.name}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* ── Type ───────────────────────────────────────────────────────── */}
+        <section className="mt-16">
+          <p className={kicker}>Type</p>
+          <h2 className={sectionH}>One scale, five roles</h2>
+          <p className={`mt-3 ${MEASURE} text-[15px] font-light leading-relaxed text-muted-foreground`}>
+            Hierarchy is carried by the contrast between uppercase mono and light sans, not by size,
+            which is why the headings on this page are barely larger than the body under them. Each
+            row below is set in the class the site actually ships.
+          </p>
+
+          <ul className="mt-6 grid list-none gap-3 p-0 lg:grid-cols-2">
+            {SCALE.map((s) => (
+              <li key={s.label} className={`${card} px-5 py-4`}>
+                <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground/60">
+                  {s.label}
+                </p>
+                <div className="mt-2">{s.node}</div>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* ── Marks ──────────────────────────────────────────────────────── */}
+        <section className="mt-16">
+          <p className={kicker}>Brand engine</p>
+          <h2 className={sectionH}>One canvas, a family of marks</h2>
+          <p className={`mt-3 ${MEASURE} text-[15px] font-light leading-relaxed text-muted-foreground`}>
+            Every mark in the family is the same disc of pixel cells with something different
+            subtracted from it. Change what is subtracted and you change brands, not code. Colour
+            follows the foreground token, so a mark is correct in either theme without a second
+            asset existing.
+          </p>
+
+          <ul className="mt-6 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-3">
+            {MARK_FAMILY.map((m) => (
+              <li key={m.name} className={`${card} flex flex-col items-center gap-3 px-5 py-6`}>
+                <PixelHead size={84} grid={24} icon={m.icon} still />
+                <div className="text-center">
+                  <p className="text-[13px] font-light text-foreground/90">{m.name}</p>
+                  <p className="font-mono text-[10px] text-muted-foreground/60">{m.note}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* ── The practice ───────────────────────────────────────────────── */}
+        <section className="mt-16">
+          <p className={kicker}>The practice</p>
+          <h2 className={sectionH}>Where it came from, and what it does now</h2>
+
+          <div className="mt-6 grid gap-8 lg:grid-cols-2 lg:gap-12">
+            <div className="space-y-4 text-[15px] font-light leading-relaxed text-muted-foreground">
+              <h3 className="text-sm font-medium tracking-wide text-foreground">Built at Ubik</h3>
+              <p>
+                This started at{' '}
+                <Link href="/demo/ubik" className={link}>
+                  Ubik
+                </Link>
+                , and it started from a shortage rather than from ambition. There was no design team
+                and no time to keep a spec in sync with itself, so anything that needed a meeting to
+                settle got settled once and written down as a rule instead.
+              </p>
+              <p>
+                What survived three and a half years of that is what is on this page: the decisions
+                that kept being correct across a desktop app, a web gateway, a browser extension and
+                the agent surfaces, which is a wide enough spread to have killed anything that was
+                only a preference.
+              </p>
+              <p>
+                The other half of the inheritance is the habit of the system being the running thing
+                rather than a description of it. There the board was Excalidraw files nobody closed
+                and the spec was the code; here the specimen imports the same components the site
+                does. Neither can drift, because there is no second copy to drift from.
+              </p>
+            </div>
+
+            <div className="space-y-4 text-[15px] font-light leading-relaxed text-muted-foreground">
+              <h3 className="text-sm font-medium tracking-wide text-foreground">
+                What it is worth now
+              </h3>
+              <p>
+                The part I did not anticipate is how much a written constraint is worth once you
+                build with agents. I work in Claude Code, and the tokens, the scale and the seven
+                laws load into the design context for every repo I run, so the language is not
+                something I re-explain per session or per project. A new surface arrives already
+                speaking it.
+              </p>
+              <p>
+                That is the difference between a style guide and this. A style guide is read by a
+                person who then interprets it. These are narrow enough to be applied directly, which
+                is why every project here looks like the same studio made it while none of them took
+                the setup time that usually implies.
+              </p>
+              <p className="text-foreground/85">
+                It is the reason I can go from a decision to a production surface in a day and have
+                it land in the same language as everything around it.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Where it runs ──────────────────────────────────────────────── */}
+        <section className="mt-16">
+          <p className={kicker}>Where it runs</p>
+          <h2 className={sectionH}>Same tokens, different repos</h2>
+
+          <ul className="mt-6 grid list-none gap-3 p-0 md:grid-cols-2 xl:grid-cols-3">
+            {USAGE.map((u) => {
+              const inner = (
+                <>
+                  <span className="flex items-baseline justify-between gap-3">
+                    <span className="text-[14px] font-light text-foreground/90 group-hover:text-foreground">
+                      {u.name}
+                    </span>
+                    {!u.internal && (
                       <ArrowUpRight
                         className="h-3.5 w-3.5 shrink-0 opacity-40 transition-opacity group-hover:opacity-80"
                         aria-hidden
                       />
-                    </span>
-                    <span className="mt-1 block text-[13px] leading-relaxed text-muted-foreground">
-                      {r.line}
-                    </span>
-                  </Link>
+                    )}
+                  </span>
+                  <span className="mt-1 block text-[12.5px] font-light leading-relaxed text-muted-foreground">
+                    {u.what}
+                  </span>
+                </>
+              )
+              const cls = `group block ${card} px-4 py-3.5 transition-colors hover:bg-muted/25`
+              return (
+                <li key={u.name}>
+                  {u.internal ? (
+                    <Link href={u.href} className={cls}>
+                      {inner}
+                    </Link>
+                  ) : (
+                    <a href={u.href} target="_blank" rel="noopener noreferrer" className={cls}>
+                      {inner}
+                    </a>
+                  )}
                 </li>
-              ))}
-            </ul>
-            <p className="text-[13px]">
-              There is a fifth room,{' '}
-              <Link href="/aka-style/faces" className={link}>
-                faces
-              </Link>
-              , which is the marks with an expression inside the knocked-out void: twenty-six of
-              them on a 9&times;9 sub-grid, morphed on a timed slot so a face never cuts, it always
-              travels.
-            </p>
-          </section>
+              )
+            })}
+          </ul>
+        </section>
 
-          <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
-            <p className="text-[14px] leading-relaxed text-foreground/85">
-              The test of a design system is not whether it is documented. It is whether someone who
-              has not read the documentation, which now includes a model, produces something that
-              belongs. Rules pass that test and preferences do not, which is why these are written
-              as rules. The rest of the work is on the{' '}
-              <Link href="/demo" className={linkMuted}>
-                projects page
-              </Link>
-              .
-            </p>
-          </section>
-        </div>
-      </article>
+        {/* ── Deeper ─────────────────────────────────────────────────────── */}
+        <section className="mt-16">
+          <p className={kicker}>Deeper</p>
+          <h2 className={sectionH}>The rest of the specimen</h2>
+          <p className={`mt-3 ${MEASURE} text-[15px] font-light leading-relaxed text-muted-foreground`}>
+            Everything above is the system itself, on this page, rather than a description of it.
+            These go further into each part: every number with its reasoning, every primitive with
+            its class string, and the engine with the whole family it draws.
+          </p>
+
+          <ul className="mt-6 grid list-none gap-3 p-0 md:grid-cols-2 xl:grid-cols-3">
+            {ROOMS.map((r) => (
+              <li key={r.href}>
+                <Link
+                  href={r.href}
+                  className={`group block ${card} px-4 py-3.5 transition-colors hover:bg-muted/25`}
+                >
+                  <span className="text-[14px] font-light text-foreground/90 group-hover:text-foreground">
+                    {r.name}
+                  </span>
+                  <span className="mt-1 block text-[12.5px] font-light leading-relaxed text-muted-foreground">
+                    {r.line}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className={`mt-14 ${card} bg-muted/15 px-5 py-4 ${MEASURE}`}>
+          <p className="text-[14px] font-light leading-relaxed text-foreground/85">
+            The test of a design system is not whether it is documented. It is whether someone who
+            has not read the documentation, which now includes a model, produces something that
+            belongs. Rules pass that test and preferences do not. The rest of the work is on the{' '}
+            <Link href="/demo" className={linkMuted}>
+              projects page
+            </Link>
+            .
+          </p>
+        </section>
+      </div>
     </div>
   )
 }

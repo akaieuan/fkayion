@@ -78,7 +78,10 @@ export const PROJECTS: ProjectCardItem[] = [
     description:
       'The design language everything here is built from, stated as seven constraints rather than preferences. Tokens in OKLCH, one type scale, server-rendered primitives, and a live specimen that cannot drift from what ships.',
     href: '/demo/aka-style',
-    logo: 'aka-style',
+    // The house mark, drawn by the engine this project documents: a disc of
+    // cells with the aka wordmark subtracted. Anything drawn specially for the
+    // card would be a logo the system does not actually have.
+    mark: 'disc-aka',
     accent: TINT.indigo,
   },
   {
