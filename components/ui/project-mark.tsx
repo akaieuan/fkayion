@@ -174,7 +174,11 @@ export function ProjectMark({
       </span>
     )
   }
-  if (item.logo && hasGlyph(item.logo)) return <MarkGlyph name={item.logo} size={size} />
+  // The glyphs reserve an `a` cell for the card's own hue; without it handed
+  // over, that cell falls back to the ink and the mark loses the one piece of
+  // colour it was drawn around.
+  if (item.logo && hasGlyph(item.logo))
+    return <MarkGlyph name={item.logo} size={size} accent={item.accent} />
   if (item.logo) return <ProjectLogo name={item.logo} size={size} />
   if (item.mark) return <PixelHead size={size} grid={22} icon={item.mark} still />
   if (item.img) {
