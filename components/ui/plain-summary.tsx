@@ -1,4 +1,4 @@
-import { SUMMARIES } from '@/lib/plain-summaries'
+import { SUMMARIES } from "@/lib/plain-summaries";
 
 /**
  * The plain-language answer, at the top of a write-up.
@@ -37,114 +37,105 @@ import { SUMMARIES } from '@/lib/plain-summaries'
  * version of this would be strictly worse in every one of those ways.
  */
 export function PlainSummary({ path }: { path: string }) {
-  const s = SUMMARIES[path]
-  if (!s) return null
+  const s = SUMMARIES[path];
+  if (!s) return null;
 
   return (
-    <section
-      aria-label="Summary"
-      /*
-       * Its own ground, not the card fill every other panel uses.
-       *
-       * This is the one block on the page a reader is meant to find without
-       * looking for it, and at `bg-muted/15` it read as another card in a page
-       * made of cards. The ground is the accent mixed into the card surface at
-       * a few percent, which is enough to separate it from everything around
-       * it and still nowhere near a coloured panel; the border and the label
-       * take the accent directly. That is the house rule on one accent spent
-       * where it does the most work rather than spread thin.
-       *
-       * The token is `--accent-green`, not `--primary`. `--primary` is the
-       * green only in dark; in light it resolves to near-black, so a panel
-       * tinted with it would have been green on one theme and a grey smudge on
-       * the other. `--accent-green` is defined green in both.
-       *
-       * `color-mix` against the tokens rather than a literal, so both themes
-       * come from one definition.
-       */
-      className="aka-summary mt-8 rounded-xl border px-5 py-5 sm:px-6 sm:py-6"
-    >
+    <section aria-label="Summary" className="mt-8">
       {/*
-       * Sentence case at normal tracking, not the site's uppercase kicker.
-       * 11px uppercase at 0.18em tracking is the label style everywhere else
-       * here and it reads as technical furniture, which is the wrong register
-       * for the one block written for someone outside the field.
+       * The label sits above the surface, not inside it.
+       *
+       * That is how a plate on /demo is built: the art is the surface and the
+       * name is underneath it, outside the frame. Putting the label inside a
+       * bordered box made this a callout, which is a different component from
+       * anything else here and read as one.
        */}
-      <p className="text-[13px] font-medium tracking-[0.005em]" style={{ color: 'var(--accent-green)' }}>
+      <p
+        className="mb-2 text-[13px] font-medium tracking-[0.005em]"
+        style={{ color: "var(--accent-green)" }}
+      >
         In simple terms
       </p>
 
-      <div className="mt-2.5 space-y-2.5 text-[15px] font-light leading-relaxed text-foreground/85">
-        {s.what.map((line) => (
-          <p key={line}>{line}</p>
-        ))}
-      </div>
+      <div className="aka-summary rounded-xl px-5 py-5 sm:px-6 sm:py-6">
+        <div className="space-y-2.5 text-[15px] font-light leading-relaxed text-foreground/85">
+          {s.what.map((line) => (
+            <p key={line}>{line}</p>
+          ))}
+        </div>
 
-      {s.impact && (
-        <p className="aka-summary-rule mt-4 border-t pt-3.5 text-[14px] font-light leading-relaxed text-muted-foreground">
-          <span className="font-medium text-foreground/85">The impact.</span> {s.impact}
-        </p>
-      )}
+        {s.impact && (
+          <p className="aka-summary-rule mt-4 border-t pt-3.5 text-[14px] font-light leading-relaxed text-muted-foreground">
+            <span className="font-medium text-foreground/85">The impact.</span>{" "}
+            {s.impact}
+          </p>
+        )}
 
-      {s.ahead && s.ahead.length > 0 && (
-        <details className="aka-summary-rule group mt-4 border-t pt-3.5">
-          <summary className="flex cursor-pointer list-none items-center gap-2 text-[13px] font-medium text-foreground/85 transition-colors hover:text-foreground [&::-webkit-details-marker]:hidden">
-            {/*
-             * The chevron rotates rather than swapping glyph, so the control
-             * reads as one thing in two positions. Transform only: the house
-             * rule is that motion moves space and never brightness.
-             */}
-            <span
-              aria-hidden
-              className="inline-block text-muted-foreground/70 transition-transform duration-200 group-open:rotate-90"
-            >
-              ›
-            </span>
-            {s.aheadLabel ?? 'Why it mattered'}
-          </summary>
+        {s.ahead && s.ahead.length > 0 && (
+          <details className="aka-summary-rule group mt-4 border-t pt-3.5">
+            <summary className="flex cursor-pointer list-none items-center gap-2 text-[13px] font-medium text-foreground/85 transition-colors hover:text-foreground [&::-webkit-details-marker]:hidden">
+              {/*
+               * The chevron rotates rather than swapping glyph, so the control
+               * reads as one thing in two positions. Transform only: the house
+               * rule is that motion moves space and never brightness.
+               */}
+              <span
+                aria-hidden
+                className="inline-block text-muted-foreground/70 transition-transform duration-200 group-open:rotate-90"
+              >
+                ›
+              </span>
+              {s.aheadLabel ?? "Why it mattered"}
+            </summary>
 
-          <div className="mt-3.5 space-y-3">
-            {s.aheadIntro && (
-              <p className="text-[14px] font-light leading-relaxed text-muted-foreground">
-                {s.aheadIntro}
-              </p>
-            )}
-            <ul className="list-none space-y-2.5 p-0">
-              {s.ahead.map((a) => (
-                <li key={a.title} className="rounded-lg border border-border/50 bg-background/50 px-4 py-3">
-                  <p className="text-[13.5px] font-medium text-foreground/90">{a.title}</p>
-                  {a.norm && (
-                    <p className="mt-1 text-[12.5px] font-light leading-relaxed text-muted-foreground/75">
-                      <span className="text-[12px] font-medium text-foreground/60">
-                        Then
-                      </span>{' '}
-                      {a.norm}
+            <div className="mt-3.5 space-y-3">
+              {s.aheadIntro && (
+                <p className="text-[14px] font-light leading-relaxed text-muted-foreground">
+                  {s.aheadIntro}
+                </p>
+              )}
+              <ul className="list-none space-y-2.5 p-0">
+                {s.ahead.map((a) => (
+                  <li
+                    key={a.title}
+                    className="rounded-lg border border-border/50 bg-background/50 px-4 py-3"
+                  >
+                    <p className="text-[13.5px] font-medium text-foreground/90">
+                      {a.title}
                     </p>
-                  )}
-                  <p className="mt-1 text-[12.5px] font-light leading-relaxed text-muted-foreground">
-                    {/*
-                     * The subject's own name, not a hardcoded one. This read
-                     * "Ubik" on every page that used a then-and-now contrast,
-                     * which was wrong the moment a second project had one.
-                     */}
                     {a.norm && (
-                      <span className="text-[12px] font-medium text-foreground/60">
-                        {s.aheadSubject ?? 'It'}{' '}
-                      </span>
+                      <p className="mt-1 text-[12.5px] font-light leading-relaxed text-muted-foreground/75">
+                        <span className="text-[12px] font-medium text-foreground/60">
+                          Then
+                        </span>{" "}
+                        {a.norm}
+                      </p>
                     )}
-                    {a.why}
-                  </p>
-                </li>
-              ))}
-            </ul>
-            {s.aheadClose && (
-              <p className="text-[14px] font-light leading-relaxed text-foreground/85">
-                {s.aheadClose}
-              </p>
-            )}
-          </div>
-        </details>
-      )}
+                    <p className="mt-1 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+                      {/*
+                       * The subject's own name, not a hardcoded one. This read
+                       * "Ubik" on every page that used a then-and-now contrast,
+                       * which was wrong the moment a second project had one.
+                       */}
+                      {a.norm && (
+                        <span className="text-[12px] font-medium text-foreground/60">
+                          {s.aheadSubject ?? "It"}{" "}
+                        </span>
+                      )}
+                      {a.why}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+              {s.aheadClose && (
+                <p className="text-[14px] font-light leading-relaxed text-foreground/85">
+                  {s.aheadClose}
+                </p>
+              )}
+            </div>
+          </details>
+        )}
+      </div>
     </section>
-  )
+  );
 }

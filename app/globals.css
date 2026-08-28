@@ -452,28 +452,29 @@ body {
    * grid instead of two black tiles in the middle of it.
    */
   /*
-   * The plain-summary panel's ground.
+   * The plain-summary panel, in the plate's vocabulary.
    *
-   * A class rather than an inline style because the two themes want different
-   * strengths, not one value. On the near-white light ground an 8% tint is
-   * almost the page colour, so light takes roughly double the accent and a
-   * firmer border; the dark ground separates at much less. Same token in both,
-   * mixed against the card surface so it stays a tint and never a coloured
-   * panel.
+   * It was a green panel with a green border, which is a coloured box and not
+   * how anything else on this site is built: law 02 says one accent used
+   * sparingly, and a whole tinted surface is the opposite of sparing. The
+   * plates on /demo are the language to borrow from instead. They are a quiet
+   * ground a step off the page, no border, and their label sits outside the
+   * surface rather than inside it.
+   *
+   * So this takes the plate's own ground token and its own tint mix, which
+   * means the panel is a step off the page by exactly as much as a project
+   * plate is, in both themes, from one definition. The accent survives as the
+   * label's colour and nothing else.
    */
   .aka-summary {
-    background-color: color-mix(in srgb, var(--accent-green) 15%, var(--card));
-    border-color: color-mix(in srgb, var(--accent-green) 48%, var(--border));
+    background-color: color-mix(in srgb, var(--foreground) 3%, var(--stamp-ground));
   }
   .dark .aka-summary {
-    background-color: color-mix(in srgb, var(--accent-green) 8%, var(--card));
-    border-color: color-mix(in srgb, var(--accent-green) 32%, var(--border));
+    background-color: color-mix(in srgb, var(--foreground) 4%, var(--stamp-ground));
   }
+  /* Hairline separators inside it, tuned to the panel rather than the page. */
   .aka-summary-rule {
-    border-color: color-mix(in srgb, var(--accent-green) 30%, var(--border));
-  }
-  .dark .aka-summary-rule {
-    border-color: color-mix(in srgb, var(--accent-green) 18%, var(--border));
+    border-color: color-mix(in srgb, var(--foreground) 12%, transparent);
   }
 
   .aka-mark-ground {
