@@ -61,10 +61,20 @@ export function ProjectGrid({
            * the row is three wide at the widest breakpoint. Preloading only the
            * first plate left the other two in that row to arrive late, which is
            * the pop-in the reveal is covering for; better to not have it.
+           *
+           * That row is also not wrapped in `Reveal`. The wrapper starts at
+           * `data-reveal="pending"`, which is `opacity: 0`, and only reaches
+           * `instant` once the effect runs, so every plate above the fold was
+           * being held invisible until hydration. Nothing in the first row
+           * needs that: it is on screen at first paint by definition, and the
+           * one plate whose art is a preloaded bitmap was the one where the
+           * wait was obvious, because it is the only one that could have
+           * painted straight out of the server HTML. The reveal is for what
+           * you scroll to, which is what it always claimed to be for.
            */}
-          {reveal ? (
+          {reveal && i >= 3 ? (
             <Reveal>
-              <ProjectPlate item={item} priority={i < 3} />
+              <ProjectPlate item={item} />
             </Reveal>
           ) : (
             <ProjectPlate item={item} priority={i < 3} />

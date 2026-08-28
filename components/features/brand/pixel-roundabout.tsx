@@ -24,6 +24,14 @@ type PixelRoundaboutProps = {
   grid?: number
   /** Gap between pixels, as a fraction of a cell. */
   gap?: number
+  /**
+   * Draw the "bartel-pritchard sq" caption in the scene's reserved top-right
+   * corner. On at the size it was drawn for. Off wherever the art is smaller
+   * or the surrounding prose already names the place: the caption is set at a
+   * fixed 10px and does not scale with the scene, so at 200px it is nearly as
+   * wide as the square it labels and lands across the north approach road.
+   */
+  label?: boolean
   className?: string
 }
 
@@ -184,6 +192,7 @@ export function PixelRoundabout({
   size = 260,
   grid = 40,
   gap = 0.15,
+  label = true,
   className,
 }: PixelRoundaboutProps) {
   const hostRef = useRef<HTMLSpanElement>(null)
@@ -445,12 +454,14 @@ export function PixelRoundabout({
       />
       {/* sits in the scene's reserved top-right corner (LABEL_ZONE);
           compact tracking so it clears the north approach road */}
-      <span
-        aria-hidden
-        className="text-muted-foreground/70 absolute top-[2%] right-[2%] font-mono text-[10px] tracking-[0.12em] uppercase"
-      >
-        bartel-pritchard sq
-      </span>
+      {label && (
+        <span
+          aria-hidden
+          className="text-muted-foreground/70 absolute top-[2%] right-[2%] font-mono text-[10px] tracking-[0.12em] uppercase"
+        >
+          bartel-pritchard sq
+        </span>
+      )}
     </span>
   )
 }

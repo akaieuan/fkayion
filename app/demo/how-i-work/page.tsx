@@ -275,7 +275,7 @@ export default function HowIWorkPage() {
               this started, not the subject of the section.
             */}
             <div className="float-right ml-5 mb-2 w-[150px] sm:w-[200px]">
-              <PixelRoundabout size={200} />
+              <PixelRoundabout size={200} label={false} />
             </div>
             <p>
               I grew up here: in the park, on video games, and ideating products with my best

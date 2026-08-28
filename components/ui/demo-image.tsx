@@ -60,6 +60,18 @@ export function DemoImage({
    */
   const blur = imported ? undefined : BLUR[src as string]
 
+  /*
+   * A blur covers a lazy load. A preloaded one has nothing to cover.
+   *
+   * `priority` puts a preload link in the head, so the bytes are usually there
+   * by the time the element paints. Blurring it anyway inserts a visible
+   * intermediate state into the one image on the page that could have arrived
+   * sharp on first paint, which reads as the hero loading slowly when it is
+   * actually loading first. Below the fold the placeholder still earns its
+   * place: there the alternative is an empty frame that snaps.
+   */
+  const placeholder = priority ? undefined : blur
+
   return (
     <Image
       src={src}
@@ -67,8 +79,8 @@ export function DemoImage({
       // A static import carries its own dimensions and a build-time blur, so
       // passing them again would only be a chance to disagree with the file.
       {...(imported ? {} : { width, height })}
-      {...(imported ? { placeholder: 'blur' as const } : {})}
-      {...(blur ? { placeholder: 'blur' as const, blurDataURL: blur } : {})}
+      {...(imported && !priority ? { placeholder: 'blur' as const } : {})}
+      {...(placeholder ? { placeholder: 'blur' as const, blurDataURL: placeholder } : {})}
       sizes={sizes}
       priority={priority}
       quality={90}

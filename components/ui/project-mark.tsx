@@ -131,7 +131,9 @@ export function ProjectMark({
         // A static import carries a build-time blur; it only applies if asked
         // for. Without this a lazy plate below the fold decodes into an empty
         // tint and snaps in, which is the pop-in the reveal exists to cover.
-        placeholder="blur"
+        // A preloaded plate has nothing to cover, so it skips straight to sharp
+        // rather than showing a blur it does not need.
+        {...(eager ? {} : { placeholder: 'blur' as const })}
         priority={eager}
         // These are logos, and one of them is generative grain: the default 75
         // smears it. Cheap here, since the sources are small and flat.
@@ -181,7 +183,9 @@ export function ProjectMark({
         src={item.img}
         alt=""
         fill
-        placeholder="blur"
+        // Same rule as the logo branch: a blur covers a lazy decode, and a
+        // preloaded plate has no decode to cover.
+        {...(eager ? {} : { placeholder: 'blur' as const })}
         priority={eager}
         sizes={sizes}
         // A screenshot on a plate is shown at a third of a metre of screen, not

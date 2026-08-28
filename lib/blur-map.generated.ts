@@ -97,6 +97,8 @@ export const BLUR: Record<string, string> = {
   "/music-releases-all.webp": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAABQAgCdASoQABAAA4BaJQBOgtQBoL3jk2Jo4gAA/viTid9nQJ57RfwdOeworXqK6VU78+gfSMYrX6By+y+Mex+GjHioAA==",
   "/music-vm4uh.webp": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAACwAQCdASoQABAAA4BaJZwAAudGV6fAAP75DDYRlj/py8Da4OupSglfK0DF1ZKRRz+r24oAAAA=",
   "/null/network-inspector.webp": "data:image/webp;base64,UklGRigAAABXRUJQVlA4IBwAAAAwAQCdASoQAAoAA4BaJaQAA3AA/vVjC3cTAAAA",
+  "/null/new-tab.webp": "data:image/webp;base64,UklGRigAAABXRUJQVlA4IBwAAAAwAQCdASoQAAoAA4BaJaQAA3AA/vEL8m3TAAAA",
+  "/null/notes-panel.webp": "data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAACwAQCdASoQAAoAA4BaJaQAAuo6m3rgAP70cVsXsC8KhuoaJNejXR+0ccvfzQFuaGV7b4PjB4sAAA==",
   "/null/notes.webp": "data:image/webp;base64,UklGRigAAABXRUJQVlA4IBwAAAAwAQCdASoQAAoAA4BaJaQAA3AA/vTKQH2IAAAA",
   "/null/overview.webp": "data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoQAAoAA4BaJaQAA3AA/vSBgAA=",
   "/trickle-ui-kit.webp": "data:image/webp;base64,UklGRiwAAABXRUJQVlA4ICAAAABQAQCdASoQAAoAA4BaJZwABAAAAP70wlAqkUUluKAAAA==",
