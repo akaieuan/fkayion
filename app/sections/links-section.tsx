@@ -109,10 +109,18 @@ export function LinksSection() {
         <div className="aka-rise mb-16 max-w-[40rem]">
           <h1 className={heading}>Who I am</h1>
           <p className="mt-4 text-sm font-light leading-relaxed text-muted-foreground">
-            A product designer and technical anthropologist working on the human side of applied
-            AI: discovery, approval flows, and the interfaces that make agents legible and worth
-            trusting. Plus the agent training, front-end, and procedural 3D work behind them.
+            I&apos;m a product design engineer trained as an anthropologist, which is mostly a way
+            of saying I go and find the problem before I design for it. Most of that has gone into
+            human-in-the-loop AI for expert users: sitting with the people doing the work, watching
+            where the task actually breaks, and deciding what an agent should and should not be
+            trusted with.
           </p>
+          <Link
+            href="/demo/how-i-work"
+            className="mt-3 inline-flex items-center gap-1.5 text-[13px] font-light text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50"
+          >
+            How I work
+          </Link>
         </div>
 
         {/* Prose sits in its own measure, so a heading and its link stay

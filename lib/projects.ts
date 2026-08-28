@@ -3,7 +3,16 @@ import type { ProjectCardItem } from '@/components/ui/project-mark'
 // Card media - static imports for build-time blur placeholders.
 import inertialDashboard from '@/public/inertial-dashboard.png'
 import visualizerPoster from '@/public/visualizer-eden-preview-poster.jpg'
-import howIWork from '@/public/how-i-work.webp'
+/*
+ * The card art is a 4:3 crop, not the 8:3 painting the write-up opens with.
+ * A plate is 4:3 and `object-cover`s its art, so the wide original had to be
+ * scaled until its height filled the frame: about 1600 device pixels of source
+ * for a 400px plate on a retina screen, against the ~830 next/image ships for
+ * a 380px `sizes` hint. It arrived at half resolution and looked soft beside
+ * the logos. Cropped to the frame's own ratio, the scale is 1:1 and 1200px of
+ * source covers the plate with room to spare.
+ */
+import howIWork from '@/public/how-i-work-card.webp'
 import mobLabNight from '@/public/bkz/mob-lab-night.webp'
 
 // Bitmap logos the projects ship - drawn as app-icon tiles on the card plate.
