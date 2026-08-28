@@ -277,12 +277,13 @@ export const SUMMARIES: Record<string, Summary> = {
 
   '/demo/music-analysis-chat': {
     what: [
-      'A workspace for a record label, built to answer one design question: when you ask an AI about music data, what should come back instead of a paragraph?',
-      'I spent years around this data. The questions people actually ask are narrow and repetitive. How did this release convert. Who is posting with the sound. Who should we send the brief to. None of those are answered well by prose, which is exactly what a chat interface gives you by default.',
-      'So it is not a chatbot that knows about music. It is an argument about response shape: for a question with a known answer type, the agent should return the artifact that answers it, and the sentence should be the caption on that artifact rather than the answer itself.',
+      'A workspace for a record label, built out of interviews rather than out of an idea.',
+      'I sat with people at a label about what actually goes wrong when they try to put AI into their daily work. The pattern was consistent: the tools answer in paragraphs, and the job is not made of paragraphs. The questions are narrow and they repeat. How did this release convert. Who is posting with the sound. Who should we send the brief to. Each of those has a known answer type, and prose is the wrong shape for all of them, which is exactly what a chat box hands you by default.',
+      'The other half of what they told me is that nobody trusts an answer they cannot check. A number in a sentence is a claim; the same number in a table you can sort, next to the rows it came from, is evidence.',
+      'So this is not a chatbot that knows about music. It is an argument about response shape: for a question with a known answer type, the agent should return the artifact that answers it, and the sentence should be the caption on that artifact rather than the answer itself.',
     ],
     impact:
-      'It reframes what an agent gives back as something you act on rather than something you read, which is the difference between an assistant that reports and one that is actually part of the workflow.',
+      'It reframes what an agent gives back as something you act on and can verify, rather than something you read and have to trust, which is the difference between a demo that impresses a label and a tool that survives contact with their week.',
   },
 
   '/demo/wrdef': {
