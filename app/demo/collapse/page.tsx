@@ -47,11 +47,26 @@ export default function CollapseProjectPage() {
         </Link>
 
         <header className="mb-6">
-          <p
-            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight"
+          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
+
+          Open source · Developer tool · Claude Code
+          </p>
+          <h1
+            className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight"
             aria-label="Collapse"
           >
             <span className="text-foreground/90">Collapse</span>
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm font-light leading-relaxed text-muted-foreground">
+          A Claude Code skill-building framework: a pattern to SKILL.md compiler.{' '}
+          <a
+            href="https://github.com/akaieuan/collapse"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline decoration-border hover:decoration-foreground/60 underline-offset-[3px] transition-colors"
+          >
+            github.com/akaieuan/collapse
+          </a>
           </p>
         </header>
 
@@ -74,7 +89,7 @@ export default function CollapseProjectPage() {
             href="https://github.com/akaieuan/collapse"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
           >
             GitHub — akaieuan/collapse
             <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
@@ -85,24 +100,6 @@ export default function CollapseProjectPage() {
           into a skill. Part of the{' '}
           <Link href="/demo/akaoss" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">akaOSS</Link>{' '}
           studio.
-        </p>
-
-        <p className="mt-10 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
-          Open source · Developer tool · Claude Code
-        </p>
-        <h1 className="mt-2 text-2xl font-light tracking-tight text-foreground md:text-[26px]">
-          Collapse
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          A Claude Code skill-building framework — a pattern → SKILL.md compiler.{' '}
-          <a
-            href="https://github.com/akaieuan/collapse"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-border hover:decoration-foreground/60 underline-offset-[3px] transition-colors"
-          >
-            github.com/akaieuan/collapse
-          </a>
         </p>
 
         <PlainSummary path={PATH} />

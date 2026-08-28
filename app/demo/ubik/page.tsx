@@ -302,11 +302,19 @@ export default function UbikProjectPage() {
         </Link>
 
         <header className="mb-6">
-          <p
-            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight"
+          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
+
+          Product · Desktop AI research platform · 2023–2026
+          </p>
+          <h1
+            className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight"
             aria-label="Ubik Studio"
           >
             <span className="text-foreground/90">Ubik Studio</span>
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm font-light leading-relaxed text-muted-foreground">
+          A desktop-native, local-first AI research platform. Three and a half years building the
+          human side of agentic research, before it had a name.
           </p>
         </header>
 
@@ -328,7 +336,7 @@ export default function UbikProjectPage() {
             href="https://kraa.io/team-test-log042"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
           >
             Team test log
             <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
@@ -337,7 +345,7 @@ export default function UbikProjectPage() {
             href="https://www.reddit.com/r/ubikstudio/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/40"
+            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
           >
             r/ubikstudio
             <ArrowUpRight className="h-4 w-4 opacity-60" aria-hidden />
@@ -346,17 +354,6 @@ export default function UbikProjectPage() {
         <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
           2023–2026 · co-founded · the public site and builds are retired; the test log and the
           subreddit are what remain in the open.
-        </p>
-
-        <p className="mt-10 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
-          Product · Desktop AI research platform · 2023–2026
-        </p>
-        <h1 className="mt-2 text-2xl font-light tracking-tight text-foreground md:text-[26px]">
-          Ubik Studio
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          A desktop-native, local-first AI research platform — three and a half years of building the
-          human side of agentic research, before it had a name.
         </p>
 
         <PlainSummary path={PATH} />

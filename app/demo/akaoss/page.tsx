@@ -108,7 +108,7 @@ export default function AkaossProjectPage() {
             href={SITE}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
           >
             Visit akaoss.dev
             <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
@@ -117,7 +117,7 @@ export default function AkaossProjectPage() {
             href={REPO}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/40"
+            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
           >
             GitHub — akaieuan/akaOSS
             <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />

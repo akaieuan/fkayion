@@ -34,52 +34,27 @@ export default function EvalKitProjectPage() {
         </Link>
 
         <header className="mb-6">
-          <p
-            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance text-foreground/90"
+          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
+
+          Open source · pre-1.0 · v0.3.1
+          </p>
+          <h1
+            className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance text-foreground/90"
             aria-label="eval-kit"
           >
             evalkit
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm font-light leading-relaxed text-muted-foreground">
+          The scoring cockpit for research agents. Open source. Pre-1.0. v0.3.1 stable.
           </p>
         </header>
 
-        <p className="text-[13px] font-light leading-relaxed text-muted-foreground">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
           <a
             href="https://github.com/akaieuan/eval-kit"
             target="_blank"
             rel="noopener noreferrer"
-            className={extLink}
-          >
-            github.com/akaieuan/eval-kit
-            <ArrowUpRight className="ml-0.5 inline h-3.5 w-3.5 align-[-0.1em] opacity-70" aria-hidden />
-          </a>
-          <span className="text-muted-foreground/50"> · </span>
-          <a
-            href="https://www.npmjs.com/package/@eval-kit/core"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={extLink}
-          >
-            @eval-kit/core on npm
-            <ArrowUpRight className="ml-0.5 inline h-3.5 w-3.5 align-[-0.1em] opacity-70" aria-hidden />
-          </a>
-          <span className="text-muted-foreground/50"> · </span>
-          <a
-            href="https://github.com/akaieuan/eval-kit/blob/main/docs/BRIEF.md"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={extLink}
-          >
-            Read the brief
-            <ArrowUpRight className="ml-0.5 inline h-3.5 w-3.5 align-[-0.1em] opacity-70" aria-hidden />
-          </a>
-        </p>
-
-        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-          <a
-            href="https://github.com/akaieuan/eval-kit"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
           >
             GitHub
             <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
@@ -88,7 +63,7 @@ export default function EvalKitProjectPage() {
             href="https://www.npmjs.com/package/@eval-kit/core"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/40"
+            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
           >
             @eval-kit on npm
             <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
@@ -97,7 +72,7 @@ export default function EvalKitProjectPage() {
             href="https://github.com/akaieuan/eval-kit/blob/main/docs/BRIEF.md"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/40"
+            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
           >
             Read the brief
             <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
@@ -106,16 +81,6 @@ export default function EvalKitProjectPage() {
         <p className="mt-3 text-[12px] font-light text-muted-foreground/80">
           Repo, scoped packages on npm, and the full project brief (philosophy, architecture, §13
           guardrails).
-        </p>
-
-        <p className="mt-10 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
-          Open source · pre-1.0 · v0.3.1
-        </p>
-        <h1 className="mt-2 text-2xl font-light tracking-tight text-foreground md:text-[26px]">
-          eval-kit
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          The scoring cockpit for research agents. Open source. Pre-1.0. v0.3.1 stable.
         </p>
 
         <PlainSummary path={PATH} />

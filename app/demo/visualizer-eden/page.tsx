@@ -48,7 +48,7 @@ export default function VisualizerEdenDemoPage() {
         <div className="mt-5">
           <Link
             href="/Visualizer-Eden"
-            className="inline-flex items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
           >
             Open Visualizer Eden
             <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />

@@ -32,11 +32,27 @@ export default function BoxPopuliProjectPage() {
         </Link>
 
         <header className="mb-6">
-          <p
-            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance"
+          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
+
+          Client project · Live
+          </p>
+          <h1
+            className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance"
             aria-label="Box Populi"
           >
             <span className="text-foreground/90">Box Populi</span>
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm font-light leading-relaxed text-muted-foreground">
+          A site for a live techno improvisation collective out of New York City. The interesting
+          part was never the landing page. It was the constraints.{' '}
+          <a
+            href="https://www.boxpopuli.live/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline decoration-border hover:decoration-foreground/60 underline-offset-[3px] transition-colors"
+          >
+            boxpopuli.live
+          </a>
           </p>
         </header>
 
@@ -57,7 +73,7 @@ export default function BoxPopuliProjectPage() {
             href="https://www.boxpopuli.live/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
           >
             Visit boxpopuli.live
             <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
@@ -66,25 +82,6 @@ export default function BoxPopuliProjectPage() {
         <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
           Live and deployed on Vercel — the collective&apos;s public face for sets, roster, and
           bookings.
-        </p>
-
-        <p className="mt-10 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
-          Client project · Live
-        </p>
-        <h1 className="mt-2 text-2xl font-light tracking-tight text-foreground md:text-[26px]">
-          Box Populi
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          A site for a live techno improvisation collective out of New York City. The interesting
-          part was never the landing page. It was the constraints.{' '}
-          <a
-            href="https://www.boxpopuli.live/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-border hover:decoration-foreground/60 underline-offset-[3px] transition-colors"
-          >
-            boxpopuli.live
-          </a>
         </p>
 
         <PlainSummary path={PATH} />

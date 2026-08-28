@@ -31,11 +31,19 @@ export default function WrdefProjectPage() {
         </Link>
 
         <header className="mb-6">
-          <p
-            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance text-foreground/90"
+          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
+
+          Game
+          </p>
+          <h1
+            className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance text-foreground/90"
             aria-label="wrdef"
           >
             wrdef
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm font-light leading-relaxed text-muted-foreground">
+          Same 5-letter, 6-guess mechanic: clues are dictionary definitions; bonus round fills blanks in
+          the definition.
           </p>
         </header>
 
@@ -59,7 +67,7 @@ export default function WrdefProjectPage() {
             href="https://www.wrdef.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
           >
             Play live at wrdef.com
             <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
@@ -68,17 +76,6 @@ export default function WrdefProjectPage() {
             Live, playable in the browser. No install.
           </p>
         </div>
-
-        <p className="mt-10 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
-          Game
-        </p>
-        <h1 className="mt-2 text-2xl font-light tracking-tight text-foreground md:text-[26px]">
-          Wordle remake: Wrdef (Wordle + definition)
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Same 5-letter, 6-guess mechanic: clues are dictionary definitions; bonus round fills blanks in
-          the definition.
-        </p>
 
         <PlainSummary path={PATH} />
 

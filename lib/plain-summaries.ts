@@ -23,6 +23,8 @@ export type Summary = {
   aheadLabel?: string
   /** Optional lead-in inside the disclosure. */
   aheadIntro?: string
+  /** Name shown against each `why` line, opposite `norm`. Defaults to "It". */
+  aheadSubject?: string
   /** The case, as points. `norm` sets up a contrast; omit it for a plain list. */
   ahead?: { title: string; norm?: string; why: string }[]
   /** Optional closing line inside the disclosure. */
@@ -38,6 +40,7 @@ export const SUMMARIES: Record<string, Summary> = {
     ],
     impact:
       'Most AI writing tools of the era tried to replace the researcher and shipped a wall of text nobody could check. Ubik did the opposite: it took the tedious half of the work and made the person verifying it the point of the product, which is the pattern the industry has spent the years since rebuilding.',
+    aheadSubject: 'Ubik',
     aheadLabel: 'Why this was ahead of its time in 2023',
     aheadIntro:
       'In 2023 the state of the art in public was a single chatbot in a text box. It hallucinated freely, could not cite anything reliably, and left you copying snippets back and forth by hand. Ubik was already doing five things the field would spend the next several years arriving at.',
@@ -154,6 +157,7 @@ export const SUMMARIES: Record<string, Summary> = {
     ],
     impact:
       'Most positions on AI evaluation stop at the essay. This one ships the code that makes the position buildable and the evidence that lets you check it, so a reader who disagrees can re-run the experiment instead of arguing about the claim.',
+    aheadSubject: 'akaOSS',
     aheadLabel: 'What makes it unusual',
     ahead: [
       {

@@ -53,11 +53,19 @@ export default function InertialProjectPage() {
         </Link>
 
         <header className="mb-6">
-          <p
-            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance lowercase text-foreground/90"
+          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
+            Reference architecture · portfolio work · MIT
+          </p>
+          <h1
+            className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance lowercase text-foreground/90"
             aria-label="inertial"
           >
             inertial
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm font-light leading-relaxed text-muted-foreground">
+            A reference architecture for auditable AI content review. Not a deployable moderation
+            service, but a working demonstration of one architectural thesis, end to end through
+            real code.
           </p>
         </header>
 
@@ -117,7 +125,7 @@ export default function InertialProjectPage() {
             href={repoHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
           >
             GitHub
             <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
@@ -126,7 +134,7 @@ export default function InertialProjectPage() {
             href={readmeHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/40"
+            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
           >
             Read the README
             <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
@@ -135,17 +143,6 @@ export default function InertialProjectPage() {
         <p className="mt-3 text-[12px] font-light text-muted-foreground/80">
           Repo, install instructions, the architecture diagram, the policy DSL, and the honest capability matrix all
           live in the README.
-        </p>
-
-        <p className={`mt-10 ${eyebrow}`}>
-          Reference architecture · portfolio work · MIT
-        </p>
-        <h1 className="mt-2 text-2xl font-light tracking-tight text-foreground md:text-[26px]">
-          Inertial
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          A reference architecture for auditable AI content review. Not a deployable moderation service — a working
-          demonstration of one architectural thesis, end-to-end through real code.
         </p>
 
         <PlainSummary path={PATH} />

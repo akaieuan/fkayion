@@ -451,6 +451,31 @@ body {
    * It sits on the mark rather than the plate so a light theme keeps a light
    * grid instead of two black tiles in the middle of it.
    */
+  /*
+   * The plain-summary panel's ground.
+   *
+   * A class rather than an inline style because the two themes want different
+   * strengths, not one value. On the near-white light ground an 8% tint is
+   * almost the page colour, so light takes roughly double the accent and a
+   * firmer border; the dark ground separates at much less. Same token in both,
+   * mixed against the card surface so it stays a tint and never a coloured
+   * panel.
+   */
+  .aka-summary {
+    background-color: color-mix(in srgb, var(--accent-green) 15%, var(--card));
+    border-color: color-mix(in srgb, var(--accent-green) 48%, var(--border));
+  }
+  .dark .aka-summary {
+    background-color: color-mix(in srgb, var(--accent-green) 8%, var(--card));
+    border-color: color-mix(in srgb, var(--accent-green) 32%, var(--border));
+  }
+  .aka-summary-rule {
+    border-color: color-mix(in srgb, var(--accent-green) 30%, var(--border));
+  }
+  .dark .aka-summary-rule {
+    border-color: color-mix(in srgb, var(--accent-green) 18%, var(--border));
+  }
+
   .aka-mark-ground {
     background-color: #0b0b0c;
   }

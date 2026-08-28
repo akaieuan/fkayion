@@ -33,39 +33,17 @@ export default function HologramProjectPage() {
         </Link>
 
         <header className="mb-6">
-          <p
-            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance"
+          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
+
+          Open source · MCP + Blender · MIT
+          </p>
+          <h1
+            className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance"
             aria-label="Hologram"
           >
             <span className="text-foreground/90">◇ Hologram</span>
-          </p>
-        </header>
-
-        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-          <a
-            href="https://github.com/akaieuan/Hologram"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
-          >
-            GitHub — akaieuan/Hologram
-            <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
-          </a>
-        </div>
-        <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
-          Open source, MIT. No release to download — <code className={code}>uvx</code> fetches and runs
-          it on demand. Part of the{' '}
-          <Link href="/demo/akaoss" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">akaOSS</Link>{' '}
-          studio.
-        </p>
-
-        <p className="mt-10 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
-          Open source · MCP + Blender · MIT
-        </p>
-        <h1 className="mt-2 text-2xl font-light tracking-tight text-foreground md:text-[26px]">
-          Hologram
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm font-light leading-relaxed text-muted-foreground">
           Live observability and a read-only MCP surface for Blender → glTF pipelines. Watch your AI
           agent work on your game assets in real time.{' '}
           <a
@@ -76,6 +54,25 @@ export default function HologramProjectPage() {
           >
             github.com/akaieuan/Hologram
           </a>
+          </p>
+        </header>
+
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+          <a
+            href="https://github.com/akaieuan/Hologram"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
+          >
+            GitHub — akaieuan/Hologram
+            <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
+          </a>
+        </div>
+        <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
+          Open source, MIT. No release to download — <code className={code}>uvx</code> fetches and runs
+          it on demand. Part of the{' '}
+          <Link href="/demo/akaoss" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">akaOSS</Link>{' '}
+          studio.
         </p>
 
         <PlainSummary path={PATH} />

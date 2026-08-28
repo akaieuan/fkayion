@@ -84,11 +84,26 @@ export default function HitlKitProjectPage() {
         </Link>
 
         <header className="mb-6">
-          <p
-            className="text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance text-foreground/90"
+          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
+
+          Open source · v0.6
+          </p>
+          <h1
+            className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance text-foreground/90"
             aria-label="HITLKit"
           >
             HITLKit
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm font-light leading-relaxed text-muted-foreground">
+          A design system, component library, and perspective paper on human-in-the-loop AI.{' '}
+          <a
+            href="https://www.hitlkit.dev/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline decoration-border hover:decoration-foreground/60 underline-offset-[3px] transition-colors"
+          >
+            hitlkit.dev
+          </a>
           </p>
         </header>
 
@@ -108,7 +123,7 @@ export default function HitlKitProjectPage() {
             href="https://www.hitlkit.dev/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
           >
             Visit hitlkit.dev
             <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
@@ -117,14 +132,14 @@ export default function HitlKitProjectPage() {
             href="https://github.com/akaieuan/HITL-KIT"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/40"
+            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
           >
             GitHub · akaieuan/HITL-KIT
             <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
           </a>
           <Link
             href="/demo/hitl-ai"
-            className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/40"
+            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
           >
             See components
           </Link>
@@ -184,24 +199,6 @@ export default function HitlKitProjectPage() {
           </Link>
           . The shipped kit at hitlkit.dev supersedes this in-repo mock, but these are still
           useful for comparison.
-        </p>
-
-        <p className="mt-10 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
-          Open source · v0.6
-        </p>
-        <h1 className="mt-2 text-2xl font-light tracking-tight text-foreground md:text-[26px]">
-          HITL Kit
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          A design system, component library, and perspective paper on human-in-the-loop AI.{' '}
-          <a
-            href="https://www.hitlkit.dev/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-border hover:decoration-foreground/60 underline-offset-[3px] transition-colors"
-          >
-            hitlkit.dev
-          </a>
         </p>
 
         <PlainSummary path={PATH} />
