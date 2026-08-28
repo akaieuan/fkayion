@@ -1,5 +1,3 @@
-'use client';
-
 import type { Creator } from '../types';
 import { cn } from '@/lib/utils';
 

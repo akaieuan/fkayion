@@ -10,7 +10,7 @@
  * header and the section rail.
  */
 export const FULLSCREEN_DEMOS = [
-  '/demo/music-analysis-chat',
+  '/demo/music-analysis-chat/app',
   '/demo/hitl-ai',
   '/demo/bodylog/v1',
 ] as const

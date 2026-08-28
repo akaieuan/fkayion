@@ -1,5 +1,3 @@
-'use client';
-
 import type { SocialPost } from '../types';
 import { cn } from '@/lib/utils';
 import { Heart, MessageCircle, Bookmark, Share2, Play, Music } from 'lucide-react';

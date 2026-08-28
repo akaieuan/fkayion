@@ -1,5 +1,3 @@
-'use client';
-
 import type { CompRow } from '../types';
 import { cn } from '@/lib/utils';
 
