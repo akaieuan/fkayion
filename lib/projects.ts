@@ -45,6 +45,15 @@ const TINT = {
 
 export const PROJECTS: ProjectCardItem[] = [
   {
+    title: 'How I Work',
+    tags: ['About', 'Practice', 'Brooklyn', 'Small software'],
+    description:
+      'Who I am and how I design: field-work training applied to product, parameterized prototypes built to be felt rather than reviewed, and the small software I use every day because I built it.',
+    href: '/demo/how-i-work',
+    logo: 'roundabout',
+    accent: TINT.steel,
+  },
+  {
     title: 'Ubik Studio',
     tags: ['Product', 'Desktop', 'Agents', '2023–2026'],
     description:
@@ -180,15 +189,6 @@ export const PROJECTS: ProjectCardItem[] = [
     fill: true,
     onDark: true,
     accent: TINT.amber,
-  },
-  {
-    title: 'How I Work',
-    tags: ['Narrative', 'Method', 'HITL', 'Demos'],
-    description:
-      'The method behind the site: watch the work first, prototype in code, measure what matters. Plus how the Kit, the eval framework, and the public test log connect.',
-    href: '/demo/hitl-practice',
-    mark: 'gear',
-    accent: TINT.steel,
   },
   {
     title: 'User feedback + design log',

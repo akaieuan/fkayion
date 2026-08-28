@@ -1,5 +1,6 @@
 import Image, { type StaticImageData } from 'next/image'
 import { PlateVideo } from '@/components/ui/plate-video'
+import { PixelRoundabout } from '@/components/features/brand/pixel-roundabout'
 import { PixelHead, type PixelIcon } from '@/components/features/brand/pixel-head'
 import { BodyLogMark } from '@/components/demo/bodylog/bodylog-mark'
 import { CovartMark } from '@/components/ui/covart-mark'
@@ -141,6 +142,13 @@ export function ProjectMark({
         height={640}
       />
     )
+  /*
+   * Bartel-Pritchard Square, running. The plate's frame scales any canvas to
+   * fill it, so the size here only sets the render resolution; the sim pauses
+   * itself offscreen and on a hidden tab, and renders a single mid-flow frame
+   * under reduced motion, so a grid of twenty-one plates does not pay for it.
+   */
+  if (item.logo === 'roundabout') return <PixelRoundabout size={size} />
   if (item.logo === 'bodylog') return <BodyLogMark size={size} title="" />
   if (item.logo === 'akacovart') return <CovartMark size={size} />
   if (item.logo === 'blockpad') return <BlockpadMark size={size} />

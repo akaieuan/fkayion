@@ -47,7 +47,7 @@ const columns: { heading: string; links: FooterLink[] }[] = [
       { label: 'Bandcamp', href: 'https://akaieuan.bandcamp.com/', external: true },
       { label: 'Spotify', href: 'https://open.spotify.com/artist/5OwuCYMg2wmmh3QofLLIPe', external: true },
       { label: 'YouTube', href: 'https://www.youtube.com/channel/UC6etRnx7fZEtoVAI-phCu6Q', external: true },
-      { label: 'How I work', href: '/demo/hitl-practice' },
+      { label: 'How I work', href: '/demo/how-i-work' },
     ],
   },
 ]

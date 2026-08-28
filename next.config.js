@@ -20,6 +20,13 @@ const nextConfig = {
         destination: '/demo/hitl-ai',
         permanent: true,
       },
+      // The practice page was named after one thing it covers; it is now a
+      // page about the person, so it is named after what it answers.
+      {
+        source: '/demo/hitl-practice',
+        destination: '/demo/how-i-work',
+        permanent: true,
+      },
       // The pipeline write-up was named after the game; it is now named after
       // the thing it is about, and the game is the subject inside it.
       {
