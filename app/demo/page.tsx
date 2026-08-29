@@ -1,6 +1,11 @@
 import Link from 'next/link'
+import { ArrowRight, ArrowUpRight, Tag } from 'lucide-react'
+import { CoverFlow } from '@/components/features/demo/cover-flow'
+import { ProjectCover } from '@/components/ui/project-cover'
 import { ProjectGrid } from '@/components/ui/project-grid'
+import { ViewToggle } from '@/components/ui/view-toggle'
 import { topLevelProjects } from '@/lib/projects'
+import { SUMMARIES } from '@/lib/plain-summaries'
 
 export const metadata = {
   title: 'Projects',
@@ -8,39 +13,171 @@ export const metadata = {
 }
 
 /**
- * Every project, as plates.
+ * Every project, twice: as a deck and as a wall.
  *
- * The landing shows six of these and this page shows all of them, and they are
- * otherwise identical: the same plate at the same size in the same columns, so
- * moving between the two pages should feel like the list got longer rather than
- * like the site changed. A name and one word is all a plate says in either
- * place; the full description belongs on the project's own page.
+ * The wall is the honest index and a flat first impression, so the deck is what
+ * you land on and the wall is one button away. Both are rendered here, on the
+ * server, and the toggle flips an attribute between them: two views of one list
+ * rather than two pages, and no project can appear in one and not the other.
  *
- * Fully server-rendered apart from the reveal wrapper the grid puts around each
- * plate here: this is the long page, and the plates arriving as you reach them
- * is the difference between the grid keeping up with the scroll and the grid
- * assembling itself in front of you. The landing's six do not get it.
+ * Nothing on this page is a client component except the deck's controller and
+ * the toggle's two buttons. The eighteen covers, the eighteen captions and the
+ * whole grid are passed to them as children, which React renders here and hands
+ * over finished. Adding a project grows the HTML and not the bundle.
  */
+
+/*
+ * A caption is the project's own plain-language opening line.
+ *
+ * Not a new field. `In simple terms` already answers "what is this" in one
+ * sentence on every write-up, and taking its first line means the deck and the
+ * page it links to cannot say different things about the same project. The
+ * three top-level entries with no write-up summary fall back to the description
+ * they already carry in lib/projects.ts.
+ */
+function captionFor(href: string, description: string) {
+  return SUMMARIES[href]?.what[0] ?? description
+}
+
 export default function DemoIndexPage() {
+  const items = topLevelProjects()
+
   return (
     <div className="min-h-screen bg-background pb-16 pt-24 sm:pt-28">
       <div className="max-w-site mx-auto site-inset">
-        <header className="mb-10">
-          <h1 className="text-[15px] font-normal tracking-tight text-foreground">Projects</h1>
-          <p className="mt-1 text-[13px] font-light leading-snug text-muted-foreground">
-            Prototypes, tools, side-quests, and write-ups. The open-source toolkits live inside{' '}
-            <Link
-              href="/demo/akaoss"
-              className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50"
-            >
-              akaOSS
-            </Link>
-            .
-          </p>
-        </header>
+        {/*
+          The heading is read, not seen. A page still needs one — for the
+          document outline, for a screen reader arriving by heading, and for
+          anything reading the page structurally — but the deck names every
+          project as you reach it and the tab already says Projects, so a
+          heading that repeats the tab was one more thing to look past. What is
+          left is the choice of layout, which is the only thing here a reader
+          actually has to make.
+        */}
+        <h1 className="sr-only">Projects</h1>
+        {/*
+          Sticky, because it is the only chrome left. The deck consumes several
+          screens of scroll, and a switch that scrolled away at the top of it
+          would mean scrolling all the way back to change your mind.
+        */}
+        <div className="sticky top-[76px] z-20 mb-6 flex justify-end">
+          <ViewToggle target="projects" />
+        </div>
+      </div>
 
-        <ProjectGrid items={topLevelProjects()} reveal />
+      {/*
+        The attribute the toggle writes, and the only thing that distinguishes
+        the two views. `deck` is what the server renders, so the page is correct
+        before any script runs.
+      */}
+      <div id="projects" data-view="deck">
+        <CoverFlow
+          count={items.length}
+          covers={
+            /*
+             * The semantic layer, and it does not change with the view: an
+             * ordered list of eighteen links in source order. Whatever the
+             * transforms do to them, a crawler and a screen reader get the same
+             * list they would get from the grid.
+             */
+            <ol className="contents list-none p-0">
+              {items.map((item, i) => {
+                const external = /^https?:\/\//.test(item.href)
+                const inner = (
+                  <>
+                    <ProjectCover item={item} priority={i === 0} />
+                    <span className="sr-only">
+                      {item.title}. {captionFor(item.href, item.description)}
+                    </span>
+                  </>
+                )
+                return (
+                  <li
+                    key={item.href}
+                    data-flow-card={i}
+                    className="aka-flow-card"
+                    style={{ ['--i' as string]: i }}
+                  >
+                    {external ? (
+                      <a href={item.href} target="_blank" rel="noopener noreferrer">
+                        {inner}
+                      </a>
+                    ) : (
+                      <Link href={item.href}>{inner}</Link>
+                    )}
+                  </li>
+                )
+              })}
+            </ol>
+          }
+          caption={
+            /*
+             * Presentational, and deliberately so. Every line here is already
+             * in the list above as the covers' accessible names, so announcing
+             * it a second time would make the deck read as thirty-six items.
+             * The strip steps to the centred cover; see .aka-flow-strip.
+             */
+            <div className="aka-flow-strip" aria-hidden>
+              {items.map((item) => {
+                const external = /^https?:\/\//.test(item.href)
+                return (
+                  <div key={item.href} className="aka-flow-slot flex flex-col items-center">
+                    <p className="text-[17px] font-light tracking-tight text-foreground/90">
+                      {item.title}
+                    </p>
 
+                    {/*
+                     * What kind of thing it is, from the tags the project
+                     * already carries. Three at most: the fourth is always the
+                     * one nobody needed, and a wrapped second row would push
+                     * the caption past its floor.
+                     */}
+                    {item.tags && item.tags.length > 0 && (
+                      <p className="mt-2 flex flex-wrap items-center justify-center gap-1.5">
+                        <Tag
+                          className="h-3 w-3 shrink-0 text-muted-foreground/40"
+                          aria-hidden
+                        />
+                        {item.tags.slice(0, 3).map((t) => (
+                          <span
+                            key={t}
+                            className="rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground/70"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </p>
+                    )}
+
+                    <p className="mt-2.5 line-clamp-4 text-[13.5px] font-light leading-relaxed text-muted-foreground">
+                      {captionFor(item.href, item.description)}
+                    </p>
+
+                    {/*
+                     * Styled as the house secondary button. It is a span rather
+                     * than a link because the cover above it already is one:
+                     * the caption forwards clicks to it, so this is the visible
+                     * affordance for a mouse and never a second tab stop or a
+                     * second announcement.
+                     */}
+                    <span className="mt-3.5 inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[12.5px] font-medium text-foreground">
+                      {external ? 'Open the site' : 'Learn more'}
+                      {external ? (
+                        <ArrowUpRight className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                      ) : (
+                        <ArrowRight className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                      )}
+                    </span>
+                  </div>
+                )
+              })}
+            </div>
+          }
+        />
+
+        <div className="aka-flow-grid max-w-site mx-auto site-inset">
+          <ProjectGrid items={items} reveal />
+        </div>
       </div>
     </div>
   )

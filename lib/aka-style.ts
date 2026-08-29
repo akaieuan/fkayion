@@ -18,7 +18,7 @@ export const LAWS = [
   {
     n: '02',
     rule: 'One accent, used sparingly.',
-    body: 'Everything is greyscale on a near-black (or near-white) ground except a single quiet green. If two things on screen are competing for the accent, neither gets it.',
+    body: 'Everything is greyscale on a near-black (or near-white) ground except a single quiet green. If two things on screen are competing for the accent, neither gets it. The five-hue accent set belongs to the art layer, not the interface; the one place it reaches the chrome is where hue is the value rather than decoration on one, as in the deck\u2019s position pill.',
   },
   {
     n: '03',
@@ -44,6 +44,11 @@ export const LAWS = [
     n: '07',
     rule: 'Server by default.',
     body: 'Components stay server-rendered unless they need state, an event, or a canvas. The client boundary is drawn as deep in the tree as possible — a card is a server component even when its page is interactive.',
+  },
+  {
+    n: '08',
+    rule: 'Per-frame state lives in the DOM.',
+    body: 'Anything changing at sixty frames a second is written straight to a CSS variable or a data attribute and React is never told; React state is for what changes at human speed. The projects deck scrolls eighteen covers for zero re-renders, because its position is one custom property the CSS reads and every cover derives its own pose from it.',
   },
 ] as const
 
@@ -181,6 +186,23 @@ export const SURFACES: Surface[] = [
     what: 'A card that is also a control. Hover moves it 2px and sharpens the edge; it never brightens, per law 04.',
     layers: ['translateY(-2px) over 320ms', 'edge to --card-edge-hover', 'no transform under prefers-reduced-motion'],
   },
+]
+
+/**
+ * The scroll-linked deck, as the seven numbers that shape it.
+ *
+ * This is what law 08 buys in practice. The controller writes one value and
+ * these decide what that value means, which is also why the phone deck is not
+ * a second implementation: it is these numbers, smaller.
+ */
+export const FLOW: { name: string; what: string }[] = [
+  { name: '--flow', what: 'The deck position, 0…n-1. The only thing JavaScript writes per frame.' },
+  { name: '--flow-cover', what: "The centred cover's width. 62vw on a phone, 400px from lg. Everything else is derived from it." },
+  { name: '--flow-near', what: 'How far the first off-centre cover sits, as a fraction of the cover, so the deck always overlaps by the same amount.' },
+  { name: '--flow-far', what: 'The extra fan per card beyond the first, so each edge reads as a deck of many rather than a deck of one.' },
+  { name: '--flow-depth', what: 'How far back an off-centre cover is pushed. preserve-3d sorts them by it, so nothing computes a z-index.' },
+  { name: '--flow-turn', what: 'How far it rotates away. 36° on a phone, 48° from lg: the same deck, flattened.' },
+  { name: '--flow-step', what: 'How much page scroll advances the deck by one cover. The first and last third of each step holds a cover landed, so stopping between two of them is something you have to aim for.' },
 ]
 
 /** The brand engine's family: one canvas, one subtraction per brand. */

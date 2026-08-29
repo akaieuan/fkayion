@@ -58,7 +58,7 @@ export const PROJECTS: ProjectCardItem[] = [
     title: 'How I Work',
     tags: ['About', 'Practice', 'Brooklyn', 'Small software'],
     description:
-      'Who I am and how I design: field-work training applied to product, parameterized prototypes built to be felt rather than reviewed, and the small software I use every day because I built it.',
+      'An anthropologist who became a product designer. I watch how people actually work before changing anything, then build the change as something you can use rather than a picture of one.',
     href: '/demo/how-i-work',
     img: howIWork,
     accent: TINT.steel,

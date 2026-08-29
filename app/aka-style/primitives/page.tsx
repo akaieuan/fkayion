@@ -1,6 +1,16 @@
 import Link from 'next/link'
-import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Search } from 'lucide-react'
+import {
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  GalleryHorizontal,
+  LayoutGrid,
+  Search,
+} from 'lucide-react'
 import { ProjectLogo } from '@/components/ui/project-logo'
+import { FlowSpecimen } from '@/components/features/demo/flow-specimen'
+import { FLOW } from '@/lib/aka-style'
 
 const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
 const label = 'text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50'
@@ -183,6 +193,53 @@ lift    aka-card aka-card-lift        ← a card that is also a control`}
                   because law 04 applies to a card as much as to a canvas.
                 </p>
               </div>
+            </div>
+          </Spec>
+
+          {/*
+            Law 08, as the smallest thing that demonstrates it. Drag the slider:
+            one custom property changes and five covers re-pose, with no React
+            render in between. The deck on /demo is this, with the page scroll
+            in place of the slider and eighteen covers in place of five.
+          */}
+          <Spec
+            name="Scroll-linked deck"
+            note="one custom property, no state, no re-render"
+            cls={FLOW.map((f) => `${f.name.padEnd(14)}${f.what}`).join('\n')}
+          >
+            <FlowSpecimen />
+          </Spec>
+
+          {/*
+            The segmented control. Two or three mutually exclusive views of the
+            same thing, as icons rather than words, because the options are
+            layouts and a picture of a layout says it faster than its name.
+
+            The selected state is an inverted fill and never the accent: law 02
+            spends the accent once per screen, and a view switch is not what it
+            is for. Every button carries aria-pressed and a tooltip, since an
+            icon alone is not a label.
+
+            `ViewToggle` on /demo is the working instance; this is the pattern.
+            The covers it switches between come from `ProjectCover`, the plate
+            at deck size.
+          */}
+          <Spec
+            name="Segmented control"
+            note="icons for layouts, inverted fill for selected, never the accent"
+            cls={`group   aka-card inline-flex items-center gap-0.5 rounded-lg p-0.5
+button  grid h-7 w-7 place-items-center rounded-md transition-colors
+on      bg-foreground text-background
+off     text-muted-foreground hover:text-foreground
+a11y    role=group + aria-label, aria-pressed per button, tooltip per button`}
+          >
+            <div className="aka-card inline-flex items-center gap-0.5 rounded-lg p-0.5">
+              <span className="grid h-7 w-7 place-items-center rounded-md bg-foreground text-background">
+                <GalleryHorizontal className="h-[15px] w-[15px]" aria-hidden />
+              </span>
+              <span className="grid h-7 w-7 place-items-center rounded-md text-muted-foreground">
+                <LayoutGrid className="h-[15px] w-[15px]" aria-hidden />
+              </span>
             </div>
           </Spec>
 

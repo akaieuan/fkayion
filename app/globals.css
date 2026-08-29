@@ -280,6 +280,50 @@ body {
    * one. The visibility problem light had was the ground, not the tint.
    */
   --plate-mix: 10%;
+
+  /*
+   * The Cover Flow deck.
+   *
+   * Seven numbers, and they are the whole difference between the desktop deck
+   * and the phone one. A 3D deck tuned for 1440px on a 375px screen is not a
+   * smaller deck, it is a broken one: the side covers turn edge-on and become a
+   * few pixels of nothing. So the phone gets the same mechanic with the
+   * rotation, the spread and the depth dialled down, which is these values and
+   * no second code path.
+   *
+   *   --flow-cover  the centred cover's width. Everything else is derived.
+   *   --flow-near   how far the first off-centre cover sits. A fraction of the
+   *                 cover, so the deck always overlaps by the same amount.
+   *   --flow-far    the extra per-card fan beyond the first, so the stack at
+   *                 each edge reads as a deck of many rather than a deck of one.
+   *   --flow-depth  how far back an off-centre cover is pushed.
+   *   --flow-turn   how far it rotates away.
+   *   --flow-step   how much page scroll advances the deck by one cover.
+   *   --flow-cap    the caption's floor. Fixed, because law 06.
+   *
+   * The band is derived rather than given: cover height, plus the caption,
+   * plus the rail and the gaps around them. A band stated as a viewport
+   * fraction is a band that crops its own contents on somebody's laptop.
+   */
+  /*
+   * The cover is bounded by the window's height as well as its width.
+   *
+   * Stated as a width alone, the band could come out taller than the screen,
+   * and then the deck landed with its top under the header and its button off
+   * the bottom — the snap doing exactly what it was told, to a band that never
+   * fitted. This is the height that leaves room for the caption, the site
+   * header and some air, converted back to a width through the 4:3 plate.
+   */
+  --flow-cover: min(62vw, calc((100svh - var(--flow-cap) - 208px) * 4 / 3));
+  --flow-near: calc(var(--flow-cover) * 0.56);
+  --flow-far: 9px;
+  --flow-depth: 78px;
+  --flow-turn: 36deg;
+  --flow-persp: 900px;
+  --flow-step: 30vh;
+  --flow-cap: 250px;
+  --flow-pin: max(104px, calc((100svh - var(--flow-band)) / 2));
+  --flow-band: calc(var(--flow-cover) * 0.75 + var(--flow-cap) + 104px);
   /*
    * The card material.
    *
@@ -618,6 +662,299 @@ body {
     .aka-card-lift:hover,
     .group:hover .aka-card-lift {
       transform: none;
+    }
+  }
+
+
+  /* ── The deck ────────────────────────────────────────────────────────────
+   *
+   * Vertical scroll, horizontal deck. The page scrolls normally and the deck
+   * reads its own position out of that scroll; nothing calls preventDefault,
+   * so trackpad momentum, touch, the scrollbar, the keyboard and find-in-page
+   * all keep working. The feel comes from real scroll physics rather than from
+   * an animation library reimplementing them.
+   *
+   * The section is tall — one --flow-step per cover — and the stage inside it
+   * is sticky. That tall spacer is the scroll the deck consumes.
+   */
+  .aka-flow-section {
+    position: relative;
+    /* The deck's progress, 0…1. The pill is built entirely out of this. */
+    --p: calc(var(--flow, 0) / (var(--flow-n) - 1));
+    height: calc(var(--flow-band) + (var(--flow-n) - 1) * var(--flow-step));
+  }
+
+
+  .aka-flow {
+    position: sticky;
+    /*
+     * Centred in what the site header leaves, rather than hung off the top.
+     *
+     * Sticky only engages once you scroll to it, so at rest the deck sits where
+     * it falls — directly under the "Projects" heading, the same gap the grid
+     * has — and settles into the middle of the screen as you scroll into it.
+     * The floor in --flow-pin is for a short window, where half the leftover is
+     * less than the header is tall.
+     */
+    top: var(--flow-pin);
+    height: var(--flow-band);
+    /*
+     * Clip, not hidden: the far covers are translated past the edge of the
+     * screen and would otherwise open a horizontal scrollbar. `clip` cannot be
+     * scrolled to, which `hidden` can.
+     */
+    overflow: clip;
+  }
+
+  .aka-flow-track {
+    position: relative;
+    height: calc(var(--flow-cover) * 0.75);
+    perspective: var(--flow-persp);
+    /*
+     * Real depth sorting. Covers overlap by how far back they actually are,
+     * which is what preserve-3d is for, and it means no z-index has to be
+     * computed per frame — the usual weak point in one of these.
+     */
+    transform-style: preserve-3d;
+    /*
+     * One promoted layer, on the track. Putting will-change on each cover
+     * would promote eighteen of them, which is the memory mistake this pattern
+     * is famous for.
+     */
+    will-change: transform;
+  }
+
+  /*
+   * A cover's pose, from its distance to the centre.
+   *
+   * --i is the cover's index, written once on the server. --flow is the deck's
+   * fractional position, written by the controller to this element's parent at
+   * most once a frame. Everything else is derived here, in CSS, so a frame of
+   * scrolling costs no JavaScript per cover and no React at all.
+   *
+   * abs() and sign() would say this more directly and are both too new to rely
+   * on. clamp() and max() are not, and give the same numbers: clamp bounds the
+   * signed distance, and max(x, -x) is abs.
+   */
+  .aka-flow-card {
+    --d: calc(var(--i) - var(--flow, 0));
+    --dc: clamp(-1, var(--d), 1);
+    --df: clamp(-6, var(--d), 6);
+    --ad: max(var(--dc), calc(-1 * var(--dc)));
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: var(--flow-cover);
+    margin-left: calc(var(--flow-cover) / -2);
+    transform: translateX(calc(var(--dc) * var(--flow-near) + var(--df) * var(--flow-far)))
+      translateZ(calc(var(--ad) * var(--flow-depth) * -1))
+      rotateY(calc(var(--dc) * var(--flow-turn) * -1));
+    /*
+     * Not transitioned. The transform is already a continuous function of the
+     * scroll, and a transition on top of it would fight the scroll rather than
+     * smooth it. The only thing that eases here is the caption, which moves in
+     * steps.
+     */
+  }
+
+  /* The centred cover is the one you can click through to. */
+  .aka-flow-card:not([data-active]) .aka-plate {
+    pointer-events: none;
+  }
+
+  /*
+   * The caption, which moves in whole steps rather than continuously.
+   *
+   * All eighteen are stacked in a strip and the strip translates by the
+   * rounded index, so the active one is in the window and the rest are above
+   * and below it. Half a summary is not worth reading, which is why this one
+   * snaps while the deck does not. It moves space rather than crossfading,
+   * per law 04, and the window is floored to a fixed height, per law 06.
+   */
+  .aka-flow-caption {
+    height: var(--flow-cap);
+    overflow: hidden;
+  }
+  .aka-flow-strip {
+    transform: translateY(calc(var(--flow-active, 0) * var(--flow-cap) * -1));
+    transition: transform 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .aka-flow-slot {
+    height: var(--flow-cap);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .aka-flow-strip {
+      transition: none;
+    }
+  }
+
+  /*
+   * The pill: where you are, with no rail under it.
+   *
+   * A hairline with a marker on it is a progress bar, and a progress bar says
+   * "this is a task with an end". A deck is not that. So the track goes and one
+   * capsule floats in the space instead, and it says where you are three ways
+   * at once: where it sits, how long it is, and what colour it is.
+   *
+   * It starts short and fills out across the deck — the length is the fraction
+   * you have seen — and the hue turns as it travels, so a glance at the colour
+   * places you without reading anything. That is the one licence law 02 grants
+   * the interface: hue here is the value, not decoration on one.
+   *
+   * Every part of it is --p and a calc. There is no second thing to keep in
+   * sync with the deck, because there is no second thing.
+   */
+  .aka-flow-pill-track {
+    --track: 210px;
+    --pill-h: 13px;
+    position: relative;
+    width: var(--track);
+    height: var(--pill-h);
+  }
+  .aka-flow-pill {
+    /*
+     * A bead that becomes a bar. It starts as a circle — width equal to height
+     * — and grows to most of the track, and it grows toward the middle rather
+     * than running to the right edge, so the finished state is a wide capsule
+     * sitting centred rather than a marker parked at the end.
+     *
+     * Position and length both still say where you are, which is the whole
+     * reason it is not simply a bar that fills.
+     */
+    --w: calc(var(--pill-h) + var(--p) * (var(--track) * 0.74 - var(--pill-h)));
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: var(--pill-h);
+    width: var(--w);
+    border-radius: 999px;
+    transform: translateX(calc(var(--p) * (var(--track) - var(--w)) * 0.5));
+    /*
+     * The glass. Three layers over a blurred backdrop: a specular along the
+     * top, a soft inner light at the leading edge, and the colour underneath
+     * them at less than full strength so the blur reads through it.
+     *
+     * The white is a literal on purpose. A specular highlight is white light,
+     * not a surface, so tokenising it would make the theme switch dim the
+     * shine in one mode — the same reason .aka-mark-ground carries its own
+     * colour rather than the page's.
+     */
+    background-image:
+      linear-gradient(180deg, #ffffff 0%, #ffffff00 46%),
+      radial-gradient(120% 190% at 12% -30%, #ffffff 0%, #ffffff00 55%),
+      linear-gradient(100deg, var(--accent-blue), var(--accent-violet) 42%, var(--accent-rose));
+    background-blend-mode: soft-light, overlay, normal;
+    background-clip: padding-box;
+    border: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+    border-top-color: #ffffff5c;
+    backdrop-filter: blur(14px) saturate(1.9);
+    opacity: 0.9;
+    /*
+     * The hue turns with the deck. One filter on one small element, and it is
+     * the whole colour behaviour: no per-cover colour data, no palette to keep
+     * in step with the project list.
+     */
+    filter: hue-rotate(calc(var(--p) * 250deg));
+  }
+
+  /*
+   * Two views of the same eighteen projects, and only one code path for
+   * hiding either. The deck's tall spacer collapses with it, or the grid would
+   * sit under six empty screens.
+   */
+  [data-view='grid'] .aka-flow-section,
+  [data-view='deck'] .aka-flow-grid {
+    display: none;
+  }
+  [data-view='grid'] .aka-flow-section {
+    height: auto;
+  }
+
+  /*
+   * Reduced motion gets the grid. A deck whose entire idea is a scroll-linked
+   * 3D transform has no honest reduced-motion variant; the grid is the same
+   * eighteen projects with none of it, and it already exists.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    .aka-flow-section {
+      display: none;
+    }
+    [data-view='deck'] .aka-flow-grid {
+      display: block;
+    }
+  }
+
+  /*
+   * The deck, small enough to document.
+   *
+   * The real one needs six screens of scroll to demonstrate itself, which is
+   * not a specimen. Same classes, same custom properties, smaller numbers and a
+   * slider instead of the page scroll.
+   */
+  .aka-flow-specimen {
+    --flow-cover: 118px;
+    --flow-far: 8px;
+    --flow-depth: 70px;
+    --flow-turn: 46deg;
+    --flow-persp: 620px;
+    overflow: clip;
+  }
+
+  /*
+   * A hint on an icon control, in no JavaScript.
+   *
+   * The Radix tooltip this replaced is a fine component and was thirty-odd
+   * kilobytes of it, imported nowhere else on the site, for two buttons on one
+   * page whose entire design goal was to not ship JavaScript. A tooltip is a
+   * positioned span that appears on hover and on focus, and that is two rules.
+   *
+   * The button's own aria-label is the accessible name, so this is never the
+   * only way to know what the control does and is aria-hidden. It is a hint for
+   * a mouse, not a label.
+   *
+   * Only the transform is transitioned. It arrives at full strength and slides
+   * the last four pixels — motion moving space, per law 04 — rather than fading
+   * up, which would be an animated brightness.
+   */
+  .aka-hint-host {
+    position: relative;
+  }
+  .aka-hint {
+    position: absolute;
+    top: calc(100% + 7px);
+    left: 50%;
+    z-index: 50;
+    white-space: nowrap;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    transform: translate(-50%, -4px);
+    transition: transform 160ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .aka-hint-host:hover > .aka-hint,
+  .aka-hint-host:focus-visible > .aka-hint {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  /*
+   * Anchored to the control's trailing edge instead of centred on it, for a
+   * control that sits at the edge of the page. Centred, the hint on the last
+   * button in a right-aligned group hangs three pixels past the viewport and
+   * opens a horizontal scrollbar on the whole document.
+   */
+  .aka-hint-end {
+    left: auto;
+    right: 0;
+    transform: translate(0, -4px);
+  }
+  .aka-hint-host:hover > .aka-hint-end,
+  .aka-hint-host:focus-visible > .aka-hint-end {
+    transform: translate(0, 0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .aka-hint {
+      transition: none;
     }
   }
 
@@ -986,5 +1323,32 @@ html:not(.dark) .animate-trickle-spotlight {
   }
   .ssr-loop-still {
     display: block;
+  }
+}
+
+/*
+ * The deck, widened. Same mechanic, more room: a longer throw between covers,
+ * more depth, more turn, and a taller cover. Everything else about the deck is
+ * unchanged between the two, which is the point of stating it as tokens.
+ */
+@media (min-width: 640px) {
+  :root {
+    --flow-cover: min(320px, calc((100svh - var(--flow-cap) - 208px) * 4 / 3));
+    --flow-far: 13px;
+    --flow-depth: 120px;
+    --flow-turn: 44deg;
+    --flow-persp: 1200px;
+    --flow-cap: 226px;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --flow-cover: min(400px, calc((100svh - var(--flow-cap) - 208px) * 4 / 3));
+    --flow-far: 16px;
+    --flow-depth: 150px;
+    --flow-turn: 48deg;
+    --flow-persp: 1500px;
+    --flow-step: 32vh;
+    --flow-cap: 214px;
   }
 }

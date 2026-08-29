@@ -67,7 +67,15 @@ export default function RootLayout({
          * back. One rule covers every `data-reveal` on the site.
          */}
         <noscript>
-          <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
+          {/*
+            Without a script the deck cannot know where it is, so it would be a
+            frozen fan of covers over six screens of empty scroll. The grid is
+            the same eighteen projects with none of that, and it is already on
+            the page: this hands it over instead.
+          */}
+          <style>{`[data-reveal]{opacity:1!important;transform:none!important}` +
+            `[data-view=deck] .aka-flow-section{display:none}` +
+            `[data-view=deck] .aka-flow-grid{display:block}`}</style>
         </noscript>
       </head>
       <body className={`${inter.className} bg-background text-foreground antialiased`}>

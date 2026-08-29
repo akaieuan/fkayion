@@ -25,6 +25,11 @@ mechanically detectable:
 - **Law 04**, motion moves space, never brightness. No `animate-pulse` or
   `animate-ping`.
 
+Law 08 is not mechanically checkable and is the one to hold yourself to by
+hand: anything scroll-linked or animated writes a CSS variable or a data
+attribute, never React state. `components/features/demo/cover-flow.tsx` and
+`components/ui/reveal.tsx` are the two worked examples.
+
 Art-layer files are exempt and listed in the script: the canvas engines, the
 shaders, and the write-ups that embed another product's palette. A theme switch
 must not recolour Prospect Park or somebody else's app.
