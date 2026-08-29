@@ -70,7 +70,7 @@ export default function InertialProjectPage() {
         </header>
 
         <div className="-mx-6 space-y-3 sm:mx-0">
-          <div className="overflow-hidden rounded-xl border border-border/80 bg-muted/10">
+          <div className="aka-card-well aka-card-media overflow-hidden">
             <DemoImage
               src="/inertial-dashboard.webp"
               alt="Inertial dashboard: flag-activity heatmap, day-by-day stats grid, queue mix"
@@ -80,7 +80,7 @@ export default function InertialProjectPage() {
               priority
             />
           </div>
-          <div className="overflow-hidden rounded-xl border border-border/80 bg-muted/10">
+          <div className="aka-card-well aka-card-media overflow-hidden">
             <DemoImage
               src="/inertial-queue-review.webp"
               alt="A queue review session — Approve / Remove / Escalate commits the decision and every applied tag into the hash-chained audit log"
@@ -147,7 +147,7 @@ export default function InertialProjectPage() {
         <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
-          <section className="rounded-xl border border-border bg-muted/20 px-5 py-4">
+          <section className="aka-card-well px-5 py-4">
             <p className={eyebrow}>Status</p>
             <p className="mt-2 text-[14px] leading-relaxed text-foreground/85">
               Reference architecture, not deployable. Schemas, audit chain, eval harness, skill registry, and reviewer
@@ -471,7 +471,7 @@ export default function InertialProjectPage() {
             <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
               {gallery.map((shot) => (
                 <figure key={shot.src}>
-                  <div className="overflow-hidden rounded-lg border border-border/80 bg-muted/10">
+                  <div className="aka-card-well aka-card-media overflow-hidden rounded-lg">
                     <DemoImage
                       src={shot.src}
                       alt={shot.label}
@@ -489,7 +489,7 @@ export default function InertialProjectPage() {
             </div>
           </div>
 
-          <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+          <section className="aka-card-well px-5 py-4">
             <p className="text-[14px] leading-relaxed text-foreground/85">
               Inertials emit signals. The Runciter dispatches them. Humans decide. Every routing decision is a policy
               rule you can read, every signal is evidence you can inspect, and every state transition is an entry in a

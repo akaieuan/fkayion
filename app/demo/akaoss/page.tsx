@@ -53,7 +53,7 @@ function ProjectRow({ p }: { p: Project }) {
     </>
   )
   const cls =
-    'group block rounded-xl border border-border/70 bg-muted/10 px-4 py-3.5 transition-colors hover:bg-muted/25'
+    'group block aka-card aka-card-lift px-4 py-3.5'
   return p.external ? (
     <a href={p.href} target="_blank" rel="noopener noreferrer" className={cls}>
       {inner}
@@ -208,7 +208,7 @@ export default function AkaossProjectPage() {
             </p>
           </section>
 
-          <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+          <section className="aka-card-well px-5 py-4">
             <h2 className="text-sm font-medium tracking-wide text-foreground">Where it comes from</h2>
             <p className="mt-2 text-[14px] leading-relaxed text-foreground/85">
               akaOSS is where the human-side-of-applied-AI work becomes reusable: the kits are the

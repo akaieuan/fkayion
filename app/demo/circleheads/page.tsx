@@ -128,7 +128,7 @@ export default function CircleheadsProjectPage() {
             <h2 className="text-sm font-medium tracking-wide text-foreground">What we do</h2>
             <ul className="space-y-4">
               {pillars.map((p) => (
-                <li key={p.label} className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+                <li key={p.label} className="aka-card-well px-5 py-4">
                   <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/80">
                     {p.label}
                   </p>
@@ -150,7 +150,7 @@ export default function CircleheadsProjectPage() {
             </p>
           </section>
 
-          <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+          <section className="aka-card-well px-5 py-4">
             <h2 className="text-sm font-medium tracking-wide text-foreground">Working together</h2>
             <p className="mt-2 text-[14px] leading-relaxed text-foreground/85">
               If you have real work for an agent to do — or a system that needs the human side gotten

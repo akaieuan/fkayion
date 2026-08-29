@@ -90,7 +90,7 @@ export default function BlenderPipelinePage() {
         <p className="mt-1 text-sm text-muted-foreground">
           A game whose art is written, not modelled. Blender Python → glTF → Godot 4.
         </p>
-        <figure className="-mx-6 mt-8 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
+        <figure className="-mx-6 mt-8 aka-card-well aka-card-media overflow-hidden sm:mx-0">
           <DemoImage
             src="/bkz/mob-lab-night.webp"
             alt="A night street in the mob lab, a group of zombies lit by a wall lamp"
@@ -257,7 +257,7 @@ export default function BlenderPipelinePage() {
             </ul>
           </section>
 
-          <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+          <section className="aka-card-well px-5 py-4">
             <p className="text-[14px] leading-relaxed text-foreground/85">
               Most people either make art or write code. I write code that makes art, and then I
               write the tests that decide whether the art is right. The assets are the output. The

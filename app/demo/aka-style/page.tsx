@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { LAWS, SWATCHES, ACCENTS, USAGE, MARK_FAMILY } from '@/lib/aka-style'
+import { LAWS, SWATCHES, ACCENTS, SURFACES, USAGE, MARK_FAMILY } from '@/lib/aka-style'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
 import { PlainSummary } from '@/components/ui/plain-summary'
@@ -30,20 +30,35 @@ const MEASURE = 'max-w-2xl'
 
 const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80'
 const sectionH = 'mt-2 text-xl font-light tracking-tight text-foreground/90'
-const card = 'rounded-xl border border-border/70 bg-muted/10'
+/*
+ * The house surfaces, by name. `.aka-card` is the raised material and
+ * `.aka-card-well` the recessed one; both are defined once in globals.css,
+ * so this page is showing the reader the same two classes the rest of the
+ * site is built from rather than a copy of them.
+ */
+const card = 'aka-card'
+const well = 'aka-card-well'
+const tile = 'group block aka-card aka-card-lift px-4 py-3.5'
 const link =
   'text-[oklch(0.4_0.08_152.2)] underline decoration-border underline-offset-[3px] transition-colors hover:text-[oklch(0.32_0.085_152)] dark:text-[oklch(0.707_0.108_152.216)] dark:hover:text-[oklch(0.78_0.1_152)]'
 const linkMuted =
   'text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground'
 
-/** The type scale, shown at the sizes it actually ships at. */
+/*
+ * The type scale, shown at the sizes it actually ships at.
+ *
+ * Split into a role and its spec rather than one long uppercase run. The run
+ * was doing two jobs in one line: naming the row, and listing four numbers
+ * nobody reads as a sentence. As a header band with the name on the left and
+ * the numbers on the right, both are scannable and the specimen underneath
+ * gets the card to itself.
+ */
 const SCALE = [
   {
-    label: 'Kicker · 11px / 0.18em / uppercase / medium',
-    node: <p className={kicker}>Design system · Live specimen</p>,
-  },
-  {
-    label: 'Display · clamp(1.7–2.4rem) / extralight / tight',
+    role: 'Display',
+    spec: 'clamp(1.7–2.4rem) / extralight / tight',
+    /* The largest specimen gets the full row; the rest pair up under it. */
+    wide: true,
     node: (
       <p className="text-[clamp(1.7rem,5vw,2.4rem)] font-extralight leading-none tracking-tight text-foreground/90">
         A language written as constraints
@@ -51,11 +66,13 @@ const SCALE = [
     ),
   },
   {
-    label: 'Section head · 20px / light',
+    role: 'Section head',
+    spec: '20px / light',
     node: <p className="text-xl font-light tracking-tight text-foreground/90">The rules</p>,
   },
   {
-    label: 'Body · 15px / light / 1.6',
+    role: 'Body',
+    spec: '15px / light / 1.6',
     node: (
       <p className="text-[15px] font-light leading-relaxed text-muted-foreground">
         A constraint can be checked in review, and it travels to a new codebase without me having
@@ -64,7 +81,13 @@ const SCALE = [
     ),
   },
   {
-    label: 'Caption · 11px / light / muted-70',
+    role: 'Kicker',
+    spec: '11px / 0.18em / uppercase / medium',
+    node: <p className={kicker}>Design system · Live specimen</p>,
+  },
+  {
+    role: 'Caption',
+    spec: '11px / light / muted-70',
     node: (
       <p className="text-[11px] font-light text-muted-foreground/70">
         Rendered live, never screenshotted.
@@ -123,7 +146,7 @@ export default function AkaStyleWriteUpPage() {
             the cells.
           */}
           <figure className="justify-self-start md:justify-self-end">
-            <div className={`${card} flex items-center justify-center px-8 py-8`}>
+            <div className={`${well} aka-card-media flex items-center justify-center px-8 py-8`}>
               <PixelHead size={150} grid={30} icon="disc-aka" still />
             </div>
             <figcaption className="mt-2 max-w-[220px] text-[11px] font-light leading-relaxed text-muted-foreground/70">
@@ -146,21 +169,21 @@ export default function AkaStyleWriteUpPage() {
           <p className={`mt-3 ${MEASURE} text-[15px] font-light leading-relaxed text-muted-foreground`}>
             A design system is usually sold as consistency, which is true and is not why I keep one.
             The reason is that a preference has to be re-argued every time and a constraint does
-            not. &ldquo;This feels too heavy&rdquo; is a conversation. &ldquo;Depth is a border,
-            never a shadow&rdquo; is a thing you can check in review, and it travels to a new
-            codebase without me having to be in the room to defend it.
+            not. &ldquo;This feels too heavy&rdquo; is a conversation. &ldquo;Depth is an edge and a
+            fill, never a drop shadow&rdquo; is a thing you can check in review, and it travels to
+            a new codebase without me having to be in the room to defend it.
           </p>
 
           <ol className="mt-7 grid list-none gap-3 p-0 md:grid-cols-2 xl:grid-cols-3">
             {LAWS.map((l) => (
-              <li key={l.n} className={`${card} flex gap-4 px-4 py-4`}>
-                <span className="shrink-0 pt-0.5 font-mono text-[11px] text-primary">{l.n}</span>
-                <div>
-                  <p className="text-[14px] font-light text-foreground/90">{l.rule}</p>
-                  <p className="mt-1 text-[12.5px] font-light leading-relaxed text-muted-foreground">
-                    {l.body}
-                  </p>
+              <li key={l.n} className={`${card} overflow-hidden`}>
+                <div className="aka-card-head flex items-baseline gap-2.5 px-4 py-2.5">
+                  <span className="font-mono text-[10.5px] text-primary">{l.n}</span>
+                  <span className="text-[13.5px] font-light text-foreground/90">{l.rule}</span>
                 </div>
+                <p className="px-4 py-3.5 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+                  {l.body}
+                </p>
               </li>
             ))}
           </ol>
@@ -187,7 +210,7 @@ export default function AkaStyleWriteUpPage() {
           <ul className="mt-6 grid list-none grid-cols-2 gap-3 p-0 sm:grid-cols-3 lg:grid-cols-6">
             {SWATCHES.map((sw) => (
               <li key={sw.name} className={`${card} overflow-hidden`}>
-                <div className={`h-16 w-full border-b border-border/60 ${sw.cls}`} />
+                <div className={`aka-card-rule h-16 w-full border-b ${sw.cls}`} />
                 <div className="px-3 py-2">
                   <p className="text-[11px] text-foreground/85">{sw.name}</p>
                   <p className="font-mono text-[10px] text-muted-foreground/60">{sw.varName}</p>
@@ -203,7 +226,7 @@ export default function AkaStyleWriteUpPage() {
             {ACCENTS.map((a) => (
               <li
                 key={a.name}
-                className={`${card} flex items-center gap-2 px-3 py-1.5 font-mono text-[11px] text-muted-foreground`}
+                className={`${card} flex items-center gap-2 rounded-full px-3 py-1.5 font-mono text-[11px] text-muted-foreground`}
               >
                 <span
                   className="h-3 w-3 shrink-0 rounded-full"
@@ -214,6 +237,53 @@ export default function AkaStyleWriteUpPage() {
               </li>
             ))}
           </ul>
+        </section>
+
+        {/* ── Surfaces ───────────────────────────────────────────────────── */}
+        <section className="mt-16">
+          <p className={kicker}>Surface</p>
+          <h2 className={sectionH}>One material, lit two ways</h2>
+          <p className={`mt-3 ${MEASURE} text-[15px] font-light leading-relaxed text-muted-foreground`}>
+            Law 03 rules out the drop shadow, which means depth has to happen inside the panel
+            rather than under it. A card is lit from above: the fill grades light-to-dark downward,
+            the top edge catches a hairline the other three do not, and a fine grain over the fill
+            keeps a gradient that shallow from banding. Invert the grade and the top edge and the
+            same material reads as a cut into the page instead of an object on it. Every surface
+            below is one of those two.
+          </p>
+
+          <ul className="mt-6 grid list-none gap-3 p-0 md:grid-cols-2">
+            {SURFACES.map((sf) => (
+              <li key={sf.cls} className={`${card} overflow-hidden`}>
+                <div className="aka-card-head flex items-baseline justify-between gap-4 px-4 py-2.5">
+                  <span className="text-[13.5px] font-light text-foreground/90">{sf.name}</span>
+                  <span className="font-mono text-[10.5px] text-muted-foreground/60">.{sf.cls}</span>
+                </div>
+                <div className="px-4 py-3.5">
+                  <p className="text-[12.5px] font-light leading-relaxed text-muted-foreground">
+                    {sf.what}
+                  </p>
+                  <ul className="mt-2.5 list-none space-y-1 p-0">
+                    {sf.layers.map((l) => (
+                      <li
+                        key={l}
+                        className="font-mono text-[10.5px] leading-relaxed text-muted-foreground/60"
+                      >
+                        {l}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <p className={`mt-5 ${MEASURE} text-[15px] font-light leading-relaxed text-muted-foreground`}>
+            These were four class strings copied by hand into two dozen files until recently, which
+            is the failure mode a design system is supposed to prevent and does not if the system is
+            a document. They are two classes now. The specimen above is not a picture of them: it is
+            them, rendered by the same definition every page on this site loads.
+          </p>
         </section>
 
         {/* ── Type ───────────────────────────────────────────────────────── */}
@@ -228,11 +298,20 @@ export default function AkaStyleWriteUpPage() {
 
           <ul className="mt-6 grid list-none gap-3 p-0 lg:grid-cols-2">
             {SCALE.map((s) => (
-              <li key={s.label} className={`${card} px-5 py-4`}>
-                <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground/60">
-                  {s.label}
-                </p>
-                <div className="mt-2">{s.node}</div>
+              <li
+                key={s.role}
+                className={`${card} flex flex-col overflow-hidden ${s.wide ? 'lg:col-span-2' : ''}`}
+              >
+                <div className="aka-card-head flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-5 py-2.5">
+                  <span className="font-mono text-[10.5px] font-medium uppercase tracking-[0.16em] text-foreground/70">
+                    {s.role}
+                  </span>
+                  <span className="font-mono text-[10.5px] tracking-[0.03em] text-muted-foreground/60">
+                    {s.spec}
+                  </span>
+                </div>
+                {/* Centred, so a short specimen in a stretched row is not stranded at its top. */}
+                <div className="flex flex-1 items-center px-5 py-5">{s.node}</div>
               </li>
             ))}
           </ul>
@@ -343,7 +422,7 @@ export default function AkaStyleWriteUpPage() {
                   </span>
                 </>
               )
-              const cls = `group block ${card} px-4 py-3.5 transition-colors hover:bg-muted/25`
+              const cls = tile
               return (
                 <li key={u.name}>
                   {u.internal ? (
@@ -376,7 +455,7 @@ export default function AkaStyleWriteUpPage() {
               <li key={r.href}>
                 <Link
                   href={r.href}
-                  className={`group block ${card} px-4 py-3.5 transition-colors hover:bg-muted/25`}
+                  className={tile}
                 >
                   <span className="text-[14px] font-light text-foreground/90 group-hover:text-foreground">
                     {r.name}
@@ -390,7 +469,7 @@ export default function AkaStyleWriteUpPage() {
           </ul>
         </section>
 
-        <section className={`mt-14 ${card} bg-muted/15 px-5 py-4 ${MEASURE}`}>
+        <section className={`mt-14 ${well} px-5 py-4 ${MEASURE}`}>
           <p className="text-[14px] font-light leading-relaxed text-foreground/85">
             The test of a design system is not whether it is documented. It is whether someone who
             has not read the documentation, which now includes a model, produces something that

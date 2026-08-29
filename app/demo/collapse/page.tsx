@@ -70,7 +70,7 @@ export default function CollapseProjectPage() {
           </p>
         </header>
 
-        <figure className="-mx-6 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
+        <figure className="-mx-6 aka-card-well aka-card-media overflow-hidden sm:mx-0">
           <a href={hero.src} target="_blank" rel="noopener noreferrer" className="group block">
             <DemoImage
               src={hero.src}
@@ -127,7 +127,7 @@ export default function CollapseProjectPage() {
               <code className={code}>.tmp</code> then <code className={code}>rename()</code>, so an
               interrupted write never leaves a partial SKILL.md).
             </p>
-            <pre className="overflow-x-auto rounded-lg border border-border/80 bg-muted/30 p-4 text-[11px] leading-relaxed text-foreground/80">
+            <pre className="overflow-x-auto aka-card-well rounded-lg p-4 text-[11px] leading-relaxed text-foreground/80">
 {`ingestor  ───▶  template engine  ───▶  persistence
 (on-ramps)      lib/skill-template      /api/skills
 
@@ -223,7 +223,7 @@ MyST · custom   renderSkillFile()       (v0.2: MCP server scaffold)`}
               {gallery.map((shot) => (
                 <figure key={shot.src}>
                   <a href={shot.src} target="_blank" rel="noopener noreferrer" className="group block">
-                    <div className="overflow-hidden rounded-lg border border-border/80 bg-muted/10">
+                    <div className="aka-card-well aka-card-media overflow-hidden rounded-lg">
                       <DemoImage
                         src={shot.src}
                         alt={shot.label}
@@ -242,7 +242,7 @@ MyST · custom   renderSkillFile()       (v0.2: MCP server scaffold)`}
             </div>
           </div>
 
-          <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+          <section className="aka-card-well px-5 py-4">
             <h2 className="text-sm font-medium tracking-wide text-foreground">Why it&apos;s different</h2>
             <p className="mt-2 text-[14px] leading-relaxed text-foreground/85">
               Most skill tooling leaves you with a pile of files. Collapse makes the skills directory a

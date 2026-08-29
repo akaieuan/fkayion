@@ -27,14 +27,14 @@ function Spec({
   children: React.ReactNode
 }) {
   return (
-    <div className="rounded-xl border border-border bg-card/40 p-5">
+    <div className="aka-card p-5">
       <div className="flex items-baseline justify-between gap-4">
         <p className={label}>{name}</p>
         {note && <p className="text-[10.5px] font-light text-muted-foreground/50">{note}</p>}
       </div>
       <div className="mt-3.5 flex flex-wrap items-center gap-3">{children}</div>
       {cls && (
-        <pre className="mt-4 overflow-x-auto rounded-lg border border-border/60 bg-muted/25 px-3 py-2 font-mono text-[10.5px] leading-relaxed text-muted-foreground/75">
+        <pre className="mt-4 overflow-x-auto aka-card-well rounded-lg px-3 py-2 font-mono text-[10.5px] leading-relaxed text-muted-foreground/75">
           {cls}
         </pre>
       )}
@@ -134,25 +134,53 @@ nav    text-muted-foreground transition-colors hover:text-foreground`}
         <section className="mt-14 space-y-3">
           <p className={kicker}>Surface</p>
 
+          {/*
+            The surfaces are two materials rather than four class strings.
+
+            They used to be four: a card, a callout, a media well and a hover
+            state, each written out by hand wherever it was needed, which is
+            how the site ended up with several drifted copies of each. Law 03
+            says depth is an edge and a fill, so taken literally there is one
+            material lit from above and the same material with the light
+            reversed. Everything else is which one, and how much padding.
+
+            Padding stays on the element on purpose. A surface says what the
+            material is; how much room the content needs is the content's.
+          */}
           <Spec
-            name="Cards"
-            note="card/40 over background, never pure black-on-black"
-            cls={`base    rounded-xl border border-border bg-card/40 p-5
-inset   rounded-xl border border-border/80 bg-muted/15 px-5 py-4     ← callout / closing note
-media   overflow-hidden rounded-lg border border-border/80 bg-muted/10
-hover   transition-colors hover:bg-muted/25`}
+            name="Surfaces"
+            note="one material, lit from above or reversed. no drop shadow anywhere"
+            cls={`card    aka-card                      ← raised: sits on the page
+well    aka-card-well                 ← recessed: cut into the page
+media   aka-card-well aka-card-media  ← a well with the grain off
+head    aka-card-head                 ← the label band at the top of a card
+rule    aka-card-rule                 ← a hairline inside one
+lift    aka-card aka-card-lift        ← a card that is also a control`}
           >
             <div className="w-full space-y-3">
-              <div className="rounded-xl border border-border bg-card/40 p-4">
-                <p className="text-[13px] text-foreground/85">Base card</p>
-                <p className="mt-1 text-[12px] font-light text-muted-foreground">
-                  The default container for grouped content.
+              <div className="aka-card overflow-hidden">
+                <div className="aka-card-head px-4 py-2.5">
+                  <span className="font-mono text-[10.5px] font-medium uppercase tracking-[0.16em] text-foreground/70">
+                    Card
+                  </span>
+                </div>
+                <p className="px-4 py-3.5 text-[12px] font-light text-muted-foreground">
+                  Raised. The fill grades light-to-dark downward and the top edge is lifted, so
+                  the light reads as coming from above the page.
                 </p>
               </div>
-              <div className="rounded-xl border border-border/80 bg-muted/15 px-4 py-3">
-                <p className="text-[13px] text-foreground/85">Inset callout</p>
+              <div className="aka-card-well px-4 py-3">
+                <p className="text-[13px] text-foreground/85">Well</p>
                 <p className="mt-1 text-[12px] font-light text-muted-foreground">
-                  For the closing thought, the caveat, the aside.
+                  The same material with the grade and the top edge inverted, which is what a cut
+                  into the page looks like. Callouts, closing notes, code, media.
+                </p>
+              </div>
+              <div className="aka-card aka-card-lift px-4 py-3">
+                <p className="text-[13px] text-foreground/85">Lift</p>
+                <p className="mt-1 text-[12px] font-light text-muted-foreground">
+                  Hover this one. It moves 2px and its edge sharpens; it does not get brighter,
+                  because law 04 applies to a card as much as to a canvas.
                 </p>
               </div>
             </div>
@@ -162,7 +190,7 @@ hover   transition-colors hover:bg-muted/25`}
             name="Chips & tags"
             note="uppercase, tracked, never colored by category"
             cls={`chip   rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground/70
-tech   inline-flex items-center rounded-md border border-border/70 bg-muted/30 px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-[0.14em] text-muted-foreground`}
+tech   aka-card-well inline-flex items-center rounded-md px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-[0.14em] text-muted-foreground`}
           >
             {['Product design', 'Open source', 'HITL AI'].map((t) => (
               <span
@@ -175,7 +203,7 @@ tech   inline-flex items-center rounded-md border border-border/70 bg-muted/30 p
             {['TypeScript', 'Next.js'].map((t) => (
               <span
                 key={t}
-                className="inline-flex items-center rounded-md border border-border/70 bg-muted/30 px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-[0.14em] text-muted-foreground"
+                className="aka-card-well inline-flex items-center rounded-md px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-[0.14em] text-muted-foreground"
               >
                 {t}
               </span>
@@ -375,14 +403,14 @@ wrapper  flex flex-wrap items-center gap-x-1 gap-y-1 -ml-2.5`}
             name="Code"
             note="inline chips and blocks share the muted ground"
             cls={`inline rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]
-block  overflow-x-auto rounded-lg border border-border/80 bg-muted/30 p-4 font-mono text-[11px] leading-relaxed text-foreground/80`}
+block  aka-card-well overflow-x-auto rounded-lg p-4 font-mono text-[11px] leading-relaxed text-foreground/80`}
           >
             <div className="w-full">
               <p className="text-[13px] font-light text-muted-foreground">
                 Run <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">pnpm dev</code>{' '}
                 and open the app.
               </p>
-              <pre className="mt-3 overflow-x-auto rounded-lg border border-border/80 bg-muted/30 p-4 font-mono text-[11px] leading-relaxed text-foreground/80">
+              <pre className="mt-3 aka-card-well overflow-x-auto rounded-lg p-4 font-mono text-[11px] leading-relaxed text-foreground/80">
                 {`npx shadcn@latest add https://www.hitlkit.dev/r/hitl-card.json
 → writes components/hitl/hitl-card.tsx`}
               </pre>
@@ -445,11 +473,11 @@ cell  py-2 pr-4 align-top text-[12px] font-light`}
           <Spec
             name="Media frame"
             note="every screenshot gets the same frame + caption"
-            cls={`frame   overflow-hidden rounded-lg border border-border/80 bg-muted/10
+            cls={`frame   aka-card-well aka-card-media overflow-hidden rounded-lg
 caption mt-1.5 text-[11px] font-light text-muted-foreground/70`}
           >
             <div className="w-full max-w-sm">
-              <div className="flex h-24 items-center justify-center overflow-hidden rounded-lg border border-border/80 bg-muted/10">
+              <div className="flex h-24 items-center justify-center aka-card-well aka-card-media overflow-hidden rounded-lg">
                 <span className="text-[11px] font-light text-muted-foreground/40">16:10 media</span>
               </div>
               <p className="mt-1.5 text-[11px] font-light text-muted-foreground/70">
@@ -477,7 +505,7 @@ stand  mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foregroun
           </Spec>
         </section>
 
-        <section className="mt-14 rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+        <section className="mt-14 aka-card-well px-5 py-4">
           <p className="text-[14px] font-light leading-relaxed text-foreground/85">
             The measurable half —{' '}
             <Link

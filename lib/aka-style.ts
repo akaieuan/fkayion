@@ -22,8 +22,8 @@ export const LAWS = [
   },
   {
     n: '03',
-    rule: 'Borders over shadows.',
-    body: 'Depth comes from a 1px border and a translucent card fill, never a drop shadow. Rounded to 0.75rem for cards, 0.5rem for controls.',
+    rule: 'Light falls, nothing casts.',
+    body: 'Depth is a 1px edge and a graded fill, never a drop shadow. A raised card grades light-to-dark downward and lifts its top edge; a recessed well inverts both. Fine grain over the fill keeps a gradient this shallow from banding. Rounded to 0.75rem for cards, 0.5rem for controls.',
   },
   {
     n: '04',
@@ -110,6 +110,63 @@ export const USAGE: UsageRow[] = [
     what: 'Client and studio work that borrows the dark ground, bordered cards, and mono labelling wholesale.',
     href: '/demo/box-populi',
     internal: true,
+  },
+]
+
+/**
+ * The surfaces, as named materials rather than copied class strings.
+ *
+ * This is the vocabulary law 03 produces once you take it literally. If depth
+ * cannot be cast, it has to be inside the panel, which means a fill that
+ * grades and an edge that is brighter where the light lands. Two materials
+ * come out of that: one lit from above, and the same one with the light
+ * reversed, which is what a cut into the page looks like.
+ *
+ * They live in globals.css as classes, so the specimen below and every page
+ * that uses them are the same definition. The strings these replaced were
+ * copied by hand into two dozen files and had already drifted into four
+ * variants of themselves.
+ */
+export type Surface = {
+  cls: string
+  name: string
+  what: string
+  /** How the material is built, in the order the layers stack. */
+  layers: string[]
+}
+
+export const SURFACES: Surface[] = [
+  {
+    cls: 'aka-card',
+    name: 'Card',
+    what: 'Raised. Sits on the page. Content, specimens, and anything that is also a control.',
+    layers: [
+      'fill grades from --card-fill-top down to --card-fill-bottom',
+      'edge at --card-edge, top edge lifted to --card-edge-top',
+      'grain over the fill, blended soft-light',
+    ],
+  },
+  {
+    cls: 'aka-card-well',
+    name: 'Well',
+    what: 'Recessed. Cut into the page. Callouts, closing notes, code, and media.',
+    layers: [
+      'fill grades from --card-well-top up to --card-well-bottom',
+      'edge at --card-well-edge, top edge darkened to the lip of the cut',
+      '.aka-card-media flattens it to the ground: no grain, no grade, behind artwork',
+    ],
+  },
+  {
+    cls: 'aka-card-head',
+    name: 'Head',
+    what: 'The band across the top of a card, for a label row. A step toward the mid-tone in either theme, so it darkens in light and lightens in dark from one definition.',
+    layers: ['--card-head fill', 'a --card-rule hairline underneath'],
+  },
+  {
+    cls: 'aka-card-lift',
+    name: 'Lift',
+    what: 'A card that is also a control. Hover moves it 2px and sharpens the edge; it never brightens, per law 04.',
+    layers: ['translateY(-2px) over 320ms', 'edge to --card-edge-hover', 'no transform under prefers-reduced-motion'],
   },
 ]
 

@@ -47,7 +47,7 @@ export default function WrdefProjectPage() {
           </p>
         </header>
 
-        <div className="-mx-6 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
+        <div className="-mx-6 aka-card-well aka-card-media overflow-hidden sm:mx-0">
           <video
             className="block h-auto w-full"
             autoPlay

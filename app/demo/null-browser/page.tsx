@@ -150,7 +150,7 @@ export default function NullBrowserProjectPage() {
           A browser where nothing is sent, nothing is stored and nothing is tracked, unless you
           explicitly choose otherwise.
         </p>
-        <figure className="-mx-6 mt-8 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
+        <figure className="-mx-6 mt-8 aka-card-well aka-card-media overflow-hidden sm:mx-0">
           <DemoImage
             src={HERO}
             alt="Null, showing pinned sites and tabs in the left source list and recent notes as cards on the new-tab surface"
@@ -283,7 +283,7 @@ export default function NullBrowserProjectPage() {
           {shots.map((shot) => (
             <figure key={shot.src} className="!mt-8">
               <div
-                className="-mx-6 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0"
+                className="-mx-6 aka-card-well aka-card-media overflow-hidden sm:mx-0"
                 style={{ aspectRatio: `${shot.w} / ${shot.h}` }}
               >
                 <DemoImage
@@ -401,7 +401,7 @@ export default function NullBrowserProjectPage() {
             </p>
           </section>
 
-          <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+          <section className="aka-card-well px-5 py-4">
             <h2 className="text-sm font-medium tracking-wide text-foreground">What Null is not</h2>
             <p className="mt-2 text-[14px] leading-relaxed text-foreground/85">
               Not a Chromium fork, because one maintainer cannot keep up with Chromium. Not an AI

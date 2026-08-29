@@ -266,6 +266,50 @@ body {
    * one. The visibility problem light had was the ground, not the tint.
    */
   --plate-mix: 10%;
+  /*
+   * The card material.
+   *
+   * Law 03 asks for depth from a border and a fill instead of a drop shadow,
+   * and for a long time this site read that as one hairline and one flat
+   * colour. Against a near-black ground that is an empty outline: a rectangle
+   * whose inside is the same colour as the page behind it.
+   *
+   * A panel that reads as an object is lit from somewhere, and every cue that
+   * sells it comes from that one fact. The fill is brightest where the light
+   * lands and falls away from it. The top edge catches a specular hairline the
+   * other three do not. The surface carries enough grain to be a material
+   * rather than a gradient, which also kills the banding a gradient this
+   * shallow would otherwise show.
+   *
+   * All three of those are the fill and the edge, which is what law 03 was
+   * always asking for. Nothing casts: no drop shadow, no blur, no second
+   * element floating behind. The depth is inside the card.
+   *
+   * Raised and recessed are the same material with the light reversed. A card
+   * grades light-to-dark downward and lifts its top edge; a well grades
+   * dark-to-light downward and darkens it. That inversion is the whole
+   * difference between something sitting on the page and something cut into
+   * it, and it costs two token values.
+   */
+  --card-fill-top: oklch(1 0 0);
+  --card-fill-bottom: oklch(0.978 0.002 106);
+  --card-edge: oklch(0.885 0.003 106);
+  --card-edge-top: oklch(0.925 0.003 106);
+  --card-edge-hover: oklch(0.83 0.004 106);
+  --card-well-top: oklch(0.944 0.003 106);
+  --card-well-bottom: oklch(0.963 0.003 106);
+  --card-well-edge: oklch(0.9 0.003 106);
+  --card-well-edge-top: oklch(0.87 0.003 106);
+  /* Hairlines and header bands inside a card, tuned to it rather than the page. */
+  --card-rule: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --card-head: color-mix(in srgb, var(--foreground) 3.5%, transparent);
+  /*
+   * The grain. Monochrome fractal noise, blended soft-light so it modulates
+   * the fill's luminance rather than laying grey on top of it. Baked per theme
+   * because a background layer cannot carry its own opacity, and dark needs
+   * more of it than light does before it reads at all.
+   */
+  --card-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='0.4'/%3E%3C/svg%3E");
   /* The one accent: what a selected tab, selected text and a focus ring take. */
   --select: oklch(0.58 0.13 250);
   --input: oklch(0.925 0 0);
@@ -337,6 +381,16 @@ body {
   --surface-border-hover: oklch(1 0 0 / 18%);
   --stamp-ground: oklch(0.2 0 0);
   --plate-mix: 7%;
+  --card-fill-top: oklch(0.178 0 0);
+  --card-fill-bottom: oklch(0.128 0 0);
+  --card-edge: oklch(1 0 0 / 10%);
+  --card-edge-top: oklch(1 0 0 / 18%);
+  --card-edge-hover: oklch(1 0 0 / 21%);
+  --card-well-top: oklch(0.108 0 0);
+  --card-well-bottom: oklch(0.152 0 0);
+  --card-well-edge: oklch(1 0 0 / 8%);
+  --card-well-edge-top: oklch(0 0 0 / 45%);
+  --card-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='0.55'/%3E%3C/svg%3E");
   --select: oklch(0.707 0.108 152.216);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
@@ -452,29 +506,99 @@ body {
    * grid instead of two black tiles in the middle of it.
    */
   /*
-   * The plain-summary panel, in the plate's vocabulary.
+   * The house surfaces, as three named materials.
    *
-   * It was a green panel with a green border, which is a coloured box and not
-   * how anything else on this site is built: law 02 says one accent used
-   * sparingly, and a whole tinted surface is the opposite of sparing. The
-   * plates on /demo are the language to borrow from instead. They are a quiet
-   * ground a step off the page, no border, and their label sits outside the
-   * surface rather than inside it.
+   * These used to be class strings copied from page to page: `rounded-xl
+   * border border-border bg-card/40 p-5` for a card, a different one for a
+   * callout, a third for a media well. Three strings repeated across two dozen
+   * files is not a system, it is a convention nobody can check, and it drifted
+   * exactly as far as you would expect it to.
    *
-   * So this takes the plate's own ground token and its own tint mix, which
-   * means the panel is a step off the page by exactly as much as a project
-   * plate is, in both themes, from one definition. The accent survives as the
-   * label's colour and nothing else.
+   *   .aka-card       raised. Sits on the page. Content, specimens, link tiles.
+   *   .aka-card-well  recessed. Cut into the page. Callouts, media, code.
+   *   .aka-card-head  the band across the top of a card, for its label row.
+   *
+   * Padding stays on the element. A surface says what the material is; how
+   * much room the content needs is the content's business.
+   *
+   * The plain-summary panel is one of these now rather than its own thing. It
+   * was a tinted panel with its own tokens, which is one more surface than the
+   * site has a reason to own.
    */
-  .aka-summary {
-    background-color: color-mix(in srgb, var(--foreground) 3%, var(--stamp-ground));
+  .aka-card,
+  .aka-card-well {
+    border-radius: 0.75rem;
+    border-width: 1px;
+    border-style: solid;
+    background-repeat: repeat, no-repeat;
+    background-size: 140px 140px, auto;
+    background-blend-mode: soft-light, normal;
   }
-  .dark .aka-summary {
-    background-color: color-mix(in srgb, var(--foreground) 4%, var(--stamp-ground));
+
+  .aka-card {
+    border-color: var(--card-edge);
+    border-top-color: var(--card-edge-top);
+    background-color: var(--card-fill-bottom);
+    background-image: var(--card-grain),
+      linear-gradient(180deg, var(--card-fill-top) 0%, var(--card-fill-bottom) 62%);
   }
-  /* Hairline separators inside it, tuned to the panel rather than the page. */
-  .aka-summary-rule {
-    border-color: color-mix(in srgb, var(--foreground) 12%, transparent);
+
+  /*
+   * The same material with the light reversed: dark at the top edge, lifting
+   * toward the bottom, and a top border that reads as the lip of the cut
+   * rather than a highlight on it.
+   */
+  .aka-card-well {
+    border-color: var(--card-well-edge);
+    border-top-color: var(--card-well-edge-top);
+    background-color: var(--card-well-bottom);
+    background-image: var(--card-grain),
+      linear-gradient(180deg, var(--card-well-top) 0%, var(--card-well-bottom) 58%);
+  }
+
+  /*
+   * A well that holds artwork drops both layers and keeps the flat ground.
+   * Grain over a photograph is grain over the photograph, and a grade behind a
+   * letterboxed image reads as a lighting error in the image rather than in
+   * the frame. The edge stays; that is what makes it a frame.
+   */
+  .aka-card-media {
+    background-image: none;
+  }
+
+  .aka-card-head {
+    background-color: var(--card-head);
+    border-bottom: 1px solid var(--card-rule);
+  }
+
+  /* Hairlines inside a surface, tuned to it rather than to the page. */
+  .aka-card-rule {
+    border-color: var(--card-rule);
+  }
+
+  /*
+   * A card that is also a control.
+   *
+   * Law 04: the hover moves the card, it does not brighten it. The edge does
+   * change, but an edge is the affordance rather than the motion. It is how
+   * the card says it is the thing under the cursor, and it is a state that
+   * holds rather than something that pulses.
+   */
+  .aka-card-lift {
+    transition:
+      transform 320ms cubic-bezier(0.2, 0.7, 0.3, 1),
+      border-color 200ms ease;
+  }
+  .aka-card-lift:hover,
+  .group:hover .aka-card-lift {
+    transform: translateY(-2px);
+    border-color: var(--card-edge-hover);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .aka-card-lift:hover,
+    .group:hover .aka-card-lift {
+      transform: none;
+    }
   }
 
   .aka-mark-ground {

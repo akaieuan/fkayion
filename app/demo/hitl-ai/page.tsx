@@ -139,7 +139,7 @@ export default function HitlAiWidgetShowcasePage() {
                     <p className="mb-3 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
                       {s}
                     </p>
-                    <div className="rounded-xl border border-border bg-card p-4">
+                    <div className="aka-card p-4">
                       <selected.Content size={s} liveData={showLiveData} />
                     </div>
                   </div>
@@ -147,7 +147,7 @@ export default function HitlAiWidgetShowcasePage() {
               </div>
             ) : (
               <div className="mx-auto max-w-lg">
-                <div className="rounded-xl border border-border bg-card p-5">
+                <div className="aka-card p-5">
                   <selected.Content size={activeSize} liveData={showLiveData} />
                 </div>
               </div>

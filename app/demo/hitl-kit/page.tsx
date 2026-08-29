@@ -107,7 +107,7 @@ export default function HitlKitProjectPage() {
           </p>
         </header>
 
-        <div className="-mx-6 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
+        <div className="-mx-6 aka-card-well aka-card-media overflow-hidden sm:mx-0">
           <DemoImage
             src="/hitl-kit-hero.png"
             alt="HITL Kit — landing preview with headline and navigation"
@@ -159,7 +159,7 @@ export default function HitlKitProjectPage() {
           <div className="mt-6 columns-1 gap-5 lg:columns-2">
             {PRIMITIVES.map((c) => (
               <figure key={c.src} className="mb-5 break-inside-avoid">
-                <div className="overflow-hidden rounded-xl border border-border/70 bg-muted/10">
+                <div className="overflow-hidden aka-card">
                   <DemoImage
                     src={c.src}
                     alt={c.alt}
@@ -289,7 +289,7 @@ export default function HitlKitProjectPage() {
             </p>
           </section>
 
-          <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+          <section className="aka-card-well px-5 py-4">
             <p className="text-[14px] leading-relaxed text-foreground/85">
               Most AI UI kits are commodities. HITL Kit couples a research argument with a buildable
               thing. I wrote the paper that justifies the library, built the library, hosted the

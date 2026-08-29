@@ -5,7 +5,7 @@ import { PixelHead } from '@/components/features/brand/pixel-head'
 const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
 const label = 'text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50'
 const mono = 'font-mono text-[10.5px] text-muted-foreground/60'
-const cell = 'rounded-xl border border-border bg-card/40 p-5'
+const cell = 'aka-card p-5'
 const codeCls = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[11px]'
 
 /** The full expression table lives in EXPR (pixel-head.tsx) — 26 slots. */
@@ -113,7 +113,7 @@ export default function FacesPage() {
 
           <div className="mt-6 grid grid-cols-4 gap-2.5 sm:grid-cols-6 md:grid-cols-7">
             {faces.map((i) => (
-              <div key={i} className="rounded-lg border border-border/70 bg-card/40 p-2 text-center">
+              <div key={i} className="aka-card rounded-lg p-2 text-center">
                 <div className="flex justify-center">
                   <PixelHead size={62} grid={20} faceIndex={i} still />
                 </div>
@@ -202,7 +202,7 @@ export default function FacesPage() {
           </ul>
         </section>
 
-        <section className="mt-16 rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+        <section className="mt-16 aka-card-well px-5 py-4">
           <p className="text-[14px] font-light leading-relaxed text-foreground/85">
             Back to{' '}
             <Link href="/aka-style/marks" className="text-primary underline decoration-border underline-offset-[3px]">

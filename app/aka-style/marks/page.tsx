@@ -10,7 +10,7 @@ import { BodyLogMark } from '@/components/demo/bodylog/bodylog-mark'
 const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
 const label = 'text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50'
 const mono = 'font-mono text-[10.5px] text-muted-foreground/60'
-const cell = 'rounded-xl border border-border bg-card/40 p-5'
+const cell = 'aka-card p-5'
 
 export const metadata = {
   title: 'Marks — the brand engine | akaSTYLE',
@@ -94,7 +94,7 @@ export default function MarksPage() {
               { icon: 'spark' as const, name: 'akaOSS', note: 'sparkle void' },
               { icon: 'gamepad' as const, name: 'Games', note: 'work line' },
             ].map((m) => (
-              <div key={m.name} className="rounded-xl border border-border bg-card/40 p-4 text-center">
+              <div key={m.name} className="aka-card p-4 text-center">
                 <div className="flex justify-center">
                   <PixelHead size={84} grid={24} icon={m.icon} still />
                 </div>
@@ -171,7 +171,7 @@ export default function MarksPage() {
 
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {(['ash', 'explode', 'scatter', 'glitch'] as const).map((m) => (
-              <div key={m} className="rounded-xl border border-border bg-card/40 p-4 text-center">
+              <div key={m} className="aka-card p-4 text-center">
                 <div className="flex justify-center">
                   <PixelHead size={92} grid={22} icon="disc-aka" mode={m} />
                 </div>
@@ -298,7 +298,7 @@ export default function MarksPage() {
             ))}
           </div>
 
-          <div className="mt-6 rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+          <div className="mt-6 aka-card-well px-5 py-4">
             <p className={label}>The convention</p>
             <p className="mt-2 text-[13.5px] font-light leading-relaxed text-foreground/85">
               A mark with a value per theme keeps its palette in CSS custom properties, not in the
@@ -361,7 +361,7 @@ export default function MarksPage() {
           </div>
         </section>
 
-        <section className="mt-16 rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+        <section className="mt-16 aka-card-well px-5 py-4">
           <p className="text-[14px] font-light leading-relaxed text-foreground/85">
             Next:{' '}
             <Link href="/aka-style/faces" className="text-primary underline decoration-border underline-offset-[3px]">

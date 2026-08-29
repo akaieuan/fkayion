@@ -87,7 +87,7 @@ function Tool({ t }: { t: (typeof TOOLS)[number] }) {
            * reading as one sequence instead of three interruptions.
            */}
           <div
-            className="overflow-hidden rounded-xl border border-border/80 bg-muted/10"
+            className="aka-card-well aka-card-media overflow-hidden"
             style={{ aspectRatio: `${t.w} / ${t.h}` }}
           >
             <DemoImage
@@ -144,7 +144,7 @@ export default function HowIWorkPage() {
         </header>
 
         <div
-          className="-mx-6 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0"
+          className="-mx-6 aka-card-well aka-card-media overflow-hidden sm:mx-0"
           style={{ aspectRatio: '2400 / 900' }}
         >
           <DemoImage
@@ -383,7 +383,7 @@ export default function HowIWorkPage() {
             </p>
           </section>
 
-          <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+          <section className="aka-card-well px-5 py-4">
             <p className="text-[14px] leading-relaxed text-foreground/85">
               Everything on this site is the same habit at different sizes: go and find the
               problem, build something you can actually operate, and keep the person using it in

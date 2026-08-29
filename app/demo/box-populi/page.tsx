@@ -56,7 +56,7 @@ export default function BoxPopuliProjectPage() {
           </p>
         </header>
 
-        <div className="-mx-6 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
+        <div className="-mx-6 aka-card-well aka-card-media overflow-hidden sm:mx-0">
           <DemoImage
             src="/box-populi-hero.webp"
             alt="Box Populi — hero with rotating word-cloud logo, set player, and booking CTA"
@@ -193,7 +193,7 @@ export default function BoxPopuliProjectPage() {
             </p>
           </section>
 
-          <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+          <section className="aka-card-well px-5 py-4">
             <h2 className="text-sm font-medium tracking-wide text-foreground">The interesting part</h2>
             <p className="mt-2 text-[14px] leading-relaxed text-foreground/85">
               It was never the landing page. It was the constraints. Multiple live players that

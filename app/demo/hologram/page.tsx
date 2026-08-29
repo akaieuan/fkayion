@@ -209,7 +209,7 @@ export default function HologramProjectPage() {
               API parsed with pygltflib. Blender is driven over a socket, never imported, so import
               purity holds.
             </p>
-            <pre className="overflow-x-auto rounded-lg border border-border/80 bg-muted/30 p-4 text-[11.5px] leading-relaxed text-foreground/80">
+            <pre className="overflow-x-auto aka-card-well rounded-lg p-4 text-[11.5px] leading-relaxed text-foreground/80">
 {`your pipeline ──┐
 Claude Code  ───┼──> .hologram/events.jsonl ──> dashboard (SSE live tail)
 MCP server   ──┘                                    │
@@ -227,7 +227,7 @@ live Blender ──(socket :9876)── render_asset ─> PNG`}
               design: a Claude Code plugin contributes hooks, commands, and MCP servers, not
               long-running web servers.
             </p>
-            <pre className="overflow-x-auto rounded-lg border border-border/80 bg-muted/30 p-4 text-[11.5px] leading-relaxed text-foreground/80">
+            <pre className="overflow-x-auto aka-card-well rounded-lg p-4 text-[11.5px] leading-relaxed text-foreground/80">
 {`# the dashboard — point it at any project with exported GLBs
 uvx --from hologram-gltf hologram dashboard
 
@@ -257,7 +257,7 @@ uvx --from hologram-gltf hologram dashboard
             </p>
           </section>
 
-          <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+          <section className="aka-card-well px-5 py-4">
             <h2 className="text-sm font-medium tracking-wide text-foreground">Why it&apos;s different</h2>
             <p className="mt-2 text-[14px] leading-relaxed text-foreground/85">
               Plenty of tools inspect a <code className={code}>.glb</code>. Hologram is the only one

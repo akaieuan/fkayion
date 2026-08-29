@@ -193,7 +193,7 @@ export default function BodyLogPage() {
                 </div>
               ))}
             </div>
-            <div className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+            <div className="aka-card-well px-5 py-4">
               <p className={label}>Product voice</p>
               <p className="mt-2 text-[13.5px] leading-relaxed text-foreground/85">
                 Lowercase headings, short sentences, no exclamation, no streak shaming, no medical
@@ -408,7 +408,7 @@ export default function BodyLogPage() {
             </p>
           </section>
 
-          <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+          <section className="aka-card-well px-5 py-4">
             <h2 className="text-sm font-medium tracking-wide text-foreground">
               Why this one matters to me
             </h2>

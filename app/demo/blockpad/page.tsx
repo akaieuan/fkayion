@@ -185,7 +185,7 @@ export default function BlockpadPage() {
           myself, open because there is no reason for it not to be.
         </p>
 
-        <figure className="-mx-6 mt-10 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
+        <figure className="-mx-6 mt-10 aka-card-well aka-card-media overflow-hidden sm:mx-0">
           <DemoImage
             src="/blockpad-hero.webp"
             alt="The Blockpad window: a floating canvas with a filter panel sketched on it, a collapsible inspector rail, and a tool dock along the bottom"
@@ -230,7 +230,7 @@ export default function BlockpadPage() {
               account, no subscription, nothing agent-initiated, and it never leaves your machine. It
               is a faster input device for one specific moment, and the constraint is the product.
             </p>
-            <p className="rounded-xl border border-border/80 bg-muted/20 p-4 text-[13.5px]">
+            <p className="aka-card-well p-4 text-[13.5px]">
               <span className="text-foreground/85">Loop target: six seconds</span>, with no mouse
               travel outside the canvas.
             </p>
@@ -276,7 +276,7 @@ export default function BlockpadPage() {
               model, no API call. This sketch:
             </p>
 
-            <figure className="!mt-5 overflow-hidden rounded-xl border border-border/80 bg-muted/10">
+            <figure className="!mt-5 aka-card-well aka-card-media overflow-hidden">
               <DemoImage
                 src="/blockpad-payload.webp"
                 alt="The sketch: a right-hand filter panel with three tabs, six rows each carrying a small checkbox, and Reset and Apply in the footer"
@@ -287,7 +287,7 @@ export default function BlockpadPage() {
             </figure>
 
             <p className="!mt-5">becomes exactly this:</p>
-            <pre className="!mt-3 overflow-x-auto rounded-xl border border-border/80 bg-muted/20 p-4 font-mono text-[11.5px] leading-relaxed text-foreground/80">
+            <pre className="!mt-3 overflow-x-auto aka-card-well p-4 font-mono text-[11.5px] leading-relaxed text-foreground/80">
               {TREE}
             </pre>
 
@@ -355,7 +355,7 @@ export default function BlockpadPage() {
               count and an exact step, rather than a model counting rectangles in a JPEG and getting
               five.
             </p>
-            <p className="rounded-xl border border-border/80 bg-muted/20 p-4 text-[13.5px]">
+            <p className="aka-card-well p-4 text-[13.5px]">
               <span className="text-foreground/85">
                 An image is not automatically the expensive choice.
               </span>{' '}
@@ -389,7 +389,7 @@ export default function BlockpadPage() {
               <code className={code}>Ctrl+Opt+B</code> and{' '}
               <code className={code}>Ctrl+Opt+Space</code>.
             </p>
-            <p className="rounded-xl border border-border/80 bg-muted/20 p-4 text-[13.5px]">
+            <p className="aka-card-well p-4 text-[13.5px]">
               <span className="text-foreground/85">
                 Heads up on <code className={code}>Ctrl+Opt+Space</code>.
               </span>{' '}
@@ -536,7 +536,7 @@ export default function BlockpadPage() {
             </ul>
 
             <p className={`${label} !mt-6`}>Next</p>
-            <p className="!mt-2 rounded-xl border border-border/80 bg-muted/20 p-4 text-[13.5px]">
+            <p className="!mt-2 aka-card-well p-4 text-[13.5px]">
               <span className="text-foreground/85">M1, delivery.</span> Today Blockpad copies and you
               paste. M1 captures the frontmost app before the panel takes focus and pastes into it
               directly: text everywhere, images into editors, and a written-to-disk path for

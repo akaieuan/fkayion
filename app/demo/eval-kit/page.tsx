@@ -249,7 +249,7 @@ export default function EvalKitProjectPage() {
             </ul>
           </section>
 
-          <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+          <section className="aka-card-well px-5 py-4">
             <p className="text-[14px] leading-relaxed text-foreground/85">
               The scoring cockpit is the product: a human gate on every label that matters, automation
               that never pretends to replace that gate, and release discipline that matches the

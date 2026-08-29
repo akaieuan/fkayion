@@ -63,7 +63,7 @@ function Specimen({
 }) {
   return (
     <figure className="mb-5 break-inside-avoid">
-      <div className="rounded-xl border border-border/70 bg-muted/10 px-4 pb-4 pt-3">
+      <div className="aka-card px-4 pb-4 pt-3">
         <div className="mb-1 flex items-baseline justify-between gap-3">
           <span className="text-[11px] font-medium text-foreground/85">{name}</span>
           <code className="font-mono text-[10px] text-muted-foreground/60">{type}</code>
@@ -106,7 +106,7 @@ export default function MusicAnalysisChatPage() {
           </p>
         </header>
 
-        <div className="-mx-6 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
+        <div className="-mx-6 aka-card-well aka-card-media overflow-hidden sm:mx-0">
           <DemoImage
             src="/music-chat/workspace.webp"
             alt="The workspace on open: a sidebar of recent threads and campaign projects, the chat column, and five suggested starting points"
@@ -307,7 +307,7 @@ export default function MusicAnalysisChatPage() {
             </p>
           </section>
 
-          <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+          <section className="aka-card-well px-5 py-4">
             <p className="text-[14px] leading-relaxed text-foreground/85">
               The demo is still here and still runs. It is filed under the write-up rather than
               beside it because the interesting part is not that a chat window works: it is the

@@ -19,7 +19,9 @@ mechanically detectable:
 
 - **Law 02**, every surface resolves from a CSS variable. A hex or `rgb()` in
   the site's own chrome means light and dark are no longer one definition.
-- **Law 03**, depth is a 1px border and a translucent fill, never a drop shadow.
+- **Law 03**, depth is an edge and a graded fill, never a drop shadow. Raised
+  and recessed are the same material with the light reversed, and both are named
+  classes (`.aka-card`, `.aka-card-well`) rather than copied class strings.
 - **Law 04**, motion moves space, never brightness. No `animate-pulse` or
   `animate-ping`.
 

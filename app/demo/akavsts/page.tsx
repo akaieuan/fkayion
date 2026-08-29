@@ -143,7 +143,7 @@ function HeroImage({ shot }: { shot: Shot }) {
   return (
     <figure className="-mx-6 mt-6 sm:mx-0">
       <a href={shot.src} target="_blank" rel="noopener noreferrer" className="group block">
-        <div className="overflow-hidden rounded-xl border border-border/80 bg-muted/10">
+        <div className="aka-card-well aka-card-media overflow-hidden">
           <DemoImage
             src={shot.src}
             alt={shot.label}
@@ -175,7 +175,7 @@ function Gallery({ shots }: { shots: Shot[] }) {
         {shots.map((shot) => (
           <figure key={shot.src}>
             <a href={shot.src} target="_blank" rel="noopener noreferrer" className="group block">
-              <div className="overflow-hidden rounded-lg border border-border/80 bg-muted/10">
+              <div className="aka-card-well aka-card-media overflow-hidden rounded-lg">
                 <DemoImage
                   src={shot.src}
                   alt={shot.label}
@@ -330,7 +330,7 @@ export default function AkaVstsPage() {
               {p.signalFlow && (
                 <div>
                   <p className={microLabel}>Signal flow</p>
-                  <pre className="mt-3 overflow-x-auto rounded-lg border border-border/80 bg-muted/30 p-4 text-[10.5px] leading-relaxed text-foreground/80">
+                  <pre className="mt-3 overflow-x-auto aka-card-well rounded-lg p-4 text-[10.5px] leading-relaxed text-foreground/80">
                     {p.signalFlow}
                   </pre>
                 </div>

@@ -57,7 +57,7 @@ export function PlainSummary({ path }: { path: string }) {
         In simple terms
       </p>
 
-      <div className="aka-summary rounded-xl px-5 py-5 sm:px-6 sm:py-6">
+      <div className="aka-card px-5 py-5 sm:px-6 sm:py-6">
         <div className="space-y-2.5 text-[15px] font-light leading-relaxed text-foreground/85">
           {s.what.map((line) => (
             <p key={line}>{line}</p>
@@ -65,14 +65,14 @@ export function PlainSummary({ path }: { path: string }) {
         </div>
 
         {s.impact && (
-          <p className="aka-summary-rule mt-4 border-t pt-3.5 text-[14px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-card-rule mt-4 border-t pt-3.5 text-[14px] font-light leading-relaxed text-muted-foreground">
             <span className="font-medium text-foreground/85">The impact.</span>{" "}
             {s.impact}
           </p>
         )}
 
         {s.ahead && s.ahead.length > 0 && (
-          <details className="aka-summary-rule group mt-4 border-t pt-3.5">
+          <details className="aka-card-rule group mt-4 border-t pt-3.5">
             <summary className="flex cursor-pointer list-none items-center gap-2 text-[13px] font-medium text-foreground/85 transition-colors hover:text-foreground [&::-webkit-details-marker]:hidden">
               {/*
                * The chevron rotates rather than swapping glyph, so the control
@@ -98,7 +98,7 @@ export function PlainSummary({ path }: { path: string }) {
                 {s.ahead.map((a) => (
                   <li
                     key={a.title}
-                    className="rounded-lg border border-border/50 bg-background/50 px-4 py-3"
+                    className="aka-card-well px-4 py-3"
                   >
                     <p className="text-[13.5px] font-medium text-foreground/90">
                       {a.title}

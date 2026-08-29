@@ -40,7 +40,7 @@ export default function VisualizerEdenDemoPage() {
           </p>
         </header>
 
-        <div className="-mx-6 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
+        <div className="-mx-6 aka-card-well aka-card-media overflow-hidden sm:mx-0">
           {/* The liquid orb from the old landing hero, live — reactive to your cursor. */}
           <OrbHero />
         </div>

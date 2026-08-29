@@ -3,7 +3,7 @@ import { ArrowLeft } from 'lucide-react'
 
 const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
 const label = 'text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50'
-const cardCls = 'rounded-xl border border-border bg-card/40 p-5'
+const cardCls = 'aka-card p-5'
 const codeCls = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[10.5px]'
 
 export const metadata = {
@@ -138,7 +138,7 @@ export default function FoundationsPage() {
               So the two steps that carry long-form reading are mixed by hand, in sRGB, because the
               tokens are achromatic with an explicit hue of 0 and an OKLCH mix would interpolate it.
             </p>
-            <pre className="mt-3 overflow-x-auto rounded-lg border border-border/60 bg-muted/25 px-3 py-2 font-mono text-[10.5px] leading-relaxed text-muted-foreground/75">
+            <pre className="mt-3 overflow-x-auto aka-card-well rounded-lg px-3 py-2 font-mono text-[10.5px] leading-relaxed text-muted-foreground/75">
               {`.aka-ink-body  { color: color-mix(in srgb, var(--foreground) 82%, transparent) }
 .aka-ink-quiet { color: color-mix(in srgb, var(--foreground) 62%, transparent) }`}
             </pre>
@@ -426,7 +426,7 @@ export default function FoundationsPage() {
             file), which does not parse on v3 and is exactly the mistake a generator makes when it
             guesses the version.
           </p>
-          <pre className="mt-6 overflow-x-auto rounded-xl border border-border/80 bg-muted/30 p-5 font-mono text-[10.5px] leading-relaxed text-foreground/80">
+          <pre className="mt-6 overflow-x-auto aka-card-well p-5 font-mono text-[10.5px] leading-relaxed text-foreground/80">
             {`/* globals.css */
 :root {
   --background:       oklch(0.97  0.002 106);
@@ -453,7 +453,7 @@ export default function FoundationsPage() {
   .aka-ink-quiet { color: color-mix(in srgb, var(--foreground) 62%, transparent); }
 }`}
           </pre>
-          <pre className="mt-3 overflow-x-auto rounded-xl border border-border/80 bg-muted/30 p-5 font-mono text-[10.5px] leading-relaxed text-foreground/80">
+          <pre className="mt-3 overflow-x-auto aka-card-well p-5 font-mono text-[10.5px] leading-relaxed text-foreground/80">
             {`// tailwind.config.cjs
 module.exports = {
   darkMode: ['class'],
@@ -482,7 +482,7 @@ module.exports = {
           </pre>
         </section>
 
-        <section className="mt-14 rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+        <section className="mt-14 aka-card-well px-5 py-4">
           <p className="text-[14px] font-light leading-relaxed text-foreground/85">
             With the block above plus{' '}
             <Link

@@ -14,7 +14,7 @@ import { PixelRoundabout } from '@/components/features/brand/pixel-roundabout'
 const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
 const label = 'text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50'
 const code = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[11px]'
-const cardCls = 'rounded-xl border border-border bg-card/40 p-5'
+const cardCls = 'aka-card p-5'
 
 const sections = [
   { id: 'rules', label: 'The rules' },
@@ -110,7 +110,7 @@ export default function LibraryPage() {
             {swatches.map((sw) => (
               <div key={sw.name} className="overflow-hidden rounded-lg border border-border">
                 <div className={`h-14 w-full ${sw.cls}`} />
-                <div className="border-t border-border bg-card/40 px-2.5 py-2">
+                <div className="aka-card-rule border-t px-2.5 py-2">
                   <p className="text-[11px] text-foreground/85">{sw.name}</p>
                   <p className="font-mono text-[10px] text-muted-foreground/60">{sw.varName}</p>
                 </div>
@@ -194,14 +194,14 @@ export default function LibraryPage() {
           </p>
 
           <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <Link href="/aka-style/primitives" className={`${cardCls} transition-colors hover:bg-muted/25`}>
+            <Link href="/aka-style/primitives" className={`${cardCls} aka-card-lift`}>
               <p className="text-[14px] font-light text-foreground/90">Primitives →</p>
               <p className="mt-1 text-[12px] font-light leading-relaxed text-muted-foreground">
                 Every control and surface with its class string printed beside it — buttons, forms,
                 tables, code, media frames. The page exists to be copied from.
               </p>
             </Link>
-            <Link href="/aka-style/foundations" className={`${cardCls} transition-colors hover:bg-muted/25`}>
+            <Link href="/aka-style/foundations" className={`${cardCls} aka-card-lift`}>
               <p className="text-[14px] font-light text-foreground/90">Foundations →</p>
               <p className="mt-1 text-[12px] font-light leading-relaxed text-muted-foreground">
                 Spacing, radii, the type ramp, motion timings, breakpoints — and the globals.css
@@ -275,7 +275,7 @@ export default function LibraryPage() {
 
             <div className={cardCls}>
               <p className={label}>Callout card — the closing-argument surface</p>
-              <div className="mt-3 rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+              <div className="mt-3 aka-card-well px-5 py-4">
                 <p className="text-sm font-medium tracking-wide text-foreground">One rule</p>
                 <p className="mt-2 text-[14px] font-light leading-relaxed text-foreground/85">
                   Inertials emit signals. The Runciter dispatches them. Humans decide.
@@ -309,7 +309,7 @@ export default function LibraryPage() {
           </p>
 
           <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <Link href="/aka-style/marks" className={`${cardCls} group transition-colors hover:bg-muted/25`}>
+            <Link href="/aka-style/marks" className={`${cardCls} aka-card-lift group`}>
               <div className="flex items-center gap-4">
                 <PixelHead size={60} grid={24} icon="disc-aka" still />
                 <div>
@@ -320,7 +320,7 @@ export default function LibraryPage() {
                 </div>
               </div>
             </Link>
-            <Link href="/aka-style/faces" className={`${cardCls} group transition-colors hover:bg-muted/25`}>
+            <Link href="/aka-style/faces" className={`${cardCls} aka-card-lift group`}>
               <div className="flex items-center gap-4">
                 <PixelHead size={60} grid={22} face="wink" still />
                 <div>
@@ -445,7 +445,7 @@ export default function LibraryPage() {
             <div className={cardCls}>
               <p className={label}>Media figure — bordered frame, caption below</p>
               <figure className="mt-3">
-                <div className="flex aspect-[16/10] w-full items-center justify-center overflow-hidden rounded-lg border border-border/80 bg-muted/10">
+                <div className="flex aspect-[16/10] w-full items-center justify-center aka-card-well aka-card-media overflow-hidden rounded-lg">
                   <PixelHead size={120} grid={18} faces />
                 </div>
                 <figcaption className="mt-1.5 text-[11px] font-light text-muted-foreground/70">
@@ -499,7 +499,7 @@ export default function LibraryPage() {
                 </>
               )
               const cls =
-                'block rounded-xl border border-border/70 bg-muted/10 px-4 py-3.5 transition-colors hover:bg-muted/25'
+                'block aka-card aka-card-lift px-4 py-3.5'
               return (
                 <li key={u.name}>
                   {u.internal ? (
@@ -517,7 +517,7 @@ export default function LibraryPage() {
           </ul>
         </section>
 
-        <section className="mt-16 rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+        <section className="mt-16 aka-card-well px-5 py-4">
           <h2 className="text-sm font-medium tracking-wide text-foreground">Why keep this page</h2>
           <p className="mt-2 text-[14px] font-light leading-relaxed text-foreground/85">
             A design system that lives in screenshots rots within a month. This one renders from the

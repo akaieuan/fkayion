@@ -72,7 +72,7 @@ export default function AkaCovartProjectPage() {
           </p>
         </header>
 
-        <figure className="-mx-6 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
+        <figure className="-mx-6 aka-card-well aka-card-media overflow-hidden sm:mx-0">
           <a href={hero.src} target="_blank" rel="noopener noreferrer" className="group block">
             <DemoImage
               src={hero.src}
@@ -135,7 +135,7 @@ export default function AkaCovartProjectPage() {
               any machine, every time. A look you love isn’t a lucky export you can’t reproduce; it’s a
               tiny, shareable recipe. That determinism is the spine of the whole tool.
             </p>
-            <pre className="overflow-x-auto rounded-lg border border-border/80 bg-muted/30 p-4 text-[11px] leading-relaxed text-foreground/80">
+            <pre className="overflow-x-auto aka-card-well rounded-lg p-4 text-[11px] leading-relaxed text-foreground/80">
 {`{ engine, seed, palette, composition, film, type }
         │
         ▼  deterministic render (seeded RNG)
@@ -238,7 +238,7 @@ export default function AkaCovartProjectPage() {
               {gallery.map((shot) => (
                 <figure key={shot.src} className="mb-4 break-inside-avoid">
                   <a href={shot.src} target="_blank" rel="noopener noreferrer" className="group block">
-                    <div className="overflow-hidden rounded-lg border border-border/80 bg-muted/10">
+                    <div className="aka-card-well aka-card-media overflow-hidden rounded-lg">
                       <DemoImage
                         src={shot.src}
                         alt={shot.label}
@@ -257,7 +257,7 @@ export default function AkaCovartProjectPage() {
             </div>
           </div>
 
-          <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+          <section className="aka-card-well px-5 py-4">
             <h2 className="text-sm font-medium tracking-wide text-foreground">Why it&apos;s different</h2>
             <p className="mt-2 text-[14px] leading-relaxed text-foreground/85">
               Most cover generators hand you a lucky export you can’t reproduce. akaCOVART makes every

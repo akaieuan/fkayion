@@ -318,7 +318,7 @@ export default function UbikProjectPage() {
           </p>
         </header>
 
-        <figure className="-mx-6 overflow-hidden rounded-xl border border-border/80 bg-muted/10 sm:mx-0">
+        <figure className="-mx-6 aka-card-well aka-card-media overflow-hidden sm:mx-0">
           <DemoImage
             src={hero.src}
             alt={hero.label}
@@ -464,7 +464,7 @@ export default function UbikProjectPage() {
           </div>
 
           <div>
-            <details className="group mt-8 rounded-xl border border-border/80 bg-muted/10 px-5 py-4">
+            <details className="group mt-8 aka-card-well px-5 py-4">
               <summary className="cursor-pointer list-none text-[13px] font-medium text-foreground/85 marker:content-none">
                 {/*
                   The label is the hover target, not the whole summary row: a
@@ -515,7 +515,7 @@ export default function UbikProjectPage() {
               <div className="mt-5 space-y-8">
                 {longRuns.map((run) => (
                   <figure key={run.src}>
-                    <div className="overflow-hidden rounded-lg border border-border/80 bg-muted/10">
+                    <div className="aka-card-well aka-card-media overflow-hidden rounded-lg">
                       <DemoVideo
                         src={run.src}
                         poster={`${run.src}-poster.webp`}
@@ -618,7 +618,7 @@ export default function UbikProjectPage() {
             </p>
           </section>
 
-          <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+          <section className="aka-card-well px-5 py-4">
             <h2 className="text-sm font-medium tracking-wide text-foreground">A closed chapter</h2>
             <p className="mt-2 text-[14px] leading-relaxed text-foreground/85">
               The public site and the builds are retired, and I&apos;m at peace with that — Ubik was a

@@ -318,7 +318,7 @@ export default function TrickleKitProjectPage() {
             </p>
           </section>
 
-          <section className="rounded-xl border border-border/80 bg-muted/15 px-5 py-4">
+          <section className="aka-card-well px-5 py-4">
             <p className="text-[14px] leading-relaxed text-foreground/85">
               Most React text-animation libraries are runtime taxes. trickle is the argument that text
               animation should be CSS, and the 47 components that prove it. SSR-safe, &lt;1kb median,
