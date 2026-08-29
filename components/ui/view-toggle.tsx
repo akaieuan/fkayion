@@ -38,6 +38,11 @@ const KEY = 'demo-view'
 export type View = 'deck' | 'grid'
 
 const OPTIONS = [
+  /*
+   * The hint is what the button would do, so the selected one has nothing to
+   * offer: "See all of them at once" beside the view you are already in reads
+   * as a control that is not working.
+   */
   { v: 'deck', Icon: GalleryHorizontal, label: 'Deck', hint: 'Scroll through the covers' },
   { v: 'grid', Icon: LayoutGrid, label: 'Grid', hint: 'See all of them at once' },
 ] as const
@@ -100,7 +105,7 @@ export function ViewToggle({ target }: { target: string }) {
              */
             className="aka-hint aka-hint-end aka-card px-2 py-1 text-[11px] font-light text-foreground/85"
           >
-            {hint}
+            {view === v ? 'Current view' : hint}
           </span>
         </button>
       ))}
