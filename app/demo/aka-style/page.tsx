@@ -254,7 +254,7 @@ export default function AkaStyleWriteUpPage() {
 
           <ul className="mt-6 grid list-none gap-3 p-0 md:grid-cols-2">
             {SURFACES.map((sf) => (
-              <li key={sf.cls} className={`${card} overflow-hidden`}>
+              <li key={sf.cls} className={`${sf.render} overflow-hidden`}>
                 <div className="aka-card-head flex items-baseline justify-between gap-4 px-4 py-2.5">
                   <span className="text-[13.5px] font-light text-foreground/90">{sf.name}</span>
                   <span className="font-mono text-[10.5px] text-muted-foreground/60">.{sf.cls}</span>

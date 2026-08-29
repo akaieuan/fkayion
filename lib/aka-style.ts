@@ -131,6 +131,15 @@ export type Surface = {
   cls: string
   name: string
   what: string
+  /*
+   * What to render the specimen tile itself in.
+   *
+   * A specimen for a material that is drawn in a different material is a
+   * picture of the thing rather than the thing, which is the failure this
+   * whole page exists to avoid. So the well's tile is a well, and the lift's
+   * tile actually lifts when you hover it.
+   */
+  render: string
   /** How the material is built, in the order the layers stack. */
   layers: string[]
 }
@@ -138,6 +147,7 @@ export type Surface = {
 export const SURFACES: Surface[] = [
   {
     cls: 'aka-card',
+    render: 'aka-card',
     name: 'Card',
     what: 'Raised. Sits on the page. Content, specimens, and anything that is also a control.',
     layers: [
@@ -148,6 +158,7 @@ export const SURFACES: Surface[] = [
   },
   {
     cls: 'aka-card-well',
+    render: 'aka-card-well',
     name: 'Well',
     what: 'Recessed. Cut into the page. Callouts, closing notes, code, and media.',
     layers: [
@@ -158,12 +169,14 @@ export const SURFACES: Surface[] = [
   },
   {
     cls: 'aka-card-head',
+    render: 'aka-card',
     name: 'Head',
     what: 'The band across the top of a card, for a label row. A step toward the mid-tone in either theme, so it darkens in light and lightens in dark from one definition.',
     layers: ['--card-head fill', 'a --card-rule hairline underneath'],
   },
   {
     cls: 'aka-card-lift',
+    render: 'aka-card aka-card-lift',
     name: 'Lift',
     what: 'A card that is also a control. Hover moves it 2px and sharpens the edge; it never brightens, per law 04.',
     layers: ['translateY(-2px) over 320ms', 'edge to --card-edge-hover', 'no transform under prefers-reduced-motion'],

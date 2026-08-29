@@ -222,7 +222,21 @@ body {
 }
 
 :root {
-  --background: oklch(0.97 0.002 106);
+  /*
+   * The light ground is a light grey rather than white, and that is what makes
+   * the card material work in this theme at all.
+   *
+   * At 0.97 there were three points of luminance between the page and pure
+   * white for a whole material to live in, so a card's fill landed eight
+   * thousandths off the page at its bottom edge and the grade inside it had
+   * nowhere to go. Dark has ninety points to spend and looked like a material;
+   * light had three and looked like an outline.
+   *
+   * Dropping it to 0.955 is still unmistakably an off-white page and roughly
+   * quadruples the range. It is the same reason a grouped table view on iOS
+   * sits on grey: the white is the card, so the page cannot also be white.
+   */
+  --background: oklch(0.955 0.002 106);
   --foreground: oklch(0.122 0.001 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -255,7 +269,7 @@ body {
    * ground carrying the page's warmth pushed every green toward olive and left
    * akaOSS, akaCOVART, Hologram and Wrdef reading as four shades of sage.
    */
-  --stamp-ground: oklch(0.935 0 0);
+  --stamp-ground: oklch(0.92 0 0);
   /*
    * How much of a project's hue reaches its plate.
    *
@@ -292,24 +306,29 @@ body {
    * it, and it costs two token values.
    */
   --card-fill-top: oklch(1 0 0);
-  --card-fill-bottom: oklch(0.978 0.002 106);
-  --card-edge: oklch(0.885 0.003 106);
-  --card-edge-top: oklch(0.925 0.003 106);
-  --card-edge-hover: oklch(0.83 0.004 106);
-  --card-well-top: oklch(0.944 0.003 106);
-  --card-well-bottom: oklch(0.963 0.003 106);
-  --card-well-edge: oklch(0.9 0.003 106);
-  --card-well-edge-top: oklch(0.87 0.003 106);
+  --card-fill-bottom: oklch(0.986 0.001 106);
+  --card-edge: oklch(0.862 0.003 106);
+  --card-edge-top: oklch(0.905 0.003 106);
+  --card-edge-hover: oklch(0.795 0.004 106);
+  --card-well-top: oklch(0.915 0.003 106);
+  --card-well-bottom: oklch(0.942 0.003 106);
+  --card-well-edge: oklch(0.872 0.003 106);
+  --card-well-edge-top: oklch(0.838 0.003 106);
   /* Hairlines and header bands inside a card, tuned to it rather than the page. */
   --card-rule: color-mix(in srgb, var(--foreground) 10%, transparent);
-  --card-head: color-mix(in srgb, var(--foreground) 3.5%, transparent);
+  --card-head: color-mix(in srgb, var(--foreground) 4.5%, transparent);
   /*
-   * The grain. Monochrome fractal noise, blended soft-light so it modulates
-   * the fill's luminance rather than laying grey on top of it. Baked per theme
-   * because a background layer cannot carry its own opacity, and dark needs
-   * more of it than light does before it reads at all.
+   * The grain. Monochrome fractal noise, blended into the fill rather than
+   * laid on top of it.
+   *
+   * Both the alpha and the blend mode are per theme, because soft-light is
+   * nearly inert against near-white: it pulls toward the base, and the base is
+   * already at the ceiling. Light multiplies instead, which darkens into the
+   * white and reads as paper. The alpha drops to match, since multiply is much
+   * the stronger operator of the two.
    */
-  --card-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='0.4'/%3E%3C/svg%3E");
+  --card-grain-blend: multiply;
+  --card-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='0.16'/%3E%3C/svg%3E");
   /* The one accent: what a selected tab, selected text and a focus ring take. */
   --select: oklch(0.58 0.13 250);
   --input: oklch(0.925 0 0);
@@ -390,6 +409,7 @@ body {
   --card-well-bottom: oklch(0.152 0 0);
   --card-well-edge: oklch(1 0 0 / 8%);
   --card-well-edge-top: oklch(0 0 0 / 45%);
+  --card-grain-blend: soft-light;
   --card-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='0.55'/%3E%3C/svg%3E");
   --select: oklch(0.707 0.108 152.216);
   --input: oklch(1 0 0 / 15%);
@@ -532,7 +552,7 @@ body {
     border-style: solid;
     background-repeat: repeat, no-repeat;
     background-size: 140px 140px, auto;
-    background-blend-mode: soft-light, normal;
+    background-blend-mode: var(--card-grain-blend), normal;
   }
 
   .aka-card {
@@ -540,7 +560,7 @@ body {
     border-top-color: var(--card-edge-top);
     background-color: var(--card-fill-bottom);
     background-image: var(--card-grain),
-      linear-gradient(180deg, var(--card-fill-top) 0%, var(--card-fill-bottom) 62%);
+      linear-gradient(180deg, var(--card-fill-top) 0%, var(--card-fill-bottom) 100%);
   }
 
   /*
@@ -553,7 +573,7 @@ body {
     border-top-color: var(--card-well-edge-top);
     background-color: var(--card-well-bottom);
     background-image: var(--card-grain),
-      linear-gradient(180deg, var(--card-well-top) 0%, var(--card-well-bottom) 58%);
+      linear-gradient(180deg, var(--card-well-top) 0%, var(--card-well-bottom) 100%);
   }
 
   /*
