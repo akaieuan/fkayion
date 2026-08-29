@@ -920,6 +920,20 @@ body {
     position: relative;
   }
   .aka-hint {
+    /*
+     * The colour is set here rather than left to a utility on the element.
+     *
+     * The hint lives inside the button it describes, and the selected button
+     * is an inverted fill: `text-background`. So an unset hint inherits
+     * near-white ink and lands on a near-white card, which is how "Current
+     * view" arrived invisible in light mode.
+     *
+     * `text-foreground/85` did not save it either, and would not have on any
+     * of them: the theme colours are bare var() with no <alpha-value> slot, so
+     * Tailwind cannot compute the alpha and emits no rule at all. Same reason
+     * .aka-ink-body exists. Mixed by hand, like that one.
+     */
+    color: color-mix(in srgb, var(--foreground) 88%, transparent);
     position: absolute;
     top: calc(100% + 7px);
     left: 50%;
