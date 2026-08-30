@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { KickerTags } from '@/components/ui/tag-row'
 import { ProjectGrid } from '@/components/ui/project-grid'
 import { childProjects } from '@/lib/projects'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
@@ -94,9 +95,7 @@ export default function AkaossProjectPage() {
             />
           </figure>
           <div>
-            <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
-              Studio · Open source · HITL AI
-            </p>
+            <KickerTags>Studio · Open source · HITL AI</KickerTags>
             <h1 className="mt-1 text-[clamp(1.6rem,5vw,2.4rem)] font-extralight leading-none tracking-tight text-foreground/90">
               akaOSS
             </h1>

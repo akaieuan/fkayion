@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { KickerTags } from '@/components/ui/tag-row'
 import { DemoImage } from '@/components/ui/demo-image'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
@@ -48,10 +49,7 @@ export default function AkaCovartProjectPage() {
         </Link>
 
         <header className="mb-6">
-          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
-
-          Open source · Generative studio · Album art
-          </p>
+          <KickerTags>Open source · Generative studio · Album art</KickerTags>
           <h1
             className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight"
             aria-label="akaCOVART"

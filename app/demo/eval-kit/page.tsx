@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
+import { KickerTags } from '@/components/ui/tag-row'
 import { JsonLd } from '@/components/seo/json-ld'
 import { PlainSummary } from '@/components/ui/plain-summary'
 
@@ -34,10 +35,7 @@ export default function EvalKitProjectPage() {
         </Link>
 
         <header className="mb-6">
-          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
-
-          Open source · pre-1.0 · v0.3.1
-          </p>
+          <KickerTags>Open source · pre-1.0 · v0.3.1</KickerTags>
           <h1
             className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance text-foreground/90"
             aria-label="eval-kit"

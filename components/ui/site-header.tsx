@@ -210,6 +210,12 @@ export function SiteHeader() {
 
   return (
     <header
+      /*
+       * Marks the header's presence for CSS. The full-bleed demos return null
+       * above, so anything that should only exist alongside the wordmark can
+       * test for this instead of re-deriving the route. See `.aka-demo-back`.
+       */
+      data-site-header
       className="fixed top-0 left-0 right-0 z-[100] pointer-events-none"
       style={{ transform: 'translateZ(0)', isolation: 'isolate' }}
     >

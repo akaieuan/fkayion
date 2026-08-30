@@ -972,6 +972,25 @@ body {
     }
   }
 
+  /*
+   * The margin back-link, minus the two routes it makes no sense on.
+   *
+   * `:has()` rather than a `usePathname()` check, because the alternative is a
+   * client component on every page under /demo to answer a question CSS can
+   * already see the answer to.
+   *
+   *   #projects is the index's own view container. A link back to Projects,
+   *   on Projects, is circular.
+   *
+   *   [data-site-header] is absent on the full-bleed demos, which return null
+   *   from the header entirely. With no wordmark on screen there is nothing
+   *   for this to sit under, and it would land on their own toolbar.
+   */
+  body:has(#projects) .aka-demo-back,
+  body:not(:has([data-site-header])) .aka-demo-back {
+    display: none;
+  }
+
   .aka-mark-ground {
     background-color: #0b0b0c;
   }

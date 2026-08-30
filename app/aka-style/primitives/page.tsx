@@ -211,6 +211,14 @@ lift    aka-card aka-card-lift        ← a card that is also a control`}
           </Spec>
 
           {/*
+            `DemoBack` is the way back to the projects index, in the left
+            margin under the wordmark, mounted once in app/demo/layout.tsx. Its
+            wrapper borrows the site header's own container classes rather than
+            positioning by hand, so it lines up with the logo at every
+            breakpoint; `.aka-demo-back` in globals.css is what hides it on the
+            index and on the full-bleed demos.
+          */}
+          {/*
             The segmented control. Two or three mutually exclusive views of the
             same thing, as icons rather than words, because the options are
             layouts and a picture of a layout says it faster than its name.
@@ -243,9 +251,20 @@ a11y    role=group + aria-label, aria-pressed per button, tooltip per button`}
             </div>
           </Spec>
 
+          {/*
+            One row, two callers. `TagRow` is the chip row itself; `KickerTags`
+            is the same row built from a write-up's middle-dot kicker string.
+
+            It replaced the uppercase run that used to open every write-up —
+            PRODUCT · DESKTOP AI RESEARCH PLATFORM · 2023–2026 — which is three
+            separate facts set as one sentence in the treatment that is hardest
+            to read at length. As chips they are three things again, each one
+            bounded, and the projects deck and the page it links to now show the
+            same row from the same component rather than two that drift.
+          */}
           <Spec
             name="Chips & tags"
-            note="uppercase, tracked, never colored by category"
+            note="TagRow / KickerTags · uppercase, tracked, never colored by category"
             cls={`chip   rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground/70
 tech   aka-card-well inline-flex items-center rounded-md px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-[0.14em] text-muted-foreground`}
           >

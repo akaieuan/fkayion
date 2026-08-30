@@ -1,3 +1,4 @@
+import { KickerTags } from '@/components/ui/tag-row'
 import { DemoImage } from '@/components/ui/demo-image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
@@ -53,9 +54,7 @@ export default function InertialProjectPage() {
         </Link>
 
         <header className="mb-6">
-          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
-            Reference architecture · portfolio work · MIT
-          </p>
+          <KickerTags>Reference architecture · portfolio work · MIT</KickerTags>
           <h1
             className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance lowercase text-foreground/90"
             aria-label="inertial"

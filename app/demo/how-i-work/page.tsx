@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { KickerTags } from '@/components/ui/tag-row'
 import { DemoImage } from '@/components/ui/demo-image'
 import { PixelRoundabout } from '@/components/features/brand/pixel-roundabout'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
@@ -158,9 +159,7 @@ export default function HowIWorkPage() {
           />
         </div>
 
-        <p className="mt-10 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
-          About · Brooklyn, NY
-        </p>
+        <KickerTags className="mt-10">About · Brooklyn, NY</KickerTags>
         {/*
           The heading names the person and the seat and gets out of the way.
           It used to be a line about the practice, which put a slogan directly

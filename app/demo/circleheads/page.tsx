@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import circleheadsMark from '@/public/circleheads.webp'
+import { KickerTags } from '@/components/ui/tag-row'
 import { PixelRoundabout } from '@/components/features/brand/pixel-roundabout'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
@@ -64,9 +65,7 @@ export default function CircleheadsProjectPage() {
             />
           </figure>
           <div>
-            <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
-              Studio · Applied AI · Brooklyn
-            </p>
+            <KickerTags>Studio · Applied AI · Brooklyn</KickerTags>
             <h1 className="mt-1 text-[clamp(1.6rem,5vw,2.4rem)] font-extralight leading-none tracking-tight text-foreground/90">
               Circleheads
             </h1>

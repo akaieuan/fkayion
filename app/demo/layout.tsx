@@ -1,3 +1,5 @@
+import { DemoBack } from '@/components/ui/demo-back'
+
 /**
  * Wraps /demo and everything under it.
  *
@@ -14,5 +16,18 @@
  * server output plus whatever that page itself asks for.
  */
 export default function DemoLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>
+  return (
+    <>
+      {/*
+        The way back to the index, in the left margin under the wordmark.
+        Mounted here rather than on each page: the pages' own back links are
+        `lg:hidden` — a leftover from when the rail owned that margin — so the
+        widest screens were the only ones with no way back. One mount, and a
+        new write-up gets it by existing. It hides itself on the index and on
+        the full-bleed demos; see `.aka-demo-back`.
+      */}
+      <DemoBack />
+      {children}
+    </>
+  )
 }

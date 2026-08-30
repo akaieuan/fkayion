@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { KickerTags } from '@/components/ui/tag-row'
 import { DemoImage } from '@/components/ui/demo-image'
 import { DemoVideo } from '@/components/ui/demo-video'
 import { LoopVideo } from '@/components/ui/loop-video'
@@ -302,10 +303,7 @@ export default function UbikProjectPage() {
         </Link>
 
         <header className="mb-6">
-          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
-
-          Product · Desktop AI research platform · 2023–2026
-          </p>
+          <KickerTags>Product · Desktop AI research platform · 2023–2026</KickerTags>
           <h1
             className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight"
             aria-label="Ubik Studio"

@@ -1,3 +1,4 @@
+import { KickerTags } from '@/components/ui/tag-row'
 import { DemoImage } from '@/components/ui/demo-image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
@@ -84,10 +85,7 @@ export default function HitlKitProjectPage() {
         </Link>
 
         <header className="mb-6">
-          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
-
-          Open source · v0.6
-          </p>
+          <KickerTags>Open source · v0.6</KickerTags>
           <h1
             className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance text-foreground/90"
             aria-label="HITLKit"

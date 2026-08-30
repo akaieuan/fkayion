@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { KickerTags } from '@/components/ui/tag-row'
 import { DemoImage } from '@/components/ui/demo-image'
 import { RenderPair } from '@/components/demo/bkz-lab-log/prose'
 import { LAB_ENTRIES } from '@/components/demo/bkz-lab-log/entries'
@@ -81,9 +82,7 @@ export default function BlenderPipelinePage() {
           Projects
         </Link>
 
-        <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
-          Private work in progress
-        </p>
+        <KickerTags>Private work in progress</KickerTags>
         <h1 className="mt-2 text-2xl font-light tracking-tight text-foreground md:text-[26px]">
           Brooklyn Dead
         </h1>

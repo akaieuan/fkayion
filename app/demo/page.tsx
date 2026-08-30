@@ -1,7 +1,8 @@
 import Link from 'next/link'
-import { ArrowRight, ArrowUpRight, Tag } from 'lucide-react'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { CoverFlow } from '@/components/features/demo/cover-flow'
 import { ProjectCover } from '@/components/ui/project-cover'
+import { TagRow } from '@/components/ui/tag-row'
 import { ProjectGrid } from '@/components/ui/project-grid'
 import { ViewToggle } from '@/components/ui/view-toggle'
 import { topLevelProjects } from '@/lib/projects'
@@ -132,21 +133,8 @@ export default function DemoIndexPage() {
                      * one nobody needed, and a wrapped second row would push
                      * the caption past its floor.
                      */}
-                    {item.tags && item.tags.length > 0 && (
-                      <p className="mt-2 flex flex-wrap items-center justify-center gap-1.5">
-                        <Tag
-                          className="h-3 w-3 shrink-0 text-muted-foreground/40"
-                          aria-hidden
-                        />
-                        {item.tags.slice(0, 3).map((t) => (
-                          <span
-                            key={t}
-                            className="rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground/70"
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </p>
+                    {item.tags && (
+                      <TagRow className="mt-2 justify-center" tags={item.tags.slice(0, 3)} />
                     )}
 
                     <p className="mt-2.5 line-clamp-4 text-[13.5px] font-light leading-relaxed text-muted-foreground">

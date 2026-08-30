@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { PixelHead } from '@/components/features/brand/pixel-head'
+import { KickerTags } from '@/components/ui/tag-row'
 import { LAWS, SWATCHES, ACCENTS, SURFACES, USAGE, MARK_FAMILY } from '@/lib/aka-style'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
@@ -119,7 +120,7 @@ export default function AkaStyleWriteUpPage() {
       <div className={SHELL}>
         <Link
           href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
+          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Projects
@@ -128,7 +129,7 @@ export default function AkaStyleWriteUpPage() {
         {/* ── Header ─────────────────────────────────────────────────────── */}
         <header className="grid gap-8 md:grid-cols-[1fr_auto] md:items-start">
           <div className={MEASURE}>
-            <p className={kicker}>Design system · Live specimen</p>
+            <KickerTags>Design system · Live specimen</KickerTags>
             <h1 className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-foreground/90">
               aka<span className="font-mono font-normal text-primary">STYLE</span>
             </h1>

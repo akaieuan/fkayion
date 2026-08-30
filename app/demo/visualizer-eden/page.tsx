@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { KickerTags } from '@/components/ui/tag-row'
 import { OrbHero } from '@/components/features/demo/orb-hero'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
@@ -58,9 +59,7 @@ export default function VisualizerEdenDemoPage() {
           </p>
         </div>
 
-        <p className="mt-10 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
-          Audio tool
-        </p>
+        <KickerTags className="mt-10">Audio tool</KickerTags>
         <h1 className="mt-2 text-2xl font-light tracking-tight text-foreground md:text-[26px]">
           Visualizer Eden
         </h1>
