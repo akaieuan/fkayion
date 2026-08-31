@@ -7,13 +7,13 @@ import * as THREE from 'three'
 
 // Chunk-split so the three.js payload only loads on this page.
 const LiquidMorphOrb = dynamic(
-  () => import('@/components/features/home/liquid-morph-orb').then(m => ({ default: m.LiquidMorphOrb })),
+  () => import('@/components/features/demo/liquid-morph-orb').then(m => ({ default: m.LiquidMorphOrb })),
   { ssr: false }
 )
 
 /**
- * The liquid orb that used to live on the landing hero, rehomed as the live
- * preview for Visualizer Eden — a real WebGL artifact instead of a video.
+ * The liquid orb that used to live on the landing hero, kept as the live
+ * specimen on the Three.js examples write-up — a real WebGL artifact.
  * Renders only while on screen; pointer-events stay off so it never eats
  * scroll (the canvas tracks the pointer from the wrapper instead).
  */

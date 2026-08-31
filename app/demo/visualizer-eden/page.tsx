@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { KickerTags } from '@/components/ui/tag-row'
-import { OrbHero } from '@/components/features/demo/orb-hero'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
 import { PlainSummary } from '@/components/ui/plain-summary'
@@ -42,8 +41,19 @@ export default function VisualizerEdenDemoPage() {
         </header>
 
         <div className="-mx-6 aka-card-well aka-card-media overflow-hidden sm:mx-0">
-          {/* The liquid orb from the old landing hero, live — reactive to your cursor. */}
-          <OrbHero />
+          {/* Captured preview; the live WebGL work now sits on /demo/three-examples. */}
+          <video
+            className="block h-auto w-full"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="none"
+            poster="/visualizer-eden-preview-poster.jpg"
+            aria-label="Visualizer Eden preview"
+          >
+            <source src="/visualizer-eden-preview.webm" type="video/webm" />
+          </video>
         </div>
 
         <div className="mt-5">

@@ -278,6 +278,16 @@ export const PROJECTS: ProjectCardItem[] = [
     img: visualizerPoster,
     accent: TINT.orchid,
   },
+  {
+    title: 'Three.js Examples',
+    tags: ['Live demo', 'WebGL', 'GLSL', 'Three.js'],
+    description:
+      'The liquid shader orb from the old landing hero, running live: hand-written GLSL over Three.js, and the rules that let WebGL sit on a portfolio page.',
+    href: '/demo/three-examples',
+    // The exhibit is the page itself; the plate gets the honest monogram.
+    wordmark: '3D',
+    accent: TINT.blue,
+  },
 
 ]
 

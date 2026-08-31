@@ -279,6 +279,16 @@ export const SUMMARIES: Record<string, Summary> = {
       'The accessibility rule I now apply to every piece of motion on this site started here: anything that pulses brightness in time with sound is a genuine hazard, so motion moves space instead. A constraint that came from one project became the house rule.',
   },
 
+  '/demo/three-examples': {
+    what: [
+      'A live exhibit of the 3D graphics work on this site. The centerpiece is a liquid orb, drawn in real time by your graphics card, that reacts when you move your cursor across it.',
+      'The orb used to be the first thing you saw on the landing page. When that page was redesigned to be calmer, the work was too good to throw away, so it lives here as a running exhibit instead of a screenshot of one.',
+      'The page also explains the manners: the orb stops rendering the moment it scrolls out of view, and no other page on the site downloads any of the 3D code.',
+    ],
+    impact:
+      'It settled a house rule about where heavy graphics belong: the pages you pass through every day stay light, and the pages you choose to visit are allowed to spend.',
+  },
+
   '/demo/music-analysis-chat': {
     what: [
       'A workspace for a record label, built out of interviews rather than out of an idea.',
