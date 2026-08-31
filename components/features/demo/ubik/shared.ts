@@ -20,3 +20,19 @@ export type Demo = {
    */
   art: CardArt
 }
+
+/**
+ * Ubik's own writing, selected from the writing registry rather than restated.
+ *
+ * Three pieces of it survive and are rebuilt at /writing. They are listed in
+ * three places on this page — the menu at the top, the plain-language summary,
+ * and the archive section — and all three read this, so a fourth piece appears
+ * everywhere by being added to lib/writing.ts and nowhere else.
+ */
+export const UBIK_ARCHIVE_TYPE = 'Archive · Ubik'
+
+/** The two places Ubik still exists in public, now that the builds are gone. */
+export const UBIK_ELSEWHERE = [
+  { label: 'Team test log', href: 'https://kraa.io/team-test-log042' },
+  { label: 'r/ubikstudio', href: 'https://www.reddit.com/r/ubikstudio/' },
+]

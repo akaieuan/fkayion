@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowLeft, ArrowUpRight } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import { KickerTags } from '@/components/ui/tag-row'
 import { DemoImage } from '@/components/ui/demo-image'
 import { JsonLd, breadcrumbSchema, projectSchema } from '@/components/seo/json-ld'
@@ -14,6 +14,11 @@ import { EngineeringSection } from '@/components/features/demo/ubik/engineering'
 import { RoleSection } from '@/components/features/demo/ubik/role'
 import { DesignBoardSection } from '@/components/features/demo/ubik/design-board'
 import { ClosedChapterSection } from '@/components/features/demo/ubik/closed-chapter'
+import { ArchiveMenu } from '@/components/features/demo/ubik/archive-menu'
+import { ArchiveMenuItems } from '@/components/features/demo/ubik/archive-menu-items'
+import { ArchiveSection } from '@/components/features/demo/ubik/archive'
+import { WRITING, writingHref } from '@/lib/writing'
+import { UBIK_ARCHIVE_TYPE } from '@/components/features/demo/ubik/shared'
 
 const code = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]'
 
@@ -112,31 +117,28 @@ export default function UbikProjectPage() {
         </figure>
         <p className="mt-2 text-[11px] font-light text-muted-foreground/60">{hero.label}</p>
 
-        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-          <a
-            href="https://kraa.io/team-test-log042"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
-          >
-            Team test log
-            <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
-          </a>
-          <a
-            href="https://www.reddit.com/r/ubikstudio/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
-          >
-            r/ubikstudio
-            <ArrowUpRight className="h-4 w-4 opacity-60" aria-hidden />
-          </a>
+        {/*
+          One control where there were two. The write-ups and the two surviving
+          public links are the same errand — where else Ubik exists — so they
+          are one menu rather than a row that grows a button per destination.
+          The items are server-rendered and handed to the menu as children.
+        */}
+        <div className="mt-5">
+          <ArchiveMenu label="Ubik archive">
+            <ArchiveMenuItems />
+          </ArchiveMenu>
         </div>
         <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
           2023–2026 · co-founded · the public site and builds are retired; the test log and the
           subreddit are what remain in the open.
         </p>
-        <PlainSummary path={PATH} />
+        <PlainSummary
+          path={PATH}
+          archive={WRITING.filter((e) => e.slug && e.type === UBIK_ARCHIVE_TYPE).map((e) => ({
+            title: e.title,
+            href: writingHref(e),
+          }))}
+        />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
           <WhatUbikWasSection />
@@ -189,6 +191,8 @@ export default function UbikProjectPage() {
           <RoleSection />
 
           <DesignBoardSection />
+
+          <ArchiveSection />
 
           <ClosedChapterSection />
         </div>
