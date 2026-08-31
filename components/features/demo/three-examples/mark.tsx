@@ -193,9 +193,26 @@ export function LiquidOrbMark({ size = 200, className }: { size?: number; classN
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const dpr = Math.min(1.5, window.devicePixelRatio || 1)
-    canvas.width = Math.round(size * dpr)
-    canvas.height = Math.round(size * dpr)
+    /* A coarse pointer is a phone, where a raymarch per pixel is the whole
+       frame budget: it keeps the old clamp and the old half rate. A fine
+       pointer has a GPU behind it and gets the display's own density. */
+    const coarse = window.matchMedia('(pointer: coarse)').matches
+    const dpr = coarse
+      ? Math.min(1.5, window.devicePixelRatio || 1)
+      : Math.min(2, window.devicePixelRatio || 1)
+
+    /* The backing store is measured from the element, not from the `size`
+       prop. CSS stretches the plate to whatever the layout hands it, so a
+       buffer sized from the prop is a small image scaled up. The prop is only
+       the first guess, for the frame before layout has a box to report. */
+    const buffer = (cssWidth: number, cssHeight: number) => ({
+      w: Math.round((cssWidth || size) * dpr),
+      h: Math.round((cssHeight || size) * dpr),
+    })
+
+    const start = buffer(canvas.clientWidth, canvas.clientHeight)
+    canvas.width = start.w
+    canvas.height = start.h
 
     const gl = canvas.getContext('webgl', {
       alpha: true,
@@ -249,13 +266,19 @@ export function LiquidOrbMark({ size = 200, className }: { size?: number; classN
     gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0)
 
     const tLoc = gl.getUniformLocation(program, 't')
-    gl.uniform2f(gl.getUniformLocation(program, 'res'), canvas.width, canvas.height)
+    const resLoc = gl.getUniformLocation(program, 'res')
+    gl.uniform2f(resLoc, canvas.width, canvas.height)
     gl.viewport(0, 0, canvas.width, canvas.height)
     gl.clearColor(0, 0, 0, 0)
 
-    const draw = (seconds: number) => {
+    /* The last time drawn, so a resize can restate the frame it interrupted
+       rather than jumping the orb to a different point in its flow. */
+    let seconds = 11.7
+
+    const draw = (at: number) => {
+      seconds = at
       gl.clear(gl.COLOR_BUFFER_BIT)
-      gl.uniform1f(tLoc, seconds)
+      gl.uniform1f(tLoc, at)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
     }
 
@@ -269,14 +292,32 @@ export function LiquidOrbMark({ size = 200, className }: { size?: number; classN
        was fronted. Mid-flow, the same frame reduced motion gets. */
     draw(11.7)
 
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduced) return
+    /* Resizing a canvas reallocates and clears the buffer, and
+       preserveDrawingBuffer does not survive that, so every resize redraws on
+       the spot. A plate that is paused offscreen would otherwise be blank when
+       it came back. A zero box is a hidden copy of the plate (the grid and the
+       deck each render one) and is not worth a frame. */
+    const resizer = new ResizeObserver((entries) => {
+      const box = entries[0]?.contentRect
+      if (!box) return
+      const next = buffer(box.width, box.height)
+      if (next.w < 1 || next.h < 1) return
+      if (next.w === canvas.width && next.h === canvas.height) return
+      canvas.width = next.w
+      canvas.height = next.h
+      gl.viewport(0, 0, next.w, next.h)
+      gl.uniform2f(resLoc, next.w, next.h)
+      draw(seconds)
+    })
+    resizer.observe(canvas)
 
-    /* Half rate. This marches a distance field per pixel rather than pushing
-       a few thousand vertices, and the orb's motion is slow enough that the
-       difference is invisible at plate size — where the saved milliseconds,
-       across a grid of plates, are not. */
-    const STEP_MS = 1000 / 30
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduced) return () => resizer.disconnect()
+
+    /* Half rate on a phone only. This marches a distance field per pixel
+       rather than pushing a few thousand vertices, which is worth throttling
+       where the GPU is small; on a desktop it reads as a choppy card. */
+    const STEP_MS = coarse ? 1000 / 30 : 0
 
     let raf = 0
     let visible = true
@@ -302,6 +343,7 @@ export function LiquidOrbMark({ size = 200, className }: { size?: number; classN
 
     return () => {
       cancelAnimationFrame(raf)
+      resizer.disconnect()
       observer.disconnect()
       document.removeEventListener('visibilitychange', sync)
     }

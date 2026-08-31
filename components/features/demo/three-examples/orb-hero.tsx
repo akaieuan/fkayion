@@ -24,6 +24,8 @@ export function OrbHero() {
   const mousePosRef = useRef({ x: 0, y: 0 })
   const hostRef = useRef<HTMLDivElement>(null)
   const [inView, setInView] = useState(true)
+  const [narrow, setNarrow] = useState(false)
+  const [still, setStill] = useState(false)
 
   useEffect(() => {
     const el = hostRef.current
@@ -33,6 +35,47 @@ export function OrbHero() {
     })
     observer.observe(el)
     return () => observer.disconnect()
+  }, [])
+
+  /*
+   * The orb carries its own narrow path: no transmission droplets, a softer
+   * shader, half the motion. It has to be told when to take it, and the answer
+   * is a viewport query rather than a constant.
+   *
+   * Read in an effect rather than during render. The server has no viewport,
+   * so anything measured on the first pass is a hydration mismatch.
+   */
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 640px)')
+    const read = () => setNarrow(query.matches)
+    read()
+    query.addEventListener('change', read)
+    return () => query.removeEventListener('change', read)
+  }, [])
+
+  /*
+   * Reduced motion gets a still, not a paused loop: the frame loop runs long
+   * enough to put the orb on screen and then stops, which is the plates' rule
+   * applied to a scene that cannot draw itself without a frame.
+   *
+   * The wait is on the orb's own chunk rather than on a timer. It arrives
+   * after the canvas, and stopping before it mounts would ship an empty frame.
+   */
+  useEffect(() => {
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    let raf = 0
+    let live = true
+    import('@/components/features/demo/three-examples/liquid-morph-orb').then(() => {
+      if (!live) return
+      // One frame to mount the orb, the next to render it, then hold that.
+      raf = requestAnimationFrame(() => {
+        raf = requestAnimationFrame(() => setStill(true))
+      })
+    })
+    return () => {
+      live = false
+      cancelAnimationFrame(raf)
+    }
   }, [])
 
   const handlePointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
@@ -52,8 +95,8 @@ export function OrbHero() {
         camera={{ position: [0, 0, 6], fov: 45 }}
         style={{ width: '100%', height: '100%' }}
         gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0 }}
-        dpr={[1, 1.5]}
-        frameloop={inView ? 'always' : 'never'}
+        dpr={[1, 2]}
+        frameloop={inView && !still ? 'always' : 'never'}
         performance={{ min: 0.5 }}
       >
         <ambientLight intensity={0.15} />
@@ -68,7 +111,7 @@ export function OrbHero() {
           isHovered={true}
           onHover={() => {}}
           mousePosRef={mousePosRef}
-          narrowViewport={false}
+          narrowViewport={narrow}
         />
       </Canvas>
     </div>
