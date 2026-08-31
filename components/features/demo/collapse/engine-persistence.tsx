@@ -1,4 +1,4 @@
-import { code } from '@/components/features/demo/collapse/chrome'
+import { code } from '@/components/features/demo/collapse/shared'
 
 /** Engine & persistence. Moved verbatim from app/demo/collapse/page.tsx. */
 export function EnginePersistenceSection() {

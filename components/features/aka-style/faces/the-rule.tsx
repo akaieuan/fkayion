@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { label, card as cell } from '@/components/features/aka-style/chrome'
+import { label, card as cell } from '@/components/features/aka-style/shared'
 
 /** The rule: when a mark is allowed to have a face. Moved verbatim from app/aka-style/faces/page.tsx. */
 export function TheRuleSection() {

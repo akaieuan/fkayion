@@ -1,7 +1,7 @@
 // The token-table primitives the foundations sections render with. Moved
 // verbatim from app/aka-style/foundations/page.tsx.
 
-import { label } from '@/components/features/aka-style/chrome'
+import { label } from '@/components/features/aka-style/shared'
 
 /** A row in a token table: name, live swatch or bar, and the literal value. */
 export function Row({

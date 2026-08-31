@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { kicker } from '@/components/features/aka-style/chrome'
+import { kicker } from '@/components/features/aka-style/shared'
 import { RulesSection } from '@/components/features/aka-style/overview/rules'
 import { ColorSection } from '@/components/features/aka-style/overview/color'
 import { TypeSection } from '@/components/features/aka-style/overview/type'

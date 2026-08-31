@@ -1,5 +1,5 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { kicker, label, codeChip as codeCls, card as cell } from '@/components/features/aka-style/chrome'
+import { kicker, label, codeChip as codeCls, card as cell } from '@/components/features/aka-style/shared'
 
 /** Entrance: once, shimmer, still. Moved verbatim from app/aka-style/faces/page.tsx. */
 export function EntranceSection() {

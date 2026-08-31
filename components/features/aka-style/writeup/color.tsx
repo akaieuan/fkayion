@@ -1,5 +1,5 @@
 import { SWATCHES, ACCENTS } from '@/lib/aka-style'
-import { MEASURE, kicker, sectionH, card } from '@/components/features/aka-style/writeup/chrome'
+import { MEASURE, kicker, sectionH, card } from '@/components/features/aka-style/writeup/shared'
 
 /** Color: the live tokens as swatches, and the accent set the engines carry. */
 export function Color() {

@@ -1,4 +1,4 @@
-import type { CardArt } from '@/components/replicas/ubik/card-art'
+import type { CardArt } from '@/components/product-replicas/ubik/card-art'
 
 /**
  * The 2026 build, recorded.

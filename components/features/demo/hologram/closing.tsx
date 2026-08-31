@@ -1,4 +1,4 @@
-import { code } from '@/components/features/demo/hologram/chrome'
+import { code } from '@/components/features/demo/hologram/shared'
 
 /** The closing card: why it's different. Moved verbatim from app/demo/hologram/page.tsx. */
 export function HologramClosing() {

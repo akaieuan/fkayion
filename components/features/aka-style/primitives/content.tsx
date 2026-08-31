@@ -1,4 +1,4 @@
-import { kicker, label } from '@/components/features/aka-style/chrome'
+import { kicker, label } from '@/components/features/aka-style/shared'
 import { Spec } from '@/components/features/aka-style/spec'
 
 /** Content: code, lists, tables, media frames, the section header. Moved verbatim from app/aka-style/primitives/page.tsx. */

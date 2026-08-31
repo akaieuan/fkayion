@@ -1,4 +1,4 @@
-import { h2 } from '@/components/features/demo/music-analysis-chat/chrome'
+import { h2 } from '@/components/features/demo/music-analysis-chat/shared'
 
 /** The rule the fixture enforces. Moved verbatim from app/demo/music-analysis-chat/page.tsx. */
 export function FixtureRuleSection() {

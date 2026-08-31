@@ -1,4 +1,4 @@
-import { kicker, label, codeChip as code, card as cardCls } from '@/components/features/aka-style/chrome'
+import { kicker, label, codeChip as code, card as cardCls } from '@/components/features/aka-style/shared'
 
 /** Type: the scale, one specimen per step. Moved verbatim from app/aka-style/page.tsx. */
 export function TypeSection() {

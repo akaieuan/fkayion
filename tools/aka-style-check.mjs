@@ -64,7 +64,7 @@ const ART_TREES = ['components/features/visualizer/']
  * shared vocabulary in components/ui, the sections, and the tokens themselves.
  */
 const EXCLUDE = [
-  'components/replicas/', // embedded replicas of other products' UIs
+  'components/product-replicas/', // embedded replicas of other products' UIs
   'app/demo/bodylog/v1/', // the v1 exploration, in its own palette
   'app/demo/music-analysis-chat/app/', // the running demo, not the write-up
   'app/Visualizer-Eden/', // a full app route with its own surface

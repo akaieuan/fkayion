@@ -1,5 +1,5 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { kicker, label, mono, card as cell } from '@/components/features/aka-style/chrome'
+import { kicker, label, mono, card as cell } from '@/components/features/aka-style/shared'
 
 /** The akaBuild mark: a disc with aka inside, at four resolutions. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function TheMarkSection() {

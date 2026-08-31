@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { WIDGET_REGISTRY, WIDGET_GROUPS } from '@/components/replicas/hitl-ai-widgets/registry';
-import { MacTitleBar } from '@/components/replicas/hitl-ai/MacTitleBar';
+import { WIDGET_REGISTRY, WIDGET_GROUPS } from '@/components/product-replicas/hitl-ai-widgets/registry';
+import { MacTitleBar } from '@/components/product-replicas/hitl-ai/MacTitleBar';
 
 type Size = 'xs' | 'sm' | 'md' | 'lg';
 

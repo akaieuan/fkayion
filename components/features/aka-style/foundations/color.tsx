@@ -1,4 +1,4 @@
-import { kicker, label, card as cardCls } from '@/components/features/aka-style/chrome'
+import { kicker, label, card as cardCls } from '@/components/features/aka-style/shared'
 import { Row, Table } from '@/components/features/aka-style/foundations/token-table'
 
 // Foundations sets its inline code chip a half point smaller than the shared

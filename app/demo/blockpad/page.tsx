@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { DemoImage } from '@/components/ui/demo-image'
 import { BlockpadMark } from '@/components/ui/blockpad-mark'
 import { PlainSummary } from '@/components/ui/plain-summary'
-import { PATH } from '@/components/features/demo/blockpad/chrome'
+import { PATH } from '@/components/features/demo/blockpad/shared'
 import { WhySection } from '@/components/features/demo/blockpad/why'
 import { WhereItCameFromSection } from '@/components/features/demo/blockpad/where-it-came-from'
 import { PayloadSection } from '@/components/features/demo/blockpad/payload'
@@ -22,7 +22,7 @@ import { WhyItMattersSection } from '@/components/features/demo/blockpad/why-it-
 
 const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
 
-export { metadata } from '@/components/features/demo/blockpad/chrome'
+export { metadata } from '@/components/features/demo/blockpad/shared'
 
 export default function BlockpadPage() {
   return (

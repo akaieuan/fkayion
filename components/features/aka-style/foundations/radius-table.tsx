@@ -1,4 +1,4 @@
-import { kicker, card as cardCls } from '@/components/features/aka-style/chrome'
+import { kicker, card as cardCls } from '@/components/features/aka-style/shared'
 
 // Foundations sets its inline code chip a half point smaller than the shared
 // codeChip, so the string stays local to this page rather than moving to chrome.ts.

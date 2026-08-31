@@ -1,4 +1,4 @@
-import { skills } from '@/components/features/demo/blenderpipeline/chrome'
+import { skills } from '@/components/features/demo/blenderpipeline/shared'
 
 /** How I describe the skill set. Moved verbatim from app/demo/blenderpipeline/page.tsx. */
 export function SkillSetSection() {

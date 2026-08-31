@@ -1,4 +1,4 @@
-import { extLink, PHILOSOPHY } from '@/components/features/demo/null-browser/chrome'
+import { extLink, PHILOSOPHY } from '@/components/features/demo/null-browser/shared'
 
 /** It had AI, and I removed it. Moved verbatim from app/demo/null-browser/page.tsx. */
 export function AiRemovalSection() {

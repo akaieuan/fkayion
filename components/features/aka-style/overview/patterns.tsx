@@ -1,5 +1,5 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { kicker, label, card as cardCls } from '@/components/features/aka-style/chrome'
+import { kicker, label, card as cardCls } from '@/components/features/aka-style/shared'
 
 /** Patterns: compositions that repeat. Moved verbatim from app/aka-style/page.tsx. */
 export function PatternsSection() {

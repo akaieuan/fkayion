@@ -1,5 +1,5 @@
 import { ArrowUpRight } from 'lucide-react'
-import { CONTACT } from '@/components/features/demo/circleheads/chrome'
+import { CONTACT } from '@/components/features/demo/circleheads/shared'
 
 /** The working-together card. Moved verbatim from app/demo/circleheads/page.tsx. */
 export function WorkingTogetherSection() {

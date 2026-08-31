@@ -1,6 +1,6 @@
 // Moved verbatim from app/aka-style/primitives/page.tsx.
 
-import { label } from '@/components/features/aka-style/chrome'
+import { label } from '@/components/features/aka-style/shared'
 
 /**
  * A spec block: the live primitive on the left, the exact class string under it.

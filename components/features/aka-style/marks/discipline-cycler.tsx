@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { AkaMark } from '@/components/features/brand/aka-mark'
-import { kicker, mono, card as cell } from '@/components/features/aka-style/chrome'
+import { kicker, mono, card as cell } from '@/components/features/aka-style/shared'
 
 /** Derived engine: AkaMark, the discipline cycler. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function DisciplineCyclerSection() {

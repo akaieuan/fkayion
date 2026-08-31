@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { Section, Card } from '@/components/features/demo/hitl-ai/sheet/chrome';
+import { Section, Card } from '@/components/features/demo/hitl-ai/sheet/shared';
 
 // ─── Design tokens ─────────────────────────────────────────────────────────────
 

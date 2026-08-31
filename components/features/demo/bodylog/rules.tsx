@@ -1,4 +1,4 @@
-import { label } from '@/components/features/demo/bodylog/chrome'
+import { label } from '@/components/features/demo/bodylog/shared'
 
 /** The rules that settle design arguments, straight from the design doc. */
 const rules = [

@@ -1,4 +1,4 @@
-import { UbikCanvasViewer } from '@/components/replicas/ubik/canvas-viewer'
+import { UbikCanvasViewer } from '@/components/product-replicas/ubik/canvas-viewer'
 import { WAYPOINTS } from '@/lib/ubik-canvas'
 
 /** The design board. Moved verbatim from app/demo/ubik/page.tsx. */

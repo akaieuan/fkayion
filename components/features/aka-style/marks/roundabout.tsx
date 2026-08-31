@@ -1,5 +1,5 @@
 import { PixelRoundabout } from '@/components/features/brand/pixel-roundabout'
-import { kicker, mono, card as cell } from '@/components/features/aka-style/chrome'
+import { kicker, mono, card as cell } from '@/components/features/aka-style/shared'
 
 /** Derived engine: PixelRoundabout, a simulation as a mark. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function RoundaboutSection() {

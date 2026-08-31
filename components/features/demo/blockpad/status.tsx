@@ -1,4 +1,4 @@
-import { label } from '@/components/features/demo/blockpad/chrome'
+import { label } from '@/components/features/demo/blockpad/shared'
 
 const done = [
   'Menu bar item, no dock icon, two hotkey toggles, persistent resizable canvas',

@@ -1,4 +1,4 @@
-import { kicker, label } from '@/components/features/aka-style/chrome'
+import { kicker, label } from '@/components/features/aka-style/shared'
 
 /** Reference: the full PixelHead prop table. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function PropsSection() {

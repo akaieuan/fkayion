@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import { link, h2 } from '@/components/features/demo/how-i-work/chrome'
+import { link, h2 } from '@/components/features/demo/how-i-work/shared'
 
 /** Where that lands now. Moved verbatim from app/demo/how-i-work/page.tsx. */
 export function WhereThatLandsSection() {

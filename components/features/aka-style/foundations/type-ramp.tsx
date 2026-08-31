@@ -1,4 +1,4 @@
-import { kicker, label, card as cardCls } from '@/components/features/aka-style/chrome'
+import { kicker, label, card as cardCls } from '@/components/features/aka-style/shared'
 
 /** Type: the ramp. Moved verbatim from app/aka-style/foundations/page.tsx. */
 export function TypeRampSection() {

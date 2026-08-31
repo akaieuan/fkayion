@@ -1,6 +1,6 @@
 import { LoopVideo } from '@/components/ui/loop-video'
-import { UbikCardArt } from '@/components/replicas/ubik/card-art'
-import type { Demo } from '@/components/features/demo/ubik/chrome'
+import { UbikCardArt } from '@/components/product-replicas/ubik/card-art'
+import type { Demo } from '@/components/features/demo/ubik/shared'
 
 const microLabel =
   'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'

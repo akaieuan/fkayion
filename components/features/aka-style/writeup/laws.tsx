@@ -1,5 +1,5 @@
 import { LAWS } from '@/lib/aka-style'
-import { MEASURE, kicker, sectionH, card } from '@/components/features/aka-style/writeup/chrome'
+import { MEASURE, kicker, sectionH, card } from '@/components/features/aka-style/writeup/shared'
 
 /** The rules: seven constraints, each a card, from the same list /aka-style reads. */
 export function Laws() {

@@ -1,4 +1,4 @@
-import { MEASURE, kicker, sectionH, card } from '@/components/features/aka-style/writeup/chrome'
+import { MEASURE, kicker, sectionH, card } from '@/components/features/aka-style/writeup/shared'
 
 /*
  * The type scale, shown at the sizes it actually ships at.

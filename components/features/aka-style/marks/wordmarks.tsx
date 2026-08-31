@@ -1,5 +1,5 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { kicker, label, mono, card as cell } from '@/components/features/aka-style/chrome'
+import { kicker, label, mono, card as cell } from '@/components/features/aka-style/shared'
 
 /** Wordmarks: mask-drawn lettering. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function WordmarksSection() {

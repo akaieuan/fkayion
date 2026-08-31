@@ -1,6 +1,6 @@
 import { JsonLd } from '@/components/seo/json-ld'
 import { demoSchema } from '@/lib/demo-seo'
-import { label, code, PATH, metadata } from '@/components/features/demo/blockpad/chrome'
+import { label, code, PATH, metadata } from '@/components/features/demo/blockpad/shared'
 
 const tools: [string, string][] = [
   ['1 – 0', 'Tools, left to right along the dock'],

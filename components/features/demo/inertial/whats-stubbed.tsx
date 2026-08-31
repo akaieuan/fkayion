@@ -1,4 +1,4 @@
-import { codeChip } from '@/components/features/demo/inertial/chrome'
+import { codeChip } from '@/components/features/demo/inertial/shared'
 
 /** What's stubbed (deliberately). Moved verbatim from app/demo/inertial/page.tsx. */
 export function WhatsStubbedSection() {

@@ -1,5 +1,5 @@
 import { DemoImage } from '@/components/ui/demo-image'
-import { label, code } from '@/components/features/demo/blockpad/chrome'
+import { label, code } from '@/components/features/demo/blockpad/shared'
 
 /**
  * Straight from the README's table, measured on the scene shown above it.

@@ -1,4 +1,4 @@
-import { h2 } from '@/components/features/demo/music-analysis-chat/chrome'
+import { h2 } from '@/components/features/demo/music-analysis-chat/shared'
 
 /** Four surfaces, one set of blocks. Moved verbatim from app/demo/music-analysis-chat/page.tsx. */
 export function SurfacesSection() {

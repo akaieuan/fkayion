@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { link, h2 } from '@/components/features/demo/how-i-work/chrome'
+import { link, h2 } from '@/components/features/demo/how-i-work/shared'
 
 /** Three and a half years of it at Ubik. Moved verbatim from app/demo/how-i-work/page.tsx. */
 export function UbikSection() {

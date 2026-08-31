@@ -1,5 +1,5 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { kicker, label, card as cell } from '@/components/features/aka-style/chrome'
+import { kicker, label, card as cell } from '@/components/features/aka-style/shared'
 
 /** Variant: negative and figure. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function VariantSection() {

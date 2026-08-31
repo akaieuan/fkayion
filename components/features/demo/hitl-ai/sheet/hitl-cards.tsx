@@ -1,5 +1,5 @@
-import { HitlCard, DEMO_HITL_CARDS } from '@/components/replicas/hitl-ai/HitlCard';
-import { Section, Card } from '@/components/features/demo/hitl-ai/sheet/chrome';
+import { HitlCard, DEMO_HITL_CARDS } from '@/components/product-replicas/hitl-ai/HitlCard';
+import { Section, Card } from '@/components/features/demo/hitl-ai/sheet/shared';
 
 // ─── HITL Card variants ───────────────────────────────────────────────────────
 

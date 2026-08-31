@@ -1,4 +1,4 @@
-import { codeChip } from '@/components/features/demo/inertial/chrome'
+import { codeChip } from '@/components/features/demo/inertial/shared'
 
 /** What this is NOT. Moved verbatim from app/demo/inertial/page.tsx. */
 export function NotSection() {

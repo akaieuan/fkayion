@@ -1,4 +1,4 @@
-import { kicker, card as cardCls } from '@/components/features/aka-style/chrome'
+import { kicker, card as cardCls } from '@/components/features/aka-style/shared'
 import { Row, Table } from '@/components/features/aka-style/foundations/token-table'
 
 /** Motion: timings and the rule. Moved verbatim from app/aka-style/foundations/page.tsx. */

@@ -1,4 +1,4 @@
-import { code, extLink, SECURITY } from '@/components/features/demo/null-browser/chrome'
+import { code, extLink, SECURITY } from '@/components/features/demo/null-browser/shared'
 
 /** The engineering worth pointing at. Moved verbatim from app/demo/null-browser/page.tsx. */
 export function EngineeringSection() {

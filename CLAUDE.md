@@ -27,7 +27,7 @@ mechanically detectable:
 
 Law 08 is not mechanically checkable and is the one to hold yourself to by
 hand: anything scroll-linked or animated writes a CSS variable or a data
-attribute, never React state. `components/features/demo/cover-flow.tsx` and
+attribute, never React state. `components/features/demo/cover-flow/cover-flow.tsx` and
 `components/ui/reveal.tsx` are the two worked examples.
 
 Art-layer files are exempt and listed in the script: the canvas engines, the

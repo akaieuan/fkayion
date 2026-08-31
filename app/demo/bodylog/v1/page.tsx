@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { Inter } from 'next/font/google'
 import { ArrowLeft } from 'lucide-react'
-import { Prototype } from '@/components/replicas/bodylog-v1/prototype'
-import '@/components/replicas/bodylog-v1/v1.css'
+import { Prototype } from '@/components/product-replicas/bodylog-v1/prototype'
+import '@/components/product-replicas/bodylog-v1/v1.css'
 import { demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
 

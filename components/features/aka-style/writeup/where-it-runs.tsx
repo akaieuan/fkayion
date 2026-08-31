@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { USAGE } from '@/lib/aka-style'
-import { kicker, sectionH, tile } from '@/components/features/aka-style/writeup/chrome'
+import { kicker, sectionH, tile } from '@/components/features/aka-style/writeup/shared'
 
 /** Where it runs: the repos carrying the same tokens, internal and out. */
 export function WhereItRuns() {

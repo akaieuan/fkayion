@@ -1,4 +1,4 @@
-import { kicker, label } from '@/components/features/aka-style/chrome'
+import { kicker, label } from '@/components/features/aka-style/shared'
 import { SWATCHES as swatches, ACCENTS as accents } from '@/lib/aka-style'
 
 /** Color: the token swatches and the accent set. Moved verbatim from app/aka-style/page.tsx. */

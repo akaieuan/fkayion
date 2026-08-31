@@ -1,4 +1,4 @@
-import { code } from '@/components/features/demo/null-browser/chrome'
+import { code } from '@/components/features/demo/null-browser/shared'
 
 /** Where it is. Moved verbatim from app/demo/null-browser/page.tsx. */
 export function WhereItIsSection() {

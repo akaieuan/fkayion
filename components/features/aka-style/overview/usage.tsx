@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import { kicker } from '@/components/features/aka-style/chrome'
+import { kicker } from '@/components/features/aka-style/shared'
 import { USAGE as usage } from '@/lib/aka-style'
 
 /** Where it runs: the repos carrying the system. Moved verbatim from app/aka-style/page.tsx. */

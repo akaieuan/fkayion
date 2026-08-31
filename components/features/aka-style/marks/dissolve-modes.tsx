@@ -1,5 +1,5 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { kicker, label } from '@/components/features/aka-style/chrome'
+import { kicker, label } from '@/components/features/aka-style/shared'
 
 /** Motion: the four dissolve modes. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function DissolveModesSection() {

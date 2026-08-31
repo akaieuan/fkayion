@@ -1,5 +1,5 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { kicker, mono, codeChip as codeCls } from '@/components/features/aka-style/chrome'
+import { kicker, mono, codeChip as codeCls } from '@/components/features/aka-style/shared'
 
 /** The full expression table lives in EXPR (pixel-head.tsx) — 26 slots. */
 const FACE_COUNT = 26

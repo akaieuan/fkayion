@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { PlainSummary } from '@/components/ui/plain-summary'
-import { PATH } from '@/components/features/demo/akavsts/chrome'
+import { PATH } from '@/components/features/demo/akavsts/shared'
 import { HowTheseGetMadeSection } from '@/components/features/demo/akavsts/how-these-get-made'
 import { PluginsSection } from '@/components/features/demo/akavsts/plugins'
 
-export { metadata } from '@/components/features/demo/akavsts/chrome'
+export { metadata } from '@/components/features/demo/akavsts/shared'
 
 export default function AkaVstsPage() {
   return (

@@ -1,5 +1,5 @@
 import { PixelRoundabout } from '@/components/features/brand/pixel-roundabout'
-import { h2 } from '@/components/features/demo/how-i-work/chrome'
+import { h2 } from '@/components/features/demo/how-i-work/shared'
 
 /** Brooklyn, and a large sheet of paper. Moved verbatim from app/demo/how-i-work/page.tsx. */
 export function BrooklynSection() {

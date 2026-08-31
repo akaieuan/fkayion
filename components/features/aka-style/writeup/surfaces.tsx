@@ -1,5 +1,5 @@
 import { SURFACES } from '@/lib/aka-style'
-import { MEASURE, kicker, sectionH } from '@/components/features/aka-style/writeup/chrome'
+import { MEASURE, kicker, sectionH } from '@/components/features/aka-style/writeup/shared'
 
 /** Surfaces: the raised and recessed material, rendered by its own definition. */
 export function Surfaces() {

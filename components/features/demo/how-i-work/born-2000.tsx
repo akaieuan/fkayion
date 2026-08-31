@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { link, h2 } from '@/components/features/demo/how-i-work/chrome'
+import { link, h2 } from '@/components/features/demo/how-i-work/shared'
 
 /** A 2000 baby, raised on the future. Moved verbatim from app/demo/how-i-work/page.tsx. */
 export function Born2000Section() {

@@ -1,5 +1,5 @@
 import { DemoVideo } from '@/components/ui/demo-video'
-import type { Demo } from '@/components/features/demo/ubik/chrome'
+import type { Demo } from '@/components/features/demo/ubik/shared'
 
 /**
  * The 2025 build, at full length.

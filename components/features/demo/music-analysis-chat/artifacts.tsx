@@ -1,12 +1,12 @@
-import { ART } from '@/components/replicas/music-chat-comp/data/artists'
-import { POSTS, CREATORS } from '@/components/replicas/music-chat-comp/data/social'
-import { RStats } from '@/components/replicas/music-chat-comp/blocks/RStats'
-import { RChart } from '@/components/replicas/music-chat-comp/blocks/RChart'
-import { RComp } from '@/components/replicas/music-chat-comp/blocks/RComp'
-import { RCreators } from '@/components/replicas/music-chat-comp/blocks/RCreators'
-import { REmail } from '@/components/replicas/music-chat-comp/blocks/REmail'
-import { RSocialEmbed } from '@/components/replicas/music-chat-comp/blocks/RSocialEmbed'
-import { kicker } from '@/components/features/demo/music-analysis-chat/chrome'
+import { ART } from '@/components/product-replicas/music-chat-comp/data/artists'
+import { POSTS, CREATORS } from '@/components/product-replicas/music-chat-comp/data/social'
+import { RStats } from '@/components/product-replicas/music-chat-comp/blocks/RStats'
+import { RChart } from '@/components/product-replicas/music-chat-comp/blocks/RChart'
+import { RComp } from '@/components/product-replicas/music-chat-comp/blocks/RComp'
+import { RCreators } from '@/components/product-replicas/music-chat-comp/blocks/RCreators'
+import { REmail } from '@/components/product-replicas/music-chat-comp/blocks/REmail'
+import { RSocialEmbed } from '@/components/product-replicas/music-chat-comp/blocks/RSocialEmbed'
+import { kicker } from '@/components/features/demo/music-analysis-chat/shared'
 
 /**
  * The write-up reaches past the article's measure for the specimens, the way

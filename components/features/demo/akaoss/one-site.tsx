@@ -1,4 +1,4 @@
-import { SITE } from '@/components/features/demo/akaoss/chrome'
+import { SITE } from '@/components/features/demo/akaoss/shared'
 
 /** One site, one source of truth. Moved verbatim from app/demo/akaoss/page.tsx. */
 export function OneSiteSection() {

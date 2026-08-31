@@ -1,5 +1,5 @@
 import { BlockpadMark } from '@/components/ui/blockpad-mark'
-import { label, code } from '@/components/features/demo/blockpad/chrome'
+import { label, code } from '@/components/features/demo/blockpad/shared'
 
 /** The mark is the operation. Moved verbatim from app/demo/blockpad/page.tsx. */
 export function MarkSection() {

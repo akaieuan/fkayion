@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { kicker } from '@/components/features/aka-style/chrome'
+import { kicker } from '@/components/features/aka-style/shared'
 import { Spec } from '@/components/features/aka-style/spec'
 
 /** Card: the project plate, reading ink, and the reveal. Moved verbatim from app/aka-style/primitives/page.tsx. */

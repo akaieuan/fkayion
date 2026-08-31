@@ -1,6 +1,6 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
 import { MARK_FAMILY } from '@/lib/aka-style'
-import { MEASURE, kicker, sectionH, card } from '@/components/features/aka-style/writeup/chrome'
+import { MEASURE, kicker, sectionH, card } from '@/components/features/aka-style/writeup/shared'
 
 /** Marks: the family the one canvas engine draws, each rendered live. */
 export function Marks() {

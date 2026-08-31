@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { MEASURE, well } from '@/components/features/aka-style/writeup/chrome'
+import { MEASURE, well } from '@/components/features/aka-style/writeup/shared'
 
 const linkMuted =
   'text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground'

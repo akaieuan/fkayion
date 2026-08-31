@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { kicker, sectionH } from '@/components/features/aka-style/writeup/chrome'
+import { kicker, sectionH } from '@/components/features/aka-style/writeup/shared'
 
 const link =
   'text-[oklch(0.4_0.08_152.2)] underline decoration-border underline-offset-[3px] transition-colors hover:text-[oklch(0.32_0.085_152)] dark:text-[oklch(0.707_0.108_152.216)] dark:hover:text-[oklch(0.78_0.1_152)]'

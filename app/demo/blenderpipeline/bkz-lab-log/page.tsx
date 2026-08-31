@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { LAB_ENTRIES } from '@/components/replicas/bkz-lab-log/entries'
+import { LAB_ENTRIES } from '@/components/product-replicas/bkz-lab-log/entries'
 import { JsonLd, breadcrumbSchema, collectionSchema } from '@/components/seo/json-ld'
 
 /**

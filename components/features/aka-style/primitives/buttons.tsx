@@ -1,5 +1,5 @@
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
-import { kicker } from '@/components/features/aka-style/chrome'
+import { kicker } from '@/components/features/aka-style/shared'
 import { Spec } from '@/components/features/aka-style/spec'
 
 /** Action: buttons, sizes, links. Moved verbatim from app/aka-style/primitives/page.tsx. */

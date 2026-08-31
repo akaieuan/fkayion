@@ -2,7 +2,7 @@ import { ArrowUpRight } from 'lucide-react'
 import { DemoImage } from '@/components/ui/demo-image'
 import { JsonLd } from '@/components/seo/json-ld'
 import { demoSchema } from '@/lib/demo-seo'
-import { microLabel, PATH, metadata } from '@/components/features/demo/akavsts/chrome'
+import { microLabel, PATH, metadata } from '@/components/features/demo/akavsts/shared'
 
 type Shot = { src: string; w: number; h: number; label: string }
 type Feature = { h: string; t: string }

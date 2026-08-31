@@ -1,4 +1,4 @@
-import { code } from '@/components/features/demo/blockpad/chrome'
+import { code } from '@/components/features/demo/blockpad/shared'
 
 /** Tech stack. Moved verbatim from app/demo/blockpad/page.tsx. */
 export function StackSection() {

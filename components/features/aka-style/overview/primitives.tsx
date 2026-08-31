@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
-import { kicker, label, card as cardCls } from '@/components/features/aka-style/chrome'
+import { kicker, label, card as cardCls } from '@/components/features/aka-style/shared'
 
 /** Primitives: controls and surfaces, with links into the specimen pages. Moved verbatim from app/aka-style/page.tsx. */
 export function PrimitivesSection() {

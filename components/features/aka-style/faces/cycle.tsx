@@ -1,5 +1,5 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { kicker, label, mono, codeChip as codeCls, card as cell } from '@/components/features/aka-style/chrome'
+import { kicker, label, mono, codeChip as codeCls, card as cell } from '@/components/features/aka-style/shared'
 
 /** In motion: the cycle, with and without startAssembled. Moved verbatim from app/aka-style/faces/page.tsx. */
 export function CycleSection() {

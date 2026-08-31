@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { MEASURE, kicker, sectionH, tile } from '@/components/features/aka-style/writeup/chrome'
+import { MEASURE, kicker, sectionH, tile } from '@/components/features/aka-style/writeup/shared'
 
 /** The deeper rooms. Secondary now: the page shows the system before it links out. */
 const ROOMS = [

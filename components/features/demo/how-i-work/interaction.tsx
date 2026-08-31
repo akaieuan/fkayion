@@ -1,4 +1,4 @@
-import { h2 } from '@/components/features/demo/how-i-work/chrome'
+import { h2 } from '@/components/features/demo/how-i-work/shared'
 
 /** Designing through interaction. Moved verbatim from app/demo/how-i-work/page.tsx. */
 export function InteractionSection() {

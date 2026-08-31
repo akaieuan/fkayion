@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Search, PenLine, Check, X, Globe, GraduationCap, ClipboardList } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Section, Card } from '@/components/features/demo/hitl-ai/sheet/chrome';
+import { Section, Card } from '@/components/features/demo/hitl-ai/sheet/shared';
 
 // ─── Batch approval ───────────────────────────────────────────────────────────
 

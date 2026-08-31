@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { PixelHead } from '@/components/features/brand/pixel-head'
 import { AkaMark } from '@/components/features/brand/aka-mark'
 import { PixelRoundabout } from '@/components/features/brand/pixel-roundabout'
-import { kicker, codeChip as code, card as cardCls } from '@/components/features/aka-style/chrome'
+import { kicker, codeChip as code, card as cardCls } from '@/components/features/aka-style/shared'
 
 /** Brand engines: the canvas marks, one grammar. Moved verbatim from app/aka-style/page.tsx. */
 export function BrandEnginesSection() {

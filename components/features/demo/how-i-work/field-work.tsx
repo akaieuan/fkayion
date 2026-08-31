@@ -1,4 +1,4 @@
-import { h2 } from '@/components/features/demo/how-i-work/chrome'
+import { h2 } from '@/components/features/demo/how-i-work/shared'
 
 /** Field work, applied to product. Moved verbatim from app/demo/how-i-work/page.tsx. */
 export function FieldWorkSection() {

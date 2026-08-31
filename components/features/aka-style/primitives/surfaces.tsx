@@ -1,5 +1,5 @@
 import { GalleryHorizontal, LayoutGrid } from 'lucide-react'
-import { kicker } from '@/components/features/aka-style/chrome'
+import { kicker } from '@/components/features/aka-style/shared'
 import { Spec } from '@/components/features/aka-style/spec'
 import { FlowSpecimen } from '@/components/features/aka-style/flow-specimen'
 import { FLOW } from '@/lib/aka-style'

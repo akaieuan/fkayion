@@ -1,4 +1,4 @@
-import { kicker } from '@/components/features/aka-style/chrome'
+import { kicker } from '@/components/features/aka-style/shared'
 
 /** Under it: how a face is drawn. Moved verbatim from app/aka-style/faces/page.tsx. */
 export function HowItWorksSection() {

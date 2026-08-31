@@ -1,4 +1,4 @@
-import { kicker, card as cardCls } from '@/components/features/aka-style/chrome'
+import { kicker, card as cardCls } from '@/components/features/aka-style/shared'
 import { LAWS as laws } from '@/lib/aka-style'
 
 /** The rules: seven laws stated as constraints. Moved verbatim from app/aka-style/page.tsx. */

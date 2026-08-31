@@ -1,4 +1,4 @@
-import { microLabel } from '@/components/features/demo/akavsts/chrome'
+import { microLabel } from '@/components/features/demo/akavsts/shared'
 
 /** How these get made. Moved verbatim from app/demo/akavsts/page.tsx. */
 export function HowTheseGetMadeSection() {

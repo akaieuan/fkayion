@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Check, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Section, Card } from '@/components/features/demo/hitl-ai/sheet/chrome';
+import { Section, Card } from '@/components/features/demo/hitl-ai/sheet/shared';
 
 // ─── Approval states ──────────────────────────────────────────────────────────
 

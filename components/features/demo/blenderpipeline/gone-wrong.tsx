@@ -1,4 +1,4 @@
-import { RenderPair } from '@/components/replicas/bkz-lab-log/prose'
+import { RenderPair } from '@/components/product-replicas/bkz-lab-log/prose'
 
 /** What that looks like when it goes wrong. Moved verbatim from app/demo/blenderpipeline/page.tsx. */
 export function GoneWrongSection() {

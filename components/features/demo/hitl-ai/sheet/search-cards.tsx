@@ -1,5 +1,5 @@
-import { SEARCH_RESULTS } from '@/components/replicas/hitl-ai/data';
-import { Section, Card } from '@/components/features/demo/hitl-ai/sheet/chrome';
+import { SEARCH_RESULTS } from '@/components/product-replicas/hitl-ai/data';
+import { Section, Card } from '@/components/features/demo/hitl-ai/sheet/shared';
 
 // ─── Search results ───────────────────────────────────────────────────────────
 

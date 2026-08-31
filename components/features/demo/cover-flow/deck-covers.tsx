@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ProjectCover } from '@/components/ui/project-cover'
+import { ProjectCover } from '@/components/features/demo/cover-flow/project-cover'
 import type { ProjectItem } from '@/components/ui/project-mark'
 import { captionFor } from '@/lib/plain-summaries'
 

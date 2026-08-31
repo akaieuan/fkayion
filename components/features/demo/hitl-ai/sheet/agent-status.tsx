@@ -1,7 +1,7 @@
 import { Check, Cpu, Loader2, SkipForward, AlertOctagon, Ban } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { AgentStatus } from '@/components/replicas/hitl-ai/types';
-import { Section, Card } from '@/components/features/demo/hitl-ai/sheet/chrome';
+import type { AgentStatus } from '@/components/product-replicas/hitl-ai/types';
+import { Section, Card } from '@/components/features/demo/hitl-ai/sheet/shared';
 
 // ─── Subagent status ──────────────────────────────────────────────────────────
 

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { DemoImage } from '@/components/ui/demo-image'
-import { link, h2 } from '@/components/features/demo/how-i-work/chrome'
+import { link, h2 } from '@/components/features/demo/how-i-work/shared'
 
 /**
  * The software I use daily because the thing I wanted did not exist.

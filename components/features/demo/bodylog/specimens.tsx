@@ -1,5 +1,5 @@
-import { BodyLogSpecimens } from '@/components/replicas/bodylog/showcase'
-import { label } from '@/components/features/demo/bodylog/chrome'
+import { BodyLogSpecimens } from '@/components/product-replicas/bodylog/showcase'
+import { label } from '@/components/features/demo/bodylog/shared'
 
 /** System specimens. Moved verbatim from app/demo/bodylog/page.tsx. */
 export function SpecimensSection() {

@@ -1,5 +1,5 @@
 import { DemoImage } from '@/components/ui/demo-image'
-import type { Shot } from '@/components/features/demo/akacovart/chrome'
+import type { Shot } from '@/components/features/demo/akacovart/shared'
 
 const microLabel =
   'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
