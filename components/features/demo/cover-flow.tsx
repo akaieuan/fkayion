@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, type ReactNode } from 'react'
 
+import { flowAt, isCovered } from '@/lib/cover-flow'
+
 /**
  * The Cover Flow deck: vertical scroll, horizontal deck.
  *
@@ -65,13 +67,6 @@ export function CoverFlow({
 
     const cards = Array.from(section.querySelectorAll<HTMLElement>('[data-flow-card]'))
 
-    /*
-     * How far from the centre a cover is still its own picture. Past this the
-     * CSS clamps every cover to the same pose, so they stack exactly and only
-     * the nearest is ever visible. Six, because that is where --df clamps.
-     */
-    const NEAR = 6
-
     /** Measured on mount and on resize, never per frame. */
     let band = 0
     let pinTop = 0
@@ -95,30 +90,12 @@ export function CoverFlow({
       const p = travel > 0 ? Math.min(Math.max((pinTop - top) / travel, 0), 1) : 0
 
       /*
-       * The detent, and it is a curve rather than a scroll behaviour.
-       *
-       * The first version of this snapped: a scroll-snap point per cover, so
-       * the browser pulled the page onto the nearest one. It worked and it felt
-       * awful — you nudge the page and it yanks itself somewhere you did not
-       * ask to go, which on the way into the deck also dragged the header off
-       * the top of the screen.
-       *
-       * Nothing has to move the scroll. What was actually wanted is that you
-       * never *see* a half-turned cover, and that is a property of the mapping
-       * from scroll to position, not of the scroll. So the gap between two
-       * covers is mostly dead: the first and last third of it hold the current
-       * cover dead centre, and the deck turns over across the middle third,
-       * smoothed at both ends so it starts and stops without a corner.
-       *
-       * Two thirds of every position you can stop at is therefore a cover,
-       * landed — and the page still scrolls exactly where you put it.
+       * The detent lives in lib/cover-flow.ts, with the culling rule, because
+       * both are arithmetic and arithmetic in here can only be checked by
+       * screenshotting a browser. Out there they have tests; the culling rule
+       * has one for the exact mistake it shipped with.
        */
-      const DEAD = 0.32
-      const raw = p * (count - 1)
-      const i = Math.min(Math.floor(raw), count - 2)
-      const f = raw - i
-      const t = Math.min(Math.max((f - DEAD) / (1 - 2 * DEAD), 0), 1)
-      const flow = i + t * t * (3 - 2 * t)
+      const flow = flowAt(p, count)
 
       if (Math.abs(flow - lastFlow) > 0.0004) {
         lastFlow = flow
@@ -130,40 +107,16 @@ export function CoverFlow({
         cards[lastIndex]?.removeAttribute('data-active')
         cards[index]?.setAttribute('data-active', '')
         /*
-         * Mark the covers that are too far out to be seen, so CSS can skip
-         * drawing their art. Everything past NEAR shares one transform and
-         * stacks behind an opaque cover, so this changes no pixels; see
-         * `.aka-flow-card[data-far]`.
+         * Mark the covers that nothing can see, so CSS can skip drawing their
+         * art. Which those are is `isCovered`, and it is subtler than it
+         * looks: see the note there about why the last cover is spared.
          *
-         * Here rather than in `apply`'s hot path: the band only moves when the
-         * centred cover changes, which is eighteen times in the length of the
+         * Here rather than in the hot path above: the set only changes when
+         * the centred cover does, which is eighteen times in the length of the
          * deck rather than once a frame.
          */
-        const last = cards.length - 1
         for (let k = 0; k < cards.length; k++) {
-          /*
-           * Everything past NEAR on a side shares one pose, so on each side
-           * only the one that paints on top of that pile is ever seen. Which
-           * one that is comes from document order, because the pile is
-           * coplanar and there is no z to separate them:
-           *
-           *   left  — the pile is the low indices, so the highest of them
-           *           wins, and that is index - NEAR, already kept.
-           *   right — the pile is the high indices, so the highest of all
-           *           wins, and that is the last cover on the page.
-           *
-           * Which is why `last` is spared. Culling by distance alone dropped
-           * it and swapped the right-hand sliver for a different project's
-           * art: 15,293 differing bytes against a capture that is otherwise
-           * identical to the byte.
-           *
-           * With it spared the remaining difference is 333 pixels along one
-           * hairline at the deck's outer edge, and it is anti-aliasing rather
-           * than art. Eleven coincident covers each contribute a partly
-           * transparent edge pixel and they accumulate; one contributes one.
-           * Side by side the two are indistinguishable.
-           */
-          const far = k < index - NEAR || (k > index + NEAR && k !== last)
+          const far = isCovered(k, index, cards.length)
           if (cards[k].hasAttribute('data-far') !== far) cards[k].toggleAttribute('data-far', far)
         }
         lastIndex = index
