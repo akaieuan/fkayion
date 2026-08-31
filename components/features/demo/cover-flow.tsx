@@ -246,11 +246,33 @@ export function CoverFlow({
   return (
     <section
       ref={sectionRef}
-      aria-label="Projects, as a deck"
+      aria-label="Projects, as a deck. Use the arrow keys to move between covers."
       className="aka-flow-section"
       style={{ ['--flow-n' as string]: count }}
     >
       <div ref={stageRef} className="aka-flow">
+        {/*
+          What to do, because nothing else on screen says it.
+
+          A deck of covers looks like something you drag sideways, or step
+          through with buttons that are not there. The one interaction it
+          actually has is the page's own scroll, which is the least
+          discoverable thing it could have been, so it is written down.
+
+          Above the deck rather than under it: an instruction you meet after
+          you have already worked it out is not an instruction.
+
+          `aria-hidden`, because it is a pointer instruction. A keyboard reader
+          gets the covers as an ordinary list of links and the arrow keys, both
+          of which the section's own label mentions.
+        */}
+        <p
+          aria-hidden
+          className="mb-4 text-center text-[11px] font-light tracking-[0.02em] text-muted-foreground/55"
+        >
+          Scroll to flip
+        </p>
+
         <div className="aka-flow-track">{covers}</div>
 
         {/*

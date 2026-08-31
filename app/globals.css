@@ -323,7 +323,7 @@ body {
   --flow-step: 30vh;
   --flow-cap: 250px;
   --flow-pin: max(104px, calc((100svh - var(--flow-band)) / 2));
-  --flow-band: calc(var(--flow-cover) * 0.75 + var(--flow-cap) + 104px);
+  --flow-band: calc(var(--flow-cover) * 0.75 + var(--flow-cap) + 132px);
   /*
    * The card material.
    *
