@@ -19,6 +19,8 @@ export type WritingEntry = {
   title: string
   type: string
   description: string
+  /** An entry the landing list skips; the page, the sitemap and the Ubik surfaces still carry it. */
+  landing?: false
 } & (
   | { href: string; slug?: never }
   | {
@@ -836,6 +838,16 @@ export const WRITING: WritingEntry[] = [
     href: 'https://www.akaoss.dev/paper',
   },
   {
+    title: 'Built to Learn, Not to Help',
+    type: 'Archive · Ubik',
+    description:
+      'Benchmarks say AI passed the experts. One prompt through Liner and Ubik Studio, side by side, says otherwise.',
+    slug: 'built-to-learn-not-to-help',
+    deck: 'Archived post from the Ubik blog on kraa.',
+    published: 'First published on kraa.io',
+    body: builtToLearn,
+  },
+  {
     title: 'Research feed',
     type: 'Ongoing · akaOSS',
     description: 'Working notes and papers as they go up, on the studio site.',
@@ -878,16 +890,6 @@ export const WRITING: WritingEntry[] = [
     body: amplifying,
   },
   {
-    title: 'Built to Learn, Not to Help',
-    type: 'Archive · Ubik',
-    description:
-      'Benchmarks say AI passed the experts. One prompt through Liner and Ubik Studio, side by side, says otherwise.',
-    slug: 'built-to-learn-not-to-help',
-    deck: 'Archived post from the Ubik blog on kraa.',
-    published: 'First published on kraa.io',
-    body: builtToLearn,
-  },
-  {
     title: 'The Ubik Portals Bible',
     type: 'Archive · Ubik',
     description:
@@ -896,8 +898,12 @@ export const WRITING: WritingEntry[] = [
     deck: 'Archived design document from Ubik Portals.',
     published: 'From the Ubik design archive',
     body: portalsBible,
+    landing: false,
   },
 ]
+
+/** The landing's shortlist: the full index minus whatever opted out of it. */
+export const LANDING_WRITING = WRITING.filter((entry) => entry.landing !== false)
 
 /** Only the pieces that live here, for the route to build itself from. */
 export const WRITING_PAGES = WRITING.flatMap((entry) =>

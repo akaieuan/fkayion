@@ -107,7 +107,14 @@ export function ArchiveMenu({
             : 'invisible -translate-y-1 opacity-0 motion-reduce:translate-y-0'
         }`}
       >
-        {children}
+        {/*
+          Keyed on the open state so the subtree is torn down and rebuilt each
+          time the menu opens. The panel is in the markup from the first byte
+          (see above), so anything inside it that animates on mount would run
+          once at page load, behind `invisible`, and never again. A remount is
+          what gives those a start.
+        */}
+        <div key={open ? 'open' : 'shut'}>{children}</div>
       </div>
     </div>
   )

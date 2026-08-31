@@ -4,7 +4,7 @@ import { CharStagger } from '@/components/trickle/char-stagger'
 import { TextReveal } from '@/components/trickle/text-reveal'
 import { InkBleed } from '@/components/trickle/ink-bleed'
 import { Shutter } from '@/components/trickle/shutter'
-import { WRITING, writingHref, type WritingEntry } from '@/lib/writing'
+import { LANDING_WRITING, writingHref, type WritingEntry } from '@/lib/writing'
 import { HoverBlurb } from './hover-blurb'
 
 /**
@@ -43,7 +43,7 @@ const REVEALS: ((text: string) => React.ReactNode)[] = [
   (text) => <Shutter>{text}</Shutter>,
 ]
 
-export function WritingList({ items = WRITING }: { items?: WritingEntry[] }) {
+export function WritingList({ items = LANDING_WRITING }: { items?: WritingEntry[] }) {
   const blurbs = items.map((row, i) => REVEALS[i % REVEALS.length](row.description))
 
   return (
