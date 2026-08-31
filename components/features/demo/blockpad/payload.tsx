@@ -41,7 +41,7 @@ export function PayloadSection() {
 
             <figure className="!mt-5 aka-card-well aka-card-media overflow-hidden">
               <DemoImage
-                src="/blockpad-payload.webp"
+                src="/blockpad/blockpad-payload.webp"
                 alt="The sketch: a right-hand filter panel with three tabs, six rows each carrying a small checkbox, and Reset and Apply in the footer"
                 width={1600}
                 height={1051}

@@ -26,19 +26,19 @@ const releases: CoverRow[] = [
     title: 'Healthiest TRX',
     meta: 'Playlist · aka ieuan',
     href: 'https://soundcloud.com/akaieuan/sets/aka-ieuan-healthiest-trx',
-    cover: '/music-healthiest-trx.webp',
+    cover: '/music-analysis-chat/music-healthiest-trx.webp',
   },
   {
     title: 'Releases, all',
     meta: 'Playlist · the whole catalogue',
     href: 'https://soundcloud.com/akaieuan/sets/aka-ieuan-releases-all',
-    cover: '/music-releases-all.webp',
+    cover: '/music-analysis-chat/music-releases-all.webp',
   },
   {
     title: 'VM4UH · Vitamixes 4 Ur Health',
     meta: 'Playlist · mixes',
     href: 'https://soundcloud.com/akaieuan/sets/vm4uh-vitamixes-4-ur-health',
-    cover: '/music-vm4uh.webp',
+    cover: '/music-analysis-chat/music-vm4uh.webp',
   },
 ]
 

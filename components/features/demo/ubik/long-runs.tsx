@@ -16,21 +16,21 @@ import type { Demo } from '@/components/features/demo/ubik/chrome'
  */
 const longRuns: Omit<Demo, 'art'>[] = [
   {
-    src: '/ubik-demo-walkthrough',
+    src: '/ubik/ubik-demo-walkthrough',
     title: 'Workspace walkthrough',
     length: '3:26',
     summary:
       'The full loop, end to end: ask the agent what’s working in a draft, and it reads the essay against the source PDFs, writes analytical notes, and queues every one for review — accepted or rejected claim by claim, with the evidence panel surfacing the supporting quotes as you go.',
   },
   {
-    src: '/ubik-demo-synthesis',
+    src: '/ubik/ubik-demo-synthesis',
     title: 'Cross-source synthesis',
     length: '2:33',
     summary:
       'Five papers @-mentioned into a single prompt — “find the commonalities” — while the Context Engine indexes the workspace live. The agent reads the peer-reviewed PDFs side by side and builds a synthesis grounded in all five sources, not a summary of one.',
   },
   {
-    src: '/ubik-demo-files',
+    src: '/ubik/ubik-demo-files',
     title: 'The workspace library',
     length: '2:36',
     summary:
@@ -56,9 +56,9 @@ const TIP_SWAP = 2.6
 
 /** The older runs are webm, from before the encoding was measured. */
 const LONG_H: Record<string, number> = {
-  '/ubik-demo-walkthrough': 774,
-  '/ubik-demo-synthesis': 934,
-  '/ubik-demo-files': 802,
+  '/ubik/ubik-demo-walkthrough': 774,
+  '/ubik/ubik-demo-synthesis': 934,
+  '/ubik/ubik-demo-files': 802,
 }
 
 /** Three longer runs from the 2025 build, in a closed disclosure. Moved verbatim from app/demo/ubik/page.tsx. */

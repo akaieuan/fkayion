@@ -5,12 +5,12 @@ const microLabel =
   'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
 
 const gallery: Shot[] = [
-  { src: '/covart-controls.webp', w: 488, h: 1100, label: 'Controls — engine, seed, palette, motion' },
-  { src: '/covart-cover-wave.webp', w: 860, h: 796, label: 'A finished Waves cover' },
-  { src: '/covart-engine-grid.webp', w: 1706, h: 937, label: 'Grid + Waves engines' },
-  { src: '/covart-engine-wave.webp', w: 1715, h: 876, label: 'Waves, up close' },
-  { src: '/covart-animate.webp', w: 394, h: 936, label: 'Animate — move the cover to a beat' },
-  { src: '/covart-audio.webp', w: 396, h: 649, label: 'Audio — react to a track' },
+  { src: '/akacovart/covart-controls.webp', w: 488, h: 1100, label: 'Controls — engine, seed, palette, motion' },
+  { src: '/akacovart/covart-cover-wave.webp', w: 860, h: 796, label: 'A finished Waves cover' },
+  { src: '/akacovart/covart-engine-grid.webp', w: 1706, h: 937, label: 'Grid + Waves engines' },
+  { src: '/akacovart/covart-engine-wave.webp', w: 1715, h: 876, label: 'Waves, up close' },
+  { src: '/akacovart/covart-animate.webp', w: 394, h: 936, label: 'Animate — move the cover to a beat' },
+  { src: '/akacovart/covart-audio.webp', w: 396, h: 649, label: 'Audio — react to a track' },
 ]
 
 /** The More views gallery strip. Moved verbatim from app/demo/akacovart/page.tsx. */

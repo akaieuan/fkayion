@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
-import circleheadsMark from '@/public/circleheads.webp'
+import circleheadsMark from '@/public/circleheads/circleheads.webp'
 import { KickerTags } from '@/components/ui/tag-row'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'

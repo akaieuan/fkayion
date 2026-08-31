@@ -376,7 +376,7 @@ export function UbikCanvasViewer({ waypoints }: { waypoints: Waypoint[] }) {
                vector asset, deliberately not run through the image optimiser:
                rasterising it would defeat the entire point of zooming in. */
             <img
-              src="/ubik-canvas.svg"
+              src="/ubik/ubik-canvas.svg"
               loading="lazy"
               alt="The Ubik Drive product design canvas: landing page explorations, user story wireframes, and review notes drawn across one board."
               draggable={false}

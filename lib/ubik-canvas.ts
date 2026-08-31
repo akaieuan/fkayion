@@ -10,7 +10,7 @@
  * viewer a finished set of targets.
  */
 
-/** Matches the viewBox of `public/ubik-canvas.svg`. */
+/** Matches the viewBox of `public/ubik/ubik-canvas.svg`. */
 export const CANVAS = { w: 72905.07, h: 82003.88 } as const
 
 export type Waypoint = {

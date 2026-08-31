@@ -15,7 +15,7 @@ import { StatusSection } from '@/components/features/demo/collapse/status'
 import { GallerySection } from '@/components/features/demo/collapse/gallery'
 import { CollapseClosing } from '@/components/features/demo/collapse/closing'
 
-const hero: Shot = { src: '/collapse-home.webp', w: 1600, h: 1000, label: 'Concepts index' }
+const hero: Shot = { src: '/collapse/collapse-home.webp', w: 1600, h: 1000, label: 'Concepts index' }
 
 const PATH = '/demo/collapse'
 

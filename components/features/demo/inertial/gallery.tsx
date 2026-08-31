@@ -1,13 +1,13 @@
 import { DemoImage } from '@/components/ui/demo-image'
 
 const gallery = [
-  { src: '/inertial-queue.webp', label: 'The queue — three decks, click to review inline; worked as decks rather than an infinite list' },
-  { src: '/inertial-pipelines.webp', label: 'Pipelines — wire up the dispatch flow: a visual canvas of the routing graph beside the active per-instance configs' },
-  { src: '/inertial-skills.webp', label: 'Skills — what the Runciter is allowed to do: catalog + per-instance registration, with per-skill status' },
-  { src: '/inertial-skills-create-sheet.webp', label: 'The create sheet — registering a new classifier with its typed signal contract' },
-  { src: '/inertial-compliance.webp', label: 'Compliance — shadow agreement between AI and human decisions, over the hash-chained audit feed' },
-  { src: '/inertial-insights.webp', label: 'Insights — per-skill calibration (Brier / ECE / agreement) against the gold set, the reviewer-tag corpus, and eval-run history; Run eval fires a live calibration pass' },
-  { src: '/inertial-dashboard-chat-panel.webp', label: 'Side panels — chat, notes, and agent activity docked edge-to-edge, so the dashboard reads as one app instead of seven views' },
+  { src: '/inertial/inertial-queue.webp', label: 'The queue — three decks, click to review inline; worked as decks rather than an infinite list' },
+  { src: '/inertial/inertial-pipelines.webp', label: 'Pipelines — wire up the dispatch flow: a visual canvas of the routing graph beside the active per-instance configs' },
+  { src: '/inertial/inertial-skills.webp', label: 'Skills — what the Runciter is allowed to do: catalog + per-instance registration, with per-skill status' },
+  { src: '/inertial/inertial-skills-create-sheet.webp', label: 'The create sheet — registering a new classifier with its typed signal contract' },
+  { src: '/inertial/inertial-compliance.webp', label: 'Compliance — shadow agreement between AI and human decisions, over the hash-chained audit feed' },
+  { src: '/inertial/inertial-insights.webp', label: 'Insights — per-skill calibration (Brier / ECE / agreement) against the gold set, the reviewer-tag corpus, and eval-run history; Run eval fires a live calibration pass' },
+  { src: '/inertial/inertial-dashboard-chat-panel.webp', label: 'Side panels — chat, notes, and agent activity docked edge-to-edge, so the dashboard reads as one app instead of seven views' },
 ]
 
 /** The reviewer surface, in frames. Moved verbatim from app/demo/inertial/page.tsx. */

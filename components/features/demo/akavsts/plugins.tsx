@@ -37,7 +37,7 @@ const plugins: Plugin[] = [
     eyebrow: 'Instrument · Acid synth + sequencer',
     tagline: 'A hypnotic-techno acid voice and 64-step P-lock sequencer in one plugin — built to be performed.',
     loadsAs: 'Loads as akaBleep.',
-    hero: { src: '/akableep-synth.webp', w: 1163, h: 556, label: 'Synth — oscillators, envelopes, ladder filter' },
+    hero: { src: '/akavsts/akableep-synth.webp', w: 1163, h: 556, label: 'Synth — oscillators, envelopes, ladder filter' },
     what: 'akaBleep is a monophonic instrument for the “bleep-bloop” lineage of hypnotic techno — the Dozzy / Surgeon / Plastikman school where one acid line, slowly mutating over sixteen bars, is the track. It folds the whole loop into one window: a voice that squelches, a sequencer that locks a different sound to every step, a patch bay to set it breathing, and a master FX chain to smear it into the room. One plugin, on one MIDI track in Ableton, that you play live.',
     features: [
       { h: 'Acid voice', t: 'Two multi-mode oscillators (saw / square / sine / FM) with sub and ring mod, summed into a tanh drive stage and a ladder filter.' },
@@ -57,10 +57,10 @@ const plugins: Plugin[] = [
    out ◀─ reverb ◀─ ping-pong delay ◀─ bitcrush ◀─ phaser ◀─ chorus`,
     tech: 'JUCE · C++17 · VST3 / AU / Standalone · macOS 11.0+ · Apple Silicon and Intel',
     gallery: [
-      { src: '/akableep-sequencer.webp', w: 1179, h: 560, label: 'Sequencer · EDIT — per-step parameter locks' },
-      { src: '/akableep-patchbay.webp', w: 1171, h: 563, label: 'Patch bay — drag-to-wire modulation' },
-      { src: '/akableep-fx.webp', w: 1173, h: 559, label: 'FX — master chain + spectrum' },
-      { src: '/akableep-presets.webp', w: 1174, h: 557, label: 'Presets — factory patch browser' },
+      { src: '/akavsts/akableep-sequencer.webp', w: 1179, h: 560, label: 'Sequencer · EDIT — per-step parameter locks' },
+      { src: '/akavsts/akableep-patchbay.webp', w: 1171, h: 563, label: 'Patch bay — drag-to-wire modulation' },
+      { src: '/akavsts/akableep-fx.webp', w: 1173, h: 559, label: 'FX — master chain + spectrum' },
+      { src: '/akavsts/akableep-presets.webp', w: 1174, h: 557, label: 'Presets — factory patch browser' },
     ],
   },
   {
@@ -74,7 +74,7 @@ const plugins: Plugin[] = [
     eyebrow: 'Instrument · Lo-fi multi-timbral synth',
     tagline: 'A 4-layer lo-fi multi-timbral synth inspired by the Waldorf Protein — stacked, split, and mangled live.',
     loadsAs: 'Loads as Enzyme in your plugin list.',
-    hero: { src: '/enzyme-layer.webp', w: 1600, h: 1131, label: 'Layer — per-layer synth voice' },
+    hero: { src: '/akavsts/enzyme-layer.webp', w: 1600, h: 1131, label: 'Layer — per-layer synth voice' },
     what: 'Enzyme reimagines the Waldorf Protein’s 8-bit tabletop character as a modern plugin: four independent layers sharing a single 8-voice pool, routed by a hardware-style Multi engine, then smeared through a switchable FX rack and a dedicated lo-fi / “sample-breaking” mangle section. The grit comes from bitcrush, sample-rate reduction, and drive waveshaping. It ships as a signed universal VST3/AU that passes Apple’s auval and drops straight into Ableton, Logic, or Bitwig — designed to be stacked, split, and mangled fast, live.',
     features: [
       { h: 'Four layers, one pool', t: 'Independent A/B/C/D layers share a single 8-voice pool with global voice-stealing — a hardware-style Multi engine, not four separate synths.' },
@@ -87,10 +87,10 @@ const plugins: Plugin[] = [
     ],
     tech: 'JUCE · C++17 · VST3 / AU / Standalone · macOS 11.0+ · Apple Silicon and Intel',
     gallery: [
-      { src: '/enzyme-multi.webp', w: 1600, h: 1127, label: 'Multi — 4-layer routing + splits' },
-      { src: '/enzyme-arp.webp', w: 1600, h: 1134, label: 'Arp — host-synced arpeggiator' },
-      { src: '/enzyme-fx.webp', w: 1600, h: 1124, label: 'FX + lo-fi / mangle' },
-      { src: '/enzyme-out.webp', w: 1600, h: 1146, label: 'Out — master + info' },
+      { src: '/akavsts/enzyme-multi.webp', w: 1600, h: 1127, label: 'Multi — 4-layer routing + splits' },
+      { src: '/akavsts/enzyme-arp.webp', w: 1600, h: 1134, label: 'Arp — host-synced arpeggiator' },
+      { src: '/akavsts/enzyme-fx.webp', w: 1600, h: 1124, label: 'FX + lo-fi / mangle' },
+      { src: '/akavsts/enzyme-out.webp', w: 1600, h: 1146, label: 'Out — master + info' },
     ],
   },
   {
@@ -104,7 +104,7 @@ const plugins: Plugin[] = [
     eyebrow: 'Instrument · Sculpting sampler',
     tagline: 'A sculpting sampler inspired by the Torso S-4 — built for live resampling and performance.',
     loadsAs: 'Loads as i4.',
-    hero: { src: '/i4-tape.webp', w: 1600, h: 951, label: 'Tape — varispeed source' },
+    hero: { src: '/akavsts/i4-tape.webp', w: 1600, h: 951, label: 'Tape — varispeed source' },
     what: 'i4 takes one sample (or sixteen) and runs it through a series of sound-sculpting engines, lets you modulate any of it, and resamples the result straight back into the instrument. Built for performance: granular textures, resonant tones, destruction, and space — all under a 4-slot modulation matrix, in Ableton or standalone. Tape is the master clip; the sixteen pads sum in right after it, so every pad runs the full chain too.',
     features: [
       { h: 'Sculpt, then resample', t: 'One sample (or sixteen pads) runs through a chain of engines and resamples straight back into the instrument — mangle your own output and play it back.' },
@@ -119,10 +119,10 @@ const plugins: Plugin[] = [
                                                                        └▶ Loop Recorder ─▶ new Pad`,
     tech: 'JUCE · C++17 · VST3 / AU / Standalone · macOS 11.0+ · Apple Silicon',
     gallery: [
-      { src: '/i4-mosaic.webp', w: 1600, h: 953, label: 'Mosaic — granular cloud' },
-      { src: '/i4-ring.webp', w: 1600, h: 952, label: 'Ring — 48-band resonator' },
-      { src: '/i4-deform.webp', w: 1600, h: 960, label: 'Deform — destruction & dynamics' },
-      { src: '/i4-vast.webp', w: 1600, h: 953, label: 'Vast — delay + reverb' },
+      { src: '/akavsts/i4-mosaic.webp', w: 1600, h: 953, label: 'Mosaic — granular cloud' },
+      { src: '/akavsts/i4-ring.webp', w: 1600, h: 952, label: 'Ring — 48-band resonator' },
+      { src: '/akavsts/i4-deform.webp', w: 1600, h: 960, label: 'Deform — destruction & dynamics' },
+      { src: '/akavsts/i4-vast.webp', w: 1600, h: 953, label: 'Vast — delay + reverb' },
     ],
   },
 ]

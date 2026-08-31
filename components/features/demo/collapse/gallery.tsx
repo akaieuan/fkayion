@@ -5,11 +5,11 @@ const microLabel =
   'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
 
 const gallery: Shot[] = [
-  { src: '/collapse-lesson.webp', w: 1600, h: 1000, label: 'Annotated lesson — hover a token to reveal the note' },
-  { src: '/collapse-grid.webp', w: 1600, h: 1000, label: 'Cross-stack grid — quantum audio encoding' },
-  { src: '/collapse-grid-vue.webp', w: 1600, h: 1000, label: 'Cross-stack grid — Next.js vs Vue reactivity' },
-  { src: '/collapse-import.webp', w: 1600, h: 1000, label: 'Notebook import — admonition prefill' },
-  { src: '/collapse-skills.webp', w: 1600, h: 1000, label: '~/.claude/skills/ directory viewer' },
+  { src: '/collapse/collapse-lesson.webp', w: 1600, h: 1000, label: 'Annotated lesson — hover a token to reveal the note' },
+  { src: '/collapse/collapse-grid.webp', w: 1600, h: 1000, label: 'Cross-stack grid — quantum audio encoding' },
+  { src: '/collapse/collapse-grid-vue.webp', w: 1600, h: 1000, label: 'Cross-stack grid — Next.js vs Vue reactivity' },
+  { src: '/collapse/collapse-import.webp', w: 1600, h: 1000, label: 'Notebook import — admonition prefill' },
+  { src: '/collapse/collapse-skills.webp', w: 1600, h: 1000, label: '~/.claude/skills/ directory viewer' },
 ]
 
 /** The More views gallery strip. Moved verbatim from app/demo/collapse/page.tsx. */

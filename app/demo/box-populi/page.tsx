@@ -62,7 +62,7 @@ export default function BoxPopuliProjectPage() {
 
         <div className="-mx-6 aka-card-well aka-card-media overflow-hidden sm:mx-0">
           <DemoImage
-            src="/box-populi-hero.webp"
+            src="/box-populi/box-populi-hero.webp"
             alt="Box Populi — hero with rotating word-cloud logo, set player, and booking CTA"
             width={1600}
             height={905}

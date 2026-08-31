@@ -70,7 +70,7 @@ export default function InertialProjectPage() {
         <div className="-mx-6 space-y-3 sm:mx-0">
           <div className="aka-card-well aka-card-media overflow-hidden">
             <DemoImage
-              src="/inertial-dashboard.webp"
+              src="/inertial/inertial-dashboard.webp"
               alt="Inertial dashboard: flag-activity heatmap, day-by-day stats grid, queue mix"
               width={1600}
               height={1000}
@@ -80,7 +80,7 @@ export default function InertialProjectPage() {
           </div>
           <div className="aka-card-well aka-card-media overflow-hidden">
             <DemoImage
-              src="/inertial-queue-review.webp"
+              src="/inertial/inertial-queue-review.webp"
               alt="A queue review session — Approve / Remove / Escalate commits the decision and every applied tag into the hash-chained audit log"
               width={1600}
               height={1000}

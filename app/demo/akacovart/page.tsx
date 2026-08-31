@@ -17,7 +17,7 @@ import { AkaCovartClosing } from '@/components/features/demo/akacovart/closing'
 
 const code = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]'
 
-const hero: Shot = { src: '/covart-splash.webp', w: 1600, h: 839, label: 'akaCOVART — a generative album-art engine' }
+const hero: Shot = { src: '/akacovart/covart-splash.webp', w: 1600, h: 839, label: 'akaCOVART — a generative album-art engine' }
 
 const PATH = '/demo/akacovart'
 

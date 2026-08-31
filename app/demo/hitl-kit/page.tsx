@@ -61,7 +61,7 @@ export default function HitlKitProjectPage() {
 
         <div className="-mx-6 aka-card-well aka-card-media overflow-hidden sm:mx-0">
           <DemoImage
-            src="/hitl-kit-hero.png"
+            src="/hitl-kit/hitl-kit-hero.png"
             alt="HITL Kit — landing preview with headline and navigation"
             width={1024}
             height={535}

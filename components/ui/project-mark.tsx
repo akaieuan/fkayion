@@ -145,8 +145,8 @@ export function ProjectMark({
   if (item.logo === 'wrdef-play')
     return (
       <PlateVideo
-        src="/wrdef-card.mp4"
-        poster="/wrdef-card-poster.webp"
+        src="/wrdef/wrdef-card.mp4"
+        poster="/wrdef/wrdef-card-poster.webp"
         label="Wrdef, mid-game: a guess resolving to green and amber tiles"
         width={900}
         height={640}

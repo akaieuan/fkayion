@@ -54,7 +54,7 @@ export default function HowIWorkPage() {
           style={{ aspectRatio: '2400 / 900' }}
         >
           <DemoImage
-            src="/how-i-work.webp"
+            src="/how-i-work/how-i-work.webp"
             alt="A painted mountain range under low cloud over an open field, broken into a shifted grid of tiles"
             width={2400}
             height={900}

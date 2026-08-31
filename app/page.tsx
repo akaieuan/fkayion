@@ -1,5 +1,5 @@
-import { HomeSection } from './sections/home-section'
-import { LinksSection } from './sections/links-section'
+import { HomeSection } from '@/components/features/landing/home-section'
+import { LinksSection } from '@/components/features/landing/links-section'
 
 import type { Metadata } from 'next'
 

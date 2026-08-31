@@ -73,7 +73,7 @@ export default function BlockpadPage() {
 
         <figure className="-mx-6 mt-10 aka-card-well aka-card-media overflow-hidden sm:mx-0">
           <DemoImage
-            src="/blockpad-hero.webp"
+            src="/blockpad/blockpad-hero.webp"
             alt="The Blockpad window: a floating canvas with a filter panel sketched on it, a collapsible inspector rail, and a tool dock along the bottom"
             width={1600}
             height={1003}

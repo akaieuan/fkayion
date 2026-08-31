@@ -29,7 +29,7 @@ const TOOLS = [
   {
     href: '/demo/akavsts',
     name: 'akaVST',
-    src: '/akableep-synth.webp',
+    src: '/akavsts/akableep-synth.webp',
     w: 1163,
     h: 556,
     alt: 'akaBleep, a synthesizer plugin with oscillators, envelopes and a ladder filter',
@@ -39,7 +39,7 @@ const TOOLS = [
   {
     href: '/demo/blockpad',
     name: 'Blockpad',
-    src: '/blockpad-hero.webp',
+    src: '/blockpad/blockpad-hero.webp',
     w: 1600,
     h: 1003,
     alt: 'Blockpad: a two-panel wireframe on the canvas, with the canvas controls, the drawing toolbar and the Copy control',
