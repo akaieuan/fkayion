@@ -7,7 +7,7 @@ import * as THREE from 'three'
 
 // Chunk-split so the three.js payload only loads on this page.
 const LiquidMorphOrb = dynamic(
-  () => import('@/components/features/home/liquid-morph-orb').then(m => ({ default: m.LiquidMorphOrb })),
+  () => import('@/components/features/demo/visualizer-eden/liquid-morph-orb').then(m => ({ default: m.LiquidMorphOrb })),
   { ssr: false }
 )
 

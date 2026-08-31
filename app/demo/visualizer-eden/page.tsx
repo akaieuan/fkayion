@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { KickerTags } from '@/components/ui/tag-row'
-import { OrbHero } from '@/components/features/demo/orb-hero'
+import { OrbHero } from '@/components/features/demo/visualizer-eden/orb-hero'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
 import { PlainSummary } from '@/components/ui/plain-summary'

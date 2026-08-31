@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import { FeaturedGrid } from '@/components/features/links/featured-grid'
-import { CoverList, type CoverRow } from '@/components/features/links/cover-list'
-import { WritingList } from '@/components/features/links/writing-list'
+import { FeaturedGrid } from '@/components/features/landing/links/featured-grid'
+import { CoverList, type CoverRow } from '@/components/features/landing/links/cover-list'
+import { WritingList } from '@/components/features/landing/links/writing-list'
 import { MEASURE } from './measure'
 
 /**
