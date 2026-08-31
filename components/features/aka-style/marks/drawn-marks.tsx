@@ -1,6 +1,6 @@
 import { BlockpadMark } from '@/components/ui/blockpad-mark'
 import { CovartMark } from '@/components/ui/covart-mark'
-import { BodyLogMark } from '@/components/demo/bodylog/bodylog-mark'
+import { BodyLogMark } from '@/components/replicas/bodylog/bodylog-mark'
 import { kicker, label, mono, card as cell } from '@/components/features/aka-style/chrome'
 
 /** Outside the engine: the three drawn marks and the palette convention. Moved verbatim from app/aka-style/marks/page.tsx. */

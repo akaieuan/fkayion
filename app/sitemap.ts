@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 import { SITE_URL } from '@/lib/site'
 import { PROJECTS } from '@/lib/projects'
 import { WRITING_PAGES } from '@/lib/writing'
-import { LAB_ENTRIES } from '@/components/demo/bkz-lab-log/entries'
+import { LAB_ENTRIES } from '@/components/replicas/bkz-lab-log/entries'
 
 /**
  * The sitemap, generated from the same data the pages are.

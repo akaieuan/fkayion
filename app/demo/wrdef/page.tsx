@@ -4,6 +4,9 @@ import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { KickerTags } from '@/components/ui/tag-row'
 import { JsonLd } from '@/components/seo/json-ld'
 import { PlainSummary } from '@/components/ui/plain-summary'
+import { WhyIBuiltItSection } from '@/components/features/demo/wrdef/why-i-built-it'
+import { TuningTheDataSection } from '@/components/features/demo/wrdef/tuning-the-data'
+import { DictionaryYouEarnSection } from '@/components/features/demo/wrdef/dictionary-you-earn'
 
 const PATH = '/demo/wrdef'
 
@@ -77,80 +80,11 @@ export default function WrdefProjectPage() {
         <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
-          <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Why I built it</h2>
-            <p>
-              I play Wordle almost every day, and sometimes I get annoyed when I beat the round but I
-              don&apos;t know the word.
-            </p>
-            <p>
-              So I built wrdef: same 5-letter guess-in-6 mechanic, but your clue is the dictionary
-              definition. Solve it and you fill in blanks in that definition for bonus points, so you
-              leave actually knowing what you just guessed.
-            </p>
-          </section>
+          <WhyIBuiltItSection />
 
-          <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
-              The interesting part: tuning the data
-            </h2>
+          <TuningTheDataSection />
 
-            <div className="space-y-3">
-              <h3 className="text-[13px] font-medium text-foreground/90">Sense ranking per word</h3>
-              <p>
-                Most words have multiple definitions: &quot;print&quot; is a verb, a noun, and a
-                photography term. I pull senses from the Wiktionary-backed dictionaryapi and tag each
-                with a <strong className="font-medium text-foreground/90">primaryRank</strong> (0 = most
-                obvious, N = most obscure). Difficulty is just a sense-rank selector: easy shows you the
-                primary meaning, hard shows the deepest one available. Same pool, different game.
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              <h3 className="text-[13px] font-medium text-foreground/90">POS-aware filtering</h3>
-              <p>
-                Interjections, prepositions, pronouns, prefixes: their definitions are circular
-                (&quot;used to express surprise&quot;) and make terrible clues. I whitelist
-                verb/noun/adjective/adverb as first-class senses and only fall back to the rest when a word
-                has nothing else.
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              <h3 className="text-[13px] font-medium text-foreground/90">
-                Bucketing by frequency × depth
-              </h3>
-              <p>
-                Every word has a corpus-occurrence score. Rare words with multiple senses get pushed to
-                hard; common words with a single obvious sense stay in easy. The difficulty filter also
-                requires a word to actually have a sense at that rank; otherwise the toggle would just be
-                theming.
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              <h3 className="text-[13px] font-medium text-foreground/90">
-                Blank selection for the bonus round
-              </h3>
-              <p>
-                The definition gets tokenized; stopwords, short words, and anything sharing a 4-character
-                prefix with the answer get dropped (no &quot;running&quot; blanks when the answer is
-                &quot;run&quot;). Remaining candidates ranked by length: longer words carry more
-                information and make the bonus feel earned rather than random.
-              </p>
-            </div>
-          </section>
-
-          <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">A dictionary you earn</h2>
-            <p>
-              Every solve is saved to <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">localStorage</code> with its definition, difficulty, solve time, score, and whether you
-              cleared the bonus. A separate <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">/urdefs</code> page builds a personal stats view off that log: win rate,
-              current/best streak, fastest solve, per-difficulty breakdown, last-12 strip. No sign-in, no
-              server. The idea is that the definitions shouldn&apos;t be disposable; you&apos;re slowly
-              building a dictionary of words you actually earned.
-            </p>
-          </section>
+          <DictionaryYouEarnSection />
         </div>
       </article>
     </div>

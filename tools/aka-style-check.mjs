@@ -45,7 +45,9 @@ const ART_LAYER = [
   // surfaces. A theme switch must not recolour a WebGL material.
   'components/features/home/liquid-morph-orb.tsx',
   'components/features/demo/orb-hero.tsx',
-  'app/demo/blockpad/page.tsx', // renders Blockpad's own wireframe palette
+  // Blockpad's own wireframe palette, which moved with its section when the
+  // page went thin. The exemption follows the colours, not the route.
+  'components/features/demo/blockpad/payload.tsx',
 ]
 
 /** Whole trees that are somebody else's surface. */
@@ -62,7 +64,7 @@ const ART_TREES = ['components/features/visualizer/']
  * shared vocabulary in components/ui, the sections, and the tokens themselves.
  */
 const EXCLUDE = [
-  'components/demo/', // embedded replicas of other products
+  'components/replicas/', // embedded replicas of other products' UIs
   'app/demo/bodylog/v1/', // the v1 exploration, in its own palette
   'app/demo/music-analysis-chat/app/', // the running demo, not the write-up
   'app/Visualizer-Eden/', // a full app route with its own surface

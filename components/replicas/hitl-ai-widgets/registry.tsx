@@ -7,10 +7,10 @@ import {
   FileText, Globe, ClipboardList, Zap, ListChecks, GraduationCap,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { HitlCard, DEMO_HITL_CARDS } from '@/components/demo/hitl-ai/HitlCard';
-import { NOTES_GROUPS } from '@/components/demo/hitl-ai/notes-shared';
-import { SEARCH_RESULTS } from '@/components/demo/hitl-ai/data';
-import type { AgentStatus } from '@/components/demo/hitl-ai/types';
+import { HitlCard, DEMO_HITL_CARDS } from '@/components/replicas/hitl-ai/HitlCard';
+import { NOTES_GROUPS } from '@/components/replicas/hitl-ai/notes-shared';
+import { SEARCH_RESULTS } from '@/components/replicas/hitl-ai/data';
+import type { AgentStatus } from '@/components/replicas/hitl-ai/types';
 
 // ─── Types ─────────────────────────────────────────────────────────────────
 

@@ -4,9 +4,11 @@ import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { KickerTags } from '@/components/ui/tag-row'
 import { JsonLd } from '@/components/seo/json-ld'
 import { PlainSummary } from '@/components/ui/plain-summary'
-
-const extLink =
-  'underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50'
+import { WhatThisIsSection } from '@/components/features/demo/eval-kit/what-this-is'
+import { WhatIBuiltSection } from '@/components/features/demo/eval-kit/what-i-built'
+import { WhyUnusualSection } from '@/components/features/demo/eval-kit/why-unusual'
+import { SkillSetSection } from '@/components/features/demo/eval-kit/skill-set'
+import { EvalKitClosing } from '@/components/features/demo/eval-kit/closing'
 
 const PATH = '/demo/eval-kit'
 
@@ -83,177 +85,15 @@ export default function EvalKitProjectPage() {
         <PlainSummary path={PATH} />
 
         <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
-          <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">What this is</h2>
-            <p>
-              eval-kit measures one thing: whether an AI agent actually helps a human do real work, as
-              judged by the human. Not whether the agent can solve a synthetic puzzle alone. Not
-              whether an LLM-judge says it did well. Whether a person, scoring step-by-step, finds it
-              useful.
-            </p>
-            <p>
-              Most eval frameworks (MMLU, SWE-bench, GAIA, AgentBench) measure autonomous task
-              completion on synthetic prompts and let an LLM grade the output. eval-kit refuses both
-              choices. The seed suite is ported from observed real workflows with real distractors:
-              future-dated papers, unverifiable claims, jobs that don&apos;t exist yet. Scores come
-              from a human reviewer using a <strong className="font-medium text-foreground/90">0-3 rubric</strong> across <strong className="font-medium text-foreground/90">five dimensions</strong> per
-              step. LLM pre-fill is allowed as a draft the human accepts or overrides; it can never
-              be the default scorer. If LLM-as-judge becomes the default, the project loses its reason
-              to exist.
-            </p>
-            <p className="text-[14px] text-muted-foreground/95">
-              The five dimensions: explainability, agency preservation, long-term capability,
-              calibration, collaborative performance.
-            </p>
-          </section>
+          <WhatThisIsSection />
 
-          <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">What I actually built</h2>
-            <ul className="list-disc space-y-2.5 pl-5 marker:text-muted-foreground/50">
-              <li>
-                A <strong className="font-medium text-foreground/85">monorepo with three published npm packages</strong> under the <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">@eval-kit</code> scope, with{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">core</code> (runtime, schema, scoring engine, agent adapters),{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">ui</code> (React primitives), and{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">seed-suite</code> (reference YAML tasks). All live on npm under the <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">latest</code> dist-tag.
-              </li>
-              <li>
-                A <strong className="font-medium text-foreground/85">Next.js dashboard</strong> that composes those primitives into a reviewer cockpit: Inbox queue with prioritized triage, run review with keyboard-first scoring, diff view across runs, in-app docs.
-              </li>
-              <li>
-                A <strong className="font-medium text-foreground/85">CLI</strong> with eight commands:{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">run</code>,{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">review</code>,{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">diff</code>,{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">report</code>,{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">init</code>,{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">preflight</code>,{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">ci</code>,{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">export</code>. Each follows the same commander pattern; new commands plug in cleanly.
-              </li>
-              <li>
-                A <strong className="font-medium text-foreground/85">YAML-defined agent profile system</strong> so contributors describe an agent (model, system prompt, tools, max iterations) without writing TypeScript. Two seed profiles ship: <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">claude-research-v1</code> and{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">claude-coding-v1</code>. Custom adapters work via an{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">--adapter ./path.js</code> escape hatch.
-              </li>
-              <li>
-                <strong className="font-medium text-foreground/85">Tiered automation that respects the human-gate.</strong> Tier 1 is deterministic auto-scoring (tool-match check, distraction heuristic). Tier 2 is optional LLM pre-fill. Claude drafts scores, the human accepts or overrides, every draft flagged{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">pre_filled: true</code>. Tier 3 is active triage that surfaces low-confidence drafts and pre-fill/auto-score disagreements first.
-              </li>
-              <li>
-                <strong className="font-medium text-foreground/85">CI integration</strong> (
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">eval-kit ci</code>
-                ) that gates merges on tier-1 regressions but never auto-fails on golden-truth scores. Those need human judgment.
-              </li>
-              <li>
-                <strong className="font-medium text-foreground/85">Training-data export</strong> (
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">eval-kit export</code>
-                ) that emits SFT pairs or DPO preference pairs from scored runs. Pre-filled scores are excluded by default.
-              </li>
-              <li>
-                <strong className="font-medium text-foreground/85">OSS hygiene the framework deserved</strong>: issue and PR templates, CODEOWNERS, SECURITY policy, branch protection requiring four CI matrix jobs to pass, four release milestones, fifteen labels, an RFC process, two release tags shipped, npm Trusted Publishing wired up.
-              </li>
-              <li>
-                A <strong className="font-medium text-foreground/85">published roadmap and RFC</strong> for v0.4 (multi-reviewer + inter-rater agreement, standalone <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">npx</code> dashboard) and v0.5 (the human-gated agent-to-agent training flywheel, RFC 0001, accepted).
-              </li>
-            </ul>
-          </section>
+          <WhatIBuiltSection />
 
-          <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Why it&apos;s unusual</h2>
-            <p>Three things put this outside the eval-framework norm.</p>
-            <div className="space-y-3">
-              <h3 className="text-[13px] font-medium text-foreground/90">It&apos;s a UI, not a leaderboard</h3>
-              <p>
-                The product is the scoring cockpit: the keyboard-first inbox where a human reviewer
-                can move through fifty steps in an afternoon. Aggregate scores exist but aren&apos;t
-                published; the project explicitly forbids benchmark marketing because the differentiator
-                is qualitative collaborative performance, not a number.
-              </p>
-            </div>
-            <div className="space-y-3">
-              <h3 className="text-[13px] font-medium text-foreground/90">It refuses LLM-as-judge as the default</h3>
-              <p>
-                Every other eval framework I looked at lets an LLM grade the output because human
-                scoring is expensive. eval-kit treats that expense as the point. If the same family
-                of model that produced the answer also grades it, the eval inherits the model&apos;s
-                blind spots. LLM-as-judge exists in the tool only as an opt-in pre-fill, and every
-                score it touches is flagged as such — so a human-scored run and an assisted one are
-                never mistaken for each other. The accepted RFC for v0.5&apos;s continuous-learning flywheel doubles down: AI
-                agents can <em>propose</em> training updates, but a human must approve each proposal
-                before it can feed an export. Auto-approval is named in the spec as a guardrail
-                violation that should fork the project, not amend it.
-              </p>
-            </div>
-            <div className="space-y-3">
-              <h3 className="text-[13px] font-medium text-foreground/90">It&apos;s pre-1.0 but ships like it isn&apos;t</h3>
-              <p>
-                v0.3.1 is published with provenance attestations, the release workflow uses{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">pnpm pack</code> +{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">npm publish</code> for OIDC trusted publishing, the <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">main</code> branch
-                requires four green CI matrix jobs before any merge, and the CHANGELOG has honest notes
-                about what worked and what fell back to a token. It looks like a 1.0 because the
-                discipline is what makes a tool depend-on-able, not the version number.
-              </p>
-            </div>
-            <p>
-              Related perspective on the same measurement wall:{' '}
-              <Link
-                href="/demo/hitl-kit"
-                className={extLink}
-              >
-                HITL Kit
-              </Link>
-              .
-            </p>
-          </section>
+          <WhyUnusualSection />
 
-          <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">How I describe the skill set</h2>
-            <p>
-              This project is the load-bearing example for how I work in TypeScript and AI
-              infrastructure right now.
-            </p>
-            <ul className="list-disc space-y-2.5 pl-5 marker:text-muted-foreground/50">
-              <li>
-                <strong className="font-medium text-foreground/85">Schema-first design.</strong> Zod schemas
-                in <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">packages/core/src/schema.ts</code> are the source of truth for every persisted shape. TS
-                types are inferred via <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">z.infer</code>. <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">parseX</code> helpers are the
-                only validation entry points. New shapes can&apos;t enter the system without going through
-                the schema.
-              </li>
-              <li>
-                <strong className="font-medium text-foreground/85">Workspace monorepo discipline.</strong> pnpm
-                workspaces, ESM-only with explicit <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">.js</code> extensions, <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">noUncheckedIndexedAccess</code> on, tsup builds, vitest
-                tests. Each package has its own <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">package.json</code>, <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">tsconfig</code>, and CI step.
-              </li>
-              <li>
-                <strong className="font-medium text-foreground/85">Anthropic SDK at production-shape.</strong> Real
-                tool-use loop with prompt caching on system + tool blocks, max-iteration guards, and a
-                structured pre-fill helper that returns a typed <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">StepScore</code> draft for human review.
-              </li>
-              <li>
-                <strong className="font-medium text-foreground/85">OSS-grade release engineering.</strong> GitHub
-                Actions matrix CI on Ubuntu and macOS across Node 20 and 22. Trusted Publishing (OIDC)
-                with provenance attestations; the failure mode where it didn&apos;t match per-package
-                permissions got documented in the CHANGELOG, not hidden.
-              </li>
-              <li>
-                <strong className="font-medium text-foreground/85">Design that pushes back.</strong> I keep a
-                §13 &quot;Philosophical guardrails&quot; section in the brief that names the rules a
-                feature request can&apos;t violate. When I caught myself drifting toward an LLM-judge
-                auto-approval flow during v0.5 design, the rule said no. The project loses its reason
-                to exist if I crossed it. I rejected my own suggestion.
-              </li>
-            </ul>
-          </section>
+          <SkillSetSection />
 
-          <section className="aka-card-well px-5 py-4">
-            <p className="text-[14px] leading-relaxed text-foreground/85">
-              The scoring cockpit is the product: a human gate on every label that matters, automation
-              that never pretends to replace that gate, and release discipline that matches the
-              seriousness of the claim.
-            </p>
-          </section>
+          <EvalKitClosing />
         </div>
       </article>
     </div>

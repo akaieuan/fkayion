@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
-import { LAB_ENTRIES, findEntry } from '@/components/demo/bkz-lab-log/entries'
-import { LabProse } from '@/components/demo/bkz-lab-log/prose'
+import { LAB_ENTRIES, findEntry } from '@/components/replicas/bkz-lab-log/entries'
+import { LabProse } from '@/components/replicas/bkz-lab-log/prose'
 import { JsonLd, articleSchema, breadcrumbSchema } from '@/components/seo/json-ld'
 
 /**
