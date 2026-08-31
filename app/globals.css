@@ -865,7 +865,7 @@ body {
     background-image:
       linear-gradient(180deg, #ffffff 0%, #ffffff00 46%),
       radial-gradient(120% 190% at 12% -30%, #ffffff 0%, #ffffff00 55%),
-      linear-gradient(100deg, var(--accent-blue), var(--accent-violet) 42%, var(--accent-rose));
+      linear-gradient(100deg, var(--glass-a, var(--accent-blue)), var(--glass-b, var(--accent-violet)) 42%, var(--glass-c, var(--accent-rose)));
     background-blend-mode: soft-light, overlay, normal;
     background-clip: padding-box;
     border: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
@@ -874,20 +874,38 @@ body {
   }
 
   /*
+   * The same glass, with the ramp led from the rose end instead of the blue
+   * one. Two glass controls sitting beside each other otherwise read as the
+   * same control printed twice; reversing the ramp keeps them one material and
+   * gives each its own end of it.
+   */
+  .aka-glass-rose {
+    --glass-a: var(--accent-rose);
+    --glass-b: var(--accent-violet);
+    --glass-c: var(--accent-blue);
+  }
+
+  /*
    * A surface that floats over the page: a menu, a popover, anything that has
    * to stay readable with content moving underneath it.
    *
-   * The page's own ground at 82% with a blur behind it, rather than an opaque
+   * The page's own ground at 62% with a blur behind it, rather than an opaque
    * panel. The site header already does this when it detaches, so a menu
    * opening over the page reads as the same material arriving rather than as a
    * second one nobody has seen before.
+   *
+   * The number was 82, and at 82 the fill buries the blur: the menu is just a
+   * lighter panel, and nothing is visibly behind it. At 62 what is behind the
+   * menu moves through it while the text still has enough ground under it to
+   * stay legible. The header sits at 55 and can afford to, because its type is
+   * larger than a menu row's.
    *
    * The mix is written out because Tailwind cannot write it: the theme colours
    * are bare var() with no <alpha-value> slot, so `bg-background/80` computes
    * nothing and emits no rule at all. Same reason .aka-ink-body exists.
    */
   .aka-overlay {
-    background: color-mix(in srgb, var(--background) 82%, transparent);
+    background: color-mix(in srgb, var(--background) 62%, transparent);
     backdrop-filter: blur(12px) saturate(1.4);
     border: 1px solid var(--card-edge);
     border-top-color: var(--card-edge-top);
@@ -1138,16 +1156,23 @@ body {
   }
 
   /* A link inside running text: full ink, and a rule faint enough that a
-     paragraph with three of them still reads as a paragraph. */
+     paragraph with three of them still reads as a paragraph.
+
+     The hover takes the select accent, so a link answers the pointer in both
+     themes. Darkening the underline alone only ever worked in one of them: in
+     light the resting rule is grey on paper and a darker grey was nearly
+     invisible, while dark already read well, because a white-mix underline
+     jumps further from a near-black page. */
   .aka-ink-link {
     color: var(--foreground);
     text-decoration-line: underline;
     text-underline-offset: 3px;
     text-decoration-color: color-mix(in srgb, var(--foreground) 30%, transparent);
-    transition: text-decoration-color 150ms ease;
+    transition: color 150ms ease, text-decoration-color 150ms ease;
   }
   .aka-ink-link:hover {
-    text-decoration-color: color-mix(in srgb, var(--foreground) 75%, transparent);
+    color: var(--select);
+    text-decoration-color: color-mix(in srgb, var(--select) 70%, transparent);
   }
 }
 

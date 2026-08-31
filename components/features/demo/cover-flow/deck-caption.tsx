@@ -42,7 +42,7 @@ export function DeckCaption({ items }: { items: ProjectItem[] }) {
                      * affordance for a mouse and never a second tab stop or a
                      * second announcement.
                      */}
-                    <span className="mt-3.5 inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[12.5px] font-medium text-foreground">
+                    <span className="mt-3.5 inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[12.5px] font-medium text-foreground transition-colors hover:bg-muted/40">
                       {external ? 'Open the site' : 'Learn more'}
                       {external ? (
                         <ArrowUpRight className="h-3.5 w-3.5 shrink-0" aria-hidden />

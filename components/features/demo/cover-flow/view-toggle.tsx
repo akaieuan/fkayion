@@ -56,8 +56,19 @@ const OPTIONS = [
    * and next to a four-square grid at this size both read as "a rectangle with
    * some smaller shapes near it". Stacked layers and a grid share no silhouette.
    */
-  { v: 'deck', Icon: Layers, label: 'Deck', hint: 'Scroll through the covers' },
-  { v: 'grid', Icon: LayoutGrid, label: 'Grid', hint: 'See all of them at once' },
+  /*
+   * Each option owns the end of the glass ramp its selected state is led from,
+   * so switching changes the colour of the chip and not only its position.
+   * Same material either way; see .aka-glass-rose.
+   */
+  { v: 'deck', Icon: Layers, label: 'Deck', hint: 'Scroll through the covers', glass: 'aka-glass' },
+  {
+    v: 'grid',
+    Icon: LayoutGrid,
+    label: 'Grid',
+    hint: 'See all of them at once',
+    glass: 'aka-glass aka-glass-rose',
+  },
 ] as const
 
 export function ViewToggle({ target }: { target: string }) {
@@ -74,7 +85,7 @@ export function ViewToggle({ target }: { target: string }) {
       aria-label="How to show the projects"
       className="aka-card inline-flex shrink-0 items-center gap-0.5 rounded-lg p-0.5"
     >
-      {OPTIONS.map(({ v, Icon, label, hint }) => (
+      {OPTIONS.map(({ v, Icon, label, hint, glass }) => (
         <button
           key={v}
           type="button"
@@ -95,12 +106,11 @@ export function ViewToggle({ target }: { target: string }) {
            * The ink stays `text-background`, which is why that pairing survives
            * the change: the gradient is mid-toned in the light theme and light
            * in the dark one, and the page's own ground is the opposite of it
-           * either way.
+           * either way. That holds from either end of the ramp, so the grid's
+           * rose-led glass takes the same ink.
            */
           className={`aka-hint-host grid h-7 w-7 place-items-center rounded-md transition-colors ${
-            view === v
-              ? 'aka-glass text-background'
-              : 'text-muted-foreground hover:text-foreground'
+            view === v ? `${glass} text-background` : 'text-muted-foreground hover:text-foreground'
           }`}
         >
           <Icon className="h-[15px] w-[15px]" aria-hidden />

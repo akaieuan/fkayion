@@ -89,10 +89,15 @@ lift    aka-card aka-card-lift        ← a card that is also a control`}
             same thing, as icons rather than words, because the options are
             layouts and a picture of a layout says it faster than its name.
 
-            The selected state is an inverted fill and never the accent: law 02
-            spends the accent once per screen, and a view switch is not what it
-            is for. Every button carries aria-pressed and a tooltip, since an
-            icon alone is not a label.
+            The selected state is the deck's own glass. Law 02 spends the
+            accent once per screen and the test is subject rather than count:
+            the deck's progress pill and the control that selects the deck are
+            the same subject. Each option is led from its own end of the glass
+            ramp, the second one with `aka-glass-rose`, so switching changes
+            the colour of the chip and not only its position. The control is
+            shown twice, once in each state, because a single frame cannot
+            show both a ramp end and the off dress. Every button carries
+            aria-pressed and a tooltip, since an icon alone is not a label.
 
             `ViewToggle` on /demo is the working instance; this is the pattern.
             The covers it switches between come from `ProjectCover`, the plate
@@ -100,20 +105,31 @@ lift    aka-card aka-card-lift        ← a card that is also a control`}
           */}
           <Spec
             name="Segmented control"
-            note="icons that share no silhouette, glass for the selected one"
+            note="icons that share no silhouette, a glass end each for the selected one"
             cls={`group   aka-card inline-flex items-center gap-0.5 rounded-lg p-0.5
 button  grid h-7 w-7 place-items-center rounded-md transition-colors
-on      aka-glass text-background
+on 1st  aka-glass text-background
+on 2nd  aka-glass aka-glass-rose text-background
 off     text-muted-foreground hover:text-foreground
 a11y    role=group + aria-label, aria-pressed per button, tooltip per button`}
           >
-            <div className="aka-card inline-flex items-center gap-0.5 rounded-lg p-0.5">
-              <span className="aka-glass grid h-7 w-7 place-items-center rounded-md text-background">
-                <Layers className="h-[15px] w-[15px]" aria-hidden />
-              </span>
-              <span className="grid h-7 w-7 place-items-center rounded-md text-muted-foreground">
-                <LayoutGrid className="h-[15px] w-[15px]" aria-hidden />
-              </span>
+            <div className="flex items-center gap-3">
+              <div className="aka-card inline-flex items-center gap-0.5 rounded-lg p-0.5">
+                <span className="aka-glass grid h-7 w-7 place-items-center rounded-md text-background">
+                  <Layers className="h-[15px] w-[15px]" aria-hidden />
+                </span>
+                <span className="grid h-7 w-7 place-items-center rounded-md text-muted-foreground">
+                  <LayoutGrid className="h-[15px] w-[15px]" aria-hidden />
+                </span>
+              </div>
+              <div className="aka-card inline-flex items-center gap-0.5 rounded-lg p-0.5">
+                <span className="grid h-7 w-7 place-items-center rounded-md text-muted-foreground">
+                  <Layers className="h-[15px] w-[15px]" aria-hidden />
+                </span>
+                <span className="aka-glass aka-glass-rose grid h-7 w-7 place-items-center rounded-md text-background">
+                  <LayoutGrid className="h-[15px] w-[15px]" aria-hidden />
+                </span>
+              </div>
             </div>
           </Spec>
 

@@ -205,7 +205,8 @@ export const SURFACES: Surface[] = [
     layers: [
       'a white specular along the top, blended soft-light',
       'a soft inner light at the leading edge, blended overlay',
-      'the accent beneath both at less than full strength, so the backdrop reads through',
+      'the accent ramp beneath both at less than full strength, so the backdrop reads through: it resolves from --glass-a, --glass-b and --glass-c, which default to blue, violet and rose',
+      'aka-glass-rose leads the same ramp from the rose end, for a second glass control sitting beside the first',
       'backdrop-filter: blur(14px) saturate(1.9)',
     ],
   },

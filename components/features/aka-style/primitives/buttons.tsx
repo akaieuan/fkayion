@@ -15,15 +15,17 @@ export function ButtonsSection() {
 secondary inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/40
 quiet     text-[13px] font-light text-muted-foreground/70 transition-colors hover:text-foreground`}
           >
-            <span className="inline-flex items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background">
+            <span className="inline-flex items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90">
               Primary action
               <ArrowRight className="h-4 w-4 opacity-80" aria-hidden />
             </span>
-            <span className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground">
+            <span className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted/40">
               Secondary
               <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
             </span>
-            <span className="text-[13px] font-light text-muted-foreground/70">Quiet link →</span>
+            <span className="text-[13px] font-light text-muted-foreground/70 transition-colors hover:text-foreground">
+              Quiet link →
+            </span>
             <span className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-muted-foreground/40">
               Disabled
             </span>
@@ -55,15 +57,24 @@ lg  rounded-lg px-5 py-3 text-[15px]`}
             note="underline offset 3px, border-colored rule"
             cls={`body  underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50
 accent text-primary underline decoration-border underline-offset-[3px]
-nav    text-muted-foreground transition-colors hover:text-foreground`}
+nav    text-muted-foreground transition-colors hover:text-foreground
+ink    aka-ink-link   ← full ink at rest, the select accent on hover, inside running prose`}
           >
-            <span className="text-[13px] font-light text-muted-foreground underline decoration-border underline-offset-[3px]">
+            <span className="text-[13px] font-light text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">
               An inline body link
             </span>
             <span className="text-[13px] font-light text-primary underline decoration-border underline-offset-[3px]">
               An accent link
             </span>
-            <span className="text-[13px] font-light text-muted-foreground">Nav item</span>
+            <span className="text-[13px] font-light text-muted-foreground transition-colors hover:text-foreground">
+              Nav item
+            </span>
+            {/*
+              The accent link prints no hover, so the swatch carries none: a
+              live example that does more than its class string says is the
+              thing this section exists to prevent.
+            */}
+            <span className="aka-ink-link text-[13px] font-light">An ink link</span>
           </Spec>
         </section>
   )
