@@ -65,6 +65,11 @@ go in CI.
 
 ## Conventions
 
+- **Pages are composition.** A `page.tsx` holds metadata, the shell, and the
+  imports; the sections it composes live in `components/features/<area>/`, one
+  file per section, owned by that page. Shared vocabulary stays in
+  `components/ui/`; data stays in `lib/`. No barrel files: every import names
+  the file it comes from, so the server/client boundary stays visible.
 - **Server by default** (law 07). A component stays server-rendered unless it
   needs state, an event, or a canvas, and the client boundary is drawn as deep
   in the tree as possible.

@@ -309,3 +309,16 @@ export const SUMMARIES: Record<string, Summary> = {
       'It is why these projects look like one studio made them, and why an AI assistant can build a new surface in the same language without being taught it again.',
   },
 }
+
+/*
+ * A caption is the project's own plain-language opening line.
+ *
+ * Not a new field. `In simple terms` already answers "what is this" in one
+ * sentence on every write-up, and taking its first line means the deck and the
+ * page it links to cannot say different things about the same project. The
+ * three top-level entries with no write-up summary fall back to the description
+ * they already carry in lib/projects.ts.
+ */
+export function captionFor(href: string, description: string): string {
+  return SUMMARIES[href]?.what[0] ?? description
+}

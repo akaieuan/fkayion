@@ -120,7 +120,15 @@ for (const rel of files) {
 }
 
 // ── Does the specimen know about everything? ────────────────────────────────
-const specimen = walk(join(ROOT, 'app/aka-style'))
+/*
+ * The specimen is a surface, not a directory. Its pages live under
+ * app/aka-style and their section components live in the feature folder the
+ * refactor gave them, so both are the text this check reads. Scanning only
+ * the pages would have marked every extracted component "undocumented" the
+ * day the pages went thin.
+ */
+const specimen = ['app/aka-style', 'components/features/aka-style']
+  .flatMap((d) => walk(join(ROOT, d)))
   .map((f) => readFileSync(f, 'utf8'))
   .join('\n')
 
