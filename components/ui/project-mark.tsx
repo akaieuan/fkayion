@@ -5,6 +5,7 @@ import { PixelHead, type PixelIcon } from '@/components/features/brand/pixel-hea
 import { BodyLogMark } from '@/components/product-replicas/bodylog/bodylog-mark'
 import { CovartMark } from '@/components/ui/covart-mark'
 import { BlockpadMark } from '@/components/ui/blockpad-mark'
+import { LiquidOrbMark } from '@/components/features/demo/three-examples/mark'
 import { TrickleSpecimen } from '@/components/ui/trickle-specimen'
 import { CircleheadsLogo } from '@/components/ui/brand-logos'
 import { ProjectLogo, logoAspect } from '@/components/ui/project-logo'
@@ -162,6 +163,9 @@ export function ProjectMark({
   if (item.logo === 'bodylog') return <BodyLogMark size={size} title="" />
   if (item.logo === 'akacovart') return <CovartMark size={size} />
   if (item.logo === 'blockpad') return <BlockpadMark size={size} />
+  /* The liquid orb, live, with the roundabout's manners: pauses offscreen and
+     on a hidden tab, one still frame under reduced motion. */
+  if (item.logo === 'liquid-orb') return <LiquidOrbMark size={size} />
   if (item.logo === 'trickle-live') return <TrickleSpecimen />
   if (item.logo === 'circleheads') return <CircleheadsLogo size={size} />
   if (tooWide) {

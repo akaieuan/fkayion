@@ -7,15 +7,18 @@ import * as THREE from 'three'
 
 // Chunk-split so the three.js payload only loads on this page.
 const LiquidMorphOrb = dynamic(
-  () => import('@/components/features/demo/visualizer-eden/liquid-morph-orb').then(m => ({ default: m.LiquidMorphOrb })),
+  () => import('@/components/features/demo/three-examples/liquid-morph-orb').then(m => ({ default: m.LiquidMorphOrb })),
   { ssr: false }
 )
 
 /**
- * The liquid orb that used to live on the landing hero, rehomed as the live
- * preview for Visualizer Eden — a real WebGL artifact instead of a video.
+ * The liquid orb that used to live on the landing hero, kept as the live
+ * specimen on the Three.js Examples write-up.
+ *
  * Renders only while on screen; pointer-events stay off so it never eats
- * scroll (the canvas tracks the pointer from the wrapper instead).
+ * scroll (the canvas tracks the pointer from the wrapper instead). No ground
+ * of its own: the write-up floats it on the page rather than framing it, and a
+ * fill here would draw the frame back in.
  */
 export function OrbHero() {
   const mousePosRef = useRef({ x: 0, y: 0 })
@@ -42,7 +45,7 @@ export function OrbHero() {
     <div
       ref={hostRef}
       onPointerMove={handlePointerMove}
-      className="relative aspect-video w-full bg-[#0E0E0D]"
+      className="relative aspect-video w-full"
     >
       <Canvas
         className="pointer-events-none"

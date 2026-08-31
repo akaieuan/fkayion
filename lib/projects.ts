@@ -192,6 +192,17 @@ export const PROJECTS: ProjectCardItem[] = [
     accent: TINT.terracotta,
   },
   {
+    title: 'Three.js Examples',
+    tags: ['Live demo', 'WebGL', 'GLSL', 'Three.js'],
+    description:
+      'The liquid shader orb from the old landing hero, running live: hand-written GLSL over Three.js, and the rules that let WebGL sit on a portfolio page.',
+    href: '/demo/three-examples',
+    // A piece of the build itself. The plate runs the orb as one raw fragment
+    // shader, so the wall can show the real thing without downloading three.js.
+    logo: 'liquid-orb',
+    accent: TINT.blue,
+  },
+  {
     title: 'Null Browser',
     tags: ['Open source', 'Tauri', 'Privacy', 'Write-up'],
     description:

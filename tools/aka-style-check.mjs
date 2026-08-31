@@ -43,8 +43,11 @@ const ART_LAYER = [
   'lib/projects.ts', // the plate tints, which are per-project data
   // Shader and canvas work: these colours are inputs to a render, not
   // surfaces. A theme switch must not recolour a WebGL material.
-  'components/features/demo/visualizer-eden/liquid-morph-orb.tsx',
-  'components/features/demo/visualizer-eden/orb-hero.tsx',
+  'components/features/demo/three-examples/liquid-morph-orb.tsx',
+  'components/features/demo/three-examples/orb-hero.tsx',
+  // The same orb restated as a plate mark: one raw fragment shader carrying
+  // the orb's own palette, so it answers to the orb rather than the theme.
+  'components/features/demo/three-examples/mark.tsx',
   // Blockpad's own wireframe palette, which moved with its section when the
   // page went thin. The exemption follows the colours, not the route.
   'components/features/demo/blockpad/payload.tsx',
