@@ -873,6 +873,26 @@ body {
     backdrop-filter: blur(14px) saturate(1.9);
   }
 
+  /*
+   * A surface that floats over the page: a menu, a popover, anything that has
+   * to stay readable with content moving underneath it.
+   *
+   * The page's own ground at 82% with a blur behind it, rather than an opaque
+   * panel. The site header already does this when it detaches, so a menu
+   * opening over the page reads as the same material arriving rather than as a
+   * second one nobody has seen before.
+   *
+   * The mix is written out because Tailwind cannot write it: the theme colours
+   * are bare var() with no <alpha-value> slot, so `bg-background/80` computes
+   * nothing and emits no rule at all. Same reason .aka-ink-body exists.
+   */
+  .aka-overlay {
+    background: color-mix(in srgb, var(--background) 82%, transparent);
+    backdrop-filter: blur(12px) saturate(1.4);
+    border: 1px solid var(--card-edge);
+    border-top-color: var(--card-edge-top);
+  }
+
   .aka-flow-pill {
     /*
      * A bead that becomes a bar. It starts as a circle — width equal to height

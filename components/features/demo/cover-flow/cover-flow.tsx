@@ -298,7 +298,7 @@ export function CoverFlow({
           three come out of the same --flow the covers read.
         */}
         <div className="aka-flow-pill-track mx-auto mt-9" aria-hidden>
-          <div className="aka-flow-pill" />
+          <div className="aka-glass aka-flow-pill" />
         </div>
       </div>
     </section>

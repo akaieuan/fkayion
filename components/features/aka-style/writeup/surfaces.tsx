@@ -27,6 +27,12 @@ export function Surfaces() {
                   <p className="text-[12.5px] font-light leading-relaxed text-muted-foreground">
                     {sf.what}
                   </p>
+                  {/* The one material that cannot be its own tile. See Surface.sample. */}
+                  {sf.sample && (
+                    <span
+                      className={`${sf.sample} mt-3 block h-[13px] w-full max-w-[190px] rounded-full opacity-90`}
+                    />
+                  )}
                   <ul className="mt-2.5 list-none space-y-1 p-0">
                     {sf.layers.map((l) => (
                       <li

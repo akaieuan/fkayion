@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { GalleryHorizontal, LayoutGrid } from 'lucide-react'
+import { Layers, LayoutGrid } from 'lucide-react'
 
 /**
  * Deck or grid, for the same eighteen projects.
@@ -26,14 +26,21 @@ import { GalleryHorizontal, LayoutGrid } from 'lucide-react'
  * JavaScript. `aria-label` is the accessible name either way; the visible hint
  * is a span and two CSS rules. See `.aka-hint`.
  *
- * ── Why the stored choice is read in an effect ──────────────────────────────
+ * ── Why the choice is not remembered ────────────────────────────────────────
  *
- * The server has no localStorage, so reading it during render would produce
- * markup that disagrees with the server's and React would throw a hydration
- * mismatch. The server always renders the deck; a stored preference for the
- * grid is applied one frame later, which is the only correct order available.
+ * It was, in localStorage, and the restore could only ever run after hydration:
+ * the server has no localStorage, so reading it during render would produce
+ * markup that disagrees with the server's. So anyone who had once chosen the
+ * grid arrived at the deck and watched it flip a frame later, every visit. That
+ * flip is a worse thing to see than the grid is a good thing to have
+ * remembered.
+ *
+ * The deck is the page. It is what the design is and what the server renders;
+ * the grid is the escape hatch for when you want all of them at once, which is
+ * a decision you make on arrival rather than one worth carrying between visits.
+ * So the page always opens on the deck and nothing flips, and this component
+ * keeps no state at all beyond the attribute it writes.
  */
-const KEY = 'demo-view'
 
 export type View = 'deck' | 'grid'
 
@@ -43,33 +50,23 @@ const OPTIONS = [
    * offer: "See all of them at once" beside the view you are already in reads
    * as a control that is not working.
    */
-  { v: 'deck', Icon: GalleryHorizontal, label: 'Deck', hint: 'Scroll through the covers' },
+  /*
+   * Two icons that cannot be mistaken for each other at fifteen pixels. The
+   * deck was a gallery frame, which is a rectangle with two slivers beside it,
+   * and next to a four-square grid at this size both read as "a rectangle with
+   * some smaller shapes near it". Stacked layers and a grid share no silhouette.
+   */
+  { v: 'deck', Icon: Layers, label: 'Deck', hint: 'Scroll through the covers' },
   { v: 'grid', Icon: LayoutGrid, label: 'Grid', hint: 'See all of them at once' },
 ] as const
 
 export function ViewToggle({ target }: { target: string }) {
   const [view, setView] = useState<View>('deck')
 
-  // Restore. Runs once, after hydration, for the reason above.
-  useEffect(() => {
-    const stored = localStorage.getItem(KEY)
-    if (stored === 'grid' || stored === 'deck') setView(stored)
-  }, [])
-
   // Apply. The attribute is what the CSS reads; this is the only write.
   useEffect(() => {
     document.getElementById(target)?.setAttribute('data-view', view)
   }, [target, view])
-
-  function choose(next: View) {
-    setView(next)
-    try {
-      localStorage.setItem(KEY, next)
-    } catch {
-      // Private browsing, or storage disabled. The choice simply does not
-      // outlive the page, which is a smaller problem than throwing.
-    }
-  }
 
   return (
     <div
@@ -83,15 +80,26 @@ export function ViewToggle({ target }: { target: string }) {
           type="button"
           aria-pressed={view === v}
           aria-label={label}
-          onClick={() => choose(v)}
+          onClick={() => setView(v)}
           /*
-           * The selected state is an inverted fill, not the accent. Law 02
-           * spends the accent once per screen, and a view switch is not what
-           * it is for.
+           * The selected state is the deck's own glass, the surface the
+           * progress pill is made of.
+           *
+           * It was a flat inverted fill, on the reasoning that law 02 spends
+           * the accent once per screen. But the pill is already spending it on
+           * this screen, a few inches below, to say where in the deck you are —
+           * and this control says which deck you are in. The same colour for
+           * the same subject is the law kept, not bent; what would break it is
+           * a second, unrelated accent.
+           *
+           * The ink stays `text-background`, which is why that pairing survives
+           * the change: the gradient is mid-toned in the light theme and light
+           * in the dark one, and the page's own ground is the opposite of it
+           * either way.
            */
           className={`aka-hint-host grid h-7 w-7 place-items-center rounded-md transition-colors ${
             view === v
-              ? 'bg-foreground text-background'
+              ? 'aka-glass text-background'
               : 'text-muted-foreground hover:text-foreground'
           }`}
         >

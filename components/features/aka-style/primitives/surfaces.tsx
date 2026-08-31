@@ -1,4 +1,4 @@
-import { GalleryHorizontal, LayoutGrid } from 'lucide-react'
+import { Layers, LayoutGrid } from 'lucide-react'
 import { kicker } from '@/components/features/aka-style/shared'
 import { Spec } from '@/components/features/aka-style/spec'
 import { FlowSpecimen } from '@/components/features/aka-style/flow-specimen'
@@ -100,16 +100,16 @@ lift    aka-card aka-card-lift        ← a card that is also a control`}
           */}
           <Spec
             name="Segmented control"
-            note="icons for layouts, inverted fill for selected, never the accent"
+            note="icons that share no silhouette, glass for the selected one"
             cls={`group   aka-card inline-flex items-center gap-0.5 rounded-lg p-0.5
 button  grid h-7 w-7 place-items-center rounded-md transition-colors
-on      bg-foreground text-background
+on      aka-glass text-background
 off     text-muted-foreground hover:text-foreground
 a11y    role=group + aria-label, aria-pressed per button, tooltip per button`}
           >
             <div className="aka-card inline-flex items-center gap-0.5 rounded-lg p-0.5">
-              <span className="grid h-7 w-7 place-items-center rounded-md bg-foreground text-background">
-                <GalleryHorizontal className="h-[15px] w-[15px]" aria-hidden />
+              <span className="aka-glass grid h-7 w-7 place-items-center rounded-md text-background">
+                <Layers className="h-[15px] w-[15px]" aria-hidden />
               </span>
               <span className="grid h-7 w-7 place-items-center rounded-md text-muted-foreground">
                 <LayoutGrid className="h-[15px] w-[15px]" aria-hidden />

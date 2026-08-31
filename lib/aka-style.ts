@@ -147,6 +147,16 @@ export type Surface = {
   render: string
   /** How the material is built, in the order the layers stack. */
   layers: string[]
+  /*
+   * A surface that cannot be its own tile.
+   *
+   * The rule above holds for every material you can set type on. Glass cannot:
+   * it is a saturated accent, and a card's label and body text on top of it are
+   * unreadable. So that one renders as a card and carries a bar of the real
+   * material inside it — still the material itself, just not underneath the
+   * words describing it.
+   */
+  sample?: string
 }
 
 export const SURFACES: Surface[] = [
@@ -185,6 +195,19 @@ export const SURFACES: Surface[] = [
     name: 'Lift',
     what: 'A card that is also a control. Hover moves it 2px and sharpens the edge; it never brightens, per law 04.',
     layers: ['translateY(-2px) over 320ms', 'edge to --card-edge-hover', 'no transform under prefers-reduced-motion'],
+  },
+  {
+    cls: 'aka-glass',
+    render: 'aka-card',
+    sample: 'aka-glass',
+    name: 'Glass',
+    what: 'The accent as a surface, and the only one that carries colour. Law 02 spends the accent once per screen, so the test is subject rather than count: the deck’s progress pill and the control that selects the deck are the same subject and may share it. A second, unrelated glass on a screen is the law being broken.',
+    layers: [
+      'a white specular along the top, blended soft-light',
+      'a soft inner light at the leading edge, blended overlay',
+      'the accent beneath both at less than full strength, so the backdrop reads through',
+      'backdrop-filter: blur(14px) saturate(1.9)',
+    ],
   },
 ]
 
