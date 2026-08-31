@@ -54,7 +54,7 @@ const TIPS = ['More videos in here', 'Nine more minutes', 'The loop, end to end'
 /** One third of the cycle each, matching the kit's own swap timing. */
 const TIP_SWAP = 2.6
 
-/** The older runs are webm, from before the encoding was measured. */
+/** Natural heights at the 1280 encode, so the cards reserve their space. */
 const LONG_H: Record<string, number> = {
   '/ubik/ubik-demo-walkthrough': 774,
   '/ubik/ubik-demo-synthesis': 934,
@@ -120,7 +120,7 @@ export function LongRunsSection() {
                       <DemoVideo
                         src={run.src}
                         poster={`${run.src}-poster.webp`}
-                        format="webm"
+                        format="mp4"
                         width={1280}
                         height={LONG_H[run.src]}
                         label={`${run.title} — ${run.summary}`}
