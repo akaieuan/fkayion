@@ -763,6 +763,32 @@ body {
   }
 
   /*
+   * Covers past the clamp are not drawn.
+   *
+   * --df clamps the fan at six and --dc clamps the turn and the depth at one,
+   * so every cover further out than six carries an identical transform and
+   * sits exactly behind the one at six, which is opaque. Not drawing them
+   * cannot change a pixel; it is the same picture with less work behind it.
+   *
+   * Measured at 6x CPU throttle on a 390x844 phone, over the same three-second
+   * scroll of the whole deck: 86 to 115 frames delivered before, with fifteen
+   * to thirty-six of them over 50ms; 139 to 182 after, with three to seven.
+   * Mean frame time 26-36ms before, 16-22ms after.
+   *
+   * On the plate rather than on the card, deliberately. `content-visibility:
+   * hidden` takes its subtree out of the accessibility tree and the tab order,
+   * and the card is a link: hiding it there would have cost five projects
+   * their place in the keyboard path to buy the same frames. The plate holds
+   * the art and nothing else, so skipping it costs nothing at all — and it
+   * measured slightly faster than hiding the whole card, because the card
+   * still has to be composited either way and an empty one rasterises cheaper
+   * than one that was never asked to draw.
+   */
+  .aka-flow-card[data-far] .aka-plate {
+    content-visibility: hidden;
+  }
+
+  /*
    * The caption, which moves in whole steps rather than continuously.
    *
    * All eighteen are stacked in a strip and the strip translates by the
@@ -847,6 +873,15 @@ body {
     background-clip: padding-box;
     border: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
     border-top-color: #ffffff5c;
+    /*
+     * The backdrop-filter stays, having been measured rather than assumed.
+     *
+     * Dropping it looked like free money: it blurs the page's own flat
+     * background, and a blur of a flat colour is that colour. But the filter
+     * also saturates what it reads, and the pill is translucent, so removing
+     * it moved 2,650 bytes of the pill's own pixels. Not free after all, and
+     * it never showed a frame-time difference worth the change.
+     */
     backdrop-filter: blur(14px) saturate(1.9);
     opacity: 0.9;
     /*

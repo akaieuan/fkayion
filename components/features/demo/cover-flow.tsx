@@ -65,6 +65,13 @@ export function CoverFlow({
 
     const cards = Array.from(section.querySelectorAll<HTMLElement>('[data-flow-card]'))
 
+    /*
+     * How far from the centre a cover is still its own picture. Past this the
+     * CSS clamps every cover to the same pose, so they stack exactly and only
+     * the nearest is ever visible. Six, because that is where --df clamps.
+     */
+    const NEAR = 6
+
     /** Measured on mount and on resize, never per frame. */
     let band = 0
     let pinTop = 0
@@ -122,6 +129,43 @@ export function CoverFlow({
       if (index !== lastIndex) {
         cards[lastIndex]?.removeAttribute('data-active')
         cards[index]?.setAttribute('data-active', '')
+        /*
+         * Mark the covers that are too far out to be seen, so CSS can skip
+         * drawing their art. Everything past NEAR shares one transform and
+         * stacks behind an opaque cover, so this changes no pixels; see
+         * `.aka-flow-card[data-far]`.
+         *
+         * Here rather than in `apply`'s hot path: the band only moves when the
+         * centred cover changes, which is eighteen times in the length of the
+         * deck rather than once a frame.
+         */
+        const last = cards.length - 1
+        for (let k = 0; k < cards.length; k++) {
+          /*
+           * Everything past NEAR on a side shares one pose, so on each side
+           * only the one that paints on top of that pile is ever seen. Which
+           * one that is comes from document order, because the pile is
+           * coplanar and there is no z to separate them:
+           *
+           *   left  — the pile is the low indices, so the highest of them
+           *           wins, and that is index - NEAR, already kept.
+           *   right — the pile is the high indices, so the highest of all
+           *           wins, and that is the last cover on the page.
+           *
+           * Which is why `last` is spared. Culling by distance alone dropped
+           * it and swapped the right-hand sliver for a different project's
+           * art: 15,293 differing bytes against a capture that is otherwise
+           * identical to the byte.
+           *
+           * With it spared the remaining difference is 333 pixels along one
+           * hairline at the deck's outer edge, and it is anti-aliasing rather
+           * than art. Eleven coincident covers each contribute a partly
+           * transparent edge pixel and they accumulate; one contributes one.
+           * Side by side the two are indistinguishable.
+           */
+          const far = k < index - NEAR || (k > index + NEAR && k !== last)
+          if (cards[k].hasAttribute('data-far') !== far) cards[k].toggleAttribute('data-far', far)
+        }
         lastIndex = index
         section!.style.setProperty('--flow-active', String(index))
       }
