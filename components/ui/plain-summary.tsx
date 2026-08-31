@@ -1,3 +1,5 @@
+import { Fragment } from "react";
+import Link from "next/link";
 import { SUMMARIES } from "@/lib/plain-summaries";
 
 /**
@@ -36,7 +38,19 @@ import { SUMMARIES } from "@/lib/plain-summaries";
  * and it prints and Ctrl-Fs open in browsers that implement that. A React
  * version of this would be strictly worse in every one of those ways.
  */
-export function PlainSummary({ path }: { path: string }) {
+export function PlainSummary({
+  path,
+  archive,
+}: {
+  path: string;
+  /**
+   * Pieces of the subject's own writing that survive, linked from the summary
+   * itself. The skimmer this card exists for is exactly the reader who should
+   * learn the primary sources are one click away, so they sit here rather than
+   * only in a section further down the page.
+   */
+  archive?: { title: string; href: string }[];
+}) {
   const s = SUMMARIES[path];
   if (!s) return null;
 
@@ -68,6 +82,23 @@ export function PlainSummary({ path }: { path: string }) {
           <p className="aka-card-rule mt-4 border-t pt-3.5 text-[14px] font-light leading-relaxed text-muted-foreground">
             <span className="font-medium text-foreground/85">The impact.</span>{" "}
             {s.impact}
+          </p>
+        )}
+
+        {archive && archive.length > 0 && (
+          <p className="aka-card-rule mt-4 border-t pt-3.5 text-[13px] font-light leading-relaxed text-muted-foreground">
+            <span className="font-medium text-foreground/85">From the archive.</span>{" "}
+            {archive.map((a, i) => (
+              <Fragment key={a.href}>
+                {i > 0 && <span className="text-muted-foreground/50"> · </span>}
+                <Link
+                  href={a.href}
+                  className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50"
+                >
+                  {a.title}
+                </Link>
+              </Fragment>
+            ))}
           </p>
         )}
 

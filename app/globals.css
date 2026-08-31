@@ -837,6 +837,42 @@ body {
     width: var(--track);
     height: var(--pill-h);
   }
+  /*
+   * The glass, named as a surface rather than left inside one element.
+   *
+   * Three layers over a blurred backdrop: a specular along the top, a soft
+   * inner light at the leading edge, and the colour underneath them at less
+   * than full strength so the blur reads through it.
+   *
+   * The white is a literal on purpose. A specular highlight is white light,
+   * not a surface, so tokenising it would make the theme switch dim the shine
+   * in one mode — the same reason .aka-mark-ground carries its own colour
+   * rather than the page's.
+   *
+   * It belonged to the deck's progress pill and nothing else, until the view
+   * toggle needed to mark the deck in the deck's own terms. Two users make it
+   * vocabulary, so it is defined once here and the pill keeps only what is
+   * actually the pill's: its geometry and its hue.
+   *
+   * The backdrop-filter stays, having been measured rather than assumed.
+   * Dropping it looked like free money: it blurs the page's own flat
+   * background, and a blur of a flat colour is that colour. But the filter
+   * also saturates what it reads, and the glass is translucent, so removing it
+   * moved 2,650 bytes of the pill's own pixels. Not free after all, and it
+   * never showed a frame-time difference worth the change.
+   */
+  .aka-glass {
+    background-image:
+      linear-gradient(180deg, #ffffff 0%, #ffffff00 46%),
+      radial-gradient(120% 190% at 12% -30%, #ffffff 0%, #ffffff00 55%),
+      linear-gradient(100deg, var(--accent-blue), var(--accent-violet) 42%, var(--accent-rose));
+    background-blend-mode: soft-light, overlay, normal;
+    background-clip: padding-box;
+    border: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+    border-top-color: #ffffff5c;
+    backdrop-filter: blur(14px) saturate(1.9);
+  }
+
   .aka-flow-pill {
     /*
      * A bead that becomes a bar. It starts as a circle — width equal to height
@@ -855,34 +891,6 @@ body {
     width: var(--w);
     border-radius: 999px;
     transform: translateX(calc(var(--p) * (var(--track) - var(--w)) * 0.5));
-    /*
-     * The glass. Three layers over a blurred backdrop: a specular along the
-     * top, a soft inner light at the leading edge, and the colour underneath
-     * them at less than full strength so the blur reads through it.
-     *
-     * The white is a literal on purpose. A specular highlight is white light,
-     * not a surface, so tokenising it would make the theme switch dim the
-     * shine in one mode — the same reason .aka-mark-ground carries its own
-     * colour rather than the page's.
-     */
-    background-image:
-      linear-gradient(180deg, #ffffff 0%, #ffffff00 46%),
-      radial-gradient(120% 190% at 12% -30%, #ffffff 0%, #ffffff00 55%),
-      linear-gradient(100deg, var(--accent-blue), var(--accent-violet) 42%, var(--accent-rose));
-    background-blend-mode: soft-light, overlay, normal;
-    background-clip: padding-box;
-    border: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
-    border-top-color: #ffffff5c;
-    /*
-     * The backdrop-filter stays, having been measured rather than assumed.
-     *
-     * Dropping it looked like free money: it blurs the page's own flat
-     * background, and a blur of a flat colour is that colour. But the filter
-     * also saturates what it reads, and the pill is translucent, so removing
-     * it moved 2,650 bytes of the pill's own pixels. Not free after all, and
-     * it never showed a frame-time difference worth the change.
-     */
-    backdrop-filter: blur(14px) saturate(1.9);
     opacity: 0.9;
     /*
      * The hue turns with the deck. One filter on one small element, and it is

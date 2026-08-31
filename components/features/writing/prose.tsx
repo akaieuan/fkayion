@@ -1,4 +1,5 @@
 import { Fragment } from 'react'
+import { DemoImage } from '@/components/ui/demo-image'
 
 /**
  * The body of an essay, set from blocks rather than markup.
@@ -19,6 +20,14 @@ export type Block =
   | { k: 'p'; text: string }
   | { k: 'h'; text: string }
   | { k: 'quote'; text: string; cite?: string }
+  /* A run of parallel items. The newsletter pieces argue in lists as often as
+   * in paragraphs, and flattening five takeaways into a sentence loses the
+   * shape the author chose. `ordered` only where the count is the point. */
+  | { k: 'list'; items: string[]; ordered?: boolean }
+  /* A figure from the source document: a screenshot, a chart, a table kept as
+   * the artifact it was. Path under /public plus intrinsic size; the blur comes
+   * from the build-time map the same way it does on a demo write-up. */
+  | { k: 'img'; src: string; alt: string; w: number; h: number; caption?: string }
 
 /** `**bold**` and `[label](url)`, and nothing else. */
 const INLINE = /\*\*(.+?)\*\*|\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g
@@ -73,6 +82,46 @@ export function Prose({ blocks }: { blocks: Block[] }) {
             >
               {inline(block.text, key)}
             </h2>
+          )
+        }
+
+        if (block.k === 'img') {
+          return (
+            <figure key={key} className="my-2">
+              <div className="aka-card-well aka-card-media overflow-hidden">
+                <DemoImage
+                  src={block.src}
+                  alt={block.alt}
+                  width={block.w}
+                  height={block.h}
+                  sizes="(min-width: 672px) 608px, 100vw"
+                  className="block h-auto w-full"
+                />
+              </div>
+              {block.caption && (
+                <figcaption className="mt-2 text-[12px] font-light leading-relaxed text-muted-foreground/60">
+                  {block.caption}
+                </figcaption>
+              )}
+            </figure>
+          )
+        }
+
+        if (block.k === 'list') {
+          const Tag = block.ordered ? 'ol' : 'ul'
+          return (
+            <Tag
+              key={key}
+              className={`${
+                block.ordered ? 'list-decimal' : 'list-disc'
+              } flex flex-col gap-2.5 pl-5 marker:text-muted-foreground/50`}
+            >
+              {block.items.map((item, n) => (
+                <li key={n} className={`${paragraph} pl-1`}>
+                  {inline(item, `${key}-${n}`)}
+                </li>
+              ))}
+            </Tag>
           )
         }
 
