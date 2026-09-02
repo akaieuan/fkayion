@@ -285,7 +285,7 @@ const amplifying: Block[] = [
   { k: 'h', text: 'The Cognitive Cost' },
   {
     k: 'p',
-    text: `MIT is conducting an ongoing [neurological study of brain activity in ChatGPT users](https://www.media.mit.edu/projects/your-brain-on-chatgpt/overview/) while they use the AI chatbot to complete tasks. The study has three groups: ChatGPT allowed, search engine allowed, and brain only. The three groups are tasked with writing an essay using (or not using) the provided tools. MIT's early findings are concerning. Compared to the brain-only group, LLM-assisted writers were unable to complete writing tasks effectively or efficiently, and most didn't remember what they had previously generated or written. When tasked with using their brain, they struggled dramatically compared to the brain-only group, which thrived when using ChatGPT after the swap.`,
+    text: `MIT is conducting an ongoing [neurological study of brain activity in ChatGPT users](https://www.media.mit.edu/projects/your-brain-on-chatgpt/overview/) while they use the AI chatbot to complete tasks. The study has three groups: ChatGPT allowed, search engine allowed, and brain only. The three groups are tasked with writing an essay using (or not using) the provided tools. MIT's early findings are concerning. Compared to the brain-only group, LLM-assisted writers were unable to complete writing tasks effectively or efficiently, and most didn't remember what they had previously generated or written. When the groups swapped, the ChatGPT writers struggled dramatically without their tool, while the brain-only group thrived the moment they were given one.`,
   },
   {
     k: 'p',
@@ -460,11 +460,11 @@ const amplifying: Block[] = [
 const builtToLearn: Block[] = [
   {
     k: 'p',
-    text: `AI tools have surpassed experts, professionals, teams, institutions, really anyone in fields that require accurate citation and evidence attribution in their high-level knowledge work.`,
+    text: `AI tools have surpassed experts, professionals, teams, institutions, really anyone in fields that require accurate citation and evidence attribution in their high-level knowledge work. At least, that is what the benchmarks say.`,
   },
   {
     k: 'p',
-    text: `**Legal teams, data and research teams, consultants and analysts, scholars and academics:** what do individuals and teams in these fields have in common? **They all work with files.** Many high-level knowledge workers either have large file collections built over long periods of time or the research skills to find, analyze, and cite trusted sources found through academic databases. These kinds of field-specific, expert-level skills are unreplicatable by chatbots and platforms like ChatGPT, Perplexity, or Liner that vary in accuracy, tool access, and context awareness. All are prone to hallucination in generated text when answering one-shot prompts without context, and perform even worse when working with uploaded text files. These platforms all rank highly on published benchmarks that evaluate LLMs and AI agents but, while:`,
+    text: `**Legal teams, data and research teams, consultants and analysts, scholars and academics:** what do individuals and teams in these fields have in common? **They all work with files.** Many high-level knowledge workers either have large file collections built over long periods of time or the research skills to find, analyze, and cite trusted sources found through academic databases. These kinds of field-specific, expert-level skills are unreplicatable by chatbots and platforms like ChatGPT, Perplexity, or Liner that vary in accuracy, tool access, and context awareness. All are prone to hallucination in generated text when answering one-shot prompts without context, and perform even worse when working with uploaded text files. These platforms all rank highly on published benchmarks that evaluate LLMs and AI agents. The benchmarks are the first problem:`,
   },
   {
     k: 'quote',
@@ -473,7 +473,7 @@ const builtToLearn: Block[] = [
   },
   {
     k: 'p',
-    text: `This quote from [Humanity's Last Exam](https://lastexam.ai) (HLE) outlines why there is a clear need for more complex, human-like benchmarks used to evaluate LLMs in their accuracy and intelligence. Humanity's Last Exam is "a multi-modal benchmark at the frontier of human knowledge, designed to be the final closed-ended academic benchmark of its kind with broad subject coverage." This "exam" is publicly available for companies and researchers to evaluate their models with, to get a better understanding of how LLMs struggle with complex tasks. While there are many different benchmarks, few focus on multi-hop questions where reasoning and problem solving guide the model rather than searching and relaying information correctly. [HotpotQA](https://hotpotqa.github.io) is an early dataset for "diverse, explainable, multi-hop question answering," but this dataset was published in 2018, well before the powerful AI models and agents we have today. When one of the authors of this dataset recently said "Stop using HotpotQA for agent research" (Peng Qi), because:`,
+    text: `This quote from [Humanity's Last Exam](https://lastexam.ai) (HLE) outlines why there is a clear need for more complex, human-like benchmarks used to evaluate LLMs in their accuracy and intelligence. Humanity's Last Exam is "a multi-modal benchmark at the frontier of human knowledge, designed to be the final closed-ended academic benchmark of its kind with broad subject coverage." This "exam" is publicly available for companies and researchers to evaluate their models with, to get a better understanding of how LLMs struggle with complex tasks. While there are many different benchmarks, few focus on multi-hop questions where reasoning and problem solving guide the model rather than searching and relaying information correctly. [HotpotQA](https://hotpotqa.github.io) is an early dataset for "diverse, explainable, multi-hop question answering," but this dataset was published in 2018, well before the powerful AI models and agents we have today. One of the dataset's own authors, Peng Qi, has since said it outright: "Stop using HotpotQA for agent research," because:`,
   },
   {
     k: 'quote',
@@ -495,7 +495,7 @@ const builtToLearn: Block[] = [
   },
   {
     k: 'p',
-    text: `In 2025, no LLMs surpassed 50% accuracy on Humanity's Last Exam. With a title so bold this may sound like a relief at first, but these kinds of complex, multi-hop questions found in high-level research and academia aren't solvable with just a simple search and reply. HLE confirms that LLMs exceed in simple, disposable tasks that require low amounts of reasoning and problem solving. For example, there are publicly available benchmarks for academic deep reasoning like [GPQA](https://arxiv.org/abs/2311.12022) and [MMLU](https://arxiv.org/abs/2009.03300): models like Gemini 3 Pro and GPT-5 score over 90%, but the same models score below 40% accuracy when tested on the HLE benchmark.`,
+    text: `In 2025, no LLMs surpassed 50% accuracy on Humanity's Last Exam. With a title so bold this may sound like a relief at first, but these kinds of complex, multi-hop questions found in high-level research and academia aren't solvable with just a simple search and reply. HLE confirms that LLMs excel in simple, disposable tasks that require low amounts of reasoning and problem solving. For example, there are publicly available benchmarks for academic deep reasoning like [GPQA](https://arxiv.org/abs/2311.12022) and [MMLU](https://arxiv.org/abs/2009.03300): models like Gemini 3 Pro and GPT-5 score over 90%, but the same models score below 40% accuracy when tested on the HLE benchmark.`,
   },
   {
     k: 'img',
