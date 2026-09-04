@@ -55,7 +55,7 @@ export default function HowIWorkPage() {
         }
       />
 
-      <div className="mt-6 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
+      <div className="mt-6 aka-prose">
         <UbikSection />
 
         <InteractionSection />

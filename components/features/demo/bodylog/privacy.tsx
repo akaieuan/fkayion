@@ -1,10 +1,8 @@
-const code = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]'
-
 /** Photos are health data. Moved verbatim from app/demo/bodylog/page.tsx. */
 export function PrivacySection() {
   return (
           <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               Photos are health data
             </h2>
             <p>
@@ -13,7 +11,7 @@ export function PrivacySection() {
               <span className="text-foreground/85">everything stays on the device.</span> No cloud,
               no analytics, no network calls.
             </p>
-            <ul className="list-disc space-y-2 pl-5 marker:text-muted-foreground/50">
+            <ul className="aka-list space-y-2">
               <li>
                 Every stored image is downscaled and{' '}
                 <span className="text-foreground/85">EXIF/GPS-stripped</span> before it touches disk.
@@ -21,7 +19,7 @@ export function PrivacySection() {
                 of your own body should not also carry your address.
               </li>
               <li>
-                Bytes live in <code className={code}>SwiftData</code> external storage — files
+                Bytes live in <code className="aka-code">SwiftData</code> external storage — files
                 alongside the store rather than blobs inside it, so a long history stays fast.
               </li>
               <li>

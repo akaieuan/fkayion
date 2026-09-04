@@ -2,7 +2,7 @@
 export function WhatUbikWasSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">What Ubik was</h2>
+            <h2 className="aka-lead">What Ubik was</h2>
             <p>
               Ubik Studio was a desktop research environment where AI agents did the gathering,
               reading, and drafting — and the human stayed in the loop at every point of judgment. A

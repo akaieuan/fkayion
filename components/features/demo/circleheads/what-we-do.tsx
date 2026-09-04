@@ -20,7 +20,7 @@ const pillars = [
 export function WhatWeDoSection() {
   return (
           <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">What we do</h2>
+            <h2 className="aka-lead">What we do</h2>
             <ul className="space-y-4">
               {pillars.map((p) => (
                 <li key={p.label} className="aka-card-well px-5 py-4">

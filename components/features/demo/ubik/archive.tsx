@@ -8,7 +8,7 @@ export function ArchiveSection() {
 
   return (
     <section className="space-y-3">
-      <h2 className="text-sm font-medium tracking-wide text-foreground">From the archive</h2>
+      <h2 className="aka-lead">From the archive</h2>
       <p>
         Ubik wrote about itself while it was alive: a newsletter, a blog, internal design documents.
         The pieces that survive are rebuilt here in full, in their own words, as artifacts of what

@@ -2,20 +2,20 @@
 export function SkillSetSection() {
   return (
           <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">How I describe the skill set</h2>
+            <h2 className="aka-lead">How I describe the skill set</h2>
             <p>
               Modern CSS animation engineering (keyframes, the{' '}
-              <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">@property</code>{' '}
+              <code className="aka-code">@property</code>{' '}
               rule for typed custom properties,{' '}
-              <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">mask-composite</code>,{' '}
-              <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">clip-path</code>{' '}
+              <code className="aka-code">mask-composite</code>,{' '}
+              <code className="aka-code">clip-path</code>{' '}
               polygons, conic and radial gradients,{' '}
-              <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">backdrop-filter</code>); SSR-safe React patterns and the discipline to keep 42 of 47 components as
+              <code className="aka-code">backdrop-filter</code>); SSR-safe React patterns and the discipline to keep 42 of 47 components as
               pure RSCs; shadcn registry CLI authoring (manifest schema,{' '}
-              <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">cssVars</code>{' '}
+              <code className="aka-code">cssVars</code>{' '}
               merge,{' '}
-              <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">registryDependencies</code>, transitive resolution); Tailwind v4{' '}
-              <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">@theme</code>{' '}
+              <code className="aka-code">registryDependencies</code>, transitive resolution); Tailwind v4{' '}
+              <code className="aka-code">@theme</code>{' '}
               tokens; Next.js 15 App Router; TypeScript strict; design rubric authorship; accessibility
               (reduced-motion as a first-class build axis); and the willingness to delete four
               components from a draft because they failed the motion-signature test.

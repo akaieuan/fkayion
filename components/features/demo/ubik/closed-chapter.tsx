@@ -2,7 +2,7 @@
 export function ClosedChapterSection() {
   return (
           <section className="aka-card-well px-5 py-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">A closed chapter</h2>
+            <h2 className="aka-lead">A closed chapter</h2>
             <p className="mt-2 text-[14px] leading-relaxed text-foreground/85">
               The public site and the builds are retired, and I&apos;m at peace with that — Ubik was a
               complete thing, and it stands on its own. Three and a half years of asking one question

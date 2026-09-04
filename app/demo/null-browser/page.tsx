@@ -104,7 +104,7 @@ export default function NullBrowserProjectPage() {
               href={REPO}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
+              className="aka-button"
             >
               GitHub · akaieuan/null-browser
               <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
@@ -113,7 +113,7 @@ export default function NullBrowserProjectPage() {
               href={PHILOSOPHY}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
+              className="aka-button-secondary"
             >
               PHILOSOPHY.md
               <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
@@ -125,7 +125,7 @@ export default function NullBrowserProjectPage() {
 
       <PlainSummary path={PATH} />
 
-      <div className="mt-12 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
+      <div className="mt-12 aka-prose">
         <WhatItIsSection />
 
         <AiRemovalSection />

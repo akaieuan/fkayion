@@ -2,7 +2,7 @@
 export function GlslSection() {
   return (
           <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               GLSL: what the vertex shader actually does
             </h2>
             <p>

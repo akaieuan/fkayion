@@ -1,10 +1,8 @@
-import { code } from '@/components/features/demo/hologram/shared'
-
 /** How it's delivered. Moved verbatim from app/demo/hologram/page.tsx. */
 export function DeliveredSection() {
   return (
           <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">How it&apos;s delivered</h2>
+            <h2 className="aka-lead">How it&apos;s delivered</h2>
             <p>
               Four pieces, each install-free. The plugin bundles a stdlib-only activity hook (logging
               sessions, shell commands, edits, and MCP calls), the five MCP tools, and the five guided
@@ -21,12 +19,12 @@ uvx --from hologram-gltf hologram dashboard
 /plugin install hologram`}
             </pre>
             <p>
-              <code className={code}>uvx</code> downloads the code (and a matching Python 3.10+) the
+              <code className="aka-code">uvx</code> downloads the code (and a matching Python 3.10+) the
               first time and caches it, so there&apos;s no release to download and no environment to
               maintain. Prefer a classic install?{' '}
-              <code className={code}>pip install hologram-gltf</code> (or, from a clone,{' '}
-              <code className={code}>pip install -e .</code>) still gives you a plain{' '}
-              <code className={code}>hologram</code> command.
+              <code className="aka-code">pip install hologram-gltf</code> (or, from a clone,{' '}
+              <code className="aka-code">pip install -e .</code>) still gives you a plain{' '}
+              <code className="aka-code">hologram</code> command.
             </p>
           </section>
   )

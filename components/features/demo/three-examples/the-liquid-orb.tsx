@@ -4,7 +4,7 @@ import { code } from '@/components/features/demo/three-examples/shared'
 export function TheLiquidOrbSection() {
   return (
     <section className="space-y-4">
-      <h2 className="text-sm font-medium tracking-wide text-foreground">The liquid orb</h2>
+      <h2 className="aka-lead">The liquid orb</h2>
       <p>
         The orb is one Three.js mesh carrying a <code className={code}>ShaderMaterial</code> with
         both stages written by hand. The vertex stage stacks three sine waves for the wave motion,

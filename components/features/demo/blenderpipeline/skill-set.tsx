@@ -4,7 +4,7 @@ import { skills } from '@/components/features/demo/blenderpipeline/shared'
 export function SkillSetSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               How I describe the skill set
             </h2>
             <ul className="flex flex-wrap gap-1.5 pl-0">

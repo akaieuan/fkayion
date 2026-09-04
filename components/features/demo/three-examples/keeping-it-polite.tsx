@@ -4,7 +4,7 @@ import { code } from '@/components/features/demo/three-examples/shared'
 export function KeepingItPoliteSection() {
   return (
     <section className="space-y-4">
-      <h2 className="text-sm font-medium tracking-wide text-foreground">Keeping it polite</h2>
+      <h2 className="aka-lead">Keeping it polite</h2>
       <p>
         A portfolio page has no business running a render loop you cannot see. An{' '}
         <code className={code}>IntersectionObserver</code> flips the canvas{' '}

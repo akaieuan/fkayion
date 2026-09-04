@@ -4,7 +4,7 @@ import Link from 'next/link'
 export function CreditsSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Who built it</h2>
+            <h2 className="aka-lead">Who built it</h2>
             <p>
               A two-person{' '}
               <Link href="/demo/circleheads" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">

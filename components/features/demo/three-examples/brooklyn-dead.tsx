@@ -5,7 +5,7 @@ import { code, inlineLink } from '@/components/features/demo/three-examples/shar
 export function BrooklynDeadSection() {
   return (
     <section className="space-y-4">
-      <h2 className="text-sm font-medium tracking-wide text-foreground">
+      <h2 className="aka-lead">
         Brooklyn Dead: the same geometry, a different runtime
       </h2>
       <p>

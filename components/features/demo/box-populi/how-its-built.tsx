@@ -2,16 +2,16 @@
 export function HowItsBuiltSection() {
   return (
           <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">How it&apos;s built</h2>
+            <h2 className="aka-lead">How it&apos;s built</h2>
             <p>
               The site is a thin presentation layer over a typed data model. Everything the public
               sees is generated from typed files in{' '}
-              <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">data/</code>:
+              <code className="aka-code">data/</code>:
               network constants, the artist roster and lookup helpers, shows, role labels, and shared
               types. Adding an artist or swapping the featured set is a one-line data change, and the
               per-artist pages generate themselves from the roster. Pages stay declarative.
             </p>
-            <ul className="list-disc space-y-2 pl-5 marker:text-muted-foreground/50">
+            <ul className="aka-list space-y-2">
               <li>
                 <span className="text-foreground/85">Structure.</span> A multi-page Next.js App
                 Router app, not a single landing page: a home page (hero, manifesto, Listen player,

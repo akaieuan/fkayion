@@ -2,7 +2,7 @@
 export function StatusSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Status</h2>
+            <h2 className="aka-lead">Status</h2>
             <p>
               Working build with a real persistent store: photo slides, body-map region picking, the
               tracking heatmap, checkup nudges, entry detail, spot history, compare, condition detail,

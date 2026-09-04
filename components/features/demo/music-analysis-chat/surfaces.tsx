@@ -1,10 +1,8 @@
-import { h2 } from '@/components/features/demo/music-analysis-chat/shared'
-
 /** Four surfaces, one set of blocks. Moved verbatim from app/demo/music-analysis-chat/page.tsx. */
 export function SurfacesSection() {
   return (
           <section className="space-y-3">
-            <h2 className={h2}>Four surfaces, one set of blocks</h2>
+            <h2 className="aka-lead">Four surfaces, one set of blocks</h2>
             <p>
               Chat is where a question gets asked, but it is a bad place to keep an answer. So the
               same blocks compose into three other surfaces: an analytics view over the whole
@@ -14,7 +12,7 @@ export function SurfacesSection() {
               it came out of.
             </p>
             <p>
-              Artists can be pulled into a question with an <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">@</code>{' '}
+              Artists can be pulled into a question with an <code className="aka-code">@</code>{' '}
               mention, which is the whole context model: the thing being asked about is named, not
               inferred.
             </p>

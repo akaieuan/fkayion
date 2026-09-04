@@ -1,13 +1,11 @@
-import { code } from '@/components/features/demo/collapse/shared'
-
 /** Status & roadmap. Moved verbatim from app/demo/collapse/page.tsx. */
 export function StatusSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Status &amp; roadmap</h2>
+            <h2 className="aka-lead">Status &amp; roadmap</h2>
             <p>
-              Active development. Shipped: the MDX ingestor (<code className={code}>&lt;LangTab&gt;</code>{' '}
-              / <code className={code}>&lt;Note&gt;</code> model, 21 reference lessons), the notebook
+              Active development. Shipped: the MDX ingestor (<code className="aka-code">&lt;LangTab&gt;</code>{' '}
+              / <code className="aka-code">&lt;Note&gt;</code> model, 21 reference lessons), the notebook
               ingestor (.ipynb + MyST with admonition prefill), the template engine with
               cross-language equivalents, the atomic persistence layer with 409 handling, the
               three-tier quality linter, the lesson + import + skills-directory UIs, the MCP server

@@ -9,46 +9,6 @@
    A global * rule here would force transition calculations on every DOM node
    including R3F internals — removed for performance. */
 
-/* Custom animations */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  25% {
-    transform: translateY(-10px) rotate(2deg);
-  }
-  50% {
-    transform: translateY(-20px) rotate(0deg);
-  }
-  75% {
-    transform: translateY(-10px) rotate(-2deg);
-  }
-}
-
-@keyframes backgroundShift {
-  0%, 100% {
-    filter: hue-rotate(0deg);
-  }
-  25% {
-    filter: hue-rotate(90deg);
-  }
-  50% {
-    filter: hue-rotate(180deg);
-  }
-  75% {
-    filter: hue-rotate(270deg);
-  }
-}
-
-@keyframes glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(59, 130, 246, 0.6);
-  }
-}
-
 /* Text selection — on-brand sage green (hue ~152), was blue */
 ::selection {
   background: color-mix(in srgb, var(--select) 28%, transparent);
@@ -75,144 +35,6 @@ canvas {
   max-width: none;
   overflow: visible;
   touch-action: none;
-}
-
-/* Custom slider styles for visualizer */
-.slider-thumb-blue::-webkit-slider-thumb {
-  appearance: none;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #3b82f6;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.slider-thumb-red::-webkit-slider-thumb {
-  appearance: none;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #ef4444;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.slider-thumb-green::-webkit-slider-thumb {
-  appearance: none;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #22c55e;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.slider-thumb-purple::-webkit-slider-thumb {
-  appearance: none;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #a855f7;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.slider-thumb-orange::-webkit-slider-thumb {
-  appearance: none;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #f97316;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.slider-thumb-teal::-webkit-slider-thumb {
-  appearance: none;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #14b8a6;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-/* Mercury Audio Visualizer custom gradient sliders */
-.slider::-webkit-slider-thumb {
-  appearance: none;
-  height: 20px;
-  width: 20px;
-  border-radius: 50%;
-  background: linear-gradient(45deg, #00f2ff, #ff00a8);
-  cursor: pointer;
-  border: 2px solid #000;
-  box-shadow: 0 2px 8px rgba(0, 242, 255, 0.3);
-  transition: all 0.2s ease;
-}
-
-.slider::-moz-range-thumb {
-  height: 20px;
-  width: 20px;
-  border-radius: 50%;
-  background: linear-gradient(45deg, #00f2ff, #ff00a8);
-  cursor: pointer;
-  border: 2px solid #000;
-  box-shadow: 0 2px 8px rgba(0, 242, 255, 0.3);
-  transition: all 0.2s ease;
-}
-
-/*
- * Slider thumb hovers, gated like every other hover on the site: on a touch
- * screen `:hover` latches after the first drag and the thumb would stay
- * enlarged for good.
- */
-@media (hover: hover) and (pointer: fine) {
-  .slider-thumb-blue::-webkit-slider-thumb:hover {
-    background: #2563eb;
-    transform: scale(1.1);
-  }
-
-  .slider-thumb-red::-webkit-slider-thumb:hover {
-    background: #dc2626;
-    transform: scale(1.1);
-  }
-
-  .slider-thumb-green::-webkit-slider-thumb:hover {
-    background: #16a34a;
-    transform: scale(1.1);
-  }
-
-  .slider-thumb-purple::-webkit-slider-thumb:hover {
-    background: #9333ea;
-    transform: scale(1.1);
-  }
-
-  .slider-thumb-orange::-webkit-slider-thumb:hover {
-    background: #ea580c;
-    transform: scale(1.1);
-  }
-
-  .slider-thumb-teal::-webkit-slider-thumb:hover {
-    background: #0d9488;
-    transform: scale(1.1);
-  }
-
-  .slider::-webkit-slider-thumb:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 242, 255, 0.5);
-  }
-
-  .slider::-moz-range-thumb:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 242, 255, 0.5);
-  }
 }
 
 /* Smooth font rendering */
@@ -375,6 +197,19 @@ body {
   --card-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='0.16'/%3E%3C/svg%3E");
   /* The one accent: what a selected tab, selected text and a focus ring take. */
   --select: oklch(0.58 0.13 250);
+  /*
+   * The site header's own chrome: the glass it becomes on scroll, its edge,
+   * the mobile drawer and the hamburger bars. These were literals inside the
+   * component, one per theme; the values are unchanged and now theme
+   * themselves. The glass and the drawer are deliberately darker than the
+   * page ground and are not aliases of --background.
+   */
+  --header-glass: oklch(0.866 0.004 106.485 / 0.55);
+  --header-edge: oklch(0.475 0.001 0 / 0.08);
+  --header-fade-to: oklch(0.866 0.004 106.485 / 0);
+  --header-drawer: oklch(0.885 0.011 112.391);
+  --header-drawer-edge: oklch(0.475 0.001 0 / 0.12);
+  --header-bar: oklch(0.122 0.001 0 / 0.88);
   --input: oklch(0.925 0 0);
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.646 0.222 41.116);
@@ -391,6 +226,30 @@ body {
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --radius: 0.625rem;
+  /*
+   * The radii Tailwind ships that the site also uses, held as tokens at their
+   * stock values so bare `rounded`, `rounded-xl` and `rounded-2xl` answer to a
+   * variable like `rounded-lg` does. Nothing moves; they are now yours to move.
+   */
+  --radius-xs: 0.25rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  /*
+   * Motion, named. Three curves the site actually draws with and the
+   * durations each surface uses today, held at their current values. The
+   * spread (150 to 520ms) is a wave-two decision; naming it is how it gets
+   * seen.
+   */
+  --ease-arrive: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-lift: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --ease-reveal: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-ink: 150ms;
+  --dur-hint: 160ms;
+  --dur-edge: 200ms;
+  --dur-step: 280ms;
+  --dur-fade: 300ms;
+  --dur-lift: 320ms;
+  --dur-reveal: 520ms;
   --twt-red: oklch(0.577 0.245 27.325);
   --twt-red-foreground: oklch(0.985 0 0);
   /* Car palette for the pixel roundabout (shared with the circleheads brand engine) */
@@ -456,6 +315,12 @@ body {
   --card-grain-blend: soft-light;
   --card-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='0.55'/%3E%3C/svg%3E");
   --select: oklch(0.707 0.108 152.216);
+  --header-glass: color-mix(in oklch, var(--background) 55%, transparent);
+  --header-edge: rgb(255 255 255 / 6%);
+  --header-fade-to: transparent;
+  --header-drawer: #0f0e0a;
+  --header-drawer-edge: rgb(255 255 255 / 8%);
+  --header-bar: rgb(255 255 255 / 65%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
   --chart-1: oklch(0.621 0.136 268.368);
@@ -520,6 +385,113 @@ body {
     --breakout: min(100vw - 3rem, 1180px);
     width: var(--breakout);
     margin-inline: calc((100% - var(--breakout)) / 2);
+  }
+
+  /*
+   * The text roles, named.
+   *
+   * Each of these was a class string copied across the site (the lead 127
+   * times, the code chip 84, the kicker 16 under four different names) and
+   * each had drifted into variants. They are one definition now, and each is
+   * written as exactly the CSS the utilities it replaces emitted, so nothing
+   * on the page moved when they landed.
+   *
+   * Some of those strings carried a colour modifier that emitted nothing:
+   * the theme colours are bare var() with no <alpha-value> slot, so
+   * `text-foreground/90`, `bg-muted/60` and `marker:text-muted-foreground/50`
+   * were dropped by Tailwind and the element inherited instead. Those roles
+   * are written here as they render, colour inherited, with the intent noted
+   * beside them, so that fixing the alpha slot later is a change to these
+   * lines and not to a hundred call sites.
+   */
+  .aka-kicker {
+    /* intent: --muted-foreground at 70%; renders inherited today */
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+  }
+  .aka-section-title {
+    /* intent: --foreground at 90%; renders inherited today */
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 300;
+    letter-spacing: -0.025em;
+  }
+  .aka-standfirst {
+    margin-top: 0.5rem;
+    max-width: 36rem;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.625;
+    color: var(--muted-foreground);
+  }
+  .aka-lead {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    color: var(--foreground);
+  }
+  .aka-code {
+    /* intent: --muted at 60% behind it; renders with no ground today */
+    border-radius: var(--radius-xs);
+    padding: 0.125rem 0.25rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    font-size: 12px;
+  }
+  /*
+   * The two buttons the site ships. The specimen used to document a larger
+   * pair that appeared nowhere; these are the thirty-four call sites. The
+   * hover rules sit under (hover: hover) because every Tailwind hover on the
+   * site does (a tapped control must not latch), and the secondary's fill is
+   * mixed by hand because `hover:bg-muted/40` never rendered.
+   */
+  .aka-button,
+  .aka-button-secondary {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.875rem;
+    font-size: 13px;
+    font-weight: 500;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  .aka-button {
+    background-color: var(--foreground);
+    color: var(--background);
+    transition-property: opacity;
+  }
+  .aka-button-secondary {
+    background-color: var(--background);
+    color: var(--foreground);
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  }
+  @media (hover: hover) {
+    .aka-button:hover {
+      opacity: 0.9;
+    }
+    .aka-button-secondary:hover {
+      background-color: color-mix(in srgb, var(--muted) 40%, transparent);
+    }
+  }
+  .aka-prose {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.625;
+    color: var(--muted-foreground);
+  }
+  .aka-prose > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 2.5rem;
+  }
+  .aka-list {
+    /* intent: markers in --muted-foreground at 50%; renders inherited today */
+    list-style-type: disc;
+    padding-left: 1.25rem;
   }
 }
 
@@ -669,8 +641,8 @@ body {
    */
   .aka-card-lift {
     transition:
-      transform 320ms cubic-bezier(0.2, 0.7, 0.3, 1),
-      border-color 200ms ease;
+      transform var(--dur-lift) var(--ease-lift),
+      border-color var(--dur-edge) ease;
   }
   .aka-card-lift:hover,
   .group:hover .aka-card-lift {
@@ -830,7 +802,7 @@ body {
   }
   .aka-flow-strip {
     transform: translateY(calc(var(--flow-active, 0) * var(--flow-cap) * -1));
-    transition: transform 280ms cubic-bezier(0.32, 0.72, 0, 1);
+    transition: transform var(--dur-step) var(--ease-arrive);
   }
   .aka-flow-slot {
     height: var(--flow-cap);
@@ -1051,7 +1023,7 @@ body {
     visibility: hidden;
     opacity: 0;
     transform: translate(-50%, -4px);
-    transition: transform 160ms cubic-bezier(0.32, 0.72, 0, 1);
+    transition: transform var(--dur-hint) var(--ease-arrive);
   }
   .aka-hint-host:hover > .aka-hint,
   .aka-hint-host:focus-visible > .aka-hint {
@@ -1127,7 +1099,7 @@ body {
     -webkit-backdrop-filter: blur(12px) saturate(1.4);
     backdrop-filter: blur(12px) saturate(1.4);
     opacity: 0;
-    transition: opacity 300ms ease;
+    transition: opacity var(--dur-fade) ease;
   }
   .aka-demo-back[data-scrolled] a::before {
     opacity: 1;
@@ -1234,7 +1206,7 @@ body {
     text-decoration-line: underline;
     text-underline-offset: 3px;
     text-decoration-color: color-mix(in srgb, var(--foreground) 30%, transparent);
-    transition: color 150ms ease, text-decoration-color 150ms ease;
+    transition: color var(--dur-ink) ease, text-decoration-color var(--dur-ink) ease;
   }
   .aka-ink-link:hover {
     color: var(--select);
@@ -1463,8 +1435,8 @@ html:not(.dark) .animate-trickle-spotlight {
  */
 [data-reveal] {
   transition:
-    opacity 520ms cubic-bezier(0.22, 0.61, 0.36, 1) var(--reveal-delay, 0ms),
-    transform 520ms cubic-bezier(0.22, 0.61, 0.36, 1) var(--reveal-delay, 0ms);
+    opacity var(--dur-reveal) var(--ease-reveal) var(--reveal-delay, 0ms),
+    transform var(--dur-reveal) var(--ease-reveal) var(--reveal-delay, 0ms);
 }
 
 [data-reveal='pending'] {

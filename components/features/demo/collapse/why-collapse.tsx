@@ -2,7 +2,7 @@
 export function WhyCollapseSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Why collapse across stacks</h2>
+            <h2 className="aka-lead">Why collapse across stacks</h2>
             <p>
               The leverage isn’t “I have skills” — it’s skills that move with you when you switch
               stacks. Writing the Vue version after the React version forces you to see exactly where

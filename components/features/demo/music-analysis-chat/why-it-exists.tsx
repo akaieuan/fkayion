@@ -1,10 +1,8 @@
-import { h2 } from '@/components/features/demo/music-analysis-chat/shared'
-
 /** Why it exists. Moved verbatim from app/demo/music-analysis-chat/page.tsx. */
 export function WhyItExistsSection() {
   return (
           <section className="space-y-3">
-            <h2 className={h2}>Why it exists</h2>
+            <h2 className="aka-lead">Why it exists</h2>
             <p>
               I spent years around music data: save rates, playlist adds, which clip is driving
               which conversion. The questions people actually ask of it are narrow and repetitive.

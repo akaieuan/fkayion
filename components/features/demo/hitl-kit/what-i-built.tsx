@@ -2,8 +2,8 @@
 export function WhatIBuiltSection() {
   return (
           <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">What I actually built</h2>
-            <ul className="list-disc space-y-2 pl-5 marker:text-muted-foreground/50">
+            <h2 className="aka-lead">What I actually built</h2>
+            <ul className="aka-list space-y-2">
               <li>
                 <span className="text-foreground/85">An AI Measurement Problem (paper).</span> A
                 perspective piece synthesizing benchmark saturation, cognitive neuroscience, uncertainty
@@ -22,7 +22,7 @@ export function WhatIBuiltSection() {
                 registry.json, a build pipeline (pnpm registry:build), and nineteen JSON manifests served
                 at hitlkit.dev/r/*.json. Transitive dependencies resolve correctly. End-to-end tested:
                 anyone on the open internet can run{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">
+                <code className="aka-code">
                   npx shadcn@latest add https://www.hitlkit.dev/r/hitl-card.json
                 </code>{' '}
                 and get a working install.

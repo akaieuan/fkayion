@@ -14,7 +14,7 @@ const gallery = [
 export function GallerySection() {
   return (
           <div>
-            <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
+            <p className="aka-kicker">
               The reviewer surface, in frames
             </p>
             <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">

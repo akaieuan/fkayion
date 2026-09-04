@@ -2,7 +2,7 @@
 export function SkillSetSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">How I describe the skill set</h2>
+            <h2 className="aka-lead">How I describe the skill set</h2>
             <p className="text-[14px] leading-relaxed">
               Technical writing and research synthesis, design systems, component library engineering,
               shadcn CLI and registry authoring, Next.js App Router, Tailwind CSS v4, TypeScript, React

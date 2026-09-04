@@ -2,7 +2,7 @@
 export function CrossToolContractsSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Cross-tool contracts</h2>
+            <h2 className="aka-lead">Cross-tool contracts</h2>
             <p>
               Three tools have to agree about which way is up, where a weapon attaches, and what a
               socket is called. None of that is left implied. Axes and attachment sockets are

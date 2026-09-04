@@ -1,10 +1,8 @@
-import { code } from '@/components/features/demo/null-browser/shared'
-
 /** Capture, not inference. Moved verbatim from app/demo/null-browser/page.tsx. */
 export function CaptureSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               Capture, not inference
             </h2>
             <p>
@@ -16,7 +14,7 @@ export function CaptureSection() {
             </p>
             <p>
               Every note is written twice: to SQLite, which is the index the list reads, and to{' '}
-              <code className={code}>~/Documents/Null/</code> as a real markdown file with YAML front
+              <code className="aka-code">~/Documents/Null/</code> as a real markdown file with YAML front
               matter. The file is the copy that matters. It opens in Obsidian, it greps, and it is
               still readable long after you stop running Null. The sync goes both ways, and it
               refuses the dangerous cases: a file older than Null&apos;s own last write is treated as

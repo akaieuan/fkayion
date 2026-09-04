@@ -1,10 +1,8 @@
-import { code } from '@/components/features/demo/blockpad/shared'
-
 /** Why it exists. Moved verbatim from app/demo/blockpad/page.tsx. */
 export function WhySection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Why it exists</h2>
+            <h2 className="aka-lead">Why it exists</h2>
             <p>
               Figma and Excalidraw are good tools. They are also another tab, another context, a lot
               of clicks, and an account you have to keep, and the genuinely useful tiers cost money.
@@ -24,8 +22,8 @@ export function WhySection() {
             </p>
             <p className="text-foreground/85">The cost is not the message. It is the rounds.</p>
             <p>
-              Blockpad is one hotkey and one canvas. <code className={code}>Ctrl+Opt+B</code>, drag
-              four boxes, <code className={code}>Cmd+Return</code>, paste. No model inside it, no
+              Blockpad is one hotkey and one canvas. <code className="aka-code">Ctrl+Opt+B</code>, drag
+              four boxes, <code className="aka-code">Cmd+Return</code>, paste. No model inside it, no
               account, no subscription, nothing agent-initiated, and it never leaves your machine. It
               is a faster input device for one specific moment, and the constraint is the product.
             </p>

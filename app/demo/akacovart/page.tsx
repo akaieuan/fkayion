@@ -15,8 +15,6 @@ import { StatusSection } from '@/components/features/demo/akacovart/status'
 import { GallerySection } from '@/components/features/demo/akacovart/gallery'
 import { AkaCovartClosing } from '@/components/features/demo/akacovart/closing'
 
-const code = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]'
-
 const hero: Shot = { src: '/akacovart/covart-splash.webp', w: 1600, h: 839, label: 'akaCOVART — a generative album-art engine' }
 
 const PATH = '/demo/akacovart'
@@ -72,7 +70,7 @@ export default function AkaCovartProjectPage() {
               href="https://akacovart.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
+              className="aka-button"
             >
               Visit akacovart.com
               <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
@@ -81,7 +79,7 @@ export default function AkaCovartProjectPage() {
               href="https://github.com/akaieuan/akaCovart"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
+              className="aka-button-secondary"
             >
               GitHub — akaieuan/akaCovart
               <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
@@ -98,7 +96,7 @@ export default function AkaCovartProjectPage() {
       />
       <PlainSummary path={PATH} />
 
-      <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
+      <div className="mt-10 aka-prose">
         <WhatThisIsSection />
 
         <EveryImageIsDataSection />

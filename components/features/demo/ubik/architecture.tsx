@@ -2,7 +2,7 @@
 export function ArchitectureSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               The human-in-the-loop architecture
             </h2>
             <p>

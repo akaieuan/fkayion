@@ -1,7 +1,6 @@
 import { demoMetadata } from '@/lib/demo-seo'
 
 export const label = 'text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50'
-export const code = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]'
 
 export const PATH = '/demo/blockpad'
 

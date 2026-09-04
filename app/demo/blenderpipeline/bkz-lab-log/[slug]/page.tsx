@@ -91,7 +91,7 @@ export default function LabEntryPage({ params }: Params) {
           BKZ lab log
         </Link>
 
-        <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
+        <p className="aka-kicker">
           {entry.kicker}
         </p>
         <h1 className="mt-2 text-2xl font-light leading-snug tracking-tight text-foreground md:text-[26px]">

@@ -12,7 +12,7 @@ const invariants: [string, string][] = [
 export function InvariantsSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">The six invariants</h2>
+            <h2 className="aka-lead">The six invariants</h2>
             <p>
               Not defaults. Invariants: code that violates one is a bug, and every pull request that
               touches networking or storage answers three questions from the diff alone. What does

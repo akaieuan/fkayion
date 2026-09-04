@@ -2,7 +2,7 @@
 export function RenderLoopSection() {
   return (
           <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               React Three Fiber and the render loop
             </h2>
             <p>

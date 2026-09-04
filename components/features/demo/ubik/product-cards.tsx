@@ -2,9 +2,6 @@ import { LoopVideo } from '@/components/ui/loop-video'
 import { UbikCardArt } from '@/components/product-replicas/ubik/card-art'
 import type { Demo } from '@/components/features/demo/ubik/shared'
 
-const microLabel =
-  'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
-
 /** Every recording is 1280 wide after encoding; heights vary by capture. */
 const DEMO_H: Record<string, number> = {
   '/ubik/workspace': 978,
@@ -132,7 +129,7 @@ function ProductCard({ demo }: { demo: Demo }) {
 export function ProductCardsSection() {
   return (
           <div className="aka-breakout">
-            <p className={microLabel}>The product, in motion</p>
+            <p className="aka-kicker">The product, in motion</p>
             <p className="mt-2 max-w-xl text-[12px] font-light leading-relaxed text-muted-foreground/70">
               Seven silent recordings of the last build, March 2026. Each one loads and starts when
               you reach it, and stops when you leave.

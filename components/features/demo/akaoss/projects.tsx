@@ -52,14 +52,14 @@ function ProjectRow({ p }: { p: Project }) {
 export function ProjectsSection() {
   return (
           <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">The projects</h2>
+            <h2 className="aka-lead">The projects</h2>
             <p>
               Five projects across two tracks. Each lives in its own repo; four of them have a
               write-up here.
             </p>
 
             <div>
-              <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
+              <p className="mb-3 aka-kicker">
                 Human-in-the-loop measurement
               </p>
               <ProjectGrid
@@ -70,7 +70,7 @@ export function ProjectsSection() {
             </div>
 
             <div className="pt-2">
-              <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
+              <p className="mb-3 aka-kicker">
                 Developer tooling
               </p>
               <ProjectGrid
@@ -81,7 +81,7 @@ export function ProjectsSection() {
             </div>
 
             <div className="pt-2">
-              <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
+              <p className="mb-2 aka-kicker">
                 Also in the registry
               </p>
               <ProjectRow p={tagKit} />

@@ -7,7 +7,7 @@ const extLink =
 export function WhyUnusualSection() {
   return (
           <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Why it&apos;s unusual</h2>
+            <h2 className="aka-lead">Why it&apos;s unusual</h2>
             <p>Three things put this outside the eval-framework norm.</p>
             <div className="space-y-3">
               <h3 className="text-[13px] font-medium text-foreground/90">It&apos;s a UI, not a leaderboard</h3>
@@ -36,8 +36,8 @@ export function WhyUnusualSection() {
               <h3 className="text-[13px] font-medium text-foreground/90">It&apos;s pre-1.0 but ships like it isn&apos;t</h3>
               <p>
                 v0.3.1 is published with provenance attestations, the release workflow uses{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">pnpm pack</code> +{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">npm publish</code> for OIDC trusted publishing, the <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">main</code> branch
+                <code className="aka-code">pnpm pack</code> +{' '}
+                <code className="aka-code">npm publish</code> for OIDC trusted publishing, the <code className="aka-code">main</code> branch
                 requires four green CI matrix jobs before any merge, and the CHANGELOG has honest notes
                 about what worked and what fell back to a token. It looks like a 1.0 because the
                 discipline is what makes a tool depend-on-able, not the version number.

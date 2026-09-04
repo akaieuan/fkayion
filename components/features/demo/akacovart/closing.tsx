@@ -2,7 +2,7 @@
 export function AkaCovartClosing() {
   return (
           <section className="aka-card-well px-5 py-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Why it&apos;s different</h2>
+            <h2 className="aka-lead">Why it&apos;s different</h2>
             <p className="mt-2 text-[14px] leading-relaxed text-foreground/85">
               Most cover generators hand you a lucky export you can’t reproduce. akaCOVART makes every
               cover a tiny, deterministic recipe — engine + seed + a few parameters — so the look you

@@ -1,11 +1,11 @@
 import { BlockpadMark } from '@/components/ui/blockpad-mark'
-import { label, code } from '@/components/features/demo/blockpad/shared'
+import { label } from '@/components/features/demo/blockpad/shared'
 
 /** The mark is the operation. Moved verbatim from app/demo/blockpad/page.tsx. */
 export function MarkSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               The mark is the operation
             </h2>
             <div className="!mt-4 flex flex-wrap items-end gap-6">
@@ -31,7 +31,7 @@ export function MarkSection() {
             <p>
               It is generated in Core Graphics from the palette rather than stored as a binary asset,
               so changing a swatch changes the icon, and{' '}
-              <code className={code}>./Scripts/icon.sh</code> regenerates it from code. The SVG is
+              <code className="aka-code">./Scripts/icon.sh</code> regenerates it from code. The SVG is
               emitted from the same ratios, so vector and raster cannot drift.
             </p>
           </section>

@@ -2,7 +2,7 @@
 export function DictionaryYouEarnSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">A dictionary you earn</h2>
+            <h2 className="aka-lead">A dictionary you earn</h2>
             <p>
               Every solve is saved to <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">localStorage</code> with its definition, difficulty, solve time, score, and whether you
               cleared the bonus. A separate <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">/urdefs</code> page builds a personal stats view off that log: win rate,

@@ -2,7 +2,7 @@
 export function WhySection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Why it exists</h2>
+            <h2 className="aka-lead">Why it exists</h2>
             <p>
               If you have a chronic skin or body condition, the most useful question your doctor
               asks is the hardest one to answer: <em>is it better or worse than last time?</em> Six

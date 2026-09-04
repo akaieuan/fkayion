@@ -2,7 +2,7 @@
 export function UnderTheHoodSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Under the hood</h2>
+            <h2 className="aka-lead">Under the hood</h2>
             <p>
               The generative core is a pure, framework-agnostic Canvas-2D module with no UI
               dependencies — parameters go in, pixels come out — which is why the same code drives the

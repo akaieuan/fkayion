@@ -2,7 +2,7 @@
 export function ProductSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">The product</h2>
+            <h2 className="aka-lead">The product</h2>
             <p>
               A desktop app where any folder became a research workspace. Sources went in — papers,
               PDFs, webpages captured by a companion browser extension — and were indexed locally.

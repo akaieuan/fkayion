@@ -2,7 +2,7 @@
 export function WhatThisIsSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">What this is</h2>
+            <h2 className="aka-lead">What this is</h2>
             <p>
               Box Populi (&ldquo;Box of the People&rdquo;) is a rotating cast of NYC artists who play
               continuous, multi-hour improvised techno sets. The site is the collective&apos;s public

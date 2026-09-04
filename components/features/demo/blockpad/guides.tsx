@@ -2,7 +2,7 @@
 export function GuidesSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Alignment guides</h2>
+            <h2 className="aka-lead">Alignment guides</h2>
             <p>
               Grid snapping gives tidy coordinates but not tidy layouts: two boxes can both sit on
               the grid and still look a step out. Dragging solves the three interesting lines per

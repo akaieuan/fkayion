@@ -2,7 +2,7 @@
 export function DesignRubricSection() {
   return (
           <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Design rubric</h2>
+            <h2 className="aka-lead">Design rubric</h2>
             <p>Every animation is judged against three axes before it ships.</p>
             <div className="space-y-3">
               <h3 className="text-[13px] font-medium text-foreground/90">Distinct motion signature</h3>
@@ -18,7 +18,7 @@ export function DesignRubricSection() {
               <p>
                 Generic entrance animations are easy mode. The interesting components express the
                 concept of the animation through the character itself: Shatter breaks chars into{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">clip-path</code>{' '}
+                <code className="aka-code">clip-path</code>{' '}
                 shards, Pixelate resolves through a sub-character pixel grid, CarouselFlip positions
                 chars on a rotating 3D ring, Wireframe draws stroke outlines per char before filling.
               </p>
@@ -26,15 +26,15 @@ export function DesignRubricSection() {
             <div className="space-y-3">
               <h3 className="text-[13px] font-medium text-foreground/90">Fluidity</h3>
               <p>
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">mask-image</code>{' '}
+                <code className="aka-code">mask-image</code>{' '}
                 switching between gradient types mid-animation snaps discretely (browsers can&apos;t
                 interpolate). All masked components keep{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">mask-image</code>{' '}
+                <code className="aka-code">mask-image</code>{' '}
                 constant on the class and animate only{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">mask-size</code>{' '}
+                <code className="aka-code">mask-size</code>{' '}
                 and{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">mask-position</code>. Same rule for{' '}
-                <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">clip-path</code>{' '}
+                <code className="aka-code">mask-position</code>. Same rule for{' '}
+                <code className="aka-code">clip-path</code>{' '}
                 polygons.
               </p>
             </div>

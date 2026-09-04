@@ -2,7 +2,7 @@
 export function TheGameSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">The game</h2>
+            <h2 className="aka-lead">The game</h2>
             <p>
               Brooklyn Dead is a survival game I am building in private, in Godot 4. It has the
               shape you would expect from the genre: characters you outfit, mobs in tiers, weapons

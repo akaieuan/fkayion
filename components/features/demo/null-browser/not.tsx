@@ -2,7 +2,7 @@
 export function NotSection() {
   return (
           <section className="aka-card-well px-5 py-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">What Null is not</h2>
+            <h2 className="aka-lead">What Null is not</h2>
             <p className="mt-2 text-[14px] leading-relaxed text-foreground/85">
               Not a Chromium fork, because one maintainer cannot keep up with Chromium. Not an AI
               browser: it captures, it does not think. Not a product, not funded, not monetised, not

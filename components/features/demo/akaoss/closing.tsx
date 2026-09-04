@@ -4,7 +4,7 @@ import Link from 'next/link'
 export function AkaossClosing() {
   return (
           <section className="aka-card-well px-5 py-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Where it comes from</h2>
+            <h2 className="aka-lead">Where it comes from</h2>
             <p className="mt-2 text-[14px] leading-relaxed text-foreground/85">
               akaOSS is where the human-side-of-applied-AI work becomes reusable: the kits are the
               measurement instruments, the research feed is the evidence, and the paper is the

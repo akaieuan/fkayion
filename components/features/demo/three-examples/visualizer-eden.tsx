@@ -5,7 +5,7 @@ import { code, inlineLink } from '@/components/features/demo/three-examples/shar
 export function VisualizerEdenSection() {
   return (
     <section className="space-y-4">
-      <h2 className="text-sm font-medium tracking-wide text-foreground">
+      <h2 className="aka-lead">
         Visualizer Eden: the same stack, driven by sound
       </h2>
       <p>

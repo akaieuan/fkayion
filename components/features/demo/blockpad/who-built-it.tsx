@@ -2,7 +2,7 @@
 export function WhoBuiltItSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Who built it</h2>
+            <h2 className="aka-lead">Who built it</h2>
             <p>
               Ieuan King, design and build, out of{' '}
               <a

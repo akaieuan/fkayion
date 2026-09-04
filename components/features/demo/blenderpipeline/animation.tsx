@@ -2,7 +2,7 @@
 export function AnimationSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               Animation, in code
             </h2>
             <p>

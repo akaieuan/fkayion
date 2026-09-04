@@ -1,11 +1,10 @@
 import { PixelRoundabout } from '@/components/features/brand/pixel-roundabout'
-import { h2 } from '@/components/features/demo/how-i-work/shared'
 
 /** Brooklyn, and a large sheet of paper. Moved verbatim from app/demo/how-i-work/page.tsx. */
 export function BrooklynSection() {
   return (
           <section className="space-y-3">
-            <h2 className={h2}>Brooklyn, and a large sheet of paper</h2>
+            <h2 className="aka-lead">Brooklyn, and a large sheet of paper</h2>
             {/*
               Bartel-Pritchard Square, running. It floats beside the paragraph
               rather than sitting above it, because it is an aside about where

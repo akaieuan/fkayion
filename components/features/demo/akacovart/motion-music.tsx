@@ -2,7 +2,7 @@
 export function MotionMusicSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Motion &amp; music</h2>
+            <h2 className="aka-lead">Motion &amp; music</h2>
             <p>
               Two modes. <span className="text-foreground/85">Still</span> is a single frame.{' '}
               <span className="text-foreground/85">Animate</span> makes the cover move to a beat you set

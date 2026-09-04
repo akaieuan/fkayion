@@ -2,7 +2,7 @@
 export function WhyIBuiltItSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Why I built it</h2>
+            <h2 className="aka-lead">Why I built it</h2>
             <p>
               I play Wordle almost every day, and sometimes I get annoyed when I beat the round but I
               don&apos;t know the word.

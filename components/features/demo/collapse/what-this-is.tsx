@@ -2,7 +2,7 @@
 export function WhatThisIsSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">What this is</h2>
+            <h2 className="aka-lead">What this is</h2>
             <p>
               Collapse exists because Claude’s default knowledge is stack-agnostic, but most developers
               live inside one stack at a time. The same idea — reactive state, lifecycle, error

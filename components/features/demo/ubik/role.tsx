@@ -2,7 +2,7 @@
 export function RoleSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">My role</h2>
+            <h2 className="aka-lead">My role</h2>
             <p>
               I co-founded Ubik and led product design end to end: the workspace model, the review
               surfaces, the evidence and citation UX, the Human Needed grammar, and the copy and

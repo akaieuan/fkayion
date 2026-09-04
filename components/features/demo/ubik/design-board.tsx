@@ -5,7 +5,7 @@ import { WAYPOINTS } from '@/lib/ubik-canvas'
 export function DesignBoardSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">The design board</h2>
+            <h2 className="aka-lead">The design board</h2>
             <p>
               Ubik never had a design team, a seat of anything for everybody, or the time to keep a
               spec in sync with itself. What it had was Excalidraw files that nobody ever closed.

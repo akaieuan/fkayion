@@ -1,10 +1,8 @@
-import { codeChip } from '@/components/features/demo/inertial/shared'
-
 /** Why I built this. Moved verbatim from app/demo/inertial/page.tsx. */
 export function WhySection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Why I built this</h2>
+            <h2 className="aka-lead">Why I built this</h2>
             <p>
               Commercial moderation APIs claim accuracy without proof and ship verdicts without evidence. Federated
               mods distrust them because they can&apos;t audit them; centralized compliance teams need defensible
@@ -15,7 +13,7 @@ export function WhySection() {
               harness, reviewer surface — wired together end-to-end with real code rather than a slide deck. So I built
               it. Four claims:
             </p>
-            <ul className="list-disc space-y-2.5 pl-5 marker:text-muted-foreground/50">
+            <ul className="aka-list space-y-2.5">
               <li>
                 <strong className="font-medium text-foreground/85">Inertials (sub-agents)</strong> emit typed structured
                 signals, <em>not</em> verdicts. Probability + confidence + evidence pointers. The policy layer turns
@@ -27,7 +25,7 @@ export function WhySection() {
               </li>
               <li>
                 Per-skill privacy posture lives in the schema. A skill is either{' '}
-                <code className={codeChip}>dataLeavesMachine: true</code> or <code className={codeChip}>false</code>.
+                <code className="aka-code">dataLeavesMachine: true</code> or <code className="aka-code">false</code>.
                 The audit chain records which model saw which event, so privacy claims become hash-chained artifacts.
               </li>
               <li>

@@ -2,7 +2,7 @@
 export function ThesisSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">The thesis</h2>
+            <h2 className="aka-lead">The thesis</h2>
             <p>
               Current benchmarks ask “can the model complete this task autonomously?” In deployment,
               real users want an assistant that respects their authority, preserves their agency, and

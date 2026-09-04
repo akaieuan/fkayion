@@ -177,17 +177,15 @@ export function SiteHeader() {
   const navTextInactive = isDark ? 'text-white/40 hover:text-white/70' : 'text-foreground/40 hover:text-foreground/70'
   const logoText = isDark ? 'text-white/80 hover:text-white' : 'text-foreground/80 hover:text-foreground'
 
-  /** Inline color so bars always match header chrome; `bg-foreground` can desync from `isDark` during theme/hydration. */
-  const mobileMenuBarColor = isDark ? 'rgba(255,255,255,0.65)' : 'oklch(0.122 0.001 0 / 0.88)'
+  /** Inline so the bars follow the header's own token rather than `bg-foreground`, which desynced from `isDark` during hydration. */
+  const mobileMenuBarColor = 'var(--header-bar)'
 
   // Memoized so identity is stable across scroll-triggered renders. This keeps the
   // browser from flagging the glass layer as "changed" and re-rasterizing the blur.
   const glassStyle = useMemo<React.CSSProperties>(() => ({
     opacity: scrolled ? 1 : 0,
-    background: isDark
-      ? 'color-mix(in oklch, var(--background) 55%, transparent)'
-      : 'oklch(0.866 0.004 106.485 / 0.55)',
-    borderBottom: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid oklch(0.475 0.001 0 / 0.08)',
+    background: 'var(--header-glass)',
+    borderBottom: '1px solid var(--header-edge)',
     transform: 'translateZ(0)',
     willChange: 'opacity',
     backfaceVisibility: 'hidden',
@@ -195,9 +193,7 @@ export function SiteHeader() {
 
   const fadeStyle = useMemo<React.CSSProperties>(() => ({
     opacity: scrolled ? 1 : 0,
-    background: isDark
-      ? 'linear-gradient(to bottom, color-mix(in oklch, var(--background) 55%, transparent), transparent)'
-      : 'linear-gradient(to bottom, oklch(0.866 0.004 106.485 / 0.55), oklch(0.866 0.004 106.485 / 0))',
+    background: 'linear-gradient(to bottom, var(--header-glass), var(--header-fade-to))',
     transform: 'translateZ(0)',
     willChange: 'opacity',
   }), [scrolled, isDark])
@@ -319,8 +315,8 @@ export function SiteHeader() {
           style={{
             height: '100vh',
             minHeight: '100%',
-            background: isDark ? '#0f0e0a' : 'oklch(0.885 0.011 112.391)',
-            borderLeft: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid oklch(0.475 0.001 0 / 0.12)',
+            background: 'var(--header-drawer)',
+            borderLeft: '1px solid var(--header-drawer-edge)',
             transform: mobileMenuOpen ? 'translateX(0)' : 'translateX(100%)',
             transition: 'transform 0.3s ease-out',
           }}

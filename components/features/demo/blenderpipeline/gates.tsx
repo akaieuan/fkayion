@@ -2,7 +2,7 @@
 export function GatesSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               Generated art needs gates
             </h2>
             <p>

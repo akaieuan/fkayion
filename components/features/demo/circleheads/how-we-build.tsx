@@ -2,7 +2,7 @@
 export function HowWeBuildSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">How we build</h2>
+            <h2 className="aka-lead">How we build</h2>
             <p>
               We watch the work before we build. Then we ship a production system: the data it needs,
               the skills it uses, and approval gates that keep humans in control. Discovery and

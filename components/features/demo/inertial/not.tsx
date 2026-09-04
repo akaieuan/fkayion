@@ -1,11 +1,9 @@
-import { codeChip } from '@/components/features/demo/inertial/shared'
-
 /** What this is NOT. Moved verbatim from app/demo/inertial/page.tsx. */
 export function NotSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">What this is NOT</h2>
-            <ul className="list-disc space-y-2.5 pl-5 marker:text-muted-foreground/50">
+            <h2 className="aka-lead">What this is NOT</h2>
+            <ul className="aka-list space-y-2.5">
               <li>
                 <strong className="font-medium text-foreground/85">Not a deployable moderation service.</strong> No
                 connectors. No action dispatcher. No auth. Don&apos;t put it in front of any real instance.
@@ -27,8 +25,8 @@ export function NotSection() {
               <li>
                 <strong className="font-medium text-foreground/85">Not a complete moderation toolkit.</strong> The
                 dashboard, audit log, eval harness, and skill registry are real. Two of the seven{' '}
-                <code className={codeChip}>@inertial/agents-*</code> packages (audio, identity) are pure stubs that
-                return <code className={codeChip}>[]</code>; the remaining five (text, vision, video, context, cloud)
+                <code className="aka-code">@inertial/agents-*</code> packages (audio, identity) are pure stubs that
+                return <code className="aka-code">[]</code>; the remaining five (text, vision, video, context, cloud)
                 ship real composition logic. Connector packages are placeholders — none ingest from a real source
                 platform.
               </li>

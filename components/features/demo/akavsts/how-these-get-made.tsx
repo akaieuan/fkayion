@@ -1,10 +1,8 @@
-import { microLabel } from '@/components/features/demo/akavsts/shared'
-
 /** How these get made. Moved verbatim from app/demo/akavsts/page.tsx. */
 export function HowTheseGetMadeSection() {
   return (
         <section className="mt-14 border-t border-border/60 pt-10">
-          <p className={microLabel}>How these get made</p>
+          <p className="aka-kicker">How these get made</p>
           <div className="mt-5 space-y-5">
             {[
               {

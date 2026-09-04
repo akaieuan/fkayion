@@ -2,7 +2,7 @@
 export function WhyUnusualSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Why it&apos;s unusual</h2>
+            <h2 className="aka-lead">Why it&apos;s unusual</h2>
             <p>
               Most open-source AI UI kits are commodities: chat bubbles, tool-call cards, maybe a
               markdown renderer. HITL Kit couples a{' '}

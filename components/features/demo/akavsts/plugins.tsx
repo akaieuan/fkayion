@@ -2,7 +2,7 @@ import { ArrowUpRight } from 'lucide-react'
 import { DemoImage } from '@/components/ui/demo-image'
 import { JsonLd } from '@/components/seo/json-ld'
 import { demoSchema } from '@/lib/demo-seo'
-import { microLabel, PATH, metadata } from '@/components/features/demo/akavsts/shared'
+import { PATH, metadata } from '@/components/features/demo/akavsts/shared'
 
 type Shot = { src: string; w: number; h: number; label: string }
 type Feature = { h: string; t: string }
@@ -158,7 +158,7 @@ function Gallery({ shots }: { shots: Shot[] }) {
           description: metadata.description as string,
         })}
       />
-      <p className={microLabel}>More views</p>
+      <p className="aka-kicker">More views</p>
       <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
         {shots.map((shot) => (
           <figure key={shot.src}>
@@ -194,7 +194,7 @@ export function PluginsSection() {
             id={p.id}
             className={i === 0 ? 'mt-14 scroll-mt-20' : 'mt-16 border-t border-border/60 pt-14 scroll-mt-20'}
           >
-            <p className={microLabel}>{p.eyebrow}</p>
+            <p className="aka-kicker">{p.eyebrow}</p>
             <div className="mt-2 flex flex-wrap items-baseline gap-3">
               <h2 className="text-2xl font-light tracking-tight text-foreground/90 md:text-[26px]">
                 aka{p.suffix}
@@ -214,7 +214,7 @@ export function PluginsSection() {
                 href={p.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
+                className="aka-button-secondary"
               >
                 GitHub — {p.github.replace('https://github.com/', '')}
                 <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
@@ -226,7 +226,7 @@ export function PluginsSection() {
             <div className="mt-6 space-y-6 text-[15px] font-light leading-relaxed text-muted-foreground">
               <p>{p.what}</p>
 
-              <ul className="list-disc space-y-2 pl-5 marker:text-muted-foreground/50">
+              <ul className="aka-list space-y-2">
                 {p.features.map((f) => (
                   <li key={f.h}>
                     <span className="text-foreground/85">{f.h}.</span> {f.t}
@@ -236,7 +236,7 @@ export function PluginsSection() {
 
               {p.signalFlow && (
                 <div>
-                  <p className={microLabel}>Signal flow</p>
+                  <p className="aka-kicker">Signal flow</p>
                   <pre className="mt-3 overflow-x-auto aka-card-well rounded-lg p-4 text-[10.5px] leading-relaxed text-foreground/80">
                     {p.signalFlow}
                   </pre>

@@ -2,7 +2,7 @@
 export function TransparencySection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               Radical transparency, as a surface
             </h2>
             <p>

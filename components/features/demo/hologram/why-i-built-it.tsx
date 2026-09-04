@@ -1,15 +1,13 @@
-import { code } from '@/components/features/demo/hologram/shared'
-
 /** Why I built it. Moved verbatim from app/demo/hologram/page.tsx. */
 export function WhyIBuiltItSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Why I built it</h2>
+            <h2 className="aka-lead">Why I built it</h2>
             <p>
               I build games with my friend, and the bulk of my asset work runs through Blender into
               glTF — characters, props, weapons, the lot. At some point my AI coding agent became a
               real part of that pipeline: it writes the Blender scripts, runs the exports, and
-              rearranges the <code className={code}>.glb</code> files I ship. That was a huge speed-up,
+              rearranges the <code className="aka-code">.glb</code> files I ship. That was a huge speed-up,
               right up until I realised I had no real idea what it was doing. Assets changed, exports
               appeared, and I&apos;d be scrolling back through a terminal trying to reconstruct which
               step touched which file.

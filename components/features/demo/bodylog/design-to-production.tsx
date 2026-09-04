@@ -4,7 +4,7 @@ import Link from 'next/link'
 export function DesignToProductionSection() {
   return (
           <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               From design exploration to a shipping app
             </h2>
             <p>

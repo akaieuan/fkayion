@@ -2,7 +2,7 @@
 export function RewardsSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               Earned by tracking, never by improving
             </h2>
             <p>

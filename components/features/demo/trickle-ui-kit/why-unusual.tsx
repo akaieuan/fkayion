@@ -7,7 +7,7 @@ const extLink =
 export function WhyUnusualSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Why it&apos;s unusual</h2>
+            <h2 className="aka-lead">Why it&apos;s unusual</h2>
             <p>
               The React text-animation space is dominated by runtime-tax libraries: install 30kb of
               JavaScript to move a heading. trickle is the counter-argument, shipped as proof. It uses
@@ -15,13 +15,13 @@ export function WhyUnusualSection() {
               and react-type-animation all do with a runtime. The result is faster (GPU-accelerated
               keyframes), lighter (median &lt;1kb per component), and architecturally honest (server
               components stay server, no{' '}
-              <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">&apos;use client&apos;</code>{' '}
+              <code className="aka-code">&apos;use client&apos;</code>{' '}
               tax).
             </p>
             <p>
               Distribution is shadcn-CLI only by design. There is no installable npm package and no
               plan for one — the registry IS the distribution. You own the source the moment you run{' '}
-              <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">shadcn add</code>. No version lock-in, no upgrade churn, customise freely.
+              <code className="aka-code">shadcn add</code>. No version lock-in, no upgrade churn, customise freely.
             </p>
             <p>
               Related perspective on building open-source kits with the shadcn registry pattern:{' '}

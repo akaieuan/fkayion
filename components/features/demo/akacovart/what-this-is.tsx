@@ -2,7 +2,7 @@
 export function WhatThisIsSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">What this is</h2>
+            <h2 className="aka-lead">What this is</h2>
             <p>
               akaCOVART is a browser-based studio for making album art. You pick an engine, drop in a
               seed, and shape the result with a handful of controls — palette, composition, film

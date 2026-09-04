@@ -2,7 +2,7 @@
 export function WhatItWasForSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               What this project was for
             </h2>
             <p>

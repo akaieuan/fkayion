@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { DemoImage } from '@/components/ui/demo-image'
-import { link, h2 } from '@/components/features/demo/how-i-work/shared'
+import { link } from '@/components/features/demo/how-i-work/shared'
 
 /**
  * The software I use daily because the thing I wanted did not exist.
@@ -101,7 +101,7 @@ function Tool({ t }: { t: (typeof TOOLS)[number] }) {
 export function SmallSoftwareSection() {
   return (
           <section className="space-y-3">
-            <h2 className={h2}>Small software</h2>
+            <h2 className="aka-lead">Small software</h2>
             <p>
               I believe in small software: a tool built for one person doing one thing, which is
               allowed to be opinionated precisely because it does not have to be for everyone. The

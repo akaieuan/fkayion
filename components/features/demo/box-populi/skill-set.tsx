@@ -2,7 +2,7 @@
 export function SkillSetSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Skill set, end to end</h2>
+            <h2 className="aka-lead">Skill set, end to end</h2>
             <p className="text-[14px] leading-relaxed">
               Brand-faithful visual design, typed data modeling, Next.js App Router and React Server
               Components, Tailwind CSS v4, third-party API integration (SoundCloud Widget, Resend),

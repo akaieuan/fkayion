@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import { link, h2 } from '@/components/features/demo/how-i-work/shared'
+import { link } from '@/components/features/demo/how-i-work/shared'
 
 /** Where that lands now. Moved verbatim from app/demo/how-i-work/page.tsx. */
 export function WhereThatLandsSection() {
   return (
           <section className="space-y-3">
-            <h2 className={h2}>Where that lands now</h2>
+            <h2 className="aka-lead">Where that lands now</h2>
             <p>
               I take implementation when the work needs it rather than when the org chart allows
               it, which in practice means research and the build stay in the same week: what a

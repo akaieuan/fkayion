@@ -2,12 +2,12 @@
 export function WhatYouMakeSection() {
   return (
           <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">What you make</h2>
+            <h2 className="aka-lead">What you make</h2>
             <p>
               Three focuses, seven engines. The <span className="text-foreground/85">Art</span> focus
               gives four abstract field engines:
             </p>
-            <ul className="list-disc space-y-2 pl-5 marker:text-muted-foreground/50">
+            <ul className="aka-list space-y-2">
               <li>
                 <span className="text-foreground/85">Blob.</span> Soft, painterly clouds of colour with
                 diamond detail zones.

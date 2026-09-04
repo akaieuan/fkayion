@@ -4,7 +4,7 @@ import { RenderPair } from '@/components/product-replicas/bkz-lab-log/prose'
 export function GoneWrongSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               What that looks like when it goes wrong
             </h2>
             <p>

@@ -2,7 +2,7 @@
 export function WhatThisIsSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">What this is</h2>
+            <h2 className="aka-lead">What this is</h2>
             <p>
               eval-kit measures one thing: whether an AI agent actually helps a human do real work, as
               judged by the human. Not whether the agent can solve a synthetic puzzle alone. Not

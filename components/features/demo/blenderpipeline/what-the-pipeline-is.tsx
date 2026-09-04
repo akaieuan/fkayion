@@ -2,7 +2,7 @@
 export function WhatThePipelineIsSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">What the pipeline is</h2>
+            <h2 className="aka-lead">What the pipeline is</h2>
             <p>
               Four stages, each with a contract at its edge. Python generates geometry through
               Blender&apos;s API. Blender exports glTF 2.0. A browser preview layer built on

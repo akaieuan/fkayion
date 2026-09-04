@@ -26,7 +26,7 @@ const rules = [
 export function RulesSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               What decides arguments
             </h2>
             <ul className="!mt-4 list-none space-y-4 p-0">

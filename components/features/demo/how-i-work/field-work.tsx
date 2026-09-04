@@ -1,10 +1,8 @@
-import { h2 } from '@/components/features/demo/how-i-work/shared'
-
 /** Field work, applied to product. Moved verbatim from app/demo/how-i-work/page.tsx. */
 export function FieldWorkSection() {
   return (
           <section className="space-y-3">
-            <h2 className={h2}>Field work, applied to product</h2>
+            <h2 className="aka-lead">Field work, applied to product</h2>
             <p>
               The anthropology is the other half, and I use it on the job rather than beside it.
               Getting close to the problem means users, product research and session replays, and

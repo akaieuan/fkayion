@@ -1,10 +1,8 @@
-import { h2 } from '@/components/features/demo/how-i-work/shared'
-
 /** Designing through interaction. Moved verbatim from app/demo/how-i-work/page.tsx. */
 export function InteractionSection() {
   return (
           <section className="space-y-3">
-            <h2 className={h2}>Designing through interaction</h2>
+            <h2 className="aka-lead">Designing through interaction</h2>
             <p>
               What replaced the wireframe is parameterized: versions of a design with the decisions
               left exposed as things you can move, so the question stops being whether a change

@@ -4,7 +4,7 @@ import Link from 'next/link'
 export function LabLogSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">The lab log</h2>
+            <h2 className="aka-lead">The lab log</h2>
             <p>
               Findings like that one get written up rather than fixed and forgotten. The{' '}
               <Link

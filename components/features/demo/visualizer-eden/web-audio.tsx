@@ -2,7 +2,7 @@
 export function WebAudioSection() {
   return (
           <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               Web Audio: graph, analyser, and features
             </h2>
             <p>

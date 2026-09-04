@@ -5,7 +5,7 @@ const nonGoals =
 export function NonGoalsSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Non-goals</h2>
+            <h2 className="aka-lead">Non-goals</h2>
             <p>{nonGoals}</p>
             <p className="text-[13px] text-muted-foreground/70">
               The colour picker used to be on this list. It is not any more.

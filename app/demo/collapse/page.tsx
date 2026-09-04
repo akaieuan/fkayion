@@ -6,7 +6,7 @@ import { JsonLd } from '@/components/seo/json-ld'
 import { PlainSummary } from '@/components/ui/plain-summary'
 import { DemoShell } from '@/components/features/demo/demo-shell'
 import { WriteUpHeader } from '@/components/features/demo/write-up-header'
-import { code, type Shot } from '@/components/features/demo/collapse/shared'
+import type { Shot } from '@/components/features/demo/collapse/shared'
 import { WhatThisIsSection } from '@/components/features/demo/collapse/what-this-is'
 import { HowItWorksSection } from '@/components/features/demo/collapse/how-it-works'
 import { IngestorsSection } from '@/components/features/demo/collapse/ingestors'
@@ -69,7 +69,7 @@ export default function CollapseProjectPage() {
             href="https://github.com/akaieuan/collapse"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
+            className="aka-button"
           >
             GitHub — akaieuan/collapse
             <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
@@ -77,7 +77,7 @@ export default function CollapseProjectPage() {
         }
         byline={
           <>
-            Open source, public repo. Clone, <code className={code}>pnpm dev</code>, and collapse a lesson
+            Open source, public repo. Clone, <code className="aka-code">pnpm dev</code>, and collapse a lesson
             into a skill. Part of the{' '}
             <Link href="/demo/akaoss" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">akaOSS</Link>{' '}
             studio.
@@ -86,7 +86,7 @@ export default function CollapseProjectPage() {
       />
       <PlainSummary path={PATH} />
 
-      <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
+      <div className="mt-10 aka-prose">
         <WhatThisIsSection />
 
         <HowItWorksSection />

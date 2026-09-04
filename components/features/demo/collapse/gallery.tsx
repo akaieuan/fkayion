@@ -1,9 +1,6 @@
 import { DemoImage } from '@/components/ui/demo-image'
 import type { Shot } from '@/components/features/demo/collapse/shared'
 
-const microLabel =
-  'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
-
 const gallery: Shot[] = [
   { src: '/collapse/collapse-lesson.webp', w: 1600, h: 1000, label: 'Annotated lesson — hover a token to reveal the note' },
   { src: '/collapse/collapse-grid.webp', w: 1600, h: 1000, label: 'Cross-stack grid — quantum audio encoding' },
@@ -16,7 +13,7 @@ const gallery: Shot[] = [
 export function GallerySection() {
   return (
           <div>
-            <p className={microLabel}>More views</p>
+            <p className="aka-kicker">More views</p>
             <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
               {gallery.map((shot) => (
                 <figure key={shot.src}>

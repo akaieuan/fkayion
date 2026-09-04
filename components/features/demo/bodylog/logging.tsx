@@ -2,8 +2,8 @@
 export function LoggingSection() {
   return (
           <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">How logging works</h2>
-            <ul className="list-disc space-y-2 pl-5 marker:text-muted-foreground/50">
+            <h2 className="aka-lead">How logging works</h2>
+            <ul className="aka-list space-y-2">
               <li>
                 <span className="text-foreground/85">Entries like posts, not forms.</span> Optional
                 photo slides with captions, tap-to-select regions on a face / front / back diagram, a

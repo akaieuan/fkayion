@@ -1,12 +1,10 @@
-import { codeChip } from '@/components/features/demo/inertial/shared'
-
 /** Naming. Moved verbatim from app/demo/inertial/page.tsx. */
 export function NamingSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Naming</h2>
+            <h2 className="aka-lead">Naming</h2>
             <p>The vocabulary comes from Philip K. Dick&apos;s <em>Ubik</em> (1969).</p>
-            <ul className="list-disc space-y-2.5 pl-5 marker:text-muted-foreground/50">
+            <ul className="aka-list space-y-2.5">
               <li>
                 <strong className="font-medium text-foreground/85">inertial</strong> — in <em>Ubik</em>, &quot;inertials&quot;
                 are anti-telepaths whose function is to neutralize harmful psychic intrusion on behalf of clients.
@@ -16,9 +14,9 @@ export function NamingSection() {
               <li>
                 <strong className="font-medium text-foreground/85">Runciter</strong> — Glen Runciter, the operator who
                 runs the prudence organization that dispatches inertials. The orchestrator class in{' '}
-                <code className={codeChip}>@inertial/core</code> is <code className={codeChip}>Runciter</code>; the
-                host process is <code className={codeChip}>apps/runciter</code>. Code reads as{' '}
-                <code className={codeChip}>runciter.dispatch(event) → inertials emit StructuredSignals</code>.
+                <code className="aka-code">@inertial/core</code> is <code className="aka-code">Runciter</code>; the
+                host process is <code className="aka-code">apps/runciter</code>. Code reads as{' '}
+                <code className="aka-code">runciter.dispatch(event) → inertials emit StructuredSignals</code>.
               </li>
               <li>
                 <strong className="font-medium text-foreground/85">structured signals</strong> — what inertials emit.

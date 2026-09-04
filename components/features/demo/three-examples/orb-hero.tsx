@@ -24,6 +24,7 @@ export function OrbHero() {
   const mousePosRef = useRef({ x: 0, y: 0 })
   const hostRef = useRef<HTMLDivElement>(null)
   const [inView, setInView] = useState(true)
+  const [hidden, setHidden] = useState(false)
   const [narrow, setNarrow] = useState(false)
   const [still, setStill] = useState(false)
 
@@ -35,6 +36,18 @@ export function OrbHero() {
     })
     observer.observe(el)
     return () => observer.disconnect()
+  }, [])
+
+  /*
+   * A background tab is unwatched too. The observer keeps reporting the orb as
+   * on screen while the tab is hidden, so the loop would run for nobody; the
+   * document's own visibility is the second gate on the same frameloop.
+   */
+  useEffect(() => {
+    const read = () => setHidden(document.hidden)
+    read()
+    document.addEventListener('visibilitychange', read)
+    return () => document.removeEventListener('visibilitychange', read)
   }, [])
 
   /*
@@ -96,7 +109,7 @@ export function OrbHero() {
         style={{ width: '100%', height: '100%' }}
         gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0 }}
         dpr={[1, 2]}
-        frameloop={inView && !still ? 'always' : 'never'}
+        frameloop={inView && !still && !hidden ? 'always' : 'never'}
         performance={{ min: 0.5 }}
       >
         <ambientLight intensity={0.15} />

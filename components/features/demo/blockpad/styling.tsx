@@ -2,7 +2,7 @@
 export function StylingSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Styling</h2>
+            <h2 className="aka-lead">Styling</h2>
             <p>
               Colour is arbitrary hex, not a fixed palette. Four presets stay inline in each row for
               the common case. The swatch opens RGB channel sliders with live gradient tracks, a hex

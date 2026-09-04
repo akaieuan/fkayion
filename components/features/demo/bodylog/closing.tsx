@@ -2,7 +2,7 @@
 export function ClosingSection() {
   return (
           <section className="aka-card-well px-5 py-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               Why this one matters to me
             </h2>
             <p className="mt-2 text-[14px] leading-relaxed text-foreground/85">

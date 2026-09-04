@@ -1,11 +1,11 @@
 import Link from 'next/link'
-import { link, h2 } from '@/components/features/demo/how-i-work/shared'
+import { link } from '@/components/features/demo/how-i-work/shared'
 
 /** A 2000 baby, raised on the future. Moved verbatim from app/demo/how-i-work/page.tsx. */
 export function Born2000Section() {
   return (
           <section className="space-y-3">
-            <h2 className={h2}>A 2000 baby, raised on the future</h2>
+            <h2 className="aka-lead">A 2000 baby, raised on the future</h2>
             <p>
               My dad is a programmer and a gamer, and the thing he has always told me is that to
               achieve the impossible you have to attempt the improbable. He got me a computer when

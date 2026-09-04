@@ -1,11 +1,9 @@
-import { code } from '@/components/features/demo/hologram/shared'
-
 /** Features. Moved verbatim from app/demo/hologram/page.tsx. */
 export function FeaturesSection() {
   return (
           <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Features</h2>
-            <ul className="list-disc space-y-2 pl-5 marker:text-muted-foreground/50">
+            <h2 className="aka-lead">Features</h2>
+            <ul className="aka-list space-y-2">
               <li>
                 <span className="text-foreground/85">Live activity feed.</span> A Server-Sent-Events
                 dashboard that tails an append-only event log. Sessions, shell commands, file edits,
@@ -19,15 +17,15 @@ export function FeaturesSection() {
               </li>
               <li>
                 <span className="text-foreground/85">Agent vision.</span>{' '}
-                <code className={code}>render_asset</code> renders a GLB to an image through your live
+                <code className="aka-code">render_asset</code> renders a GLB to an image through your live
                 Blender, so the agent can see an export — not just count its nodes. Non-destructive (a
                 throwaway scene, your scene restored) and degrades to a clear error when Blender
                 isn&apos;t running.
               </li>
               <li>
                 <span className="text-foreground/85">Read-only checks + regression diffing.</span>{' '}
-                <code className={code}>hologram check</code> runs assertions you author in{' '}
-                <code className={code}>.hologram/checks.py</code> over each asset (naming, root count,
+                <code className="aka-code">hologram check</code> runs assertions you author in{' '}
+                <code className="aka-code">.hologram/checks.py</code> over each asset (naming, root count,
                 whatever you like) and fingerprints every asset, so the dashboard can answer
                 &ldquo;what changed since the last check.&rdquo; Checks can&apos;t modify anything and
                 never run inside the MCP server.
@@ -35,7 +33,7 @@ export function FeaturesSection() {
               <li>
                 <span className="text-foreground/85">Guided skills.</span> The plugin bundles five
                 Claude Code skills as a natural-language front door:{' '}
-                <code className={code}>/hologram:start</code>, inspect, check, status, and
+                <code className="aka-code">/hologram:start</code>, inspect, check, status, and
                 create-skill.
               </li>
               <li>
@@ -45,7 +43,7 @@ export function FeaturesSection() {
               </li>
               <li>
                 <span className="text-foreground/85">Generic by config.</span> A single{' '}
-                <code className={code}>hologram.toml</code> describes your paths and an optional
+                <code className="aka-code">hologram.toml</code> describes your paths and an optional
                 category taxonomy. Flat projects need no categories at all.
               </li>
             </ul>

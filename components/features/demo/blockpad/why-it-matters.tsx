@@ -2,7 +2,7 @@
 export function WhyItMattersSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               Why this one matters to me
             </h2>
             <p>

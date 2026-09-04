@@ -1,11 +1,11 @@
 import Link from 'next/link'
-import { link, h2 } from '@/components/features/demo/how-i-work/shared'
+import { link } from '@/components/features/demo/how-i-work/shared'
 
 /** Three and a half years of it at Ubik. Moved verbatim from app/demo/how-i-work/page.tsx. */
 export function UbikSection() {
   return (
           <section className="space-y-3">
-            <h2 className={h2}>Three and a half years of it at Ubik</h2>
+            <h2 className="aka-lead">Three and a half years of it at Ubik</h2>
             <p>
               I co-founded{' '}
               <Link href="/demo/ubik" className={link}>

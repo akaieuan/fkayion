@@ -6,7 +6,6 @@ import { RComp } from '@/components/product-replicas/music-chat-comp/blocks/RCom
 import { RCreators } from '@/components/product-replicas/music-chat-comp/blocks/RCreators'
 import { REmail } from '@/components/product-replicas/music-chat-comp/blocks/REmail'
 import { RSocialEmbed } from '@/components/product-replicas/music-chat-comp/blocks/RSocialEmbed'
-import { kicker } from '@/components/features/demo/music-analysis-chat/shared'
 
 /**
  * The write-up reaches past the article's measure for the specimens, the way
@@ -62,7 +61,7 @@ const OVERMONO = ART[0]
 export function ArtifactsSection() {
   return (
         <div className="aka-breakout mt-12">
-          <p className={kicker}>The artifacts</p>
+          <p className="aka-kicker">The artifacts</p>
           <p className="mt-2 max-w-xl text-[12px] font-light leading-relaxed text-muted-foreground/70">
             Six block types, rendered here by the same components the demo uses, holding the same
             payloads the fixture returns. These are the real thing, not pictures of it.

@@ -4,7 +4,7 @@ import { extLink, PHILOSOPHY } from '@/components/features/demo/null-browser/sha
 export function AiRemovalSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               The part I want on record: it had AI, and I removed it
             </h2>
             <p>

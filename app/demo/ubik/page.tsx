@@ -19,8 +19,6 @@ import { ArchiveSection } from '@/components/features/demo/ubik/archive'
 import { WRITING, writingHref } from '@/lib/writing'
 import { UBIK_ARCHIVE_TYPE } from '@/components/features/demo/ubik/shared'
 
-const code = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]'
-
 type Shot = { src: string; w: number; h: number; label: string }
 
 const hero: Shot = {
@@ -118,7 +116,7 @@ export default function UbikProjectPage() {
         }))}
       />
 
-      <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
+      <div className="mt-10 aka-prose">
         <WhatUbikWasSection />
 
         <ProductSection />

@@ -2,7 +2,7 @@
 export function EngineeringSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">The engineering</h2>
+            <h2 className="aka-lead">The engineering</h2>
             <p>
               A large multi-package system: a desktop app, a web gateway, cloud agent deployments,
               and a browser extension, with a local-first storage model underneath it all. 1,038

@@ -58,14 +58,14 @@ export default function BodyLogPage() {
               href="https://circleheads.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
+              className="aka-button-secondary"
             >
               circleheads.com
               <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
             </a>
             <Link
               href="/demo/bodylog/v1"
-              className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
+              className="aka-button-secondary"
             >
               The v1 prototype
               <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
@@ -96,7 +96,7 @@ export default function BodyLogPage() {
 
       <PlainSummary path={PATH} />
 
-      <div className="mt-12 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
+      <div className="mt-12 aka-prose">
         {/* ----------------------------------------------------- why */}
         <WhySection />
 

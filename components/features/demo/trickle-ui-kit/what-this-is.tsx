@@ -2,7 +2,7 @@
 export function WhatThisIsSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">What this is</h2>
+            <h2 className="aka-lead">What this is</h2>
             <p>
               trickle is{' '}
               <strong className="font-medium text-foreground/90">

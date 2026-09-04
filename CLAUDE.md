@@ -83,6 +83,15 @@ go in CI.
   that had its own full-width frame printed the fixed back link over its own
   headline. The full-bleed demo screens (`hitl-ai`) and the `/demo` index are
   not shells and do not use it.
+- **Text roles are classes, not strings.** The kicker, section title, standfirst,
+  lead, code chip, the two buttons, the prose column and the prose list are
+  `.aka-kicker`, `.aka-section-title`, `.aka-standfirst`, `.aka-lead`,
+  `.aka-code`, `.aka-button`, `.aka-button-secondary`, `.aka-prose`,
+  `.aka-list`, defined once in `app/globals.css` and shown on
+  `/aka-style/primitives`. Never paste the utility string a role used to be:
+  that is how the lead reached 127 copies and the button pair drifted from the
+  one the specimen documented. A role that needs a new variant gets a new
+  class and a specimen in the same push.
 - **Server by default** (law 07). A component stays server-rendered unless it
   needs state, an event, or a canvas, and the client boundary is drawn as deep
   in the tree as possible.

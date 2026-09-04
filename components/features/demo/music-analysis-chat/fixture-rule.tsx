@@ -1,10 +1,8 @@
-import { h2 } from '@/components/features/demo/music-analysis-chat/shared'
-
 /** The rule the fixture enforces. Moved verbatim from app/demo/music-analysis-chat/page.tsx. */
 export function FixtureRuleSection() {
   return (
           <section className="space-y-3">
-            <h2 className={h2}>The rule the fixture enforces</h2>
+            <h2 className="aka-lead">The rule the fixture enforces</h2>
             <p>
               Every reply is a short piece of text plus an ordered list of blocks, and the block
               types are a closed set. A question about conversion returns stats and a chart. A

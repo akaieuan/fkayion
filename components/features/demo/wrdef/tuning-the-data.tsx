@@ -2,7 +2,7 @@
 export function TuningTheDataSection() {
   return (
           <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               The interesting part: tuning the data
             </h2>
 

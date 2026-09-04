@@ -1,9 +1,6 @@
 import { DemoImage } from '@/components/ui/demo-image'
 import type { Shot } from '@/components/features/demo/akacovart/shared'
 
-const microLabel =
-  'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
-
 const gallery: Shot[] = [
   { src: '/akacovart/covart-controls.webp', w: 488, h: 1100, label: 'Controls — engine, seed, palette, motion' },
   { src: '/akacovart/covart-cover-wave.webp', w: 860, h: 796, label: 'A finished Waves cover' },
@@ -17,7 +14,7 @@ const gallery: Shot[] = [
 export function GallerySection() {
   return (
           <div>
-            <p className={microLabel}>More views</p>
+            <p className="aka-kicker">More views</p>
             <div className="mt-3 columns-1 gap-4 sm:columns-2">
               {gallery.map((shot) => (
                 <figure key={shot.src} className="mb-4 break-inside-avoid">

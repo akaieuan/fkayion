@@ -51,7 +51,7 @@ const PRIMITIVES = [
 export function PrimitivesSection() {
   return (
         <div className="aka-breakout mt-12">
-          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
+          <p className="aka-kicker">
             The primitives
           </p>
           <p className="mt-2 max-w-xl text-[12px] font-light leading-relaxed text-muted-foreground/70">

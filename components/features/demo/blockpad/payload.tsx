@@ -1,5 +1,5 @@
 import { DemoImage } from '@/components/ui/demo-image'
-import { label, code } from '@/components/features/demo/blockpad/shared'
+import { label } from '@/components/features/demo/blockpad/shared'
 
 /**
  * Straight from the README's table, measured on the scene shown above it.
@@ -31,7 +31,7 @@ const TREE = `Frame 1440x900  @0,0  "Desktop"
 export function PayloadSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">
+            <h2 className="aka-lead">
               What actually gets sent
             </h2>
             <p>
@@ -57,10 +57,10 @@ export function PayloadSection() {
             <p className="!mt-5">
               Every block carries an offset from its parent, so the layout reconstructs exactly
               rather than approximately. Colours are hex, not names:{' '}
-              <code className={code}>#55677A</code> is a value the receiving agent can paste into
-              CSS, where <code className={code}>[slate]</code> would have been a lookup it could not
+              <code className="aka-code">#55677A</code> is a value the receiving agent can paste into
+              CSS, where <code className="aka-code">[slate]</code> would have been a lookup it could not
               perform. Repeats collapse to a count plus the step between them, so{' '}
-              <code className={code}>×6</code> stays cheap without discarding where the other five
+              <code className="aka-code">×6</code> stays cheap without discarding where the other five
               are.
             </p>
 
@@ -93,7 +93,7 @@ export function PayloadSection() {
 
             <p className="!mt-5">
               The image figure is arithmetic and exact. Anthropic resizes anything over 1568px on the
-              long edge, then charges <code className={code}>(width × height) / 750</code>. The
+              long edge, then charges <code className="aka-code">(width × height) / 750</code>. The
               sample renders at 3008×1976, which becomes 1568×1030, which is 2,153 tokens.
             </p>
             <p>
@@ -102,19 +102,19 @@ export function PayloadSection() {
                 tokens are the thing you cannot estimate honestly.
               </span>{' '}
               Character heuristics and OpenAI tokenizers both misjudge Claude, and they misjudge it
-              worst on exactly this kind of text: <code className={code}>@960,0</code>,{' '}
-              <code className={code}>#55677A</code> and <code className={code}>×6</code> tokenize far
+              worst on exactly this kind of text: <code className="aka-code">@960,0</code>,{' '}
+              <code className="aka-code">#55677A</code> and <code className="aka-code">×6</code> tokenize far
               less kindly than prose. 617 characters is somewhere in the low hundreds of tokens, and
               pinning it down takes a measurement rather than a ratio. The repo ships a script that
               runs the tree through Anthropic&apos;s{' '}
-              <code className={code}>count_tokens</code> endpoint and prints the table.
+              <code className="aka-code">count_tokens</code> endpoint and prints the table.
             </p>
             <p>
               What survives without any measurement is the shape of the gap: a screenshot of this
               sketch costs over two thousand tokens, and the tree is 617 characters of plain text.
               That is roughly an order of magnitude, and it holds across any plausible tokenization.
               It is also structurally <em className="not-italic text-foreground/85">more</em>{' '}
-              precise: six identical rows collapse to <code className={code}>×6</code> with an exact
+              precise: six identical rows collapse to <code className="aka-code">×6</code> with an exact
               count and an exact step, rather than a model counting rectangles in a JPEG and getting
               five.
             </p>

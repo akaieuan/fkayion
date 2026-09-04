@@ -2,7 +2,7 @@
 export function EveryImageIsDataSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Every image is data</h2>
+            <h2 className="aka-lead">Every image is data</h2>
             <p>
               At its core is one decision:{' '}
               <strong className="font-medium text-foreground/90">every image is data.</strong> A cover

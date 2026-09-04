@@ -2,7 +2,7 @@
 export function MarkSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">The mark is the data</h2>
+            <h2 className="aka-lead">The mark is the data</h2>
             <p>
               The logo is five weeks of the logging grid. Hue says which thing was tracked, weight
               says how much, and the empty cells are days nothing was logged. It is the

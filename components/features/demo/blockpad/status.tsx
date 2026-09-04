@@ -15,7 +15,7 @@ const done = [
 export function StatusSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">State of play</h2>
+            <h2 className="aka-lead">State of play</h2>
             <p>
               <span className="text-foreground/85">M0 is done</span>, and the app has moved a long
               way past it.

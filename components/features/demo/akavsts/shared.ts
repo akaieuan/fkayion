@@ -1,8 +1,5 @@
 import { demoMetadata } from '@/lib/demo-seo'
 
-export const microLabel =
-  'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
-
 export const PATH = '/demo/akavsts'
 
 export const metadata = demoMetadata(PATH, {

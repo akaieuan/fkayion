@@ -8,7 +8,7 @@ const conditions = [
 export function WhatPeopleTrackSection() {
   return (
           <section className="space-y-4">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">What people track</h2>
+            <h2 className="aka-lead">What people track</h2>
             <p>
               Deliberately not a dermatology-only tool. Anything visible on the outside of the body,
               changing slowly enough that memory fails you:

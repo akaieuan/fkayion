@@ -2,7 +2,7 @@
 export function WhatThisIsSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">What this is</h2>
+            <h2 className="aka-lead">What this is</h2>
             <p>
               HITL Kit is three artifacts shipped as one project: a{' '}
               <strong className="font-medium text-foreground/90">perspective paper</strong> arguing that
@@ -10,7 +10,7 @@ export function WhatThisIsSection() {
               deployment demands human-AI collaboration; a{' '}
               <strong className="font-medium text-foreground/90">component library</strong> of nineteen HITL
               primitives that installs into any shadcn/ui project via one CLI command, plus six{' '}
-              <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">@hitl-kit/*</code> npm
+              <code className="aka-code">@hitl-kit/*</code> npm
               packages; and a{' '}
               <strong className="font-medium text-foreground/90">shadcn-compatible registry</strong> I
               built, now served from the akaOSS site (the hitlkit.dev registry URLs keep resolving). The

@@ -43,7 +43,7 @@ export default function ThreeExamplesDemoPage() {
       />
       <PlainSummary path={PATH} />
 
-      <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
+      <div className="mt-10 aka-prose">
         <WhyThisPageExistsSection />
         <TheLiquidOrbSection />
         <KeepingItPoliteSection />

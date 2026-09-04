@@ -1,6 +1,6 @@
 import { JsonLd } from '@/components/seo/json-ld'
 import { demoSchema } from '@/lib/demo-seo'
-import { label, code, PATH, metadata } from '@/components/features/demo/blockpad/shared'
+import { label, PATH, metadata } from '@/components/features/demo/blockpad/shared'
 
 const tools: [string, string][] = [
   ['1 – 0', 'Tools, left to right along the dock'],
@@ -46,19 +46,19 @@ function KeyTable({ rows }: { rows: [string, string][] }) {
 export function UsingItSection() {
   return (
           <section className="space-y-3">
-            <h2 className="text-sm font-medium tracking-wide text-foreground">Using it</h2>
+            <h2 className="aka-lead">Using it</h2>
             <p>
               It runs as a menu bar item with no dock icon. Two hotkeys toggle the canvas:{' '}
-              <code className={code}>Ctrl+Opt+B</code> and{' '}
-              <code className={code}>Ctrl+Opt+Space</code>.
+              <code className="aka-code">Ctrl+Opt+B</code> and{' '}
+              <code className="aka-code">Ctrl+Opt+Space</code>.
             </p>
             <p className="aka-card-well p-4 text-[13.5px]">
               <span className="text-foreground/85">
-                Heads up on <code className={code}>Ctrl+Opt+Space</code>.
+                Heads up on <code className="aka-code">Ctrl+Opt+Space</code>.
               </span>{' '}
               macOS ships that chord bound to &ldquo;Select next source in Input menu&rdquo;, and a
               system binding beats an app&apos;s. On a clean machine it does nothing. Either use{' '}
-              <code className={code}>Ctrl+Opt+B</code>, which nothing else claims, or clear the
+              <code className="aka-code">Ctrl+Opt+B</code>, which nothing else claims, or clear the
               system one in System Settings, Keyboard, Keyboard Shortcuts, Input Sources.
             </p>
 
