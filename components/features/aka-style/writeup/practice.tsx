@@ -11,7 +11,7 @@ export function Practice() {
           <p className={kicker}>The practice</p>
           <h2 className={sectionH}>Where it came from, and what it does now</h2>
 
-          <div className="mt-6 grid gap-8 lg:grid-cols-2 lg:gap-12">
+          <div className="mt-6 grid gap-8">
             <div className="space-y-4 text-[15px] font-light leading-relaxed text-muted-foreground">
               <h3 className="text-sm font-medium tracking-wide text-foreground">Built at Ubik</h3>
               <p>
@@ -43,7 +43,7 @@ export function Practice() {
               </h3>
               <p>
                 The part I did not anticipate is how much a written constraint is worth once you
-                build with agents. I work in Claude Code, and the tokens, the scale and the seven
+                build with agents. I work in Claude Code, and the tokens, the scale and the eight
                 laws load into the design context for every repo I run, so the language is not
                 something I re-explain per session or per project. A new surface arrives already
                 speaking it.

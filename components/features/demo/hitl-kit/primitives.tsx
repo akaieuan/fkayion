@@ -5,13 +5,8 @@ import { DemoImage } from '@/components/ui/demo-image'
  * /demo/ubik do. A component sheet is the one thing on this page that is worse
  * for being squeezed into a 640px column: these are two-up card layouts with
  * nine-point registry ids in the corner, and at article width the ids stop
- * being readable, which is the whole point of showing them.
+ * being readable, which is the whole point of showing them. See `.aka-breakout`.
  */
-const ROW_W = 'min(100vw - 3rem, 1180px)'
-const CARD_ROW: React.CSSProperties = {
-  width: ROW_W,
-  marginInline: `calc((100% - ${ROW_W}) / 2)`,
-}
 
 /**
  * Eleven primitives, captured from the shipped library rather than redrawn.
@@ -55,7 +50,7 @@ const PRIMITIVES = [
 /** The primitives gallery: eleven captures from the shipped library. Moved verbatim from app/demo/hitl-kit/page.tsx. */
 export function PrimitivesSection() {
   return (
-        <div style={CARD_ROW} className="mt-12">
+        <div className="aka-breakout mt-12">
           <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80">
             The primitives
           </p>

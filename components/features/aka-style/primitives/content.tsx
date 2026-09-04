@@ -95,6 +95,21 @@ caption mt-1.5 text-[11px] font-light text-muted-foreground/70`}
           </Spec>
 
           <Spec
+            name="Breakout"
+            note="a block that takes the site's width from inside the reading column"
+            cls={`block  aka-breakout
+width  min(100vw - 3rem, 1180px), the same 1180px as max-w-site
+margin calc((100% - width) / 2) on both sides, negative on its own`}
+          >
+            <div className="w-full">
+              <p className="text-[13px] font-light text-muted-foreground">
+                Prose keeps the column. A gallery, a card row or a six-up swatch ramp steps out
+                to the width the project plates already use, and back in on a phone.
+              </p>
+            </div>
+          </Spec>
+
+          <Spec
             name="Section header"
             note="the page rhythm — kicker, title, standfirst"
             cls={`kicker text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70

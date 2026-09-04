@@ -10,7 +10,7 @@ export function WhereItRuns() {
           <p className={kicker}>Where it runs</p>
           <h2 className={sectionH}>Same tokens, different repos</h2>
 
-          <ul className="mt-6 grid list-none gap-3 p-0 md:grid-cols-2 xl:grid-cols-3">
+          <ul className="mt-6 grid list-none gap-3 p-0 md:grid-cols-2">
             {USAGE.map((u) => {
               const inner = (
                 <>

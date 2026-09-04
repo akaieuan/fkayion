@@ -4,6 +4,7 @@ import { DemoImage } from '@/components/ui/demo-image'
 import { JsonLd, breadcrumbSchema, projectSchema } from '@/components/seo/json-ld'
 import { PlainSummary } from '@/components/ui/plain-summary'
 import { DemoShell } from '@/components/features/demo/demo-shell'
+import { WriteUpHeader } from '@/components/features/demo/write-up-header'
 import { REPO, PHILOSOPHY } from '@/components/features/demo/null-browser/shared'
 import { WhatItIsSection } from '@/components/features/demo/null-browser/what-it-is'
 import { AiRemovalSection } from '@/components/features/demo/null-browser/ai-removal'
@@ -33,8 +34,6 @@ import { NotSection } from '@/components/features/demo/null-browser/not'
  *
  * Fully server-rendered; the screenshots are the only thing fetched.
  */
-
-const microLabel = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
 
 const PATH = '/demo/null-browser'
 const TITLE = 'Null: a browser that sends nothing by default'
@@ -84,53 +83,45 @@ export default function NullBrowserProjectPage() {
         ]}
       />
 
-      <p className={microLabel}>Open source · Personal project · macOS</p>
-      <h1 className="mt-2 text-2xl font-light tracking-tight text-foreground md:text-[26px]">
-        Null
-      </h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        A browser where nothing is sent, nothing is stored and nothing is tracked, unless you
-        explicitly choose otherwise.
-      </p>
-      <figure className="-mx-6 mt-8 aka-card-well aka-card-media overflow-hidden sm:mx-0">
-        <DemoImage
-          src={HERO}
-          alt="Null, showing pinned sites and tabs in the left source list and recent notes as cards on the new-tab surface"
-          width={1600}
-          height={1000}
-          className="block h-auto w-full"
-          priority
-        />
-      </figure>
-      <p className="mt-2 text-[11px] font-light text-muted-foreground/60">
-        Pinned sites and tabs in the left source list, recent notes as cards on the new-tab
-        surface. The whole window is glass over macOS vibrancy.
-      </p>
-
-      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-        <a
-          href={REPO}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
-        >
-          GitHub · akaieuan/null-browser
-          <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
-        </a>
-        <a
-          href={PHILOSOPHY}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
-        >
-          PHILOSOPHY.md
-          <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
-        </a>
-      </div>
-      <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
-        Open source under MPL 2.0. macOS first. Tauri 2 + Rust + React, using the system WebView
-        rather than a bundled engine. Not funded, not monetised, not for sale.
-      </p>
+      <WriteUpHeader
+        kicker="Open source · Personal project · macOS"
+        title="Null"
+        description="A browser where nothing is sent, nothing is stored and nothing is tracked, unless you explicitly choose otherwise."
+        hero={
+          <DemoImage
+            src={HERO}
+            alt="Null, showing pinned sites and tabs in the left source list and recent notes as cards on the new-tab surface"
+            width={1600}
+            height={1000}
+            className="block h-auto w-full"
+            priority
+          />
+        }
+        caption="Pinned sites and tabs in the left source list, recent notes as cards on the new-tab surface. The whole window is glass over macOS vibrancy."
+        actions={
+          <>
+            <a
+              href={REPO}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
+            >
+              GitHub · akaieuan/null-browser
+              <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
+            </a>
+            <a
+              href={PHILOSOPHY}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
+            >
+              PHILOSOPHY.md
+              <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
+            </a>
+          </>
+        }
+        byline="Open source under MPL 2.0. macOS first. Tauri 2 + Rust + React, using the system WebView rather than a bundled engine. Not funded, not monetised, not for sale."
+      />
 
       <PlainSummary path={PATH} />
 

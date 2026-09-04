@@ -5,8 +5,6 @@
  * The kicker here is the /80 variant, a deliberate step from the specimen
  * chrome's /70, so the two files stay separate on purpose.
  */
-export const MEASURE = 'max-w-2xl'
-
 export const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80'
 export const sectionH = 'mt-2 text-xl font-light tracking-tight text-foreground/90'
 /*

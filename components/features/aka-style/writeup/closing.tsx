@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { MEASURE, well } from '@/components/features/aka-style/writeup/shared'
+import { well } from '@/components/features/aka-style/writeup/shared'
 
 const linkMuted =
   'text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground'
@@ -7,7 +7,7 @@ const linkMuted =
 /** The closing well: the test of a design system, and the way back to the work. */
 export function Closing() {
   return (
-        <section className={`mt-14 ${well} px-5 py-4 ${MEASURE}`}>
+        <section className={`mt-14 ${well} px-5 py-4`}>
           <p className="text-[14px] font-light leading-relaxed text-foreground/85">
             The test of a design system is not whether it is documented. It is whether someone who
             has not read the documentation, which now includes a model, produces something that

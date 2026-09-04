@@ -27,7 +27,7 @@ mechanically detectable:
 
 Law 08 is not mechanically checkable and is the one to hold yourself to by
 hand: anything scroll-linked or animated writes a CSS variable or a data
-attribute, never React state. `components/features/demo/cover-flow/cover-flow.tsx` and
+attribute, never React state. `components/features/demo-index/cover-flow.tsx` and
 `components/ui/reveal.tsx` are the two worked examples.
 
 Art-layer files are exempt and listed in the script: the canvas engines, the
@@ -70,13 +70,19 @@ go in CI.
   file per section, owned by that page. Shared vocabulary stays in
   `components/ui/`; data stays in `lib/`. No barrel files: every import names
   the file it comes from, so the server/client boundary stays visible.
+  Under `components/features/`, `demo-index/` is the `/demo` page itself (the
+  deck, its covers, captions and view toggle) and `demo/<slug>/` is one
+  write-up; the project grid they both show is `components/ui/project-grid.tsx`,
+  because the landing page shows it too.
 - **Every page under `/demo` stands in `DemoShell`**
-  (`components/features/demo/demo-shell.tsx`). It owns the frame, the reading
-  column, the mobile back link, and the clearance for the fixed Projects link;
-  a page declares `wide` when it fills the site container and otherwise says
-  nothing. Do not paste a shell class string into a page: that is how the
-  akaSTYLE write-up came to print the back link over its own headline. The
-  full-bleed demo screens (`hitl-ai`) are not shells and do not use it.
+  (`components/features/demo/demo-shell.tsx`), and opens with
+  `WriteUpHeader` (`write-up-header.tsx` beside it). The shell owns the frame,
+  the reading column and the mobile back link; the header owns the title block
+  in one order at one scale, and a page supplies only its facts. Wide material
+  inside the column uses `.aka-breakout`, never a wider shell: the one page
+  that had its own full-width frame printed the fixed back link over its own
+  headline. The full-bleed demo screens (`hitl-ai`) and the `/demo` index are
+  not shells and do not use it.
 - **Server by default** (law 07). A component stays server-rendered unless it
   needs state, an event, or a canvas, and the client boundary is drawn as deep
   in the tree as possible.

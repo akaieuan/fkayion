@@ -312,7 +312,7 @@ export const SUMMARIES: Record<string, Summary> = {
 
   '/demo/aka-style': {
     what: [
-      'The design language every project here is built from, written as seven rules instead of preferences.',
+      'The design language every project here is built from, written as eight rules instead of preferences.',
       'A preference has to be re-argued every time. A rule can be checked in review and travels to a new codebase without me in the room.',
     ],
     impact:

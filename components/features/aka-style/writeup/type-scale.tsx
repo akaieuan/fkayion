@@ -1,4 +1,4 @@
-import { MEASURE, kicker, sectionH, card } from '@/components/features/aka-style/writeup/shared'
+import { kicker, sectionH, card } from '@/components/features/aka-style/writeup/shared'
 
 /*
  * The type scale, shown at the sizes it actually ships at.
@@ -13,7 +13,11 @@ const SCALE = [
   {
     role: 'Display',
     spec: 'clamp(1.7–2.4rem) / extralight / tight',
-    /* The largest specimen gets the full row; the rest pair up under it. */
+    /*
+     * The largest specimen gets the full row and breaks out to the site
+     * width, since a display line has to be seen at display length; the rest
+     * pair up under it inside the column.
+     */
     wide: true,
     node: (
       <p className="text-[clamp(1.7rem,5vw,2.4rem)] font-extralight leading-none tracking-tight text-foreground/90">
@@ -58,7 +62,7 @@ export function TypeScale() {
         <section className="mt-16">
           <p className={kicker}>Type</p>
           <h2 className={sectionH}>One scale, five roles</h2>
-          <p className={`mt-3 ${MEASURE} text-[15px] font-light leading-relaxed text-muted-foreground`}>
+          <p className="mt-3 text-[15px] font-light leading-relaxed text-muted-foreground">
             Hierarchy is carried by the contrast between uppercase mono and light sans, not by size,
             which is why the headings on this page are barely larger than the body under them. Each
             row below is set in the class the site actually ships.
@@ -68,7 +72,7 @@ export function TypeScale() {
             {SCALE.map((s) => (
               <li
                 key={s.role}
-                className={`${card} flex flex-col overflow-hidden ${s.wide ? 'lg:col-span-2' : ''}`}
+                className={`${card} flex flex-col overflow-hidden ${s.wide ? 'aka-breakout lg:col-span-2' : ''}`}
               >
                 <div className="aka-card-head flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-5 py-2.5">
                   <span className="font-mono text-[10.5px] font-medium uppercase tracking-[0.16em] text-foreground/70">

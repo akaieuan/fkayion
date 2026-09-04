@@ -1,5 +1,5 @@
-import { KickerTags } from '@/components/ui/tag-row'
 import { DemoShell } from '@/components/features/demo/demo-shell'
+import { WriteUpHeader } from '@/components/features/demo/write-up-header'
 import { OrbHero } from '@/components/features/demo/three-examples/orb-hero'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
@@ -27,38 +27,20 @@ export default function ThreeExamplesDemoPage() {
           description: metadata.description as string,
         })}
       />
-      <header className="mb-6">
-        <p
-          className="text-[clamp(1.65rem,4.5vw,2.5rem)] font-extralight leading-none tracking-tight text-balance text-foreground/90"
-          aria-label="Three.js Examples"
-        >
-          Three.js Examples
-        </p>
-      </header>
-
-      {/*
-        No card. The orb is the page's own artifact rather than a picture of
-        one, so it floats on the page ground the way it did on the old landing
-        hero. A media frame around it only cropped the motion it exists to
-        show.
-      */}
-      <div className="-mx-6 sm:mx-0">
-        <OrbHero />
-      </div>
-
-      <p className="mt-2.5 text-[12px] font-light text-muted-foreground/80">
-        Live WebGL, not a capture. Move your cursor across the orb.
-      </p>
-
-      <KickerTags className="mt-10">WebGL</KickerTags>
-      <h1 className="mt-2 text-2xl font-light tracking-tight text-foreground md:text-[26px]">
-        Three.js Examples
-      </h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        The Three.js work built for this site, gathered on one page: a liquid orb whose vertex and
-        fragment stages are hand-written GLSL, plus the loading and rendering rules that keep a
-        real-time scene from taxing everything around it.
-      </p>
+      <WriteUpHeader
+        kicker="WebGL"
+        title="Three.js Examples"
+        description="The Three.js work built for this site, gathered on one page: a liquid orb whose vertex and fragment stages are hand-written GLSL, plus the loading and rendering rules that keep a real-time scene from taxing everything around it."
+        hero={<OrbHero />}
+        /*
+          No card. The orb is the page's own artifact rather than a picture of
+          one, so it floats on the page ground the way it did on the old landing
+          hero. A media frame around it only cropped the motion it exists to
+          show.
+        */
+        unframedHero
+        byline="Live WebGL, not a capture. Move your cursor across the orb."
+      />
       <PlainSummary path={PATH} />
 
       <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">

@@ -12,13 +12,8 @@ import { kicker } from '@/components/features/demo/music-analysis-chat/shared'
  * The write-up reaches past the article's measure for the specimens, the way
  * the product cards on /demo/ubik do. An artifact is a piece of interface with
  * six stat cells across it; squeezed into a 640px column it stops being a
- * specimen and becomes a picture of one.
+ * specimen and becomes a picture of one. See `.aka-breakout`.
  */
-const ROW_W = 'min(100vw - 3rem, 1180px)'
-const CARD_ROW: React.CSSProperties = {
-  width: ROW_W,
-  marginInline: `calc((100% - ${ROW_W}) / 2)`,
-}
 
 /**
  * A specimen is the real component, not a screenshot of it.
@@ -66,7 +61,7 @@ const OVERMONO = ART[0]
 /** The artifacts row: six specimens rendered by the demo's own components. Moved verbatim from app/demo/music-analysis-chat/page.tsx. */
 export function ArtifactsSection() {
   return (
-        <div style={CARD_ROW} className="mt-12">
+        <div className="aka-breakout mt-12">
           <p className={kicker}>The artifacts</p>
           <p className="mt-2 max-w-xl text-[12px] font-light leading-relaxed text-muted-foreground/70">
             Six block types, rendered here by the same components the demo uses, holding the same

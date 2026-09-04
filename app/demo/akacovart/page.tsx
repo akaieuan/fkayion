@@ -1,10 +1,10 @@
 import { ArrowUpRight } from 'lucide-react'
-import { KickerTags } from '@/components/ui/tag-row'
 import { DemoImage } from '@/components/ui/demo-image'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
 import { PlainSummary } from '@/components/ui/plain-summary'
 import { DemoShell } from '@/components/features/demo/demo-shell'
+import { WriteUpHeader } from '@/components/features/demo/write-up-header'
 import type { Shot } from '@/components/features/demo/akacovart/shared'
 import { WhatThisIsSection } from '@/components/features/demo/akacovart/what-this-is'
 import { EveryImageIsDataSection } from '@/components/features/demo/akacovart/every-image-is-data'
@@ -36,67 +36,66 @@ export default function AkaCovartProjectPage() {
           description: metadata.description as string,
         })}
       />
-      <header className="mb-6">
-        <KickerTags>Open source · Generative studio · Album art</KickerTags>
-        <h1
-          className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight"
-          aria-label="akaCOVART"
-        >
-          <span className="text-foreground/90">akaCOVART</span>
-        </h1>
-        <p className="mt-3 max-w-2xl text-sm font-light leading-relaxed text-muted-foreground">
-        A generative album-art engine. Shape it, sync the motion to your track, and export the
-        cover.{' '}
-        <a
-          href="https://akacovart.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline decoration-border hover:decoration-foreground/60 underline-offset-[3px] transition-colors"
-        >
-          akacovart.com
-        </a>
-        </p>
-      </header>
-
-      <figure className="-mx-6 aka-card-well aka-card-media overflow-hidden sm:mx-0">
-        <a href={hero.src} target="_blank" rel="noopener noreferrer" className="group block">
-          <DemoImage
-            src={hero.src}
-            alt={hero.label}
-            width={hero.w}
-            height={hero.h}
-            sizes="(min-width: 672px) 640px, 100vw"
-            className="block h-auto w-full transition-opacity group-hover:opacity-95"
-            priority
-          />
-        </a>
-      </figure>
-
-      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-        <a
-          href="https://akacovart.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
-        >
-          Visit akacovart.com
-          <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
-        </a>
-        <a
-          href="https://github.com/akaieuan/akaCovart"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
-        >
-          GitHub — akaieuan/akaCovart
-          <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
-        </a>
-      </div>
-      <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
-        Built by Ieuan King (akaBuild). Open source; the{' '}
-        <span className="font-medium text-foreground/80">akaCOVART</span> name is a trademark of the
-        project owner.
-      </p>
+      <WriteUpHeader
+        kicker="Open source · Generative studio · Album art"
+        title="akaCOVART"
+        description={
+          <>
+            A generative album-art engine. Shape it, sync the motion to your track, and export the
+            cover.{' '}
+            <a
+              href="https://akacovart.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-border hover:decoration-foreground/60 underline-offset-[3px] transition-colors"
+            >
+              akacovart.com
+            </a>
+          </>
+        }
+        hero={
+          <a href={hero.src} target="_blank" rel="noopener noreferrer" className="group block">
+            <DemoImage
+              src={hero.src}
+              alt={hero.label}
+              width={hero.w}
+              height={hero.h}
+              sizes="(min-width: 672px) 640px, 100vw"
+              className="block h-auto w-full transition-opacity group-hover:opacity-95"
+              priority
+            />
+          </a>
+        }
+        actions={
+          <>
+            <a
+              href="https://akacovart.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
+            >
+              Visit akacovart.com
+              <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
+            </a>
+            <a
+              href="https://github.com/akaieuan/akaCovart"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
+            >
+              GitHub — akaieuan/akaCovart
+              <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
+            </a>
+          </>
+        }
+        byline={
+          <>
+            Built by Ieuan King (akaBuild). Open source; the{' '}
+            <span className="font-medium text-foreground/80">akaCOVART</span> name is a trademark of the
+            project owner.
+          </>
+        }
+      />
       <PlainSummary path={PATH} />
 
       <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">

@@ -1,11 +1,11 @@
 import Image from 'next/image'
-import { KickerTags } from '@/components/ui/tag-row'
 import { ArrowUpRight } from 'lucide-react'
 import akaossMark from '@/public/akaoss/akaoss.webp'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
 import { JsonLd } from '@/components/seo/json-ld'
 import { PlainSummary } from '@/components/ui/plain-summary'
 import { DemoShell } from '@/components/features/demo/demo-shell'
+import { WriteUpHeader } from '@/components/features/demo/write-up-header'
 import { SITE } from '@/components/features/demo/akaoss/shared'
 import { ThesisSection } from '@/components/features/demo/akaoss/thesis'
 import { ProjectsSection } from '@/components/features/demo/akaoss/projects'
@@ -31,51 +31,50 @@ export default function AkaossProjectPage() {
           description: metadata.description as string,
         })}
       />
-      <header className="mb-6 flex items-center gap-4">
-        <figure className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-border/80 bg-black sm:h-20 sm:w-20">
-          <Image
-            src={akaossMark}
-            alt="akaOSS mark"
-            placeholder="blur"
-            sizes="80px"
-            className="block h-full w-full object-cover"
-          />
-        </figure>
-        <div>
-          <KickerTags>Studio · Open source · HITL AI</KickerTags>
-          <h1 className="mt-1 text-[clamp(1.6rem,5vw,2.4rem)] font-extralight leading-none tracking-tight text-foreground/90">
-            akaOSS
-          </h1>
-        </div>
-      </header>
-
-      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-        <a
-          href={SITE}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
-        >
-          Visit akaoss.dev
-          <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
-        </a>
-        <a
-          href={REPO}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
-        >
-          GitHub — akaieuan/akaOSS
-          <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
-        </a>
-      </div>
-      <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
-        Five projects, one thesis, a live research feed. MIT.
-      </p>
-      <p className="mt-8 max-w-xl text-sm text-muted-foreground">
-        The open-source studio for human-in-the-loop AI. Five projects, one thesis, a reproducible
-        research feed, and the HITL Kit component registry — served as one site.
-      </p>
+      <WriteUpHeader
+        kicker="Studio · Open source · HITL AI"
+        title="akaOSS"
+        mark={
+          <figure className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-border/80 bg-black sm:h-20 sm:w-20">
+            <Image
+              src={akaossMark}
+              alt="akaOSS mark"
+              placeholder="blur"
+              sizes="80px"
+              className="block h-full w-full object-cover"
+            />
+          </figure>
+        }
+        description={
+          <>
+            The open-source studio for human-in-the-loop AI. Five projects, one thesis, a reproducible
+            research feed, and the HITL Kit component registry — served as one site.
+          </>
+        }
+        actions={
+          <>
+            <a
+              href={SITE}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background transition-opacity hover:opacity-90"
+            >
+              Visit akaoss.dev
+              <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
+            </a>
+            <a
+              href={REPO}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-muted/40"
+            >
+              GitHub — akaieuan/akaOSS
+              <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
+            </a>
+          </>
+        }
+        byline="Five projects, one thesis, a live research feed. MIT."
+      />
 
       <PlainSummary path={PATH} />
 

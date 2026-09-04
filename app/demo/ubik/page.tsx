@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
-import { KickerTags } from '@/components/ui/tag-row'
 import { DemoImage } from '@/components/ui/demo-image'
 import { JsonLd, breadcrumbSchema, projectSchema } from '@/components/seo/json-ld'
 import { PlainSummary } from '@/components/ui/plain-summary'
 import { DemoShell } from '@/components/features/demo/demo-shell'
+import { WriteUpHeader } from '@/components/features/demo/write-up-header'
 import { WhatUbikWasSection } from '@/components/features/demo/ubik/what-ubik-was'
 import { ProductSection } from '@/components/features/demo/ubik/product'
 import { ArchitectureSection } from '@/components/features/demo/ubik/architecture'
@@ -80,48 +80,36 @@ export default function UbikProjectPage() {
           ]),
         ]}
       />
-      <header className="mb-6">
-        <KickerTags>Product · Desktop AI research platform · 2023–2026</KickerTags>
-        <h1
-          className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight"
-          aria-label="Ubik Studio"
-        >
-          <span className="text-foreground/90">Ubik Studio</span>
-        </h1>
-        <p className="mt-3 max-w-2xl text-sm font-light leading-relaxed text-muted-foreground">
-        A desktop-native, local-first AI research platform. Three and a half years building the
-        human side of agentic research, before it had a name.
-        </p>
-      </header>
-
-      <figure className="-mx-6 aka-card-well aka-card-media overflow-hidden sm:mx-0">
-        <DemoImage
-          src={hero.src}
-          alt={hero.label}
-          width={hero.w}
-          height={hero.h}
-          sizes="(min-width: 672px) 640px, 100vw"
-          className="block h-auto w-full"
-          priority
-        />
-      </figure>
-      <p className="mt-2 text-[11px] font-light text-muted-foreground/60">{hero.label}</p>
-
-      {/*
-        One control where there were two. The write-ups and the two surviving
-        public links are the same errand — where else Ubik exists — so they
-        are one menu rather than a row that grows a button per destination.
-        The items are server-rendered and handed to the menu as children.
-      */}
-      <div className="mt-5">
-        <ArchiveMenu label="Ubik archive">
-          <ArchiveMenuItems />
-        </ArchiveMenu>
-      </div>
-      <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
-        2023–2026 · co-founded · the public site and builds are retired; the test log and the
-        subreddit are what remain in the open.
-      </p>
+      <WriteUpHeader
+        kicker="Product · Desktop AI research platform · 2023–2026"
+        title="Ubik Studio"
+        name="Ubik Studio"
+        description="A desktop-native, local-first AI research platform. Three and a half years building the human side of agentic research, before it had a name."
+        hero={
+          <DemoImage
+            src={hero.src}
+            alt={hero.label}
+            width={hero.w}
+            height={hero.h}
+            sizes="(min-width: 672px) 640px, 100vw"
+            className="block h-auto w-full"
+            priority
+          />
+        }
+        caption={hero.label}
+        /*
+          One control where there were two. The write-ups and the two surviving
+          public links are the same errand — where else Ubik exists — so they
+          are one menu rather than a row that grows a button per destination.
+          The items are server-rendered and handed to the menu as children.
+        */
+        actions={
+          <ArchiveMenu label="Ubik archive">
+            <ArchiveMenuItems />
+          </ArchiveMenu>
+        }
+        byline="2023–2026 · co-founded · the public site and builds are retired; the test log and the subreddit are what remain in the open."
+      />
       <PlainSummary
         path={PATH}
         archive={WRITING.filter((e) => e.slug && e.type === UBIK_ARCHIVE_TYPE).map((e) => ({

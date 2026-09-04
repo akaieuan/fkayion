@@ -1,5 +1,5 @@
 import { SURFACES } from '@/lib/aka-style'
-import { MEASURE, kicker, sectionH } from '@/components/features/aka-style/writeup/shared'
+import { kicker, sectionH } from '@/components/features/aka-style/writeup/shared'
 
 /** Surfaces: the raised and recessed material, rendered by its own definition. */
 export function Surfaces() {
@@ -7,7 +7,7 @@ export function Surfaces() {
         <section className="mt-16">
           <p className={kicker}>Surface</p>
           <h2 className={sectionH}>One material, lit two ways</h2>
-          <p className={`mt-3 ${MEASURE} text-[15px] font-light leading-relaxed text-muted-foreground`}>
+          <p className="mt-3 text-[15px] font-light leading-relaxed text-muted-foreground">
             Law 03 rules out the drop shadow, which means depth has to happen inside the panel
             rather than under it. A card is lit from above: the fill grades light-to-dark downward,
             the top edge catches a hairline the other three do not, and a fine grain over the fill
@@ -16,7 +16,7 @@ export function Surfaces() {
             below is one of those two.
           </p>
 
-          <ul className="mt-6 grid list-none gap-3 p-0 md:grid-cols-2">
+          <ul className="aka-breakout mt-6 grid list-none gap-3 p-0 md:grid-cols-2">
             {SURFACES.map((sf) => (
               <li key={sf.cls} className={`${sf.render} overflow-hidden`}>
                 <div className="aka-card-head flex items-baseline justify-between gap-4 px-4 py-2.5">
@@ -48,7 +48,7 @@ export function Surfaces() {
             ))}
           </ul>
 
-          <p className={`mt-5 ${MEASURE} text-[15px] font-light leading-relaxed text-muted-foreground`}>
+          <p className="mt-5 text-[15px] font-light leading-relaxed text-muted-foreground">
             These were four class strings copied by hand into two dozen files until recently, which
             is the failure mode a design system is supposed to prevent and does not if the system is
             a document. They are two classes now. The specimen above is not a picture of them: it is

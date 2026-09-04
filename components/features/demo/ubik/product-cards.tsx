@@ -88,20 +88,6 @@ const demos: Demo[] = [
  * client wrapper that starts and stops it on scroll. Nothing about the art, the
  * copy or the layout reaches the browser as JavaScript.
  */
-/**
- * The card row's measure: the site's own container width, centred on the
- * article's narrower column.
- *
- * An inline style rather than a Tailwind class because the value is a `calc`
- * over a `min` over a viewport unit, which arbitrary-value syntax can express
- * only as an unreadable string of underscores. This is one constant used once.
- */
-const ROW_W = 'min(100vw - 3rem, 1180px)'
-const CARD_ROW: React.CSSProperties = {
-  width: ROW_W,
-  marginInline: `calc((100% - ${ROW_W}) / 2)`,
-}
-
 function ProductCard({ demo }: { demo: Demo }) {
   return (
     <figure className="relative overflow-hidden rounded-2xl border border-border/60">
@@ -145,7 +131,7 @@ function ProductCard({ demo }: { demo: Demo }) {
 /** The product, in motion: the seven capability cards. Moved verbatim from app/demo/ubik/page.tsx. */
 export function ProductCardsSection() {
   return (
-          <div style={CARD_ROW}>
+          <div className="aka-breakout">
             <p className={microLabel}>The product, in motion</p>
             <p className="mt-2 max-w-xl text-[12px] font-light leading-relaxed text-muted-foreground/70">
               Seven silent recordings of the last build, March 2026. Each one loads and starts when
