@@ -79,7 +79,7 @@ export default function LabLogIndexPage() {
         {LAB_ENTRIES.map((entry) => (
           <article key={entry.slug} className="mt-14 first:mt-12">
             <h2 className="text-xl font-medium leading-snug tracking-tight text-foreground">
-              <Link href={`${PATH}/${entry.slug}`} className="transition-opacity hover:opacity-70">
+              <Link href={`${PATH}/${entry.slug}`} className="transition-colors hover:underline decoration-border underline-offset-[3px]">
                 {entry.title}
               </Link>
             </h2>

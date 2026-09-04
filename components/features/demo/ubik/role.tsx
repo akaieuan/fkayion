@@ -8,7 +8,7 @@ export function RoleSection() {
               surfaces, the evidence and citation UX, the Human Needed grammar, and the copy and
               interaction conventions across every surface. I built front-end throughout, and ran the
               user research cycles — interviews, behavioral observation, session replays, and the{' '}
-              <a href="https://kraa.io/team-test-log042" target="_blank" rel="noopener noreferrer" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">team test log</a>{' '}
+              <a href="https://kraa.io/team-test-log042" target="_blank" rel="noopener noreferrer" className="aka-quiet-link">team test log</a>{' '}
               that documented them in public.
             </p>
             <p>

@@ -63,14 +63,14 @@ lg  rounded-lg px-5 py-3 text-[15px]`}
 
           <Spec
             name="Links"
-            note="underline offset 3px, border-colored rule"
-            cls={`body  underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50
+            note="quiet where the ink around it is already muted (bylines, captions, lists); ink inside running prose"
+            cls={`quiet  aka-quiet-link
 accent text-primary underline decoration-border underline-offset-[3px]
 nav    text-muted-foreground transition-colors hover:text-foreground
-ink    aka-ink-link   ← full ink at rest, the select accent on hover, inside running prose`}
+ink    aka-ink-link   ← full ink at rest, the select accent on hover`}
           >
-            <span className="text-[13px] font-light text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">
-              An inline body link
+            <span className="aka-quiet-link text-13 font-light text-muted-foreground">
+              A quiet link
             </span>
             <span className="text-[13px] font-light text-primary underline decoration-border underline-offset-[3px]">
               An accent link

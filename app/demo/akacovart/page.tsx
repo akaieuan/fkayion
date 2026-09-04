@@ -45,7 +45,7 @@ export default function AkaCovartProjectPage() {
               href="https://akacovart.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline decoration-border hover:decoration-foreground/60 underline-offset-[3px] transition-colors"
+              className="aka-quiet-link"
             >
               akacovart.com
             </a>
@@ -59,7 +59,7 @@ export default function AkaCovartProjectPage() {
               width={hero.w}
               height={hero.h}
               sizes="(min-width: 672px) 640px, 100vw"
-              className="block h-auto w-full transition-opacity group-hover:opacity-95"
+              className="block h-auto w-full"
               priority
             />
           </a>

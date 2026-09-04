@@ -90,10 +90,6 @@ export function SiteHeader() {
   const [activeSection, setActiveSection] = useState<string | null>('section-0')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const { theme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => setMounted(true), [])
 
   // rAF-throttled scroll listener; only updates state when crossing the threshold,
   // so React renders at most twice (once each direction) instead of every frame.
@@ -126,7 +122,6 @@ export function SiteHeader() {
   }, [])
 
   const isHome = pathname === '/'
-  const isDark = !mounted || theme === 'dark'
 
   useEffect(() => {
     if (!isHome) { setActiveSection(null); return }
@@ -173,11 +168,11 @@ export function SiteHeader() {
     setMobileMenuOpen(false)
   }
 
-  const navTextActive = isDark ? 'text-white/80' : 'text-foreground/90'
-  const navTextInactive = isDark ? 'text-white/40 hover:text-white/70' : 'text-foreground/40 hover:text-foreground/70'
-  const logoText = isDark ? 'text-white/80 hover:text-white' : 'text-foreground/80 hover:text-foreground'
+  const navTextActive = 'text-foreground/85'
+  const navTextInactive = 'text-foreground/40 hover:text-foreground/70'
+  const logoText = 'text-foreground/80 hover:text-foreground'
 
-  /** Inline so the bars follow the header's own token rather than `bg-foreground`, which desynced from `isDark` during hydration. */
+  /** Inline so the bars follow the header's own token rather than `bg-foreground`, which used to desync from the theme during hydration. */
   const mobileMenuBarColor = 'var(--header-bar)'
 
   // Memoized so identity is stable across scroll-triggered renders. This keeps the
@@ -189,14 +184,14 @@ export function SiteHeader() {
     transform: 'translateZ(0)',
     willChange: 'opacity',
     backfaceVisibility: 'hidden',
-  }), [scrolled, isDark])
+  }), [scrolled])
 
   const fadeStyle = useMemo<React.CSSProperties>(() => ({
     opacity: scrolled ? 1 : 0,
     background: 'linear-gradient(to bottom, var(--header-glass), var(--header-fade-to))',
     transform: 'translateZ(0)',
     willChange: 'opacity',
-  }), [scrolled, isDark])
+  }), [scrolled])
 
   // The full-bleed demos draw their own chrome; a fixed header lands on top of
   // their toolbar. Article pages under /demo keep it.
@@ -270,7 +265,7 @@ export function SiteHeader() {
         <div className="pointer-events-auto md:hidden flex items-center gap-3">
           <ThemeToggle />
           <button
-            className="flex flex-col justify-center items-end gap-1 p-1 hover:opacity-80 transition-opacity"
+            className="flex flex-col justify-center items-end gap-1 p-1"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle navigation menu"
           >
@@ -322,10 +317,10 @@ export function SiteHeader() {
           }}
         >
           <div className="flex items-center justify-between">
-            <span className={`text-sm tracking-wide ${isDark ? 'text-white/70' : 'text-foreground/70'}`}>Menu</span>
+            <span className="text-sm tracking-wide text-foreground/70">Menu</span>
             <button
               onClick={() => setMobileMenuOpen(false)}
-              className={`transition-colors text-sm ${isDark ? 'text-white/50 hover:text-white/80' : 'text-foreground/50 hover:text-foreground/80'}`}
+              className="transition-colors text-sm text-foreground/50 hover:text-foreground/80"
             >
               Close
             </button>
@@ -338,8 +333,8 @@ export function SiteHeader() {
                 onClick={() => handleNavClick(item)}
                 className={`w-full text-left text-base font-light tracking-wide py-2 transition-colors duration-200 ${
                   activeSection === item.sectionId
-                    ? isDark ? 'text-white/90' : 'text-foreground/90'
-                    : isDark ? 'text-white/60 hover:text-white/90' : 'text-foreground/60 hover:text-foreground/90'
+                    ? 'text-foreground/90'
+                    : 'text-foreground/60 hover:text-foreground/90'
                 }`}
               >
                 {item.name}
@@ -347,13 +342,13 @@ export function SiteHeader() {
             ))}
           </div>
 
-          <div className={`pt-4 border-t ${isDark ? 'border-white/10' : 'border-foreground/10'}`}>
+          <div className="pt-4 border-t border-foreground/10">
             <button
               onClick={() => { router.push('/demo'); setMobileMenuOpen(false) }}
               className={`w-full text-left text-base font-light tracking-wide py-2 transition-colors duration-200 ${
                 pathname?.startsWith('/demo') || pathname === '/Visualizer-Eden'
-                  ? isDark ? 'text-white/90' : 'text-foreground/90'
-                  : isDark ? 'text-white/60 hover:text-white/90' : 'text-foreground/60 hover:text-foreground/90'
+                  ? 'text-foreground/90'
+                  : 'text-foreground/60 hover:text-foreground/90'
               }`}
             >
               Projects

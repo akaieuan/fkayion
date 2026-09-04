@@ -94,7 +94,7 @@ export default function LabEntryPage({ params }: Params) {
         <p className="aka-kicker">
           {entry.kicker}
         </p>
-        <h1 className="mt-2 text-2xl font-light leading-snug tracking-tight text-foreground md:text-[26px]">
+        <h1 className="mt-2 text-2xl font-light leading-snug tracking-tight text-foreground">
           {entry.title}
         </h1>
         <p className="mt-4 text-[15px] font-light leading-relaxed text-foreground/85">

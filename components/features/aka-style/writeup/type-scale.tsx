@@ -12,7 +12,7 @@ import { card } from '@/components/features/aka-style/writeup/shared'
 const SCALE = [
   {
     role: 'Display',
-    spec: 'clamp(1.7–2.4rem) / extralight / tight',
+    spec: 'clamp 1.85 to 2.85rem / extralight / tight',
     /*
      * The largest specimen gets the full row and breaks out to the site
      * width, since a display line has to be seen at display length; the rest

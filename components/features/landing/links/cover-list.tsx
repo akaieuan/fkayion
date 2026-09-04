@@ -45,7 +45,7 @@ export function CoverList({ items }: { items: CoverRow[] }) {
   return (
     <HoverBlurb
       blurbs={covers}
-      panelClassName="overflow-hidden rounded-xl shadow-2xl shadow-black/40"
+      panelClassName="aka-overlay overflow-hidden rounded-xl"
       panelStyle={{ width: SIZE, height: SIZE }}
     >
       <ul className="list-none p-0">

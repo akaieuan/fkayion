@@ -9,7 +9,7 @@ export function AkaossClosing() {
               akaOSS is where the human-side-of-applied-AI work becomes reusable: the kits are the
               measurement instruments, the research feed is the evidence, and the paper is the
               argument. It&apos;s built at{' '}
-              <Link href="/demo/circleheads" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">Circleheads</Link>.
+              <Link href="/demo/circleheads" className="aka-quiet-link">Circleheads</Link>.
             </p>
           </section>
   )

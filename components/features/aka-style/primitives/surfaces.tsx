@@ -249,15 +249,15 @@ tech   aka-card-well inline-flex items-center rounded-md px-2 py-0.5 text-[10.5p
           <Spec
             name="Status"
             note="the one place a hue other than the accent may appear"
-            cls={`neutral  border-border/60 text-muted-foreground/70
+            cls={`neutral  border-border/60 text-muted-foreground/60
 active   text-primary
-warn     text-[oklch(0.72_0.13_75)]
-danger   text-[oklch(0.62_0.2_25)]`}
+warn     text-status-warn
+danger   text-status-danger`}
           >
             {[
               ['Shipped', 'text-primary'],
-              ['In progress', 'text-[oklch(0.72_0.13_75)]'],
-              ['Deprecated', 'text-[oklch(0.62_0.2_25)]'],
+              ['In progress', 'text-status-warn'],
+              ['Deprecated', 'text-status-danger'],
               ['Archived', 'text-muted-foreground/60'],
             ].map(([t, c]) => (
               <span key={t} className={`inline-flex items-center gap-1.5 text-[12px] font-light ${c}`}>

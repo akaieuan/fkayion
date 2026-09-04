@@ -1,9 +1,5 @@
-import { label, card as cardCls } from '@/components/features/aka-style/shared'
+import { label, card as cardCls, codeChip as codeCls } from '@/components/features/aka-style/shared'
 import { Row, Table } from '@/components/features/aka-style/foundations/token-table'
-
-// Foundations sets its inline code chip a half point smaller than the shared
-// codeChip, so the string stays local to this page rather than moving to chrome.ts.
-const codeCls = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[10.5px]'
 
 /** Color: ground and ink, and the opacity ladder. Moved verbatim from app/aka-style/foundations/page.tsx. */
 export function ColorSection() {
@@ -24,7 +20,7 @@ export function ColorSection() {
               <Row name="--foreground" value="0.122 0.001 0 / 0.985 0 0">
                 <span className="block h-6 w-full max-w-[160px] rounded border border-border bg-foreground" />
               </Row>
-              <Row name="--muted-foreground" value="0.46 0.001 0 / 0.708 0 0">
+              <Row name="--muted-foreground" value="0.36 0.001 0 / 0.708 0 0">
                 <span className="block h-6 w-full max-w-[160px] rounded border border-border bg-muted-foreground" />
               </Row>
               <Row name="--border" value="0.88 0.003 106 / white 10%">
@@ -34,6 +30,29 @@ export function ColorSection() {
                 <span
                   className="block h-6 w-full max-w-[160px] rounded border border-border"
                   style={{ background: 'var(--select)' }}
+                />
+              </Row>
+              <Row name="--status-warn" value="0.58 0.13 75 / 0.72 0.13 75">
+                <span className="block h-6 w-full max-w-[160px] rounded border border-border bg-status-warn" />
+              </Row>
+              <Row name="--status-danger" value="0.55 0.2 25 / 0.62 0.2 25">
+                <span className="block h-6 w-full max-w-[160px] rounded border border-border bg-status-danger" />
+              </Row>
+              <Row name="--ink-on-art" value="1 0 0 / 1 0 0">
+                <span className="flex items-center gap-3">
+                  <span
+                    className="block h-6 w-full max-w-[160px] rounded border border-border"
+                    style={{ background: 'var(--ink-on-art)' }}
+                  />
+                  <span className="shrink-0 text-11 font-light text-muted-foreground/60">
+                    copy over artwork, both themes
+                  </span>
+                </span>
+              </Row>
+              <Row name="--ink-link" value="0.4 0.08 152.2 / 0.707 0.108 152.216">
+                <span
+                  className="block h-6 w-full max-w-[160px] rounded border border-border"
+                  style={{ background: 'var(--ink-link)' }}
                 />
               </Row>
             </Table>

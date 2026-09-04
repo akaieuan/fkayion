@@ -11,14 +11,14 @@ export function ContentSection() {
             The type roles, one class each.
 
             They used to be printed here as the utility strings they were built
-            from, and the strings were lying. The theme colours are bare var()
-            with no alpha slot, so the /70 on the kicker and the /90 on the
-            title never compiled and every call site inherited its ink instead.
-            The classes in globals.css are written as the roles actually
-            render, with the intent noted beside each, so fixing the alpha slot
-            later is a change to those lines and not to a hundred call sites.
+            from, and for a while the strings were lying: the theme colours were
+            bare var() with no alpha slot, so the /70 on the kicker and the /90
+            on the title never compiled and every call site inherited its ink.
+            The slot exists now, and the classes in globals.css carry the ink
+            the roles were always meant to, so a change to a role is a change
+            to those lines and not to a hundred call sites.
           */}
-          <Spec name="Kicker" note="uppercase label, 11px, tracked 0.18em; the ink is inherited" cls="aka-kicker">
+          <Spec name="Kicker" note="uppercase label, 11px, tracked 0.18em, muted ink at 70%" cls="aka-kicker">
             <p className="aka-kicker">Section kicker</p>
           </Spec>
 
@@ -62,7 +62,7 @@ export function ContentSection() {
             </div>
           </Spec>
 
-          <Spec name="List" note="the disc list; the spacing stays a utility on the element" cls="aka-list space-y-2">
+          <Spec name="List" note="the disc list; markers in muted ink at 50%, spacing stays a utility" cls="aka-list space-y-2">
             {/* Inside the prose it would sit in, so the list carries exactly the string printed. */}
             <div className="aka-prose w-full">
               <ul className="aka-list space-y-2">

@@ -15,10 +15,10 @@ export function WhoWeAreSection() {
               from the traffic circle we grew up around on the southwest corner of Prospect Park,
               Bartel-Pritchard Square, where Park Slope meets Windsor Terrace — our friend group got
               called the circleheads, and it stuck. It&apos;s{' '}
-              <a href="https://akabuild.dev" target="_blank" rel="noopener noreferrer" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">Ieuan</a>{' '}
+              <a href="https://akabuild.dev" target="_blank" rel="noopener noreferrer" className="aka-quiet-link">Ieuan</a>{' '}
               (product design + technical anthropology — the human side of applied AI — plus
               skill-building, agent testing, front-end, and procedural 3D) and{' '}
-              <a href="https://blaiseab.com" target="_blank" rel="noopener noreferrer" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">Blaise</a>{' '}
+              <a href="https://blaiseab.com" target="_blank" rel="noopener noreferrer" className="aka-quiet-link">Blaise</a>{' '}
               (full-stack systems, agent tooling, and the verification and evaluation layers that keep
               outputs honest) — friends since we were ten.
             </p>

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { code, inlineLink } from '@/components/features/demo/three-examples/shared'
+import { code } from '@/components/features/demo/three-examples/shared'
 
 /** Visualizer Eden: the same stack with an analyser in place of the clock. */
 export function VisualizerEdenSection() {
@@ -10,7 +10,7 @@ export function VisualizerEdenSection() {
       </h2>
       <p>
         The larger piece of this body of work is{' '}
-        <Link href="/demo/visualizer-eden" className={inlineLink}>
+        <Link href="/demo/visualizer-eden" className="aka-quiet-link">
           Visualizer Eden
         </Link>
         , and it is the same three parts as the orb: an{' '}

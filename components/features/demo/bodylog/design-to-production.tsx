@@ -17,7 +17,7 @@ export function DesignToProductionSection() {
               That exploration is still the best way to read the user story in one go, so it is{' '}
               <Link
                 href="/demo/bodylog/v1"
-                className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50"
+                className="aka-quiet-link"
               >
                 kept whole and playable
               </Link>{' '}

@@ -1,8 +1,4 @@
-
-// Foundations sets its inline code chip a half point smaller than the shared
-// codeChip, so the string stays local to this page rather than moving to chrome.ts.
-const codeCls = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[10.5px]'
-
+import { codeChip as codeCls } from '@/components/features/aka-style/shared'
 /** Transfer: the whole system in one block. Moved verbatim from app/aka-style/foundations/page.tsx. */
 export function TransferSection() {
   return (
@@ -23,7 +19,7 @@ export function TransferSection() {
 :root {
   --background:       oklch(0.955 0.002 106);
   --foreground:       oklch(0.122 0.001 0);
-  --muted-foreground: oklch(0.46  0.001 0);
+  --muted-foreground: oklch(0.36  0.001 0);
   --border:           oklch(0.88  0.003 106);
   --select:           oklch(0.58  0.13  250);  /* the one accent */
   --radius:           0.625rem;

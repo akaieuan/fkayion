@@ -1,9 +1,5 @@
-import { label, card as cardCls } from '@/components/features/aka-style/shared'
+import { label, card as cardCls, codeChip as codeCls } from '@/components/features/aka-style/shared'
 import { Row, Table } from '@/components/features/aka-style/foundations/token-table'
-
-// Foundations sets its inline code chip a half point smaller than the shared
-// codeChip, so the string stays local to this page rather than moving to chrome.ts.
-const codeCls = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[10.5px]'
 
 /** Surfaces: the ground under a mark. Moved verbatim from app/aka-style/foundations/page.tsx. */
 export function SurfacesSection() {

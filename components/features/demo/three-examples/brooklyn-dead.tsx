@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { code, inlineLink } from '@/components/features/demo/three-examples/shared'
+import { code } from '@/components/features/demo/three-examples/shared'
 
 /** Brooklyn Dead: the neighbouring 3D work, and where it meets this one. */
 export function BrooklynDeadSection() {
@@ -10,7 +10,7 @@ export function BrooklynDeadSection() {
       </h2>
       <p>
         The other 3D work on this site is{' '}
-        <Link href="/demo/blenderpipeline" className={inlineLink}>
+        <Link href="/demo/blenderpipeline" className="aka-quiet-link">
           Brooklyn Dead
         </Link>
         , and it earns a section here for the contrast rather than the overlap. Nothing in that

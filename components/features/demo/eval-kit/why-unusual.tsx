@@ -1,8 +1,5 @@
 import Link from 'next/link'
 
-const extLink =
-  'underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50'
-
 /** Why it's unusual. Moved verbatim from app/demo/eval-kit/page.tsx. */
 export function WhyUnusualSection() {
   return (
@@ -47,7 +44,7 @@ export function WhyUnusualSection() {
               Related perspective on the same measurement wall:{' '}
               <Link
                 href="/demo/hitl-kit"
-                className={extLink}
+                className="aka-quiet-link"
               >
                 HITL Kit
               </Link>

@@ -1,4 +1,4 @@
-import { extLink, PHILOSOPHY } from '@/components/features/demo/null-browser/shared'
+import { PHILOSOPHY } from '@/components/features/demo/null-browser/shared'
 
 /** It had AI, and I removed it. Moved verbatim from app/demo/null-browser/page.tsx. */
 export function AiRemovalSection() {
@@ -24,7 +24,7 @@ export function AiRemovalSection() {
               <strong className="font-medium text-foreground/90">no inference in the browser</strong>
               , and migration 006 drops the conversation tables. Putting a model back, local or
               remote, now needs a decision recorded in{' '}
-              <a href={PHILOSOPHY} target="_blank" rel="noopener noreferrer" className={extLink}>
+              <a href={PHILOSOPHY} target="_blank" rel="noopener noreferrer" className="aka-quiet-link">
                 PHILOSOPHY.md
               </a>{' '}
               before any code. Deleting working software you spent months on is the judgment I am

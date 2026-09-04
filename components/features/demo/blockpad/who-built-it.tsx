@@ -9,7 +9,7 @@ export function WhoBuiltItSection() {
                 href="https://ubik.studio"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50"
+                className="aka-quiet-link"
               >
                 Ubik Studio
               </a>

@@ -45,7 +45,7 @@ export default function CollapseProjectPage() {
               href="https://github.com/akaieuan/collapse"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline decoration-border hover:decoration-foreground/60 underline-offset-[3px] transition-colors"
+              className="aka-quiet-link"
             >
               github.com/akaieuan/collapse
             </a>
@@ -59,7 +59,7 @@ export default function CollapseProjectPage() {
               width={hero.w}
               height={hero.h}
               sizes="(min-width: 672px) 640px, 100vw"
-              className="block h-auto w-full transition-opacity group-hover:opacity-95"
+              className="block h-auto w-full"
               priority
             />
           </a>
@@ -79,7 +79,7 @@ export default function CollapseProjectPage() {
           <>
             Open source, public repo. Clone, <code className="aka-code">pnpm dev</code>, and collapse a lesson
             into a skill. Part of the{' '}
-            <Link href="/demo/akaoss" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">akaOSS</Link>{' '}
+            <Link href="/demo/akaoss" className="aka-quiet-link">akaOSS</Link>{' '}
             studio.
           </>
         }

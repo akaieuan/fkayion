@@ -19,14 +19,14 @@ export function GallerySection() {
               {gallery.map((shot) => (
                 <figure key={shot.src} className="mb-4 break-inside-avoid">
                   <a href={shot.src} target="_blank" rel="noopener noreferrer" className="group block">
-                    <div className="aka-card-well aka-card-media overflow-hidden rounded-lg">
+                    <div className="aka-card-well aka-card-media aka-card-lift overflow-hidden rounded-lg">
                       <DemoImage
                         src={shot.src}
                         alt={shot.label}
                         width={shot.w}
                         height={shot.h}
                         sizes="(min-width: 640px) 320px, 100vw"
-                        className="block h-auto w-full transition-opacity group-hover:opacity-95"
+                        className="block h-auto w-full"
                       />
                     </div>
                   </a>

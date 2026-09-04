@@ -93,7 +93,7 @@ export function PlainSummary({
                 {i > 0 && <span className="text-muted-foreground/50"> · </span>}
                 <Link
                   href={a.href}
-                  className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50"
+                  className="aka-quiet-link"
                 >
                   {a.title}
                 </Link>

@@ -34,7 +34,7 @@ export default function CircleheadsProjectPage() {
         kicker="Studio · Applied AI · Brooklyn"
         title="Circleheads"
         mark={
-          <figure className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-border/80 bg-black sm:h-20 sm:w-20">
+          <figure className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-border/80 aka-mark-ground sm:h-20 sm:w-20">
             <Image
               src={circleheadsMark}
               alt="Circleheads mark"

@@ -35,7 +35,7 @@ export default function AkaossProjectPage() {
         kicker="Studio · Open source · HITL AI"
         title="akaOSS"
         mark={
-          <figure className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-border/80 bg-black sm:h-20 sm:w-20">
+          <figure className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-border/80 aka-mark-ground sm:h-20 sm:w-20">
             <Image
               src={akaossMark}
               alt="akaOSS mark"

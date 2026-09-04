@@ -1,4 +1,4 @@
-import { extLink, SECURITY } from '@/components/features/demo/null-browser/shared'
+import { SECURITY } from '@/components/features/demo/null-browser/shared'
 
 /** The engineering worth pointing at. Moved verbatim from app/demo/null-browser/page.tsx. */
 export function EngineeringSection() {
@@ -27,7 +27,7 @@ export function EngineeringSection() {
                 <code className="aka-code">https</code>-only tab navigation refused at the IPC boundary,
                 and a navigation guard so a remote link surfaced inside the shell can only ever open
                 in a tab. Written up in{' '}
-                <a href={SECURITY} target="_blank" rel="noopener noreferrer" className={extLink}>
+                <a href={SECURITY} target="_blank" rel="noopener noreferrer" className="aka-quiet-link">
                   SECURITY.md
                 </a>
                 .

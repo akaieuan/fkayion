@@ -40,7 +40,7 @@ export default function HitlKitProjectPage() {
               href="https://www.hitlkit.dev/"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline decoration-border hover:decoration-foreground/60 underline-offset-[3px] transition-colors"
+              className="aka-quiet-link"
             >
               hitlkit.dev
             </a>
@@ -93,14 +93,14 @@ export default function HitlKitProjectPage() {
         <span className="font-medium text-foreground/85">Earlier reference on this site:</span>{' '}
         <Link
           href="/demo/hitl-ai"
-          className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50"
+          className="aka-quiet-link"
         >
           widget showcase
         </Link>
         {' · '}
         <Link
           href="/demo/hitl-ai/sheet"
-          className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50"
+          className="aka-quiet-link"
         >
           component sheet
         </Link>

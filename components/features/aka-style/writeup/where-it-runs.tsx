@@ -20,7 +20,7 @@ export function WhereItRuns() {
                     </span>
                     {!u.internal && (
                       <ArrowUpRight
-                        className="h-3.5 w-3.5 shrink-0 opacity-40 transition-opacity group-hover:opacity-80"
+                        className="h-3.5 w-3.5 shrink-0 opacity-40"
                         aria-hidden
                       />
                     )}

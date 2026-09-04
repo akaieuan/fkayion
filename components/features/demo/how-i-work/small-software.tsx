@@ -69,7 +69,7 @@ function Tool({ t }: { t: (typeof TOOLS)[number] }) {
            * reading as one sequence instead of three interruptions.
            */}
           <div
-            className="aka-card-well aka-card-media overflow-hidden"
+            className="aka-card-well aka-card-media aka-card-lift overflow-hidden"
             style={{ aspectRatio: `${t.w} / ${t.h}` }}
           >
             <DemoImage
@@ -85,7 +85,7 @@ function Tool({ t }: { t: (typeof TOOLS)[number] }) {
                * one.
                */
               sizes="(min-width: 704px) 672px, calc(100vw - 3rem)"
-              className="block h-full w-full object-cover transition-opacity group-hover:opacity-95"
+              className="block h-full w-full object-cover"
             />
           </div>
         </Link>

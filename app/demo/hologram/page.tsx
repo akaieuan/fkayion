@@ -43,7 +43,7 @@ export default function HologramProjectPage() {
               href="https://github.com/akaieuan/Hologram"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline decoration-border hover:decoration-foreground/60 underline-offset-[3px] transition-colors"
+              className="aka-quiet-link"
             >
               github.com/akaieuan/Hologram
             </a>
@@ -64,7 +64,7 @@ export default function HologramProjectPage() {
           <>
             Open source, MIT. No release to download — <code className="aka-code">uvx</code> fetches and runs
             it on demand. Part of the{' '}
-            <Link href="/demo/akaoss" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">akaOSS</Link>{' '}
+            <Link href="/demo/akaoss" className="aka-quiet-link">akaOSS</Link>{' '}
             studio.
           </>
         }

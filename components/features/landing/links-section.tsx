@@ -117,7 +117,7 @@ export function LinksSection() {
           </p>
           <Link
             href="/demo/how-i-work"
-            className="mt-3 inline-flex items-center gap-1.5 text-[13px] font-light text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50"
+            className="mt-3 inline-flex items-center gap-1.5 text-13 font-light text-muted-foreground aka-quiet-link"
           >
             How I work
           </Link>

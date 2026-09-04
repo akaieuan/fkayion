@@ -6,7 +6,7 @@ export function OneSiteSection() {
           <section className="space-y-3">
             <h2 className="aka-lead">One site, one source of truth</h2>
             <p>
-              <a href={SITE} target="_blank" rel="noopener noreferrer" className="underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50">akaoss.dev</a>{' '}
+              <a href={SITE} target="_blank" rel="noopener noreferrer" className="aka-quiet-link">akaoss.dev</a>{' '}
               ties them together. The projects each live in their own repos; this one holds the{' '}
               <strong className="font-medium text-foreground/90">HITL Kit registry</strong> (the source
               of truth for the shadcn primitives, served at <code className="aka-code">/r/*.json</code>, with CI failing on drift), the{' '}

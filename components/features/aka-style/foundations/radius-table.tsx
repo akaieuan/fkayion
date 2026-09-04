@@ -1,8 +1,4 @@
-import { card as cardCls } from '@/components/features/aka-style/shared'
-
-// Foundations sets its inline code chip a half point smaller than the shared
-// codeChip, so the string stays local to this page rather than moving to chrome.ts.
-const codeCls = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[10.5px]'
+import { card as cardCls, codeChip as codeCls } from '@/components/features/aka-style/shared'
 
 /** Shape: radius and rule. Moved verbatim from app/aka-style/foundations/page.tsx. */
 export function RadiusSection() {

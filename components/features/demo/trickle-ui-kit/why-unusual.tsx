@@ -1,8 +1,5 @@
 import Link from 'next/link'
 
-const extLink =
-  'underline decoration-border underline-offset-[3px] transition-colors hover:text-foreground hover:decoration-foreground/50'
-
 /** Why it's unusual. Moved verbatim from app/demo/trickle-ui-kit/page.tsx. */
 export function WhyUnusualSection() {
   return (
@@ -25,11 +22,11 @@ export function WhyUnusualSection() {
             </p>
             <p>
               Related perspective on building open-source kits with the shadcn registry pattern:{' '}
-              <Link href="/demo/hitl-kit" className={extLink}>
+              <Link href="/demo/hitl-kit" className="aka-quiet-link">
                 HITL Kit
               </Link>
               {' · '}
-              <Link href="/demo/eval-kit" className={extLink}>
+              <Link href="/demo/eval-kit" className="aka-quiet-link">
                 eval-kit
               </Link>
               .

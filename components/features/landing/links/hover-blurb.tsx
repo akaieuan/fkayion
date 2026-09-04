@@ -29,7 +29,7 @@ import { HOVER_PANEL_QUERY, useCursorPanel } from './use-cursor-panel'
  */
 export function HoverBlurb({
   blurbs,
-  panelClassName = 'max-w-[19rem] rounded-xl border border-border bg-[var(--surface)] px-4 py-3 text-[12.5px] font-light leading-relaxed text-foreground/80 shadow-2xl shadow-black/30',
+  panelClassName = 'aka-overlay max-w-[19rem] rounded-xl px-4 py-3 text-13 font-light leading-relaxed text-foreground/80',
   panelStyle,
   children,
 }: {

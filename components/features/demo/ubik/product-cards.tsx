@@ -95,19 +95,19 @@ function ProductCard({ demo }: { demo: Demo }) {
         the copy is white; without this the headings sit on whatever value the
         ridge happens to be at that point, which changes across the card.
       */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/25 to-black/55" />
+      <div className="absolute inset-0 bg-gradient-to-b from-wash-on-art/45 via-wash-on-art/25 to-wash-on-art/55" />
 
       <div className="relative p-4 sm:p-6 lg:p-8">
         <figcaption className="mb-4 sm:mb-5">
-          <h3 className="text-[17px] font-medium tracking-tight text-white sm:text-[19px]">
+          <h3 className="text-17 font-medium tracking-tight text-on-art sm:text-20">
             {demo.title}
           </h3>
-          <p className="mt-1.5 max-w-xl text-[13px] font-light leading-relaxed text-white/75">
+          <p className="mt-1.5 max-w-xl text-13 font-light leading-relaxed text-on-art/75">
             {demo.summary}
           </p>
         </figcaption>
 
-        <div className="overflow-hidden rounded-lg shadow-2xl shadow-black/40 ring-1 ring-white/10">
+        <div className="overflow-hidden rounded-lg ring-1 ring-on-art/10">
           <LoopVideo
             src={demo.src}
             poster={`${demo.src}-poster.webp`}
@@ -117,7 +117,7 @@ function ProductCard({ demo }: { demo: Demo }) {
           />
         </div>
 
-        <p className="mt-2.5 text-right font-mono text-[10px] uppercase tracking-[0.14em] text-white/45">
+        <p className="mt-2.5 text-right font-mono text-10 uppercase tracking-[0.14em] text-on-art/45">
           {demo.length}
         </p>
       </div>

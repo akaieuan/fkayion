@@ -40,7 +40,7 @@ export default function BoxPopuliProjectPage() {
               href="https://www.boxpopuli.live/"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline decoration-border hover:decoration-foreground/60 underline-offset-[3px] transition-colors"
+              className="aka-quiet-link"
             >
               boxpopuli.live
             </a>

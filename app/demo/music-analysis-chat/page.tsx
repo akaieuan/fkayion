@@ -62,7 +62,7 @@ export default function MusicAnalysisChatPage() {
         byline="It runs in the browser with no key and no backend. Ask it about saves, social, creators or outreach and it answers from a fixture."
       />
 
-      <h2 className="mt-10 text-2xl font-light tracking-tight text-foreground md:text-[26px]">
+      <h2 className="mt-10 text-2xl font-light tracking-tight text-foreground">
         What an answer should look like
       </h2>
       <p className="mt-1 text-sm text-muted-foreground">
