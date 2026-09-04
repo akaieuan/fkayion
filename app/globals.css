@@ -502,6 +502,25 @@ body {
   .site-inset {
     @apply px-5 sm:px-6 md:px-12 lg:px-16;
   }
+
+  /*
+   * A block that takes the site's width from inside the reading column.
+   *
+   * Give the block the site width, then split the difference between it and
+   * the column across both margins: the margins go negative on their own,
+   * stay symmetrical, and `min()` against the viewport shrinks the block into
+   * the gutter on a narrow window instead of opening a scrollbar, so there is
+   * no separate mobile rule to keep in sync. 1180px is `max-w-site`, the
+   * width the project plates take on the landing and on /demo, so a reader
+   * meets the same grid here rather than a third measure invented for one
+   * page. Written once here; it used to be an inline style copied into three
+   * write-ups.
+   */
+  .aka-breakout {
+    --breakout: min(100vw - 3rem, 1180px);
+    width: var(--breakout);
+    margin-inline: calc((100% - var(--breakout)) / 2);
+  }
 }
 
 /* Theme-aware gradient overlays for sections with background visuals */
@@ -711,11 +730,16 @@ body {
     height: calc(var(--flow-cover) * 0.75);
     perspective: var(--flow-persp);
     /*
-     * Real depth sorting. Covers overlap by how far back they actually are,
-     * which is what preserve-3d is for, and it means no z-index has to be
-     * computed per frame — the usual weak point in one of these.
+     * Flat, not preserve-3d. The deck used real depth sorting, and it looked
+     * right and was unclickable: Chrome's point hit-test does not reach
+     * rotated covers inside a preserve-3d context, so every cover but the
+     * centred one ignored the pointer while elementsFromPoint and the paint
+     * both swore it was there. The pose still projects through the
+     * perspective above; only the stacking moved, to a z-index each cover
+     * derives from its own distance below, which is the order the depth sort
+     * produced anyway.
      */
-    transform-style: preserve-3d;
+    transform-style: flat;
     /*
      * One promoted layer, on the track. Putting will-change on each cover
      * would promote eighteen of them, which is the memory mistake this pattern
@@ -741,7 +765,15 @@ body {
     --dc: clamp(-1, var(--d), 1);
     --df: clamp(-6, var(--d), 6);
     --ad: max(var(--dc), calc(-1 * var(--dc)));
+    --adist: max(var(--d), calc(-1 * var(--d)));
     position: absolute;
+    /*
+     * Nearest to the centre on top, unclamped, so the cover at six also beats
+     * every cover piled up behind it. z-index rounds calc() to an integer, and
+     * it only changes when a cover crosses a whole step: cheap, and the
+     * browser does it, not the controller.
+     */
+    z-index: calc(100 - var(--adist));
     top: 0;
     left: 50%;
     width: var(--flow-cover);
@@ -755,11 +787,6 @@ body {
      * smooth it. The only thing that eases here is the caption, which moves in
      * steps.
      */
-  }
-
-  /* The centred cover is the one you can click through to. */
-  .aka-flow-card:not([data-active]) .aka-plate {
-    pointer-events: none;
   }
 
   /*

@@ -108,8 +108,9 @@ export function CoverFlow({
         cards[index]?.setAttribute('data-active', '')
         /*
          * Mark the covers that nothing can see, so CSS can skip drawing their
-         * art. Which those are is `isCovered`, and it is subtler than it
-         * looks: see the note there about why the last cover is spared.
+         * art. Which those are is `isCovered`; the CSS stacks every cover by
+         * its distance from the centre, so past the clamp a pile is simply
+         * everything behind the nearest one.
          *
          * Here rather than in the hot path above: the set only changes when
          * the centred cover does, which is eighteen times in the length of the
@@ -163,18 +164,12 @@ export function CoverFlow({
     }
 
     /*
-     * Clicking an off-centre cover brings it to the centre; clicking the
-     * centred one follows its link. That is what the original did, and it means
-     * the deck is fully usable by someone who never scrolls it at all.
+     * Clicking any cover opens it. The original brought an off-centre cover
+     * to the centre first and opened it on the second click, and visitors
+     * read that as most of the covers doing nothing. Every cover is a plain
+     * link now, so a click is a click; the centring is what scroll, the arrow
+     * keys and Tab are for.
      */
-    function onClick(e: MouseEvent) {
-      const card = (e.target as Element | null)?.closest?.('[data-flow-card]')
-      if (!card) return
-      const i = Number((card as HTMLElement).dataset.flowCard)
-      if (i === lastIndex) return
-      e.preventDefault()
-      centre(i)
-    }
 
     /*
      * Arrows move the page rather than the deck. The scroll position is the
@@ -224,7 +219,6 @@ export function CoverFlow({
     measure()
     apply()
 
-    section.addEventListener('click', onClick)
     section.addEventListener('keydown', onKey)
     section.addEventListener('focusin', onFocusIn)
 
@@ -234,7 +228,6 @@ export function CoverFlow({
       listen(false)
       if (frame) cancelAnimationFrame(frame)
       if (tween) cancelAnimationFrame(tween)
-      section.removeEventListener('click', onClick)
       section.removeEventListener('keydown', onKey)
       section.removeEventListener('focusin', onFocusIn)
     }

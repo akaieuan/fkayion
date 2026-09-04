@@ -17,17 +17,16 @@ const clamp = (v: number, lo: number, hi: number) => Math.min(Math.max(v, lo), h
  * on `index`?
  *
  * Past `near` the CSS clamps every cover to a single pose, so they stop being
- * their own picture and pile up exactly on top of one another. Each pile is
- * coplanar, which means document order alone decides what shows:
- *
- *   left  — the pile is the low indices, so the highest of them wins, and
- *           that is the cover at `index - near`.
- *   right — the pile is the high indices, so the highest of all wins, and
- *           that is the last cover on the page. Hence the exception; without
- *           it the deck's right-hand sliver shows the wrong project's art.
+ * their own picture and pile up exactly on top of one another. The CSS also
+ * stacks every cover by its distance from the centre, nearest on top, so the
+ * cover at exactly `near` fronts its pile on either side and everything
+ * further out is behind it. That stacking is why the rule is symmetric now:
+ * it used to spare the last cover on the page, because a preserve-3d deck
+ * left the coplanar right-hand pile to document order and the last cover
+ * painted on top of it.
  */
 export function isCovered(k: number, index: number, count: number, near = 6): boolean {
-  return k < index - near || (k > index + near && k !== count - 1)
+  return k < index - near || k > index + near
 }
 
 /**

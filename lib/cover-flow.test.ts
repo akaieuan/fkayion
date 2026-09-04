@@ -16,13 +16,15 @@ test('a cover buried in the right-hand pile is covered', () => {
 })
 
 /*
- * The one that shipped broken. The right-hand pile is coplanar, so document
- * order decides what shows and the winner is the last cover on the page, not
- * the nearest one. Culling it swapped the right-hand sliver for a different
- * project's art.
+ * The one that shipped broken, twice. First the right-hand pile was left to
+ * document order, so the last cover on the page painted on top of it and
+ * culling it swapped the sliver's art. Then the deck stopped relying on 3D
+ * sorting at all: every cover stacks by its distance from the centre, the
+ * nearest on top, so the last cover is buried like any other far one and the
+ * exception that spared it is gone.
  */
-test('the last cover is never covered: it paints on top of the right-hand pile', () => {
-  assert.equal(isCovered(17, 0, 18), false)
+test('the last cover is buried in the right-hand pile like any other far cover', () => {
+  assert.equal(isCovered(17, 0, 18), true)
 })
 
 test('a cover buried in the left-hand pile is covered', () => {

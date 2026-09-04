@@ -1,8 +1,8 @@
-import { CoverFlow } from '@/components/features/demo/cover-flow/cover-flow'
-import { DeckCovers } from '@/components/features/demo/cover-flow/deck-covers'
-import { DeckCaption } from '@/components/features/demo/cover-flow/deck-caption'
+import { CoverFlow } from '@/components/features/demo-index/cover-flow'
+import { DeckCovers } from '@/components/features/demo-index/deck-covers'
+import { DeckCaption } from '@/components/features/demo-index/deck-caption'
 import { ProjectGrid } from '@/components/ui/project-grid'
-import { ViewToggle } from '@/components/features/demo/cover-flow/view-toggle'
+import { ViewToggle } from '@/components/features/demo-index/view-toggle'
 import { topLevelProjects } from '@/lib/projects'
 
 export const metadata = {
