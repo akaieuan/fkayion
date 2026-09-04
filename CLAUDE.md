@@ -70,6 +70,13 @@ go in CI.
   file per section, owned by that page. Shared vocabulary stays in
   `components/ui/`; data stays in `lib/`. No barrel files: every import names
   the file it comes from, so the server/client boundary stays visible.
+- **Every page under `/demo` stands in `DemoShell`**
+  (`components/features/demo/demo-shell.tsx`). It owns the frame, the reading
+  column, the mobile back link, and the clearance for the fixed Projects link;
+  a page declares `wide` when it fills the site container and otherwise says
+  nothing. Do not paste a shell class string into a page: that is how the
+  akaSTYLE write-up came to print the back link over its own headline. The
+  full-bleed demo screens (`hitl-ai`) are not shells and do not use it.
 - **Server by default** (law 07). A component stays server-rendered unless it
   needs state, an event, or a canvas, and the client boundary is drawn as deep
   in the tree as possible.

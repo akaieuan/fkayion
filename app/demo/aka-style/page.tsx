@@ -1,5 +1,4 @@
-import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
+import { DemoShell } from '@/components/features/demo/demo-shell'
 import { PixelHead } from '@/components/features/brand/pixel-head'
 import { KickerTags } from '@/components/ui/tag-row'
 import { demoMetadata, demoSchema } from '@/lib/demo-seo'
@@ -39,15 +38,7 @@ const SHELL = 'max-w-site mx-auto site-inset'
 
 export default function AkaStyleWriteUpPage() {
   return (
-    <div
-      /*
-       * lg:pt-32, not pt-16 like the sibling write-ups: they centre a narrow
-       * column and leave the left margin to the fixed Projects link, but this
-       * page fills the site container from the margin, so at lg its header
-       * must start below the link's band or the two print over each other.
-       */
-      className="min-h-screen overflow-x-clip bg-background pb-20 pt-16 lg:pt-32"
-    >
+    <DemoShell wide>
       <JsonLd
         data={demoSchema(PATH, {
           title: metadata.title as string,
@@ -57,14 +48,6 @@ export default function AkaStyleWriteUpPage() {
       />
 
       <div className={SHELL}>
-        <Link
-          href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
-          Projects
-        </Link>
-
         {/* ── Header ─────────────────────────────────────────────────────── */}
         <header className="grid gap-8 md:grid-cols-[1fr_auto] md:items-start">
           <div className={MEASURE}>
@@ -128,6 +111,6 @@ export default function AkaStyleWriteUpPage() {
 
         <Closing />
       </div>
-    </div>
+    </DemoShell>
   )
 }

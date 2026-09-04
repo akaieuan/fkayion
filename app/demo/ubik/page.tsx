@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
 import { KickerTags } from '@/components/ui/tag-row'
 import { DemoImage } from '@/components/ui/demo-image'
 import { JsonLd, breadcrumbSchema, projectSchema } from '@/components/seo/json-ld'
 import { PlainSummary } from '@/components/ui/plain-summary'
+import { DemoShell } from '@/components/features/demo/demo-shell'
 import { WhatUbikWasSection } from '@/components/features/demo/ubik/what-ubik-was'
 import { ProductSection } from '@/components/features/demo/ubik/product'
 import { ArchitectureSection } from '@/components/features/demo/ubik/architecture'
@@ -57,7 +56,7 @@ export const metadata: Metadata = {
 
 export default function UbikProjectPage() {
   return (
-    <div className="min-h-screen overflow-x-clip bg-background px-6 py-16">
+    <DemoShell>
       <JsonLd
         data={[
           projectSchema({
@@ -81,122 +80,112 @@ export default function UbikProjectPage() {
           ]),
         ]}
       />
-      <article className="mx-auto max-w-2xl">
-        <Link
-          href="/demo"
-          className="mb-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground lg:hidden"
+      <header className="mb-6">
+        <KickerTags>Product · Desktop AI research platform · 2023–2026</KickerTags>
+        <h1
+          className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight"
+          aria-label="Ubik Studio"
         >
-          <ArrowLeft className="h-3.5 w-3.5" />
-          Projects
-        </Link>
+          <span className="text-foreground/90">Ubik Studio</span>
+        </h1>
+        <p className="mt-3 max-w-2xl text-sm font-light leading-relaxed text-muted-foreground">
+        A desktop-native, local-first AI research platform. Three and a half years building the
+        human side of agentic research, before it had a name.
+        </p>
+      </header>
 
-        <header className="mb-6">
-          <KickerTags>Product · Desktop AI research platform · 2023–2026</KickerTags>
-          <h1
-            className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight"
-            aria-label="Ubik Studio"
-          >
-            <span className="text-foreground/90">Ubik Studio</span>
-          </h1>
-          <p className="mt-3 max-w-2xl text-sm font-light leading-relaxed text-muted-foreground">
-          A desktop-native, local-first AI research platform. Three and a half years building the
-          human side of agentic research, before it had a name.
-          </p>
-        </header>
+      <figure className="-mx-6 aka-card-well aka-card-media overflow-hidden sm:mx-0">
+        <DemoImage
+          src={hero.src}
+          alt={hero.label}
+          width={hero.w}
+          height={hero.h}
+          sizes="(min-width: 672px) 640px, 100vw"
+          className="block h-auto w-full"
+          priority
+        />
+      </figure>
+      <p className="mt-2 text-[11px] font-light text-muted-foreground/60">{hero.label}</p>
 
-        <figure className="-mx-6 aka-card-well aka-card-media overflow-hidden sm:mx-0">
-          <DemoImage
-            src={hero.src}
-            alt={hero.label}
-            width={hero.w}
-            height={hero.h}
-            sizes="(min-width: 672px) 640px, 100vw"
-            className="block h-auto w-full"
-            priority
-          />
-        </figure>
-        <p className="mt-2 text-[11px] font-light text-muted-foreground/60">{hero.label}</p>
+      {/*
+        One control where there were two. The write-ups and the two surviving
+        public links are the same errand — where else Ubik exists — so they
+        are one menu rather than a row that grows a button per destination.
+        The items are server-rendered and handed to the menu as children.
+      */}
+      <div className="mt-5">
+        <ArchiveMenu label="Ubik archive">
+          <ArchiveMenuItems />
+        </ArchiveMenu>
+      </div>
+      <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
+        2023–2026 · co-founded · the public site and builds are retired; the test log and the
+        subreddit are what remain in the open.
+      </p>
+      <PlainSummary
+        path={PATH}
+        archive={WRITING.filter((e) => e.slug && e.type === UBIK_ARCHIVE_TYPE).map((e) => ({
+          title: e.title,
+          href: writingHref(e),
+        }))}
+      />
+
+      <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
+        <WhatUbikWasSection />
+
+        <ProductSection />
+
+        <ArchitectureSection />
 
         {/*
-          One control where there were two. The write-ups and the two surviving
-          public links are the same errand — where else Ubik exists — so they
-          are one menu rather than a row that grows a button per destination.
-          The items are server-rendered and handed to the menu as children.
+          The cards take the page, two across.
+          
+          ── Why they break out ────────────────────────────────────────────
+          
+          Everything else here is a column of text at the reading measure,
+          which is the right width to read at and the wrong one to watch a
+          screen recording in. These are recordings of a three-pane desktop
+          app; at reading width the panes are too small to tell apart, which
+          defeats the point of showing them.
+          
+          ── Why this width ────────────────────────────────────────────────
+          
+          1180px is not a new number. It is `max-w-site` — the width the
+          project plates take on the landing and on /demo — so a reader who
+          has seen the card wall meets the same grid here rather than a
+          third measure invented for one page. The old version used
+          breakpoint-tuned negative margins (-mx-24, -mx-40) that landed on
+          896px, which matched nothing.
+          
+          The arithmetic is one line: give the block a width, then split the
+          difference between it and the column across both margins. The
+          negative margins fall out automatically and stay symmetrical, and
+          `min()` against the viewport means the breakout shrinks into the
+          gutter on a narrow window instead of opening a scrollbar — so
+          there is no separate mobile rule to keep in sync.
+          
+          ── Why two across ────────────────────────────────────────────────
+          
+          Seven short loops of one product read as a set side by side. In a
+          single column each one is a separate event and the section runs
+          seven screens long. `items-start` because the clips have different
+          aspect ratios and a row should not stretch the shorter card to
+          match the taller one.
         */}
-        <div className="mt-5">
-          <ArchiveMenu label="Ubik archive">
-            <ArchiveMenuItems />
-          </ArchiveMenu>
-        </div>
-        <p className="mt-2 text-[12px] font-light text-muted-foreground/80">
-          2023–2026 · co-founded · the public site and builds are retired; the test log and the
-          subreddit are what remain in the open.
-        </p>
-        <PlainSummary
-          path={PATH}
-          archive={WRITING.filter((e) => e.slug && e.type === UBIK_ARCHIVE_TYPE).map((e) => ({
-            title: e.title,
-            href: writingHref(e),
-          }))}
-        />
+        <ProductCardsSection />
 
-        <div className="mt-10 space-y-10 text-[15px] font-light leading-relaxed text-muted-foreground">
-          <WhatUbikWasSection />
+        <LongRunsSection />
 
-          <ProductSection />
+        <EngineeringSection />
 
-          <ArchitectureSection />
+        <RoleSection />
 
-          {/*
-            The cards take the page, two across.
-            
-            ── Why they break out ────────────────────────────────────────────
-            
-            Everything else here is a column of text at the reading measure,
-            which is the right width to read at and the wrong one to watch a
-            screen recording in. These are recordings of a three-pane desktop
-            app; at reading width the panes are too small to tell apart, which
-            defeats the point of showing them.
-            
-            ── Why this width ────────────────────────────────────────────────
-            
-            1180px is not a new number. It is `max-w-site` — the width the
-            project plates take on the landing and on /demo — so a reader who
-            has seen the card wall meets the same grid here rather than a
-            third measure invented for one page. The old version used
-            breakpoint-tuned negative margins (-mx-24, -mx-40) that landed on
-            896px, which matched nothing.
-            
-            The arithmetic is one line: give the block a width, then split the
-            difference between it and the column across both margins. The
-            negative margins fall out automatically and stay symmetrical, and
-            `min()` against the viewport means the breakout shrinks into the
-            gutter on a narrow window instead of opening a scrollbar — so
-            there is no separate mobile rule to keep in sync.
-            
-            ── Why two across ────────────────────────────────────────────────
-            
-            Seven short loops of one product read as a set side by side. In a
-            single column each one is a separate event and the section runs
-            seven screens long. `items-start` because the clips have different
-            aspect ratios and a row should not stretch the shorter card to
-            match the taller one.
-          */}
-          <ProductCardsSection />
+        <DesignBoardSection />
 
-          <LongRunsSection />
+        <ArchiveSection />
 
-          <EngineeringSection />
-
-          <RoleSection />
-
-          <DesignBoardSection />
-
-          <ArchiveSection />
-
-          <ClosedChapterSection />
-        </div>
-      </article>
-    </div>
+        <ClosedChapterSection />
+      </div>
+    </DemoShell>
   )
 }
