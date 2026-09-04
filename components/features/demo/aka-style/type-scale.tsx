@@ -1,62 +1,41 @@
-import { card } from '@/components/features/aka-style/writeup/shared'
+import { card } from '@/components/features/demo/aka-style/shared'
 
 /*
  * The type scale, shown at the sizes it actually ships at.
  *
- * Split into a role and its spec rather than one long uppercase run. The run
- * was doing two jobs in one line: naming the row, and listing four numbers
- * nobody reads as a sentence. As a header band with the name on the left and
- * the numbers on the right, both are scannable and the specimen underneath
- * gets the card to itself.
+ * Each row carries one class string, and that string is both what the
+ * specimen is set in and what the header band prints. There is no second
+ * copy of the numbers to drift: the sizes live in tailwind.config.cjs and the
+ * roles in globals.css, and the ramp on /aka-style/foundations lists the
+ * scale itself.
  */
 const SCALE = [
   {
     role: 'Display',
-    spec: 'clamp 1.85 to 2.85rem / extralight / tight',
+    cls: 'text-display font-extralight leading-none tracking-tight text-foreground/90',
     /*
      * The largest specimen gets the full row and breaks out to the site
      * width, since a display line has to be seen at display length; the rest
      * pair up under it inside the column.
      */
     wide: true,
-    node: (
-      <p className="text-display font-extralight leading-none tracking-tight text-foreground/90">
-        A language written as constraints
-      </p>
-    ),
+    text: 'A language written as constraints',
   },
-  {
-    role: 'Section head',
-    spec: '20px / light',
-    node: <p className="aka-section-title">The rules</p>,
-  },
+  { role: 'Section head', cls: 'aka-section-title', text: 'The rules' },
   {
     role: 'Body',
-    spec: '15px / light / 1.6',
-    node: (
-      <p className="text-15 font-light leading-relaxed text-muted-foreground">
-        A constraint can be checked in review, and it travels to a new codebase without me having
-        to be in the room.
-      </p>
-    ),
+    cls: 'text-15 font-light leading-relaxed text-muted-foreground',
+    text: 'A constraint can be checked in review, and it travels to a new codebase without me having to be in the room.',
   },
-  {
-    role: 'Kicker',
-    spec: '11px / 0.18em / uppercase / medium',
-    node: <p className="aka-kicker">Design system · Live specimen</p>,
-  },
+  { role: 'Kicker', cls: 'aka-kicker', text: 'Design system · Live specimen' },
   {
     role: 'Caption',
-    spec: '11px / light / muted-70',
-    node: (
-      <p className="text-11 font-light text-muted-foreground/70">
-        Rendered live, never screenshotted.
-      </p>
-    ),
+    cls: 'text-11 font-light text-muted-foreground/70',
+    text: 'Rendered live, never screenshotted.',
   },
 ]
 
-/** Type: one scale, five roles, each row set in the class the site ships. */
+/** Type: one scale, five roles, each row set in the class it prints. */
 export function TypeScale() {
   return (
         <section className="mt-16">
@@ -65,7 +44,8 @@ export function TypeScale() {
           <p className="mt-3 text-15 font-light leading-relaxed text-muted-foreground">
             Hierarchy is carried by the contrast between uppercase mono and light sans, not by size,
             which is why the headings on this page are barely larger than the body under them. Each
-            row below is set in the class the site actually ships.
+            row below is set in the class its band prints, so the specimen and the spec are one
+            string.
           </p>
 
           <ul className="mt-6 grid list-none gap-3 p-0 lg:grid-cols-2">
@@ -79,11 +59,13 @@ export function TypeScale() {
                     {s.role}
                   </span>
                   <span className="font-mono text-11 tracking-[0.03em] text-muted-foreground/60">
-                    {s.spec}
+                    {s.cls}
                   </span>
                 </div>
                 {/* Centred, so a short specimen in a stretched row is not stranded at its top. */}
-                <div className="flex flex-1 items-center px-5 py-5">{s.node}</div>
+                <div className="flex flex-1 items-center px-5 py-5">
+                  <p className={s.cls}>{s.text}</p>
+                </div>
               </li>
             ))}
           </ul>

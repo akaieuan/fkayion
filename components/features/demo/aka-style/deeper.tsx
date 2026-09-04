@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { tile } from '@/components/features/aka-style/writeup/shared'
+import { tile } from '@/components/features/demo/aka-style/shared'
 
 /** The deeper rooms. Secondary now: the page shows the system before it links out. */
 const ROOMS = [

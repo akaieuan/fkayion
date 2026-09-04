@@ -1,5 +1,5 @@
 import { LAWS } from '@/lib/aka-style'
-import { card } from '@/components/features/aka-style/writeup/shared'
+import { card } from '@/components/features/demo/aka-style/shared'
 
 /** The rules: eight constraints, each a card, from the same list /aka-style reads. */
 export function Laws() {
@@ -15,9 +15,13 @@ export function Laws() {
             a new codebase without me having to be in the room to defend it.
           </p>
 
-          <ol className="mt-7 grid list-none gap-3 p-0 md:grid-cols-2">
+          {/*
+            Column flow rather than a row grid: the bodies differ in length, and a
+            row grid stretches every short card to the tallest one beside it.
+          */}
+          <ol className="mt-7 list-none columns-1 gap-3 p-0 md:columns-2">
             {LAWS.map((l) => (
-              <li key={l.n} className={`${card} overflow-hidden`}>
+              <li key={l.n} className={`${card} mb-3 break-inside-avoid overflow-hidden`}>
                 <div className="aka-card-head flex items-baseline gap-2.5 px-4 py-2.5">
                   <span className="font-mono text-11 text-primary">{l.n}</span>
                   <span className="text-14 font-light text-foreground/90">{l.rule}</span>
@@ -29,7 +33,7 @@ export function Laws() {
             ))}
           </ol>
 
-          <p className="mt-5 text-15 font-light leading-relaxed text-muted-foreground">
+          <p className="mt-2 text-15 font-light leading-relaxed text-muted-foreground">
             Law 04 is the clearest case. It reads like a taste call and started as an accessibility
             requirement for the audio-reactive work, where anything pulsing brightness in time with
             sound is a genuine hazard. Once motion could only move space, every engine in the family

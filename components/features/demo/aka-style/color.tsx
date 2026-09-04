@@ -1,5 +1,5 @@
 import { SWATCHES, ACCENTS } from '@/lib/aka-style'
-import { card } from '@/components/features/aka-style/writeup/shared'
+import { card } from '@/components/features/demo/aka-style/shared'
 
 /** Color: the live tokens as swatches, and the accent set the engines carry. */
 export function Color() {

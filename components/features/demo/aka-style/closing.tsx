@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { well } from '@/components/features/aka-style/writeup/shared'
+import { well } from '@/components/features/demo/aka-style/shared'
 
 /** The closing well: the test of a design system, and the way back to the work. */
 export function Closing() {

@@ -1,7 +1,8 @@
 /*
  * The write-up's shared chrome: the surfaces its sections compose from.
  *
- * This is the /demo/aka-style write-up's own set, not the specimen pages'.
+ * This is the /demo/aka-style write-up's own set, not the specimen pages'
+ * (those live in components/features/aka-style/shared.ts).
  * The kicker and the section title used to be here too; they are house
  * vocabulary rather than this page's chrome, so they are `.aka-kicker` and
  * `.aka-section-title` in globals.css, written at each use site.
