@@ -10,33 +10,49 @@ Run the design-system check and act on what it says:
 npm run style:check
 ```
 
-It reports two kinds of drift.
+It reports three kinds of drift, and `npm run style:selftest` proves every rule
+still fires on a fixture that must trip it and passes its clean twin.
 
 **Law violations.** akaSTYLE states its rules as constraints rather than
 preferences specifically so they can be checked instead of argued about, and a
-constraint nothing checks is a preference. The check enforces the three that are
-mechanically detectable:
+constraint nothing checks is a preference. The check enforces six of the eight
+mechanically:
 
-- **Law 02**, every surface resolves from a CSS variable. A hex or `rgb()` in
-  the site's own chrome means light and dark are no longer one definition.
-- **Law 03**, depth is an edge and a graded fill, never a drop shadow. Raised
-  and recessed are the same material with the light reversed, and both are named
-  classes (`.aka-card`, `.aka-card-well`) rather than copied class strings.
-- **Law 04**, motion moves space, never brightness. No `animate-pulse` or
-  `animate-ping`.
+- **Law 02**, every surface resolves from a CSS variable: hex, `rgb()`, `hsl()`,
+  `oklch()` and the other colour functions, and Tailwind's stock `white`/`black`.
+- **Law 03**, depth is an edge and a graded fill, never a drop shadow: every
+  `shadow-*`, bare `shadow` in a class string, `box-shadow`, `drop-shadow`.
+- **Law 04**, motion moves space, never brightness: `animate-pulse`/`ping`, a
+  `@keyframes` that animates only opacity or filter, a hover that dims.
+- **Law 05**, loops pause when unwatched: a file that calls
+  `requestAnimationFrame` must also carry an IntersectionObserver, a
+  `visibilitychange` gate and a reduced-motion branch, unless it is listed in
+  the script with the reason it is not a loop.
+- **Law 06**, layout never jumps: every `<Image>` and `<img>` ships width and
+  height (or `fill`, or a static import).
+- **Law 07**, server by default, as a number: `CLIENT_BUDGET` in the script is
+  the count of client files. Spending one means raising it in the same commit,
+  with the reason in that commit.
 
-Law 08 is not mechanically checkable and is the one to hold yourself to by
-hand: anything scroll-linked or animated writes a CSS variable or a data
-attribute, never React state. `components/features/demo-index/cover-flow.tsx` and
+Laws 01 and 08 are judgement. Law 08 is the one to hold yourself to by hand:
+anything scroll-linked or animated writes a CSS variable or a data attribute,
+never React state. `components/features/demo-index/cover-flow.tsx` and
 `components/ui/reveal.tsx` are the two worked examples.
 
-Art-layer files are exempt and listed in the script: the canvas engines, the
-shaders, and the write-ups that embed another product's palette. A theme switch
-must not recolour Prospect Park or somebody else's app.
+**The specimen disagreeing with the code.** A law count written as a word
+anywhere the design language is described, and every token value printed on
+`/aka-style/foundations`, are compared to `lib/aka-style.ts` and
+`app/globals.css`.
 
-**Vocabulary the specimen has not caught up with.** Anything in
-`components/ui/` that `/aka-style` has never heard of means the page claiming to
-show "everything this site is built from" is now wrong.
+**Vocabulary the specimen has not caught up with.** Every export in
+`components/ui/` and every `aka-*` class in `globals.css` must appear on
+`/aka-style` (report only). One page's own chrome, like the deck's classes, is
+listed in the script as internal.
+
+Art-layer files are exempt and listed in the script: the canvas engines, the
+shaders, the transcribed logo masters, the Trickle kit's effects, and the
+write-ups that embed another product's palette. A theme switch must not
+recolour Prospect Park or somebody else's app.
 
 ### The rule
 
@@ -51,15 +67,20 @@ decision before each push:
    - a new law goes in `lib/aka-style.ts`, which both `/aka-style` and
      `/demo/aka-style` read, so the two can never disagree;
    - a new token goes in `app/globals.css` and gets a swatch;
-   - a new primitive gets a specimen in `app/aka-style/primitives`.
+   - a new primitive gets a specimen in `app/aka-style/primitives`;
+   - a new rule in the check gets a fixture in `--selftest`.
 3. **Neither?** Push.
 
 The point is that the design system is a live specimen rather than a document
 about one. It only stays true if it is updated in the same commit as the thing
 it describes, not in a cleanup pass later.
 
-There is a standing backlog of 17 findings that predate the check, mostly drop
-shadows and literals in the header and logo set. Do not add to it. Once it is
+There is a standing backlog of 34 findings, all of one kind: things the
+widened check can now see that the alpha-slot fix (wave two) resolves. Eight
+hovers that dim, seventeen stock whites and blacks (the header's dark nav, the
+Ubik cards' copy over their paintings, two logo tiles), three drop shadows, the
+primary button's hover and the trickle plate's crossfade in the stylesheet, and
+four status colours that have no token yet. Do not add to it. Once it is
 empty, `npm run style:check -- --strict` fails the run on any violation and can
 go in CI.
 
