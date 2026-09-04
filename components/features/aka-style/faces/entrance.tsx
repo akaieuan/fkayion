@@ -1,15 +1,15 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { kicker, label, codeChip as codeCls, card as cell } from '@/components/features/aka-style/shared'
+import { label, codeChip as codeCls, card as cell } from '@/components/features/aka-style/shared'
 
 /** Entrance: once, shimmer, still. Moved verbatim from app/aka-style/faces/page.tsx. */
 export function EntranceSection() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Entrance</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Entrance</p>
+          <h2 className="mt-2 aka-section-title">
             Assemble once, then hold
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             For marks that should announce themselves and then get out of the way:{' '}
             <code className={codeCls}>once</code> assembles on first view and stops.{' '}
             <code className={codeCls}>shimmer</code> adds a ~3Hz twinkle on ~4% of cells — enough to

@@ -1,15 +1,15 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { kicker, label } from '@/components/features/aka-style/shared'
+import { label } from '@/components/features/aka-style/shared'
 
 /** The family: same grammar, different subtraction. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function FamilySection() {
   return (
         <section className="mt-16">
-          <p className={kicker}>The family</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">The family</p>
+          <h2 className="mt-2 aka-section-title">
             Same grammar, different subtraction
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             Each studio and product gets its own knockout. That is the entire brand system — the
             engine, the ground, and one shape removed.
           </p>

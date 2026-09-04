@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { kicker } from '@/components/features/aka-style/shared'
 import { ButtonsSection } from '@/components/features/aka-style/primitives/buttons'
 import { SurfacesSection } from '@/components/features/aka-style/primitives/surfaces'
 import { CardSection } from '@/components/features/aka-style/primitives/card'
 import { InputSection } from '@/components/features/aka-style/primitives/input'
 import { ContentSection } from '@/components/features/aka-style/primitives/content'
+import { ComponentsSection } from '@/components/features/aka-style/primitives/components'
 import { PrimitivesClosing } from '@/components/features/aka-style/primitives/closing'
 
 export const metadata = {
@@ -27,7 +27,7 @@ export default function PrimitivesPage() {
         </Link>
 
         <header className="mb-10">
-          <p className={kicker}>Library · Primitives</p>
+          <p className="aka-kicker">Library · Primitives</p>
           <h1 className="mt-2 text-[clamp(1.7rem,5vw,2.4rem)] font-extralight leading-none tracking-tight text-foreground/90">
             Controls &amp; surfaces
           </h1>
@@ -53,6 +53,9 @@ export default function PrimitivesPage() {
 
         {/* CONTENT */}
         <ContentSection />
+
+        {/* COMPONENTS */}
+        <ComponentsSection />
 
         <PrimitivesClosing />
       </article>

@@ -1,4 +1,4 @@
-import { kicker, label, card as cardCls } from '@/components/features/aka-style/shared'
+import { label, card as cardCls } from '@/components/features/aka-style/shared'
 import { Row, Table } from '@/components/features/aka-style/foundations/token-table'
 
 // Foundations sets its inline code chip a half point smaller than the shared
@@ -9,16 +9,16 @@ const codeCls = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[10.5px]'
 export function ColorSection() {
   return (
         <section className="scroll-mt-24">
-          <p className={kicker}>Color</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">Ground and ink</h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-kicker">Color</p>
+          <h2 className="mt-2 aka-section-title">Ground and ink</h2>
+          <p className="aka-standfirst">
             Two tokens carry almost everything: a ground and an ink. OKLCH throughout, so a
             dark-mode flip is a lightness change rather than a re-pick, and the values below are the
             ones actually in <code className={codeCls}>globals.css</code>, light then dark.
           </p>
           <div className={`${cardCls} mt-6`}>
             <Table>
-              <Row name="--background" value="0.97 0.002 106 / 0.09 0 0">
+              <Row name="--background" value="0.955 0.002 106 / 0.09 0 0">
                 <span className="block h-6 w-full max-w-[160px] rounded border border-border bg-background" />
               </Row>
               <Row name="--foreground" value="0.122 0.001 0 / 0.985 0 0">
@@ -30,7 +30,7 @@ export function ColorSection() {
               <Row name="--border" value="0.88 0.003 106 / white 10%">
                 <span className="block h-6 w-full max-w-[160px] rounded border border-border bg-border" />
               </Row>
-              <Row name="--select" value="0.58 0.13 250 / 0.707 0.108 152">
+              <Row name="--select" value="0.58 0.13 250 / 0.707 0.108 152.216">
                 <span
                   className="block h-6 w-full max-w-[160px] rounded border border-border"
                   style={{ background: 'var(--select)' }}

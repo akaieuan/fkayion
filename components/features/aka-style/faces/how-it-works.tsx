@@ -1,11 +1,10 @@
-import { kicker } from '@/components/features/aka-style/shared'
 
 /** Under it: how a face is drawn. Moved verbatim from app/aka-style/faces/page.tsx. */
 export function HowItWorksSection() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Under it</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Under it</p>
+          <h2 className="mt-2 aka-section-title">
             How a face is drawn
           </h2>
           <ul className="mt-4 space-y-2.5 text-[13px] font-light leading-relaxed text-muted-foreground">

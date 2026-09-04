@@ -1,12 +1,12 @@
 import { LAWS } from '@/lib/aka-style'
-import { kicker, sectionH, card } from '@/components/features/aka-style/writeup/shared'
+import { card } from '@/components/features/aka-style/writeup/shared'
 
 /** The rules: eight constraints, each a card, from the same list /aka-style reads. */
 export function Laws() {
   return (
         <section className="mt-16">
-          <p className={kicker}>The rules</p>
-          <h2 className={sectionH}>Eight constraints, not eight preferences</h2>
+          <p className="aka-kicker">The rules</p>
+          <h2 className="mt-2 aka-section-title">Eight constraints, not eight preferences</h2>
           <p className="mt-3 text-[15px] font-light leading-relaxed text-muted-foreground">
             A design system is usually sold as consistency, which is true and is not why I keep one.
             The reason is that a preference has to be re-argued every time and a constraint does

@@ -1,4 +1,4 @@
-import { kicker, card as cardCls } from '@/components/features/aka-style/shared'
+import { card as cardCls } from '@/components/features/aka-style/shared'
 
 // Foundations sets its inline code chip a half point smaller than the shared
 // codeChip, so the string stays local to this page rather than moving to chrome.ts.
@@ -8,17 +8,17 @@ const codeCls = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[10.5px]'
 export function RadiusSection() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Shape</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Shape</p>
+          <h2 className="mt-2 aka-section-title">
             Radius &amp; rule
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             Radius scales with the surface: the bigger the box, the softer the corner. One border
             weight everywhere: 1px at token colour. Depth comes from surface lightness, not from a
             glow. Nothing the system itself draws carries a shadow, and the ones you will find in
             the repo are inside product mockups drawing someone else&apos;s interface.
           </p>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             Three steps are derived from <code className={codeCls}>--radius: 0.625rem</code> in the
             Tailwind config, so moving one number moves the set. Only{' '}
             <code className={codeCls}>xl</code> and the default are Tailwind&apos;s own.

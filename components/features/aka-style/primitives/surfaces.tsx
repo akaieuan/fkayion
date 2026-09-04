@@ -1,5 +1,4 @@
 import { Layers, LayoutGrid } from 'lucide-react'
-import { kicker } from '@/components/features/aka-style/shared'
 import { Spec } from '@/components/features/aka-style/spec'
 import { FlowSpecimen } from '@/components/features/aka-style/flow-specimen'
 import { FLOW } from '@/lib/aka-style'
@@ -8,7 +7,7 @@ import { FLOW } from '@/lib/aka-style'
 export function SurfacesSection() {
   return (
         <section className="mt-14 space-y-3">
-          <p className={kicker}>Surface</p>
+          <p className="aka-kicker">Surface</p>
 
           {/*
             The surfaces are two materials rather than four class strings.
@@ -60,6 +59,85 @@ lift    aka-card aka-card-lift        ← a card that is also a control`}
                 </p>
               </div>
             </div>
+          </Spec>
+
+          {/*
+            The overlay: the page's own ground, translucent, over a blur.
+
+            It is what a menu panel or a floating control is drawn on, and it
+            is a third material rather than a card, because a card sits on the
+            page and this sits over it: whatever is underneath still shows
+            through. The archive menu on /demo/ubik is the working instance,
+            absolutely positioned against its button so opening it reflows
+            nothing. Here it is in the flow, open, so the page can show it.
+          */}
+          <Spec
+            name="Overlay"
+            note="a menu panel: the ground, translucent, over a blur; lit at the top like a card"
+            cls={`panel  aka-overlay rounded-lg p-1.5
+group  px-3 pb-1 pt-2 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50
+item   block rounded-md px-3 py-2 text-[13px] transition-colors hover:bg-muted/40`}
+          >
+            <div className="aka-overlay w-[min(22rem,100%)] rounded-lg p-1.5">
+              <p className="px-3 pb-1 pt-2 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50">
+                Rebuilt here
+              </p>
+              <ul className="list-none p-0">
+                {[
+                  ['The three-pane workspace', 'agent, source, evidence, side by side'],
+                  ['Search that scores its own results', 'a rank you can argue with'],
+                ].map(([title, line]) => (
+                  <li key={title}>
+                    <span className="block rounded-md px-3 py-2 text-[13px] transition-colors hover:bg-muted/40">
+                      <span className="block text-foreground/85">{title}</span>
+                      <span className="mt-0.5 block text-[12px] font-light leading-relaxed text-muted-foreground">
+                        {line}
+                      </span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Spec>
+
+          {/*
+            The hint: a tooltip in a span and two CSS rules.
+
+            The Radix tooltip in components/ui is thirty-odd kilobytes of
+            JavaScript to explain a button, on a page built to ship none. The
+            accessible name is the aria-label either way; the visible hint is
+            a child span that `.aka-hint-host:hover` reveals, arriving over its
+            last four pixels rather than fading, per law 04.
+
+            A hint only shows on hover, which a page cannot demonstrate, so the
+            second copy is pinned open with inline overrides: the same span,
+            in the flow, at rest. Nothing else on this page carries an inline
+            style, and this one exists only to make a hover state printable.
+          */}
+          <Spec
+            name="Hint"
+            note="hover or focus the button; the second copy is the same span, pinned open"
+            cls={`host  aka-hint-host
+hint  aka-hint aka-card px-2 py-1 text-[11px] font-light
+end   aka-hint-end   ← anchored to the trailing edge, for a control at the page edge`}
+          >
+            <button
+              type="button"
+              aria-label="Deck view"
+              className="aka-hint-host aka-card grid h-7 w-7 place-items-center rounded-md text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <Layers className="h-[15px] w-[15px]" aria-hidden />
+              <span aria-hidden className="aka-hint aka-card px-2 py-1 text-[11px] font-light">
+                Deck view
+              </span>
+            </button>
+            <span
+              aria-hidden
+              className="aka-hint aka-card px-2 py-1 text-[11px] font-light"
+              style={{ visibility: 'visible', opacity: 1, position: 'static', transform: 'none' }}
+            >
+              Deck view
+            </span>
           </Spec>
 
           {/*

@@ -2,8 +2,8 @@
 
 import { useAudio } from './context/AudioContext'
 import { useState, useRef, useEffect } from 'react'
-import { Slider } from '@/components/ui/slider'
-import { Switch } from '@/components/ui/switch'
+import { Slider } from '@/components/features/visualizer/slider'
+import { Switch } from '@/components/features/visualizer/switch'
 import { X, Minus, Plus, GripHorizontal } from 'lucide-react'
 
 // Ultra-compact slider

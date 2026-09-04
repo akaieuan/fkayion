@@ -1,12 +1,14 @@
 /*
- * The write-up's shared chrome: the class strings its sections compose from.
+ * The write-up's shared chrome: the surfaces its sections compose from.
  *
  * This is the /demo/aka-style write-up's own set, not the specimen pages'.
- * The kicker here is the /80 variant, a deliberate step from the specimen
- * chrome's /70, so the two files stay separate on purpose.
+ * It used to carry a kicker and a section title as well. The kicker was kept
+ * as a deliberate /80 step from the specimen chrome's /70, and the step never
+ * rendered: the theme colours are bare var() with no alpha slot, so both
+ * compiled to the same inherited ink. They were one class all along, so they
+ * are `.aka-kicker` and `.aka-section-title` in globals.css now, written at
+ * each use site.
  */
-export const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/80'
-export const sectionH = 'mt-2 text-xl font-light tracking-tight text-foreground/90'
 /*
  * The house surfaces, by name. `.aka-card` is the raised material and
  * `.aka-card-well` the recessed one; both are defined once in globals.css,

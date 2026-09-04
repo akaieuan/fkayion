@@ -1,15 +1,15 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { kicker, label, card as cell } from '@/components/features/aka-style/shared'
+import { label, card as cell } from '@/components/features/aka-style/shared'
 
 /** Resolution: grid and gap across their ranges. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function GridSection() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Resolution</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Resolution</p>
+          <h2 className="mt-2 aka-section-title">
             Grid and gap
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[11px]">grid</code> sets
             cells across; <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[11px]">gap</code>{' '}
             sets the gutter as a fraction of a cell. Lower grid reads bolder at small sizes; higher

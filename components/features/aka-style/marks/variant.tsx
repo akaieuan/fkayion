@@ -1,15 +1,15 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { kicker, label, card as cell } from '@/components/features/aka-style/shared'
+import { label, card as cell } from '@/components/features/aka-style/shared'
 
 /** Variant: negative and figure. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function VariantSection() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Variant</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Variant</p>
+          <h2 className="mt-2 aka-section-title">
             Negative and figure
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             The default is <span className="text-foreground/85">negative</span> — a filled disc with
             the shape cut out. <span className="text-foreground/85">Figure</span> inverts it: the
             shape is drawn, wrapped in a thin ring. Negative reads better small; figure reads better

@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { kicker } from '@/components/features/aka-style/shared'
 import { ColorSection } from '@/components/features/aka-style/foundations/color'
 import { SurfacesSection } from '@/components/features/aka-style/foundations/surfaces'
 import { SpacingSection } from '@/components/features/aka-style/foundations/spacing'
@@ -30,7 +29,7 @@ export default function FoundationsPage() {
         </Link>
 
         <header className="mb-10">
-          <p className={kicker}>Library · Foundations</p>
+          <p className="aka-kicker">Library · Foundations</p>
           <h1 className="mt-2 text-[clamp(1.7rem,5vw,2.4rem)] font-extralight leading-none tracking-tight text-foreground/90">
             Tokens, scale &amp; motion
           </h1>

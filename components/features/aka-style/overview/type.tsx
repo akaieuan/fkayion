@@ -1,16 +1,16 @@
-import { kicker, label, codeChip as code, card as cardCls } from '@/components/features/aka-style/shared'
+import { label, codeChip as code, card as cardCls } from '@/components/features/aka-style/shared'
 
 /** Type: the scale, one specimen per step. Moved verbatim from app/aka-style/page.tsx. */
 export function TypeSection() {
   return (
         <section id="type" className="mt-16 scroll-mt-24">
-          <p className={kicker}>Type</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">The scale</h2>
+          <p className="aka-kicker">Type</p>
+          <h2 className="mt-2 aka-section-title">The scale</h2>
 
           <div className={`${cardCls} mt-6 space-y-5`}>
             <div>
               <p className={label}>Kicker · 11px / 0.18em / uppercase / medium</p>
-              <p className={`${kicker} mt-1.5`}>Product design · Technical anthropology</p>
+              <p className="aka-kicker mt-1.5">Product design · Technical anthropology</p>
             </div>
             <div className="h-px bg-border/60" />
             <div>
@@ -22,7 +22,7 @@ export function TypeSection() {
             <div className="h-px bg-border/60" />
             <div>
               <p className={label}>Section head · 20px / light</p>
-              <p className="mt-1.5 text-xl font-light tracking-tight text-foreground/90">
+              <p className="mt-1.5 aka-section-title">
                 The human-in-the-loop architecture
               </p>
             </div>

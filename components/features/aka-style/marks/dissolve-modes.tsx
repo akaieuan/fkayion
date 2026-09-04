@@ -1,15 +1,15 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { kicker, label } from '@/components/features/aka-style/shared'
+import { label } from '@/components/features/aka-style/shared'
 
 /** Motion: the four dissolve modes. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function DissolveModesSection() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Motion</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Motion</p>
+          <h2 className="mt-2 aka-section-title">
             Four dissolve modes
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             The mark decays and reforms on a loop. The mode sets the order cells leave: by row, by
             radius, at random, or in glitch blocks. All four move cells through space — none of them
             fade opacity, per the motion rule.

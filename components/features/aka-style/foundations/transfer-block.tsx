@@ -1,4 +1,3 @@
-import { kicker } from '@/components/features/aka-style/shared'
 
 // Foundations sets its inline code chip a half point smaller than the shared
 // codeChip, so the string stays local to this page rather than moving to chrome.ts.
@@ -8,11 +7,11 @@ const codeCls = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[10.5px]'
 export function TransferSection() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Transfer</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Transfer</p>
+          <h2 className="mt-2 aka-section-title">
             The whole system, in one block
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             Two files, because this is Tailwind v3 and the mapping from token to utility lives in a
             config. It used to be printed here as v4 (<code className={codeCls}>@import
             &quot;tailwindcss&quot;</code>, <code className={codeCls}>@theme inline</code>, no config
@@ -22,7 +21,7 @@ export function TransferSection() {
           <pre className="mt-6 overflow-x-auto aka-card-well p-5 font-mono text-[10.5px] leading-relaxed text-foreground/80">
             {`/* globals.css */
 :root {
-  --background:       oklch(0.97  0.002 106);
+  --background:       oklch(0.955 0.002 106);
   --foreground:       oklch(0.122 0.001 0);
   --muted-foreground: oklch(0.46  0.001 0);
   --border:           oklch(0.88  0.003 106);

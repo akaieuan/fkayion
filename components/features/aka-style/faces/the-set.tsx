@@ -1,5 +1,5 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { kicker, mono, codeChip as codeCls } from '@/components/features/aka-style/shared'
+import { mono, codeChip as codeCls } from '@/components/features/aka-style/shared'
 
 /** The full expression table lives in EXPR (pixel-head.tsx) — 26 slots. */
 const FACE_COUNT = 26
@@ -9,11 +9,11 @@ const faces = Array.from({ length: FACE_COUNT }, (_, i) => i)
 export function TheSetSection() {
   return (
         <section className="mt-16">
-          <p className={kicker}>The set</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">The set</p>
+          <h2 className="mt-2 aka-section-title">
             Twenty-six expressions
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             Every slot, held still via <code className={codeCls}>faceIndex</code>. The range runs
             from neutral through curious, skeptical, delighted, and asleep — enough personality to
             feel alive across a long hold, never so much that it reads as a cartoon.

@@ -1,21 +1,87 @@
-import { kicker, label } from '@/components/features/aka-style/shared'
+import { label } from '@/components/features/aka-style/shared'
 import { Spec } from '@/components/features/aka-style/spec'
 
-/** Content: code, lists, tables, media frames, the section header. Moved verbatim from app/aka-style/primitives/page.tsx. */
+/** Content: the type roles, code, lists, tables, media frames, the section header. Moved verbatim from app/aka-style/primitives/page.tsx. */
 export function ContentSection() {
   return (
         <section className="mt-14 space-y-3">
-          <p className={kicker}>Content</p>
+          <p className="aka-kicker">Content</p>
+
+          {/*
+            The type roles, one class each.
+
+            They used to be printed here as the utility strings they were built
+            from, and the strings were lying. The theme colours are bare var()
+            with no alpha slot, so the /70 on the kicker and the /90 on the
+            title never compiled and every call site inherited its ink instead.
+            The classes in globals.css are written as the roles actually
+            render, with the intent noted beside each, so fixing the alpha slot
+            later is a change to those lines and not to a hundred call sites.
+          */}
+          <Spec name="Kicker" note="uppercase label, 11px, tracked 0.18em; the ink is inherited" cls="aka-kicker">
+            <p className="aka-kicker">Section kicker</p>
+          </Spec>
+
+          <Spec
+            name="Section title"
+            note="20px light, tight; mt-2 is the step under a kicker"
+            cls="mt-2 aka-section-title"
+          >
+            <div className="w-full">
+              <h3 className="mt-2 aka-section-title">The section title</h3>
+            </div>
+          </Spec>
+
+          <Spec
+            name="Standfirst"
+            note="one sentence under the title, saying what the section argues"
+            cls="aka-standfirst"
+          >
+            <div className="w-full">
+              <p className="aka-standfirst">
+                A standfirst that says what this section argues, in one sentence.
+              </p>
+            </div>
+          </Spec>
+
+          <Spec name="Lead" note="the h3 that opens a write-up block" cls="aka-lead">
+            <h3 className="aka-lead">Why keep this page</h3>
+          </Spec>
+
+          <Spec
+            name="Prose"
+            note="15px light on the muted ink, 1.6 leading, paragraphs 2.5rem apart"
+            cls="aka-prose"
+          >
+            <div className="aka-prose w-full">
+              <p>
+                Body copy is sans and light, and the space between paragraphs is generous enough
+                that each one reads as its own thought rather than the next line of the last.
+              </p>
+              <p>The muted ink is the default. Full ink is for the terms a reader will look for again.</p>
+            </div>
+          </Spec>
+
+          <Spec name="List" note="the disc list; the spacing stays a utility on the element" cls="aka-list space-y-2">
+            {/* Inside the prose it would sit in, so the list carries exactly the string printed. */}
+            <div className="aka-prose w-full">
+              <ul className="aka-list space-y-2">
+                <li>Watch the work first.</li>
+                <li>Prototype in code.</li>
+                <li>Ship the smallest true thing.</li>
+              </ul>
+            </div>
+          </Spec>
 
           <Spec
             name="Code"
             note="inline chips and blocks share the muted ground"
-            cls={`inline rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]
+            cls={`inline aka-code
 block  aka-card-well overflow-x-auto rounded-lg p-4 font-mono text-[11px] leading-relaxed text-foreground/80`}
           >
             <div className="w-full">
               <p className="text-[13px] font-light text-muted-foreground">
-                Run <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[12px]">pnpm dev</code>{' '}
+                Run <code className="aka-code">pnpm dev</code>{' '}
                 and open the app.
               </p>
               <pre className="mt-3 aka-card-well overflow-x-auto rounded-lg p-4 font-mono text-[11px] leading-relaxed text-foreground/80">
@@ -27,9 +93,9 @@ block  aka-card-well overflow-x-auto rounded-lg p-4 font-mono text-[11px] leadin
 
           <Spec
             name="Lists"
-            note="em-dash markers, never bullets, for prose lists"
+            note="quiet dot markers for prose; the disc list is aka-list, for reference lists"
             cls={`quiet li  flex gap-3 → <span className="mt-[7px] h-1 w-1 rounded-full bg-muted-foreground/40" />
-disc     list-disc space-y-2 pl-5 marker:text-muted-foreground/50
+disc     aka-list space-y-2
 lead     <span className="text-foreground/85">Term.</span> then body`}
           >
             <ul className="w-full space-y-2.5 text-[13px] font-light leading-relaxed text-muted-foreground">
@@ -111,17 +177,17 @@ margin calc((100% - width) / 2) on both sides, negative on its own`}
 
           <Spec
             name="Section header"
-            note="the page rhythm — kicker, title, standfirst"
-            cls={`kicker text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70
-title  text-xl font-light tracking-tight text-foreground/90
-stand  mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground`}
+            note="the page rhythm: kicker, title, standfirst, stacked"
+            cls={`kicker aka-kicker
+title  mt-2 aka-section-title
+stand  aka-standfirst`}
           >
             <div className="w-full">
-              <p className={kicker}>Section kicker</p>
-              <h3 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+              <p className="aka-kicker">Section kicker</p>
+              <h3 className="mt-2 aka-section-title">
                 The section title
               </h3>
-              <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+              <p className="aka-standfirst">
                 A standfirst that says what this section argues, in one sentence.
               </p>
             </div>

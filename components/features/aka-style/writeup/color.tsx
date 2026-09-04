@@ -1,12 +1,12 @@
 import { SWATCHES, ACCENTS } from '@/lib/aka-style'
-import { kicker, sectionH, card } from '@/components/features/aka-style/writeup/shared'
+import { card } from '@/components/features/aka-style/writeup/shared'
 
 /** Color: the live tokens as swatches, and the accent set the engines carry. */
 export function Color() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Color</p>
-          <h2 className={sectionH}>Tokens, in OKLCH</h2>
+          <p className="aka-kicker">Color</p>
+          <h2 className="mt-2 aka-section-title">Tokens, in OKLCH</h2>
           <p className="mt-3 text-[15px] font-light leading-relaxed text-muted-foreground">
             Every surface resolves from a CSS variable, so light and dark are one definition rather
             than two stylesheets. These swatches are the live tokens: switch the theme and this row

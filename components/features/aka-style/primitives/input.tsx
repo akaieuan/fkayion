@@ -1,12 +1,12 @@
 import { Check, Search } from 'lucide-react'
-import { kicker, label } from '@/components/features/aka-style/shared'
+import { label } from '@/components/features/aka-style/shared'
 import { Spec } from '@/components/features/aka-style/spec'
 
 /** Input: text fields, choice controls, tabs. Moved verbatim from app/aka-style/primitives/page.tsx. */
 export function InputSection() {
   return (
         <section className="mt-14 space-y-3">
-          <p className={kicker}>Input</p>
+          <p className="aka-kicker">Input</p>
 
           <Spec
             name="Text fields"

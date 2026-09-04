@@ -1,15 +1,15 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { kicker, label, card as cardCls } from '@/components/features/aka-style/shared'
+import { label, card as cardCls } from '@/components/features/aka-style/shared'
 
 /** Patterns: compositions that repeat. Moved verbatim from app/aka-style/page.tsx. */
 export function PatternsSection() {
   return (
         <section id="patterns" className="mt-16 scroll-mt-24">
-          <p className={kicker}>Patterns</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Patterns</p>
+          <h2 className="mt-2 aka-section-title">
             Compositions that repeat
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             Where the primitives combine into something reusable. These are the shapes that get
             copied into a new repo first.
           </p>
@@ -18,8 +18,8 @@ export function PatternsSection() {
             <div className={cardCls}>
               <p className={label}>Section header — kicker, title, standfirst</p>
               <div className="mt-3 border-l border-border/60 pl-4">
-                <p className={kicker}>Selected work · 01</p>
-                <p className="mt-1.5 text-xl font-light tracking-tight text-foreground/90">
+                <p className="aka-kicker">Selected work · 01</p>
+                <p className="mt-1.5 aka-section-title">
                   Ubik Studio
                 </p>
                 <p className="mt-1 text-[13px] font-light text-muted-foreground">

@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { kicker } from '@/components/features/aka-style/shared'
 import { TheRuleSection } from '@/components/features/aka-style/faces/the-rule'
 import { CycleSection } from '@/components/features/aka-style/faces/cycle'
 import { TheSetSection } from '@/components/features/aka-style/faces/the-set'
@@ -28,7 +27,7 @@ export default function FacesPage() {
         </Link>
 
         <header className="mb-10">
-          <p className={kicker}>Brand engine · Faces</p>
+          <p className="aka-kicker">Brand engine · Faces</p>
           <h1 className="mt-2 text-[clamp(1.7rem,5vw,2.4rem)] font-extralight leading-none tracking-tight text-foreground/90">
             Faces
           </h1>

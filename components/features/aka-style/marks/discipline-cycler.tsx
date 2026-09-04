@@ -1,21 +1,21 @@
 import Link from 'next/link'
 import { AkaMark } from '@/components/features/brand/aka-mark'
-import { kicker, mono, card as cell } from '@/components/features/aka-style/shared'
+import { mono, card as cell } from '@/components/features/aka-style/shared'
 
 /** Derived engine: AkaMark, the discipline cycler. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function DisciplineCyclerSection() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Derived engine</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Derived engine</p>
+          <h2 className="mt-2 aka-section-title">
             AkaMark, the discipline cycler
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             Same disc grammar, but each reform reveals a discipline rather than a face: AI spark,
             code brackets, an eighth note, an isometric cube, a terminal prompt, a pen stroke. The
             dissolve <em>is</em> the discipline change.
           </p>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             It was the hero until the hero moved to{' '}
             <Link href="/aka-style/faces" className="text-primary underline decoration-border underline-offset-[3px]">
               faces

@@ -1,14 +1,14 @@
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { USAGE } from '@/lib/aka-style'
-import { kicker, sectionH, tile } from '@/components/features/aka-style/writeup/shared'
+import { tile } from '@/components/features/aka-style/writeup/shared'
 
 /** Where it runs: the repos carrying the same tokens, internal and out. */
 export function WhereItRuns() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Where it runs</p>
-          <h2 className={sectionH}>Same tokens, different repos</h2>
+          <p className="aka-kicker">Where it runs</p>
+          <h2 className="mt-2 aka-section-title">Same tokens, different repos</h2>
 
           <ul className="mt-6 grid list-none gap-3 p-0 md:grid-cols-2">
             {USAGE.map((u) => {

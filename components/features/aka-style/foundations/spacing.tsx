@@ -1,15 +1,15 @@
-import { kicker, card as cardCls } from '@/components/features/aka-style/shared'
+import { card as cardCls } from '@/components/features/aka-style/shared'
 import { Row, Table } from '@/components/features/aka-style/foundations/token-table'
 
 /** Space: the rhythm, six steps of a 4px base. Moved verbatim from app/aka-style/foundations/page.tsx. */
 export function SpacingSection() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Space</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Space</p>
+          <h2 className="mt-2 aka-section-title">
             The rhythm
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             A 4px base, but only six steps are ever used. Sections breathe at 64, cards at 20, and
             related things sit 8–12 apart. Constraint is the point: fewer choices, faster decisions,
             consistent result.

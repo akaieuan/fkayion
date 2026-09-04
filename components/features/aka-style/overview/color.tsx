@@ -1,15 +1,15 @@
-import { kicker, label } from '@/components/features/aka-style/shared'
+import { label } from '@/components/features/aka-style/shared'
 import { SWATCHES as swatches, ACCENTS as accents } from '@/lib/aka-style'
 
 /** Color: the token swatches and the accent set. Moved verbatim from app/aka-style/page.tsx. */
 export function ColorSection() {
   return (
         <section id="color" className="mt-16 scroll-mt-24">
-          <p className={kicker}>Color</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Color</p>
+          <h2 className="mt-2 aka-section-title">
             Tokens, in OKLCH
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             Every surface resolves from a CSS variable, so light and dark are one definition rather
             than two stylesheets. Toggle the theme and this section repaints itself.
           </p>

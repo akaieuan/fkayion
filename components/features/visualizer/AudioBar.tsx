@@ -1,7 +1,7 @@
 'use client'
 
 import { useAudio } from './context/AudioContext'
-import { Slider } from '@/components/ui/slider'
+import { Slider } from '@/components/features/visualizer/slider'
 import { Volume2, VolumeX, Play, Pause } from 'lucide-react'
 import { useState } from 'react'
 

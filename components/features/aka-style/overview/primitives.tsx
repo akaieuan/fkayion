@@ -1,16 +1,16 @@
 import Link from 'next/link'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
-import { kicker, label, card as cardCls } from '@/components/features/aka-style/shared'
+import { label, card as cardCls } from '@/components/features/aka-style/shared'
 
 /** Primitives: controls and surfaces, with links into the specimen pages. Moved verbatim from app/aka-style/page.tsx. */
 export function PrimitivesSection() {
   return (
         <section id="primitives" className="mt-16 scroll-mt-24">
-          <p className={kicker}>Primitives</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Primitives</p>
+          <h2 className="mt-2 aka-section-title">
             Controls &amp; surfaces
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             The small set everything else composes from. All server-rendered; none of these need
             client JavaScript to look right.
           </p>
@@ -98,7 +98,7 @@ export function PrimitivesSection() {
             <div className={cardCls}>
               <p className={label}>Callout card — the closing-argument surface</p>
               <div className="mt-3 aka-card-well px-5 py-4">
-                <p className="text-sm font-medium tracking-wide text-foreground">One rule</p>
+                <p className="aka-lead">One rule</p>
                 <p className="mt-2 text-[14px] font-light leading-relaxed text-foreground/85">
                   Inertials emit signals. The Runciter dispatches them. Humans decide.
                 </p>

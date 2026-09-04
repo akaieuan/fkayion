@@ -1,15 +1,15 @@
-import { kicker, card as cardCls } from '@/components/features/aka-style/shared'
+import { card as cardCls } from '@/components/features/aka-style/shared'
 import { Row, Table } from '@/components/features/aka-style/foundations/token-table'
 
 /** Motion: timings and the rule. Moved verbatim from app/aka-style/foundations/page.tsx. */
 export function MotionSection() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Motion</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Motion</p>
+          <h2 className="mt-2 aka-section-title">
             Timings &amp; the rule
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             One rule governs everything, including the brand engines:{' '}
             <span className="text-foreground/85">energy moves space, never brightness</span> — scale,
             position, displacement. No strobe, no flash, no opacity pulsing. It keeps long loops

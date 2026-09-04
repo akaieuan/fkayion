@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { kicker } from '@/components/features/aka-style/shared'
 import { TheMarkSection } from '@/components/features/aka-style/marks/the-mark'
 import { FamilySection } from '@/components/features/aka-style/marks/family'
 import { VariantSection } from '@/components/features/aka-style/marks/variant'
@@ -33,7 +32,7 @@ export default function MarksPage() {
         </Link>
 
         <header className="mb-10">
-          <p className={kicker}>Brand engine · Marks</p>
+          <p className="aka-kicker">Brand engine · Marks</p>
           <h1 className="mt-2 text-[clamp(1.7rem,5vw,2.4rem)] font-extralight leading-none tracking-tight text-foreground/90">
             Marks
           </h1>

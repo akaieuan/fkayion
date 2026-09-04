@@ -1,13 +1,13 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
 import { MARK_FAMILY } from '@/lib/aka-style'
-import { kicker, sectionH, card } from '@/components/features/aka-style/writeup/shared'
+import { card } from '@/components/features/aka-style/writeup/shared'
 
 /** Marks: the family the one canvas engine draws, each rendered live. */
 export function Marks() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Brand engine</p>
-          <h2 className={sectionH}>One canvas, a family of marks</h2>
+          <p className="aka-kicker">Brand engine</p>
+          <h2 className="mt-2 aka-section-title">One canvas, a family of marks</h2>
           <p className="mt-3 text-[15px] font-light leading-relaxed text-muted-foreground">
             Every mark in the family is the same disc of pixel cells with something different
             subtracted from it. Change what is subtracted and you change brands, not code. Colour

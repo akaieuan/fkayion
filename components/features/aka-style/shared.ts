@@ -5,10 +5,11 @@
  * Only strings that are byte-identical across the pages that use them live
  * here; a variant that differs (foundations sets its inline code chip a half
  * point smaller) stays local to its page.
+ *
+ * The section kicker is not here any more. It is house vocabulary rather than
+ * specimen chrome, so it is `.aka-kicker` in globals.css and written at each
+ * use site, the same way the site's own pages write it.
  */
-
-/** Section kicker. Was an identical copy in all five specimen pages. */
-export const kicker = 'text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground/70'
 
 /** Small uppercase label. Was an identical copy in all five specimen pages. */
 export const label = 'text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50'

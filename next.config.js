@@ -9,7 +9,6 @@ const nextConfig = {
       'lucide-react',
       '@radix-ui/react-slider',
       '@radix-ui/react-switch',
-      '@radix-ui/react-tooltip',
       '@react-three/drei',
     ],
   },

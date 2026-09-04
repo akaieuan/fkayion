@@ -1,23 +1,23 @@
 import { BlockpadMark } from '@/components/ui/blockpad-mark'
 import { CovartMark } from '@/components/ui/covart-mark'
 import { BodyLogMark } from '@/components/product-replicas/bodylog/bodylog-mark'
-import { kicker, label, mono, card as cell } from '@/components/features/aka-style/shared'
+import { label, mono, card as cell } from '@/components/features/aka-style/shared'
 
 /** Outside the engine: the three drawn marks and the palette convention. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function DrawnMarksSection() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Outside the engine</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Outside the engine</p>
+          <h2 className="mt-2 aka-section-title">
             Drawn marks
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             Not every product mark is a knockout. Three ship artwork of their own, and it is
             transcribed into an SVG here rather than exported as a bitmap, because the same mark has
             to survive an 18px specimen and a 300px plate on one page, and because a resampled
             squircle goes to mush at the small end.
           </p>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             All three are server components. A mark is a static drawing, so none of them should cost
             a client bundle.
           </p>

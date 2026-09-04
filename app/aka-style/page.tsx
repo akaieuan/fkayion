@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { kicker } from '@/components/features/aka-style/shared'
 import { RulesSection } from '@/components/features/aka-style/overview/rules'
 import { ColorSection } from '@/components/features/aka-style/overview/color'
 import { TypeSection } from '@/components/features/aka-style/overview/type'
@@ -29,7 +28,7 @@ const sections = [
 export const metadata = {
   title: 'akaSTYLE — design language, primitives & brand engines',
   description:
-    'akaSTYLE: the design language, component primitives, and canvas brand engines behind akabuild.dev, circleheads.com, akaoss.dev, and the kits — seven rules, a token set, and every primitive rendered live rather than screenshotted.',
+    'akaSTYLE: the design language, component primitives, and canvas brand engines behind akabuild.dev, circleheads.com, akaoss.dev, and the kits — eight rules, a token set, and every primitive rendered live rather than screenshotted.',
 }
 
 export default function LibraryPage() {
@@ -45,7 +44,7 @@ export default function LibraryPage() {
         </Link>
 
         <header className="mb-8">
-          <p className={kicker}>Design system · Primitives · Brand engines</p>
+          <p className="aka-kicker">Design system · Primitives · Brand engines</p>
           <h1 className="mt-2 text-[clamp(1.7rem,5vw,2.4rem)] font-extralight leading-none tracking-tight text-foreground/90">
             aka<span className="font-mono font-normal text-primary">STYLE</span>
           </h1>

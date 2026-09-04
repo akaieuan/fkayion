@@ -76,7 +76,7 @@ export const PROJECTS: ProjectCardItem[] = [
     title: 'akaSTYLE',
     tags: ['Design system', 'Tokens', 'Primitives', 'Write-up'],
     description:
-      'The design language everything here is built from, stated as seven constraints rather than preferences. Tokens in OKLCH, one type scale, server-rendered primitives, and a live specimen that cannot drift from what ships.',
+      'The design language everything here is built from, stated as eight constraints rather than preferences. Tokens in OKLCH, one type scale, server-rendered primitives, and a live specimen that cannot drift from what ships.',
     href: '/demo/aka-style',
     // The house mark, drawn by the engine this project documents: a disc of
     // cells with the aka wordmark subtracted. Anything drawn specially for the

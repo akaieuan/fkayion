@@ -1,12 +1,12 @@
-import { kicker, card as cardCls } from '@/components/features/aka-style/shared'
+import { card as cardCls } from '@/components/features/aka-style/shared'
 import { Row, Table } from '@/components/features/aka-style/foundations/token-table'
 
 /** Layout: widths and breakpoints. Moved verbatim from app/aka-style/foundations/page.tsx. */
 export function LayoutSection() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Layout</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Layout</p>
+          <h2 className="mt-2 aka-section-title">
             Widths &amp; breakpoints
           </h2>
           <div className={`${cardCls} mt-6`}>

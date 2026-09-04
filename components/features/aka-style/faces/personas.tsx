@@ -1,15 +1,15 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { kicker, label, mono, card as cell } from '@/components/features/aka-style/shared'
+import { label, mono, card as cell } from '@/components/features/aka-style/shared'
 
 /** Personas: the two named expressions. Moved verbatim from app/aka-style/faces/page.tsx. */
 export function PersonasSection() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Personas</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Personas</p>
+          <h2 className="mt-2 aka-section-title">
             Named expressions
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             Two slots are named, because they carry meaning rather than mood — they stand in for
             people and states across the studio sites. Named faces are stable API; raw indices are
             not.

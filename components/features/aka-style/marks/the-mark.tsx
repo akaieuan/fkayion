@@ -1,15 +1,15 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { kicker, label, mono, card as cell } from '@/components/features/aka-style/shared'
+import { label, mono, card as cell } from '@/components/features/aka-style/shared'
 
 /** The akaBuild mark: a disc with aka inside, at four resolutions. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function TheMarkSection() {
   return (
         <section className="scroll-mt-24">
-          <p className={kicker}>The akaBuild mark</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">The akaBuild mark</p>
+          <h2 className="mt-2 aka-section-title">
             A disc with aka inside
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             The primary identity: a solid disc with the lowercase wordmark knocked out of it. The
             glyph is sampled in normalized space rather than baked to a fixed grid, so the same mark
             resolves at any resolution — chrome, favicon, or hero.

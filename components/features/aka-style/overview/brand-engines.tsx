@@ -2,17 +2,17 @@ import Link from 'next/link'
 import { PixelHead } from '@/components/features/brand/pixel-head'
 import { AkaMark } from '@/components/features/brand/aka-mark'
 import { PixelRoundabout } from '@/components/features/brand/pixel-roundabout'
-import { kicker, codeChip as code, card as cardCls } from '@/components/features/aka-style/shared'
+import { codeChip as code, card as cardCls } from '@/components/features/aka-style/shared'
 
 /** Brand engines: the canvas marks, one grammar. Moved verbatim from app/aka-style/page.tsx. */
 export function BrandEnginesSection() {
   return (
         <section id="brand" className="mt-16 scroll-mt-24">
-          <p className={kicker}>Brand engines</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Brand engines</p>
+          <h2 className="mt-2 aka-section-title">
             Canvas marks, one grammar
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             Three engines sharing a single idea: a disc of pixel cells that dissolves and reforms,
             with something knocked out of it. Colour follows <code className={code}>--foreground</code>,
             so they repaint on theme change; each pauses offscreen and renders one still frame under

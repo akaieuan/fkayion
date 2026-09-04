@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { kicker, sectionH } from '@/components/features/aka-style/writeup/shared'
 
 const link =
   'text-[oklch(0.4_0.08_152.2)] underline decoration-border underline-offset-[3px] transition-colors hover:text-[oklch(0.32_0.085_152)] dark:text-[oklch(0.707_0.108_152.216)] dark:hover:text-[oklch(0.78_0.1_152)]'
@@ -8,12 +7,12 @@ const link =
 export function Practice() {
   return (
         <section className="mt-16">
-          <p className={kicker}>The practice</p>
-          <h2 className={sectionH}>Where it came from, and what it does now</h2>
+          <p className="aka-kicker">The practice</p>
+          <h2 className="mt-2 aka-section-title">Where it came from, and what it does now</h2>
 
           <div className="mt-6 grid gap-8">
             <div className="space-y-4 text-[15px] font-light leading-relaxed text-muted-foreground">
-              <h3 className="text-sm font-medium tracking-wide text-foreground">Built at Ubik</h3>
+              <h3 className="aka-lead">Built at Ubik</h3>
               <p>
                 This started at{' '}
                 <Link href="/demo/ubik" className={link}>
@@ -38,7 +37,7 @@ export function Practice() {
             </div>
 
             <div className="space-y-4 text-[15px] font-light leading-relaxed text-muted-foreground">
-              <h3 className="text-sm font-medium tracking-wide text-foreground">
+              <h3 className="aka-lead">
                 What it is worth now
               </h3>
               <p>

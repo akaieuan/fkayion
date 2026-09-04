@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { kicker, sectionH, tile } from '@/components/features/aka-style/writeup/shared'
+import { tile } from '@/components/features/aka-style/writeup/shared'
 
 /** The deeper rooms. Secondary now: the page shows the system before it links out. */
 const ROOMS = [
@@ -14,8 +14,8 @@ const ROOMS = [
 export function Deeper() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Deeper</p>
-          <h2 className={sectionH}>The rest of the specimen</h2>
+          <p className="aka-kicker">Deeper</p>
+          <h2 className="mt-2 aka-section-title">The rest of the specimen</h2>
           <p className="mt-3 text-[15px] font-light leading-relaxed text-muted-foreground">
             Everything above is the system itself, on this page, rather than a description of it.
             These go further into each part: every number with its reasoning, every primitive with

@@ -1,17 +1,16 @@
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import { kicker } from '@/components/features/aka-style/shared'
 import { USAGE as usage } from '@/lib/aka-style'
 
 /** Where it runs: the repos carrying the system. Moved verbatim from app/aka-style/page.tsx. */
 export function UsageSection() {
   return (
         <section id="usage" className="mt-16 scroll-mt-24">
-          <p className={kicker}>Where it runs</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Where it runs</p>
+          <h2 className="mt-2 aka-section-title">
             The same language, six places
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             The point of writing the rules down is that a new project starts at hour six instead of
             hour zero. Each of these inherited the tokens, the type scale, and at least one engine.
           </p>

@@ -1,4 +1,4 @@
-import { kicker, label, card as cardCls } from '@/components/features/aka-style/shared'
+import { label, card as cardCls } from '@/components/features/aka-style/shared'
 import { Row, Table } from '@/components/features/aka-style/foundations/token-table'
 
 // Foundations sets its inline code chip a half point smaller than the shared
@@ -9,18 +9,18 @@ const codeCls = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[10.5px]'
 export function SurfacesSection() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Surfaces</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">
+          <p className="aka-kicker">Surfaces</p>
+          <h2 className="mt-2 aka-section-title">
             The ground under a mark
           </h2>
-          <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-standfirst">
             A project plate is one colour: the plate ground with a percentage of the project&apos;s
             own hue mixed into it. Both halves are tokens, and both differ per theme for reasons that
             are not symmetry.
           </p>
           <div className={`${cardCls} mt-6`}>
             <Table>
-              <Row name="--stamp-ground" value="0.935 0 0 / 0.2 0 0">
+              <Row name="--stamp-ground" value="0.92 0 0 / 0.2 0 0">
                 <span
                   className="block h-6 w-full max-w-[160px] rounded border border-border"
                   style={{ background: 'var(--stamp-ground)' }}

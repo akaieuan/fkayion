@@ -1,11 +1,11 @@
-import { kicker, label } from '@/components/features/aka-style/shared'
+import { label } from '@/components/features/aka-style/shared'
 
 /** Reference: the full PixelHead prop table. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function PropsSection() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Reference</p>
-          <h2 className="mt-2 text-xl font-light tracking-tight text-foreground/90">Props</h2>
+          <p className="aka-kicker">Reference</p>
+          <h2 className="mt-2 aka-section-title">Props</h2>
           <div className="mt-6 overflow-x-auto">
             <table className="w-full min-w-[520px] border-collapse text-left">
               <thead>

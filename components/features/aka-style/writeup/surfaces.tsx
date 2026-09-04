@@ -1,12 +1,11 @@
 import { SURFACES } from '@/lib/aka-style'
-import { kicker, sectionH } from '@/components/features/aka-style/writeup/shared'
 
 /** Surfaces: the raised and recessed material, rendered by its own definition. */
 export function Surfaces() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Surface</p>
-          <h2 className={sectionH}>One material, lit two ways</h2>
+          <p className="aka-kicker">Surface</p>
+          <h2 className="mt-2 aka-section-title">One material, lit two ways</h2>
           <p className="mt-3 text-[15px] font-light leading-relaxed text-muted-foreground">
             Law 03 rules out the drop shadow, which means depth has to happen inside the panel
             rather than under it. A card is lit from above: the fill grades light-to-dark downward,

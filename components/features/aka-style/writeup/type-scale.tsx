@@ -1,4 +1,4 @@
-import { kicker, sectionH, card } from '@/components/features/aka-style/writeup/shared'
+import { card } from '@/components/features/aka-style/writeup/shared'
 
 /*
  * The type scale, shown at the sizes it actually ships at.
@@ -28,7 +28,7 @@ const SCALE = [
   {
     role: 'Section head',
     spec: '20px / light',
-    node: <p className="text-xl font-light tracking-tight text-foreground/90">The rules</p>,
+    node: <p className="aka-section-title">The rules</p>,
   },
   {
     role: 'Body',
@@ -43,7 +43,7 @@ const SCALE = [
   {
     role: 'Kicker',
     spec: '11px / 0.18em / uppercase / medium',
-    node: <p className={kicker}>Design system · Live specimen</p>,
+    node: <p className="aka-kicker">Design system · Live specimen</p>,
   },
   {
     role: 'Caption',
@@ -60,8 +60,8 @@ const SCALE = [
 export function TypeScale() {
   return (
         <section className="mt-16">
-          <p className={kicker}>Type</p>
-          <h2 className={sectionH}>One scale, five roles</h2>
+          <p className="aka-kicker">Type</p>
+          <h2 className="mt-2 aka-section-title">One scale, five roles</h2>
           <p className="mt-3 text-[15px] font-light leading-relaxed text-muted-foreground">
             Hierarchy is carried by the contrast between uppercase mono and light sans, not by size,
             which is why the headings on this page are barely larger than the body under them. Each
