@@ -39,7 +39,15 @@ const SHELL = 'max-w-site mx-auto site-inset'
 
 export default function AkaStyleWriteUpPage() {
   return (
-    <div className="min-h-screen overflow-x-clip bg-background pb-20 pt-16">
+    <div
+      /*
+       * lg:pt-32, not pt-16 like the sibling write-ups: they centre a narrow
+       * column and leave the left margin to the fixed Projects link, but this
+       * page fills the site container from the margin, so at lg its header
+       * must start below the link's band or the two print over each other.
+       */
+      className="min-h-screen overflow-x-clip bg-background pb-20 pt-16 lg:pt-32"
+    >
       <JsonLd
         data={demoSchema(PATH, {
           title: metadata.title as string,
