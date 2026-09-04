@@ -10,6 +10,7 @@
     "lint": "next lint",
     "prebuild": "node tools/aka-style-check.mjs --selftest && node tools/aka-style-check.mjs --strict",
     "style:check": "node tools/aka-style-check.mjs",
+    "site:sweep": "node tools/site-sweep.mjs",
     "style:selftest": "node tools/aka-style-check.mjs --selftest",
     "test": "node --test \"lib/**/*.test.ts\""
   },

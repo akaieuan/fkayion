@@ -83,6 +83,16 @@ The check is strict and there is no backlog: `prebuild` runs the self-test and
 violation in it does not exist. A finding is fixed, or the file is moved to the
 art-layer list with the reason, before the push; there is no third option.
 
+**The front end, in a browser.** After a build, `npm run site:sweep` drives
+every route the build prerendered through headless Chrome at 1280 and 375. It
+fails on a route that is not 200, a console error or thrown exception, a
+failed or 4xx request, or horizontal overflow at either width, and it writes a
+screenshot per route and two contact sheets to `.next/sweep/`. Run it before a
+push that touches shared vocabulary, the config, or the stylesheet: the style
+check proves the source follows the laws, and this proves the pages still
+stand. It starts its own `next start` on 7871; pass `--base` to sweep a server
+that is already running.
+
 ## Conventions
 
 - **Pages are composition.** A `page.tsx` holds metadata, the shell, and the
