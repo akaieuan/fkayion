@@ -69,7 +69,7 @@ body {
   --secondary: oklch(0.945 0.004 106);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.925 0.004 106);
-  --muted-foreground: oklch(0.46 0.001 0);
+  --muted-foreground: oklch(0.36 0.001 0);
   --accent: oklch(0.733 0.059 144.941);
   --accent-foreground: oklch(0.122 0.001 0);
   --destructive: oklch(0.577 0.245 27.325);
@@ -216,6 +216,20 @@ body {
    */
   --ink-link: oklch(0.4 0.08 152.2);
   --ink-link-hover: oklch(0.32 0.085 152);
+  /*
+   * Status, the one place a hue other than the accent may appear. Light
+   * takes a darker step of each hue so a 12px label still clears its ground.
+   */
+  --status-warn: oklch(0.58 0.13 75);
+  --status-danger: oklch(0.55 0.2 25);
+  /*
+   * Ink and wash for copy that sits on artwork rather than on the page: the
+   * Ubik cards' paintings are the same in both themes, so the ink over them
+   * is too. Theme-invariant on purpose, and a token so that is a decision
+   * rather than a literal.
+   */
+  --ink-on-art: oklch(1 0 0);
+  --wash-on-art: oklch(0 0 0);
   --input: oklch(0.925 0 0);
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.646 0.222 41.116);
@@ -329,6 +343,10 @@ body {
   --header-bar: rgb(255 255 255 / 65%);
   --ink-link: oklch(0.707 0.108 152.216);
   --ink-link-hover: oklch(0.78 0.1 152);
+  --status-warn: oklch(0.72 0.13 75);
+  --status-danger: oklch(0.62 0.2 25);
+  --ink-on-art: oklch(1 0 0);
+  --wash-on-art: oklch(0 0 0);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
   --chart-1: oklch(0.621 0.136 268.368);
@@ -404,27 +422,25 @@ body {
    * written as exactly the CSS the utilities it replaces emitted, so nothing
    * on the page moved when they landed.
    *
-   * Some of those strings carried a colour modifier that emitted nothing:
-   * the theme colours are bare var() with no <alpha-value> slot, so
-   * `text-foreground/90`, `bg-muted/60` and `marker:text-muted-foreground/50`
-   * were dropped by Tailwind and the element inherited instead. Those roles
-   * are written here as they render, colour inherited, with the intent noted
-   * beside them, so that fixing the alpha slot later is a change to these
-   * lines and not to a hundred call sites.
+   * Some of those strings carried a colour modifier that, for a long time,
+   * emitted nothing: the theme colours were bare var() with no alpha slot, so
+   * `text-foreground/90` was dropped by Tailwind and the element inherited.
+   * The slot exists now (tailwind.config.cjs), and these roles carry the ink
+   * they were always meant to, mixed the same way the utilities mix theirs.
    */
   .aka-kicker {
-    /* intent: --muted-foreground at 70%; renders inherited today */
     font-size: 11px;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.18em;
+    color: color-mix(in srgb, var(--muted-foreground) 70%, transparent);
   }
   .aka-section-title {
-    /* intent: --foreground at 90%; renders inherited today */
     font-size: 1.25rem;
     line-height: 1.75rem;
     font-weight: 300;
     letter-spacing: -0.025em;
+    color: color-mix(in srgb, var(--foreground) 90%, transparent);
   }
   .aka-standfirst {
     margin-top: 0.5rem;
@@ -442,7 +458,7 @@ body {
     color: var(--foreground);
   }
   .aka-code {
-    /* intent: --muted at 60% behind it; renders with no ground today */
+    background-color: color-mix(in srgb, var(--muted) 60%, transparent);
     border-radius: var(--radius-xs);
     padding: 0.125rem 0.25rem;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
@@ -452,8 +468,9 @@ body {
    * The two buttons the site ships. The specimen used to document a larger
    * pair that appeared nowhere; these are the thirty-four call sites. The
    * hover rules sit under (hover: hover) because every Tailwind hover on the
-   * site does (a tapped control must not latch), and the secondary's fill is
-   * mixed by hand because `hover:bg-muted/40` never rendered.
+   * site does (a tapped control must not latch). Law 04 holds for a hover as
+   * it does for a card: the primary lifts a pixel, it does not dim, and the
+   * secondary takes a fill.
    */
   .aka-button,
   .aka-button-secondary {
@@ -472,7 +489,9 @@ body {
   .aka-button {
     background-color: var(--foreground);
     color: var(--background);
-    transition-property: opacity;
+    transition-property: transform;
+    transition-duration: var(--dur-lift);
+    transition-timing-function: var(--ease-lift);
   }
   .aka-button-secondary {
     background-color: var(--background);
@@ -481,7 +500,7 @@ body {
   }
   @media (hover: hover) {
     .aka-button:hover {
-      opacity: 0.9;
+      transform: translateY(-1px);
     }
     .aka-button-secondary:hover {
       background-color: color-mix(in srgb, var(--muted) 40%, transparent);
@@ -497,9 +516,33 @@ body {
     margin-top: 2.5rem;
   }
   .aka-list {
-    /* intent: markers in --muted-foreground at 50%; renders inherited today */
     list-style-type: disc;
     padding-left: 1.25rem;
+  }
+  .aka-list > li::marker {
+    color: color-mix(in srgb, var(--muted-foreground) 50%, transparent);
+  }
+  /*
+   * The quiet link: the link inside a byline, a caption, a list, anywhere
+   * the ink is already muted. It keeps that ink and a rule in the border
+   * colour, and answers hover with full ink and a stronger rule. `.aka-ink-link`
+   * is the other one, for running prose, where the link starts at full ink and
+   * answers in the select accent. A decoration colour cannot carry an alpha
+   * through a utility in Tailwind 3, which is why the hover rule is mixed here.
+   */
+  .aka-quiet-link {
+    text-decoration-line: underline;
+    text-decoration-color: var(--border);
+    text-underline-offset: 3px;
+    transition-property: color, text-decoration-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  @media (hover: hover) {
+    .aka-quiet-link:hover {
+      color: var(--foreground);
+      text-decoration-color: color-mix(in srgb, var(--foreground) 50%, transparent);
+    }
   }
 }
 
@@ -1115,6 +1158,9 @@ body {
   @media (prefers-reduced-motion: reduce) {
     .aka-demo-back a::before {
       transition: none;
+    }
+    .aka-button:hover {
+      transform: none;
     }
   }
 
