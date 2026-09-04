@@ -1072,6 +1072,45 @@ body {
     display: none;
   }
 
+  /*
+   * The back link's pill: the overlay material without the edge.
+   *
+   * At rest the link sits on the page's own ground and gets nothing. Once
+   * prose scrolls under it, the component flips `data-scrolled` (at the same
+   * depth the header detaches) and the ::before layer fades in: the
+   * .aka-overlay recipe with the border omitted, because a floating control
+   * this small reads as a chip, not a panel. The padding is permanent and
+   * cancelled by negative margins, so the text never moves; only the ground
+   * behind it arrives. Fading a backdrop-filter through opacity is the
+   * header's own worked pattern.
+   */
+  .aka-demo-back a {
+    position: relative;
+    margin: -6px -12px;
+    border-radius: 999px;
+    padding: 6px 12px;
+  }
+  .aka-demo-back a::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: color-mix(in srgb, var(--background) 62%, transparent);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4);
+    backdrop-filter: blur(12px) saturate(1.4);
+    opacity: 0;
+    transition: opacity 300ms ease;
+  }
+  .aka-demo-back[data-scrolled] a::before {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .aka-demo-back a::before {
+      transition: none;
+    }
+  }
+
   .aka-mark-ground {
     background-color: #0b0b0c;
   }
