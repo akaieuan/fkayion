@@ -15,9 +15,12 @@ still fires on a fixture that must trip it and passes its clean twin.
 
 **Law violations.** akaSTYLE states its rules as constraints rather than
 preferences specifically so they can be checked instead of argued about, and a
-constraint nothing checks is a preference. The check enforces six of the eight
-mechanically:
+constraint nothing checks is a preference. The check enforces seven of the
+eight mechanically:
 
+- **Law 01**, one type scale: sizes are `text-10` through `text-20` and
+  `text-display`; an arbitrary `text-[Npx]` or `text-[clamp(...)]` is a size the
+  scale does not have.
 - **Law 02**, every surface resolves from a CSS variable: hex, `rgb()`, `hsl()`,
   `oklch()` and the other colour functions, and Tailwind's stock `white`/`black`.
 - **Law 03**, depth is an edge and a graded fill, never a drop shadow: every
@@ -34,7 +37,7 @@ mechanically:
   the count of client files. Spending one means raising it in the same commit,
   with the reason in that commit.
 
-Laws 01 and 08 are judgement. Law 08 is the one to hold yourself to by hand:
+Law 08 is judgement, and the one to hold yourself to by hand:
 anything scroll-linked or animated writes a CSS variable or a data attribute,
 never React state. `components/features/demo-index/cover-flow.tsx` and
 `components/ui/reveal.tsx` are the two worked examples.
@@ -75,14 +78,10 @@ The point is that the design system is a live specimen rather than a document
 about one. It only stays true if it is updated in the same commit as the thing
 it describes, not in a cleanup pass later.
 
-There is a standing backlog of 34 findings, all of one kind: things the
-widened check can now see that the alpha-slot fix (wave two) resolves. Eight
-hovers that dim, seventeen stock whites and blacks (the header's dark nav, the
-Ubik cards' copy over their paintings, two logo tiles), three drop shadows, the
-primary button's hover and the trickle plate's crossfade in the stylesheet, and
-four status colours that have no token yet. Do not add to it. Once it is
-empty, `npm run style:check -- --strict` fails the run on any violation and can
-go in CI.
+The check is strict and there is no backlog: `prebuild` runs the self-test and
+`--strict` before every `next build`, locally and on Vercel, so a build with a
+violation in it does not exist. A finding is fixed, or the file is moved to the
+art-layer list with the reason, before the push; there is no third option.
 
 ## Conventions
 

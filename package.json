@@ -8,6 +8,7 @@
     "analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
+    "prebuild": "node tools/aka-style-check.mjs --selftest && node tools/aka-style-check.mjs --strict",
     "style:check": "node tools/aka-style-check.mjs",
     "style:selftest": "node tools/aka-style-check.mjs --selftest",
     "test": "node --test \"lib/**/*.test.ts\""
