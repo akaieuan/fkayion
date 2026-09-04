@@ -132,8 +132,8 @@ cell  py-2 pr-4 align-top text-[12px] font-light`}
               </thead>
               <tbody className="text-[12px] font-light text-muted-foreground">
                 {[
-                  ['--background', 'oklch(0.145 0.004 106)'],
-                  ['--foreground', 'oklch(0.93 0.003 106)'],
+                  ['--radius', '0.625rem'],
+                  ['--dur-step', '280ms'],
                 ].map(([a, b]) => (
                   <tr key={a} className="border-b border-border/40">
                     <td className="py-2 pr-4 font-mono text-[11px] text-foreground/85">{a}</td>
