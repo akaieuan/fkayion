@@ -64,7 +64,7 @@ export default function BlockpadPage() {
               GitHub — akaieuan/blockpad
               <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
             </a>
-            <span className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground">
+            <span className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-13 font-medium text-foreground">
               M0 shipped · M1 delivery in progress
             </span>
           </>

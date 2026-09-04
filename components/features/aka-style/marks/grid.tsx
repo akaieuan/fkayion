@@ -10,8 +10,8 @@ export function GridSection() {
             Grid and gap
           </h2>
           <p className="aka-standfirst">
-            <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[11px]">grid</code> sets
-            cells across; <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[11px]">gap</code>{' '}
+            <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-11">grid</code> sets
+            cells across; <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-11">gap</code>{' '}
             sets the gutter as a fraction of a cell. Lower grid reads bolder at small sizes; higher
             grid carries finer knockouts.
           </p>

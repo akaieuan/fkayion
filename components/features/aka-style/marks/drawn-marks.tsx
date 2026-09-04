@@ -38,7 +38,7 @@ export function DrawnMarksSection() {
             ].map((m) => (
               <div key={m.name} className={`${cell} flex flex-col items-center gap-3`}>
                 {m.art}
-                <p className="text-[12px] text-foreground/85">{m.name}</p>
+                <p className="text-12 text-foreground/85">{m.name}</p>
                 <p className={`${label} text-center`}>{m.note}</p>
               </div>
             ))}
@@ -46,14 +46,14 @@ export function DrawnMarksSection() {
 
           <div className="mt-6 aka-card-well px-5 py-4">
             <p className={label}>The convention</p>
-            <p className="mt-2 text-[13.5px] font-light leading-relaxed text-foreground/85">
+            <p className="mt-2 text-14 font-light leading-relaxed text-foreground/85">
               A mark with a value per theme keeps its palette in CSS custom properties, not in the
               component. Blockpad ships a dark master and a light one, and reading the theme in
               order to pick would make a static drawing a client component for no other reason. So
               the drawing is one SVG whose fills are <code className={mono}>var(--bp-*)</code>, and
               the browser picks.
             </p>
-            <p className="mt-2 text-[13.5px] font-light leading-relaxed text-foreground/85">
+            <p className="mt-2 text-14 font-light leading-relaxed text-foreground/85">
               The same move covers the pixel engine&apos;s face accents, which arrived from the
               handoff as literal hex tuned for a dark ground:{' '}
               <code className={mono}>--pixel-face-*</code> resolves them per theme, and the hex stays

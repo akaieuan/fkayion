@@ -7,7 +7,7 @@ export function NonGoalsSection() {
           <section className="space-y-3">
             <h2 className="aka-lead">Non-goals</h2>
             <p>{nonGoals}</p>
-            <p className="text-[13px] text-muted-foreground/70">
+            <p className="text-13 text-muted-foreground/70">
               The colour picker used to be on this list. It is not any more.
             </p>
           </section>

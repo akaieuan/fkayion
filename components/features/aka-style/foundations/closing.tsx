@@ -4,7 +4,7 @@ import Link from 'next/link'
 export function FoundationsClosing() {
   return (
         <section className="mt-14 aka-card-well px-5 py-4">
-          <p className="text-[14px] font-light leading-relaxed text-foreground/85">
+          <p className="text-14 font-light leading-relaxed text-foreground/85">
             With the block above plus{' '}
             <Link
               href="/aka-style/primitives"

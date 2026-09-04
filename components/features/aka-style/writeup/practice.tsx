@@ -11,7 +11,7 @@ export function Practice() {
           <h2 className="mt-2 aka-section-title">Where it came from, and what it does now</h2>
 
           <div className="mt-6 grid gap-8">
-            <div className="space-y-4 text-[15px] font-light leading-relaxed text-muted-foreground">
+            <div className="space-y-4 text-15 font-light leading-relaxed text-muted-foreground">
               <h3 className="aka-lead">Built at Ubik</h3>
               <p>
                 This started at{' '}
@@ -36,7 +36,7 @@ export function Practice() {
               </p>
             </div>
 
-            <div className="space-y-4 text-[15px] font-light leading-relaxed text-muted-foreground">
+            <div className="space-y-4 text-15 font-light leading-relaxed text-muted-foreground">
               <h3 className="aka-lead">
                 What it is worth now
               </h3>

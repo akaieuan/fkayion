@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 }
 
 const tag =
-  'rounded-full border border-border/70 px-2.5 py-1 text-[11px] font-light text-muted-foreground'
+  'rounded-full border border-border/70 px-2.5 py-1 text-11 font-light text-muted-foreground'
 
 export default function LabLogIndexPage() {
   return (
@@ -65,11 +65,11 @@ export default function LabLogIndexPage() {
           Brooklyn Dead
         </Link>
 
-        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground/70">
+        <p className="font-mono text-11 uppercase tracking-[0.2em] text-muted-foreground/70">
           BKZ lab log
         </p>
         <h1 className="mt-3 text-2xl font-light tracking-tight text-foreground">Findings</h1>
-        <p className="mt-4 max-w-xl text-[15px] font-light leading-relaxed text-muted-foreground">
+        <p className="mt-4 max-w-xl text-15 font-light leading-relaxed text-muted-foreground">
           Write-ups from the Brooklyn Dead asset pipeline. When assets are generated rather than
           modelled, a bug is rarely in one asset: it is in a shared assumption, and it shows up
           across the whole set at once. Numbers are given as measured, including the ones that make
@@ -83,12 +83,12 @@ export default function LabLogIndexPage() {
                 {entry.title}
               </Link>
             </h2>
-            <p className="mt-2 font-mono text-[12px] text-muted-foreground/70">
+            <p className="mt-2 font-mono text-12 text-muted-foreground/70">
               <time dateTime={entry.date}>{entry.date}</time>
               {' · '}
               {entry.kicker.split(' · ')[0].toLowerCase()}
             </p>
-            <p className="mt-3 max-w-xl text-[15px] font-light leading-relaxed text-muted-foreground">
+            <p className="mt-3 max-w-xl text-15 font-light leading-relaxed text-muted-foreground">
               {entry.standfirst}
             </p>
             <ul className="mt-4 flex list-none flex-wrap gap-1.5 p-0">

@@ -3,7 +3,7 @@ export function StackSection() {
   return (
           <section className="space-y-3">
             <h2 className="aka-lead">Tech stack</h2>
-            <p className="font-mono text-[13px] text-foreground/80">
+            <p className="font-mono text-13 text-foreground/80">
               Swift 6 · SwiftUI · AppKit · Core Graphics · macOS 14+
             </p>
             <p>

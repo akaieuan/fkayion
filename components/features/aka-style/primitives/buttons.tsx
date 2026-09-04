@@ -22,7 +22,7 @@ export function ButtonsSection() {
             note="one primary per view"
             cls={`primary   aka-button
 secondary aka-button-secondary
-quiet     text-[13px] font-light text-muted-foreground/70 transition-colors hover:text-foreground`}
+quiet     text-13 font-light text-muted-foreground/70 transition-colors hover:text-foreground`}
           >
             <span className="aka-button">
               Primary action
@@ -32,7 +32,7 @@ quiet     text-[13px] font-light text-muted-foreground/70 transition-colors hove
               Secondary
               <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
             </span>
-            <span className="text-[13px] font-light text-muted-foreground/70 transition-colors hover:text-foreground">
+            <span className="text-13 font-light text-muted-foreground/70 transition-colors hover:text-foreground">
               Quiet link →
             </span>
             <span className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-muted-foreground/40">
@@ -43,14 +43,14 @@ quiet     text-[13px] font-light text-muted-foreground/70 transition-colors hove
           <Spec
             name="Sizes"
             note="py-1.5 / py-2.5 / py-3"
-            cls={`sm  rounded-md px-3 py-1.5 text-[12px]
-md  rounded-lg px-3.5 py-2 text-[13px] ← default, what aka-button is
-lg  rounded-lg px-5 py-3 text-[15px]`}
+            cls={`sm  rounded-md px-3 py-1.5 text-12
+md  rounded-lg px-3.5 py-2 text-13 ← default, what aka-button is
+lg  rounded-lg px-5 py-3 text-15`}
           >
             {[
-              ['sm', 'rounded-md px-3 py-1.5 text-[12px]'],
-              ['md', 'rounded-lg px-3.5 py-2 text-[13px]'],
-              ['lg', 'rounded-lg px-5 py-3 text-[15px]'],
+              ['sm', 'rounded-md px-3 py-1.5 text-12'],
+              ['md', 'rounded-lg px-3.5 py-2 text-13'],
+              ['lg', 'rounded-lg px-5 py-3 text-15'],
             ].map(([n, c]) => (
               <span
                 key={n}
@@ -72,10 +72,10 @@ ink    aka-ink-link   ← full ink at rest, the select accent on hover`}
             <span className="aka-quiet-link text-13 font-light text-muted-foreground">
               A quiet link
             </span>
-            <span className="text-[13px] font-light text-primary underline decoration-border underline-offset-[3px]">
+            <span className="text-13 font-light text-primary underline decoration-border underline-offset-[3px]">
               An accent link
             </span>
-            <span className="text-[13px] font-light text-muted-foreground transition-colors hover:text-foreground">
+            <span className="text-13 font-light text-muted-foreground transition-colors hover:text-foreground">
               Nav item
             </span>
             {/*
@@ -83,7 +83,7 @@ ink    aka-ink-link   ← full ink at rest, the select accent on hover`}
               live example that does more than its class string says is the
               thing this section exists to prevent.
             */}
-            <span className="aka-ink-link text-[13px] font-light">An ink link</span>
+            <span className="aka-ink-link text-13 font-light">An ink link</span>
           </Spec>
         </section>
   )

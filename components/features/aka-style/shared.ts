@@ -13,7 +13,7 @@
  */
 
 /** Small uppercase label. Was an identical copy in all five specimen pages. */
-export const label = 'text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50'
+export const label = 'text-10 font-medium uppercase tracking-[0.14em] text-muted-foreground/50'
 
 /** Inline code chip at 11px. Was `code` on the overview, `codeCls` on faces and, at 10.5px, on foundations. */
 export const codeChip = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-11'
@@ -22,4 +22,4 @@ export const codeChip = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-11'
 export const card = 'aka-card p-5'
 
 /** Quiet mono caption. Was an identical copy on marks and faces. */
-export const mono = 'font-mono text-[10.5px] text-muted-foreground/60'
+export const mono = 'font-mono text-11 text-muted-foreground/60'

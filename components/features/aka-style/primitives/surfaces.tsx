@@ -35,25 +35,25 @@ lift    aka-card aka-card-lift        ← a card that is also a control`}
             <div className="w-full space-y-3">
               <div className="aka-card overflow-hidden">
                 <div className="aka-card-head px-4 py-2.5">
-                  <span className="font-mono text-[10.5px] font-medium uppercase tracking-[0.16em] text-foreground/70">
+                  <span className="font-mono text-11 font-medium uppercase tracking-[0.16em] text-foreground/70">
                     Card
                   </span>
                 </div>
-                <p className="px-4 py-3.5 text-[12px] font-light text-muted-foreground">
+                <p className="px-4 py-3.5 text-12 font-light text-muted-foreground">
                   Raised. The fill grades light-to-dark downward and the top edge is lifted, so
                   the light reads as coming from above the page.
                 </p>
               </div>
               <div className="aka-card-well px-4 py-3">
-                <p className="text-[13px] text-foreground/85">Well</p>
-                <p className="mt-1 text-[12px] font-light text-muted-foreground">
+                <p className="text-13 text-foreground/85">Well</p>
+                <p className="mt-1 text-12 font-light text-muted-foreground">
                   The same material with the grade and the top edge inverted, which is what a cut
                   into the page looks like. Callouts, closing notes, code, media.
                 </p>
               </div>
               <div className="aka-card aka-card-lift px-4 py-3">
-                <p className="text-[13px] text-foreground/85">Lift</p>
-                <p className="mt-1 text-[12px] font-light text-muted-foreground">
+                <p className="text-13 text-foreground/85">Lift</p>
+                <p className="mt-1 text-12 font-light text-muted-foreground">
                   Hover this one. It moves 2px and its edge sharpens; it does not get brighter,
                   because law 04 applies to a card as much as to a canvas.
                 </p>
@@ -75,11 +75,11 @@ lift    aka-card aka-card-lift        ← a card that is also a control`}
             name="Overlay"
             note="a menu panel: the ground, translucent, over a blur; lit at the top like a card"
             cls={`panel  aka-overlay rounded-lg p-1.5
-group  px-3 pb-1 pt-2 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50
-item   block rounded-md px-3 py-2 text-[13px] transition-colors hover:bg-muted/40`}
+group  px-3 pb-1 pt-2 text-10 font-medium uppercase tracking-[0.14em] text-muted-foreground/50
+item   block rounded-md px-3 py-2 text-13 transition-colors hover:bg-muted/40`}
           >
             <div className="aka-overlay w-[min(22rem,100%)] rounded-lg p-1.5">
-              <p className="px-3 pb-1 pt-2 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50">
+              <p className="px-3 pb-1 pt-2 text-10 font-medium uppercase tracking-[0.14em] text-muted-foreground/50">
                 Rebuilt here
               </p>
               <ul className="list-none p-0">
@@ -88,9 +88,9 @@ item   block rounded-md px-3 py-2 text-[13px] transition-colors hover:bg-muted/4
                   ['Search that scores its own results', 'a rank you can argue with'],
                 ].map(([title, line]) => (
                   <li key={title}>
-                    <span className="block rounded-md px-3 py-2 text-[13px] transition-colors hover:bg-muted/40">
+                    <span className="block rounded-md px-3 py-2 text-13 transition-colors hover:bg-muted/40">
                       <span className="block text-foreground/85">{title}</span>
-                      <span className="mt-0.5 block text-[12px] font-light leading-relaxed text-muted-foreground">
+                      <span className="mt-0.5 block text-12 font-light leading-relaxed text-muted-foreground">
                         {line}
                       </span>
                     </span>
@@ -118,7 +118,7 @@ item   block rounded-md px-3 py-2 text-[13px] transition-colors hover:bg-muted/4
             name="Hint"
             note="hover or focus the button; the second copy is the same span, pinned open"
             cls={`host  aka-hint-host
-hint  aka-hint aka-card px-2 py-1 text-[11px] font-light
+hint  aka-hint aka-card px-2 py-1 text-11 font-light
 end   aka-hint-end   ← anchored to the trailing edge, for a control at the page edge`}
           >
             <button
@@ -127,13 +127,13 @@ end   aka-hint-end   ← anchored to the trailing edge, for a control at the pag
               className="aka-hint-host aka-card grid h-7 w-7 place-items-center rounded-md text-muted-foreground transition-colors hover:text-foreground"
             >
               <Layers className="h-[15px] w-[15px]" aria-hidden />
-              <span aria-hidden className="aka-hint aka-card px-2 py-1 text-[11px] font-light">
+              <span aria-hidden className="aka-hint aka-card px-2 py-1 text-11 font-light">
                 Deck view
               </span>
             </button>
             <span
               aria-hidden
-              className="aka-hint aka-card px-2 py-1 text-[11px] font-light"
+              className="aka-hint aka-card px-2 py-1 text-11 font-light"
               style={{ visibility: 'visible', opacity: 1, position: 'static', transform: 'none' }}
             >
               Deck view
@@ -225,13 +225,13 @@ a11y    role=group + aria-label, aria-pressed per button, tooltip per button`}
           <Spec
             name="Chips & tags"
             note="TagRow / KickerTags · uppercase, tracked, never colored by category"
-            cls={`chip   rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground/70
-tech   aka-card-well inline-flex items-center rounded-md px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-[0.14em] text-muted-foreground`}
+            cls={`chip   rounded-md border border-border/60 px-1.5 py-0.5 text-10 font-medium uppercase tracking-[0.12em] text-muted-foreground/70
+tech   aka-card-well inline-flex items-center rounded-md px-2 py-0.5 text-11 font-medium uppercase tracking-[0.14em] text-muted-foreground`}
           >
             {['Product design', 'Open source', 'HITL AI'].map((t) => (
               <span
                 key={t}
-                className="rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground/70"
+                className="rounded-md border border-border/60 px-1.5 py-0.5 text-10 font-medium uppercase tracking-[0.12em] text-muted-foreground/70"
               >
                 {t}
               </span>
@@ -239,7 +239,7 @@ tech   aka-card-well inline-flex items-center rounded-md px-2 py-0.5 text-[10.5p
             {['TypeScript', 'Next.js'].map((t) => (
               <span
                 key={t}
-                className="aka-card-well inline-flex items-center rounded-md px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-[0.14em] text-muted-foreground"
+                className="aka-card-well inline-flex items-center rounded-md px-2 py-0.5 text-11 font-medium uppercase tracking-[0.14em] text-muted-foreground"
               >
                 {t}
               </span>
@@ -260,7 +260,7 @@ danger   text-status-danger`}
               ['Deprecated', 'text-status-danger'],
               ['Archived', 'text-muted-foreground/60'],
             ].map(([t, c]) => (
-              <span key={t} className={`inline-flex items-center gap-1.5 text-[12px] font-light ${c}`}>
+              <span key={t} className={`inline-flex items-center gap-1.5 text-12 font-light ${c}`}>
                 <span className="h-1.5 w-1.5 rounded-full bg-current" />
                 {t}
               </span>

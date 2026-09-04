@@ -7,19 +7,19 @@ export function RenderLoopSection() {
             </h2>
             <p>
               The scene is a{' '}
-              <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">
+              <code className="rounded bg-muted/50 px-1 py-0.5 text-13 text-foreground/85">
                 @react-three/fiber
               </code>{' '}
-              <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">
+              <code className="rounded bg-muted/50 px-1 py-0.5 text-13 text-foreground/85">
                 Canvas
               </code>
               . The blob is a Three.js mesh with a{' '}
-              <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">
+              <code className="rounded bg-muted/50 px-1 py-0.5 text-13 text-foreground/85">
                 ShaderMaterial
               </code>
               , not a stack of built-in materials: everything interesting happens in strings you own.
               Each animation tick,{' '}
-              <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">
+              <code className="rounded bg-muted/50 px-1 py-0.5 text-13 text-foreground/85">
                 useFrame
               </code>{' '}
               copies fresh audio scalars and UI control values into material uniforms (time, play state,

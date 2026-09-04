@@ -75,7 +75,7 @@ function ThemeToggle() {
           latching open after a tap. */}
       <span
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-full z-10 mt-2.5 -translate-x-1/2 whitespace-nowrap rounded-full bg-foreground px-2.5 py-1 text-[11px] font-medium tracking-wide text-background opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
+        className="pointer-events-none absolute left-1/2 top-full z-10 mt-2.5 -translate-x-1/2 whitespace-nowrap rounded-full bg-foreground px-2.5 py-1 text-11 font-medium tracking-wide text-background opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
       >
         {next}
       </span>

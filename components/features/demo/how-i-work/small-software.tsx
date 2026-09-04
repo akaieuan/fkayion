@@ -89,7 +89,7 @@ function Tool({ t }: { t: (typeof TOOLS)[number] }) {
             />
           </div>
         </Link>
-        <figcaption className="mt-2.5 px-6 text-[11px] font-light leading-relaxed text-muted-foreground/70 sm:px-0">
+        <figcaption className="mt-2.5 px-6 text-11 font-light leading-relaxed text-muted-foreground/70 sm:px-0">
           {t.caption}
         </figcaption>
       </figure>

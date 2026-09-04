@@ -89,7 +89,7 @@ export default function HitlKitProjectPage() {
 
       <PrimitivesSection />
 
-      <p className="mt-6 text-[12px] leading-relaxed text-muted-foreground">
+      <p className="mt-6 text-12 leading-relaxed text-muted-foreground">
         <span className="font-medium text-foreground/85">Earlier reference on this site:</span>{' '}
         <Link
           href="/demo/hitl-ai"

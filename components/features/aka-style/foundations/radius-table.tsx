@@ -33,9 +33,9 @@ export function RadiusSection() {
                   <span
                     className={`block h-14 w-14 border border-border bg-muted/40 ${cls as string}`}
                   />
-                  <span className="font-mono text-[10px] text-foreground/80">{n}</span>
-                  <span className="text-[10px] text-muted-foreground/50">{v}</span>
-                  <span className="text-[9.5px] text-muted-foreground/40">{use}</span>
+                  <span className="font-mono text-10 text-foreground/80">{n}</span>
+                  <span className="text-10 text-muted-foreground/50">{v}</span>
+                  <span className="text-10 text-muted-foreground/40">{use}</span>
                 </div>
               ))}
             </div>

@@ -45,7 +45,7 @@ export default function LibraryPage() {
 
         <header className="mb-8">
           <p className="aka-kicker">Design system · Primitives · Brand engines</p>
-          <h1 className="mt-2 text-[clamp(1.7rem,5vw,2.4rem)] font-extralight leading-none tracking-tight text-foreground/90">
+          <h1 className="mt-2 text-display font-extralight leading-none tracking-tight text-foreground/90">
             aka<span className="font-mono font-normal text-primary">STYLE</span>
           </h1>
           <p className="mt-3 max-w-xl text-sm font-light leading-relaxed text-muted-foreground">
@@ -60,7 +60,7 @@ export default function LibraryPage() {
             <a
               key={s.id}
               href={`#${s.id}`}
-              className="rounded-md border border-border/60 px-2.5 py-1 text-[11px] font-light text-muted-foreground/80 transition-colors hover:border-border hover:text-foreground"
+              className="rounded-md border border-border/60 px-2.5 py-1 text-11 font-light text-muted-foreground/80 transition-colors hover:border-border hover:text-foreground"
             >
               {s.label}
             </a>

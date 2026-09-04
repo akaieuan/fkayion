@@ -27,7 +27,7 @@ export function WhySection() {
               account, no subscription, nothing agent-initiated, and it never leaves your machine. It
               is a faster input device for one specific moment, and the constraint is the product.
             </p>
-            <p className="aka-card-well p-4 text-[13.5px]">
+            <p className="aka-card-well p-4 text-14">
               <span className="text-foreground/85">Loop target: six seconds</span>, with no mouse
               travel outside the canvas.
             </p>

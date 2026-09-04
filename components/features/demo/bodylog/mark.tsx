@@ -10,7 +10,7 @@ export function MarkSection() {
               <span className="text-foreground/85">not a metaphor for the record, but a picture of
               one</span>.
             </p>
-            <p className="text-[13px]">
+            <p className="text-13">
               Five by five, gap 24% of a cell, five hues in fixed order, weight 0 as the empty token.
               A frozen constant rather than generated, so the header mark, the app icon and the
               splash are byte-identical. Seventeen of twenty-five cells are lit and all five accents

@@ -77,14 +77,14 @@ export function ContentSection() {
             name="Code"
             note="inline chips and blocks share the muted ground"
             cls={`inline aka-code
-block  aka-card-well overflow-x-auto rounded-lg p-4 font-mono text-[11px] leading-relaxed text-foreground/80`}
+block  aka-card-well overflow-x-auto rounded-lg p-4 font-mono text-11 leading-relaxed text-foreground/80`}
           >
             <div className="w-full">
-              <p className="text-[13px] font-light text-muted-foreground">
+              <p className="text-13 font-light text-muted-foreground">
                 Run <code className="aka-code">pnpm dev</code>{' '}
                 and open the app.
               </p>
-              <pre className="mt-3 aka-card-well overflow-x-auto rounded-lg p-4 font-mono text-[11px] leading-relaxed text-foreground/80">
+              <pre className="mt-3 aka-card-well overflow-x-auto rounded-lg p-4 font-mono text-11 leading-relaxed text-foreground/80">
                 {`npx shadcn@latest add https://www.hitlkit.dev/r/hitl-card.json
 → writes components/hitl/hitl-card.tsx`}
               </pre>
@@ -98,7 +98,7 @@ block  aka-card-well overflow-x-auto rounded-lg p-4 font-mono text-[11px] leadin
 disc     aka-list space-y-2
 lead     <span className="text-foreground/85">Term.</span> then body`}
           >
-            <ul className="w-full space-y-2.5 text-[13px] font-light leading-relaxed text-muted-foreground">
+            <ul className="w-full space-y-2.5 text-13 font-light leading-relaxed text-muted-foreground">
               {[
                 ['Watch the work first', 'research before design'],
                 ['Prototype in code', 'working surfaces over mockups'],
@@ -118,7 +118,7 @@ lead     <span className="text-foreground/85">Term.</span> then body`}
             note="rules only between rows; no zebra, no vertical rules"
             cls={`head  border-b border-border + label class
 row   border-b border-border/40
-cell  py-2 pr-4 align-top text-[12px] font-light`}
+cell  py-2 pr-4 align-top text-12 font-light`}
           >
             <table className="w-full border-collapse text-left">
               <thead>
@@ -130,14 +130,14 @@ cell  py-2 pr-4 align-top text-[12px] font-light`}
                   ))}
                 </tr>
               </thead>
-              <tbody className="text-[12px] font-light text-muted-foreground">
+              <tbody className="text-12 font-light text-muted-foreground">
                 {[
                   ['--radius', '0.625rem'],
                   ['--dur-step', '280ms'],
                 ].map(([a, b]) => (
                   <tr key={a} className="border-b border-border/40">
-                    <td className="py-2 pr-4 font-mono text-[11px] text-foreground/85">{a}</td>
-                    <td className="py-2 font-mono text-[11px]">{b}</td>
+                    <td className="py-2 pr-4 font-mono text-11 text-foreground/85">{a}</td>
+                    <td className="py-2 font-mono text-11">{b}</td>
                   </tr>
                 ))}
               </tbody>
@@ -148,13 +148,13 @@ cell  py-2 pr-4 align-top text-[12px] font-light`}
             name="Media frame"
             note="every screenshot gets the same frame + caption"
             cls={`frame   aka-card-well aka-card-media overflow-hidden rounded-lg
-caption mt-1.5 text-[11px] font-light text-muted-foreground/70`}
+caption mt-1.5 text-11 font-light text-muted-foreground/70`}
           >
             <div className="w-full max-w-sm">
               <div className="flex h-24 items-center justify-center aka-card-well aka-card-media overflow-hidden rounded-lg">
-                <span className="text-[11px] font-light text-muted-foreground/40">16:10 media</span>
+                <span className="text-11 font-light text-muted-foreground/40">16:10 media</span>
               </div>
-              <p className="mt-1.5 text-[11px] font-light text-muted-foreground/70">
+              <p className="mt-1.5 text-11 font-light text-muted-foreground/70">
                 A caption states what the frame shows, not that it is a screenshot.
               </p>
             </div>
@@ -168,7 +168,7 @@ width  min(100vw - 3rem, 1180px), the same 1180px as max-w-site
 margin calc((100% - width) / 2) on both sides, negative on its own`}
           >
             <div className="w-full">
-              <p className="text-[13px] font-light text-muted-foreground">
+              <p className="text-13 font-light text-muted-foreground">
                 Prose keeps the column. A gallery, a card row or a six-up swatch ramp steps out
                 to the width the project plates already use, and back in on a phone.
               </p>

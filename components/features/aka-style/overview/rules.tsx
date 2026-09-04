@@ -22,10 +22,10 @@ export function RulesSection() {
           <ol className="mt-6 space-y-3">
             {LAWS.map((l) => (
               <li key={l.n} className={`${cardCls} flex gap-4`}>
-                <span className="shrink-0 font-mono text-[11px] text-primary">{l.n}</span>
+                <span className="shrink-0 font-mono text-11 text-primary">{l.n}</span>
                 <div>
-                  <p className="text-[14px] font-light text-foreground/90">{l.rule}</p>
-                  <p className="mt-1 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+                  <p className="text-14 font-light text-foreground/90">{l.rule}</p>
+                  <p className="mt-1 text-13 font-light leading-relaxed text-muted-foreground">
                     {l.body}
                   </p>
                 </div>

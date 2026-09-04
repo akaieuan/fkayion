@@ -33,7 +33,7 @@ export function TagRow({
       {tags.map((t) => (
         <span
           key={t}
-          className="rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground/70"
+          className="rounded-md border border-border/60 px-1.5 py-0.5 text-10 font-medium uppercase tracking-[0.12em] text-muted-foreground/70"
         >
           {t}
         </span>

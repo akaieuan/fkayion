@@ -6,7 +6,7 @@ export function Surfaces() {
         <section className="mt-16">
           <p className="aka-kicker">Surface</p>
           <h2 className="mt-2 aka-section-title">One material, lit two ways</h2>
-          <p className="mt-3 text-[15px] font-light leading-relaxed text-muted-foreground">
+          <p className="mt-3 text-15 font-light leading-relaxed text-muted-foreground">
             Law 03 rules out the drop shadow, which means depth has to happen inside the panel
             rather than under it. A card is lit from above: the fill grades light-to-dark downward,
             the top edge catches a hairline the other three do not, and a fine grain over the fill
@@ -19,11 +19,11 @@ export function Surfaces() {
             {SURFACES.map((sf) => (
               <li key={sf.cls} className={`${sf.render} overflow-hidden`}>
                 <div className="aka-card-head flex items-baseline justify-between gap-4 px-4 py-2.5">
-                  <span className="text-[13.5px] font-light text-foreground/90">{sf.name}</span>
-                  <span className="font-mono text-[10.5px] text-muted-foreground/60">.{sf.cls}</span>
+                  <span className="text-14 font-light text-foreground/90">{sf.name}</span>
+                  <span className="font-mono text-11 text-muted-foreground/60">.{sf.cls}</span>
                 </div>
                 <div className="px-4 py-3.5">
-                  <p className="text-[12.5px] font-light leading-relaxed text-muted-foreground">
+                  <p className="text-13 font-light leading-relaxed text-muted-foreground">
                     {sf.what}
                   </p>
                   {/* The one material that cannot be its own tile. See Surface.sample. */}
@@ -36,7 +36,7 @@ export function Surfaces() {
                     {sf.layers.map((l) => (
                       <li
                         key={l}
-                        className="font-mono text-[10.5px] leading-relaxed text-muted-foreground/60"
+                        className="font-mono text-11 leading-relaxed text-muted-foreground/60"
                       >
                         {l}
                       </li>
@@ -47,7 +47,7 @@ export function Surfaces() {
             ))}
           </ul>
 
-          <p className="mt-5 text-[15px] font-light leading-relaxed text-muted-foreground">
+          <p className="mt-5 text-15 font-light leading-relaxed text-muted-foreground">
             These were four class strings copied by hand into two dozen files until recently, which
             is the failure mode a design system is supposed to prevent and does not if the system is
             a document. They are two classes now. The specimen above is not a picture of them: it is

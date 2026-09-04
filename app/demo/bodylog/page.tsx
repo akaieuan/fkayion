@@ -51,7 +51,7 @@ export default function BodyLogPage() {
         }
         actions={
           <>
-            <span className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-[13px] font-medium text-background">
+            <span className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-foreground px-3.5 py-2 text-13 font-medium text-background">
               Publishing soon · iOS
             </span>
             <a
@@ -84,7 +84,7 @@ export default function BodyLogPage() {
       {/* ------------------------------------------------------ the phone */}
       <div className="mt-12">
         <p className={label}>The app</p>
-        <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+        <p className="mt-2 max-w-xl text-13 font-light leading-relaxed text-muted-foreground">
           Rebuilt here as live React from the shipping app&apos;s own values — the figure is
           rasterised from its vector anatomy, the logo is its frozen grid, and the colour, type
           and spacing are the real ones. It works: tap around.

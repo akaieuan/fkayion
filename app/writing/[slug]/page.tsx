@@ -45,11 +45,11 @@ export default function WritingPage({ params }: { params: { slug: string } }) {
         </Link>
 
         <header className="mb-10">
-          <p className="text-[11px] font-light text-muted-foreground">{entry.type}</p>
-          <h1 className="mt-3 text-[clamp(1.6rem,4.5vw,2.15rem)] font-extralight leading-[1.15] tracking-tight text-foreground">
+          <p className="text-11 font-light text-muted-foreground">{entry.type}</p>
+          <h1 className="mt-3 text-display font-extralight leading-[1.15] tracking-tight text-foreground">
             {entry.title}
           </h1>
-          <p className="mt-4 text-[15px] font-light leading-relaxed text-muted-foreground">
+          <p className="mt-4 text-15 font-light leading-relaxed text-muted-foreground">
             {entry.deck}
           </p>
         </header>
@@ -57,12 +57,12 @@ export default function WritingPage({ params }: { params: { slug: string } }) {
         <Prose blocks={entry.body} />
 
         <footer className="mt-16 flex flex-wrap items-baseline justify-between gap-4">
-          <span className="text-[12px] font-light text-muted-foreground">
+          <span className="text-12 font-light text-muted-foreground">
             {entry.published}
           </span>
           <Link
             href="/#writing"
-            className="text-[12px] font-light text-muted-foreground transition-colors hover:text-foreground"
+            className="text-12 font-light text-muted-foreground transition-colors hover:text-foreground"
           >
             More writing
           </Link>

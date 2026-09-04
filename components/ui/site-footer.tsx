@@ -53,9 +53,9 @@ const columns: { heading: string; links: FooterLink[] }[] = [
 ]
 
 const linkCls =
-  'text-[12.5px] font-light text-muted-foreground/70 transition-colors hover:text-foreground'
+  'text-13 font-light text-muted-foreground/70 transition-colors hover:text-foreground'
 const headingCls =
-  'text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground/45'
+  'text-10 font-medium uppercase tracking-[0.18em] text-muted-foreground/45'
 
 function FooterItem({ link }: { link: FooterLink }) {
   return link.external ? (
@@ -78,11 +78,11 @@ export function SiteFooter() {
           <div className="max-w-xs">
             <div className="flex items-center gap-2.5">
               <PixelHead size={26} grid={22} icon="disc-aka" still />
-              <span className="text-[15px] font-light tracking-[0.02em] text-foreground/90">
+              <span className="text-15 font-light tracking-[0.02em] text-foreground/90">
                 akaBuild
               </span>
             </div>
-            <p className="mt-3 text-[12.5px] font-light leading-relaxed text-muted-foreground/70">
+            <p className="mt-3 text-13 font-light leading-relaxed text-muted-foreground/70">
               Product design and technical anthropology for the human side of applied AI — plus the
               tools, instruments, and art that come out of it.
             </p>
@@ -118,7 +118,7 @@ export function SiteFooter() {
 
         {/* Bottom bar */}
         <div className="mt-14 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-[11.5px] font-light tracking-wide text-muted-foreground/45">
+          <p className="text-12 font-light tracking-wide text-muted-foreground/45">
             © 2026 akaBuild{' '}
             <span className="ml-1.5 italic text-muted-foreground/35">
               {'// I build tools and create art.'}
@@ -128,7 +128,7 @@ export function SiteFooter() {
             href="https://github.com/akaieuan"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-1 text-[11.5px] font-light tracking-wide text-muted-foreground/45 transition-colors hover:text-foreground"
+            className="inline-flex w-fit items-center gap-1 text-12 font-light tracking-wide text-muted-foreground/45 transition-colors hover:text-foreground"
           >
             Built by akaieuan
             <ArrowUpRight className="h-3 w-3 opacity-70" aria-hidden />

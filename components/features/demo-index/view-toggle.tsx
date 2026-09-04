@@ -121,7 +121,7 @@ export function ViewToggle({ target }: { target: string }) {
              * and a hint centred on a button that close to it hangs past the
              * viewport and opens a horizontal scrollbar on the document.
              */
-            className="aka-hint aka-hint-end aka-card px-2 py-1 text-[11px] font-light"
+            className="aka-hint aka-hint-end aka-card px-2 py-1 text-11 font-light"
           >
             {view === v ? 'Current view' : hint}
           </span>

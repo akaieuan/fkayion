@@ -17,19 +17,19 @@ export function WhatPeopleTrackSection() {
               {conditions.map((c) => (
                 <span
                   key={c}
-                  className="rounded-md border border-border/60 px-2 py-0.5 text-[11px] font-light text-muted-foreground/80"
+                  className="rounded-md border border-border/60 px-2 py-0.5 text-11 font-light text-muted-foreground/80"
                 >
                   {c}
                 </span>
               ))}
             </div>
-            <p className="text-[13px]">
+            <p className="text-13">
               And what you call it is <span className="text-foreground/85">free text you coin</span> —
               &ldquo;psoriasis&rdquo;, &ldquo;jaw acne&rdquo;, &ldquo;hand eczema&rdquo; — not a fixed
               menu. Two people with the same diagnosis rarely describe it the same way, and a closed
               list would make the app argue with them about their own body.
             </p>
-            <p className="text-[13px]">
+            <p className="text-13">
               The two routes it is built around: <span className="text-foreground/85">face acne</span>,
               logged zone by zone on a face diagram, and{' '}
               <span className="text-foreground/85">fold-prone persistent spots</span> — psoriasis and

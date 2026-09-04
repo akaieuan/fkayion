@@ -258,7 +258,7 @@ export function CoverFlow({
         */}
         <p
           aria-hidden
-          className="mb-4 text-center text-[11px] font-light tracking-[0.02em] text-muted-foreground/55"
+          className="mb-4 text-center text-11 font-light tracking-[0.02em] text-muted-foreground/55"
         >
           Scroll to flip
         </p>

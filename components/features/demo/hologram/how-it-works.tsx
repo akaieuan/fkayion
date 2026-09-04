@@ -10,7 +10,7 @@ export function HowItWorksSection() {
               API parsed with pygltflib. Blender is driven over a socket, never imported, so import
               purity holds.
             </p>
-            <pre className="overflow-x-auto aka-card-well rounded-lg p-4 text-[11.5px] leading-relaxed text-foreground/80">
+            <pre className="overflow-x-auto aka-card-well rounded-lg p-4 text-12 leading-relaxed text-foreground/80">
 {`your pipeline ──┐
 Claude Code  ───┼──> .hologram/events.jsonl ──> dashboard (SSE live tail)
 MCP server   ──┘                                    │

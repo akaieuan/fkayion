@@ -65,28 +65,28 @@ export function PlainSummary({
        * anything else here and read as one.
        */}
       <p
-        className="mb-2 text-[13px] font-medium tracking-[0.005em]"
+        className="mb-2 text-13 font-medium tracking-[0.005em]"
         style={{ color: "var(--accent-green)" }}
       >
         In simple terms
       </p>
 
       <div className="aka-card px-5 py-5 sm:px-6 sm:py-6">
-        <div className="space-y-2.5 text-[15px] font-light leading-relaxed text-foreground/85">
+        <div className="space-y-2.5 text-15 font-light leading-relaxed text-foreground/85">
           {s.what.map((line) => (
             <p key={line}>{line}</p>
           ))}
         </div>
 
         {s.impact && (
-          <p className="aka-card-rule mt-4 border-t pt-3.5 text-[14px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-card-rule mt-4 border-t pt-3.5 text-14 font-light leading-relaxed text-muted-foreground">
             <span className="font-medium text-foreground/85">The impact.</span>{" "}
             {s.impact}
           </p>
         )}
 
         {archive && archive.length > 0 && (
-          <p className="aka-card-rule mt-4 border-t pt-3.5 text-[13px] font-light leading-relaxed text-muted-foreground">
+          <p className="aka-card-rule mt-4 border-t pt-3.5 text-13 font-light leading-relaxed text-muted-foreground">
             <span className="font-medium text-foreground/85">From the archive.</span>{" "}
             {archive.map((a, i) => (
               <Fragment key={a.href}>
@@ -104,7 +104,7 @@ export function PlainSummary({
 
         {s.ahead && s.ahead.length > 0 && (
           <details className="aka-card-rule group mt-4 border-t pt-3.5">
-            <summary className="flex cursor-pointer list-none items-center gap-2 text-[13px] font-medium text-foreground/85 transition-colors hover:text-foreground [&::-webkit-details-marker]:hidden">
+            <summary className="flex cursor-pointer list-none items-center gap-2 text-13 font-medium text-foreground/85 transition-colors hover:text-foreground [&::-webkit-details-marker]:hidden">
               {/*
                * The chevron rotates rather than swapping glyph, so the control
                * reads as one thing in two positions. Transform only: the house
@@ -121,7 +121,7 @@ export function PlainSummary({
 
             <div className="mt-3.5 space-y-3">
               {s.aheadIntro && (
-                <p className="text-[14px] font-light leading-relaxed text-muted-foreground">
+                <p className="text-14 font-light leading-relaxed text-muted-foreground">
                   {s.aheadIntro}
                 </p>
               )}
@@ -131,25 +131,25 @@ export function PlainSummary({
                     key={a.title}
                     className="aka-card-well px-4 py-3"
                   >
-                    <p className="text-[13.5px] font-medium text-foreground/90">
+                    <p className="text-14 font-medium text-foreground/90">
                       {a.title}
                     </p>
                     {a.norm && (
-                      <p className="mt-1 text-[12.5px] font-light leading-relaxed text-muted-foreground/75">
-                        <span className="text-[12px] font-medium text-foreground/60">
+                      <p className="mt-1 text-13 font-light leading-relaxed text-muted-foreground/75">
+                        <span className="text-12 font-medium text-foreground/60">
                           Then
                         </span>{" "}
                         {a.norm}
                       </p>
                     )}
-                    <p className="mt-1 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+                    <p className="mt-1 text-13 font-light leading-relaxed text-muted-foreground">
                       {/*
                        * The subject's own name, not a hardcoded one. This read
                        * "Ubik" on every page that used a then-and-now contrast,
                        * which was wrong the moment a second project had one.
                        */}
                       {a.norm && (
-                        <span className="text-[12px] font-medium text-foreground/60">
+                        <span className="text-12 font-medium text-foreground/60">
                           {s.aheadSubject ?? "It"}{" "}
                         </span>
                       )}
@@ -159,7 +159,7 @@ export function PlainSummary({
                 ))}
               </ul>
               {s.aheadClose && (
-                <p className="text-[14px] font-light leading-relaxed text-foreground/85">
+                <p className="text-14 font-light leading-relaxed text-foreground/85">
                   {s.aheadClose}
                 </p>
               )}

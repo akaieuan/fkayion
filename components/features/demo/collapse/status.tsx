@@ -13,7 +13,7 @@ export function StatusSection() {
               green Vitest suite (99 tests). On the roadmap: multi-cell notebook composition and a
               MyST chapter URL fetcher.
             </p>
-            <p className="text-[12px] text-muted-foreground/70">
+            <p className="text-12 text-muted-foreground/70">
               TypeScript 5 · Next.js 16 (App Router, RSC, Turbopack) · Tailwind v4 · shadcn/ui · Shiki
               · Zod 4 · Vitest · Node 20+ · local filesystem
             </p>

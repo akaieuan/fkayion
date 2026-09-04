@@ -4,7 +4,7 @@ import Link from 'next/link'
 export function PrimitivesClosing() {
   return (
         <section className="mt-14 aka-card-well px-5 py-4">
-          <p className="text-[14px] font-light leading-relaxed text-foreground/85">
+          <p className="text-14 font-light leading-relaxed text-foreground/85">
             The measurable half —{' '}
             <Link
               href="/aka-style/foundations"

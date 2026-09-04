@@ -29,7 +29,7 @@ export function GallerySection() {
                       />
                     </div>
                   </a>
-                  <figcaption className="mt-1.5 text-[11px] font-light text-muted-foreground/70">
+                  <figcaption className="mt-1.5 text-11 font-light text-muted-foreground/70">
                     {shot.label}
                   </figcaption>
                 </figure>

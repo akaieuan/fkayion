@@ -13,7 +13,7 @@ export function RewardsSection() {
               they may not enjoy looking at, every day, for months; this is the counterweight, and it
               only works if it stays honest about what it measures.
             </p>
-            <p className="text-[13px]">
+            <p className="text-13">
               The one I&apos;d point at: <span className="text-foreground/85">back again</span> — log
               again after two weeks away. Deliberately not a streak badge. Missing a fortnight and
               coming back is the moment most tracking apps make you feel worst; this one gives you

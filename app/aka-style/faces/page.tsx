@@ -28,7 +28,7 @@ export default function FacesPage() {
 
         <header className="mb-10">
           <p className="aka-kicker">Brand engine · Faces</p>
-          <h1 className="mt-2 text-[clamp(1.7rem,5vw,2.4rem)] font-extralight leading-none tracking-tight text-foreground/90">
+          <h1 className="mt-2 text-display font-extralight leading-none tracking-tight text-foreground/90">
             Faces
           </h1>
           <p className="mt-3 max-w-xl text-sm font-light leading-relaxed text-muted-foreground">

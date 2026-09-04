@@ -17,7 +17,7 @@ export function DeckCaption({ items }: { items: ProjectItem[] }) {
                 const external = /^https?:\/\//.test(item.href)
                 return (
                   <div key={item.href} className="aka-flow-slot flex flex-col items-center">
-                    <p className="text-[17px] font-light tracking-tight text-foreground/90">
+                    <p className="text-17 font-light tracking-tight text-foreground/90">
                       {item.title}
                     </p>
 
@@ -31,7 +31,7 @@ export function DeckCaption({ items }: { items: ProjectItem[] }) {
                       <TagRow className="mt-2 justify-center" tags={item.tags.slice(0, 3)} />
                     )}
 
-                    <p className="mt-2.5 line-clamp-4 text-[13.5px] font-light leading-relaxed text-muted-foreground">
+                    <p className="mt-2.5 line-clamp-4 text-14 font-light leading-relaxed text-muted-foreground">
                       {captionFor(item.href, item.description)}
                     </p>
 
@@ -42,7 +42,7 @@ export function DeckCaption({ items }: { items: ProjectItem[] }) {
                      * affordance for a mouse and never a second tab stop or a
                      * second announcement.
                      */}
-                    <span className="mt-3.5 inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[12.5px] font-medium text-foreground transition-colors hover:bg-muted/40">
+                    <span className="mt-3.5 inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-13 font-medium text-foreground transition-colors hover:bg-muted/40">
                       {external ? 'Open the site' : 'Learn more'}
                       {external ? (
                         <ArrowUpRight className="h-3.5 w-3.5 shrink-0" aria-hidden />

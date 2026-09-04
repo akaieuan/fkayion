@@ -7,42 +7,42 @@ export function WebAudioSection() {
             </h2>
             <p>
               Playback goes through{' '}
-              <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">
+              <code className="rounded bg-muted/50 px-1 py-0.5 text-13 text-foreground/85">
                 AudioContext
               </code>
               , then{' '}
-              <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">
+              <code className="rounded bg-muted/50 px-1 py-0.5 text-13 text-foreground/85">
                 createMediaElementSource
               </code>{' '}
               on the HTMLMediaElement so the file you load is the same signal you hear. An{' '}
-              <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">
+              <code className="rounded bg-muted/50 px-1 py-0.5 text-13 text-foreground/85">
                 AnalyserNode
               </code>{' '}
               sits in-line before{' '}
-              <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">
+              <code className="rounded bg-muted/50 px-1 py-0.5 text-13 text-foreground/85">
                 destination
               </code>
               :{' '}
-              <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">
+              <code className="rounded bg-muted/50 px-1 py-0.5 text-13 text-foreground/85">
                 fftSize = 512
               </code>
               ,{' '}
-              <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">
+              <code className="rounded bg-muted/50 px-1 py-0.5 text-13 text-foreground/85">
                 smoothingTimeConstant
               </code>{' '}
               around 0.3, and decibel bounds set so the byte spectrum is usable without pegging.
             </p>
             <p>
               Each frame we call{' '}
-              <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">
+              <code className="rounded bg-muted/50 px-1 py-0.5 text-13 text-foreground/85">
                 getByteFrequencyData
               </code>{' '}
               into a{' '}
-              <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">
+              <code className="rounded bg-muted/50 px-1 py-0.5 text-13 text-foreground/85">
                 Uint8Array
               </code>{' '}
               sized to{' '}
-              <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">
+              <code className="rounded bg-muted/50 px-1 py-0.5 text-13 text-foreground/85">
                 frequencyBinCount
               </code>
               , then reduce bins into three bands (roughly the lowest 10% as bass, the next 40% as mid,

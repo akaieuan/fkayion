@@ -112,6 +112,12 @@ const RAF_EXEMPT = {
 }
 
 /**
+ * Keyframes that are somebody else's effect. The landing plate runs the
+ * Trickle kit's word swap, and the kit's tree is already art.
+ */
+const ART_KEYFRAMES = { 'aka-trickle-swap': 'the Trickle kit', 'aka-trickle-turn': 'the Trickle kit' }
+
+/**
  * Law 07 as a number. Files under the scan that carry a client directive.
  * Adding one is allowed; it is a decision, so the budget moves in the same
  * commit as the file that spends it, with the reason in that commit.
@@ -177,6 +183,11 @@ function checkLines(rel, src, out) {
     if (/\bdrop-shadow(?:-|\()/.test(code)) out.push([at, 'drop-shadow', 'law 03'])
     if (/\bbox-shadow\s*:/.test(code) || /\bboxShadow\s*:/.test(code)) out.push([at, 'box-shadow', 'law 03'])
 
+    // Law 01 — one type scale. Sizes are the eight named steps and text-display;
+    // an arbitrary pixel or clamp is a size the scale does not have.
+    const size = code.match(/\btext-\[(?:\d+(?:\.\d+)?px|clamp\([^\]]*\))\]/)
+    if (size) out.push([at, `${size[0]}: not on the type scale`, 'law 01'])
+
     // Law 04 — motion moves space, never brightness.
     if (/\banimate-pulse\b/.test(code)) out.push([at, 'animate-pulse', 'law 04'])
     if (/\banimate-ping\b/.test(code)) out.push([at, 'animate-ping', 'law 04'])
@@ -191,6 +202,7 @@ function checkCss(rel, src, out) {
   const kf = /@keyframes\s+([\w-]+)\s*\{([\s\S]*?)\n\}/g
   let m
   while ((m = kf.exec(src))) {
+    if (ART_KEYFRAMES[m[1]]) continue
     const props = new Set([...m[2].matchAll(/(?:^|[{;])\s*([a-z-]+)\s*:/gm)].map((x) => x[1]))
     props.delete('offset')
     const bright = new Set(['opacity', 'filter', 'box-shadow', 'background-color', 'color', 'background'])
@@ -346,6 +358,8 @@ function selftest() {
     ['law 02 oklch()', checkLines, 'x.tsx', "const c = 'oklch(0.5 0.1 200)'", "const c = 'var(--select)'"],
     ['law 02 stock white', checkLines, 'x.tsx', '<div className="bg-white" />', '<div className="bg-background" />'],
     ['law 02 url is not a comment', checkLines, 'x.tsx', "const u = 'https://x.dev/#fff'", "const u = 'https://x.dev/' // #fff"],
+    ['law 01 type scale', checkLines, 'x.tsx', '<p className="text-[12.5px]" />', '<p className="text-13" />'],
+    ['law 01 clamp', checkLines, 'x.tsx', '<h1 className="text-[clamp(1.7rem,5vw,2.4rem)]" />', '<h1 className="text-display" />'],
     ['law 03 bare shadow', checkLines, 'x.tsx', '<div className="rounded shadow" />', '<div className="rounded shadow-none" />'],
     ['law 03 box-shadow', checkLines, 'x.css', '.a { box-shadow: 0 1px 2px black; }', '.a { border: 1px solid var(--border); }'],
     ['law 04 hover dims', checkLines, 'x.tsx', '<a className="hover:opacity-90" />', '<a className="hover:opacity-100" />'],

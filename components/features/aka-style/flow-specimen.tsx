@@ -34,7 +34,7 @@ export function FlowSpecimen({ n = 5 }: { n?: number }) {
               style={{ ['--i' as string]: i }}
               aria-hidden
             >
-              <span className="aka-plate grid place-items-center font-mono text-[13px] text-muted-foreground">
+              <span className="aka-plate grid place-items-center font-mono text-13 text-muted-foreground">
                 {i + 1}
               </span>
             </div>

@@ -19,8 +19,8 @@ export function ColorSection() {
               <div key={sw.name} className="overflow-hidden rounded-lg border border-border">
                 <div className={`h-14 w-full ${sw.cls}`} />
                 <div className="aka-card-rule border-t px-2.5 py-2">
-                  <p className="text-[11px] text-foreground/85">{sw.name}</p>
-                  <p className="font-mono text-[10px] text-muted-foreground/60">{sw.varName}</p>
+                  <p className="text-11 text-foreground/85">{sw.name}</p>
+                  <p className="font-mono text-10 text-muted-foreground/60">{sw.varName}</p>
                 </div>
               </div>
             ))}
@@ -34,7 +34,7 @@ export function ColorSection() {
                   className="h-3 w-3 rounded-full border border-border/40"
                   style={{ background: a.v }}
                 />
-                <span className="font-mono text-[10.5px] text-muted-foreground">{a.name}</span>
+                <span className="font-mono text-11 text-muted-foreground">{a.name}</span>
               </div>
             ))}
           </div>

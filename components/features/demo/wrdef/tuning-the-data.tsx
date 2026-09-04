@@ -7,7 +7,7 @@ export function TuningTheDataSection() {
             </h2>
 
             <div className="space-y-3">
-              <h3 className="text-[13px] font-medium text-foreground/90">Sense ranking per word</h3>
+              <h3 className="text-13 font-medium text-foreground/90">Sense ranking per word</h3>
               <p>
                 Most words have multiple definitions: &quot;print&quot; is a verb, a noun, and a
                 photography term. I pull senses from the Wiktionary-backed dictionaryapi and tag each
@@ -18,7 +18,7 @@ export function TuningTheDataSection() {
             </div>
 
             <div className="space-y-3">
-              <h3 className="text-[13px] font-medium text-foreground/90">POS-aware filtering</h3>
+              <h3 className="text-13 font-medium text-foreground/90">POS-aware filtering</h3>
               <p>
                 Interjections, prepositions, pronouns, prefixes: their definitions are circular
                 (&quot;used to express surprise&quot;) and make terrible clues. I whitelist
@@ -28,7 +28,7 @@ export function TuningTheDataSection() {
             </div>
 
             <div className="space-y-3">
-              <h3 className="text-[13px] font-medium text-foreground/90">
+              <h3 className="text-13 font-medium text-foreground/90">
                 Bucketing by frequency × depth
               </h3>
               <p>
@@ -40,7 +40,7 @@ export function TuningTheDataSection() {
             </div>
 
             <div className="space-y-3">
-              <h3 className="text-[13px] font-medium text-foreground/90">
+              <h3 className="text-13 font-medium text-foreground/90">
                 Blank selection for the bonus round
               </h3>
               <p>

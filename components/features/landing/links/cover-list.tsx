@@ -58,10 +58,10 @@ export function CoverList({ items }: { items: CoverRow[] }) {
               data-blurb={i}
               className="group block py-2.5"
             >
-              <span className="text-[14px] font-light tracking-tight text-foreground/85 underline decoration-transparent underline-offset-[5px] transition-colors duration-200 group-hover:text-foreground group-hover:decoration-foreground/30">
+              <span className="text-14 font-light tracking-tight text-foreground/85 underline decoration-transparent underline-offset-[5px] transition-colors duration-200 group-hover:text-foreground group-hover:decoration-foreground/30">
                 {row.title}
               </span>
-              <span className="mt-0.5 block text-[12.5px] font-light leading-relaxed text-muted-foreground/55 transition-colors duration-200 group-hover:text-muted-foreground/80">
+              <span className="mt-0.5 block text-13 font-light leading-relaxed text-muted-foreground/55 transition-colors duration-200 group-hover:text-muted-foreground/80">
                 {row.meta}
               </span>
             </a>

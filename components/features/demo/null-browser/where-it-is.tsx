@@ -17,7 +17,7 @@ export function WhereItIsSection() {
               because the search view was part of the AI drawer that was removed. It gets a UI or it
               gets cut.
             </p>
-            <p className="text-[12px] text-muted-foreground/70">
+            <p className="text-12 text-muted-foreground/70">
               Tauri 2 · Rust · React 19 · TypeScript · Tailwind v4 · SQLite · WebKit · MPL 2.0
             </p>
           </section>

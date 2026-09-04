@@ -11,7 +11,7 @@ export function HowItWorksSection() {
               <code className="aka-code">.tmp</code> then <code className="aka-code">rename()</code>, so an
               interrupted write never leaves a partial SKILL.md).
             </p>
-            <pre className="overflow-x-auto aka-card-well rounded-lg p-4 text-[11px] leading-relaxed text-foreground/80">
+            <pre className="overflow-x-auto aka-card-well rounded-lg p-4 text-11 leading-relaxed text-foreground/80">
 {`ingestor  ───▶  template engine  ───▶  persistence
 (on-ramps)      lib/skill-template      /api/skills
 

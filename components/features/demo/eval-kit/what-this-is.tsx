@@ -19,7 +19,7 @@ export function WhatThisIsSection() {
               be the default scorer. If LLM-as-judge becomes the default, the project loses its reason
               to exist.
             </p>
-            <p className="text-[14px] text-muted-foreground/95">
+            <p className="text-14 text-muted-foreground/95">
               The five dimensions: explainability, agency preservation, long-term capability,
               calibration, collaborative performance.
             </p>

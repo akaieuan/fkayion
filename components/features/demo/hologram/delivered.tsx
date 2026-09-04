@@ -10,7 +10,7 @@ export function DeliveredSection() {
               design: a Claude Code plugin contributes hooks, commands, and MCP servers, not
               long-running web servers.
             </p>
-            <pre className="overflow-x-auto aka-card-well rounded-lg p-4 text-[11.5px] leading-relaxed text-foreground/80">
+            <pre className="overflow-x-auto aka-card-well rounded-lg p-4 text-12 leading-relaxed text-foreground/80">
 {`# the dashboard — point it at any project with exported GLBs
 uvx --from hologram-gltf hologram dashboard
 

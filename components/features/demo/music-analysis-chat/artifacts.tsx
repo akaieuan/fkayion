@@ -43,12 +43,12 @@ function Specimen({
     <figure className="mb-5 break-inside-avoid">
       <div className="aka-card px-4 pb-4 pt-3">
         <div className="mb-1 flex items-baseline justify-between gap-3">
-          <span className="text-[11px] font-medium text-foreground/85">{name}</span>
-          <code className="font-mono text-[10px] text-muted-foreground/60">{type}</code>
+          <span className="text-11 font-medium text-foreground/85">{name}</span>
+          <code className="font-mono text-10 text-muted-foreground/60">{type}</code>
         </div>
         {children}
       </div>
-      <figcaption className="mt-2 text-[11px] font-light leading-relaxed text-muted-foreground/70">
+      <figcaption className="mt-2 text-11 font-light leading-relaxed text-muted-foreground/70">
         {note}
       </figcaption>
     </figure>
@@ -62,7 +62,7 @@ export function ArtifactsSection() {
   return (
         <div className="aka-breakout mt-12">
           <p className="aka-kicker">The artifacts</p>
-          <p className="mt-2 max-w-xl text-[12px] font-light leading-relaxed text-muted-foreground/70">
+          <p className="mt-2 max-w-xl text-12 font-light leading-relaxed text-muted-foreground/70">
             Six block types, rendered here by the same components the demo uses, holding the same
             payloads the fixture returns. These are the real thing, not pictures of it.
           </p>

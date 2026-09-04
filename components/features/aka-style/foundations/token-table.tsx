@@ -15,9 +15,9 @@ export function Row({
 }) {
   return (
     <tr className="border-b border-border/40">
-      <td className="py-2.5 pr-4 align-middle font-mono text-[11px] text-foreground/85">{name}</td>
+      <td className="py-2.5 pr-4 align-middle font-mono text-11 text-foreground/85">{name}</td>
       <td className="py-2.5 pr-4 align-middle">{children}</td>
-      <td className="py-2.5 align-middle font-mono text-[10.5px] text-muted-foreground/70">{value}</td>
+      <td className="py-2.5 align-middle font-mono text-11 text-muted-foreground/70">{value}</td>
     </tr>
   )
 }

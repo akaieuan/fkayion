@@ -56,7 +56,7 @@ export function ColorSection() {
                 />
               </Row>
             </Table>
-            <p className="mt-4 text-[11.5px] font-light leading-relaxed text-muted-foreground/70">
+            <p className="mt-4 text-12 font-light leading-relaxed text-muted-foreground/70">
               <span className="text-foreground/80">One accent, and it is not --primary.</span>{' '}
               <code className={codeCls}>--select</code> is what a selected tab, selected text and a
               focus ring take, and it is the only place a hue is allowed to lead. It changes hue
@@ -69,7 +69,7 @@ export function ColorSection() {
 
           <div className={`${cardCls} mt-3`}>
             <p className={label}>The opacity ladder, and why it is not classes</p>
-            <p className="mt-2 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+            <p className="mt-2 text-13 font-light leading-relaxed text-muted-foreground">
               Ink steps down in six, and that is the whole hierarchy. It is written by hand rather
               than with <code className={codeCls}>/nn</code> utilities, because on Tailwind v3 the
               colours above are bare <code className={codeCls}>var()</code> values with no{' '}
@@ -79,15 +79,15 @@ export function ColorSection() {
               only the literal <code className={codeCls}>white/</code> and{' '}
               <code className={codeCls}>black/</code> ones.
             </p>
-            <p className="mt-2 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+            <p className="mt-2 text-13 font-light leading-relaxed text-muted-foreground">
               So the two steps that carry long-form reading are mixed by hand, in sRGB, because the
               tokens are achromatic with an explicit hue of 0 and an OKLCH mix would interpolate it.
             </p>
-            <pre className="mt-3 overflow-x-auto aka-card-well rounded-lg px-3 py-2 font-mono text-[10.5px] leading-relaxed text-muted-foreground/75">
+            <pre className="mt-3 overflow-x-auto aka-card-well rounded-lg px-3 py-2 font-mono text-11 leading-relaxed text-muted-foreground/75">
               {`.aka-ink-body  { color: color-mix(in srgb, var(--foreground) 82%, transparent) }
 .aka-ink-quiet { color: color-mix(in srgb, var(--foreground) 62%, transparent) }`}
             </pre>
-            <p className="mt-3 text-[11.5px] font-light leading-relaxed text-muted-foreground/70">
+            <p className="mt-3 text-12 font-light leading-relaxed text-muted-foreground/70">
               Everything on the site still written as{' '}
               <code className={codeCls}>text-foreground/85</code> is therefore full ink today. Giving
               the tokens an alpha slot would fix it in one line and change the colour of a great deal

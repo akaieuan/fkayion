@@ -54,7 +54,7 @@ export function PrimitivesSection() {
           <p className="aka-kicker">
             The primitives
           </p>
-          <p className="mt-2 max-w-xl text-[12px] font-light leading-relaxed text-muted-foreground/70">
+          <p className="mt-2 max-w-xl text-12 font-light leading-relaxed text-muted-foreground/70">
             Eleven of the nineteen, as they render in the shipped library. Each one carries its
             registry id in the corner, so the picture and the install command name the same thing.
           </p>
@@ -71,16 +71,16 @@ export function PrimitivesSection() {
                     className="block h-auto w-full"
                   />
                 </div>
-                <figcaption className="mt-2 flex items-baseline justify-between gap-3 text-[11px] font-light text-muted-foreground/70">
+                <figcaption className="mt-2 flex items-baseline justify-between gap-3 text-11 font-light text-muted-foreground/70">
                   <span className="text-foreground/80">{c.name}</span>
-                  <code className="font-mono text-[10px] text-muted-foreground/60">{c.id}</code>
+                  <code className="font-mono text-10 text-muted-foreground/60">{c.id}</code>
                 </figcaption>
               </figure>
             ))}
           </div>
-          <p className="mt-1 text-[11px] font-light text-muted-foreground/60">
+          <p className="mt-1 text-11 font-light text-muted-foreground/60">
             Install any of them with{' '}
-            <code className="font-mono text-[10px]">npx shadcn@latest add https://www.hitlkit.dev/r/&lt;id&gt;.json</code>.
+            <code className="font-mono text-10">npx shadcn@latest add https://www.hitlkit.dev/r/&lt;id&gt;.json</code>.
           </p>
         </div>
   )

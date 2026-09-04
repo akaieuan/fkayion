@@ -27,12 +27,12 @@ function ProjectRow({ p }: { p: Project }) {
   const inner = (
     <>
       <div className="flex items-baseline justify-between gap-3">
-        <span className="text-[14px] text-foreground/90 group-hover:text-foreground">{p.name}</span>
-        <span className="shrink-0 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/60">
+        <span className="text-14 text-foreground/90 group-hover:text-foreground">{p.name}</span>
+        <span className="shrink-0 text-10 font-medium uppercase tracking-[0.14em] text-muted-foreground/60">
           {p.status}
         </span>
       </div>
-      <p className="mt-1 text-[13px] font-light leading-relaxed text-muted-foreground">{p.blurb}</p>
+      <p className="mt-1 text-13 font-light leading-relaxed text-muted-foreground">{p.blurb}</p>
     </>
   )
   const cls =

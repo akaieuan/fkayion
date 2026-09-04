@@ -15,7 +15,7 @@ export function WhereItRuns() {
               const inner = (
                 <>
                   <span className="flex items-baseline justify-between gap-3">
-                    <span className="text-[14px] font-light text-foreground/90 group-hover:text-foreground">
+                    <span className="text-14 font-light text-foreground/90 group-hover:text-foreground">
                       {u.name}
                     </span>
                     {!u.internal && (
@@ -25,7 +25,7 @@ export function WhereItRuns() {
                       />
                     )}
                   </span>
-                  <span className="mt-1 block text-[12.5px] font-light leading-relaxed text-muted-foreground">
+                  <span className="mt-1 block text-13 font-light leading-relaxed text-muted-foreground">
                     {u.what}
                   </span>
                 </>

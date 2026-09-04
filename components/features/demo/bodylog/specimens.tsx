@@ -6,7 +6,7 @@ export function SpecimensSection() {
   return (
           <div>
             <p className={label}>System specimens</p>
-            <p className="mt-2 max-w-xl text-[13px] font-light leading-relaxed text-muted-foreground">
+            <p className="mt-2 max-w-xl text-13 font-light leading-relaxed text-muted-foreground">
               The same components the phone is built from, on their own. The history grid&apos;s two
               readings are the clearest statement of the whole idea in one tap.
             </p>

@@ -24,11 +24,11 @@ export function WhatWeDoSection() {
             <ul className="space-y-4">
               {pillars.map((p) => (
                 <li key={p.label} className="aka-card-well px-5 py-4">
-                  <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/80">
+                  <p className="text-11 font-medium uppercase tracking-[0.16em] text-foreground/80">
                     {p.label}
                   </p>
-                  <p className="mt-1 text-[14px] text-foreground/85">{p.line}</p>
-                  <p className="mt-1.5 text-[13px] font-light leading-relaxed text-muted-foreground">
+                  <p className="mt-1 text-14 text-foreground/85">{p.line}</p>
+                  <p className="mt-1.5 text-13 font-light leading-relaxed text-muted-foreground">
                     {p.body}
                   </p>
                 </li>

@@ -14,7 +14,7 @@ export function UnderTheHoodSection() {
               data” is literally the app’s state minus its buttons. Because a cover is just data, you can
               hand a settings blob to a model and ask it to nudge the look.
             </p>
-            <p className="text-[12px] text-muted-foreground/70">
+            <p className="text-12 text-muted-foreground/70">
               Next.js (static export) · React · TypeScript · Tailwind · Zustand · Canvas 2D · Web Audio
               API · WebCodecs (H.264/AAC) MP4 export
             </p>

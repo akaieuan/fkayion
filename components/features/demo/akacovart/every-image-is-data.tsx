@@ -11,7 +11,7 @@ export function EveryImageIsDataSection() {
               any machine, every time. A look you love isn’t a lucky export you can’t reproduce; it’s a
               tiny, shareable recipe. That determinism is the spine of the whole tool.
             </p>
-            <pre className="overflow-x-auto aka-card-well rounded-lg p-4 text-[11px] leading-relaxed text-foreground/80">
+            <pre className="overflow-x-auto aka-card-well rounded-lg p-4 text-11 leading-relaxed text-foreground/80">
 {`{ engine, seed, palette, composition, film, type }
         │
         ▼  deterministic render (seeded RNG)

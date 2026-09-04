@@ -38,8 +38,8 @@ export function RulesSection() {
             <div className="space-y-3">
               {rules.map((r) => (
                 <div key={r.h} className="border-l-2 border-border pl-4">
-                  <p className="text-[13.5px] text-foreground/85">{r.h}</p>
-                  <p className="mt-1 text-[13px] font-light leading-relaxed text-muted-foreground">
+                  <p className="text-14 text-foreground/85">{r.h}</p>
+                  <p className="mt-1 text-13 font-light leading-relaxed text-muted-foreground">
                     {r.t}
                   </p>
                 </div>
@@ -47,10 +47,10 @@ export function RulesSection() {
             </div>
             <div className="aka-card-well px-5 py-4">
               <p className={label}>Product voice</p>
-              <p className="mt-2 text-[13.5px] leading-relaxed text-foreground/85">
+              <p className="mt-2 text-14 leading-relaxed text-foreground/85">
                 Lowercase headings, short sentences, no exclamation, no streak shaming, no medical
                 authority. The one rating vocabulary is{' '}
-                <span className="font-mono text-[12px]">flaring · irritated · okay · good · clear</span>{' '}
+                <span className="font-mono text-12">flaring · irritated · okay · good · clear</span>{' '}
                 — five is the good end on purpose, so the scale reads as progress toward clear rather
                 than a severity score.
               </p>

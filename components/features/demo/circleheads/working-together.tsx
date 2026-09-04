@@ -6,7 +6,7 @@ export function WorkingTogetherSection() {
   return (
           <section className="aka-card-well px-5 py-4">
             <h2 className="aka-lead">Working together</h2>
-            <p className="mt-2 text-[14px] leading-relaxed text-foreground/85">
+            <p className="mt-2 text-14 leading-relaxed text-foreground/85">
               If you have real work for an agent to do — or a system that needs the human side gotten
               right — we&apos;d like to hear about it. We take a small number of projects a year, and
               the fastest way to reach us is through the studio.

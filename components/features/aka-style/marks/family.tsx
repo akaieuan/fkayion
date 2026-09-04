@@ -25,7 +25,7 @@ export function FamilySection() {
                 <div className="flex justify-center">
                   <PixelHead size={84} grid={24} icon={m.icon} still />
                 </div>
-                <p className="mt-3 text-[12px] text-foreground/85">{m.name}</p>
+                <p className="mt-3 text-12 text-foreground/85">{m.name}</p>
                 <p className={`${label} mt-0.5`}>{m.note}</p>
               </div>
             ))}

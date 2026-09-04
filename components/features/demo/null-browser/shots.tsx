@@ -61,7 +61,7 @@ export function ShotsSection() {
                   className="block h-full w-full object-cover"
                 />
               </div>
-              <figcaption className="mt-2 text-[12px] font-light leading-relaxed text-muted-foreground/75">
+              <figcaption className="mt-2 text-12 font-light leading-relaxed text-muted-foreground/75">
                 {shot.caption}
               </figcaption>
             </figure>

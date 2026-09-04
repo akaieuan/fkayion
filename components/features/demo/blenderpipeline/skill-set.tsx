@@ -11,7 +11,7 @@ export function SkillSetSection() {
               {skills.map((s) => (
                 <li
                   key={s}
-                  className="list-none rounded-md border border-border/70 px-2.5 py-1 text-[12px] text-muted-foreground"
+                  className="list-none rounded-md border border-border/70 px-2.5 py-1 text-12 text-muted-foreground"
                 >
                   {s}
                 </li>

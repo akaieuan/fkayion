@@ -7,7 +7,7 @@ export function GlslSection() {
             </h2>
             <p>
               The vertex stage builds an{' '}
-              <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">
+              <code className="rounded bg-muted/50 px-1 py-0.5 text-13 text-foreground/85">
                 audioIntensity
               </code>{' '}
               term from volume plus weighted bass, mid, and high. That scalar modulates how hard
@@ -16,7 +16,7 @@ export function GlslSection() {
               goopiness and liquidity channels, split and tentacle modes, and a base fbm layer scaled by
               user noise parameters. When audio is playing, an extra normal-aligned displacement term
               scales with{' '}
-              <code className="rounded bg-muted/50 px-1 py-0.5 text-[13px] text-foreground/85">
+              <code className="rounded bg-muted/50 px-1 py-0.5 text-13 text-foreground/85">
                 audioReactivity
               </code>{' '}
               and per-band weights so kicks read differently from hiss.

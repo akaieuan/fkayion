@@ -16,7 +16,7 @@ export function Deeper() {
         <section className="mt-16">
           <p className="aka-kicker">Deeper</p>
           <h2 className="mt-2 aka-section-title">The rest of the specimen</h2>
-          <p className="mt-3 text-[15px] font-light leading-relaxed text-muted-foreground">
+          <p className="mt-3 text-15 font-light leading-relaxed text-muted-foreground">
             Everything above is the system itself, on this page, rather than a description of it.
             These go further into each part: every number with its reasoning, every primitive with
             its class string, and the engine with the whole family it draws.
@@ -29,10 +29,10 @@ export function Deeper() {
                   href={r.href}
                   className={tile}
                 >
-                  <span className="text-[14px] font-light text-foreground/90 group-hover:text-foreground">
+                  <span className="text-14 font-light text-foreground/90 group-hover:text-foreground">
                     {r.name}
                   </span>
-                  <span className="mt-1 block text-[12.5px] font-light leading-relaxed text-muted-foreground">
+                  <span className="mt-1 block text-13 font-light leading-relaxed text-muted-foreground">
                     {r.line}
                   </span>
                 </Link>

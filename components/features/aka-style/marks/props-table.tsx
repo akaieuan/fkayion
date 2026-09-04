@@ -17,7 +17,7 @@ export function PropsSection() {
                   ))}
                 </tr>
               </thead>
-              <tbody className="text-[12px] font-light text-muted-foreground">
+              <tbody className="text-12 font-light text-muted-foreground">
                 {[
                   ['size', 'number', 'Canvas CSS px. Required.'],
                   ['grid', 'number', 'Cells across. 14 for chrome, 22–32 for display.'],
@@ -37,8 +37,8 @@ export function PropsSection() {
                   ['speed', 'number', 'Loop rate multiplier.'],
                 ].map(([p, t, d]) => (
                   <tr key={p} className="border-b border-border/40">
-                    <td className="py-2 pr-4 align-top font-mono text-[11px] text-foreground/85">{p}</td>
-                    <td className="py-2 pr-4 align-top font-mono text-[10.5px] text-muted-foreground/70">{t}</td>
+                    <td className="py-2 pr-4 align-top font-mono text-11 text-foreground/85">{p}</td>
+                    <td className="py-2 pr-4 align-top font-mono text-11 text-muted-foreground/70">{t}</td>
                     <td className="py-2 align-top">{d}</td>
                   </tr>
                 ))}

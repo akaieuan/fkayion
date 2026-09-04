@@ -130,7 +130,7 @@ export function ProductCardsSection() {
   return (
           <div className="aka-breakout">
             <p className="aka-kicker">The product, in motion</p>
-            <p className="mt-2 max-w-xl text-[12px] font-light leading-relaxed text-muted-foreground/70">
+            <p className="mt-2 max-w-xl text-12 font-light leading-relaxed text-muted-foreground/70">
               Seven silent recordings of the last build, March 2026. Each one loads and starts when
               you reach it, and stops when you leave.
             </p>

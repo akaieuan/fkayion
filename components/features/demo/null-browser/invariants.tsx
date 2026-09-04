@@ -24,12 +24,12 @@ export function InvariantsSection() {
                   key={name}
                   className="grid gap-x-4 border-b border-border/50 py-3 sm:grid-cols-[1.5rem_minmax(0,1fr)]"
                 >
-                  <span className="hidden font-mono text-[11px] tabular-nums text-muted-foreground/50 sm:block">
+                  <span className="hidden font-mono text-11 tabular-nums text-muted-foreground/50 sm:block">
                     {i + 1}
                   </span>
                   <span>
                     <strong className="font-medium text-foreground/90">{name}.</strong>{' '}
-                    <span className="text-[14px]">{detail}</span>
+                    <span className="text-14">{detail}</span>
                   </span>
                 </li>
               ))}

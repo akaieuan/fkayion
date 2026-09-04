@@ -32,8 +32,8 @@ export function RulesSection() {
             <ul className="!mt-4 list-none space-y-4 p-0">
               {rules.map((rule) => (
                 <li key={rule.h} className="border-l border-border pl-4">
-                  <p className="text-[14px] text-foreground/85">{rule.h}</p>
-                  <p className="mt-1 text-[14px]">{rule.t}</p>
+                  <p className="text-14 text-foreground/85">{rule.h}</p>
+                  <p className="mt-1 text-14">{rule.t}</p>
                 </li>
               ))}
             </ul>

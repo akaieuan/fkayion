@@ -104,7 +104,7 @@ export default function BlenderPipelinePage() {
               BKZ lab log · {LAB_ENTRIES.length} {LAB_ENTRIES.length === 1 ? 'entry' : 'entries'}
               <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
             </Link>
-            <span className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-[13px] font-medium text-foreground">
+            <span className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-border bg-background px-3.5 py-2 text-13 font-medium text-foreground">
               Blender · Python · glTF 2.0 · Godot 4
             </span>
           </>

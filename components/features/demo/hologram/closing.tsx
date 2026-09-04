@@ -3,7 +3,7 @@ export function HologramClosing() {
   return (
           <section className="aka-card-well px-5 py-4">
             <h2 className="aka-lead">Why it&apos;s different</h2>
-            <p className="mt-2 text-[14px] leading-relaxed text-foreground/85">
+            <p className="mt-2 text-14 leading-relaxed text-foreground/85">
               Plenty of tools inspect a <code className="aka-code">.glb</code>. Hologram is the only one
               that puts a live feed of your agent&apos;s pipeline activity next to the assets it&apos;s
               producing, and hands that same pipeline to the agent as MCP tools — now including a

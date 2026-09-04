@@ -8,7 +8,7 @@ const linkMuted =
 export function Closing() {
   return (
         <section className={`mt-14 ${well} px-5 py-4`}>
-          <p className="text-[14px] font-light leading-relaxed text-foreground/85">
+          <p className="text-14 font-light leading-relaxed text-foreground/85">
             The test of a design system is not whether it is documented. It is whether someone who
             has not read the documentation, which now includes a model, produces something that
             belongs. Rules pass that test and preferences do not. The rest of the work is on the{' '}

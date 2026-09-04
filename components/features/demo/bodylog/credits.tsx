@@ -23,7 +23,7 @@ export function CreditsSection() {
               image pipeline, the SwiftData schema and its migration plan, and the persistence layer
               underneath the log.
             </p>
-            <p className="text-[12px] text-muted-foreground/70">
+            <p className="text-12 text-muted-foreground/70">
               Swift · SwiftUI · SwiftData · iOS 17+ · zero external dependencies
             </p>
           </section>

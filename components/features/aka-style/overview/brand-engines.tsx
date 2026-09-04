@@ -24,8 +24,8 @@ export function BrandEnginesSection() {
               <div className="flex items-center gap-4">
                 <PixelHead size={60} grid={24} icon="disc-aka" still />
                 <div>
-                  <p className="text-[14px] font-light text-foreground/90">Marks →</p>
-                  <p className="mt-0.5 text-[12px] font-light text-muted-foreground">
+                  <p className="text-14 font-light text-foreground/90">Marks →</p>
+                  <p className="mt-0.5 text-12 font-light text-muted-foreground">
                     The disc family, variants, dissolve modes, grid range, and the full prop table.
                   </p>
                 </div>
@@ -35,8 +35,8 @@ export function BrandEnginesSection() {
               <div className="flex items-center gap-4">
                 <PixelHead size={60} grid={22} face="wink" still />
                 <div>
-                  <p className="text-[14px] font-light text-foreground/90">Faces →</p>
-                  <p className="mt-0.5 text-[12px] font-light text-muted-foreground">
+                  <p className="text-14 font-light text-foreground/90">Faces →</p>
+                  <p className="mt-0.5 text-12 font-light text-muted-foreground">
                     Twenty-six expressions, the named personas, and when a mark may have a face.
                   </p>
                 </div>
@@ -51,15 +51,15 @@ export function BrandEnginesSection() {
                   <PixelHead size={150} grid={30} icon="disc-aka" still />
                 </div>
                 <div>
-                  <p className="text-[14px] font-light text-foreground/90">
+                  <p className="text-14 font-light text-foreground/90">
                     The akaBuild mark <span className="text-muted-foreground/50">· disc-aka</span>
                   </p>
-                  <p className="mt-1 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+                  <p className="mt-1 text-13 font-light leading-relaxed text-muted-foreground">
                     A solid disc with the lowercase wordmark subtracted. The glyph samples in
                     normalized space rather than baking to a fixed grid, so one definition serves the
                     favicon, the chrome, and the hero. This is the site&apos;s icon.
                   </p>
-                  <p className="mt-1.5 font-mono text-[10.5px] text-muted-foreground/60">
+                  <p className="mt-1.5 font-mono text-11 text-muted-foreground/60">
                     {'<PixelHead icon="disc-aka" grid={32} still />'}
                   </p>
                 </div>
@@ -72,13 +72,13 @@ export function BrandEnginesSection() {
                   <AkaMark size={150} grid={22} />
                 </div>
                 <div>
-                  <p className="text-[14px] font-light text-foreground/90">AkaMark</p>
-                  <p className="mt-1 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+                  <p className="text-14 font-light text-foreground/90">AkaMark</p>
+                  <p className="mt-1 text-13 font-light leading-relaxed text-muted-foreground">
                     Each reform reveals a discipline rather than a face: AI spark, code brackets, an
                     eighth note, an isometric cube, a terminal prompt, a pen stroke. The dissolve{' '}
                     <em>is</em> the discipline change. The hero it was built for now cycles faces.
                   </p>
-                  <p className="mt-1.5 font-mono text-[10.5px] text-muted-foreground/60">
+                  <p className="mt-1.5 font-mono text-11 text-muted-foreground/60">
                     {'<AkaMark size grid gap hold speed fluid />'}
                   </p>
                 </div>
@@ -92,15 +92,15 @@ export function BrandEnginesSection() {
                   <PixelHead size={54} grid={14} gap={0.12} icon="aka" still />
                 </div>
                 <div>
-                  <p className="text-[14px] font-light text-foreground/90">
+                  <p className="text-14 font-light text-foreground/90">
                     PixelHead <span className="text-muted-foreground/50">· ported from circleheads</span>
                   </p>
-                  <p className="mt-1 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+                  <p className="mt-1 text-13 font-light leading-relaxed text-muted-foreground">
                     The studio mark: a knocked-out head cycling facial expressions, plus an icon mode
                     that renders any mask from the same grid — here the pixel{' '}
                     <code className={code}>aka</code> wordmark used in this site&apos;s header.
                   </p>
-                  <p className="mt-1.5 font-mono text-[10.5px] text-muted-foreground/60">
+                  <p className="mt-1.5 font-mono text-11 text-muted-foreground/60">
                     {'<PixelHead faces still icon face shimmer fluid />'}
                   </p>
                 </div>
@@ -113,13 +113,13 @@ export function BrandEnginesSection() {
                   <PixelRoundabout size={150} />
                 </div>
                 <div>
-                  <p className="text-[14px] font-light text-foreground/90">PixelRoundabout</p>
-                  <p className="mt-1 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+                  <p className="text-14 font-light text-foreground/90">PixelRoundabout</p>
+                  <p className="mt-1 text-13 font-light leading-relaxed text-muted-foreground">
                     Bartel-Pritchard Square as a live traffic simulation — queueing, merge-yielding,
                     and stop-and-go waves emerging from two rules, painted in the same bit style. The
                     sim is pure and DOM-free; the component owns the clock.
                   </p>
-                  <p className="mt-1.5 font-mono text-[10.5px] text-muted-foreground/60">
+                  <p className="mt-1.5 font-mono text-11 text-muted-foreground/60">
                     {'<PixelRoundabout size grid gap />'}
                   </p>
                 </div>

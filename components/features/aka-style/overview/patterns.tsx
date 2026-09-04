@@ -22,7 +22,7 @@ export function PatternsSection() {
                 <p className="mt-1.5 aka-section-title">
                   Ubik Studio
                 </p>
-                <p className="mt-1 text-[13px] font-light text-muted-foreground">
+                <p className="mt-1 text-13 font-light text-muted-foreground">
                   Co-founder · Desktop AI research platform · 2023–2026
                 </p>
               </div>
@@ -34,7 +34,7 @@ export function PatternsSection() {
                 <div className="flex aspect-[16/10] w-full items-center justify-center aka-card-well aka-card-media overflow-hidden rounded-lg">
                   <PixelHead size={120} grid={18} faces />
                 </div>
-                <figcaption className="mt-1.5 text-[11px] font-light text-muted-foreground/70">
+                <figcaption className="mt-1.5 text-11 font-light text-muted-foreground/70">
                   Captions describe what is happening in the frame, not what the thing is called.
                 </figcaption>
               </figure>
@@ -49,10 +49,10 @@ export function PatternsSection() {
                 ].map((r) => (
                   <div key={r.t}>
                     <div className="flex items-baseline justify-between gap-3">
-                      <span className="text-[14px] text-foreground/90">{r.t}</span>
+                      <span className="text-14 text-foreground/90">{r.t}</span>
                       <span className={label}>{r.ty}</span>
                     </div>
-                    <p className="mt-0.5 text-[12.5px] font-light text-muted-foreground">{r.d}</p>
+                    <p className="mt-0.5 text-13 font-light text-muted-foreground">{r.d}</p>
                   </div>
                 ))}
               </div>

@@ -196,7 +196,7 @@ export function ComponentsSection() {
         card, and it is what the style check reads to know the specimen has
         heard of a piece.
       */}
-      <p className="mt-4 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+      <p className="mt-4 text-13 font-light leading-relaxed text-muted-foreground">
         Six pieces of <code className={codeChip}>components/ui</code> are not rendered above, on
         purpose. <span className="text-foreground/85">LoopVideo</span> is a client component: it
         starts and stops on scroll through an observer, and a specimen of it would ship the

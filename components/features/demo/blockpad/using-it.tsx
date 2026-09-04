@@ -34,8 +34,8 @@ function KeyTable({ rows }: { rows: [string, string][] }) {
           key={k}
           className="grid gap-x-4 border-b border-border/60 px-4 py-2.5 last:border-b-0 sm:grid-cols-[minmax(0,12rem)_minmax(0,1fr)]"
         >
-          <span className="font-mono text-[12px] text-foreground/80">{k}</span>
-          <span className="text-[13px] text-muted-foreground">{v}</span>
+          <span className="font-mono text-12 text-foreground/80">{k}</span>
+          <span className="text-13 text-muted-foreground">{v}</span>
         </div>
       ))}
     </div>
@@ -52,7 +52,7 @@ export function UsingItSection() {
               <code className="aka-code">Ctrl+Opt+B</code> and{' '}
               <code className="aka-code">Ctrl+Opt+Space</code>.
             </p>
-            <p className="aka-card-well p-4 text-[13.5px]">
+            <p className="aka-card-well p-4 text-14">
               <span className="text-foreground/85">
                 Heads up on <code className="aka-code">Ctrl+Opt+Space</code>.
               </span>{' '}
@@ -64,7 +64,7 @@ export function UsingItSection() {
 
             <p className={`${label} !mt-6`}>Tools</p>
             <KeyTable rows={tools} />
-            <p className="!mt-3 text-[13px]">
+            <p className="!mt-3 text-13">
               Shapes and connectors each collapse into one dock slot holding whichever member you
               used last, with the rest on a flyout.
             </p>

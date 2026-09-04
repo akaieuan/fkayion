@@ -6,9 +6,9 @@ import { TextReveal } from '@/components/trickle/text-reveal'
 import { WRITING, writingHref } from '@/lib/writing'
 import { UBIK_ARCHIVE_TYPE, UBIK_ELSEWHERE } from '@/components/features/demo/ubik/shared'
 
-const item = 'block rounded-md px-3 py-2 text-[13px] transition-colors hover:bg-muted/40'
+const item = 'block rounded-md px-3 py-2 text-13 transition-colors hover:bg-muted/40'
 const group =
-  'px-3 pb-1 pt-2 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground/50'
+  'px-3 pb-1 pt-2 text-10 font-medium uppercase tracking-[0.14em] text-muted-foreground/50'
 
 /*
  * Three reveals from the kit, one per write-up, cycled by position rather than
@@ -48,7 +48,7 @@ export function ArchiveMenuItems() {
           <li key={entry.title}>
             <Link href={writingHref(entry)} className={item}>
               <span className="block text-foreground/85">{entry.title}</span>
-              <span className="mt-0.5 block text-[12px] font-light leading-relaxed text-muted-foreground">
+              <span className="mt-0.5 block text-12 font-light leading-relaxed text-muted-foreground">
                 {REVEALS[i % REVEALS.length](entry.description)}
               </span>
             </Link>

@@ -80,9 +80,9 @@ export default function TrickleKitProjectPage() {
         byline="Live site, interactive catalog, and shadcn-installable registry — the canonical home for the project."
       />
 
-      <p className="mt-6 text-[12px] leading-relaxed text-muted-foreground">
+      <p className="mt-6 text-12 leading-relaxed text-muted-foreground">
         <span className="font-medium text-foreground/85">Quick install (any one component):</span>{' '}
-        <code className="rounded bg-muted/60 px-1.5 py-0.5 font-mono text-[11px] text-foreground/85">
+        <code className="rounded bg-muted/60 px-1.5 py-0.5 font-mono text-11 text-foreground/85">
           npx shadcn@latest add https://tricklekit.dev/r/typewriter.json
         </code>
       </p>

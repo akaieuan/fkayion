@@ -15,7 +15,7 @@ export function WhatUbikWasSection() {
               The thesis was written directly into the agents themselves. From the writing agent&apos;s
               system prompt:
             </p>
-            <blockquote className="border-l-2 border-border pl-4 text-[14px] italic text-foreground/80">
+            <blockquote className="border-l-2 border-border pl-4 text-14 italic text-foreground/80">
               &ldquo;Your job is not to replace human thinking — it is to amplify it. Optimize for the
               loop: you draft, the human refines, you incorporate, the human approves. Intelligence is
               maximized not when either side works alone, but when the handoff between AI and human is

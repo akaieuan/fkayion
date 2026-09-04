@@ -14,7 +14,7 @@ export function TransferSection() {
             file), which does not parse on v3 and is exactly the mistake a generator makes when it
             guesses the version.
           </p>
-          <pre className="mt-6 overflow-x-auto aka-card-well p-5 font-mono text-[10.5px] leading-relaxed text-foreground/80">
+          <pre className="mt-6 overflow-x-auto aka-card-well p-5 font-mono text-11 leading-relaxed text-foreground/80">
             {`/* globals.css */
 :root {
   --background:       oklch(0.955 0.002 106);
@@ -41,7 +41,7 @@ export function TransferSection() {
   .aka-ink-quiet { color: color-mix(in srgb, var(--foreground) 62%, transparent); }
 }`}
           </pre>
-          <pre className="mt-3 overflow-x-auto aka-card-well p-5 font-mono text-[10.5px] leading-relaxed text-foreground/80">
+          <pre className="mt-3 overflow-x-auto aka-card-well p-5 font-mono text-11 leading-relaxed text-foreground/80">
             {`// tailwind.config.cjs
 module.exports = {
   darkMode: ['class'],

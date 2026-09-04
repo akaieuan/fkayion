@@ -9,7 +9,7 @@ export function EngineeringSection() {
               commits from September 2023 to May 2026 — with the design and research that preceded
               the first commit, about three and a half years of my life.
             </p>
-            <p className="text-[12px] text-muted-foreground/70">
+            <p className="text-12 text-muted-foreground/70">
               Electron · Next.js · TypeScript · Python · local-first
             </p>
           </section>

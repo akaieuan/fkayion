@@ -22,7 +22,7 @@ export function StatusSection() {
             </p>
 
             <p className={`${label} !mt-4`}>Shipped</p>
-            <ul className="!mt-2 list-none space-y-1.5 p-0 text-[14px]">
+            <ul className="!mt-2 list-none space-y-1.5 p-0 text-14">
               {done.map((item) => (
                 <li key={item} className="flex gap-2.5">
                   <span aria-hidden className="mt-[0.55em] h-px w-2.5 shrink-0 bg-border" />
@@ -32,7 +32,7 @@ export function StatusSection() {
             </ul>
 
             <p className={`${label} !mt-6`}>Next</p>
-            <p className="!mt-2 aka-card-well p-4 text-[13.5px]">
+            <p className="!mt-2 aka-card-well p-4 text-14">
               <span className="text-foreground/85">M1, delivery.</span> Today Blockpad copies and you
               paste. M1 captures the frontmost app before the panel takes focus and pastes into it
               directly: text everywhere, images into editors, and a written-to-disk path for

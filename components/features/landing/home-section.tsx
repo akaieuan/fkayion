@@ -88,7 +88,7 @@ export function HomeSection() {
               </h1>
 
               <p
-                className={`text-[11px] font-light tracking-wide text-foreground/30 ${reveal}`}
+                className={`text-11 font-light tracking-wide text-foreground/30 ${reveal}`}
                 style={staggerDelay(2)}
               >
                 {'// I also produce and perform electronic music'}
@@ -101,7 +101,7 @@ export function HomeSection() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[13px] font-light text-muted-foreground/70 transition-colors hover:text-primary"
+                    className="text-13 font-light text-muted-foreground/70 transition-colors hover:text-primary"
                   >
                     {link.label}
                   </a>

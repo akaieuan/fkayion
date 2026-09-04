@@ -30,7 +30,7 @@ export function SpacingSection() {
                       className="block h-2 rounded-sm bg-foreground/25"
                       style={{ width: `${px as number}px` }}
                     />
-                    <span className="text-[11px] font-light text-muted-foreground/60">{use}</span>
+                    <span className="text-11 font-light text-muted-foreground/60">{use}</span>
                   </div>
                 </Row>
               ))}

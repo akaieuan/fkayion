@@ -7,7 +7,7 @@ export function WhyUnusualSection() {
             <h2 className="aka-lead">Why it&apos;s unusual</h2>
             <p>Three things put this outside the eval-framework norm.</p>
             <div className="space-y-3">
-              <h3 className="text-[13px] font-medium text-foreground/90">It&apos;s a UI, not a leaderboard</h3>
+              <h3 className="text-13 font-medium text-foreground/90">It&apos;s a UI, not a leaderboard</h3>
               <p>
                 The product is the scoring cockpit: the keyboard-first inbox where a human reviewer
                 can move through fifty steps in an afternoon. Aggregate scores exist but aren&apos;t
@@ -16,7 +16,7 @@ export function WhyUnusualSection() {
               </p>
             </div>
             <div className="space-y-3">
-              <h3 className="text-[13px] font-medium text-foreground/90">It refuses LLM-as-judge as the default</h3>
+              <h3 className="text-13 font-medium text-foreground/90">It refuses LLM-as-judge as the default</h3>
               <p>
                 Every other eval framework I looked at lets an LLM grade the output because human
                 scoring is expensive. eval-kit treats that expense as the point. If the same family
@@ -30,7 +30,7 @@ export function WhyUnusualSection() {
               </p>
             </div>
             <div className="space-y-3">
-              <h3 className="text-[13px] font-medium text-foreground/90">It&apos;s pre-1.0 but ships like it isn&apos;t</h3>
+              <h3 className="text-13 font-medium text-foreground/90">It&apos;s pre-1.0 but ships like it isn&apos;t</h3>
               <p>
                 v0.3.1 is published with provenance attestations, the release workflow uses{' '}
                 <code className="aka-code">pnpm pack</code> +{' '}

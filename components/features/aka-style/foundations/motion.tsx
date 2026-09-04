@@ -26,15 +26,15 @@ export function MotionSection() {
                 ['120ms', 'Stagger step', 'animationDelay: step * 120ms'],
               ].map(([t, use, cls]) => (
                 <Row key={t as string} name={t as string} value={cls as string}>
-                  <span className="text-[11px] font-light text-muted-foreground/60">{use}</span>
+                  <span className="text-11 font-light text-muted-foreground/60">{use}</span>
                 </Row>
               ))}
             </Table>
-            <p className="mt-4 text-[11.5px] font-light leading-relaxed text-muted-foreground/70">
+            <p className="mt-4 text-12 font-light leading-relaxed text-muted-foreground/70">
               <span className="text-foreground/80">Always gated.</span> Entrances use{' '}
-              <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[10.5px]">motion-safe:</code>{' '}
+              <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-11">motion-safe:</code>{' '}
               and canvas loops check{' '}
-              <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[10.5px]">
+              <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-11">
                 prefers-reduced-motion
               </code>{' '}
               before starting — reduced motion renders one representative frame, never a frozen blank.

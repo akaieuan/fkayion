@@ -57,7 +57,7 @@ export function WriteUpHeader({
     <div>
       <KickerTags>{kicker}</KickerTags>
       <h1
-        className="mt-2 text-[clamp(1.85rem,5.5vw,2.85rem)] font-extralight leading-none tracking-tight text-balance text-foreground/90"
+        className="mt-2 text-display font-extralight leading-none tracking-tight text-balance text-foreground/90"
         aria-label={name}
       >
         {title}
@@ -90,7 +90,7 @@ export function WriteUpHeader({
         ))}
 
       {caption && (
-        <p className="mt-2 text-[11px] font-light text-muted-foreground/60">{caption}</p>
+        <p className="mt-2 text-11 font-light text-muted-foreground/60">{caption}</p>
       )}
 
       {actions && (
@@ -100,7 +100,7 @@ export function WriteUpHeader({
       )}
 
       {byline && (
-        <p className="mt-2 text-[12px] font-light text-muted-foreground/80">{byline}</p>
+        <p className="mt-2 text-12 font-light text-muted-foreground/80">{byline}</p>
       )}
     </header>
   )

@@ -12,37 +12,37 @@ export function SkillTiersSection() {
             </p>
             <div className="space-y-2.5">
               <div className="flex flex-col gap-1 border-b border-border/60 pb-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-                <span className="text-[12px] font-medium uppercase tracking-[0.16em] text-foreground/70 shrink-0">
+                <span className="text-12 font-medium uppercase tracking-[0.16em] text-foreground/70 shrink-0">
                   Tier 0
                 </span>
-                <span className="text-[13px] text-muted-foreground/80 sm:text-right">
+                <span className="text-13 text-muted-foreground/80 sm:text-right">
                   In-process JS · <code className="aka-code">text-detect-spam-link</code> (regex URL detection),{' '}
                   <code className="aka-code">text-context-author@local</code> (DB-backed author-history lookup)
                 </span>
               </div>
               <div className="flex flex-col gap-1 border-b border-border/60 pb-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-                <span className="text-[12px] font-medium uppercase tracking-[0.16em] text-foreground/70 shrink-0">
+                <span className="text-12 font-medium uppercase tracking-[0.16em] text-foreground/70 shrink-0">
                   Tier 1
                 </span>
-                <span className="text-[13px] text-muted-foreground/80 sm:text-right">
+                <span className="text-13 text-muted-foreground/80 sm:text-right">
                   Local WASM (transformers.js / ONNX) ·{' '}
                   <code className="aka-code">text-classify-toxicity@local</code> (toxic-bert)
                 </span>
               </div>
               <div className="flex flex-col gap-1 border-b border-border/60 pb-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-                <span className="text-[12px] font-medium uppercase tracking-[0.16em] text-foreground/70 shrink-0">
+                <span className="text-12 font-medium uppercase tracking-[0.16em] text-foreground/70 shrink-0">
                   Tier 2
                 </span>
-                <span className="text-[13px] text-muted-foreground/80 sm:text-right">
+                <span className="text-13 text-muted-foreground/80 sm:text-right">
                   Local server (Ollama @ <code className="aka-code">:11434</code>) · nothing yet — planned for the
                   in-flight <code className="aka-code">vision-ollama</code> work
                 </span>
               </div>
               <div className="flex flex-col gap-1 pb-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-                <span className="text-[12px] font-medium uppercase tracking-[0.16em] text-foreground/70 shrink-0">
+                <span className="text-12 font-medium uppercase tracking-[0.16em] text-foreground/70 shrink-0">
                   Tier 3
                 </span>
-                <span className="text-[13px] text-muted-foreground/80 sm:text-right">
+                <span className="text-13 text-muted-foreground/80 sm:text-right">
                   Cloud · <code className="aka-code">text-classify-toxicity@anthropic</code>,{' '}
                   <code className="aka-code">image-classify@anthropic</code>,{' '}
                   <code className="aka-code">text-embed@voyage</code>, video frame-by-frame (ffmpeg →

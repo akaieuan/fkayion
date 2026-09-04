@@ -116,11 +116,11 @@ export function ProjectPlate({
         )}
       </span>
 
-      <span className="mt-3.5 block text-[14.5px] font-light tracking-tight text-foreground/90">
+      <span className="mt-3.5 block text-14 font-light tracking-tight text-foreground/90">
         {item.title}
       </span>
       {category && (
-        <span className="mt-0.5 block text-[12.5px] font-light text-muted-foreground/55">
+        <span className="mt-0.5 block text-13 font-light text-muted-foreground/55">
           {category}
         </span>
       )}

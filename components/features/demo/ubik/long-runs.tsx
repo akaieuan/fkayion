@@ -66,7 +66,7 @@ export function LongRunsSection() {
   return (
           <div>
             <details className="group mt-8 aka-card-well px-5 py-4">
-              <summary className="cursor-pointer list-none text-[13px] font-medium text-foreground/85 marker:content-none">
+              <summary className="cursor-pointer list-none text-13 font-medium text-foreground/85 marker:content-none">
                 {/*
                   The label is the hover target, not the whole summary row: a
                   tooltip centred on a full-width bar would float somewhere off
@@ -74,11 +74,11 @@ export function LongRunsSection() {
                   the `group-open` the caret already uses.
                 */}
                 <span className="group/tip relative inline-flex items-center gap-2">
-                  <span className="font-mono text-[10px] text-muted-foreground/60 transition-transform group-open:rotate-90">
+                  <span className="font-mono text-10 text-muted-foreground/60 transition-transform group-open:rotate-90">
                     ▸
                   </span>
                   Three longer runs from the 2025 build
-                  <span className="text-[11px] font-light text-muted-foreground/55">
+                  <span className="text-11 font-light text-muted-foreground/55">
                     2:33 – 3:26
                   </span>
 
@@ -90,7 +90,7 @@ export function LongRunsSection() {
                   */}
                   <span
                     aria-hidden
-                    className="pointer-events-none absolute left-1/2 top-full z-10 mt-2.5 grid -translate-x-1/2 justify-items-center whitespace-nowrap rounded-full bg-foreground px-2.5 py-1 text-[11px] font-medium tracking-wide text-background opacity-0 transition-opacity duration-200 group-hover/tip:opacity-100 group-focus-visible/tip:opacity-100"
+                    className="pointer-events-none absolute left-1/2 top-full z-10 mt-2.5 grid -translate-x-1/2 justify-items-center whitespace-nowrap rounded-full bg-foreground px-2.5 py-1 text-11 font-medium tracking-wide text-background opacity-0 transition-opacity duration-200 group-hover/tip:opacity-100 group-focus-visible/tip:opacity-100"
                   >
                     {TIPS.map((tip, i) => (
                       <span
@@ -109,7 +109,7 @@ export function LongRunsSection() {
                   </span>
                 </span>
               </summary>
-              <p className="mt-2 pl-5 text-[12px] font-light leading-relaxed text-muted-foreground/70">
+              <p className="mt-2 pl-5 text-12 font-light leading-relaxed text-muted-foreground/70">
                 Whole sessions rather than single capabilities. The interface is a year older and
                 the loop is the same one.
               </p>
@@ -127,9 +127,9 @@ export function LongRunsSection() {
                       />
                     </div>
                     <figcaption className="mt-2">
-                      <span className="text-[13px] font-medium text-foreground/85">{run.title}</span>
-                      <span className="ml-2 text-[11px] text-muted-foreground/50">{run.length}</span>
-                      <p className="mt-1 text-[12px] font-light leading-relaxed text-muted-foreground/75">
+                      <span className="text-13 font-medium text-foreground/85">{run.title}</span>
+                      <span className="ml-2 text-11 text-muted-foreground/50">{run.length}</span>
+                      <p className="mt-1 text-12 font-light leading-relaxed text-muted-foreground/75">
                         {run.summary}
                       </p>
                     </figcaption>

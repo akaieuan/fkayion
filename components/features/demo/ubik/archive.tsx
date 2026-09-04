@@ -18,10 +18,10 @@ export function ArchiveSection() {
         {writeUps.map((entry) => (
           <li key={entry.title}>
             <Link href={writingHref(entry)} className="group block aka-card-well px-4 py-3">
-              <p className="text-[13.5px] font-medium text-foreground/90 transition-colors group-hover:text-foreground">
+              <p className="text-14 font-medium text-foreground/90 transition-colors group-hover:text-foreground">
                 {entry.title}
               </p>
-              <p className="mt-1 text-[12.5px] font-light leading-relaxed text-muted-foreground">
+              <p className="mt-1 text-13 font-light leading-relaxed text-muted-foreground">
                 {entry.description}
               </p>
             </Link>

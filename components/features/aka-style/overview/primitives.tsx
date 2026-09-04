@@ -17,15 +17,15 @@ export function PrimitivesSection() {
 
           <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
             <Link href="/aka-style/primitives" className={`${cardCls} aka-card-lift`}>
-              <p className="text-[14px] font-light text-foreground/90">Primitives →</p>
-              <p className="mt-1 text-[12px] font-light leading-relaxed text-muted-foreground">
+              <p className="text-14 font-light text-foreground/90">Primitives →</p>
+              <p className="mt-1 text-12 font-light leading-relaxed text-muted-foreground">
                 Every control and surface with its class string printed beside it — buttons, forms,
                 tables, code, media frames. The page exists to be copied from.
               </p>
             </Link>
             <Link href="/aka-style/foundations" className={`${cardCls} aka-card-lift`}>
-              <p className="text-[14px] font-light text-foreground/90">Foundations →</p>
-              <p className="mt-1 text-[12px] font-light leading-relaxed text-muted-foreground">
+              <p className="text-14 font-light text-foreground/90">Foundations →</p>
+              <p className="mt-1 text-12 font-light leading-relaxed text-muted-foreground">
                 Spacing, radii, the type ramp, motion timings, breakpoints — and the globals.css
                 block that carries the whole system to a new repo.
               </p>
@@ -44,7 +44,7 @@ export function PrimitivesSection() {
                   Secondary
                   <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
                 </span>
-                <span className="text-[13px] font-light text-muted-foreground/70">Quiet link →</span>
+                <span className="text-13 font-light text-muted-foreground/70">Quiet link →</span>
               </div>
             </div>
 
@@ -54,7 +54,7 @@ export function PrimitivesSection() {
                 {['Open source', 'Applied AI', 'Write-up', 'v0.6', 'Client project'].map((t) => (
                   <span
                     key={t}
-                    className="rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground/70"
+                    className="rounded-md border border-border/60 px-1.5 py-0.5 text-10 font-medium uppercase tracking-[0.12em] text-muted-foreground/70"
                   >
                     {t}
                   </span>
@@ -65,13 +65,13 @@ export function PrimitivesSection() {
             <div className={cardCls}>
               <p className={label}>Tabs — quiet, accent on active only</p>
               <div className="mt-3 flex flex-wrap items-center gap-x-1 gap-y-1">
-                <span className="rounded-md px-2.5 py-1 text-[12px] font-light tracking-wide text-primary">
+                <span className="rounded-md px-2.5 py-1 text-12 font-light tracking-wide text-primary">
                   projects
                 </span>
                 {['writing', 'music', 'social'].map((t) => (
                   <span
                     key={t}
-                    className="rounded-md px-2.5 py-1 text-[12px] font-light tracking-wide text-muted-foreground/50"
+                    className="rounded-md px-2.5 py-1 text-12 font-light tracking-wide text-muted-foreground/50"
                   >
                     {t}
                   </span>
@@ -99,7 +99,7 @@ export function PrimitivesSection() {
               <p className={label}>Callout card — the closing-argument surface</p>
               <div className="mt-3 aka-card-well px-5 py-4">
                 <p className="aka-lead">One rule</p>
-                <p className="mt-2 text-[14px] font-light leading-relaxed text-foreground/85">
+                <p className="mt-2 text-14 font-light leading-relaxed text-foreground/85">
                   Inertials emit signals. The Runciter dispatches them. Humans decide.
                 </p>
               </div>
@@ -107,9 +107,9 @@ export function PrimitivesSection() {
 
             <div className={cardCls}>
               <p className={label}>Blockquote — for source material, not decoration</p>
-              <blockquote className="mt-3 border-l-2 border-border pl-4 text-[14px] font-light italic leading-relaxed text-foreground/80">
+              <blockquote className="mt-3 border-l-2 border-border pl-4 text-14 font-light italic leading-relaxed text-foreground/80">
                 &ldquo;Your job is not to replace human thinking — it is to amplify it.&rdquo;
-                <span className="mt-1.5 block text-[11px] not-italic text-muted-foreground/60">
+                <span className="mt-1.5 block text-11 not-italic text-muted-foreground/60">
                   — from Ubik Studio&apos;s own agent design
                 </span>
               </blockquote>

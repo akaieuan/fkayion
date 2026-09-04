@@ -2,7 +2,7 @@
 export function ClosingSection() {
   return (
           <section className="aka-card-well px-5 py-4">
-            <p className="text-[14px] leading-relaxed text-foreground/85">
+            <p className="text-14 leading-relaxed text-foreground/85">
               Most React text-animation libraries are runtime taxes. trickle is the argument that text
               animation should be CSS, and the 47 components that prove it. SSR-safe, &lt;1kb median,
               installable component-by-component via the shadcn CLI. The registry is the distribution;

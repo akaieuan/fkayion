@@ -47,13 +47,13 @@ const releases: CoverRow[] = [
  * capitals. The caps read as a system label; the word on its own reads as
  * someone talking, which is the register the rest of the page is in.
  */
-const heading = 'text-[15px] font-normal tracking-tight text-foreground'
+const heading = 'text-15 font-normal tracking-tight text-foreground'
 
 
 function MoreLink({ more }: { more: { label: string; href: string } }) {
   const external = /^https?:\/\//.test(more.href)
   const cls =
-    'text-[11px] font-light text-muted-foreground/60 hover:text-foreground transition-colors inline-flex items-center gap-1 whitespace-nowrap'
+    'text-11 font-light text-muted-foreground/60 hover:text-foreground transition-colors inline-flex items-center gap-1 whitespace-nowrap'
   const inner = (
     <>
       {more.label}

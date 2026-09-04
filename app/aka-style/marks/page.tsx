@@ -33,13 +33,13 @@ export default function MarksPage() {
 
         <header className="mb-10">
           <p className="aka-kicker">Brand engine · Marks</p>
-          <h1 className="mt-2 text-[clamp(1.7rem,5vw,2.4rem)] font-extralight leading-none tracking-tight text-foreground/90">
+          <h1 className="mt-2 text-display font-extralight leading-none tracking-tight text-foreground/90">
             Marks
           </h1>
           <p className="mt-3 max-w-xl text-sm font-light leading-relaxed text-muted-foreground">
             One canvas engine, every mark in the family. A disc of pixel cells with something
             subtracted from it — change what is subtracted and you change brands, not code. Every
-            mark on this page is live: colour follows <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-[11px]">--foreground</code>,
+            mark on this page is live: colour follows <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-11">--foreground</code>,
             loops pause offscreen, and reduced motion renders a single frame.
           </p>
         </header>

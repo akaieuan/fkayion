@@ -5,7 +5,7 @@ export function DesignRubricSection() {
             <h2 className="aka-lead">Design rubric</h2>
             <p>Every animation is judged against three axes before it ships.</p>
             <div className="space-y-3">
-              <h3 className="text-[13px] font-medium text-foreground/90">Distinct motion signature</h3>
+              <h3 className="text-13 font-medium text-foreground/90">Distinct motion signature</h3>
               <p>
                 Could you name the component from the visual alone? If two animations look like the
                 same gesture in different colors, one of them shouldn&apos;t exist. v0.1 cut four
@@ -14,7 +14,7 @@ export function DesignRubricSection() {
               </p>
             </div>
             <div className="space-y-3">
-              <h3 className="text-[13px] font-medium text-foreground/90">Per-character expression where it matters</h3>
+              <h3 className="text-13 font-medium text-foreground/90">Per-character expression where it matters</h3>
               <p>
                 Generic entrance animations are easy mode. The interesting components express the
                 concept of the animation through the character itself: Shatter breaks chars into{' '}
@@ -24,7 +24,7 @@ export function DesignRubricSection() {
               </p>
             </div>
             <div className="space-y-3">
-              <h3 className="text-[13px] font-medium text-foreground/90">Fluidity</h3>
+              <h3 className="text-13 font-medium text-foreground/90">Fluidity</h3>
               <p>
                 <code className="aka-code">mask-image</code>{' '}
                 switching between gradient types mid-animation snaps discretely (browsers can&apos;t

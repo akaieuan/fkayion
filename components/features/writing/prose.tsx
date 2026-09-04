@@ -66,7 +66,7 @@ function inline(text: string, keyed: string) {
   return out
 }
 
-const paragraph = 'aka-ink-body text-[15px] font-light leading-[1.85]'
+const paragraph = 'aka-ink-body text-15 font-light leading-[1.85]'
 
 export function Prose({ blocks }: { blocks: Block[] }) {
   return (
@@ -78,7 +78,7 @@ export function Prose({ blocks }: { blocks: Block[] }) {
           return (
             <h2
               key={key}
-              className="mt-8 text-[15px] font-normal tracking-tight text-foreground first:mt-0"
+              className="mt-8 text-15 font-normal tracking-tight text-foreground first:mt-0"
             >
               {inline(block.text, key)}
             </h2>
@@ -99,7 +99,7 @@ export function Prose({ blocks }: { blocks: Block[] }) {
                 />
               </div>
               {block.caption && (
-                <figcaption className="mt-2 text-[12px] font-light leading-relaxed text-muted-foreground/60">
+                <figcaption className="mt-2 text-12 font-light leading-relaxed text-muted-foreground/60">
                   {block.caption}
                 </figcaption>
               )}
@@ -130,13 +130,13 @@ export function Prose({ blocks }: { blocks: Block[] }) {
             <figure key={key} className="my-2 border-l border-border pl-5">
               <blockquote className="flex flex-col gap-4">
                 {block.text.split('\n\n').map((part, p) => (
-                  <p key={p} className="aka-ink-quiet text-[14px] font-light leading-[1.8]">
+                  <p key={p} className="aka-ink-quiet text-14 font-light leading-[1.8]">
                     {inline(part, `${key}-${p}`)}
                   </p>
                 ))}
               </blockquote>
               {block.cite && (
-                <figcaption className="mt-3 text-[12px] font-light text-muted-foreground/60">
+                <figcaption className="mt-3 text-12 font-light text-muted-foreground/60">
                   {block.cite}
                 </figcaption>
               )}

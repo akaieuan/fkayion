@@ -32,7 +32,7 @@ export function DesignToProductionSection() {
               body&apos;s own silhouette so it spreads <em>along</em> a limb instead of stamping a
               rectangle on it.
             </p>
-            <p className="text-[13px] text-muted-foreground/80">
+            <p className="text-13 text-muted-foreground/80">
               A few decisions are still open, and it&apos;s worth saying so rather than presenting
               them as settled: whether the app should force dark rather than follow the system, what
               a clinic export contains, and whether the multi-colour mark stays multi-colour given
