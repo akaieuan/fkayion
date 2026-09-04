@@ -215,8 +215,8 @@ a11y    role=group + aria-label, aria-pressed per button, tooltip per button`}
             One row, two callers. `TagRow` is the chip row itself; `KickerTags`
             is the same row built from a write-up's middle-dot kicker string.
 
-            It replaced the uppercase run that used to open every write-up —
-            PRODUCT · DESKTOP AI RESEARCH PLATFORM · 2023–2026 — which is three
+            It replaced the uppercase run that used to open every write-up,
+            PRODUCT · DESKTOP AI RESEARCH PLATFORM · 2023–2026, which is three
             separate facts set as one sentence in the treatment that is hardest
             to read at length. As chips they are three things again, each one
             bounded, and the projects deck and the page it links to now show the

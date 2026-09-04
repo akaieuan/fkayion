@@ -1,7 +1,7 @@
 import { BlockpadMark } from '@/components/ui/blockpad-mark'
 import { CovartMark } from '@/components/ui/covart-mark'
 import { BodyLogMark } from '@/components/product-replicas/bodylog/bodylog-mark'
-import { label, mono, card as cell } from '@/components/features/aka-style/shared'
+import { mono, card as cell } from '@/components/features/aka-style/shared'
 
 /** Outside the engine: the three drawn marks and the palette convention. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function DrawnMarksSection() {
@@ -39,13 +39,13 @@ export function DrawnMarksSection() {
               <div key={m.name} className={`${cell} flex flex-col items-center gap-3`}>
                 {m.art}
                 <p className="text-12 text-foreground/85">{m.name}</p>
-                <p className={`${label} text-center`}>{m.note}</p>
+                <p className="aka-label text-center">{m.note}</p>
               </div>
             ))}
           </div>
 
           <div className="mt-6 aka-card-well px-5 py-4">
-            <p className={label}>The convention</p>
+            <p className="aka-label">The convention</p>
             <p className="mt-2 text-14 font-light leading-relaxed text-foreground/85">
               A mark with a value per theme keeps its palette in CSS custom properties, not in the
               component. Blockpad ships a dark master and a light one, and reading the theme in

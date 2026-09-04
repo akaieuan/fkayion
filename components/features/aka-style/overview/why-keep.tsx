@@ -5,7 +5,7 @@ export function WhyKeepSection() {
           <h2 className="aka-lead">Why keep this page</h2>
           <p className="mt-2 text-14 font-light leading-relaxed text-foreground/85">
             A design system that lives in screenshots rots within a month. This one renders from the
-            same components the site ships, so it is structurally incapable of lying — and when a new
+            same components the site ships, so it is structurally incapable of lying, and when a new
             repo needs the language, akaSTYLE travels as eight rules and a token file rather than a
             folder of stale mockups.
           </p>

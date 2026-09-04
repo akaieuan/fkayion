@@ -1,4 +1,3 @@
-import { label } from '@/components/features/aka-style/shared'
 import { Spec } from '@/components/features/aka-style/spec'
 
 /** Content: the type roles, code, lists, tables, media frames, the section header. Moved verbatim from app/aka-style/primitives/page.tsx. */
@@ -20,6 +19,10 @@ export function ContentSection() {
           */}
           <Spec name="Kicker" note="uppercase label, 11px, tracked 0.18em, muted ink at 70%" cls="aka-kicker">
             <p className="aka-kicker">Section kicker</p>
+          </Spec>
+
+          <Spec name="Label" note="the label inside a card head or above a table, 10px, tracked 0.14em, muted ink at 50%" cls="aka-label">
+            <p className="aka-label">Card label</p>
           </Spec>
 
           <Spec
@@ -124,7 +127,7 @@ cell  py-2 pr-4 align-top text-12 font-light`}
               <thead>
                 <tr className="border-b border-border">
                   {['token', 'value'].map((h) => (
-                    <th key={h} className={`${label} pb-2 pr-4 font-medium`}>
+                    <th key={h} className="aka-label pb-2 pr-4 font-medium">
                       {h}
                     </th>
                   ))}

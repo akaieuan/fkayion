@@ -435,6 +435,14 @@ body {
     letter-spacing: 0.18em;
     color: color-mix(in srgb, var(--muted-foreground) 70%, transparent);
   }
+  /* The label inside a card head or above a table: a kicker's job at a card's scale. */
+  .aka-label {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: color-mix(in srgb, var(--muted-foreground) 50%, transparent);
+  }
   .aka-section-title {
     font-size: 1.25rem;
     line-height: 1.75rem;
@@ -950,9 +958,8 @@ body {
    * stay legible. The header sits at 55 and can afford to, because its type is
    * larger than a menu row's.
    *
-   * The mix is written out because Tailwind cannot write it: the theme colours
-   * are bare var() with no <alpha-value> slot, so `bg-background/80` computes
-   * nothing and emits no rule at all. Same reason .aka-ink-body exists.
+   * Written as a class rather than as `bg-background/62` on the element: the
+   * ground, the blur and the edge are one material, and they travel together.
    */
   .aka-overlay {
     background: color-mix(in srgb, var(--background) 62%, transparent);
@@ -1059,10 +1066,8 @@ body {
      * near-white ink and lands on a near-white card, which is how "Current
      * view" arrived invisible in light mode.
      *
-     * `text-foreground/85` did not save it either, and would not have on any
-     * of them: the theme colours are bare var() with no <alpha-value> slot, so
-     * Tailwind cannot compute the alpha and emits no rule at all. Same reason
-     * .aka-ink-body exists. Mixed by hand, like that one.
+     * Set here rather than as `text-foreground/88` on the element, so the
+     * hint's ink is part of its material and no host button can override it.
      */
     color: color-mix(in srgb, var(--foreground) 88%, transparent);
     position: absolute;

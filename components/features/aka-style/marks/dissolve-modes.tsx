@@ -1,5 +1,4 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { label } from '@/components/features/aka-style/shared'
 
 /** Motion: the four dissolve modes. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function DissolveModesSection() {
@@ -11,7 +10,7 @@ export function DissolveModesSection() {
           </h2>
           <p className="aka-standfirst">
             The mark decays and reforms on a loop. The mode sets the order cells leave: by row, by
-            radius, at random, or in glitch blocks. All four move cells through space — none of them
+            radius, at random, or in glitch blocks. All four move cells through space: none of them
             fade opacity, per the motion rule.
           </p>
 
@@ -21,7 +20,7 @@ export function DissolveModesSection() {
                 <div className="flex justify-center">
                   <PixelHead size={92} grid={22} icon="disc-aka" mode={m} />
                 </div>
-                <p className={`${label} mt-3`}>mode = {m}</p>
+                <p className="aka-label mt-3">mode = {m}</p>
               </div>
             ))}
           </div>

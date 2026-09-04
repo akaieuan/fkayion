@@ -13,7 +13,7 @@ import { PropsSection } from '@/components/features/aka-style/marks/props-table'
 import { MarksClosing } from '@/components/features/aka-style/marks/closing'
 
 export const metadata = {
-  title: 'Marks — the brand engine | akaSTYLE',
+  title: 'Marks: the brand engine | akaSTYLE',
   description:
     'Every mark the pixel-disc engine produces: the akaBuild disc, studio heads, wordmarks, work-line icons, dissolve modes, grid resolutions, and the props that drive them.',
 }
@@ -38,7 +38,7 @@ export default function MarksPage() {
           </h1>
           <p className="mt-3 max-w-xl text-sm font-light leading-relaxed text-muted-foreground">
             One canvas engine, every mark in the family. A disc of pixel cells with something
-            subtracted from it — change what is subtracted and you change brands, not code. Every
+            subtracted from it: change what is subtracted and you change brands, not code. Every
             mark on this page is live: colour follows <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-11">--foreground</code>,
             loops pause offscreen, and reduced motion renders a single frame.
           </p>

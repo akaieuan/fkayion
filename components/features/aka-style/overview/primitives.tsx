@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
-import { label, card as cardCls } from '@/components/features/aka-style/shared'
+import { card as cardCls } from '@/components/features/aka-style/shared'
 
 /** Primitives: controls and surfaces, with links into the specimen pages. Moved verbatim from app/aka-style/page.tsx. */
 export function PrimitivesSection() {
@@ -19,14 +19,14 @@ export function PrimitivesSection() {
             <Link href="/aka-style/primitives" className={`${cardCls} aka-card-lift`}>
               <p className="text-14 font-light text-foreground/90">Primitives →</p>
               <p className="mt-1 text-12 font-light leading-relaxed text-muted-foreground">
-                Every control and surface with its class string printed beside it — buttons, forms,
+                Every control and surface with its class string printed beside it: buttons, forms,
                 tables, code, media frames. The page exists to be copied from.
               </p>
             </Link>
             <Link href="/aka-style/foundations" className={`${cardCls} aka-card-lift`}>
               <p className="text-14 font-light text-foreground/90">Foundations →</p>
               <p className="mt-1 text-12 font-light leading-relaxed text-muted-foreground">
-                Spacing, radii, the type ramp, motion timings, breakpoints — and the globals.css
+                Spacing, radii, the type ramp, motion timings, breakpoints, and the globals.css
                 block that carries the whole system to a new repo.
               </p>
             </Link>
@@ -34,7 +34,7 @@ export function PrimitivesSection() {
 
           <div className="mt-4 space-y-4">
             <div className={cardCls}>
-              <p className={label}>Buttons</p>
+              <p className="aka-label">Buttons</p>
               <div className="mt-3 flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 rounded-lg border border-border bg-foreground px-4 py-2.5 text-sm font-medium text-background">
                   Primary action
@@ -49,7 +49,7 @@ export function PrimitivesSection() {
             </div>
 
             <div className={cardCls}>
-              <p className={label}>Chips &amp; tags</p>
+              <p className="aka-label">Chips &amp; tags</p>
               <div className="mt-3 flex flex-wrap gap-1.5">
                 {['Open source', 'Applied AI', 'Write-up', 'v0.6', 'Client project'].map((t) => (
                   <span
@@ -63,7 +63,7 @@ export function PrimitivesSection() {
             </div>
 
             <div className={cardCls}>
-              <p className={label}>Tabs — quiet, accent on active only</p>
+              <p className="aka-label">Tabs: quiet, accent on active only</p>
               <div className="mt-3 flex flex-wrap items-center gap-x-1 gap-y-1">
                 <span className="rounded-md px-2.5 py-1 text-12 font-light tracking-wide text-primary">
                   projects
@@ -80,7 +80,7 @@ export function PrimitivesSection() {
             </div>
 
             <div className={cardCls}>
-              <p className={label}>Status row — mono numerals, uppercase label</p>
+              <p className="aka-label">Status row: mono numerals, uppercase label</p>
               <div className="mt-3 flex flex-wrap gap-8">
                 {[
                   { n: '3.5 yrs', l: 'Ubik Studio' },
@@ -89,14 +89,14 @@ export function PrimitivesSection() {
                 ].map((s) => (
                   <div key={s.l}>
                     <p className="text-xl font-extralight text-foreground/90">{s.n}</p>
-                    <p className={`${label} mt-0.5`}>{s.l}</p>
+                    <p className="aka-label mt-0.5">{s.l}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             <div className={cardCls}>
-              <p className={label}>Callout card — the closing-argument surface</p>
+              <p className="aka-label">Callout card: the closing-argument surface</p>
               <div className="mt-3 aka-card-well px-5 py-4">
                 <p className="aka-lead">One rule</p>
                 <p className="mt-2 text-14 font-light leading-relaxed text-foreground/85">
@@ -106,11 +106,11 @@ export function PrimitivesSection() {
             </div>
 
             <div className={cardCls}>
-              <p className={label}>Blockquote — for source material, not decoration</p>
+              <p className="aka-label">Blockquote: for source material, not decoration</p>
               <blockquote className="mt-3 border-l-2 border-border pl-4 text-14 font-light italic leading-relaxed text-foreground/80">
                 &ldquo;Your job is not to replace human thinking — it is to amplify it.&rdquo;
                 <span className="mt-1.5 block text-11 not-italic text-muted-foreground/60">
-                  — from Ubik Studio&apos;s own agent design
+                  From Ubik Studio&apos;s own agent design
                 </span>
               </blockquote>
             </div>

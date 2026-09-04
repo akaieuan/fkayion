@@ -8,12 +8,12 @@
  * mistake it exists to prevent, so the rules live here and both import them.
  */
 
-/** The design language, stated as constraints — the portable part. */
+/** The design language, stated as constraints: the portable part. */
 export const LAWS = [
   {
     n: '01',
     rule: 'Mono for structure, sans for prose.',
-    body: 'Uppercase mono kickers at 11px/0.18em tracking label every section. Body copy is font-light sans with generous leading. The contrast between the two carries the hierarchy, so headings rarely need to be big.',
+    body: 'Uppercase mono kickers at 11px/0.18em tracking label every section. Body copy is font-light sans with generous leading. The contrast between the two carries the hierarchy, so headings rarely need to be big. Sizes come from one closed scale, eight pixel steps and a display size, and nothing off it.',
   },
   {
     n: '02',
@@ -43,7 +43,7 @@ export const LAWS = [
   {
     n: '07',
     rule: 'Server by default.',
-    body: 'Components stay server-rendered unless they need state, an event, or a canvas. The client boundary is drawn as deep in the tree as possible — a card is a server component even when its page is interactive.',
+    body: 'Components stay server-rendered unless they need state, an event, or a canvas. The client boundary is drawn as deep in the tree as possible: a card is a server component even when its page is interactive.',
   },
   {
     n: '08',
@@ -153,7 +153,7 @@ export type Surface = {
    * The rule above holds for every material you can set type on. Glass cannot:
    * it is a saturated accent, and a card's label and body text on top of it are
    * unreadable. So that one renders as a card and carries a bar of the real
-   * material inside it — still the material itself, just not underneath the
+   * material inside it: still the material itself, just not underneath the
    * words describing it.
    */
   sample?: string

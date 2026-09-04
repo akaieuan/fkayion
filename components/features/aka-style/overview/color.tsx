@@ -1,4 +1,3 @@
-import { label } from '@/components/features/aka-style/shared'
 import { SWATCHES as swatches, ACCENTS as accents } from '@/lib/aka-style'
 
 /** Color: the token swatches and the accent set. Moved verbatim from app/aka-style/page.tsx. */
@@ -26,7 +25,7 @@ export function ColorSection() {
             ))}
           </div>
 
-          <p className={`${label} mt-6`}>Accent set — carried by the canvas engines</p>
+          <p className="aka-label mt-6">Accent set, carried by the canvas engines</p>
           <div className="mt-2 flex flex-wrap gap-2">
             {accents.map((a) => (
               <div key={a.name} className="flex items-center gap-2 rounded-md border border-border/60 px-2 py-1">

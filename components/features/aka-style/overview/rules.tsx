@@ -15,7 +15,7 @@ export function RulesSection() {
           */}
           <p className="aka-standfirst">
             {LAWS.length} laws that hold across every repo. They are deliberately written as constraints
-            rather than preferences — a constraint can be checked in review, and it travels to a new
+            rather than preferences: a constraint can be checked in review, and it travels to a new
             codebase without me having to be in the room.
           </p>
 

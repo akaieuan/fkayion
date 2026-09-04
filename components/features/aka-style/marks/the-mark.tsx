@@ -1,5 +1,5 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { label, mono, card as cell } from '@/components/features/aka-style/shared'
+import { mono, card as cell } from '@/components/features/aka-style/shared'
 
 /** The akaBuild mark: a disc with aka inside, at four resolutions. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function TheMarkSection() {
@@ -12,7 +12,7 @@ export function TheMarkSection() {
           <p className="aka-standfirst">
             The primary identity: a solid disc with the lowercase wordmark knocked out of it. The
             glyph is sampled in normalized space rather than baked to a fixed grid, so the same mark
-            resolves at any resolution — chrome, favicon, or hero.
+            resolves at any resolution: chrome, favicon, or hero.
           </p>
 
           <div className={`${cell} mt-6`}>
@@ -25,7 +25,7 @@ export function TheMarkSection() {
               ].map((v) => (
                 <div key={v.l} className="flex flex-col items-center gap-2.5">
                   <PixelHead size={v.s} grid={v.g} icon="disc-aka" still />
-                  <span className={label}>{v.l}</span>
+                  <span className="aka-label">{v.l}</span>
                 </div>
               ))}
             </div>

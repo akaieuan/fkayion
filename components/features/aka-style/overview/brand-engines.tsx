@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { PixelHead } from '@/components/features/brand/pixel-head'
 import { AkaMark } from '@/components/features/brand/aka-mark'
 import { PixelRoundabout } from '@/components/features/brand/pixel-roundabout'
-import { codeChip as code, card as cardCls } from '@/components/features/aka-style/shared'
+import { card as cardCls } from '@/components/features/aka-style/shared'
 
 /** Brand engines: the canvas marks, one grammar. Moved verbatim from app/aka-style/page.tsx. */
 export function BrandEnginesSection() {
@@ -14,7 +14,7 @@ export function BrandEnginesSection() {
           </h2>
           <p className="aka-standfirst">
             Three engines sharing a single idea: a disc of pixel cells that dissolves and reforms,
-            with something knocked out of it. Colour follows <code className={code}>--foreground</code>,
+            with something knocked out of it. Colour follows <code className="aka-code">--foreground</code>,
             so they repaint on theme change; each pauses offscreen and renders one still frame under
             reduced motion.
           </p>
@@ -97,8 +97,8 @@ export function BrandEnginesSection() {
                   </p>
                   <p className="mt-1 text-13 font-light leading-relaxed text-muted-foreground">
                     The studio mark: a knocked-out head cycling facial expressions, plus an icon mode
-                    that renders any mask from the same grid — here the pixel{' '}
-                    <code className={code}>aka</code> wordmark used in this site&apos;s header.
+                    that renders any mask from the same grid: here the pixel{' '}
+                    <code className="aka-code">aka</code> wordmark used in this site&apos;s header.
                   </p>
                   <p className="mt-1.5 font-mono text-11 text-muted-foreground/60">
                     {'<PixelHead faces still icon face shimmer fluid />'}
@@ -115,7 +115,7 @@ export function BrandEnginesSection() {
                 <div>
                   <p className="text-14 font-light text-foreground/90">PixelRoundabout</p>
                   <p className="mt-1 text-13 font-light leading-relaxed text-muted-foreground">
-                    Bartel-Pritchard Square as a live traffic simulation — queueing, merge-yielding,
+                    Bartel-Pritchard Square as a live traffic simulation: queueing, merge-yielding,
                     and stop-and-go waves emerging from two rules, painted in the same bit style. The
                     sim is pure and DOM-free; the component owns the clock.
                   </p>

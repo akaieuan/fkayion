@@ -1,4 +1,4 @@
-import { codeChip, mono } from '@/components/features/aka-style/shared'
+import { mono } from '@/components/features/aka-style/shared'
 import { Spec } from '@/components/features/aka-style/spec'
 import { DemoImage } from '@/components/ui/demo-image'
 import { DemoVideo } from '@/components/ui/demo-video'
@@ -197,7 +197,7 @@ export function ComponentsSection() {
         heard of a piece.
       */}
       <p className="mt-4 text-13 font-light leading-relaxed text-muted-foreground">
-        Six pieces of <code className={codeChip}>components/ui</code> are not rendered above, on
+        Six pieces of <code className="aka-code">components/ui</code> are not rendered above, on
         purpose. <span className="text-foreground/85">LoopVideo</span> is a client component: it
         starts and stops on scroll through an observer, and a specimen of it would ship the
         JavaScript this page promises not to. <span className="text-foreground/85">DemoBack</span>{' '}

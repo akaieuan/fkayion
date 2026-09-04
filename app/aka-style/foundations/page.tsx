@@ -11,7 +11,7 @@ import { TransferSection } from '@/components/features/aka-style/foundations/tra
 import { FoundationsClosing } from '@/components/features/aka-style/foundations/closing'
 
 export const metadata = {
-  title: 'Foundations — tokens, scale & motion | akaSTYLE',
+  title: 'Foundations: tokens, scale & motion | akaSTYLE',
   description:
     'The measurable half of the system: the four-token color model, spacing and radius scales, the type ramp, motion timings and easings, breakpoints, and the copy-paste globals.css block.',
 }
@@ -35,7 +35,7 @@ export default function FoundationsPage() {
           </h1>
           <p className="mt-3 max-w-xl text-sm font-light leading-relaxed text-muted-foreground">
             The measurable half. Every number the system uses, in one place, with the reasoning
-            attached — because a scale you can&apos;t justify is a scale you&apos;ll abandon. Drop the
+            attached, because a scale you can&apos;t justify is a scale you&apos;ll abandon. Drop the
             block at the bottom into a new repo and the{' '}
             <Link
               href="/aka-style/primitives"

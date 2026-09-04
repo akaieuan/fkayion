@@ -1,4 +1,3 @@
-import { codeChip as codeCls } from '@/components/features/aka-style/shared'
 /** Transfer: the whole system in one block. Moved verbatim from app/aka-style/foundations/page.tsx. */
 export function TransferSection() {
   return (
@@ -9,8 +8,8 @@ export function TransferSection() {
           </h2>
           <p className="aka-standfirst">
             Two files, because this is Tailwind v3 and the mapping from token to utility lives in a
-            config. It used to be printed here as v4 (<code className={codeCls}>@import
-            &quot;tailwindcss&quot;</code>, <code className={codeCls}>@theme inline</code>, no config
+            config. It used to be printed here as v4 (<code className="aka-code">@import
+            &quot;tailwindcss&quot;</code>, <code className="aka-code">@theme inline</code>, no config
             file), which does not parse on v3 and is exactly the mistake a generator makes when it
             guesses the version.
           </p>
@@ -36,7 +35,7 @@ export function TransferSection() {
 @layer components {
   .max-w-site { max-width: 1180px; }
   .site-inset { @apply px-5 sm:px-6 md:px-12 lg:px-16; }
-  /* the ink steps, because /nn utilities do not compile on bare var() tokens */
+  /* the two reading inks, named so an essay carries a name rather than a number */
   .aka-ink-body  { color: color-mix(in srgb, var(--foreground) 82%, transparent); }
   .aka-ink-quiet { color: color-mix(in srgb, var(--foreground) 62%, transparent); }
 }`}

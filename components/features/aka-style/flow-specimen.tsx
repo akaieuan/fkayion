@@ -6,8 +6,8 @@ import { useRef } from 'react'
  * The deck's mechanism, on a slider instead of on the page scroll.
  *
  * The deck on /demo needs six screens of scrolling to demonstrate itself, which
- * is not a specimen. This is the same CSS — the same `.aka-flow-card` pose, the
- * same `--flow` — with a slider standing in for the scroll, so the page that
+ * is not a specimen. This is the same CSS, the same `.aka-flow-card` pose and the
+ * same `--flow`, with a slider standing in for the scroll, so the page that
  * documents the system can actually show the thing it is documenting.
  *
  * It is also the smallest honest demonstration of law 08. Dragging the slider

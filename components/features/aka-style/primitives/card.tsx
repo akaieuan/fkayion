@@ -44,8 +44,8 @@ large plate reads as a thumbnail of a thumbnail.`}
             cls={`.aka-ink-body   color-mix(in srgb, var(--foreground) 82%, transparent)
 .aka-ink-quiet  color-mix(in srgb, var(--foreground) 62%, transparent)
 
-Classes, not utilities, because /nn does not compile against a bare var() token
-on Tailwind v3. See foundations.`}
+Classes, not utilities: an essay names its ink once instead of carrying a number
+through every paragraph. See foundations.`}
           >
             <div className="w-full space-y-1.5">
               <p className="aka-ink-body text-13 font-light leading-relaxed">
@@ -66,7 +66,7 @@ Longhands only. The \`animation\` shorthand resets animation-timeline to auto an
 the reveal silently becomes a one-shot on load.
 
 This replaced an IntersectionObserver that existed to fade in one paragraph and
-forced the whole landing section — every plate, every link — to be a client
+forced the whole landing section, every plate and every link, to be a client
 component in order to hold its one boolean.`}
           >
             <p className="text-12 font-light text-muted-foreground/70">

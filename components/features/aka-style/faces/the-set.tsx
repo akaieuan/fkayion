@@ -1,7 +1,7 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { mono, codeChip as codeCls } from '@/components/features/aka-style/shared'
+import { mono } from '@/components/features/aka-style/shared'
 
-/** The full expression table lives in EXPR (pixel-head.tsx) — 26 slots. */
+/** The full expression table lives in EXPR (pixel-head.tsx): 26 slots. */
 const FACE_COUNT = 26
 const faces = Array.from({ length: FACE_COUNT }, (_, i) => i)
 
@@ -14,8 +14,8 @@ export function TheSetSection() {
             Twenty-six expressions
           </h2>
           <p className="aka-standfirst">
-            Every slot, held still via <code className={codeCls}>faceIndex</code>. The range runs
-            from neutral through curious, skeptical, delighted, and asleep — enough personality to
+            Every slot, held still via <code className="aka-code">faceIndex</code>. The range runs
+            from neutral through curious, skeptical, delighted, and asleep: enough personality to
             feel alive across a long hold, never so much that it reads as a cartoon.
           </p>
 

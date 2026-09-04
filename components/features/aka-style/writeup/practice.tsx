@@ -1,8 +1,5 @@
 import Link from 'next/link'
 
-const link =
-  'text-[var(--ink-link)] underline decoration-border underline-offset-[3px] transition-colors hover:text-[var(--ink-link-hover)]'
-
 /** The practice: where the system came from at Ubik, and what it is worth now. */
 export function Practice() {
   return (
@@ -15,7 +12,7 @@ export function Practice() {
               <h3 className="aka-lead">Built at Ubik</h3>
               <p>
                 This started at{' '}
-                <Link href="/demo/ubik" className={link}>
+                <Link href="/demo/ubik" className="aka-ink-link">
                   Ubik
                 </Link>
                 , and it started from a shortage rather than from ambition. There was no design team

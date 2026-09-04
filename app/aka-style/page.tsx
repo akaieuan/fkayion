@@ -11,7 +11,7 @@ import { WhyKeepSection } from '@/components/features/aka-style/overview/why-kee
 
 /**
  * The library: every primitive, brand engine, and design-language rule this site
- * (and its sibling repos) is built from — rendered live, not screenshotted, so the
+ * (and its sibling repos) is built from: rendered live, not screenshotted, so the
  * page is always telling the truth about the current system.
  */
 
@@ -26,9 +26,9 @@ const sections = [
 ]
 
 export const metadata = {
-  title: 'akaSTYLE — design language, primitives & brand engines',
+  title: 'akaSTYLE: design language, primitives & brand engines',
   description:
-    'akaSTYLE: the design language, component primitives, and canvas brand engines behind akabuild.dev, circleheads.com, akaoss.dev, and the kits — eight rules, a token set, and every primitive rendered live rather than screenshotted.',
+    'akaSTYLE: the design language, component primitives, and canvas brand engines behind akabuild.dev, circleheads.com, akaoss.dev, and the kits: eight rules, a token set, and every primitive rendered live rather than screenshotted.',
 }
 
 export default function LibraryPage() {
@@ -50,7 +50,7 @@ export default function LibraryPage() {
           </h1>
           <p className="mt-3 max-w-xl text-sm font-light leading-relaxed text-muted-foreground">
             Everything this site is built from, rendered live on this page rather than captured as
-            screenshots — so it can never drift from what actually ships. The same vocabulary runs
+            screenshots, so it can never drift from what actually ships. The same vocabulary runs
             across the studios, the kits, and the client work.
           </p>
         </header>

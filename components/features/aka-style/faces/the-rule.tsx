@@ -1,11 +1,11 @@
 import Link from 'next/link'
-import { label, card as cell } from '@/components/features/aka-style/shared'
+import { card as cell } from '@/components/features/aka-style/shared'
 
 /** The rule: when a mark is allowed to have a face. Moved verbatim from app/aka-style/faces/page.tsx. */
 export function TheRuleSection() {
   return (
         <section className={`${cell}`}>
-          <p className={label}>The rule</p>
+          <p className="aka-label">The rule</p>
           <p className="mt-2 text-14 font-light leading-relaxed text-foreground/85">
             A face needs room and it needs time. So it appears at hero scale and nowhere else: the
             header and footer marks are the same engine held still with no face at all, because an

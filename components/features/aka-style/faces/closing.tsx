@@ -9,7 +9,7 @@ export function FacesClosing() {
             <Link href="/aka-style/marks" className="text-primary underline decoration-border underline-offset-[3px]">
               marks
             </Link>{' '}
-            for the disc family, dissolve modes, and the full prop reference — or{' '}
+            for the disc family, dissolve modes, and the full prop reference, or{' '}
             <Link href="/aka-style" className="text-primary underline decoration-border underline-offset-[3px]">
               akaSTYLE
             </Link>{' '}

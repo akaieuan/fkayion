@@ -11,14 +11,14 @@ export function MotionSection() {
           </h2>
           <p className="aka-standfirst">
             One rule governs everything, including the brand engines:{' '}
-            <span className="text-foreground/85">energy moves space, never brightness</span> — scale,
+            <span className="text-foreground/85">energy moves space, never brightness</span>: scale,
             position, displacement. No strobe, no flash, no opacity pulsing. It keeps long loops
             watchable and the whole system safe for photosensitive viewers.
           </p>
           <div className={`${cardCls} mt-6`}>
             <Table>
               {[
-                ['150ms', 'Hover, focus — color only', 'transition-colors'],
+                ['150ms', 'Hover, focus: color only', 'transition-colors'],
                 ['200ms', 'Tab content swap', 'animate-in fade-in duration-200'],
                 ['300ms', 'Image hover scale', 'transition-transform duration-300'],
                 ['450ms', 'Scroll reveal', 'opacity + translateY(16px)'],
@@ -37,7 +37,7 @@ export function MotionSection() {
               <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-11">
                 prefers-reduced-motion
               </code>{' '}
-              before starting — reduced motion renders one representative frame, never a frozen blank.
+              before starting. Reduced motion renders one representative frame, never a frozen blank.
             </p>
           </div>
         </section>

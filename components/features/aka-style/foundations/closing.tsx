@@ -19,7 +19,7 @@ export function FoundationsClosing() {
             >
               brand engine
             </Link>
-            , a new repo starts with the same design language on day one — which is the entire point
+            , a new repo starts with the same design language on day one, which is the entire point
             of writing this down.
           </p>
         </section>

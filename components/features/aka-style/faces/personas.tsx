@@ -1,5 +1,5 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { label, mono, card as cell } from '@/components/features/aka-style/shared'
+import { mono, card as cell } from '@/components/features/aka-style/shared'
 
 /** Personas: the two named expressions. Moved verbatim from app/aka-style/faces/page.tsx. */
 export function PersonasSection() {
@@ -10,7 +10,7 @@ export function PersonasSection() {
             Named expressions
           </h2>
           <p className="aka-standfirst">
-            Two slots are named, because they carry meaning rather than mood — they stand in for
+            Two slots are named, because they carry meaning rather than mood: they stand in for
             people and states across the studio sites. Named faces are stable API; raw indices are
             not.
           </p>
@@ -19,7 +19,7 @@ export function PersonasSection() {
               {(['wink', 'thinking'] as const).map((f) => (
                 <div key={f} className="flex flex-col items-center gap-2.5">
                   <PixelHead size={120} grid={22} face={f} still />
-                  <span className={label}>face = {f}</span>
+                  <span className="aka-label">face = {f}</span>
                 </div>
               ))}
             </div>

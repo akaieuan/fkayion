@@ -1,4 +1,3 @@
-import { label } from '@/components/features/aka-style/shared'
 
 /** Reference: the full PixelHead prop table. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function PropsSection() {
@@ -11,7 +10,7 @@ export function PropsSection() {
               <thead>
                 <tr className="border-b border-border">
                   {['prop', 'type', 'what it does'].map((h) => (
-                    <th key={h} className={`${label} pb-2 pr-4 font-medium`}>
+                    <th key={h} className="aka-label pb-2 pr-4 font-medium">
                       {h}
                     </th>
                   ))}
@@ -26,7 +25,7 @@ export function PropsSection() {
                   ['mode', 'ash | explode | scatter | glitch', 'Dissolve order.'],
                   ['gap', 'number', 'Gutter as a fraction of a cell.'],
                   ['faces', 'boolean', 'Cycle expressions inside the void while assembled.'],
-                  ['face', 'wink | thinking', 'Hold one expression — persona marks.'],
+                  ['face', 'wink | thinking', 'Hold one expression: persona marks.'],
                   ['faceIndex', 'number', 'Hold expression n. Gallery use; face is the stable API.'],
                   ['startAssembled', 'boolean', 'With faces: open on the first expression rather than assembling into it.'],
                   ['still', 'boolean', 'One assembled frame, never animates. Logo use.'],

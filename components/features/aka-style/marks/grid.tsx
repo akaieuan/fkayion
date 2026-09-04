@@ -1,5 +1,5 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { label, card as cell } from '@/components/features/aka-style/shared'
+import { card as cell } from '@/components/features/aka-style/shared'
 
 /** Resolution: grid and gap across their ranges. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function GridSection() {
@@ -21,7 +21,7 @@ export function GridSection() {
               {[14, 18, 24, 32, 40].map((g) => (
                 <div key={g} className="flex flex-col items-center gap-2.5">
                   <PixelHead size={80} grid={g} icon="head" still />
-                  <span className={label}>grid {g}</span>
+                  <span className="aka-label">grid {g}</span>
                 </div>
               ))}
             </div>
@@ -30,7 +30,7 @@ export function GridSection() {
               {[0.06, 0.16, 0.3].map((gp) => (
                 <div key={gp} className="flex flex-col items-center gap-2.5">
                   <PixelHead size={80} grid={22} gap={gp} icon="head" still />
-                  <span className={label}>gap {gp}</span>
+                  <span className="aka-label">gap {gp}</span>
                 </div>
               ))}
             </div>

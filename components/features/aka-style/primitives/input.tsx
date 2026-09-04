@@ -1,5 +1,4 @@
 import { Check, Search } from 'lucide-react'
-import { label } from '@/components/features/aka-style/shared'
 import { Spec } from '@/components/features/aka-style/spec'
 
 /** Input: text fields, choice controls, tabs. Moved verbatim from app/aka-style/primitives/page.tsx. */
@@ -17,7 +16,7 @@ hint   mt-1.5 text-11 font-light text-muted-foreground/60`}
           >
             <div className="w-full max-w-sm space-y-4">
               <div>
-                <p className={label}>Email</p>
+                <p className="aka-label">Email</p>
                 <div className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-13 text-muted-foreground/40">
                   you@example.com
                 </div>
@@ -26,13 +25,13 @@ hint   mt-1.5 text-11 font-light text-muted-foreground/60`}
                 </p>
               </div>
               <div>
-                <p className={label}>Message</p>
+                <p className="aka-label">Message</p>
                 <div className="mt-1.5 h-20 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-13 text-muted-foreground/40">
                   Tell us about the project…
                 </div>
               </div>
               <div>
-                <p className={label}>Search</p>
+                <p className="aka-label">Search</p>
                 <div className="mt-1.5 flex w-full items-center gap-2 rounded-lg border border-border bg-background px-3 py-2.5">
                   <Search className="h-3.5 w-3.5 text-muted-foreground/40" aria-hidden />
                   <span className="text-13 text-muted-foreground/40">Filter projects…</span>

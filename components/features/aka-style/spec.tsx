@@ -1,10 +1,8 @@
 // Moved verbatim from app/aka-style/primitives/page.tsx.
 
-import { label } from '@/components/features/aka-style/shared'
-
 /**
  * A spec block: the live primitive on the left, the exact class string under it.
- * The string is the deliverable — this page exists to be copied from.
+ * The string is the deliverable: this page exists to be copied from.
  */
 export function Spec({
   name,
@@ -20,7 +18,7 @@ export function Spec({
   return (
     <div className="aka-card p-5">
       <div className="flex items-baseline justify-between gap-4">
-        <p className={label}>{name}</p>
+        <p className="aka-label">{name}</p>
         {note && <p className="text-11 font-light text-muted-foreground/50">{note}</p>}
       </div>
       <div className="mt-3.5 flex flex-wrap items-center gap-3">{children}</div>

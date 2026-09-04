@@ -12,7 +12,7 @@ export function LayoutSection() {
           <div className={`${cardCls} mt-6`}>
             <Table>
               {[
-                ['max-w-2xl', '672px', 'Write-ups — one column of prose'],
+                ['max-w-2xl', '672px', 'Write-ups: one column of prose'],
                 ['max-w-3xl', '768px', 'Reference pages, galleries'],
                 ['max-w-site', '1180px', 'Landing, project index'],
                 ['site-inset', 'px-5 → px-16', 'The universal gutter, widening by breakpoint'],

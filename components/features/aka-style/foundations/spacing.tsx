@@ -20,7 +20,7 @@ export function SpacingSection() {
                 ['gap-2', '8px', 'Icon to label, chip to chip', 8],
                 ['gap-3', '12px', 'Buttons in a row, list items', 12],
                 ['mt-4', '16px', 'Inside a card, between blocks', 16],
-                ['p-5', '20px', 'Card padding — the default', 20],
+                ['p-5', '20px', 'Card padding, the default', 20],
                 ['mt-10', '40px', 'Header to first section', 40],
                 ['mt-16', '64px', 'Between sections', 64],
               ].map(([t, v, use, px]) => (

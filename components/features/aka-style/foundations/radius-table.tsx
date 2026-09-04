@@ -1,4 +1,4 @@
-import { card as cardCls, codeChip as codeCls } from '@/components/features/aka-style/shared'
+import { card as cardCls } from '@/components/features/aka-style/shared'
 
 /** Shape: radius and rule. Moved verbatim from app/aka-style/foundations/page.tsx. */
 export function RadiusSection() {
@@ -15,9 +15,9 @@ export function RadiusSection() {
             the repo are inside product mockups drawing someone else&apos;s interface.
           </p>
           <p className="aka-standfirst">
-            Three steps are derived from <code className={codeCls}>--radius: 0.625rem</code> in the
+            Three steps are derived from <code className="aka-code">--radius: 0.625rem</code> in the
             Tailwind config, so moving one number moves the set. Only{' '}
-            <code className={codeCls}>xl</code> and the default are Tailwind&apos;s own.
+            <code className="aka-code">xl</code> and the default are Tailwind&apos;s own.
           </p>
           <div className={`${cardCls} mt-6`}>
             <div className="flex flex-wrap items-end gap-6">

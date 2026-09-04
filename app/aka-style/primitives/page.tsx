@@ -9,7 +9,7 @@ import { ComponentsSection } from '@/components/features/aka-style/primitives/co
 import { PrimitivesClosing } from '@/components/features/aka-style/primitives/closing'
 
 export const metadata = {
-  title: 'Primitives — controls & surfaces | akaSTYLE',
+  title: 'Primitives: controls & surfaces | akaSTYLE',
   description:
     'Every control and surface in the system, with the class string beside it: buttons, links, cards, chips, form controls, tables, code, lists, media frames, and status. Copy-paste transferable.',
 }
@@ -33,7 +33,7 @@ export default function PrimitivesPage() {
           </h1>
           <p className="mt-3 max-w-xl text-sm font-light leading-relaxed text-muted-foreground">
             The whole vocabulary, with the class string printed beside each piece. Everything here is
-            server-rendered — no control on this page needs client JavaScript to look right. Copy the
+            server-rendered: no control on this page needs client JavaScript to look right. Copy the
             string, keep the tokens, and the primitive lands correctly in any repo running the same
             four variables.
           </p>

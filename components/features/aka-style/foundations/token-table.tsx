@@ -1,8 +1,6 @@
 // The token-table primitives the foundations sections render with. Moved
 // verbatim from app/aka-style/foundations/page.tsx.
 
-import { label } from '@/components/features/aka-style/shared'
-
 /** A row in a token table: name, live swatch or bar, and the literal value. */
 export function Row({
   name,
@@ -29,7 +27,7 @@ export function Table({ children }: { children: React.ReactNode }) {
         <thead>
           <tr className="border-b border-border">
             {['token', '', 'value'].map((h, i) => (
-              <th key={i} className={`${label} pb-2 pr-4 font-medium`}>
+              <th key={i} className="aka-label pb-2 pr-4 font-medium">
                 {h}
               </th>
             ))}

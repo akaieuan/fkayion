@@ -9,10 +9,10 @@ export function HowItWorksSection() {
           </h2>
           <ul className="mt-4 space-y-2.5 text-13 font-light leading-relaxed text-muted-foreground">
             {[
-              ['9×9 sub-grid', 'Each expression is a small bitmap of eye, brow, and mouth cells, parsed once at module load — not per frame.'],
+              ['9×9 sub-grid', 'Each expression is a small bitmap of eye, brow, and mouth cells, parsed once at module load, not per frame.'],
               ['2.9s slot, short morph', 'Expressions hold, then interpolate into the next over a fixed transition window. Nothing cuts.'],
               ['Independent blinks', 'Blink timing runs on its own clock, so the same expression never looks looped.'],
-              ['Optional accent', 'A slot can carry one accent colour cell — the only place colour enters a mark.'],
+              ['Optional accent', 'A slot can carry one accent colour cell: the only place colour enters a mark.'],
               ['Reduced motion', 'The whole timeline collapses to a single representative frame.'],
             ].map(([t, d]) => (
               <li key={t} className="flex gap-3">

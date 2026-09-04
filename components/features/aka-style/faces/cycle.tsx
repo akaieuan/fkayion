@@ -1,5 +1,5 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { label, mono, codeChip as codeCls, card as cell } from '@/components/features/aka-style/shared'
+import { mono, card as cell } from '@/components/features/aka-style/shared'
 
 /** In motion: the cycle, with and without startAssembled. Moved verbatim from app/aka-style/faces/page.tsx. */
 export function CycleSection() {
@@ -10,15 +10,15 @@ export function CycleSection() {
             The cycle
           </h2>
           <p className="aka-standfirst">
-            With <code className={codeCls}>faces</code>, the expression changes during the assembled
-            hold — so the mark is never static but never busy either. Blinks fire on their own
+            With <code className="aka-code">faces</code>, the expression changes during the assembled
+            hold, so the mark is never static but never busy either. Blinks fire on their own
             schedule, independent of the expression slot.
           </p>
           <p className="aka-standfirst">
             The loop&apos;s order is reform, hold, dissolve, and a face is only drawn once the disc
             is whole. So a mark opens on 1.7 seconds of scattered pixels and then the first face
             appears at once, which reads as loading when the mark is the first thing on a page.{' '}
-            <code className={codeCls}>startAssembled</code> starts the clock at the top of the hold
+            <code className="aka-code">startAssembled</code> starts the clock at the top of the hold
             instead. Only that first assemble is skipped; every later loop still dissolves.
           </p>
           <div className={`${cell} mt-6 grid gap-6 sm:grid-cols-2`}>
@@ -32,7 +32,7 @@ export function CycleSection() {
             ].map((v) => (
               <div key={v.label} className="flex flex-col items-center gap-3">
                 {v.node}
-                <p className={label}>{v.label}</p>
+                <p className="aka-label">{v.label}</p>
                 <p className={`${mono} text-center`}>{v.code}</p>
               </div>
             ))}

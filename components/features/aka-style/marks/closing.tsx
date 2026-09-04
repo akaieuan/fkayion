@@ -8,8 +8,8 @@ export function MarksClosing() {
             Next:{' '}
             <Link href="/aka-style/faces" className="text-primary underline decoration-border underline-offset-[3px]">
               the face set
-            </Link>{' '}
-            — twenty-six expressions that live inside the void, and the rules for when a mark is
+            </Link>
+            : twenty-six expressions that live inside the void, and the rules for when a mark is
             allowed to have one.
           </p>
         </section>

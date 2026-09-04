@@ -1,5 +1,5 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { label, card as cardCls } from '@/components/features/aka-style/shared'
+import { card as cardCls } from '@/components/features/aka-style/shared'
 
 /** Patterns: compositions that repeat. Moved verbatim from app/aka-style/page.tsx. */
 export function PatternsSection() {
@@ -16,7 +16,7 @@ export function PatternsSection() {
 
           <div className="mt-6 space-y-4">
             <div className={cardCls}>
-              <p className={label}>Section header — kicker, title, standfirst</p>
+              <p className="aka-label">Section header: kicker, title, standfirst</p>
               <div className="mt-3 border-l border-border/60 pl-4">
                 <p className="aka-kicker">Selected work · 01</p>
                 <p className="mt-1.5 aka-section-title">
@@ -29,7 +29,7 @@ export function PatternsSection() {
             </div>
 
             <div className={cardCls}>
-              <p className={label}>Media figure — bordered frame, caption below</p>
+              <p className="aka-label">Media figure: bordered frame, caption below</p>
               <figure className="mt-3">
                 <div className="flex aspect-[16/10] w-full items-center justify-center aka-card-well aka-card-media overflow-hidden rounded-lg">
                   <PixelHead size={120} grid={18} faces />
@@ -41,7 +41,7 @@ export function PatternsSection() {
             </div>
 
             <div className={cardCls}>
-              <p className={label}>Row item — the list unit behind every index</p>
+              <p className="aka-label">Row item: the list unit behind every index</p>
               <div className="mt-3 space-y-3">
                 {[
                   { t: 'Hologram', ty: 'Open source · Dev tool', d: 'Live observability for Blender → glTF pipelines.' },
@@ -50,7 +50,7 @@ export function PatternsSection() {
                   <div key={r.t}>
                     <div className="flex items-baseline justify-between gap-3">
                       <span className="text-14 text-foreground/90">{r.t}</span>
-                      <span className={label}>{r.ty}</span>
+                      <span className="aka-label">{r.ty}</span>
                     </div>
                     <p className="mt-0.5 text-13 font-light text-muted-foreground">{r.d}</p>
                   </div>

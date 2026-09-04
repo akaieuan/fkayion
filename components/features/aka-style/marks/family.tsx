@@ -1,5 +1,4 @@
 import { PixelHead } from '@/components/features/brand/pixel-head'
-import { label } from '@/components/features/aka-style/shared'
 
 /** The family: same grammar, different subtraction. Moved verbatim from app/aka-style/marks/page.tsx. */
 export function FamilySection() {
@@ -10,7 +9,7 @@ export function FamilySection() {
             Same grammar, different subtraction
           </h2>
           <p className="aka-standfirst">
-            Each studio and product gets its own knockout. That is the entire brand system — the
+            Each studio and product gets its own knockout. That is the entire brand system: the
             engine, the ground, and one shape removed.
           </p>
 
@@ -26,7 +25,7 @@ export function FamilySection() {
                   <PixelHead size={84} grid={24} icon={m.icon} still />
                 </div>
                 <p className="mt-3 text-12 text-foreground/85">{m.name}</p>
-                <p className={`${label} mt-0.5`}>{m.note}</p>
+                <p className="aka-label mt-0.5">{m.note}</p>
               </div>
             ))}
           </div>
