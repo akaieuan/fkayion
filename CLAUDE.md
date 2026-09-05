@@ -127,6 +127,11 @@ that is already running.
   in the tree as possible.
 - **No em dashes in user-facing copy.** Sentences or colons. This applies to
   copy written for the site, not to quoted material.
+- **The portfolio is a route.** `/portfolio` is a stack of 1600 by 1000 sheets in
+  `components/features/portfolio/`, composed from the same components, classes and
+  data as the rest of the site, and `public/ieuan-king-portfolio-2026.pdf` is a print
+  of it: after a build, `npm run portfolio:pdf`. A change to a summary, a law or a
+  project card reaches the PDF the next time it is printed, and never any other way.
 - **Build with the dev server stopped.** `next build` rewrites `.next` under a
   running server and leaves it serving chunk hashes that no longer exist, which
   looks like the site is broken.

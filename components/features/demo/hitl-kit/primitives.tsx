@@ -22,7 +22,7 @@ import { DemoImage } from '@/components/ui/demo-image'
  * the rest. Heights vary a lot, so the grid is CSS columns rather than a row
  * grid: a two-up row grid leaves a tall gap under every short card.
  */
-const PRIMITIVES = [
+export const PRIMITIVES = [
   { id: 'hitl-card', name: 'Interrupt Cards', src: '/hitl-kit/interrupt-cards.webp', w: 1440, h: 724,
     alt: 'Three human-in-the-loop interrupt cards: search, review and write variants, each collapsed with a chevron' },
   { id: 'tool-call-preview', name: 'Tool Call Preview', src: '/hitl-kit/tool-call-preview.webp', w: 1440, h: 966,

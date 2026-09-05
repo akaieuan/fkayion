@@ -1,0 +1,136 @@
+/*
+ * The sheet.
+ *
+ * One page of the portfolio is a 1600 by 1000 box, the same on screen and on
+ * paper. On paper `@page` is that size and each sheet is one page. On screen
+ * the sheets stack with a gap and scale down in steps so the route never
+ * overflows a viewport; the coordinate system inside a sheet never changes,
+ * so what a reader sees in the browser is what the PDF prints.
+ *
+ * Every colour here is a token. The file is not exempt from law 02, and it
+ * has no reason to be.
+ */
+
+@page {
+  size: 1600px 1000px;
+  margin: 0;
+}
+
+.pf-stack {
+  --pf-scale: 1;
+  display: block;
+  padding: 40px 0 64px;
+}
+
+/*
+ * A slot is the sheet's footprint at the current scale. The sheet itself is
+ * scaled with a transform, which leaves its layout untouched; the slot is what
+ * the document flow measures, so the gap between sheets stays the same on
+ * every screen.
+ */
+.pf-slot {
+  position: relative;
+  width: calc(1600px * var(--pf-scale));
+  height: calc(1000px * var(--pf-scale));
+  margin: 0 auto 32px;
+}
+
+.pf-page {
+  position: relative;
+  width: 1600px;
+  height: 1000px;
+  overflow: hidden;
+  background: var(--background);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  transform: scale(var(--pf-scale));
+  transform-origin: top left;
+  break-inside: avoid;
+}
+
+/* The running head and the page's own frame. */
+.pf-head {
+  position: absolute;
+  top: 44px;
+  left: 72px;
+  right: 72px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.pf-body {
+  position: absolute;
+  top: 100px;
+  left: 72px;
+  right: 72px;
+  bottom: 56px;
+}
+
+/* The page number, counted rather than typed, so a page moved is a page renumbered. */
+.pf-stack {
+  counter-reset: pf-page;
+}
+.pf-page {
+  counter-increment: pf-page;
+}
+.pf-number::after {
+  content: counter(pf-page, decimal-leading-zero);
+}
+
+@media screen and (max-width: 1720px) {
+  .pf-stack { --pf-scale: 0.75; }
+}
+@media screen and (max-width: 1280px) {
+  .pf-stack { --pf-scale: 0.5; }
+}
+@media screen and (max-width: 860px) {
+  .pf-stack { --pf-scale: 0.35; }
+}
+@media screen and (max-width: 620px) {
+  .pf-stack { --pf-scale: 0.22; }
+}
+
+@media print {
+  html {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  html,
+  body {
+    margin: 0;
+    background: var(--background);
+  }
+  .pf-stack {
+    --pf-scale: 1;
+    padding: 0;
+  }
+  .pf-slot {
+    width: 1600px;
+    height: 1000px;
+    margin: 0;
+  }
+  .pf-slot + .pf-slot {
+    break-before: page;
+  }
+  .pf-page {
+    border: 0;
+    transform: none;
+    /*
+     * The grain stays on screen and comes off the page. A blended noise tile
+     * over every card makes the PDF engine rasterise the whole card as a
+     * bitmap, and a document of cards weighed a hundred megabytes; the graded
+     * fill and the edge, which are the material, print as vectors.
+     */
+    --card-grain: none;
+  }
+  .pf-page rect[filter] {
+    display: none;
+  }
+  /* Nothing on a sheet waits to be scrolled into view. */
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

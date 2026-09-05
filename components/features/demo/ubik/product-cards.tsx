@@ -3,7 +3,7 @@ import { UbikCardArt } from '@/components/product-replicas/ubik/card-art'
 import type { Demo } from '@/components/features/demo/ubik/shared'
 
 /** Every recording is 1280 wide after encoding; heights vary by capture. */
-const DEMO_H: Record<string, number> = {
+export const DEMO_H: Record<string, number> = {
   '/ubik/workspace': 978,
   '/ubik/agent': 950,
   '/ubik/search': 952,
@@ -13,7 +13,7 @@ const DEMO_H: Record<string, number> = {
   '/ubik/hopper': 1054,
 }
 
-const demos: Demo[] = [
+export const demos: Demo[] = [
   {
     src: '/ubik/workspace',
     art: 'stone',

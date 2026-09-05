@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
+import { isFullscreenDemo } from '@/lib/fullscreen-demos'
 
 /**
  * Hides its children on the one route that has no room for them.
@@ -14,8 +15,9 @@ import { usePathname } from 'next/navigation'
  */
 export function ConditionalFooter({ children }: { children: ReactNode }) {
   const pathname = usePathname()
-  // Only the immersive visualizer opts out; every other route gets the site map.
-  if (pathname?.startsWith('/Visualizer-Eden')) return null
+  // The immersive visualizer and the full-bleed routes opt out: the same list
+  // the header reads, so a route without chrome is without all of it.
+  if (pathname?.startsWith('/Visualizer-Eden') || isFullscreenDemo(pathname)) return null
 
   return <>{children}</>
 }

@@ -13,6 +13,9 @@ export const FULLSCREEN_DEMOS = [
   '/demo/music-analysis-chat/app',
   '/demo/hitl-ai',
   '/demo/bodylog/v1',
+  // Not a demo: the portfolio is a document, a stack of fixed sheets that a
+  // script prints to PDF. A fixed header would print on every page of it.
+  '/portfolio',
 ] as const
 
 export function isFullscreenDemo(pathname: string | null | undefined) {
