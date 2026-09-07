@@ -4,9 +4,10 @@ export function StatusSection() {
           <section className="space-y-3">
             <h2 className="aka-lead">Status</h2>
             <p>
-              Live and deployed on Vercel. A git-backed CMS (Keystatic) is built and parked on a
-              branch, ready to let the crew edit copy and roster content without code. Not yet
-              merged.
+              Live and deployed on Vercel. The Sanity CMS shipped as v1 in September 2026: roster,
+              shows, page copy, images, playlists and SEO are all editable from the Studio, with an
+              editing guide written for the client and a developer handoff for the code. The earlier
+              Keystatic experiment was retired.
             </p>
           </section>
   )

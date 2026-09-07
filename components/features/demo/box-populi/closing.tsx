@@ -7,8 +7,9 @@ export function BoxPopuliClosing() {
               It was never the landing page. It was the constraints. Multiple live players that
               cannot talk over each other. A sanctioned but clunky audio API kept behind an on-brand
               interface. An iOS limitation handled by telling the user the truth instead of hiding
-              it. A roster-driven data model that lets the collective grow without touching a line of
-              layout code.
+              it. A client who would not use GitHub, which turned a parked CMS into a different one,
+              and a better one. A content model the collective edits itself, so it grows without
+              anyone touching a line of code.
             </p>
           </section>
   )

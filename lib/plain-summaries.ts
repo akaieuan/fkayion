@@ -264,10 +264,10 @@ export const SUMMARIES: Record<string, Summary> = {
     what: [
       'A site for a New York live-techno collective: a rotating cast of artists who play continuous, multi-hour improvised sets.',
       'It carries the landing page, a full roster with a profile for every member, an in-page set player, and a booking form.',
-      'The interesting part was never the landing page, it was the constraints. The site is a thin presentation layer over typed data files, so the crew can grow without anyone touching layout code, and several live streams are coordinated so that two can never play at once.',
+      'The interesting part was never the landing page, it was the constraints. The crew edits nearly every word and image themselves, from a portal on the site\'s own domain, with changes live in seconds and no developer in the loop. Underneath, several live streams are coordinated so that two can never play at once.',
     ],
     impact:
-      'Real client work with real limits, including an iOS audio restriction that is surfaced honestly in the interface rather than papered over, which is usually where these sites quietly break.',
+      'Real client work with real limits. A client who would not use GitHub, which sent the CMS plan back to the start. An iOS audio restriction surfaced honestly in the interface instead of papered over. Both are the places where sites like this quietly break.',
   },
 
   '/demo/visualizer-eden': {

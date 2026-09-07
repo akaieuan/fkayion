@@ -17,7 +17,7 @@ const PATH = '/demo/box-populi'
 export const metadata = demoMetadata(PATH, {
   title: 'Box Populi — Live Techno Collective Site',
   description:
-    'On-brand site for a NYC live-techno collective. Custom audio players over the SoundCloud Widget, multiple live streams coordinated so they never overlap, an iOS quirk handled honestly.',
+    'On-brand site for a NYC live-techno collective: a client-editable Sanity CMS, coordinated live audio, and an honest answer to iOS\'s first-tap rule.',
 })
 
 export default function BoxPopuliProjectPage() {
@@ -76,6 +76,14 @@ export default function BoxPopuliProjectPage() {
         }
       />
       <PlainSummary path={PATH} />
+      {/*
+        The second figure, the Studio, goes here once its capture exists:
+        `components/features/demo/box-populi/studio-figure.tsx` is written and
+        waits on `public/box-populi/box-populi-studio.webp`, a screenshot of
+        /studio with the sidebar (Site settings, Home page, Artists page,
+        Contact page, Artists, Shows, Roles) and an artist or the Home page
+        open. Import it and render `<StudioFigure />` on this line.
+      */}
 
       <div className="mt-10 aka-prose">
         <WhatThisIsSection />

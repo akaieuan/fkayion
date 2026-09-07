@@ -8,8 +8,9 @@ export function WhatThisIsSection() {
               continuous, multi-hour improvised techno sets. The site is the collective&apos;s public
               face: a club-flavored landing page, a full roster with a profile page for every member,
               an in-page set player, and a booking form. It is{' '}
-              <strong className="font-medium text-foreground/90">roster-driven</strong>, so the crew
-              can grow without anyone touching layout code.
+              <strong className="font-medium text-foreground/90">content-managed end to end</strong>:
+              the crew adds artists, announces shows, swaps the featured set, and rewrites any
+              section without anyone touching code.
             </p>
           </section>
   )
