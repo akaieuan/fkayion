@@ -1,4 +1,4 @@
-import { DemoVideo } from '@/components/ui/demo-video'
+import { LoopVideo } from '@/components/ui/loop-video'
 import type { Demo } from '@/components/features/demo/ubik/shared'
 
 /**
@@ -117,10 +117,9 @@ export function LongRunsSection() {
                 {longRuns.map((run) => (
                   <figure key={run.src}>
                     <div className="aka-card-well aka-card-media overflow-hidden rounded-lg">
-                      <DemoVideo
+                      <LoopVideo
                         src={run.src}
                         poster={`${run.src}-poster.webp`}
-                        format="mp4"
                         width={1280}
                         height={LONG_H[run.src]}
                         label={`${run.title} — ${run.summary}`}

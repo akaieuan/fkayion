@@ -1,67 +1,22 @@
-'use client'
-
-import { useEffect, useRef } from 'react'
-
 /**
- * A silent recording that plays itself while you are looking at it.
+ * A silent recording that plays itself, and cannot be stopped.
  *
- * The product cards want the old marketing-site feel: the interface moving on
- * its own, no play button to press. A bare `<video autoplay loop muted>` gets
- * that in one line and is wrong here for two reasons. Seven of them on a page
- * would start seven downloads at once — about 15 MB — whether or not the reader
- * ever scrolls that far. And browsers only sometimes suspend an autoplaying
- * video that has scrolled off, so the rest keep decoding frames nobody is
- * looking at, which on a laptop is just heat.
+ * `autoplay` + `loop` + `muted` + `playsinline` is the whole implementation.
+ * No controls, no play button, no observer: the recordings on a write-up are
+ * the interface moving on its own, the way the marketing site showed them,
+ * and a control bar over one turns a picture of the product into a media
+ * player. Because nothing here needs an event, this is a server component and
+ * a page of recordings ships no JavaScript for its video.
  *
- * So the element ships with `preload="none"` and no `autoplay`, and one shared
- * IntersectionObserver starts it on the way in and pauses it on the way out.
- * Nothing is fetched until a card is actually reached.
+ * The one thing a reader can ask for is stillness, and that is honoured by
+ * the `.ssr-loop` pair in globals.css: under prefers-reduced-motion the video
+ * is hidden and the poster stands in its place, decided by a media query so
+ * no script has to pick. `PlateVideo` is the same pair sized for a plate.
  *
- * It is built the same way `Reveal` is, and for the same reasons:
- *
- *   - **One observer for the page**, at module scope, rather than one per
- *     video.
- *   - **No state and no re-renders.** Play and pause are calls on the DOM node.
- *     React is never told a video started, because nothing in the tree depends
- *     on it.
- *   - **Two-way, unlike Reveal.** A reveal happens once and unobserves; this
- *     has to keep watching, because the point is to stop work when the card
- *     leaves. That is the one place the two components differ.
- *
- * `play()` rejects rather than throws when a browser declines — data saver, a
- * battery-saving mode, iOS Low Power Mode. That is a legitimate answer, so the
- * rejection is swallowed and the poster stays up. The controls are there for
- * anyone whose browser refused, and for anyone who wants to scrub.
- *
- * Reduced motion is honoured: nothing plays by itself, and the reader gets the
- * poster and a play button. A looping interface recording is exactly the
- * unrequested motion that setting is asking about.
+ * `preload="metadata"` fetches only the header until the video is reached;
+ * the browser starts the download when it decides to play, which for an
+ * autoplaying loop is when the element is on screen.
  */
-
-let observer: IntersectionObserver | null = null
-
-function getObserver() {
-  if (observer) return observer
-  observer = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        const el = entry.target as HTMLVideoElement
-        if (entry.isIntersecting) {
-          // Rejects if the browser declines autoplay. That is an answer, not
-          // an error: leave the poster up and move on.
-          void el.play().catch(() => {})
-        } else if (!el.paused) {
-          el.pause()
-        }
-      }
-    },
-    // A card counts as being looked at once a third of it is on screen, so a
-    // video does not start while it is a sliver at the bottom edge.
-    { threshold: 0.35 }
-  )
-  return observer
-}
-
 type LoopVideoProps = {
   /** Base path under /public, without extension. */
   src: string
@@ -74,35 +29,25 @@ type LoopVideoProps = {
 }
 
 export function LoopVideo({ src, poster, width, height, label, className }: LoopVideoProps) {
-  const ref = useRef<HTMLVideoElement>(null)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    if (typeof IntersectionObserver === 'undefined') return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-
-    const obs = getObserver()
-    obs.observe(el)
-    return () => obs.unobserve(el)
-  }, [])
-
+  const cls = className ?? 'block h-auto w-full'
   return (
-    <video
-      ref={ref}
-      loop
-      muted
-      playsInline
-      controls
-      preload="none"
-      poster={poster}
-      aria-label={label}
-      style={{ aspectRatio: `${width} / ${height}` }}
-      className={className ?? 'block h-auto w-full'}
-    >
-      <source src={`${src}.mp4`} type="video/mp4" />
-      <track kind="captions" srcLang="en" src="/captions/silent.vtt" label="No dialogue" />
-      {label}
-    </video>
+    <>
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        poster={poster}
+        aria-label={label}
+        style={{ aspectRatio: `${width} / ${height}` }}
+        className={`ssr-loop ${cls}`}
+      >
+        <source src={`${src}.mp4`} type="video/mp4" />
+        <track kind="captions" srcLang="en" src="/captions/silent.vtt" label="No dialogue" />
+      </video>
+      {/* eslint-disable-next-line @next/next/no-img-element -- the reduced-motion still, the poster itself */}
+      <img src={poster} alt={label} width={width} height={height} className={`ssr-loop-still ${cls}`} />
+    </>
   )
 }

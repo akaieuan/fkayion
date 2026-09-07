@@ -2,6 +2,7 @@ import { mono } from '@/components/features/aka-style/shared'
 import { Spec } from '@/components/features/aka-style/spec'
 import { DemoImage } from '@/components/ui/demo-image'
 import { DemoVideo } from '@/components/ui/demo-video'
+import { LoopVideo } from '@/components/ui/loop-video'
 import { PlateVideo } from '@/components/ui/plate-video'
 import { PlainSummary } from '@/components/ui/plain-summary'
 import { ProjectPlate } from '@/components/ui/project-plate'
@@ -89,6 +90,22 @@ export function ComponentsSection() {
             width={900}
             height={640}
             label="Wrdef, mid-game: a guess resolving to green and amber tiles"
+          />
+        </div>
+      </Spec>
+
+      <Spec
+        name="Loop video"
+        note="a recording that plays itself and cannot be stopped: no controls, one still under reduced motion, no hooks"
+        cls={`<LoopVideo src="/ubik/marketing/home-hero" poster="/ubik/marketing/home-hero-poster.webp" width={1280} height={784} label="…" />`}
+      >
+        <div className="w-full max-w-sm overflow-hidden rounded-lg">
+          <LoopVideo
+            src="/ubik/marketing/home-hero"
+            poster="/ubik/marketing/home-hero-poster.webp"
+            width={1280}
+            height={784}
+            label="The Ubik home page headline, its highlights arriving one phrase at a time"
           />
         </div>
       </Spec>
@@ -197,10 +214,8 @@ export function ComponentsSection() {
         heard of a piece.
       */}
       <p className="mt-4 text-13 font-light leading-relaxed text-muted-foreground">
-        Six pieces of <code className="aka-code">components/ui</code> are not rendered above, on
-        purpose. <span className="text-foreground/85">LoopVideo</span> is a client component: it
-        starts and stops on scroll through an observer, and a specimen of it would ship the
-        JavaScript this page promises not to. <span className="text-foreground/85">DemoBack</span>{' '}
+        Five pieces of <code className="aka-code">components/ui</code> are not rendered above, on
+        purpose. <span className="text-foreground/85">DemoBack</span>{' '}
         is fixed to the viewport and reads the route, so it belongs to the write-ups it sits beside
         rather than inside a card. <span className="text-foreground/85">ConditionalFooter</span> and{' '}
         <span className="text-foreground/85">ThemeProvider</span> are infrastructure: they decide

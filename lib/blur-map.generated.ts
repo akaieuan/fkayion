@@ -114,7 +114,6 @@ export const BLUR: Record<string, string> = {
   "/ubik/hopper-poster.webp": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAADwAQCdASoQAA4AA4BaJYwAApMqDCHppAAA/vJvYt5zFkPrWGsvcKNZM+dyVly3z+lTfYDOfwV+233vzzMVD1Sxs6NXnohuTxumHwsvLfeGhdYAAAA=",
   "/ubik/marketing/features.webp": "data:image/webp;base64,UklGRiwAAABXRUJQVlA4ICAAAAAwAQCdASoQAAkAA4BaJaQAA3AA/vRdi2UJbnvu+ooAAA==",
   "/ubik/marketing/home-hero-poster.webp": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAADQAQCdASoQAAoAA4BaJZwAAuiupq95iAD+3iHlwYLB2DAR76qTexXGJM3LC9JktPMvNbRnXCT+hAgbAAA=",
-  "/ubik/marketing/home.webp": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAAAQAgCdASoQAAkAA4BaJZwAAuhIpS1J+jiYAP7vrcQLgjkZMMq6TRa+F6djz1bYZo7sf8huE6aWwPINFBPq6Fy4+L7U1IJMCAA=",
   "/ubik/marketing/mission-headline-poster.webp": "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAADQAQCdASoQAAoAA4BaJZQAAug0pgKQQAD+98cyDxW4+IZk1jUU2Z6aT+fKgffCM/YeJGAA",
   "/ubik/marketing/models.webp": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAADQAwCdASoQACgAPu1qrlCppaQiqqgBMB2JaQAAPt8I2doNvjahB3AA/uxNt1ZIzBmQVaiG4VvCATuh2hBs7ExrRvZsIAAA",
   "/ubik/marketing/quality-control.webp": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAACwAQCdASoQAAkAA4BaJaQAAudMYIfQAP74hs+B2CnTt7ouqdsPoHb182NysIu7RUA/I77FFAA=",

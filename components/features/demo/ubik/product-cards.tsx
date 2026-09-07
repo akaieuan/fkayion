@@ -81,9 +81,9 @@ export const demos: Demo[] = [
  * commissioned in the first place: a screenshot on a plain background reads as
  * documentation, and the same screenshot on a painted one reads as a product.
  *
- * The whole card is server-rendered except the recording, which is a thin
- * client wrapper that starts and stops it on scroll. Nothing about the art, the
- * copy or the layout reaches the browser as JavaScript.
+ * The whole card is server-rendered, the recording included: it is a plain
+ * autoplaying loop with no controls. Nothing about the art, the copy or the
+ * layout reaches the browser as JavaScript.
  */
 function ProductCard({ demo }: { demo: Demo }) {
   return (

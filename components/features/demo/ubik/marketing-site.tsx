@@ -7,42 +7,45 @@ import { UBIK_MARKETING_ARCHIVE } from '@/components/features/demo/ubik/shared'
 /**
  * The marketing site, as the Wayback Machine kept it.
  *
- * Ten captures of ubik.studio from April 2026: eight stills and two short
- * recordings of the headlines moving. The site is gone with the rest of the
- * company, so these are the record, and the archive link under the strip is
- * the way to the copy itself.
+ * Nine captures of ubik.studio from April 2026 on seven slides: four stills,
+ * three long pages side by side, and two short recordings of the headlines
+ * moving, one of them the home page itself. The
+ * site is gone with the rest of the company, so these are the record, and the
+ * archive link in the copy is the way to the site itself.
  *
- * A carousel rather than a gallery, because ten screenshots of a website in a
+ * A carousel rather than a gallery, because seven screens of a website in a
  * column would be most of a page, and because a marketing site is read one
  * screen at a time. Every slide is the width of the reading column's breakout
  * so a capture is legible at its own size.
  *
  * Three of the captures are full-page scrolls, 650 to 720 pixels wide and
- * tall. They are shown at one CSS pixel per image pixel and cropped by the
- * frame rather than scaled up to its width, which would soften the type; the
- * frame shows their first screen and the caption says what runs on below.
+ * more than twice as tall. A scroll like that is a thumbnail of a page, not a
+ * page, so the three share one slide side by side, cropped to the frame from
+ * the top: the shape of the site's long pages, with the caption saying what
+ * runs down them.
+ *
+ * The stills load eagerly and unoptimised. Lazy loading waits for an image to
+ * approach the viewport, and in a strip the approach is sideways, so every
+ * slide arrived after the reader did; and the optimiser's first-request
+ * transform of a 2560-wide capture is the delay a reader saw as the site
+ * being slow. The files are already WebP at the size they are shown.
  */
+type Page = { src: string; w: number; h: number; alt: string }
 type Slide =
-  | { kind: 'still'; src: string; w: number; h: number; tall?: boolean; alt: string; caption: string }
+  | { kind: 'still'; src: string; w: number; h: number; alt: string; caption: string }
   | { kind: 'clip'; src: string; w: number; h: number; alt: string; caption: string }
+  /** Full-page scrolls, shown together as the shape of the site rather than as reading. */
+  | { kind: 'pages'; pages: Page[]; caption: string }
 
 const SLIDES: Slide[] = [
-  {
-    kind: 'still',
-    src: '/ubik/marketing/home.webp',
-    w: 2560,
-    h: 1320,
-    alt: 'The Ubik home page: a two-line headline, a download button, and the desktop app below it with a source paper open and the agent working on the right',
-    caption:
-      'The home page. One sentence, one download, and the product itself under it rather than an illustration of it.',
-  },
   {
     kind: 'clip',
     src: '/ubik/marketing/home-hero',
     w: 1280,
     h: 784,
-    alt: 'The home page headline with its highlights arriving one phrase at a time',
-    caption: 'The hero as it moved: the highlights arrive a phrase at a time.',
+    alt: 'The Ubik home page: a two-line headline with its highlights arriving one phrase at a time, a download button, and the desktop app below it',
+    caption:
+      'The home page. One sentence, one download, and the product itself under it rather than an illustration of it.',
   },
   {
     kind: 'still',
@@ -80,32 +83,14 @@ const SLIDES: Slide[] = [
     caption: 'Then the answer: runs locally, pinpoint accuracy, built to assist. The fields begin under it.',
   },
   {
-    kind: 'still',
-    src: '/ubik/marketing/use-cases-fields-1.webp',
-    w: 722,
-    h: 1514,
-    tall: true,
-    alt: 'A full-page capture of the use cases from Professional Research through Science and R&D, each field with three cards and four worked examples',
+    kind: 'pages',
+    pages: [
+      { src: '/ubik/marketing/use-cases-fields-1.webp', w: 722, h: 1514, alt: 'The use cases from Professional Research through Science and R&D, as one long page' },
+      { src: '/ubik/marketing/use-cases-fields-2.webp', w: 684, h: 1572, alt: 'The use cases from Policy Analysis through Consulting and Advisory, as one long page' },
+      { src: '/ubik/marketing/models.webp', w: 650, h: 1590, alt: 'The supported models page: 28 model cards with provider, plan, context length and pricing' },
+    ],
     caption:
-      'Twelve fields, each with its own worked examples. This full-page capture runs from professional research through science and R&D.',
-  },
-  {
-    kind: 'still',
-    src: '/ubik/marketing/use-cases-fields-2.webp',
-    w: 684,
-    h: 1572,
-    tall: true,
-    alt: 'A full-page capture of the use cases from Policy Analysis through Consulting and Advisory',
-    caption: 'The rest of the fields: policy analysis through consulting and advisory.',
-  },
-  {
-    kind: 'still',
-    src: '/ubik/marketing/models.webp',
-    w: 650,
-    h: 1590,
-    tall: true,
-    alt: 'The supported models page: a grid of 28 model cards with provider, plan, context length and pricing on each',
-    caption: 'The models page: 28 models curated for agentic workflows, 15 of them on the free plan.',
+      'The long pages, side by side: twelve fields of use cases with worked examples in each, and the models page with its 28 models, 15 of them on the free plan.',
   },
   {
     kind: 'clip',
@@ -147,7 +132,7 @@ export function MarketingSiteSection() {
 
       <Carousel label="The Ubik marketing site" className="aka-breakout mt-6">
         {SLIDES.map((s, i) => (
-          <CarouselSlide key={s.src} index={i + 1} total={SLIDES.length} caption={s.caption}>
+          <CarouselSlide key={s.caption} index={i + 1} total={SLIDES.length} caption={s.caption}>
             <div className={FRAME}>
               {s.kind === 'clip' ? (
                 <LoopVideo
@@ -158,16 +143,35 @@ export function MarketingSiteSection() {
                   label={s.alt}
                   className="block h-full w-full object-cover object-top"
                 />
+              ) : s.kind === 'pages' ? (
+                <div className="grid h-full grid-cols-3 gap-2 p-2 sm:gap-3 sm:p-3">
+                  {s.pages.map((pg) => (
+                    <div key={pg.src} className="overflow-hidden rounded-md">
+                      <DemoImage
+                        src={pg.src}
+                        alt={pg.alt}
+                        width={pg.w}
+                        height={pg.h}
+                        sizes="(min-width: 1240px) 380px, 33vw"
+                        blur={false}
+                        eager
+                        unoptimized
+                        className="block h-full w-full object-cover object-top"
+                      />
+                    </div>
+                  ))}
+                </div>
               ) : (
                 <DemoImage
                   src={s.src}
                   alt={s.alt}
                   width={s.w}
                   height={s.h}
-                  sizes={s.tall ? '760px' : '(min-width: 1240px) 1180px, 100vw'}
-                  className={
-                    s.tall ? 'block h-full w-full object-none object-top' : 'block h-full w-full object-cover'
-                  }
+                  sizes="(min-width: 1240px) 1180px, 100vw"
+                  blur={false}
+                  eager
+                  unoptimized
+                  className="block h-full w-full object-cover"
                 />
               )}
             </div>

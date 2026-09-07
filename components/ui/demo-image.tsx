@@ -10,6 +10,16 @@ type DemoImageProps = {
   height?: number
   sizes?: string
   priority?: boolean
+  /** The 16px blur-up before the bytes arrive. Off where a frame already has a ground of its own. */
+  blur?: boolean
+  /**
+   * Fetch on load rather than on approach. For a strip of slides that a
+   * reader steps through, the approach is sideways and the browser never
+   * sees it coming; eager is the only way a slide is there when it arrives.
+   */
+  eager?: boolean
+  /** Serve the encoded file itself, skipping the optimiser's first-request transform. */
+  unoptimized?: boolean
   className?: string
 }
 
@@ -41,6 +51,9 @@ export function DemoImage({
   height,
   sizes = '(min-width: 672px) 640px, 100vw',
   priority,
+  blur: wantBlur = true,
+  eager,
+  unoptimized,
   className,
 }: DemoImageProps) {
   const imported = typeof src !== 'string'
@@ -58,7 +71,7 @@ export function DemoImage({
    * server component, so the lookup happens during render and the HTML carries
    * only the one string it needs; the client never receives the map.
    */
-  const blur = imported ? undefined : BLUR[src as string]
+  const blur = imported || !wantBlur ? undefined : BLUR[src as string]
 
   /*
    * A blur covers a lazy load. A preloaded one has nothing to cover.
@@ -79,10 +92,12 @@ export function DemoImage({
       // A static import carries its own dimensions and a build-time blur, so
       // passing them again would only be a chance to disagree with the file.
       {...(imported ? {} : { width, height })}
-      {...(imported && !priority ? { placeholder: 'blur' as const } : {})}
+      {...(imported && !priority && wantBlur ? { placeholder: 'blur' as const } : {})}
       {...(placeholder ? { placeholder: 'blur' as const, blurDataURL: placeholder } : {})}
       sizes={sizes}
       priority={priority}
+      {...(eager && !priority ? { loading: 'eager' as const } : {})}
+      unoptimized={unoptimized}
       quality={90}
       className={className}
     />

@@ -108,12 +108,13 @@ export function Carousel({
         <span ref={countRef} aria-live="polite" className="font-mono text-11 text-muted-foreground/70">
           {`1 / ${total}`}
         </span>
-        <div className="flex gap-2">
+        {/* The segmented control's frame, so two icon buttons read as one control. */}
+        <div className="aka-card inline-flex items-center gap-0.5 rounded-lg p-0.5">
           <button
             type="button"
             onClick={() => step(-1)}
             aria-label={`Previous, ${label}`}
-            className="aka-button-secondary grid h-8 w-8 place-items-center"
+            className="grid h-7 w-7 place-items-center rounded-md text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
           </button>
@@ -121,7 +122,7 @@ export function Carousel({
             type="button"
             onClick={() => step(1)}
             aria-label={`Next, ${label}`}
-            className="aka-button-secondary grid h-8 w-8 place-items-center"
+            className="grid h-7 w-7 place-items-center rounded-md text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowRight className="h-3.5 w-3.5" aria-hidden />
           </button>
