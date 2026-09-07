@@ -552,6 +552,44 @@ body {
       text-decoration-color: color-mix(in srgb, var(--foreground) 50%, transparent);
     }
   }
+  /*
+   * The carousel. One slide the width of the track at a time, snapped, in a
+   * container the page's own scroll drives: touch, trackpad and the keyboard
+   * already move it, and the two buttons in components/ui/carousel.tsx move it
+   * by one slide for a mouse. The scrollbar is hidden because the counter and
+   * the buttons say where you are; the container still scrolls.
+   *
+   * Smooth scrolling only where motion is wanted. Under reduced motion the
+   * track jumps, and the buttons ask for the same.
+   */
+  .aka-carousel-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    border-radius: 0.75rem;
+  }
+  .aka-carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+  .aka-carousel-track:focus-visible {
+    outline: 1px solid var(--select);
+    outline-offset: 4px;
+  }
+  .aka-carousel-slide {
+    flex: 0 0 100%;
+    min-width: 0;
+    margin: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .aka-carousel-track {
+      scroll-behavior: smooth;
+    }
+  }
+
 }
 
 /* Theme-aware gradient overlays for sections with background visuals */

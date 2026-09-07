@@ -73,6 +73,7 @@ export function DemoVideo({
       className={className ?? 'block h-auto w-full'}
     >
       <source src={`${src}.${format}`} type={`video/${format}`} />
+      <track kind="captions" srcLang="en" src="/captions/silent.vtt" label="No dialogue" />
       {label}
     </video>
   )

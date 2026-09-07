@@ -49,6 +49,7 @@ export function PlateVideo({
         className="ssr-loop block h-full w-full object-cover"
       >
         <source src={src} type="video/mp4" />
+        <track kind="captions" srcLang="en" src="/captions/silent.vtt" label="No dialogue" />
       </video>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img

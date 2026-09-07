@@ -31,8 +31,12 @@ export type Demo = {
  */
 export const UBIK_ARCHIVE_TYPE = 'Archive · Ubik'
 
-/** The two places Ubik still exists in public, now that the builds are gone. */
+/** The marketing site as the Wayback Machine kept it, April 2026. */
+export const UBIK_MARKETING_ARCHIVE = 'https://web.archive.org/web/20260403033550/https://www.ubik.studio/'
+
+/** The places Ubik still exists in public, now that the builds are gone. */
 export const UBIK_ELSEWHERE = [
   { label: 'Team test log', href: 'https://kraa.io/team-test-log042' },
   { label: 'r/ubikstudio', href: 'https://www.reddit.com/r/ubikstudio/' },
+  { label: 'The marketing site, archived', href: UBIK_MARKETING_ARCHIVE },
 ]

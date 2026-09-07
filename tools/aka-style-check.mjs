@@ -122,7 +122,7 @@ const ART_KEYFRAMES = { 'aka-trickle-swap': 'the Trickle kit', 'aka-trickle-turn
  * Adding one is allowed; it is a decision, so the budget moves in the same
  * commit as the file that spends it, with the reason in that commit.
  */
-const CLIENT_BUDGET = 18
+const CLIENT_BUDGET = 19
 
 /**
  * aka-* classes that are one page's own chrome rather than vocabulary. The

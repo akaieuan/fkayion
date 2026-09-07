@@ -26,12 +26,12 @@ import { ArrowLeft } from 'lucide-react'
  */
 export function DemoShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen overflow-x-clip bg-background px-6 py-16">
+    <main className="min-h-screen overflow-x-clip bg-background px-6 py-16">
       <article className="mx-auto max-w-2xl">
         <BackToProjects />
         {children}
       </article>
-    </div>
+    </main>
   )
 }
 

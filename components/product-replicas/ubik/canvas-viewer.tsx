@@ -396,7 +396,7 @@ export function UbikCanvasViewer({ waypoints }: { waypoints: Waypoint[] }) {
 
           {!loaded && (
             <div className="absolute inset-0 grid place-items-center">
-              <span className="text-[11px] font-light tracking-wide text-white/35">
+              <span className="text-11 font-light tracking-wide text-on-art/60">
                 loading the board
               </span>
             </div>
@@ -424,7 +424,7 @@ export function UbikCanvasViewer({ waypoints }: { waypoints: Waypoint[] }) {
             <button
               type="button"
               onClick={reset}
-              className="rounded px-2 py-1 text-[10px] font-medium uppercase tracking-[0.1em] text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+              className="rounded px-2 py-1 text-10 font-medium uppercase tracking-[0.1em] text-white/60 transition-colors hover:bg-white/10 hover:text-white"
             >
               Fit
             </button>
@@ -441,7 +441,7 @@ export function UbikCanvasViewer({ waypoints }: { waypoints: Waypoint[] }) {
             </button>
           </div>
 
-          <p className="pointer-events-none absolute bottom-2.5 left-3 text-[10px] font-light text-white/25">
+          <p className="pointer-events-none absolute bottom-2.5 left-3 text-10 font-light text-on-art/45">
             drag to move
             <span className="hidden sm:inline"> · scroll to zoom</span>
             <span className="sm:hidden"> · pinch to zoom</span>
@@ -458,7 +458,7 @@ export function UbikCanvasViewer({ waypoints }: { waypoints: Waypoint[] }) {
                 type="button"
                 onClick={() => goto(wp)}
                 aria-pressed={active === wp.id}
-                className={`rounded-md border px-2.5 py-1 text-[11px] font-light tracking-wide transition-colors ${
+                className={`rounded-md border px-2.5 py-1 text-11 font-light tracking-wide transition-colors ${
                   active === wp.id
                     ? 'border-[var(--select)]/50 bg-[var(--select)]/10 text-[var(--select)]'
                     : 'border-border/70 text-muted-foreground/70 hover:border-foreground/30 hover:text-foreground'

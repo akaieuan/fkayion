@@ -9,6 +9,7 @@ import { ProductSection } from '@/components/features/demo/ubik/product'
 import { ArchitectureSection } from '@/components/features/demo/ubik/architecture'
 import { ProductCardsSection } from '@/components/features/demo/ubik/product-cards'
 import { LongRunsSection } from '@/components/features/demo/ubik/long-runs'
+import { MarketingSiteSection } from '@/components/features/demo/ubik/marketing-site'
 import { EngineeringSection } from '@/components/features/demo/ubik/engineering'
 import { RoleSection } from '@/components/features/demo/ubik/role'
 import { DesignBoardSection } from '@/components/features/demo/ubik/design-board'
@@ -161,6 +162,8 @@ export default function UbikProjectPage() {
         <ProductCardsSection />
 
         <LongRunsSection />
+
+        <MarketingSiteSection />
 
         <EngineeringSection />
 

@@ -101,6 +101,7 @@ export function LoopVideo({ src, poster, width, height, label, className }: Loop
       className={className ?? 'block h-auto w-full'}
     >
       <source src={`${src}.mp4`} type="video/mp4" />
+      <track kind="captions" srcLang="en" src="/captions/silent.vtt" label="No dialogue" />
       {label}
     </video>
   )

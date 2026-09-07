@@ -1,5 +1,7 @@
 import { Layers, LayoutGrid } from 'lucide-react'
 import { Spec } from '@/components/features/aka-style/spec'
+import { Carousel } from '@/components/ui/carousel'
+import { CarouselSlide } from '@/components/ui/carousel-slide'
 import { FlowSpecimen } from '@/components/features/aka-style/flow-specimen'
 import { FLOW } from '@/lib/aka-style'
 
@@ -152,6 +154,36 @@ end   aka-hint-end   ← anchored to the trailing edge, for a control at the pag
             cls={FLOW.map((f) => `${f.name.padEnd(14)}${f.what}`).join('\n')}
           >
             <FlowSpecimen />
+          </Spec>
+
+          {/*
+            The carousel. One slide at a time in a scroll-snapped strip, with
+            the slides rendered on the server and handed to the one client
+            piece as finished markup. The buttons move the track by a slide;
+            touch and the keyboard move it themselves. Where you are is read
+            from the track's scroll position and written to the DOM, never to
+            React state, which is law 08 applied to a strip instead of a deck.
+          */}
+          <Spec
+            name="Carousel"
+            note="one slide at a time; the page's own scroll drives it, the buttons step it"
+            cls={`<Carousel label="…">
+  <CarouselSlide index={1} total={3} caption="…">…</CarouselSlide>
+</Carousel>
+track   aka-carousel-track   scroll-snap-type: x mandatory, scrollbar hidden
+slide   aka-carousel-slide   flex: 0 0 100%, scroll-snap-align: start`}
+          >
+            <div className="w-full max-w-md">
+              <Carousel label="Three sample slides">
+                {['A slide is a figure the width of the track.', 'Its caption sits under it in the caption ink.', 'The counter and the buttons say where you are.'].map((line, i, all) => (
+                  <CarouselSlide key={line} index={i + 1} total={all.length} caption={`Slide ${i + 1}`}>
+                    <div className="aka-card-well aka-card-media flex aspect-[16/9] items-center justify-center rounded-xl px-6">
+                      <p className="text-center text-13 font-light leading-relaxed text-muted-foreground">{line}</p>
+                    </div>
+                  </CarouselSlide>
+                ))}
+              </Carousel>
+            </div>
           </Spec>
 
           {/*
