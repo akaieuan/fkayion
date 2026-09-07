@@ -14,7 +14,7 @@ import type { Demo } from '@/components/features/demo/ubik/shared'
  * without spending the reader's attention by default — native, server-rendered,
  * no client component and no state.
  */
-const longRuns: Omit<Demo, 'art'>[] = [
+const longRuns: Omit<Demo, 'art' | 'line'>[] = [
   {
     src: '/ubik/ubik-demo-walkthrough',
     title: 'Workspace walkthrough',

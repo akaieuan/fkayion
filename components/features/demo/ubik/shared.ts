@@ -13,6 +13,12 @@ export type Demo = {
   src: string
   title: string
   length: string
+  /**
+   * The one sentence the marketing site set under this capability, verbatim.
+   * It is the line the card leads with; the summary is the caption under
+   * the recording.
+   */
+  line: string
   summary: string
   /**
    * Which of the marketing site's painted grounds sits behind this card. Six

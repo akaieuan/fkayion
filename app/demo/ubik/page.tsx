@@ -125,39 +125,25 @@ export default function UbikProjectPage() {
         <ArchitectureSection />
 
         {/*
-          The cards take the page, two across.
-          
-          ── Why they break out ────────────────────────────────────────────
-          
-          Everything else here is a column of text at the reading measure,
-          which is the right width to read at and the wrong one to watch a
-          screen recording in. These are recordings of a three-pane desktop
-          app; at reading width the panes are too small to tell apart, which
-          defeats the point of showing them.
-          
-          ── Why this width ────────────────────────────────────────────────
-          
-          1180px is not a new number. It is `max-w-site` — the width the
-          project plates take on the landing and on /demo — so a reader who
-          has seen the card wall meets the same grid here rather than a
-          third measure invented for one page. The old version used
-          breakpoint-tuned negative margins (-mx-24, -mx-40) that landed on
-          896px, which matched nothing.
-          
-          The arithmetic is one line: give the block a width, then split the
-          difference between it and the column across both margins. The
-          negative margins fall out automatically and stay symmetrical, and
-          `min()` against the viewport means the breakout shrinks into the
-          gutter on a narrow window instead of opening a scrollbar — so
-          there is no separate mobile rule to keep in sync.
-          
-          ── Why two across ────────────────────────────────────────────────
-          
-          Seven short loops of one product read as a set side by side. In a
-          single column each one is a separate event and the section runs
-          seven screens long. `items-start` because the clips have different
-          aspect ratios and a row should not stretch the shorter card to
-          match the taller one.
+          The cards, one to a row, in the reading column.
+
+          ── Why the column ────────────────────────────────────────────────
+
+          They used to break out to the site's 1180px grid, on the argument
+          that a recording of a three-pane desktop app needs more than the
+          reading measure. That made this the one section wider than the
+          header and the sections around it, and the page read as two
+          documents. The cards stand in the column now, the same width as
+          everything else, and the recording takes the whole of it.
+
+          ── Why one to a row ──────────────────────────────────────────────
+
+          This is the marketing site's own feature card: the title over one
+          sentence, then the recording, one capability after another with
+          air between them. Two across put a paragraph beside every clip and
+          the set read as a wall; one to a row lets each recording be the
+          width of the column, and the paintings were commissioned for
+          exactly this frame.
         */}
         <ProductCardsSection />
 

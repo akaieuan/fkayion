@@ -16,6 +16,7 @@ export const DEMO_H: Record<string, number> = {
 export const demos: Demo[] = [
   {
     src: '/ubik/workspace',
+    line: 'Files stay on machine so Ubik Agents work with context locally.',
     art: 'stone',
     title: 'A folder becomes a workspace',
     length: '1:25',
@@ -24,6 +25,7 @@ export const demos: Demo[] = [
   },
   {
     src: '/ubik/agent',
+    line: 'Delegate busy work so you can focus on what matters.',
     art: 'forest',
     title: 'Twelve papers into one prompt',
     length: '1:15',
@@ -32,6 +34,7 @@ export const demos: Demo[] = [
   },
   {
     src: '/ubik/search',
+    line: 'Search academic databases and pull papers into your workspace with a click.',
     art: 'sage',
     title: 'Search that scores its own results',
     length: '0:53',
@@ -40,6 +43,7 @@ export const demos: Demo[] = [
   },
   {
     src: '/ubik/notes',
+    line: 'Annotate files, build bibliographies, and work with cited output.',
     art: 'pine',
     title: 'A note is its evidence',
     length: '1:16',
@@ -48,6 +52,7 @@ export const demos: Demo[] = [
   },
   {
     src: '/ubik/review',
+    line: 'Stay confident with human-in-the-loop features that amplify intelligence.',
     art: 'olive',
     title: 'Human Needed, and the review queue',
     length: '0:30',
@@ -56,6 +61,7 @@ export const demos: Demo[] = [
   },
   {
     src: '/ubik/models',
+    line: 'Route to frontier models, experimental models, and local models. You decide what runs where.',
     art: 'violet',
     title: 'Model control, per subagent',
     length: '0:50',
@@ -64,6 +70,7 @@ export const demos: Demo[] = [
   },
   {
     src: '/ubik/hopper',
+    line: 'A browser companion. Browse any paper or webpage and hop it straight into your workspace with full metadata.',
     art: 'rust',
     title: 'Hopper, the capture extension',
     length: '0:29',
@@ -73,13 +80,23 @@ export const demos: Demo[] = [
 ]
 
 /**
- * One capability, as a product card.
+ * One capability, as a product card, laid out the way the marketing site laid
+ * out its features.
  *
  * The painted ground runs to the edges, the recording sits on it like a print
- * on a wall, and the words sit on the paint rather than under the card. That is
- * how the marketing site presented these, and it is the reason the art was
- * commissioned in the first place: a screenshot on a plain background reads as
- * documentation, and the same screenshot on a painted one reads as a product.
+ * on a wall, and the words sit on the paint rather than under the card. That
+ * is the site's own feature card, which is the reason the art was
+ * commissioned in the first place: a screenshot on a plain background reads
+ * as documentation, and the same screenshot on a painted one reads as a
+ * product.
+ *
+ * The card stands in the reading column, the same width as every other
+ * section, so it stacks: the title at the section-title size with the
+ * recording's length at the end of its line, the one sentence the marketing
+ * site set under the capability, then the recording at the full width of the
+ * column, and the longer summary as its caption in the quiet ink. The display
+ * size was tried for the title and broke every one into three or four lines;
+ * a side-by-side column was tried and left the recording a third of the card.
  *
  * The whole card is server-rendered, the recording included: it is a plain
  * autoplaying loop with no controls. Nothing about the art, the copy or the
@@ -97,48 +114,48 @@ function ProductCard({ demo }: { demo: Demo }) {
       */}
       <div className="absolute inset-0 bg-gradient-to-b from-wash-on-art/45 via-wash-on-art/25 to-wash-on-art/55" />
 
-      <div className="relative p-4 sm:p-6 lg:p-8">
-        <figcaption className="mb-4 sm:mb-5">
-          <h3 className="text-17 font-medium tracking-tight text-on-art sm:text-20">
-            {demo.title}
-          </h3>
-          <p className="mt-1.5 max-w-xl text-13 font-light leading-relaxed text-on-art/75">
-            {demo.summary}
-          </p>
+      <div className="relative flex flex-col gap-5 p-5 sm:p-7">
+        <figcaption className="flex flex-col gap-2">
+          <div className="flex items-baseline justify-between gap-4">
+            <h3 className="text-20 font-light leading-snug tracking-tight text-on-art">{demo.title}</h3>
+            <p className="shrink-0 font-mono text-10 uppercase tracking-[0.14em] text-on-art/45">
+              {demo.length}
+            </p>
+          </div>
+          <p className="max-w-lg text-14 font-light leading-relaxed text-on-art/80">{demo.line}</p>
         </figcaption>
 
-        <div className="overflow-hidden rounded-lg ring-1 ring-on-art/10">
-          <LoopVideo
-            src={demo.src}
-            poster={`${demo.src}-poster.webp`}
-            width={1280}
-            height={DEMO_H[demo.src]}
-            label={`${demo.title} — ${demo.summary}`}
-          />
+        <div>
+          <div className="overflow-hidden rounded-lg ring-1 ring-on-art/10">
+            <LoopVideo
+              src={demo.src}
+              poster={`${demo.src}-poster.webp`}
+              width={1280}
+              height={DEMO_H[demo.src]}
+              label={`${demo.title} — ${demo.summary}`}
+            />
+          </div>
+          <p className="mt-3 text-12 font-light leading-relaxed text-on-art/70">{demo.summary}</p>
         </div>
-
-        <p className="mt-2.5 text-right font-mono text-10 uppercase tracking-[0.14em] text-on-art/45">
-          {demo.length}
-        </p>
       </div>
     </figure>
   )
 }
 
-/** The product, in motion: the seven capability cards. Moved verbatim from app/demo/ubik/page.tsx. */
+/** The product, in motion: the seven capability cards, in the reading column with the rest of the page. */
 export function ProductCardsSection() {
   return (
-          <div className="aka-breakout">
-            <p className="aka-kicker">The product, in motion</p>
-            <p className="mt-2 max-w-xl text-12 font-light leading-relaxed text-muted-foreground/70">
-              Seven silent recordings of the last build, March 2026. Each one loads and starts when
-              you reach it, and stops when you leave.
-            </p>
-            <div className="mt-6 grid items-start gap-5 lg:grid-cols-2">
-              {demos.map((demo) => (
-                <ProductCard key={demo.src} demo={demo} />
-              ))}
-            </div>
-          </div>
+    <div>
+      <p className="aka-kicker">The product, in motion</p>
+      <p className="mt-2 max-w-xl text-12 font-light leading-relaxed text-muted-foreground/70">
+        Seven silent recordings of the last build, March 2026, each one looping on its own.
+      </p>
+      {/* Air between the cards, so each one is looked at on its own, the way the marketing site spaced its features. */}
+      <div className="mt-6 space-y-12 lg:space-y-16">
+        {demos.map((demo) => (
+          <ProductCard key={demo.src} demo={demo} />
+        ))}
+      </div>
+    </div>
   )
 }

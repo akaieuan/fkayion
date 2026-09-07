@@ -42,7 +42,7 @@ const SLIDES: Slide[] = [
     kind: 'clip',
     src: '/ubik/marketing/home-hero',
     w: 1280,
-    h: 784,
+    h: 662,
     alt: 'The Ubik home page: a two-line headline with its highlights arriving one phrase at a time, a download button, and the desktop app below it',
     caption:
       'The home page. One sentence, one download, and the product itself under it rather than an illustration of it.',

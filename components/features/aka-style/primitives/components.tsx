@@ -97,14 +97,14 @@ export function ComponentsSection() {
       <Spec
         name="Loop video"
         note="a recording that plays itself and cannot be stopped: no controls, one still under reduced motion, no hooks"
-        cls={`<LoopVideo src="/ubik/marketing/home-hero" poster="/ubik/marketing/home-hero-poster.webp" width={1280} height={784} label="…" />`}
+        cls={`<LoopVideo src="/ubik/marketing/home-hero" poster="/ubik/marketing/home-hero-poster.webp" width={1280} height={662} label="…" />`}
       >
         <div className="w-full max-w-sm overflow-hidden rounded-lg">
           <LoopVideo
             src="/ubik/marketing/home-hero"
             poster="/ubik/marketing/home-hero-poster.webp"
             width={1280}
-            height={784}
+            height={662}
             label="The Ubik home page headline, its highlights arriving one phrase at a time"
           />
         </div>
