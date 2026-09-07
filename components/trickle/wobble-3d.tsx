@@ -20,10 +20,8 @@ export function Wobble3D({
   className
 }: Wobble3DProps) {
   return (
-    <Component
-      className={cn('inline-block [perspective:600px]', className)}
-      aria-label={text}
-    >
+    <Component className={cn('inline-block [perspective:600px]', className)}>
+      <span className='sr-only'>{text}</span>
       {text.split('').map((char, i) => (
         <span
           key={i}

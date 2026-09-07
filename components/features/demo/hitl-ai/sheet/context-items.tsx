@@ -32,7 +32,7 @@ export function ContextItemsSection() {
               <div key={item.id} className="flex items-center gap-1.5 rounded-full border border-border bg-muted/50 px-2 py-0.5 text-xs text-foreground">
                 <span className={cn('h-2 w-2 shrink-0 rounded-full', item.color)} />
                 <span>{item.label}</span>
-                <button onClick={() => remove(item.id)} className="text-muted-foreground hover:text-foreground transition-colors">
+                <button onClick={() => remove(item.id)} aria-label={`Remove ${item.label}`} className="text-muted-foreground hover:text-foreground transition-colors">
                   <X className="h-2.5 w-2.5" />
                 </button>
               </div>

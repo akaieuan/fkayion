@@ -44,11 +44,11 @@ function Specimen({
       <div className="aka-card px-4 pb-4 pt-3">
         <div className="mb-1 flex items-baseline justify-between gap-3">
           <span className="text-11 font-medium text-foreground/85">{name}</span>
-          <code className="font-mono text-10 text-muted-foreground/60">{type}</code>
+          <code className="font-mono text-10 text-muted-foreground/75">{type}</code>
         </div>
         {children}
       </div>
-      <figcaption className="mt-2 text-11 font-light leading-relaxed text-muted-foreground/70">
+      <figcaption className="mt-2 text-11 font-light leading-relaxed text-muted-foreground/75">
         {note}
       </figcaption>
     </figure>
@@ -62,7 +62,7 @@ export function ArtifactsSection() {
   return (
         <div className="aka-breakout mt-12">
           <p className="aka-kicker">The artifacts</p>
-          <p className="mt-2 max-w-xl text-12 font-light leading-relaxed text-muted-foreground/70">
+          <p className="mt-2 max-w-xl text-12 font-light leading-relaxed text-muted-foreground/75">
             Six block types, rendered here by the same components the demo uses, holding the same
             payloads the fixture returns. These are the real thing, not pictures of it.
           </p>
@@ -142,7 +142,7 @@ export function ArtifactsSection() {
               type="social"
               note="Cited evidence, in the shape people already read it. A claim about a sound trending is worth very little without the three posts it came from, and the sound name on the card is what ties the clip back to the catalogue row."
             >
-              <div className="flex gap-2 overflow-x-auto pb-1">
+              <div tabIndex={0} className="flex gap-2 overflow-x-auto pb-1">
                 {POSTS.slice(0, 3).map((p) => (
                   <RSocialEmbed key={p.id} post={p} compact />
                 ))}

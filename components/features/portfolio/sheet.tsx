@@ -26,13 +26,13 @@ export function Sheet({
 }) {
   return (
     <div className="pf-slot">
-      <section className="pf-page" aria-label={section}>
+      <section className="pf-page">
         {!bare && (
           <header className="pf-head">
             <p className="aka-kicker">Ieuan King · Portfolio 2026</p>
             <p className="aka-kicker">
               {section}
-              <span className="text-muted-foreground/50"> · </span>
+              <span className="text-muted-foreground/75"> · </span>
               <span className="pf-number font-mono" />
             </p>
           </header>

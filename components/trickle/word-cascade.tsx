@@ -25,10 +25,8 @@ export function WordCascade({
   const words = text.split(/(\s+)/);
 
   return (
-    <Component
-      className={cn('inline-block overflow-hidden align-baseline', className)}
-      aria-label={text}
-    >
+    <Component className={cn('inline-block overflow-hidden align-baseline', className)}>
+      <span className='sr-only'>{text}</span>
       {words.map((word, i) => {
         if (word.match(/^\s+$/)) {
           return (

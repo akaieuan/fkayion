@@ -19,11 +19,11 @@ export function Spec({
     <div className="aka-card p-5">
       <div className="flex items-baseline justify-between gap-4">
         <p className="aka-label">{name}</p>
-        {note && <p className="text-11 font-light text-muted-foreground/50">{note}</p>}
+        {note && <p className="text-11 font-light text-muted-foreground/75">{note}</p>}
       </div>
       <div className="mt-3.5 flex flex-wrap items-center gap-3">{children}</div>
       {cls && (
-        <pre className="mt-4 overflow-x-auto aka-card-well rounded-lg px-3 py-2 font-mono text-11 leading-relaxed text-muted-foreground/75">
+        <pre tabIndex={0} className="mt-4 overflow-x-auto aka-card-well rounded-lg px-3 py-2 font-mono text-11 leading-relaxed text-muted-foreground/75">
           {cls}
         </pre>
       )}

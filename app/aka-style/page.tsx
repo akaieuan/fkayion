@@ -28,12 +28,12 @@ const sections = [
 export const metadata = {
   title: 'akaSTYLE: design language, primitives & brand engines',
   description:
-    'akaSTYLE: the design language, component primitives, and canvas brand engines behind akabuild.dev, circleheads.com, akaoss.dev, and the kits: eight rules, a token set, and every primitive rendered live rather than screenshotted.',
+    'akaSTYLE: the design language, component primitives, and canvas brand engines behind akabuild.dev, circleheads.com, akaoss.dev, and the kits: nine rules, a token set, and every primitive rendered live rather than screenshotted.',
 }
 
 export default function LibraryPage() {
   return (
-    <div className="min-h-screen bg-background px-6 py-16">
+    <main className="min-h-screen bg-background px-6 py-16">
       <article className="mx-auto max-w-3xl">
         <Link
           href="/"
@@ -90,6 +90,6 @@ export default function LibraryPage() {
 
         <WhyKeepSection />
       </article>
-    </div>
+    </main>
   )
 }

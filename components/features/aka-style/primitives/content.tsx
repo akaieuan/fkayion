@@ -17,11 +17,11 @@ export function ContentSection() {
             the roles were always meant to, so a change to a role is a change
             to those lines and not to a hundred call sites.
           */}
-          <Spec name="Kicker" note="uppercase label, 11px, tracked 0.18em, muted ink at 70%" cls="aka-kicker">
+          <Spec name="Kicker" note="uppercase label, 11px, tracked 0.18em, muted ink at 75%, the floor" cls="aka-kicker">
             <p className="aka-kicker">Section kicker</p>
           </Spec>
 
-          <Spec name="Label" note="the label inside a card head or above a table, 10px, tracked 0.14em, muted ink at 50%" cls="aka-label">
+          <Spec name="Label" note="the label inside a card head or above a table, 10px, tracked 0.14em, muted ink at 75%, the floor" cls="aka-label">
             <p className="aka-label">Card label</p>
           </Spec>
 
@@ -31,7 +31,7 @@ export function ContentSection() {
             cls="mt-2 aka-section-title"
           >
             <div className="w-full">
-              <h3 className="mt-2 aka-section-title">The section title</h3>
+              <h2 className="mt-2 aka-section-title">The section title</h2>
             </div>
           </Spec>
 
@@ -65,7 +65,7 @@ export function ContentSection() {
             </div>
           </Spec>
 
-          <Spec name="List" note="the disc list; markers in muted ink at 50%, spacing stays a utility" cls="aka-list space-y-2">
+          <Spec name="List" note="the disc list; markers in muted ink at 75%, spacing stays a utility" cls="aka-list space-y-2">
             {/* Inside the prose it would sit in, so the list carries exactly the string printed. */}
             <div className="aka-prose w-full">
               <ul className="aka-list space-y-2">
@@ -87,7 +87,7 @@ block  aka-card-well overflow-x-auto rounded-lg p-4 font-mono text-11 leading-re
                 Run <code className="aka-code">pnpm dev</code>{' '}
                 and open the app.
               </p>
-              <pre className="mt-3 aka-card-well overflow-x-auto rounded-lg p-4 font-mono text-11 leading-relaxed text-foreground/80">
+              <pre tabIndex={0} className="mt-3 aka-card-well overflow-x-auto rounded-lg p-4 font-mono text-11 leading-relaxed text-foreground/80">
                 {`npx shadcn@latest add https://www.hitlkit.dev/r/hitl-card.json
 → writes components/hitl/hitl-card.tsx`}
               </pre>
@@ -151,13 +151,13 @@ cell  py-2 pr-4 align-top text-12 font-light`}
             name="Media frame"
             note="every screenshot gets the same frame + caption"
             cls={`frame   aka-card-well aka-card-media overflow-hidden rounded-lg
-caption mt-1.5 text-11 font-light text-muted-foreground/70`}
+caption mt-1.5 text-11 font-light text-muted-foreground/75`}
           >
             <div className="w-full max-w-sm">
               <div className="flex h-24 items-center justify-center aka-card-well aka-card-media overflow-hidden rounded-lg">
-                <span className="text-11 font-light text-muted-foreground/40">16:10 media</span>
+                <span className="text-11 font-light text-muted-foreground/75">16:10 media</span>
               </div>
-              <p className="mt-1.5 text-11 font-light text-muted-foreground/70">
+              <p className="mt-1.5 text-11 font-light text-muted-foreground/75">
                 A caption states what the frame shows, not that it is a screenshot.
               </p>
             </div>

@@ -54,7 +54,7 @@ function MenuRow({
       )}
       <div className="flex-1 min-w-0">
         <div className="font-medium text-foreground">{label}</div>
-        {sub && <div className="text-[10px] text-muted-foreground/60">{sub}</div>}
+        {sub && <div className="text-[10px] text-muted-foreground/75">{sub}</div>}
       </div>
       {right}
     </button>
@@ -114,7 +114,7 @@ export function InputBox({
         {atMenu && filteredArtists.length > 0 && (
           <div className="absolute bottom-full left-3.5 right-3.5 mb-1 bg-card border border-border rounded-md shadow-lg z-[100] overflow-hidden">
             <div className="px-2.5 py-1.5 border-b border-border">
-              <span className="text-[10px] uppercase tracking-wider text-muted-foreground/60 font-normal">
+              <span className="text-[10px] uppercase tracking-wider text-muted-foreground/75 font-normal">
                 Artists
               </span>
             </div>
@@ -149,7 +149,7 @@ export function InputBox({
             }
             rows={1}
             className={cn(
-              'flex-1 resize-none bg-transparent border-none outline-none text-foreground leading-relaxed placeholder:text-muted-foreground/50',
+              'flex-1 resize-none bg-transparent border-none outline-none text-foreground leading-relaxed placeholder:text-muted-foreground/75',
               landing ? 'text-[15px]' : 'text-sm',
             )}
           />
@@ -162,6 +162,8 @@ export function InputBox({
             <button
               ref={plusRef}
               onClick={() => setPlusOpen((o) => !o)}
+              aria-label="More options"
+              aria-expanded={plusOpen}
               className={cn(
                 'w-[26px] h-[26px] rounded-[7px] border-none cursor-pointer flex items-center justify-center shrink-0 transition-colors',
                 plusOpen ? 'bg-border' : 'bg-transparent',
@@ -176,7 +178,7 @@ export function InputBox({
                 <div className="fixed inset-0 z-40" onClick={() => setPlusOpen(false)} />
                 <div className="absolute bottom-full left-0 mb-2 w-[260px] bg-card border border-border rounded-lg shadow-xl z-50 overflow-hidden">
                   <div className="px-2.5 pt-2 pb-1">
-                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60 font-normal">
+                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground/75 font-normal">
                       Attach
                     </span>
                   </div>
@@ -191,7 +193,7 @@ export function InputBox({
                   ))}
                   <div className="mx-3 border-t border-border" />
                   <div className="px-2.5 pt-1.5 pb-1">
-                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60 font-normal">
+                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground/75 font-normal">
                       Mention Artist
                     </span>
                   </div>
@@ -202,7 +204,7 @@ export function InputBox({
                         Icon={AtSign}
                         label={a.name}
                         sub={`${a.genre} · ${a.streams} streams`}
-                        right={<AtSign size={12} className="text-muted-foreground/60" />}
+                        right={<AtSign size={12} className="text-muted-foreground/75" />}
                         onClick={() => {
                           onSelectArtist(a.name);
                           setPlusOpen(false);
@@ -217,10 +219,11 @@ export function InputBox({
 
           <div className="flex-1" />
           <div className="flex items-center gap-2">
-            <span className="text-[11px] text-muted-foreground/60 font-mono">Agatha v1</span>
+            <span className="text-[11px] text-muted-foreground/75 font-mono">Agatha v1</span>
             <button
               onClick={onSend}
               disabled={!input.trim() || loading}
+              aria-label="Send"
               className={cn(
                 'w-7 h-7 rounded-[7px] border-none shrink-0 flex items-center justify-center transition-colors',
                 input.trim()

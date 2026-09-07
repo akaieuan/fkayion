@@ -142,7 +142,7 @@ function HeroImage({ shot }: { shot: Shot }) {
           />
         </div>
       </a>
-      <figcaption className="mt-2 px-6 text-[11px] font-light text-muted-foreground/70 sm:px-0">
+      <figcaption className="mt-2 px-6 text-[11px] font-light text-muted-foreground/75 sm:px-0">
         {shot.label}
       </figcaption>
     </figure>
@@ -174,7 +174,7 @@ function Gallery({ shots }: { shots: Shot[] }) {
                 />
               </div>
             </a>
-            <figcaption className="mt-1.5 text-[11px] font-light text-muted-foreground/70">
+            <figcaption className="mt-1.5 text-[11px] font-light text-muted-foreground/75">
               {shot.label}
             </figcaption>
           </figure>
@@ -199,14 +199,14 @@ export function PluginsSection() {
               <h2 className="text-2xl font-light tracking-tight text-foreground/90 md:text-[26px]">
                 aka{p.suffix}
               </h2>
-              <span className="rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground/70">
+              <span className="rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground/75">
                 {p.version}
               </span>
             </div>
-            <p className="mt-1.5 text-[11.5px] font-light text-muted-foreground/60">{p.specs}</p>
+            <p className="mt-1.5 text-[11.5px] font-light text-muted-foreground/75">{p.specs}</p>
             <p className="mt-1 text-sm text-muted-foreground">
               {p.tagline}
-              {p.loadsAs && <span className="text-muted-foreground/70"> {p.loadsAs}</span>}
+              {p.loadsAs && <span className="text-muted-foreground/75"> {p.loadsAs}</span>}
             </p>
 
             <div className="mt-4">
@@ -237,13 +237,13 @@ export function PluginsSection() {
               {p.signalFlow && (
                 <div>
                   <p className="aka-kicker">Signal flow</p>
-                  <pre className="mt-3 overflow-x-auto aka-card-well rounded-lg p-4 text-[10.5px] leading-relaxed text-foreground/80">
+                  <pre tabIndex={0} className="mt-3 overflow-x-auto aka-card-well rounded-lg p-4 text-[10.5px] leading-relaxed text-foreground/80">
                     {p.signalFlow}
                   </pre>
                 </div>
               )}
 
-              <p className="text-[12px] text-muted-foreground/70">{p.tech}</p>
+              <p className="text-[12px] text-muted-foreground/75">{p.tech}</p>
             </div>
 
             {p.gallery.length > 0 && <Gallery shots={p.gallery} />}

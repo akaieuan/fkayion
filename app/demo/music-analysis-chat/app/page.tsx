@@ -167,7 +167,7 @@ export default function MusicAnalysisChatPage() {
   const showProjectsList = view === 'projects' && activeProject === null;
 
   return (
-    <div className="flex h-full flex-col bg-background text-foreground">
+    <main className="flex h-full flex-col bg-background text-foreground">
       <style>{`*::-webkit-scrollbar{width:4px}*::-webkit-scrollbar-thumb{background:hsl(var(--border));border-radius:2px}*::-webkit-scrollbar-track{background:transparent}`}</style>
 
       {/* Mac-style title bar */}
@@ -183,6 +183,7 @@ export default function MusicAnalysisChatPage() {
         <div className="flex items-center gap-1">
           <button
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            aria-label="Switch theme"
             className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
           >
             {!mounted ? (
@@ -197,6 +198,7 @@ export default function MusicAnalysisChatPage() {
           {view === 'chat' && active && (
             <button
               onClick={() => setActive(null)}
+              aria-label="Close panel"
               className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             >
               <PanelRight className="h-4 w-4" />
@@ -273,6 +275,6 @@ export default function MusicAnalysisChatPage() {
           <ArtifactPanel active={active} width={panelW} onClose={() => setActive(null)} onAskChat={askChat} onResize={setPanelW} />
         )}
       </div>
-    </div>
+    </main>
   );
 }

@@ -47,7 +47,7 @@ import { ArrowLeft } from 'lucide-react'
 const SCROLL_THRESHOLD = 24
 
 export function DemoBack() {
-  const host = useRef<HTMLDivElement>(null)
+  const host = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const el = host.current
@@ -59,8 +59,9 @@ export function DemoBack() {
   }, [])
 
   return (
-    <div
+    <nav
       ref={host}
+      aria-label="Back to projects"
       className="aka-demo-back pointer-events-none fixed inset-x-0 top-[92px] z-30 hidden lg:block"
       /*
        * `pointer-events-none` on the full-width band, restored on the link.
@@ -77,6 +78,6 @@ export function DemoBack() {
           Projects
         </Link>
       </div>
-    </div>
+    </nav>
   )
 }

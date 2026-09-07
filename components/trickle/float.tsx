@@ -20,7 +20,8 @@ export function Float({
   className
 }: FloatProps) {
   return (
-    <Component className={cn('inline-block', className)} aria-label={text}>
+    <Component className={cn('inline-block', className)}>
+      <span className='sr-only'>{text}</span>
       {text.split('').map((char, i) => (
         <span
           key={i}

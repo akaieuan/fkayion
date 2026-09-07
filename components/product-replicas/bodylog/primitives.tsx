@@ -186,7 +186,7 @@ export function Chip({
 /** Five dots; 5 is the good end ("clear"). Never coloured. */
 export function RatingDots({ value, size = 6 }: { value: number; size?: number }) {
   return (
-    <span style={{ display: 'inline-flex', gap: 4 }} aria-label={`${value} of 5`}>
+    <span role="img" style={{ display: 'inline-flex', gap: 4 }} aria-label={`${value} of 5`}>
       {[1, 2, 3, 4, 5].map((i) => (
         <span
           key={i}

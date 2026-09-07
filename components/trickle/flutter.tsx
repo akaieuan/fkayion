@@ -26,7 +26,8 @@ export function Flutter({
   className
 }: FlutterProps) {
   return (
-    <Component className={cn('inline-block', className)} aria-label={text}>
+    <Component className={cn('inline-block', className)}>
+      <span className='sr-only'>{text}</span>
       {text.split('').map((char, i) => {
         const xRange = det(i * 5, 6, -3);
         const yRange = det(i * 7, 8, -4);

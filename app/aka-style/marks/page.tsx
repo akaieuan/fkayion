@@ -21,7 +21,7 @@ export const metadata = {
 /** Each row is one prop dimension of the same engine, shown across its range. */
 export default function MarksPage() {
   return (
-    <div className="min-h-screen bg-background px-6 py-16">
+    <main className="min-h-screen bg-background px-6 py-16">
       <article className="mx-auto max-w-3xl">
         <Link
           href="/aka-style"
@@ -76,6 +76,6 @@ export default function MarksPage() {
 
         <MarksClosing />
       </article>
-    </div>
+    </main>
   )
 }

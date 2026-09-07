@@ -50,7 +50,7 @@ export function PayloadSection() {
             </figure>
 
             <p className="!mt-5">becomes exactly this:</p>
-            <pre className="!mt-3 overflow-x-auto aka-card-well p-4 font-mono text-[11.5px] leading-relaxed text-foreground/80">
+            <pre tabIndex={0} className="!mt-3 overflow-x-auto aka-card-well p-4 font-mono text-[11.5px] leading-relaxed text-foreground/80">
               {TREE}
             </pre>
 

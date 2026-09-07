@@ -15,20 +15,20 @@ export function Row({
     <tr className="border-b border-border/40">
       <td className="py-2.5 pr-4 align-middle font-mono text-11 text-foreground/85">{name}</td>
       <td className="py-2.5 pr-4 align-middle">{children}</td>
-      <td className="py-2.5 align-middle font-mono text-11 text-muted-foreground/70">{value}</td>
+      <td className="py-2.5 align-middle font-mono text-11 text-muted-foreground/75">{value}</td>
     </tr>
   )
 }
 
 export function Table({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mt-4 overflow-x-auto">
+    <div className="mt-4 overflow-x-auto" tabIndex={0}>
       <table className="w-full min-w-[460px] border-collapse text-left">
         <thead>
           <tr className="border-b border-border">
             {['token', '', 'value'].map((h, i) => (
               <th key={i} className="aka-label pb-2 pr-4 font-medium">
-                {h}
+                {h || <span className="sr-only">swatch</span>}
               </th>
             ))}
           </tr>

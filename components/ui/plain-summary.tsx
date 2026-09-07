@@ -55,7 +55,7 @@ export function PlainSummary({
   if (!s) return null;
 
   return (
-    <section aria-label="Summary" className="mt-8">
+    <section className="mt-8">
       {/*
        * The label sits above the surface, not inside it.
        *
@@ -90,7 +90,7 @@ export function PlainSummary({
             <span className="font-medium text-foreground/85">From the archive.</span>{" "}
             {archive.map((a, i) => (
               <Fragment key={a.href}>
-                {i > 0 && <span className="text-muted-foreground/50"> · </span>}
+                {i > 0 && <span className="text-muted-foreground/75"> · </span>}
                 <Link
                   href={a.href}
                   className="aka-quiet-link"
@@ -112,7 +112,7 @@ export function PlainSummary({
                */}
               <span
                 aria-hidden
-                className="inline-block text-muted-foreground/70 transition-transform duration-200 group-open:rotate-90"
+                className="inline-block text-muted-foreground/75 transition-transform duration-200 group-open:rotate-90"
               >
                 ›
               </span>

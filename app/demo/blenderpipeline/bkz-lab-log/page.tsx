@@ -39,7 +39,7 @@ const tag =
 
 export default function LabLogIndexPage() {
   return (
-    <div className="min-h-screen bg-background px-6 py-16">
+    <main className="min-h-screen bg-background px-6 py-16">
       <JsonLd
         data={[
           collectionSchema({
@@ -65,7 +65,7 @@ export default function LabLogIndexPage() {
           Brooklyn Dead
         </Link>
 
-        <p className="font-mono text-11 uppercase tracking-[0.2em] text-muted-foreground/70">
+        <p className="font-mono text-11 uppercase tracking-[0.2em] text-muted-foreground/75">
           BKZ lab log
         </p>
         <h1 className="mt-3 text-2xl font-light tracking-tight text-foreground">Findings</h1>
@@ -83,7 +83,7 @@ export default function LabLogIndexPage() {
                 {entry.title}
               </Link>
             </h2>
-            <p className="mt-2 font-mono text-12 text-muted-foreground/70">
+            <p className="mt-2 font-mono text-12 text-muted-foreground/75">
               <time dateTime={entry.date}>{entry.date}</time>
               {' · '}
               {entry.kicker.split(' · ')[0].toLowerCase()}
@@ -101,6 +101,6 @@ export default function LabLogIndexPage() {
           </article>
         ))}
       </div>
-    </div>
+    </main>
   )
 }

@@ -5,7 +5,7 @@ export function PropsSection() {
         <section className="mt-16">
           <p className="aka-kicker">Reference</p>
           <h2 className="mt-2 aka-section-title">Props</h2>
-          <div className="mt-6 overflow-x-auto">
+          <div tabIndex={0} className="mt-6 overflow-x-auto">
             <table className="w-full min-w-[520px] border-collapse text-left">
               <thead>
                 <tr className="border-b border-border">
@@ -37,7 +37,7 @@ export function PropsSection() {
                 ].map(([p, t, d]) => (
                   <tr key={p} className="border-b border-border/40">
                     <td className="py-2 pr-4 align-top font-mono text-11 text-foreground/85">{p}</td>
-                    <td className="py-2 pr-4 align-top font-mono text-11 text-muted-foreground/70">{t}</td>
+                    <td className="py-2 pr-4 align-top font-mono text-11 text-muted-foreground/75">{t}</td>
                     <td className="py-2 align-top">{d}</td>
                   </tr>
                 ))}

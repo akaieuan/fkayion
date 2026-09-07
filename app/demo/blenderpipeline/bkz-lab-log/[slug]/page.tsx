@@ -62,7 +62,7 @@ export default function LabEntryPage({ params }: Params) {
   const path = `${LOG}/${entry.slug}`
 
   return (
-    <div className="min-h-screen bg-background px-6 py-16">
+    <main className="min-h-screen bg-background px-6 py-16">
       <JsonLd
         data={[
           articleSchema({
@@ -100,7 +100,7 @@ export default function LabEntryPage({ params }: Params) {
         <p className="mt-4 text-15 font-light leading-relaxed text-foreground/85">
           {entry.standfirst}
         </p>
-        <p className="mt-4 font-mono text-11 text-muted-foreground/60">
+        <p className="mt-4 font-mono text-11 text-muted-foreground/75">
           <time dateTime={entry.date}>{entry.published}</time>
           {' · '}
           {entry.meta ?? 'Brooklyn Dead asset pipeline'}
@@ -116,6 +116,6 @@ export default function LabEntryPage({ params }: Params) {
           Back to the pipeline
         </Link>
       </article>
-    </div>
+    </main>
   )
 }

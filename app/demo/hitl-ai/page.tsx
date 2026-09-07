@@ -19,7 +19,7 @@ export default function HitlAiWidgetShowcasePage() {
   const selected = WIDGET_REGISTRY.find((w) => w.id === selectedId)!;
 
   return (
-    <div className="flex min-h-[100dvh] flex-col overflow-hidden bg-background text-foreground">
+    <main className="flex min-h-[100dvh] flex-col overflow-hidden bg-background text-foreground">
       <MacTitleBar />
 
       <div className="flex min-h-0 flex-1 overflow-hidden">
@@ -36,7 +36,7 @@ export default function HitlAiWidgetShowcasePage() {
               if (!widgets.length) return null;
               return (
                 <div key={group} className="mb-3">
-                  <p className="mb-1 px-2 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
+                  <p className="mb-1 px-2 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/75">
                     {group}
                   </p>
                   {widgets.map((w) => (
@@ -136,7 +136,7 @@ export default function HitlAiWidgetShowcasePage() {
               <div className="grid grid-cols-2 gap-6">
                 {SIZE_LABELS.map((s) => (
                   <div key={s}>
-                    <p className="mb-3 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">
+                    <p className="mb-3 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/75">
                       {s}
                     </p>
                     <div className="aka-card p-4">
@@ -155,6 +155,6 @@ export default function HitlAiWidgetShowcasePage() {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

@@ -41,6 +41,7 @@ export function MacTitleBar({
       <div className="flex items-center gap-1">
         <Link
           href="/demo"
+          aria-label="Back"
           className="flex h-7 items-center gap-1.5 rounded-md px-2 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-3.5 w-3.5" />

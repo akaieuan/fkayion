@@ -59,7 +59,7 @@ export function HowIWork() {
       <div className="grid grid-cols-3 gap-x-6">
         {TILES.map((t) => (
           <div key={t.title} className="aka-card px-5 py-5">
-            <h3 className="aka-lead">{t.title}</h3>
+            <h2 className="aka-lead">{t.title}</h2>
             <p className="mt-3 text-13 font-light leading-relaxed text-muted-foreground">{t.body}</p>
           </div>
         ))}

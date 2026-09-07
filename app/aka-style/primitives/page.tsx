@@ -16,7 +16,7 @@ export const metadata = {
 
 export default function PrimitivesPage() {
   return (
-    <div className="min-h-screen bg-background px-6 py-16">
+    <main className="min-h-screen bg-background px-6 py-16">
       <article className="mx-auto max-w-3xl">
         <Link
           href="/aka-style"
@@ -59,6 +59,6 @@ export default function PrimitivesPage() {
 
         <PrimitivesClosing />
       </article>
-    </div>
+    </main>
   )
 }

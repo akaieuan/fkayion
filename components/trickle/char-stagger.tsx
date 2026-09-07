@@ -32,10 +32,8 @@ export function CharStagger({
   const animationClass = MODE_CLASS[mode];
 
   return (
-    <Component
-      className={cn('inline-block', className)}
-      aria-label={text}
-    >
+    <Component className={cn('inline-block', className)}>
+      <span className='sr-only'>{text}</span>
       {text.split('').map((char, i) => (
         <span
           key={i}

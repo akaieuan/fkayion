@@ -18,7 +18,7 @@ export const metadata = {
 
 export default function FoundationsPage() {
   return (
-    <div className="min-h-screen bg-background px-6 py-16">
+    <main className="min-h-screen bg-background px-6 py-16">
       <article className="mx-auto max-w-3xl">
         <Link
           href="/aka-style"
@@ -73,6 +73,6 @@ export default function FoundationsPage() {
 
         <FoundationsClosing />
       </article>
-    </div>
+    </main>
   )
 }

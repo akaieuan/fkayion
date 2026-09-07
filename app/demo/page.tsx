@@ -28,7 +28,7 @@ export default function DemoIndexPage() {
   const items = topLevelProjects()
 
   return (
-    <div className="min-h-screen bg-background pb-16 pt-24 sm:pt-28">
+    <main className="min-h-screen bg-background pb-16 pt-24 sm:pt-28">
       <div className="max-w-site mx-auto site-inset">
         {/*
           The heading is read, not seen. A page still needs one — for the
@@ -66,6 +66,6 @@ export default function DemoIndexPage() {
           <ProjectGrid items={items} reveal />
         </div>
       </div>
-    </div>
+    </main>
   )
 }
