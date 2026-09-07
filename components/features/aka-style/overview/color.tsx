@@ -19,7 +19,7 @@ export function ColorSection() {
                 <div className={`h-14 w-full ${sw.cls}`} />
                 <div className="aka-card-rule border-t px-2.5 py-2">
                   <p className="text-11 text-foreground/85">{sw.name}</p>
-                  <p className="font-mono text-10 text-muted-foreground/60">{sw.varName}</p>
+                  <p className="font-mono text-10 text-muted-foreground/75">{sw.varName}</p>
                 </div>
               </div>
             ))}

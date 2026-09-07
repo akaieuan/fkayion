@@ -21,11 +21,11 @@ export function LayoutSection() {
                 ['lg:', '1024px', 'Two columns → three'],
               ].map(([t, v, use]) => (
                 <Row key={t as string} name={t as string} value={v as string}>
-                  <span className="text-11 font-light text-muted-foreground/60">{use}</span>
+                  <span className="text-11 font-light text-muted-foreground/75">{use}</span>
                 </Row>
               ))}
             </Table>
-            <p className="mt-4 text-12 font-light leading-relaxed text-muted-foreground/70">
+            <p className="mt-4 text-12 font-light leading-relaxed text-muted-foreground/75">
               <span className="text-foreground/80">No device sniffing.</span> Layout responds to
               width; touch-specific behavior responds to{' '}
               <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-11">

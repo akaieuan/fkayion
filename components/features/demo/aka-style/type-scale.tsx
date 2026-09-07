@@ -30,7 +30,7 @@ const SCALE = [
   { role: 'Kicker', cls: 'aka-kicker', text: 'Design system · Live specimen' },
   {
     role: 'Caption',
-    cls: 'text-11 font-light text-muted-foreground/70',
+    cls: 'text-11 font-light text-muted-foreground/75',
     text: 'Rendered live, never screenshotted.',
   },
 ]
@@ -58,7 +58,7 @@ export function TypeScale() {
                   <span className="font-mono text-11 font-medium uppercase tracking-[0.16em] text-foreground/70">
                     {s.role}
                   </span>
-                  <span className="font-mono text-11 tracking-[0.03em] text-muted-foreground/60">
+                  <span className="font-mono text-11 tracking-[0.03em] text-muted-foreground/75">
                     {s.cls}
                   </span>
                 </div>

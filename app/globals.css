@@ -307,7 +307,7 @@ body {
   --popover: oklch(0.2 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.707 0.108 152.216);
-  --primary-foreground: oklch(0.36 0.001 0);
+  --primary-foreground: oklch(0.25 0.001 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
@@ -433,7 +433,7 @@ body {
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: color-mix(in srgb, var(--muted-foreground) 70%, transparent);
+    color: color-mix(in srgb, var(--muted-foreground) 75%, transparent);
   }
   /* The label inside a card head or above a table: a kicker's job at a card's scale. */
   .aka-label {
@@ -441,7 +441,7 @@ body {
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.14em;
-    color: color-mix(in srgb, var(--muted-foreground) 50%, transparent);
+    color: color-mix(in srgb, var(--muted-foreground) 75%, transparent);
   }
   .aka-section-title {
     font-size: 1.25rem;
@@ -466,6 +466,13 @@ body {
     color: var(--foreground);
   }
   .aka-code {
+    /*
+     * The chip names its ink rather than inheriting one. Its ground is a
+     * tint, lighter than the page in dark and darker in light, and a quiet
+     * ink that clears the page at the floor (law 09) does not clear the tint.
+     * The muted ink at full strength clears both.
+     */
+    color: var(--muted-foreground);
     background-color: color-mix(in srgb, var(--muted) 60%, transparent);
     border-radius: var(--radius-xs);
     padding: 0.125rem 0.25rem;
@@ -528,7 +535,7 @@ body {
     padding-left: 1.25rem;
   }
   .aka-list > li::marker {
-    color: color-mix(in srgb, var(--muted-foreground) 50%, transparent);
+    color: color-mix(in srgb, var(--muted-foreground) 75%, transparent);
   }
   /*
    * The quiet link: the link inside a byline, a caption, a list, anywhere
@@ -1456,6 +1463,19 @@ html:not(.dark) .animate-trickle-spotlight {
   /* The third state: neither wrong nor settled. Open questions, corrections,
      and the gate that landed red. */
   --bkz-open: var(--accent-amber);
+}
+/*
+ * In light the three tones step down from the ramp. The ramp's light values
+ * clear the page ground, but a chip sets each tone on a tint of itself, and
+ * on that tint the ramp's rose reads at 3.5:1 and its amber at 2.8. These are
+ * the same three hues a notch darker, so the chips clear 4.5:1 (law 09) and
+ * still read as the ramp's rose, green and amber.
+ */
+html:not(.dark) .bkz-log,
+html:not(.dark) .bkz-fig {
+  --bkz-wrong: oklch(0.5 0.16 15);
+  --bkz-true: oklch(0.45 0.09 152);
+  --bkz-open: oklch(0.45 0.11 75);
 }
 
 .bkz-bad {

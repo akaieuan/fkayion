@@ -29,7 +29,7 @@ tint through it; a screenshot is the one exception and takes the whole plate,
 because cropping a picture of the work into a small square in the middle of a
 large plate reads as a thumbnail of a thumbnail.`}
           >
-            <p className="text-12 font-light text-muted-foreground/70">
+            <p className="text-12 font-light text-muted-foreground/75">
               Live on{' '}
               <Link href="/demo" className="text-foreground underline underline-offset-2">
                 /demo
@@ -69,7 +69,7 @@ This replaced an IntersectionObserver that existed to fade in one paragraph and
 forced the whole landing section, every plate and every link, to be a client
 component in order to hold its one boolean.`}
           >
-            <p className="text-12 font-light text-muted-foreground/70">
+            <p className="text-12 font-light text-muted-foreground/75">
               Live on the landing&apos;s writing and music lists.
             </p>
           </Spec>

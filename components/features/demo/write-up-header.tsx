@@ -90,7 +90,7 @@ export function WriteUpHeader({
         ))}
 
       {caption && (
-        <p className="mt-2 text-11 font-light text-muted-foreground/60">{caption}</p>
+        <p className="mt-2 text-11 font-light text-muted-foreground/75">{caption}</p>
       )}
 
       {actions && (

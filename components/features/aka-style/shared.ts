@@ -15,4 +15,4 @@
 export const card = 'aka-card p-5'
 
 /** Quiet mono caption. Was an identical copy on marks and faces. */
-export const mono = 'font-mono text-11 text-muted-foreground/60'
+export const mono = 'font-mono text-11 text-muted-foreground/75'

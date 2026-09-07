@@ -20,13 +20,13 @@ export function Color() {
                 <div className={`aka-card-rule h-16 w-full border-b ${sw.cls}`} />
                 <div className="px-3 py-2">
                   <p className="text-11 text-foreground/85">{sw.name}</p>
-                  <p className="font-mono text-10 text-muted-foreground/60">{sw.varName}</p>
+                  <p className="font-mono text-10 text-muted-foreground/75">{sw.varName}</p>
                 </div>
               </li>
             ))}
           </ul>
 
-          <p className="mt-6 text-11 font-medium uppercase tracking-[0.16em] text-muted-foreground/70">
+          <p className="mt-6 text-11 font-medium uppercase tracking-[0.16em] text-muted-foreground/75">
             Accent set, carried by the canvas engines
           </p>
           <ul className="mt-3 flex list-none flex-wrap gap-2 p-0">

@@ -43,15 +43,15 @@ export function BlockpadTitle() {
             className="block h-auto w-full"
           />
         </div>
-        <p className="mt-3 text-11 font-light leading-relaxed text-muted-foreground/70">
+        <p className="mt-3 text-11 font-light leading-relaxed text-muted-foreground/75">
           One window, one canvas, one Copy button. It opens over whatever you are already in, and
           the dock sits along the bottom so the top edge of the drawing stays clear.
         </p>
-        <p className="mt-2 text-12 font-light leading-relaxed text-muted-foreground/70">
+        <p className="mt-2 text-12 font-light leading-relaxed text-muted-foreground/75">
           Free and MIT licensed. Swift 6, SwiftUI, AppKit, macOS 14+, one dependency. Built for
           myself, open because there is no reason for it not to be.
         </p>
-        <p className="mt-3 font-mono text-11 text-muted-foreground/70">github.com/akaieuan/blockpad</p>
+        <p className="mt-3 font-mono text-11 text-muted-foreground/75">github.com/akaieuan/blockpad</p>
       </div>
     </div>
   )

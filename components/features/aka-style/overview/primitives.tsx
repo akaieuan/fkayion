@@ -44,7 +44,7 @@ export function PrimitivesSection() {
                   Secondary
                   <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
                 </span>
-                <span className="text-13 font-light text-muted-foreground/70">Quiet link →</span>
+                <span className="text-13 font-light text-muted-foreground/75">Quiet link →</span>
               </div>
             </div>
 
@@ -54,7 +54,7 @@ export function PrimitivesSection() {
                 {['Open source', 'Applied AI', 'Write-up', 'v0.6', 'Client project'].map((t) => (
                   <span
                     key={t}
-                    className="rounded-md border border-border/60 px-1.5 py-0.5 text-10 font-medium uppercase tracking-[0.12em] text-muted-foreground/70"
+                    className="rounded-md border border-border/60 px-1.5 py-0.5 text-10 font-medium uppercase tracking-[0.12em] text-muted-foreground/75"
                   >
                     {t}
                   </span>
@@ -71,7 +71,7 @@ export function PrimitivesSection() {
                 {['writing', 'music', 'social'].map((t) => (
                   <span
                     key={t}
-                    className="rounded-md px-2.5 py-1 text-12 font-light tracking-wide text-muted-foreground/50"
+                    className="rounded-md px-2.5 py-1 text-12 font-light tracking-wide text-muted-foreground/75"
                   >
                     {t}
                   </span>
@@ -109,7 +109,7 @@ export function PrimitivesSection() {
               <p className="aka-label">Blockquote: for source material, not decoration</p>
               <blockquote className="mt-3 border-l-2 border-border pl-4 text-14 font-light italic leading-relaxed text-foreground/80">
                 &ldquo;Your job is not to replace human thinking — it is to amplify it.&rdquo;
-                <span className="mt-1.5 block text-11 not-italic text-muted-foreground/60">
+                <span className="mt-1.5 block text-11 not-italic text-muted-foreground/75">
                   From Ubik Studio&apos;s own agent design
                 </span>
               </blockquote>

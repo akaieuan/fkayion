@@ -32,7 +32,7 @@ export function UbikTitle() {
           A desktop-native, local-first AI research platform. Three and a half years building the
           human side of agentic research, before it had a name.
         </p>
-        <p className="mt-4 text-13 font-light leading-relaxed text-muted-foreground/70">
+        <p className="mt-4 text-13 font-light leading-relaxed text-muted-foreground/75">
           2023–2026 · co-founded · the public site and builds are retired; the test log and the
           subreddit are what remain in the open.
         </p>
@@ -50,7 +50,7 @@ export function UbikTitle() {
             className="block h-auto w-full"
           />
         </div>
-        <figcaption className="mt-3 text-11 font-light leading-relaxed text-muted-foreground/70">
+        <figcaption className="mt-3 text-11 font-light leading-relaxed text-muted-foreground/75">
           {HERO.label}
         </figcaption>
       </figure>

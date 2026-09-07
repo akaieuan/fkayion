@@ -25,18 +25,18 @@ import { RSocialEmbed } from './blocks/RSocialEmbed';
 type Tab = 'songs' | 'campaigns' | 'releases' | 'content';
 
 const STATUS_COLOR = (s: string) => {
-  if (s === 'active' || s === 'published' || s === 'submitted') return 'text-emerald-500';
-  if (s === 'draft' || s === 'in_progress' || s === 'mastering') return 'text-orange-400';
+  if (s === 'active' || s === 'published' || s === 'submitted') return 'text-emerald-700 dark:text-emerald-500';
+  if (s === 'draft' || s === 'in_progress' || s === 'mastering') return 'text-orange-700 dark:text-orange-400';
   if (s === 'completed') return 'text-primary';
-  if (s === 'paused' || s === 'scheduled') return 'text-purple-400';
+  if (s === 'paused' || s === 'scheduled') return 'text-purple-700 dark:text-purple-400';
   return 'text-muted-foreground';
 };
 
 const STATUS_BG = (s: string) => {
-  if (s === 'active' || s === 'published' || s === 'submitted') return 'bg-emerald-500/10 text-emerald-500';
-  if (s === 'draft' || s === 'in_progress' || s === 'mastering') return 'bg-orange-400/10 text-orange-400';
+  if (s === 'active' || s === 'published' || s === 'submitted') return 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-500';
+  if (s === 'draft' || s === 'in_progress' || s === 'mastering') return 'bg-orange-400/10 text-orange-700 dark:text-orange-400';
   if (s === 'completed') return 'bg-primary/10 text-primary';
-  if (s === 'paused' || s === 'scheduled') return 'bg-purple-400/10 text-purple-400';
+  if (s === 'paused' || s === 'scheduled') return 'bg-purple-400/10 text-purple-700 dark:text-purple-400';
   return 'bg-muted text-muted-foreground';
 };
 
@@ -73,7 +73,7 @@ export function ArtistsView({ onAskChat }: { onAskChat: (prompt: string) => void
               <Users size={18} className="text-primary" />
               Artists
             </h2>
-            <p className="text-[11px] text-muted-foreground/60 m-0">
+            <p className="text-[11px] text-muted-foreground/75 m-0">
               {ART.length} artists &middot; {TRACKED_SONGS.length} tracked songs &middot;{' '}
               {CAMPAIGNS.filter((c) => c.status === 'active').length} active campaigns
             </p>
@@ -122,12 +122,12 @@ export function ArtistsView({ onAskChat }: { onAskChat: (prompt: string) => void
                         {artist.genre}
                       </span>
                       {campaigns.some((c) => c.status === 'active') && (
-                        <span className="text-[8px] px-1.5 py-px rounded-full bg-emerald-500/10 text-emerald-500">
+                        <span className="text-[8px] px-1.5 py-px rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-500">
                           Active
                         </span>
                       )}
                       {releases.length > 0 && (
-                        <span className="text-[8px] px-1.5 py-px rounded-full bg-purple-400/10 text-purple-400">
+                        <span className="text-[8px] px-1.5 py-px rounded-full bg-purple-400/10 text-purple-700 dark:text-purple-400">
                           {releases.length} upcoming
                         </span>
                       )}
@@ -139,7 +139,7 @@ export function ArtistsView({ onAskChat }: { onAskChat: (prompt: string) => void
                       <span>
                         <span className="font-mono font-normal text-foreground">{artist.saves}</span> saves
                       </span>
-                      <span className={cn('font-mono', artist.up ? 'text-emerald-500' : 'text-red-500')}>
+                      <span className={cn('font-mono', artist.up ? 'text-emerald-700 dark:text-emerald-500' : 'text-red-700 dark:text-red-500')}>
                         {artist.delta}
                       </span>
                       <span>{songs.length} songs</span>
@@ -150,23 +150,23 @@ export function ArtistsView({ onAskChat }: { onAskChat: (prompt: string) => void
                       <div
                         className={cn(
                           'text-xs font-mono font-normal',
-                          parseFloat(artist.sr) > 7 ? 'text-emerald-500' : 'text-foreground',
+                          parseFloat(artist.sr) > 7 ? 'text-emerald-700 dark:text-emerald-500' : 'text-foreground',
                         )}
                       >
                         {artist.sr}
                       </div>
-                      <div className="text-[8px] text-muted-foreground/60">save rate</div>
+                      <div className="text-[8px] text-muted-foreground/75">save rate</div>
                     </div>
                     <div className="text-center">
                       <div className="text-xs font-mono font-normal text-foreground">
                         {artist.pl.toLocaleString()}
                       </div>
-                      <div className="text-[8px] text-muted-foreground/60">playlists</div>
+                      <div className="text-[8px] text-muted-foreground/75">playlists</div>
                     </div>
                     {isOpen ? (
-                      <ChevronDown size={14} className="text-muted-foreground/60" />
+                      <ChevronDown size={14} className="text-muted-foreground/75" />
                     ) : (
-                      <ChevronRight size={14} className="text-muted-foreground/60" />
+                      <ChevronRight size={14} className="text-muted-foreground/75" />
                     )}
                   </div>
                 </div>
@@ -226,7 +226,7 @@ export function ArtistsView({ onAskChat }: { onAskChat: (prompt: string) => void
                                   <th
                                     key={i}
                                     className={cn(
-                                      'py-1.5 text-[9px] font-normal text-muted-foreground/60 border-b border-border',
+                                      'py-1.5 text-[9px] font-normal text-muted-foreground/75 border-b border-border',
                                       i === 0 ? 'pl-3.5 pr-3 text-left' : 'px-3 text-left',
                                       i > 1 && 'text-right',
                                     )}
@@ -261,7 +261,7 @@ export function ArtistsView({ onAskChat }: { onAskChat: (prompt: string) => void
                                       {song.tiktok24h}
                                     </span>
                                     {song.tiktok24hPct > 0 && (
-                                      <span className="text-[9px] text-emerald-500 font-mono ml-0.5">
+                                      <span className="text-[9px] text-emerald-700 dark:text-emerald-500 font-mono ml-0.5">
                                         +{song.tiktok24hPct}%
                                       </span>
                                     )}
@@ -274,7 +274,7 @@ export function ArtistsView({ onAskChat }: { onAskChat: (prompt: string) => void
                                       {song.ig24h}
                                     </span>
                                     {song.ig24hPct > 0 && (
-                                      <span className="text-[9px] text-emerald-500 font-mono ml-0.5">
+                                      <span className="text-[9px] text-emerald-700 dark:text-emerald-500 font-mono ml-0.5">
                                         +{song.ig24hPct}%
                                       </span>
                                     )}
@@ -286,13 +286,13 @@ export function ArtistsView({ onAskChat }: { onAskChat: (prompt: string) => void
                         )}
                         {songs.length > 0 && (
                           <div className="flex gap-2.5 px-3.5 py-[7px] border-t border-border bg-card">
-                            <div className="text-[10px] text-muted-foreground/60">
+                            <div className="text-[10px] text-muted-foreground/75">
                               Total TikTok:{' '}
                               <span className="font-mono text-foreground font-normal">
                                 {totalTiktok.toLocaleString()}
                               </span>
                             </div>
-                            <div className="text-[10px] text-muted-foreground/60">
+                            <div className="text-[10px] text-muted-foreground/75">
                               Total IG:{' '}
                               <span className="font-mono text-foreground font-normal">
                                 {totalIg.toLocaleString()}
@@ -326,18 +326,18 @@ export function ArtistsView({ onAskChat }: { onAskChat: (prompt: string) => void
                                 </div>
                                 <div className="flex-1 min-w-0">
                                   <div className="text-xs font-medium text-foreground">{c.title}</div>
-                                  <div className="text-[10px] text-muted-foreground/60 mt-px">
+                                  <div className="text-[10px] text-muted-foreground/75 mt-px">
                                     {c.type} &middot; {c.startDate}
                                   </div>
                                 </div>
                                 <div className="flex gap-2.5 items-center shrink-0">
                                   <div className="text-right">
                                     <div className="text-[11px] font-mono text-foreground">{c.reach}</div>
-                                    <div className="text-[8px] text-muted-foreground/60">reach</div>
+                                    <div className="text-[8px] text-muted-foreground/75">reach</div>
                                   </div>
                                   <div className="text-right">
                                     <div className="text-[11px] font-mono text-muted-foreground/80">{c.budget}</div>
-                                    <div className="text-[8px] text-muted-foreground/60">budget</div>
+                                    <div className="text-[8px] text-muted-foreground/75">budget</div>
                                   </div>
                                   <span
                                     className={cn(
@@ -387,7 +387,7 @@ export function ArtistsView({ onAskChat }: { onAskChat: (prompt: string) => void
                                     {r.type}
                                   </span>
                                 </div>
-                                <div className="text-[10px] text-muted-foreground/60 mt-px">
+                                <div className="text-[10px] text-muted-foreground/75 mt-px">
                                   {r.date} &middot; {r.platforms.join(', ')}
                                 </div>
                               </div>
@@ -460,7 +460,7 @@ export function ArtistsView({ onAskChat }: { onAskChat: (prompt: string) => void
                               </div>
                               <div className="flex-1 min-w-0">
                                 <div className="text-[11px] text-foreground truncate">{c.caption}</div>
-                                <div className="text-[10px] text-muted-foreground/60">{c.scheduledDate}</div>
+                                <div className="text-[10px] text-muted-foreground/75">{c.scheduledDate}</div>
                               </div>
                               <span className={cn('text-[9px] px-1.5 py-px rounded-full', STATUS_BG(c.status))}>
                                 {c.status}
@@ -491,7 +491,7 @@ export function ArtistsView({ onAskChat }: { onAskChat: (prompt: string) => void
           <div className="flex items-center justify-between mb-3">
             <div>
               <div className="text-sm font-medium text-foreground tracking-tight">Trending</div>
-              <div className="text-[11px] text-muted-foreground/60 mt-px">
+              <div className="text-[11px] text-muted-foreground/75 mt-px">
                 Sounds, reels and content gaining momentum
               </div>
             </div>
@@ -506,7 +506,7 @@ export function ArtistsView({ onAskChat }: { onAskChat: (prompt: string) => void
 
           {/* Trending sounds grid */}
           <div className="mb-4">
-            <div className="text-[11px] font-normal text-muted-foreground/60 uppercase tracking-wider mb-2">
+            <div className="text-[11px] font-normal text-muted-foreground/75 uppercase tracking-wider mb-2">
               Trending Sounds
             </div>
             <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-1.5">
@@ -530,16 +530,16 @@ export function ArtistsView({ onAskChat }: { onAskChat: (prompt: string) => void
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-[5px]">
                       <span className="text-xs font-medium text-foreground truncate">{s.title}</span>
-                      <span className="text-[10px] text-muted-foreground/60">{s.artist}</span>
+                      <span className="text-[10px] text-muted-foreground/75">{s.artist}</span>
                     </div>
                     <div className="flex gap-2 mt-0.5 text-[10px] text-muted-foreground/80">
                       <span className="font-mono">{s.creates} creates</span>
-                      <span className="font-mono text-emerald-500">{s.growth}</span>
+                      <span className="font-mono text-emerald-700 dark:text-emerald-500">{s.growth}</span>
                     </div>
                   </div>
                   <div className="text-right shrink-0">
                     <div className="text-[11px] font-mono text-muted-foreground/80">{s.topViews}</div>
-                    <div className="text-[9px] text-muted-foreground/60">top view</div>
+                    <div className="text-[9px] text-muted-foreground/75">top view</div>
                   </div>
                 </div>
               ))}
@@ -548,10 +548,10 @@ export function ArtistsView({ onAskChat }: { onAskChat: (prompt: string) => void
 
           {/* Trending content */}
           <div>
-            <div className="text-[11px] font-normal text-muted-foreground/60 uppercase tracking-wider mb-2">
+            <div className="text-[11px] font-normal text-muted-foreground/75 uppercase tracking-wider mb-2">
               Trending Content
             </div>
-            <div className="flex gap-2 overflow-x-auto pb-2">
+            <div tabIndex={0} className="flex gap-2 overflow-x-auto pb-2">
               {TRENDING_POSTS.map((p) => (
                 <RSocialEmbed key={p.id} post={p} />
               ))}

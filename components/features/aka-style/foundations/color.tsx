@@ -44,7 +44,7 @@ export function ColorSection() {
                     className="block h-6 w-full max-w-[160px] rounded border border-border"
                     style={{ background: 'var(--ink-on-art)' }}
                   />
-                  <span className="shrink-0 text-11 font-light text-muted-foreground/60">
+                  <span className="shrink-0 text-11 font-light text-muted-foreground/75">
                     copy over artwork, both themes
                   </span>
                 </span>
@@ -56,7 +56,7 @@ export function ColorSection() {
                 />
               </Row>
             </Table>
-            <p className="mt-4 text-12 font-light leading-relaxed text-muted-foreground/70">
+            <p className="mt-4 text-12 font-light leading-relaxed text-muted-foreground/75">
               <span className="text-foreground/80">One accent, and it is not --primary.</span>{' '}
               <code className="aka-code">--select</code> is what a selected tab, selected text and a
               focus ring take, and it is the only place a hue is allowed to lead. It changes hue
@@ -68,29 +68,39 @@ export function ColorSection() {
           </div>
 
           <div className={`${cardCls} mt-3`}>
-            <p className="aka-label">The opacity ladder, and how it renders</p>
+            <p className="aka-label">The opacity ladder, and its floor</p>
             <p className="mt-2 text-13 font-light leading-relaxed text-muted-foreground">
               Ink steps down, and that is the whole hierarchy: full ink for the terms a reader will
-              look for again, then the reading step, the quiet layer, captions, markers. Each step
-              is a modifier on the token, <code className="aka-code">text-foreground/85</code>, and
-              the config renders it as a color-mix against the page. The mix is sRGB rather than
-              OKLCH because the tokens are achromatic with an explicit hue of 0, and an OKLCH mix
-              would interpolate it.
+              look for again, then the reading step, then the quiet layer. Each step is a modifier
+              on the token, <code className="aka-code">text-foreground/85</code>, and the config
+              renders it as a color-mix against the page. The mix is sRGB rather than OKLCH because
+              the tokens are achromatic with an explicit hue of 0, and an OKLCH mix would
+              interpolate it.
+            </p>
+            <p className="mt-2 text-13 font-light leading-relaxed text-muted-foreground">
+              The ladder has a floor, and the floor is law 09: no text is mixed below the point
+              where it reads at 4.5:1 on the page in both themes. For the foreground that is{' '}
+              <code className="aka-code">text-foreground/60</code>. For the muted ink, which starts
+              closer to the ground, it is <code className="aka-code">text-muted-foreground/75</code>,
+              and ink on art holds the same 75. The check computes both from the tokens in
+              globals.css, so a token that moves takes its floor with it, and the sweep reads every
+              page back through axe in both themes to prove what rendered.
             </p>
             <p className="mt-2 text-13 font-light leading-relaxed text-muted-foreground">
               Two steps are classes as well, because an essay names its ink once rather than carrying
               a number through every paragraph:
             </p>
-            <pre className="mt-3 overflow-x-auto aka-card-well rounded-lg px-3 py-2 font-mono text-11 leading-relaxed text-muted-foreground/75">
+            <pre tabIndex={0} className="mt-3 overflow-x-auto aka-card-well rounded-lg px-3 py-2 font-mono text-11 leading-relaxed text-muted-foreground/75">
               {`.aka-ink-body  { color: color-mix(in srgb, var(--foreground) 82%, transparent) }
 .aka-ink-quiet { color: color-mix(in srgb, var(--foreground) 62%, transparent) }`}
             </pre>
-            <p className="mt-3 text-12 font-light leading-relaxed text-muted-foreground/70">
+            <p className="mt-3 text-12 font-light leading-relaxed text-muted-foreground/75">
               The slot is recent. For a long time the theme colours were bare{' '}
               <code className="aka-code">var()</code> values with nowhere to put an alpha, every
               modifier compiled to nothing, and the whole quiet layer rendered as full ink. The
-              config now answers a modifier with the mix above, and the light muted ink was
-              darkened a step so the ladder reads the same on both grounds.
+              config now answers a modifier with the mix above. The light muted ink was darkened a
+              step so the ladder reads the same on both grounds, and the floor followed once the
+              quiet layer was measured rather than eyeballed: at 70 it read at 4.2:1.
             </p>
           </div>
         </section>

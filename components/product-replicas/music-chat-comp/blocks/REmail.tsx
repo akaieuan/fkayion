@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 function Field({ label, value, bold = false }: { label: string; value: string; bold?: boolean }) {
   return (
     <div className="flex items-center gap-2">
-      <span className="text-[11px] text-muted-foreground/60 w-[50px]">{label}</span>
+      <span className="text-[11px] text-muted-foreground/75 w-[50px]">{label}</span>
       <span className={cn('text-xs text-foreground', bold && 'font-medium')}>{value}</span>
     </div>
   );

@@ -31,7 +31,7 @@ export function AudioBar() {
           {isPlaying ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3 ml-0.5" />}
         </button>
         
-        <span className="text-[9px] text-white/40 font-mono">{formatTime(currentTime)}</span>
+        <span className="text-[9px] text-white/75 font-mono">{formatTime(currentTime)}</span>
         <Slider
           value={[currentTime]}
           max={duration || 1}
@@ -39,19 +39,19 @@ export function AudioBar() {
           onValueChange={(vals) => setTime(vals[0])}
           className="w-24"
         />
-        <span className="text-[9px] text-white/40 font-mono">{formatTime(duration)}</span>
+        <span className="text-[9px] text-white/75 font-mono">{formatTime(duration)}</span>
         
         <div className="relative">
           <button
             onClick={() => setShowVolume(!showVolume)}
-            className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 text-white/40 transition-all"
+            className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/10 text-white/75 transition-all"
           >
             {volume > 0 ? <Volume2 className="h-3 w-3" /> : <VolumeX className="h-3 w-3" />}
           </button>
           {showVolume && (
             <div className="absolute top-8 left-0 w-28 p-2 rounded-lg bg-black/60 backdrop-blur-2xl border border-white/10">
               <Slider value={[volume]} max={1} step={0.01} onValueChange={(vals) => setVolume(vals[0])} />
-              <div className="text-[8px] text-white/30 text-center mt-1">{Math.round(volume * 100)}%</div>
+              <div className="text-[8px] text-white/75 text-center mt-1">{Math.round(volume * 100)}%</div>
             </div>
           )}
         </div>

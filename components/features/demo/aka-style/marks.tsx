@@ -21,7 +21,7 @@ export function Marks() {
                 <PixelHead size={84} grid={24} icon={m.icon} still />
                 <div className="text-center">
                   <p className="text-13 font-light text-foreground/90">{m.name}</p>
-                  <p className="font-mono text-10 text-muted-foreground/60">{m.note}</p>
+                  <p className="font-mono text-10 text-muted-foreground/75">{m.note}</p>
                 </div>
               </li>
             ))}

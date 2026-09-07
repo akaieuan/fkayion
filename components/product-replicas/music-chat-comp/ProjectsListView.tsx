@@ -58,7 +58,7 @@ export function ProjectsListView({ projects, onOpenProject, onCreateProject }: P
         <div className="flex justify-between items-center mb-4">
           <div>
             <h1 className="text-2xl font-normal text-foreground tracking-tight">Projects</h1>
-            <p className="text-[11px] text-muted-foreground/60 mt-0">
+            <p className="text-[11px] text-muted-foreground/75 mt-0">
               {projects.length} projects
             </p>
           </div>
@@ -94,7 +94,7 @@ export function ProjectsListView({ projects, onOpenProject, onCreateProject }: P
               </div>
               <div className="w-[200px] flex flex-col gap-2.5">
                 <div>
-                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground/60 mb-1">
+                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground/75 mb-1">
                     Type
                   </div>
                   <div className="flex gap-1 flex-wrap">
@@ -117,7 +117,7 @@ export function ProjectsListView({ projects, onOpenProject, onCreateProject }: P
                   </div>
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground/60 mb-1">
+                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground/75 mb-1">
                     Color
                   </div>
                   <div className="flex gap-1">
@@ -153,7 +153,7 @@ export function ProjectsListView({ projects, onOpenProject, onCreateProject }: P
                   'px-5 py-1.5 rounded-lg text-sm border-none',
                   name.trim()
                     ? 'bg-primary text-primary-foreground cursor-pointer'
-                    : 'bg-border text-muted-foreground/60 cursor-default'
+                    : 'bg-border text-muted-foreground cursor-default'
                 )}
               >
                 Create
@@ -178,7 +178,7 @@ export function ProjectsListView({ projects, onOpenProject, onCreateProject }: P
                 <div className="flex-1 text-[13px] font-medium text-foreground truncate">
                   {p.name}
                 </div>
-                <span className="text-[9px] px-2 py-0.5 rounded-full bg-border text-muted-foreground/60 shrink-0">
+                <span className="text-[9px] px-2 py-0.5 rounded-full bg-border text-muted-foreground shrink-0">
                   {TYPE_LABELS[p.type]}
                 </span>
               </div>
@@ -201,12 +201,12 @@ export function ProjectsListView({ projects, onOpenProject, onCreateProject }: P
                   </span>
                 ))}
                 {p.artists.length > 3 && (
-                  <span className="text-[9px] text-muted-foreground/60">
+                  <span className="text-[9px] text-muted-foreground/75">
                     +{p.artists.length - 3}
                   </span>
                 )}
               </div>
-              <div className="flex gap-3 text-[10px] text-muted-foreground/60 border-t border-border pt-2">
+              <div className="flex gap-3 text-[10px] text-muted-foreground/75 border-t border-border pt-2">
                 <span>{p.chats.length} chats</span>
                 <span>{p.files.length} files</span>
                 <span>{p.artifactIds.length} artifacts</span>
@@ -221,9 +221,9 @@ export function ProjectsListView({ projects, onOpenProject, onCreateProject }: P
               className="flex flex-col items-center justify-center gap-1.5 min-h-[140px] px-[18px] py-6 rounded-lg border border-dashed border-border bg-transparent cursor-pointer hover:border-border/80 transition-colors"
             >
               <div className="w-8 h-8 rounded-lg bg-card border border-border flex items-center justify-center">
-                <Plus size={16} className="text-muted-foreground/60" />
+                <Plus size={16} className="text-muted-foreground/75" />
               </div>
-              <span className="text-xs text-muted-foreground/60">New project</span>
+              <span className="text-xs text-muted-foreground/75">New project</span>
             </button>
           )}
         </div>

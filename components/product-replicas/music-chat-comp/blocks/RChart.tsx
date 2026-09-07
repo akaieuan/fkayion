@@ -16,7 +16,7 @@ export function RChart({ title, bars }: { title: string; bars: { label: string; 
               className="w-full max-w-9 bg-primary rounded opacity-70"
               style={{ height: `${(b.value / mx) * 80}px` }}
             />
-            <div className="text-[9px] text-muted-foreground/60 text-center max-w-[60px] truncate">
+            <div className="text-[9px] text-muted-foreground/75 text-center max-w-[60px] truncate">
               {b.label}
             </div>
           </div>

@@ -28,7 +28,7 @@ function ProjectRow({ p }: { p: Project }) {
     <>
       <div className="flex items-baseline justify-between gap-3">
         <span className="text-14 text-foreground/90 group-hover:text-foreground">{p.name}</span>
-        <span className="shrink-0 text-10 font-medium uppercase tracking-[0.14em] text-muted-foreground/60">
+        <span className="shrink-0 text-10 font-medium uppercase tracking-[0.14em] text-muted-foreground/75">
           {p.status}
         </span>
       </div>

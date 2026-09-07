@@ -1,7 +1,7 @@
 import { LAWS } from '@/lib/aka-style'
 import { card } from '@/components/features/demo/aka-style/shared'
 
-/** The rules: eight constraints, each a card, from the same list /aka-style reads. */
+/** The rules: nine constraints, each a card, from the same list /aka-style reads. */
 export function Laws() {
   return (
         <section className="mt-16">

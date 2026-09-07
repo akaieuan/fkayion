@@ -66,7 +66,7 @@ export function RSocialEmbed({
         <div className="text-[11px] text-muted-foreground leading-snug mb-2 line-clamp-2">
           {post.desc}
         </div>
-        <div className="flex items-center gap-2.5 text-[10px] text-muted-foreground/60">
+        <div className="flex items-center gap-2.5 text-[10px] text-muted-foreground/75">
           <span className="flex items-center gap-0.5">
             <Heart size={10} />
             {post.likes}
@@ -89,10 +89,10 @@ export function RSocialEmbed({
           <span className="text-[10px] font-mono text-foreground font-normal">
             {post.views} views
           </span>
-          <span className="text-[9px] text-muted-foreground/60">{post.date}</span>
+          <span className="text-[9px] text-muted-foreground/75">{post.date}</span>
         </div>
         {post.audioUses && (
-          <div className="mt-1 text-[9px] text-purple-400 font-mono">
+          <div className="mt-1 text-[9px] text-purple-700 dark:text-purple-400 font-mono">
             ~ {post.audioUses} creates
           </div>
         )}

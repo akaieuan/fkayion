@@ -30,10 +30,10 @@ export interface WidgetDemoConfig {
 
 const STATUS_META: Record<AgentStatus, { icon: React.ElementType; color: string; label: string }> = {
   idle:      { icon: Cpu,         color: 'text-muted-foreground', label: 'Idle' },
-  running:   { icon: Loader2,     color: 'text-blue-500',         label: 'Running' },
-  completed: { icon: Check,       color: 'text-emerald-500',      label: 'Completed' },
-  error:     { icon: AlertOctagon,color: 'text-red-500',          label: 'Error' },
-  skipped:   { icon: SkipForward, color: 'text-amber-500',        label: 'Skipped' },
+  running:   { icon: Loader2,     color: 'text-blue-700 dark:text-blue-500',       label: 'Running' },
+  completed: { icon: Check,       color: 'text-emerald-700 dark:text-emerald-500', label: 'Completed' },
+  error:     { icon: AlertOctagon,color: 'text-red-700 dark:text-red-500',         label: 'Error' },
+  skipped:   { icon: SkipForward, color: 'text-amber-800 dark:text-amber-500',     label: 'Skipped' },
   cancelled: { icon: Ban,         color: 'text-muted-foreground', label: 'Cancelled' },
 };
 
@@ -145,7 +145,7 @@ function AiScale({ value, size }: { value: number; size: Size }) {
             className={cn(
               'flex-1 rounded-md border-2 py-1.5 text-center text-[9px] font-semibold transition-all',
               v === i
-                ? `${colors[i]} border-transparent text-white`
+                ? `${colors[i]} border-transparent text-black`
                 : 'border-border text-muted-foreground hover:border-foreground/30',
             )}
           >
@@ -296,6 +296,7 @@ function ContextItems({ size }: { size: Size }) {
           <span className="max-w-[120px] truncate">{item.label}</span>
           <button
             onClick={() => setItems((i) => i.filter((x) => x.id !== item.id))}
+            aria-label={`Remove ${item.label}`}
             className="text-muted-foreground hover:text-foreground transition-colors"
           >
             <X className="h-2.5 w-2.5" />

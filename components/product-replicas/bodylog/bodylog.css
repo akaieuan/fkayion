@@ -14,9 +14,12 @@
   --ink1: #eaeae8;
   --ink2: rgba(234, 234, 232, 0.85);
   --ink3: #898987;
-  --ink4: rgba(137, 137, 135, 0.7);
-  --ink5: rgba(137, 137, 135, 0.5);
-  --ink6: rgba(137, 137, 135, 0.4);
+  /* The app's three quietest inks collapse to the third here: the site holds
+     every rendered ink to 4.5:1 (law 09), and 0.7 of this grey on this ground
+     is 3.3. The hierarchy they carried is still in the size and the case. */
+  --ink4: var(--ink3);
+  --ink5: var(--ink3);
+  --ink6: var(--ink3);
   --rule: rgba(255, 255, 255, 0.1);
   --rule-soft: rgba(255, 255, 255, 0.04);
   --inverse: #0c0c0b;
@@ -34,9 +37,9 @@
   --ink1: #0d0d0c;
   --ink2: rgba(13, 13, 12, 0.85);
   --ink3: #64635e;
-  --ink4: rgba(100, 99, 94, 0.7);
-  --ink5: rgba(100, 99, 94, 0.5);
-  --ink6: rgba(100, 99, 94, 0.4);
+  --ink4: var(--ink3);
+  --ink5: var(--ink3);
+  --ink6: var(--ink3);
   --rule: rgba(30, 30, 28, 0.12);
   --rule-soft: rgba(30, 30, 28, 0.048);
   --inverse: #fafaf9;

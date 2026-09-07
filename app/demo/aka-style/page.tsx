@@ -19,7 +19,7 @@ const PATH = '/demo/aka-style'
 export const metadata = demoMetadata(PATH, {
   title: 'akaSTYLE: a design language written as constraints',
   description:
-    'The design system behind every project on this site: eight constraints instead of preferences, OKLCH tokens, one type scale, one canvas engine for every brand mark, and server-rendered primitives. Built at Ubik, and now the thing that lets an agent build in my language.',
+    'The design system behind every project on this site: nine constraints instead of preferences, OKLCH tokens, one type scale, one canvas engine for every brand mark, and server-rendered primitives. Built at Ubik, and now the thing that lets an agent build in my language.',
 })
 
 export default function AkaStyleWriteUpPage() {

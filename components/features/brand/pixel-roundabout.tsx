@@ -457,7 +457,7 @@ export function PixelRoundabout({
       {label && (
         <span
           aria-hidden
-          className="text-muted-foreground/70 absolute top-[2%] right-[2%] font-mono text-[10px] tracking-[0.12em] uppercase"
+          className="text-muted-foreground/75 absolute top-[2%] right-[2%] font-mono text-[10px] tracking-[0.12em] uppercase"
         >
           bartel-pritchard sq
         </span>

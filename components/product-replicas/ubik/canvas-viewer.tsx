@@ -396,7 +396,7 @@ export function UbikCanvasViewer({ waypoints }: { waypoints: Waypoint[] }) {
 
           {!loaded && (
             <div className="absolute inset-0 grid place-items-center">
-              <span className="text-11 font-light tracking-wide text-on-art/60">
+              <span className="text-11 font-light tracking-wide text-on-art/75">
                 loading the board
               </span>
             </div>
@@ -409,7 +409,7 @@ export function UbikCanvasViewer({ waypoints }: { waypoints: Waypoint[] }) {
               type="button"
               onClick={() => nudge(1 / 1.5)}
               aria-label="Zoom out"
-              className="grid h-7 w-7 place-items-center rounded text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+              className="grid h-7 w-7 place-items-center rounded text-white/75 transition-colors hover:bg-white/10 hover:text-white"
             >
               <Minus className="h-3.5 w-3.5" />
             </button>
@@ -417,14 +417,14 @@ export function UbikCanvasViewer({ waypoints }: { waypoints: Waypoint[] }) {
               type="button"
               onClick={() => nudge(1.5)}
               aria-label="Zoom in"
-              className="grid h-7 w-7 place-items-center rounded text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+              className="grid h-7 w-7 place-items-center rounded text-white/75 transition-colors hover:bg-white/10 hover:text-white"
             >
               <Plus className="h-3.5 w-3.5" />
             </button>
             <button
               type="button"
               onClick={reset}
-              className="rounded px-2 py-1 text-10 font-medium uppercase tracking-[0.1em] text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+              className="rounded px-2 py-1 text-10 font-medium uppercase tracking-[0.1em] text-white/75 transition-colors hover:bg-white/10 hover:text-white"
             >
               Fit
             </button>
@@ -435,13 +435,13 @@ export function UbikCanvasViewer({ waypoints }: { waypoints: Waypoint[] }) {
                 setFull((v) => !v)
               }}
               aria-label={full ? 'Exit fullscreen' : 'Open fullscreen'}
-              className="grid h-7 w-7 place-items-center rounded text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+              className="grid h-7 w-7 place-items-center rounded text-white/75 transition-colors hover:bg-white/10 hover:text-white"
             >
               {full ? <X className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
             </button>
           </div>
 
-          <p className="pointer-events-none absolute bottom-2.5 left-3 text-10 font-light text-on-art/45">
+          <p className="pointer-events-none absolute bottom-2.5 left-3 text-10 font-light text-on-art/75">
             drag to move
             <span className="hidden sm:inline"> · scroll to zoom</span>
             <span className="sm:hidden"> · pinch to zoom</span>
@@ -460,8 +460,8 @@ export function UbikCanvasViewer({ waypoints }: { waypoints: Waypoint[] }) {
                 aria-pressed={active === wp.id}
                 className={`rounded-md border px-2.5 py-1 text-11 font-light tracking-wide transition-colors ${
                   active === wp.id
-                    ? 'border-[var(--select)]/50 bg-[var(--select)]/10 text-[var(--select)]'
-                    : 'border-border/70 text-muted-foreground/70 hover:border-foreground/30 hover:text-foreground'
+                    ? 'border-[var(--select)]/50 bg-[var(--select)]/10 text-foreground'
+                    : 'border-border/70 text-muted-foreground/75 hover:border-foreground/30 hover:text-foreground'
                 }`}
               >
                 {wp.label}

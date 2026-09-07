@@ -53,7 +53,7 @@ const SHEETS: SheetSpec[] = [
   { section: 'Ubik Studio', line: '', body: <UbikAhead /> },
   { section: 'Ubik Studio', line: '', body: <UbikProductCards /> },
   { section: 'Ubik Studio', line: '', body: <UbikHumanNeededAndRole /> },
-  { section: 'akaSTYLE', line: 'The design language every project is built from, as eight constraints.', body: <AkaStyleTitle /> },
+  { section: 'akaSTYLE', line: 'The design language every project is built from, as nine constraints.', body: <AkaStyleTitle /> },
   { section: 'akaSTYLE', line: '', body: <AkaStyleLaws /> },
   { section: 'HITL Kit', line: 'Nineteen installable primitives for keeping a person in charge of an agent.', body: <HitlKitTitle /> },
   { section: 'HITL Kit', line: '', body: <HitlKitPrimitives from={0} to={6} /> },

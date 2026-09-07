@@ -77,11 +77,11 @@ lift    aka-card aka-card-lift        ← a card that is also a control`}
             name="Overlay"
             note="a menu panel: the ground, translucent, over a blur; lit at the top like a card"
             cls={`panel  aka-overlay rounded-lg p-1.5
-group  px-3 pb-1 pt-2 text-10 font-medium uppercase tracking-[0.14em] text-muted-foreground/50
+group  px-3 pb-1 pt-2 text-10 font-medium uppercase tracking-[0.14em] text-muted-foreground/75
 item   block rounded-md px-3 py-2 text-13 transition-colors hover:bg-muted/40`}
           >
             <div className="aka-overlay w-[min(22rem,100%)] rounded-lg p-1.5">
-              <p className="px-3 pb-1 pt-2 text-10 font-medium uppercase tracking-[0.14em] text-muted-foreground/50">
+              <p className="px-3 pb-1 pt-2 text-10 font-medium uppercase tracking-[0.14em] text-muted-foreground/75">
                 Rebuilt here
               </p>
               <ul className="list-none p-0">
@@ -257,13 +257,13 @@ a11y    role=group + aria-label, aria-pressed per button, tooltip per button`}
           <Spec
             name="Chips & tags"
             note="TagRow / KickerTags · uppercase, tracked, never colored by category"
-            cls={`chip   rounded-md border border-border/60 px-1.5 py-0.5 text-10 font-medium uppercase tracking-[0.12em] text-muted-foreground/70
+            cls={`chip   rounded-md border border-border/60 px-1.5 py-0.5 text-10 font-medium uppercase tracking-[0.12em] text-muted-foreground/75
 tech   aka-card-well inline-flex items-center rounded-md px-2 py-0.5 text-11 font-medium uppercase tracking-[0.14em] text-muted-foreground`}
           >
             {['Product design', 'Open source', 'HITL AI'].map((t) => (
               <span
                 key={t}
-                className="rounded-md border border-border/60 px-1.5 py-0.5 text-10 font-medium uppercase tracking-[0.12em] text-muted-foreground/70"
+                className="rounded-md border border-border/60 px-1.5 py-0.5 text-10 font-medium uppercase tracking-[0.12em] text-muted-foreground/75"
               >
                 {t}
               </span>
@@ -281,7 +281,7 @@ tech   aka-card-well inline-flex items-center rounded-md px-2 py-0.5 text-11 fon
           <Spec
             name="Status"
             note="the one place a hue other than the accent may appear"
-            cls={`neutral  border-border/60 text-muted-foreground/60
+            cls={`neutral  border-border/60 text-muted-foreground/75
 active   text-primary
 warn     text-status-warn
 danger   text-status-danger`}
@@ -290,7 +290,7 @@ danger   text-status-danger`}
               ['Shipped', 'text-primary'],
               ['In progress', 'text-status-warn'],
               ['Deprecated', 'text-status-danger'],
-              ['Archived', 'text-muted-foreground/60'],
+              ['Archived', 'text-muted-foreground/75'],
             ].map(([t, c]) => (
               <span key={t} className={`inline-flex items-center gap-1.5 text-12 font-light ${c}`}>
                 <span className="h-1.5 w-1.5 rounded-full bg-current" />

@@ -8,7 +8,7 @@
  *   1. Code that breaks a law. A hard-coded colour, a drop shadow, an
  *      animation that pulses brightness, a render loop nothing pauses, an
  *      image with no dimensions, one more client component than the budget.
- *      Each of these is one of the eight laws stated as a constraint precisely
+ *      Each of these is one of the nine laws stated as a constraint precisely
  *      so it can be checked rather than argued about, and a constraint nothing
  *      checks is a preference.
  *
@@ -152,6 +152,67 @@ const stripComment = (line) => line.replace(/(^|[^:"'`\w])\/\/.*$/, '$1')
 
 const WORDS = { four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 }
 
+// ── Law 09: the ink floors, computed from the tokens ─────────────────────────
+/**
+ * A text modifier is a color-mix of the ink over the page, and below some
+ * percentage the mix cannot reach 4.5:1, which is what WCAG AA asks of text.
+ * That percentage is a fact about the tokens, so it is computed from them
+ * here rather than written down: the lowest multiple of five that clears
+ * 4.5:1 on --background in both themes. Ink on art has no single ground and
+ * takes the muted ink's floor by declaration; so do the stock inks that only
+ * the art layer may use, since the sweep holds their rendering to the same
+ * number.
+ */
+function parseTokens(css) {
+  const tokens = { light: {}, dark: {} }
+  const root = css.match(/:root\s*\{([\s\S]*?)\n\}/)?.[1] || ''
+  const dark = css.match(/\.dark\s*\{([\s\S]*?)\n\}/)?.[1] || ''
+  for (const [theme, block] of [['light', root], ['dark', dark]])
+    for (const t of block.matchAll(/^\s*(--[\w-]+):\s*([^;]+);/gm)) tokens[theme][t[1]] = t[2].trim()
+  return tokens
+}
+function oklchToRgb(v) {
+  const m = v.match(/oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)/)
+  if (!m) return null
+  const [L, C, H] = [Number(m[1]), Number(m[2]), Number(m[3])]
+  const a = C * Math.cos((H * Math.PI) / 180), b = C * Math.sin((H * Math.PI) / 180)
+  const l = (L + 0.3963377774 * a + 0.2158037573 * b) ** 3
+  const mm = (L - 0.1055613458 * a - 0.0638541728 * b) ** 3
+  const s = (L - 0.0894841775 * a - 1.291485548 * b) ** 3
+  const lin = [
+    4.0767416621 * l - 3.3077115913 * mm + 0.2309699292 * s,
+    -1.2684380046 * l + 2.6097574011 * mm - 0.3413193965 * s,
+    -0.0041960863 * l - 0.7034186147 * mm + 1.707614701 * s,
+  ]
+  return lin.map((c) => { c = Math.min(1, Math.max(0, c)); return 255 * (c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055) })
+}
+const luminance = (rgb) => rgb.map((c) => { c /= 255; return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4 }).reduce((sum, c, i) => sum + c * [0.2126, 0.7152, 0.0722][i], 0)
+const contrast = (a, b) => { const [x, y] = [luminance(a), luminance(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05) }
+/** The lowest multiple of five at which `ink` mixed over --background clears 4.5:1 in both themes. */
+function inkFloor(tokens, ink) {
+  let floor = 0
+  for (const theme of ['light', 'dark']) {
+    const fg = oklchToRgb(tokens[theme][`--${ink}`] || ''), bg = oklchToRgb(tokens[theme]['--background'] || '')
+    if (!fg || !bg) return 100
+    let lowest = 100
+    for (let p = 100; p >= 5; p -= 5) {
+      // A color-mix with transparent composites in gamma space, channel by channel.
+      const mixed = fg.map((c, i) => bg[i] + (p / 100) * (c - bg[i]))
+      if (contrast(mixed, bg) >= 4.5) lowest = p
+      else break
+    }
+    floor = Math.max(floor, lowest)
+  }
+  return floor
+}
+const TOKENS = parseTokens(readFileSync(join(ROOT, 'app/globals.css'), 'utf8'))
+const FLOORS = {
+  foreground: inkFloor(TOKENS, 'foreground'),
+  'muted-foreground': inkFloor(TOKENS, 'muted-foreground'),
+  'card-foreground': inkFloor(TOKENS, 'card-foreground'),
+}
+for (const ink of ['on-art', 'ink-on-art', 'white', 'black']) FLOORS[ink] = FLOORS['muted-foreground']
+
 // ── The rules ────────────────────────────────────────────────────────────────
 /**
  * Every check is a function of (rel, src) that pushes [at, what, law] onto
@@ -193,6 +254,15 @@ function checkLines(rel, src, out) {
     if (/\banimate-ping\b/.test(code)) out.push([at, 'animate-ping', 'law 04'])
     const hov = code.match(/\bhover:opacity-(\d+)\b/)
     if (hov && hov[1] !== '0' && hov[1] !== '100') out.push([at, `hover:opacity-${hov[1]}: a hover that dims`, 'law 04'])
+
+    // Law 09 — every ink clears its ground. A text modifier under its ink's
+    // floor is a mix that cannot reach 4.5:1 on the page in both themes, and
+    // so is a `color:` mixed under it in the stylesheet. Decoration colours
+    // are not text and are not held to it.
+    for (const m of code.matchAll(/\b(?:[a-z-]+:)*text-(foreground|muted-foreground|card-foreground|on-art|ink-on-art|white|black)\/(\d+)\b/g))
+      if (Number(m[2]) < FLOORS[m[1]]) out.push([at, `${m[0]}: under the ${m[1]} floor of /${FLOORS[m[1]]}`, 'law 09'])
+    const mix = code.match(/(?<![-\w])color:\s*color-mix\(in \w+, var\(--(foreground|muted-foreground|card-foreground|ink-on-art)\) (\d+)%/)
+    if (mix && Number(mix[2]) < FLOORS[mix[1]]) out.push([at, `${mix[1]} mixed at ${mix[2]}%: under its floor of ${FLOORS[mix[1]]}`, 'law 09'])
   })
 }
 
@@ -327,6 +397,12 @@ function scan() {
     }
   }
 
+  // The floors, as the ladder card on /aka-style/foundations prints them.
+  const ladder = readFileSync(join(ROOT, 'components/features/aka-style/foundations/color.tsx'), 'utf8')
+  for (const ink of ['foreground', 'muted-foreground'])
+    if (!ladder.includes(`text-${ink}/${FLOORS[ink]}`))
+      violations.push(['components/features/aka-style/foundations/color.tsx', `the ladder card does not print the ${ink} floor, text-${ink}/${FLOORS[ink]}`, 'specimen'])
+
   // ── Does the specimen know about everything? ─────────────────────────────
   const uiComponents = readdirSync(join(ROOT, 'components/ui'))
     .filter((f) => f.endsWith('.tsx'))
@@ -368,6 +444,9 @@ function selftest() {
     ['law 05 loop', checkLoops, 'x.tsx', 'requestAnimationFrame(tick)', 'requestAnimationFrame(tick); new IntersectionObserver(); document.addEventListener("visibilitychange", f); matchMedia("(prefers-reduced-motion: reduce)")'],
     ['law 06 image', checkImages, 'x.tsx', '<Image src="/a.webp" alt="" />', '<Image src="/a.webp" alt="" width={10} height={10} />'],
     ['law 06 static import', checkImages, 'x.tsx', '<img src="/a.webp" alt="" />', '<Image src={hero} alt="" />'],
+    ['law 09 ink floor', checkLines, 'x.tsx', '<p className="text-muted-foreground/30" />', '<p className="text-muted-foreground/90" />'],
+    ['law 09 floor under a variant', checkLines, 'x.tsx', '<a className="hover:text-foreground/20" />', '<a className="hover:text-foreground/90" />'],
+    ['law 09 css mix', checkLines, 'x.css', '.a { color: color-mix(in srgb, var(--muted-foreground) 30%, transparent); }', '.a { text-decoration-color: color-mix(in srgb, var(--foreground) 30%, transparent); }'],
   ]
   let failed = 0
   for (const [name, fn, rel, bad, good] of cases) {
@@ -401,6 +480,7 @@ if (violations.length === 0) {
   for (const [at, what, law] of violations) console.log(`    ${at}  ${what}  ${dim(law)}`)
 }
 console.log(`  Client files: ${clientFiles} of a budget of ${CLIENT_BUDGET}.`)
+console.log(`  Ink floors, from the tokens: text-foreground/${FLOORS.foreground}, text-muted-foreground/${FLOORS['muted-foreground']}.`)
 for (const n of notes) console.log(`  ${dim(n)}`)
 
 if (undocumented.length === 0 && unshown.length === 0) {

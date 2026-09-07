@@ -8,7 +8,7 @@ import { UBIK_ARCHIVE_TYPE, UBIK_ELSEWHERE } from '@/components/features/demo/ub
 
 const item = 'block rounded-md px-3 py-2 text-13 transition-colors hover:bg-muted/40'
 const group =
-  'px-3 pb-1 pt-2 text-10 font-medium uppercase tracking-[0.14em] text-muted-foreground/50'
+  'px-3 pb-1 pt-2 text-10 font-medium uppercase tracking-[0.14em] text-muted-foreground/75'
 
 /*
  * Three reveals from the kit, one per write-up, cycled by position rather than

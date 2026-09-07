@@ -38,7 +38,7 @@ export function HitlKitTitle() {
             className="block h-auto w-full"
           />
         </div>
-        <p className="mt-3 text-12 font-light leading-relaxed text-muted-foreground/70">
+        <p className="mt-3 text-12 font-light leading-relaxed text-muted-foreground/75">
           Live site, paper, registry, and component showcase — the canonical home for the project.
         </p>
         <div className="mt-4 aka-card-well px-4 py-3">
@@ -46,7 +46,7 @@ export function HitlKitTitle() {
           <p className="mt-1.5 font-mono text-11 text-foreground/80">
             npx shadcn@latest add https://www.hitlkit.dev/r/&lt;id&gt;.json
           </p>
-          <p className="mt-1 font-mono text-11 text-muted-foreground/70">github.com/akaieuan/HITL-KIT</p>
+          <p className="mt-1 font-mono text-11 text-muted-foreground/75">github.com/akaieuan/HITL-KIT</p>
         </div>
       </div>
     </div>

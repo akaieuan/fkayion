@@ -56,8 +56,8 @@ export function BatchSection() {
                   {d === 'rejected' && <X className="h-4 w-4 text-red-500 shrink-0" />}
                   {!d && isActive && (
                     <div className="flex gap-1.5 shrink-0">
-                      <button onClick={() => decide(item.type, 'approved')} className="rounded-md bg-emerald-500/10 px-2 py-1 text-emerald-600 hover:bg-emerald-500/20 transition-colors">✓</button>
-                      <button onClick={() => decide(item.type, 'rejected')} className="rounded-md bg-red-500/10 px-2 py-1 text-red-500 hover:bg-red-500/20 transition-colors">✗</button>
+                      <button onClick={() => decide(item.type, 'approved')} className="rounded-md bg-emerald-500/10 px-2 py-1 text-emerald-800 dark:text-emerald-500 hover:bg-emerald-500/20 transition-colors">✓</button>
+                      <button onClick={() => decide(item.type, 'rejected')} className="rounded-md bg-red-500/10 px-2 py-1 text-red-700 dark:text-red-500 hover:bg-red-500/20 transition-colors">✗</button>
                     </div>
                   )}
                 </div>

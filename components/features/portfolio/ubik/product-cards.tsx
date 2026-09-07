@@ -43,7 +43,7 @@ export function UbikDemoCard({ demo }: { demo: Demo }) {
         <figcaption>
           <h3 className="text-17 font-medium tracking-tight text-on-art">{demo.title}</h3>
           <p className="mt-2 text-12 font-light leading-relaxed text-on-art/75">{demo.summary}</p>
-          <p className="mt-3 font-mono text-10 uppercase tracking-[0.14em] text-on-art/45">
+          <p className="mt-3 font-mono text-10 uppercase tracking-[0.14em] text-on-art/75">
             {demo.length}
           </p>
         </figcaption>

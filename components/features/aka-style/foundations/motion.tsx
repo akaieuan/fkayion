@@ -26,11 +26,11 @@ export function MotionSection() {
                 ['120ms', 'Stagger step', 'animationDelay: step * 120ms'],
               ].map(([t, use, cls]) => (
                 <Row key={t as string} name={t as string} value={cls as string}>
-                  <span className="text-11 font-light text-muted-foreground/60">{use}</span>
+                  <span className="text-11 font-light text-muted-foreground/75">{use}</span>
                 </Row>
               ))}
             </Table>
-            <p className="mt-4 text-12 font-light leading-relaxed text-muted-foreground/70">
+            <p className="mt-4 text-12 font-light leading-relaxed text-muted-foreground/75">
               <span className="text-foreground/80">Always gated.</span> Entrances use{' '}
               <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-11">motion-safe:</code>{' '}
               and canvas loops check{' '}

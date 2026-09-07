@@ -49,9 +49,12 @@
   --text-1: var(--foreground);
   --text-2: color-mix(in oklch, var(--foreground) 85%, transparent);
   --text-3: var(--muted-foreground);
-  --text-4: color-mix(in oklch, var(--muted-foreground) 70%, transparent);
-  --text-5: color-mix(in oklch, var(--muted-foreground) 50%, transparent);
-  --text-6: color-mix(in oklch, var(--muted-foreground) 40%, transparent);
+  /* The three quietest steps collapse to the third: the site holds every
+     rendered ink to 4.5:1 (law 09), and on the prototype's own grounds a mix
+     of this muted ink does not get there. */
+  --text-4: var(--text-3);
+  --text-5: var(--text-3);
+  --text-6: var(--text-3);
 
   /* --- type, radius, motion --- */
   --weight-light: 300;
@@ -93,7 +96,7 @@
   --primary: oklch(0.937 0.003 107);
   --primary-foreground: oklch(0.155 0.002 107);
   --muted: oklch(0.21 0.002 107);
-  --muted-foreground: oklch(0.63 0.004 107);
+  --muted-foreground: oklch(0.7 0.004 107);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 13%);
   --ring: oklch(0.6 0.004 107);
@@ -110,9 +113,22 @@
   --text-1: var(--foreground);
   --text-2: color-mix(in oklch, var(--foreground) 85%, transparent);
   --text-3: var(--muted-foreground);
-  --text-4: color-mix(in oklch, var(--muted-foreground) 70%, transparent);
-  --text-5: color-mix(in oklch, var(--muted-foreground) 50%, transparent);
-  --text-6: color-mix(in oklch, var(--muted-foreground) 40%, transparent);
+  /* The three quietest steps collapse to the third: the site holds every
+     rendered ink to 4.5:1 (law 09), and on the prototype's own grounds a mix
+     of this muted ink does not get there. */
+  --text-4: var(--text-3);
+  --text-5: var(--text-3);
+  --text-6: var(--text-3);
+}
+
+/*
+ * The page is paper whatever the site's theme says, and so is the document
+ * behind it. The story strip scrolls sideways past a phone's viewport, and
+ * what stands behind it out there is the document's ground rather than the
+ * page's: on overscroll a reader sees it, and an audit samples it.
+ */
+html:has(main[data-bl1-paper]) {
+  background: #f0eee9;
 }
 
 .bl1 button:not(:disabled) {

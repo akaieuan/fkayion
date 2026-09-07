@@ -34,7 +34,7 @@ export function CarouselSlide({
     >
       {children}
       {caption && (
-        <figcaption className="mt-2.5 text-11 font-light leading-relaxed text-muted-foreground/70">
+        <figcaption className="mt-2.5 text-11 font-light leading-relaxed text-muted-foreground/75">
           {caption}
         </figcaption>
       )}

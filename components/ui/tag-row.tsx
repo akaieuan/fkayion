@@ -29,11 +29,11 @@ export function TagRow({
 
   return (
     <p className={`flex flex-wrap items-center gap-1.5 ${className}`}>
-      <Tag className="h-3 w-3 shrink-0 text-muted-foreground/40" aria-hidden />
+      <Tag className="h-3 w-3 shrink-0 text-muted-foreground/75" aria-hidden />
       {tags.map((t) => (
         <span
           key={t}
-          className="rounded-md border border-border/60 px-1.5 py-0.5 text-10 font-medium uppercase tracking-[0.12em] text-muted-foreground/70"
+          className="rounded-md border border-border/60 px-1.5 py-0.5 text-10 font-medium uppercase tracking-[0.12em] text-muted-foreground/75"
         >
           {t}
         </span>

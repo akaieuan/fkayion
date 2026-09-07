@@ -118,7 +118,7 @@ function ProductCard({ demo }: { demo: Demo }) {
         <figcaption className="flex flex-col gap-2">
           <div className="flex items-baseline justify-between gap-4">
             <h3 className="text-20 font-light leading-snug tracking-tight text-on-art">{demo.title}</h3>
-            <p className="shrink-0 font-mono text-10 uppercase tracking-[0.14em] text-on-art/45">
+            <p className="shrink-0 font-mono text-10 uppercase tracking-[0.14em] text-on-art/75">
               {demo.length}
             </p>
           </div>
@@ -135,7 +135,7 @@ function ProductCard({ demo }: { demo: Demo }) {
               label={`${demo.title} — ${demo.summary}`}
             />
           </div>
-          <p className="mt-3 text-12 font-light leading-relaxed text-on-art/70">{demo.summary}</p>
+          <p className="mt-3 text-12 font-light leading-relaxed text-on-art/75">{demo.summary}</p>
         </div>
       </div>
     </figure>
@@ -147,7 +147,7 @@ export function ProductCardsSection() {
   return (
     <div>
       <p className="aka-kicker">The product, in motion</p>
-      <p className="mt-2 max-w-xl text-12 font-light leading-relaxed text-muted-foreground/70">
+      <p className="mt-2 max-w-xl text-12 font-light leading-relaxed text-muted-foreground/75">
         Seven silent recordings of the last build, March 2026, each one looping on its own.
       </p>
       {/* Air between the cards, so each one is looked at on its own, the way the marketing site spaced its features. */}

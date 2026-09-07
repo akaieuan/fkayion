@@ -22,7 +22,8 @@ import type { Block, Cell, Img, LedgerEntry, RosterCard, RosterTone, Status } fr
 /** `**bold**`, `_italic_` and `` `code` ``. Parsed into elements, never HTML. */
 const INLINE = /\*\*(.+?)\*\*|_(.+?)_|`(.+?)`/g
 
-const CODE = 'rounded bg-muted/60 px-1 py-0.5 font-mono text-[0.86em]'
+// The house code chip, which names its own ink: inherited essay ink on the chip's tint read at 4.4:1 in dark.
+const CODE = 'aka-code text-[0.86em]'
 
 export function inline(text: string, keyed: string) {
   const out: React.ReactNode[] = []
@@ -80,7 +81,7 @@ function blurProps(src: string) {
   return blurDataURL ? ({ placeholder: 'blur', blurDataURL } as const) : {}
 }
 
-const caption = 'mt-3 text-[12px] font-light leading-relaxed text-muted-foreground/70'
+const caption = 'mt-3 text-[12px] font-light leading-relaxed text-muted-foreground/75'
 const frame = 'overflow-hidden rounded-xl border border-border/80 bg-muted/10'
 const plate = 'block h-auto w-full rounded-lg border border-border/80'
 const label = 'font-mono text-[10px] uppercase tracking-[0.16em]'
@@ -169,21 +170,21 @@ function Plate({ img, priority, half }: { img: Img; priority?: boolean; half?: b
   return (
     <div className="flex flex-col gap-1.5">
       {el}
-      <span className={`${label} text-center text-muted-foreground/70`}>{img.note}</span>
+      <span className={`${label} text-center text-muted-foreground/75`}>{img.note}</span>
     </div>
   )
 }
 
 function Table({ head, rows, id }: { head: string[]; rows: Cell[][]; id: string }) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-border/80">
+    <div tabIndex={0} className="overflow-x-auto rounded-xl border border-border/80">
       <table className="w-full min-w-[520px] border-collapse text-right font-mono text-[12px] tabular-nums">
         <thead>
           <tr className="border-b border-border/80 bg-muted/20">
             {head.map((h, i) => (
               <th
                 key={h}
-                className={`px-4 py-2.5 text-[10px] font-medium uppercase tracking-[0.11em] text-muted-foreground/60 ${
+                className={`px-4 py-2.5 text-[10px] font-medium uppercase tracking-[0.11em] text-muted-foreground/75 ${
                   i === 0 ? 'text-left' : ''
                 }`}
               >
@@ -233,7 +234,7 @@ function Deltas({
       <dl className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-border/80 bg-border sm:grid-cols-2 lg:grid-cols-3">
         {items.map((d) => (
           <div key={d.k} className="bg-background px-4 py-3.5">
-            <dt className="font-mono text-[9.5px] uppercase tracking-[0.13em] text-muted-foreground/60">
+            <dt className="font-mono text-[9.5px] uppercase tracking-[0.13em] text-muted-foreground/75">
               {d.k}
             </dt>
             <dd
@@ -252,7 +253,7 @@ function Deltas({
         ))}
       </dl>
       {note && (
-        <p className="mt-3 font-mono text-[11px] leading-relaxed text-muted-foreground/70">{note}</p>
+        <p className="mt-3 font-mono text-[11px] leading-relaxed text-muted-foreground/75">{note}</p>
       )}
     </div>
   )
@@ -273,7 +274,7 @@ function Ledger({ entries, id }: { entries: LedgerEntry[]; id: string }) {
       {entries.map((e) => (
         <article key={e.n} className="border-b border-border/50 py-6 sm:grid sm:grid-cols-[92px_1fr] sm:gap-6">
           <div className="flex items-center gap-2.5 sm:flex-col sm:items-start sm:gap-2">
-            <span className="font-mono text-[11px] tabular-nums tracking-[0.1em] text-muted-foreground/60">
+            <span className="font-mono text-[11px] tabular-nums tracking-[0.1em] text-muted-foreground/75">
               {e.n}
             </span>
             <span
@@ -359,7 +360,7 @@ function Roster({
             />
             <div className="flex items-baseline justify-between gap-2 px-4 pt-3.5">
               <span className="text-[16px] font-medium text-foreground">{c.name}</span>
-              <span className="font-mono text-[9.5px] uppercase tracking-[0.13em] text-muted-foreground/60">
+              <span className="font-mono text-[9.5px] uppercase tracking-[0.13em] text-muted-foreground/75">
                 {c.role}
               </span>
             </div>
@@ -367,14 +368,14 @@ function Roster({
             <dl className="flex flex-col gap-1.5 px-4 pb-1 pt-3 font-mono text-[11.5px] tabular-nums">
               {c.dials.map(([k, v]) => (
                 <div key={k} className="flex justify-between gap-2">
-                  <dt className="text-muted-foreground/60">{k}</dt>
+                  <dt className="text-muted-foreground/75">{k}</dt>
                   <dd className="text-right font-medium text-foreground">{v}</dd>
                 </div>
               ))}
             </dl>
 
             <div className="mt-auto px-4 pb-4 pt-3">
-              <p className="mb-1.5 flex flex-wrap justify-between gap-x-3 font-mono text-[9.5px] uppercase tracking-[0.12em] text-muted-foreground/60">
+              <p className="mb-1.5 flex flex-wrap justify-between gap-x-3 font-mono text-[9.5px] uppercase tracking-[0.12em] text-muted-foreground/75">
                 <span className="text-foreground/80">{c.tris}</span>
                 <span>{c.share}</span>
               </p>
@@ -395,7 +396,7 @@ function Roster({
             {k.label}
           </span>
         ))}
-        <span className="text-muted-foreground/60">
+        <span className="text-muted-foreground/75">
           bar is share of the 40,000-triangle category budget
         </span>
       </p>
@@ -470,7 +471,7 @@ export function LabProse({ blocks }: { blocks: Block[] }) {
             <figure key={key} className="!mt-8">
               {block.label && (
                 <p
-                  className={`mb-2.5 flex items-center gap-2.5 ${label} text-muted-foreground/60 after:h-px after:flex-1 after:bg-border after:content-['']`}
+                  className={`mb-2.5 flex items-center gap-2.5 ${label} text-muted-foreground/75 after:h-px after:flex-1 after:bg-border after:content-['']`}
                 >
                   {block.label}
                 </p>
@@ -517,7 +518,7 @@ export function LabProse({ blocks }: { blocks: Block[] }) {
                       {...blurProps(item.src)}
                       className={plate}
                     />
-                    <span className="flex justify-between gap-1.5 font-mono text-[10px] text-muted-foreground/70">
+                    <span className="flex justify-between gap-1.5 font-mono text-[10px] text-muted-foreground/75">
                       {item.name}
                       <span className="bkz-bad">{item.note}</span>
                     </span>
@@ -565,7 +566,7 @@ export function LabProse({ blocks }: { blocks: Block[] }) {
           return (
             <div key={key} className="!mt-14 border-t border-border pt-6">
               {block.lines.map((line, l) => (
-                <p key={l} className="font-mono text-[11.5px] leading-relaxed text-muted-foreground/60">
+                <p key={l} className="font-mono text-[11.5px] leading-relaxed text-muted-foreground/75">
                   {line}
                 </p>
               ))}

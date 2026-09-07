@@ -44,12 +44,12 @@ export function AkaStyleTitle() {
               <PixelHead size={96} grid={24} icon={m.icon} still />
               <div>
                 <p className="text-14 font-light text-foreground/90">{m.name}</p>
-                <p className="font-mono text-11 text-muted-foreground/60">{m.note}</p>
+                <p className="font-mono text-11 text-muted-foreground/75">{m.note}</p>
               </div>
             </li>
           ))}
         </ul>
-        <p className="mt-3 text-11 font-light leading-relaxed text-muted-foreground/70">
+        <p className="mt-3 text-11 font-light leading-relaxed text-muted-foreground/75">
           Not a logo file. A disc of cells with the wordmark subtracted, drawn at render time by
           the same engine every other mark in the family uses.
         </p>
@@ -63,7 +63,7 @@ export function AkaStyleTitle() {
             <li key={u.name} className="aka-card px-4 py-3">
               <p className="text-14 font-light text-foreground/90">{u.name}</p>
               <p className="mt-1 text-12 font-light leading-relaxed text-muted-foreground">{u.what}</p>
-              <p className="mt-2 font-mono text-10 text-muted-foreground/60">{address(u.href)}</p>
+              <p className="mt-2 font-mono text-10 text-muted-foreground/75">{address(u.href)}</p>
             </li>
           ))}
         </ul>

@@ -23,7 +23,7 @@ export function Contents({ entries }: { entries: ContentsEntry[] }) {
               key={e.section}
               className="grid grid-cols-[56px_1fr_72px] items-baseline gap-4 border-b border-border/40 py-4"
             >
-              <span className="font-mono text-12 text-muted-foreground/60">
+              <span className="font-mono text-12 text-muted-foreground/75">
                 {String(i + 1).padStart(2, '0')}
               </span>
               <span>
@@ -50,7 +50,7 @@ export function Contents({ entries }: { entries: ContentsEntry[] }) {
             akabuild.dev, and printed from it. The write-ups it condenses are at the site, in full.
           </p>
         </div>
-        <p className="mt-6 flex gap-8 font-mono text-12 text-muted-foreground/70">
+        <p className="mt-6 flex gap-8 font-mono text-12 text-muted-foreground/75">
           {CONTACT.map((c) => (
             <span key={c}>{c}</span>
           ))}

@@ -60,11 +60,11 @@ function getExampleArtifacts(): ArtifactEntry[] {
             { l: 'Save Rate', v: '6.4%' },
           ].map((s, i) => (
             <Card key={i} className="flex-1 basis-[70px] px-2.5 py-2">
-              <div className="text-[8px] text-muted-foreground/60 font-normal uppercase">
+              <div className="text-[8px] text-muted-foreground/75 font-normal uppercase">
                 {s.l}
               </div>
               <div className="text-sm font-normal text-foreground mt-px font-mono">{s.v}</div>
-              {s.d && <div className="text-[9px] text-emerald-500 font-mono">{s.d}</div>}
+              {s.d && <div className="text-[9px] text-emerald-700 dark:text-emerald-500 font-mono">{s.d}</div>}
             </Card>
           ))}
         </div>
@@ -129,7 +129,7 @@ function getExampleArtifacts(): ArtifactEntry[] {
               </div>
               <div className="px-1.5 py-1">
                 <div className="text-[8px] font-medium text-foreground">{p.handle}</div>
-                <div className="flex gap-1.5 mt-0.5 text-[7px] text-muted-foreground/60">
+                <div className="flex gap-1.5 mt-0.5 text-[7px] text-muted-foreground/75">
                   <span>{p.views} views</span>
                   <span>{p.likes} likes</span>
                 </div>
@@ -157,7 +157,7 @@ function getExampleArtifacts(): ArtifactEntry[] {
               <div
                 className={cn(
                   'text-[9px] font-mono',
-                  parseFloat(c.engagement) > 10 ? 'text-emerald-500' : 'text-foreground'
+                  parseFloat(c.engagement) > 10 ? 'text-emerald-700 dark:text-emerald-500' : 'text-foreground'
                 )}
               >
                 {c.engagement}
@@ -175,7 +175,7 @@ function getExampleArtifacts(): ArtifactEntry[] {
       element: (
         <Card className="overflow-hidden">
           <div className="px-2 py-1.5 border-b border-border">
-            <div className="text-[8px] text-muted-foreground/60">To: 6 creators</div>
+            <div className="text-[8px] text-muted-foreground/75">To: 6 creators</div>
             <div className="text-[9px] font-medium text-foreground mt-px">
               New Release Promo Collab
             </div>
@@ -200,7 +200,7 @@ function getExampleArtifacts(): ArtifactEntry[] {
                   <th
                     key={i}
                     className={cn(
-                      'px-1.5 py-1 text-[7px] font-normal text-muted-foreground/60 border-b border-border',
+                      'px-1.5 py-1 text-[7px] font-normal text-muted-foreground/75 border-b border-border',
                       i > 0 ? 'text-right' : 'text-left'
                     )}
                   >
@@ -248,11 +248,11 @@ function getExampleArtifacts(): ArtifactEntry[] {
           ].map((r, i) => (
             <Card key={i} className="flex items-center gap-1.5 px-2 py-1.5">
               <div className="w-3.5 h-3.5 rounded bg-border flex items-center justify-center">
-                <Music size={8} className="text-muted-foreground/60" />
+                <Music size={8} className="text-muted-foreground/75" />
               </div>
               <div className="flex-1">
                 <div className="text-[9px] font-medium text-foreground">{r.t}</div>
-                <div className="text-[7px] text-muted-foreground/60">{r.d}</div>
+                <div className="text-[7px] text-muted-foreground/75">{r.d}</div>
               </div>
               <div className="flex gap-0.5 items-center">
                 {[0, 1, 2, 3].map((si) => (
@@ -268,7 +268,7 @@ function getExampleArtifacts(): ArtifactEntry[] {
               <span
                 className={cn(
                   'text-[7px] font-medium',
-                  i === 0 ? 'text-emerald-500' : 'text-orange-400'
+                  i === 0 ? 'text-emerald-700 dark:text-emerald-500' : 'text-orange-700 dark:text-orange-400'
                 )}
               >
                 {r.s}
@@ -299,7 +299,7 @@ function getExampleArtifacts(): ArtifactEntry[] {
               />
               <div className="flex-1 text-[9px] font-medium text-foreground">{c.t}</div>
               <span className="text-[8px] font-mono text-muted-foreground">{c.r}</span>
-              <span className="text-[8px] font-mono text-muted-foreground/60">{c.b}</span>
+              <span className="text-[8px] font-mono text-muted-foreground/75">{c.b}</span>
             </Card>
           ))}
         </div>
@@ -330,11 +330,11 @@ function getExampleArtifacts(): ArtifactEntry[] {
                 <span className="text-[6px] text-white font-medium">{c.p}</span>
               </div>
               <div className="flex-1 text-[8px] text-foreground truncate">{c.cap}</div>
-              <span className="text-[7px] text-muted-foreground/60 font-mono">{c.d}</span>
+              <span className="text-[7px] text-muted-foreground/75 font-mono">{c.d}</span>
               <span
                 className={cn(
                   'text-[7px] font-medium',
-                  c.s === 'scheduled' ? 'text-purple-400' : 'text-orange-400'
+                  c.s === 'scheduled' ? 'text-purple-700 dark:text-purple-400' : 'text-orange-700 dark:text-orange-400'
                 )}
               >
                 {c.s}
@@ -351,7 +351,7 @@ function getExampleArtifacts(): ArtifactEntry[] {
       desc: 'Demographics, geo, and listening behavior',
       element: (
         <Card className="px-2.5 py-2">
-          <div className="text-[8px] font-normal text-muted-foreground/60 mb-1.5 uppercase">
+          <div className="text-[8px] font-normal text-muted-foreground/75 mb-1.5 uppercase">
             Top Markets
           </div>
           {[
@@ -380,7 +380,7 @@ function getExampleArtifacts(): ArtifactEntry[] {
             ].map((s, i) => (
               <div key={i}>
                 <div className="text-[9px] font-mono font-medium text-foreground">{s.v}</div>
-                <div className="text-[7px] text-muted-foreground/60">{s.l}</div>
+                <div className="text-[7px] text-muted-foreground/75">{s.l}</div>
               </div>
             ))}
           </div>
@@ -407,9 +407,9 @@ function getExampleArtifacts(): ArtifactEntry[] {
             </div>
             <div className="text-[8px] text-muted-foreground">
               Song: <span className="text-foreground font-medium">So U Kno</span> &middot; Save
-              rate: <span className="text-emerald-500 font-medium">7.8%</span>
+              rate: <span className="text-emerald-700 dark:text-emerald-500 font-medium">7.8%</span>
             </div>
-            <div className="text-[7px] text-muted-foreground/60 mt-1">
+            <div className="text-[7px] text-muted-foreground/75 mt-1">
               Fit score: 92% based on listener overlap
             </div>
           </div>
@@ -423,7 +423,7 @@ function getExampleArtifacts(): ArtifactEntry[] {
       desc: 'Campaign variant performance comparison',
       element: (
         <Card className="px-2.5 py-2">
-          <div className="text-[8px] font-normal text-muted-foreground/60 mb-1.5 uppercase">
+          <div className="text-[8px] font-normal text-muted-foreground/75 mb-1.5 uppercase">
             Sound Push — 48h Results
           </div>
           {[
@@ -453,12 +453,12 @@ function getExampleArtifacts(): ArtifactEntry[] {
               <span
                 className={cn(
                   'text-[10px] font-mono font-medium',
-                  v.w ? 'text-emerald-500' : 'text-muted-foreground'
+                  v.w ? 'text-emerald-700 dark:text-emerald-500' : 'text-muted-foreground'
                 )}
               >
                 {v.v}%
               </span>
-              {v.w && <span className="text-[7px] text-emerald-500 font-medium">WINNER</span>}
+              {v.w && <span className="text-[7px] text-emerald-700 dark:text-emerald-500 font-medium">WINNER</span>}
             </div>
           ))}
         </Card>
@@ -475,7 +475,7 @@ export function ArtifactsGallery() {
       <div className="max-w-[1080px] mx-auto px-8 py-7 pb-10">
         <div className="mb-6">
           <h1 className="text-2xl font-normal text-foreground tracking-tight mb-1">Artifacts</h1>
-          <p className="text-[13px] text-muted-foreground/60">
+          <p className="text-[13px] text-muted-foreground/75">
             Output types generated by Agatha
           </p>
         </div>
@@ -488,7 +488,7 @@ export function ArtifactsGallery() {
                 </div>
                 <div>
                   <div className="text-[13px] font-medium text-foreground">{ea.label}</div>
-                  <div className="text-[10px] text-muted-foreground/60">{ea.desc}</div>
+                  <div className="text-[10px] text-muted-foreground/75">{ea.desc}</div>
                 </div>
               </div>
               <div className="pointer-events-none">{ea.element}</div>

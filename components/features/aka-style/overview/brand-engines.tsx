@@ -52,14 +52,14 @@ export function BrandEnginesSection() {
                 </div>
                 <div>
                   <p className="text-14 font-light text-foreground/90">
-                    The akaBuild mark <span className="text-muted-foreground/50">· disc-aka</span>
+                    The akaBuild mark <span className="text-muted-foreground/75">· disc-aka</span>
                   </p>
                   <p className="mt-1 text-13 font-light leading-relaxed text-muted-foreground">
                     A solid disc with the lowercase wordmark subtracted. The glyph samples in
                     normalized space rather than baking to a fixed grid, so one definition serves the
                     favicon, the chrome, and the hero. This is the site&apos;s icon.
                   </p>
-                  <p className="mt-1.5 font-mono text-11 text-muted-foreground/60">
+                  <p className="mt-1.5 font-mono text-11 text-muted-foreground/75">
                     {'<PixelHead icon="disc-aka" grid={32} still />'}
                   </p>
                 </div>
@@ -78,7 +78,7 @@ export function BrandEnginesSection() {
                     eighth note, an isometric cube, a terminal prompt, a pen stroke. The dissolve{' '}
                     <em>is</em> the discipline change. The hero it was built for now cycles faces.
                   </p>
-                  <p className="mt-1.5 font-mono text-11 text-muted-foreground/60">
+                  <p className="mt-1.5 font-mono text-11 text-muted-foreground/75">
                     {'<AkaMark size grid gap hold speed fluid />'}
                   </p>
                 </div>
@@ -93,14 +93,14 @@ export function BrandEnginesSection() {
                 </div>
                 <div>
                   <p className="text-14 font-light text-foreground/90">
-                    PixelHead <span className="text-muted-foreground/50">· ported from circleheads</span>
+                    PixelHead <span className="text-muted-foreground/75">· ported from circleheads</span>
                   </p>
                   <p className="mt-1 text-13 font-light leading-relaxed text-muted-foreground">
                     The studio mark: a knocked-out head cycling facial expressions, plus an icon mode
                     that renders any mask from the same grid: here the pixel{' '}
                     <code className="aka-code">aka</code> wordmark used in this site&apos;s header.
                   </p>
-                  <p className="mt-1.5 font-mono text-11 text-muted-foreground/60">
+                  <p className="mt-1.5 font-mono text-11 text-muted-foreground/75">
                     {'<PixelHead faces still icon face shimmer fluid />'}
                   </p>
                 </div>
@@ -119,7 +119,7 @@ export function BrandEnginesSection() {
                     and stop-and-go waves emerging from two rules, painted in the same bit style. The
                     sim is pure and DOM-free; the component owns the clock.
                   </p>
-                  <p className="mt-1.5 font-mono text-11 text-muted-foreground/60">
+                  <p className="mt-1.5 font-mono text-11 text-muted-foreground/75">
                     {'<PixelRoundabout size grid gap />'}
                   </p>
                 </div>

@@ -18,8 +18,8 @@ export function RCreators({ creators }: { creators: Creator[] }) {
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5">
               <span className="text-[13px] font-medium text-foreground">{c.name}</span>
-              <span className="text-[11px] text-muted-foreground/60">{c.handle}</span>
-              <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-border text-muted-foreground/60">
+              <span className="text-[11px] text-muted-foreground/75">{c.handle}</span>
+              <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-border text-muted-foreground">
                 {c.platform}
               </span>
             </div>
@@ -41,22 +41,22 @@ export function RCreators({ creators }: { creators: Creator[] }) {
               <div className="text-[13px] font-mono font-normal text-foreground">
                 {c.followers}
               </div>
-              <div className="text-[9px] text-muted-foreground/60">followers</div>
+              <div className="text-[9px] text-muted-foreground/75">followers</div>
             </div>
             <div className="text-center">
               <div
                 className={cn(
                   'text-[13px] font-mono font-normal',
-                  parseFloat(c.engagement) > 10 ? 'text-emerald-500' : 'text-foreground'
+                  parseFloat(c.engagement) > 10 ? 'text-emerald-700 dark:text-emerald-500' : 'text-foreground'
                 )}
               >
                 {c.engagement}
               </div>
-              <div className="text-[9px] text-muted-foreground/60">eng rate</div>
+              <div className="text-[9px] text-muted-foreground/75">eng rate</div>
             </div>
             <div className="text-center">
               <div className="text-[13px] font-mono text-muted-foreground">{c.price}</div>
-              <div className="text-[9px] text-muted-foreground/60">est. cost</div>
+              <div className="text-[9px] text-muted-foreground/75">est. cost</div>
             </div>
           </div>
         </div>

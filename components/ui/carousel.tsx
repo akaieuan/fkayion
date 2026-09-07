@@ -105,7 +105,7 @@ export function Carousel({
       </div>
 
       <div className="mt-3 flex items-center justify-between gap-4">
-        <span ref={countRef} aria-live="polite" className="font-mono text-11 text-muted-foreground/70">
+        <span ref={countRef} aria-live="polite" className="font-mono text-11 text-muted-foreground/75">
           {`1 / ${total}`}
         </span>
         {/* The segmented control's frame, so two icon buttons read as one control. */}

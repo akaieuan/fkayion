@@ -141,7 +141,7 @@ export function ChatView({
                           className={cn(
                             active?.id === a.id
                               ? 'text-primary'
-                              : 'text-muted-foreground/60',
+                              : 'text-muted-foreground/75',
                           )}
                         />
                         <div className="flex-1">
@@ -149,14 +149,14 @@ export function ChatView({
                             {a.title}
                           </div>
                           {a.subtitle && (
-                            <div className="text-[10px] text-muted-foreground/60 mt-px">
+                            <div className="text-[10px] text-muted-foreground/75 mt-px">
                               {a.subtitle}
                             </div>
                           )}
                         </div>
                         <ChevronRight
                           size={13}
-                          className="text-muted-foreground/60"
+                          className="text-muted-foreground/75"
                         />
                       </button>
                     ))}

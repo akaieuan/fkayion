@@ -86,13 +86,13 @@ export function Sidebar({
       className="flex items-center justify-between px-3 py-1.5 cursor-pointer select-none"
       onClick={toggle}
     >
-      <span className="text-[11px] font-normal text-muted-foreground/60 uppercase tracking-wide">
+      <span className="text-[11px] font-normal text-muted-foreground/75 uppercase tracking-wide">
         {label}
       </span>
       {isOpen ? (
-        <ChevronDown size={14} className="text-muted-foreground/60" />
+        <ChevronDown size={14} className="text-muted-foreground/75" />
       ) : (
-        <ChevronRight size={14} className="text-muted-foreground/60" />
+        <ChevronRight size={14} className="text-muted-foreground/75" />
       )}
     </div>
   );
@@ -146,7 +146,7 @@ export function Sidebar({
                 <span className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
                   {r.title}
                 </span>
-                <span className="shrink-0 text-[11px] text-muted-foreground/60 font-mono">
+                <span className="shrink-0 text-[11px] text-muted-foreground/75 font-mono">
                   {r.time}
                 </span>
               </button>
@@ -176,7 +176,7 @@ export function Sidebar({
                 </button>
               ))}
               {projects.length === 0 && (
-                <div className="px-3 py-2 text-xs text-muted-foreground/60">
+                <div className="px-3 py-2 text-xs text-muted-foreground/75">
                   No projects yet
                 </div>
               )}

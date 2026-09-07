@@ -34,9 +34,9 @@ export function HitlKitPrimitives({ from, to }: { from: number; to: number }) {
                 className="block h-full w-full object-contain object-top"
               />
             </div>
-            <figcaption className="mt-2 flex items-baseline justify-between gap-3 text-11 font-light text-muted-foreground/70">
+            <figcaption className="mt-2 flex items-baseline justify-between gap-3 text-11 font-light text-muted-foreground/75">
               <span className="text-foreground/80">{c.name}</span>
-              <code className="font-mono text-10 text-muted-foreground/60">{c.id}</code>
+              <code className="font-mono text-10 text-muted-foreground/75">{c.id}</code>
             </figcaption>
           </figure>
         ))}

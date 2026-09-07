@@ -27,7 +27,7 @@ export function AiScaleSection() {
                     onClick={() => setValues(vals => vals.map((x, j) => j === idx ? i : x))}
                     className={cn(
                       'flex-1 rounded-md border-2 py-1.5 text-center text-[10px] font-semibold transition-all',
-                      v === i ? `${colors[i]} border-transparent text-white` : 'border-border text-muted-foreground hover:border-foreground/30',
+                      v === i ? `${colors[i]} border-transparent text-black` : 'border-border text-muted-foreground hover:border-foreground/30',
                     )}
                   >
                     {l}

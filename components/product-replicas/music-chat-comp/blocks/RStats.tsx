@@ -15,7 +15,7 @@ export function RStats({ stats, compact = false }: { stats: StatItem[]; compact?
         >
           <div
             className={cn(
-              'uppercase tracking-wider text-muted-foreground/60',
+              'uppercase tracking-wider text-muted-foreground/75',
               compact ? 'text-[9px]' : 'text-[10px]'
             )}
           >
@@ -33,7 +33,7 @@ export function RStats({ stats, compact = false }: { stats: StatItem[]; compact?
             <div
               className={cn(
                 'font-mono font-normal',
-                s.up ? 'text-emerald-500' : 'text-red-500',
+                s.up ? 'text-emerald-700 dark:text-emerald-500' : 'text-red-700 dark:text-red-500',
                 compact ? 'text-[10px] mt-px' : 'text-[11px] mt-0.5'
               )}
             >
@@ -43,7 +43,7 @@ export function RStats({ stats, compact = false }: { stats: StatItem[]; compact?
           {s.sub && (
             <div
               className={cn(
-                'text-muted-foreground/60',
+                'text-muted-foreground/75',
                 compact ? 'text-[9px] mt-px' : 'text-[10px] mt-0.5'
               )}
             >

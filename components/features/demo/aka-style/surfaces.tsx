@@ -20,7 +20,7 @@ export function Surfaces() {
               <li key={sf.cls} className={`${sf.render} overflow-hidden`}>
                 <div className="aka-card-head flex items-baseline justify-between gap-4 px-4 py-2.5">
                   <span className="text-14 font-light text-foreground/90">{sf.name}</span>
-                  <span className="font-mono text-11 text-muted-foreground/60">.{sf.cls}</span>
+                  <span className="font-mono text-11 text-muted-foreground/75">.{sf.cls}</span>
                 </div>
                 <div className="px-4 py-3.5">
                   <p className="text-13 font-light leading-relaxed text-muted-foreground">
@@ -36,7 +36,7 @@ export function Surfaces() {
                     {sf.layers.map((l) => (
                       <li
                         key={l}
-                        className="font-mono text-11 leading-relaxed text-muted-foreground/60"
+                        className="font-mono text-11 leading-relaxed text-muted-foreground/75"
                       >
                         {l}
                       </li>

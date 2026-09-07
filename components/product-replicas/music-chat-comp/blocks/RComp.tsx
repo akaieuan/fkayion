@@ -57,7 +57,7 @@ export function RComp({
               {r.label}
             </div>
             {r.sub && (
-              <div className={cn('text-muted-foreground/60', compact ? 'text-[9px]' : 'text-[10px]')}>
+              <div className={cn('text-muted-foreground/75', compact ? 'text-[9px]' : 'text-[10px]')}>
                 {r.sub}
               </div>
             )}
@@ -75,7 +75,7 @@ export function RComp({
           {r.meta && (
             <div
               className={cn(
-                'text-right font-mono text-muted-foreground/60',
+                'text-right font-mono text-muted-foreground/75',
                 compact ? 'w-[70px] text-[9px]' : 'w-[85px] text-[10px]'
               )}
             >

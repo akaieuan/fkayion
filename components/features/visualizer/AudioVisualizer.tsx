@@ -2233,7 +2233,7 @@ export function AudioVisualizer() {
             <h1 className="text-xl text-gray-500/80 font-light tracking-wide">
               visualizer eden
             </h1>
-            <p className="text-white/25 text-xs mt-1 font-light">
+            <p className="text-white/75 text-xs mt-1 font-light">
               upload audio · customize · experience
             </p>
           </div>

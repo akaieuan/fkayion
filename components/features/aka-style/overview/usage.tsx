@@ -21,7 +21,7 @@ export function UsageSection() {
                 <>
                   <div className="flex items-baseline justify-between gap-3">
                     <span className="text-14 text-foreground/90">{u.name}</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/35" aria-hidden />
+                    <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/75" aria-hidden />
                   </div>
                   <p className="mt-1 text-13 font-light leading-relaxed text-muted-foreground">
                     {u.what}

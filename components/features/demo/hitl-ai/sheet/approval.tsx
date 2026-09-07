@@ -31,16 +31,16 @@ export function ApprovalSection() {
             <div className="flex-1">
               {states[i] === 'pending' ? (
                 <div className="flex gap-1.5">
-                  <button onClick={() => set(i, 'approved')} className="flex items-center gap-1 rounded-md bg-emerald-500/10 px-2.5 py-1.5 text-xs font-medium text-emerald-600 hover:bg-emerald-500/20 transition-colors">
+                  <button onClick={() => set(i, 'approved')} className="flex items-center gap-1 rounded-md bg-emerald-500/10 px-2.5 py-1.5 text-xs font-medium text-emerald-800 dark:text-emerald-500 hover:bg-emerald-500/20 transition-colors">
                     <Check className="h-3 w-3" /> Approve
                   </button>
-                  <button onClick={() => set(i, 'rejected')} className="flex items-center gap-1 rounded-md bg-red-500/10 px-2.5 py-1.5 text-xs font-medium text-red-500 hover:bg-red-500/20 transition-colors">
+                  <button onClick={() => set(i, 'rejected')} className="flex items-center gap-1 rounded-md bg-red-500/10 px-2.5 py-1.5 text-xs font-medium text-red-700 dark:text-red-500 hover:bg-red-500/20 transition-colors">
                     <X className="h-3 w-3" /> Reject
                   </button>
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <span className={cn('text-xs font-medium capitalize', states[i] === 'approved' ? 'text-emerald-600' : 'text-red-500')}>
+                  <span className={cn('text-xs font-medium capitalize', states[i] === 'approved' ? 'text-emerald-700 dark:text-emerald-500' : 'text-red-700 dark:text-red-500')}>
                     {states[i]}
                   </span>
                   <button onClick={() => set(i, 'pending')} className="text-[10px] text-muted-foreground underline underline-offset-2 hover:text-foreground">undo</button>

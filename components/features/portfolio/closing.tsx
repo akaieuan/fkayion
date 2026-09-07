@@ -31,7 +31,7 @@ export function Closing() {
             <li key={e.title} className="border-b border-border/40 py-4">
               <div className="flex items-baseline justify-between gap-6">
                 <p className="text-15 font-light text-foreground/90">{e.title}</p>
-                <p className="shrink-0 font-mono text-10 text-muted-foreground/60">
+                <p className="shrink-0 font-mono text-10 text-muted-foreground/75">
                   {address(writingHref(e))}
                 </p>
               </div>

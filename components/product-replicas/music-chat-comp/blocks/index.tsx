@@ -18,7 +18,7 @@ export function renderBlock(b: Block, i: number, onAsk: (prompt: string) => void
     return <RComp key={i} title={b.comparisons.title} rows={b.comparisons.rows} />;
   if (b.type === 'social' && b.posts)
     return (
-      <div key={i} className="my-3 overflow-x-auto flex gap-2 pb-1">
+      <div key={i} tabIndex={0} className="my-3 overflow-x-auto flex gap-2 pb-1">
         {b.posts.map((p) => (
           <RSocialEmbed key={p.id} post={p} compact />
         ))}
@@ -36,7 +36,7 @@ export function renderArtifact(a: ArtifactData, onAsk: (prompt: string) => void)
   return (
     <div className="px-7 py-6 overflow-auto h-full">
       {a.subtitle && (
-        <div className="text-xs text-muted-foreground/60 mb-4">{a.subtitle}</div>
+        <div className="text-xs text-muted-foreground/75 mb-4">{a.subtitle}</div>
       )}
       {a.stats && <RStats stats={a.stats} />}
       {a.body && (
@@ -54,7 +54,7 @@ export function renderArtifact(a: ArtifactData, onAsk: (prompt: string) => void)
           <div className="text-[13px] font-normal text-foreground mb-2.5">
             Top Performing Content
           </div>
-          <div className="flex gap-2.5 overflow-x-auto pb-1.5">
+          <div tabIndex={0} className="flex gap-2.5 overflow-x-auto pb-1.5">
             {a.posts.map((p) => (
               <RSocialEmbed key={p.id} post={p} />
             ))}
@@ -71,7 +71,7 @@ export function renderArtifact(a: ArtifactData, onAsk: (prompt: string) => void)
                   <th
                     key={i}
                     className={cn(
-                      'px-3.5 py-2 text-[10px] font-normal text-muted-foreground/60 uppercase tracking-wide border-b border-border',
+                      'px-3.5 py-2 text-[10px] font-normal text-muted-foreground/75 uppercase tracking-wide border-b border-border',
                       i > 0 ? 'text-right' : 'text-left'
                     )}
                   >
@@ -98,13 +98,13 @@ export function renderArtifact(a: ArtifactData, onAsk: (prompt: string) => void)
                           ci > 0 ? 'text-right font-mono' : 'text-left',
                           ci === 0 ? 'font-medium text-foreground' : 'font-normal',
                           isHigh
-                            ? 'text-emerald-500'
+                            ? 'text-emerald-700 dark:text-emerald-500'
                             : ci === 0
                               ? 'text-foreground'
                               : v.startsWith('+')
-                                ? 'text-emerald-500'
+                                ? 'text-emerald-700 dark:text-emerald-500'
                                 : v.startsWith('-')
-                                  ? 'text-red-500'
+                                  ? 'text-red-700 dark:text-red-500'
                                   : 'text-muted-foreground'
                         )}
                       >
@@ -120,7 +120,7 @@ export function renderArtifact(a: ArtifactData, onAsk: (prompt: string) => void)
       )}
       {a.actions && (
         <div className="mt-5 pt-4 border-t border-border">
-          <div className="text-[10px] uppercase tracking-wider text-muted-foreground/60 mb-2">
+          <div className="text-[10px] uppercase tracking-wider text-muted-foreground/75 mb-2">
             Next Steps
           </div>
           <RActions actions={a.actions} onAsk={onAsk} />

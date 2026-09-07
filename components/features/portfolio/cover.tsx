@@ -22,7 +22,7 @@ export function Cover() {
           Product design engineer · trained as an anthropologist · Brooklyn, NY
         </p>
         <p className="mt-10 text-15 font-light text-muted-foreground">Portfolio, 2026</p>
-        <p className="mt-2 flex gap-8 font-mono text-12 text-muted-foreground/70">
+        <p className="mt-2 flex gap-8 font-mono text-12 text-muted-foreground/75">
           {CONTACT.map((c) => (
             <span key={c}>{c}</span>
           ))}

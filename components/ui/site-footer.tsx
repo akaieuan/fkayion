@@ -53,9 +53,9 @@ const columns: { heading: string; links: FooterLink[] }[] = [
 ]
 
 const linkCls =
-  'text-13 font-light text-muted-foreground/70 transition-colors hover:text-foreground'
+  'text-13 font-light text-muted-foreground/75 transition-colors hover:text-foreground'
 const headingCls =
-  'text-10 font-medium uppercase tracking-[0.18em] text-muted-foreground/45'
+  'text-10 font-medium uppercase tracking-[0.18em] text-muted-foreground/75'
 
 function FooterItem({ link }: { link: FooterLink }) {
   return link.external ? (
@@ -82,7 +82,7 @@ export function SiteFooter() {
                 akaBuild
               </span>
             </div>
-            <p className="mt-3 text-13 font-light leading-relaxed text-muted-foreground/70">
+            <p className="mt-3 text-13 font-light leading-relaxed text-muted-foreground/75">
               Product design and technical anthropology for the human side of applied AI — plus the
               tools, instruments, and art that come out of it.
             </p>
@@ -121,9 +121,9 @@ export function SiteFooter() {
 
         {/* Bottom bar */}
         <div className="mt-14 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-12 font-light tracking-wide text-muted-foreground/45">
+          <p className="text-12 font-light tracking-wide text-muted-foreground/75">
             © 2026 akaBuild{' '}
-            <span className="ml-1.5 italic text-muted-foreground/35">
+            <span className="ml-1.5 italic text-muted-foreground/75">
               {'// I build tools and create art.'}
             </span>
           </p>
@@ -131,7 +131,7 @@ export function SiteFooter() {
             href="https://github.com/akaieuan"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-fit items-center gap-1 text-12 font-light tracking-wide text-muted-foreground/45 transition-colors hover:text-foreground"
+            className="inline-flex w-fit items-center gap-1 text-12 font-light tracking-wide text-muted-foreground/75 transition-colors hover:text-foreground"
           >
             Built by akaieuan
             <ArrowUpRight className="h-3 w-3 opacity-70" aria-hidden />

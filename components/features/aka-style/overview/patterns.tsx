@@ -34,7 +34,7 @@ export function PatternsSection() {
                 <div className="flex aspect-[16/10] w-full items-center justify-center aka-card-well aka-card-media overflow-hidden rounded-lg">
                   <PixelHead size={120} grid={18} faces />
                 </div>
-                <figcaption className="mt-1.5 text-11 font-light text-muted-foreground/70">
+                <figcaption className="mt-1.5 text-11 font-light text-muted-foreground/75">
                   Captions describe what is happening in the frame, not what the thing is called.
                 </figcaption>
               </figure>

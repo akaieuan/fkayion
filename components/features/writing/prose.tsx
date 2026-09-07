@@ -99,7 +99,7 @@ export function Prose({ blocks }: { blocks: Block[] }) {
                 />
               </div>
               {block.caption && (
-                <figcaption className="mt-2 text-12 font-light leading-relaxed text-muted-foreground/60">
+                <figcaption className="mt-2 text-12 font-light leading-relaxed text-muted-foreground/75">
                   {block.caption}
                 </figcaption>
               )}
@@ -114,7 +114,7 @@ export function Prose({ blocks }: { blocks: Block[] }) {
               key={key}
               className={`${
                 block.ordered ? 'list-decimal' : 'list-disc'
-              } flex flex-col gap-2.5 pl-5 marker:text-muted-foreground/50`}
+              } flex flex-col gap-2.5 pl-5 marker:text-muted-foreground/75`}
             >
               {block.items.map((item, n) => (
                 <li key={n} className={`${paragraph} pl-1`}>
@@ -136,7 +136,7 @@ export function Prose({ blocks }: { blocks: Block[] }) {
                 ))}
               </blockquote>
               {block.cite && (
-                <figcaption className="mt-3 text-12 font-light text-muted-foreground/60">
+                <figcaption className="mt-3 text-12 font-light text-muted-foreground/75">
                   {block.cite}
                 </figcaption>
               )}

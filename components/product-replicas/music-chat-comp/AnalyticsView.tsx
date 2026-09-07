@@ -23,7 +23,7 @@ export function AnalyticsView({ onAskChat }: { onAskChat: (prompt: string) => vo
               <BarChart3 size={18} className="text-primary" />
               Analytics
             </h2>
-            <p className="text-[11px] text-muted-foreground/60 mt-0.5">Q1 2026 — All Artists</p>
+            <p className="text-[11px] text-muted-foreground/75 mt-0.5">Q1 2026 — All Artists</p>
           </div>
           <button
             onClick={() => onAskChat('Full Q1 analysis with save rates, social performance, and creator recommendations')}
@@ -74,7 +74,7 @@ export function AnalyticsView({ onAskChat }: { onAskChat: (prompt: string) => vo
                   <span
                     className={cn(
                       'text-[8px]',
-                      hovBar === i ? 'text-foreground' : 'text-muted-foreground/60',
+                      hovBar === i ? 'text-foreground' : 'text-muted-foreground/75',
                     )}
                   >
                     {MO[i]}
@@ -112,7 +112,7 @@ export function AnalyticsView({ onAskChat }: { onAskChat: (prompt: string) => vo
                       <th
                         key={i}
                         className={cn(
-                          'px-2.5 py-1.5 text-[9px] font-normal text-muted-foreground/60 uppercase tracking-wider border-b border-border',
+                          'px-2.5 py-1.5 text-[9px] font-normal text-muted-foreground/75 uppercase tracking-wider border-b border-border',
                           i > 1 ? 'text-right' : 'text-left',
                         )}
                       >
@@ -140,7 +140,7 @@ export function AnalyticsView({ onAskChat }: { onAskChat: (prompt: string) => vo
                     <td
                       className={cn(
                         'px-2.5 py-[5px] text-right text-[11px] font-mono font-normal',
-                        parseFloat(a.sr) > 7 ? 'text-emerald-500' : 'text-foreground',
+                        parseFloat(a.sr) > 7 ? 'text-emerald-700 dark:text-emerald-500' : 'text-foreground',
                       )}
                     >
                       {a.sr}
@@ -151,7 +151,7 @@ export function AnalyticsView({ onAskChat }: { onAskChat: (prompt: string) => vo
                     <td
                       className={cn(
                         'px-2.5 py-[5px] text-right text-[11px] font-mono',
-                        a.up ? 'text-emerald-500' : 'text-red-500',
+                        a.up ? 'text-emerald-700 dark:text-emerald-500' : 'text-red-700 dark:text-red-500',
                       )}
                     >
                       {a.delta}

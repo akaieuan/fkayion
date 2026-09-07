@@ -74,11 +74,11 @@ export function LongRunsSection() {
                   the `group-open` the caret already uses.
                 */}
                 <span className="group/tip relative inline-flex items-center gap-2">
-                  <span className="font-mono text-10 text-muted-foreground/60 transition-transform group-open:rotate-90">
+                  <span className="font-mono text-10 text-muted-foreground/75 transition-transform group-open:rotate-90">
                     ▸
                   </span>
                   Three longer runs from the 2025 build
-                  <span className="text-11 font-light text-muted-foreground/55">
+                  <span className="text-11 font-light text-muted-foreground/75">
                     2:33 – 3:26
                   </span>
 
@@ -109,7 +109,7 @@ export function LongRunsSection() {
                   </span>
                 </span>
               </summary>
-              <p className="mt-2 pl-5 text-12 font-light leading-relaxed text-muted-foreground/70">
+              <p className="mt-2 pl-5 text-12 font-light leading-relaxed text-muted-foreground/75">
                 Whole sessions rather than single capabilities. The interface is a year older and
                 the loop is the same one.
               </p>
@@ -127,7 +127,7 @@ export function LongRunsSection() {
                     </div>
                     <figcaption className="mt-2">
                       <span className="text-13 font-medium text-foreground/85">{run.title}</span>
-                      <span className="ml-2 text-11 text-muted-foreground/50">{run.length}</span>
+                      <span className="ml-2 text-11 text-muted-foreground/75">{run.length}</span>
                       <p className="mt-1 text-12 font-light leading-relaxed text-muted-foreground/75">
                         {run.summary}
                       </p>

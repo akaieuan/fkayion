@@ -32,7 +32,7 @@ export function TypeScaleSpecimen() {
           >
             <div className="flex items-baseline justify-between gap-4">
               <span className="font-mono text-11 text-foreground/85">{name}</span>
-              <span className="font-mono text-10 text-muted-foreground/50">{px}</span>
+              <span className="font-mono text-10 text-muted-foreground/75">{px}</span>
             </div>
             <p
               className={`${name} ${
@@ -44,7 +44,7 @@ export function TypeScaleSpecimen() {
           </div>
         ))}
       </div>
-      <p className="mt-4 text-12 font-light leading-relaxed text-muted-foreground/70">
+      <p className="mt-4 text-12 font-light leading-relaxed text-muted-foreground/75">
         <span className="text-foreground/80">The scale is closed.</span> These nine are the sizes
         the config names, and a size is one of them or it is not on the site: an arbitrary pixel
         size is a violation the check reports.

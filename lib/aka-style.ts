@@ -50,6 +50,11 @@ export const LAWS = [
     rule: 'Per-frame state lives in the DOM.',
     body: 'Anything changing at sixty frames a second is written straight to a CSS variable or a data attribute and React is never told; React state is for what changes at human speed. The projects deck scrolls eighteen covers for zero re-renders, because its position is one custom property the CSS reads and every cover derives its own pose from it.',
   },
+  {
+    n: '09',
+    rule: 'Every ink clears its ground.',
+    body: 'Text is never mixed below the point where it reads at 4.5:1 on the page in both themes: the foreground stops at 60 percent, the muted ink and ink on art at 75. The quiet register is that floor, and hierarchy under it is size, case and tracking, which law 01 already gives. The check computes the floors from the tokens, and the sweep reads every page back through axe to prove them.',
+  },
 ] as const
 
 /** The surface tokens. Every one of these resolves from a CSS variable. */

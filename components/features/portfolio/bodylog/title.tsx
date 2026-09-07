@@ -34,7 +34,7 @@ export function BodyLogTitle() {
           what to do — and nothing leaves the phone.
         </p>
         <PlainSummary path="/demo/bodylog" />
-        <p className="mt-4 text-12 font-light leading-relaxed text-muted-foreground/70">
+        <p className="mt-4 text-12 font-light leading-relaxed text-muted-foreground/75">
           $3/month or $25/year at launch. Native SwiftUI + SwiftData, iOS 17+, zero external
           dependencies — no image assets; every glyph, badge and figure is a character grid drawn
           at runtime.

@@ -7,10 +7,10 @@ import { Section, Card } from '@/components/features/demo/hitl-ai/sheet/shared';
 
 const STATUS_META: Record<AgentStatus, { icon: React.ElementType; color: string }> = {
   idle:      { icon: Cpu,          color: 'text-muted-foreground' },
-  running:   { icon: Loader2,      color: 'text-blue-500' },
-  completed: { icon: Check,        color: 'text-emerald-500' },
-  error:     { icon: AlertOctagon, color: 'text-red-500' },
-  skipped:   { icon: SkipForward,  color: 'text-amber-500' },
+  running:   { icon: Loader2,      color: 'text-blue-700 dark:text-blue-500' },
+  completed: { icon: Check,        color: 'text-emerald-700 dark:text-emerald-500' },
+  error:     { icon: AlertOctagon, color: 'text-red-700 dark:text-red-500' },
+  skipped:   { icon: SkipForward,  color: 'text-amber-800 dark:text-amber-500' },
   cancelled: { icon: Ban,          color: 'text-muted-foreground' },
 };
 

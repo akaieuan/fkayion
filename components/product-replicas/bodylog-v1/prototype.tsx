@@ -113,7 +113,7 @@ export function Prototype() {
 function Opt({ id, label, children }: { id: string; label: string; children: React.ReactNode }) {
   return (
     <div id={id} className="flex flex-none scroll-mt-4 flex-col gap-2.5">
-      <div className="flex items-baseline gap-2 text-[11.5px] font-light leading-tight text-black/55">
+      <div className="flex items-baseline gap-2 text-[11.5px] font-light leading-tight text-black/75">
         <span className="rounded-[5px] bg-black/[0.07] px-[7px] py-[3px] font-mono text-[10.5px] font-medium text-[#141413]">{id}</span>
         {label}
       </div>
@@ -451,7 +451,7 @@ function jumpStyle(on: boolean): CSSProperties {
   return {
     border: `1px solid ${on ? 'rgba(0,0,0,.35)' : 'rgba(0,0,0,.12)'}`,
     background: on ? 'rgba(0,0,0,.05)' : 'transparent',
-    color: 'rgba(0,0,0,.6)',
+    color: 'rgba(0,0,0,.8)',
     borderRadius: '999px',
     padding: '5px 12px',
     font: '300 11.5px var(--font-sans)',
@@ -462,7 +462,7 @@ function jumpStyle(on: boolean): CSSProperties {
 function JumpTo({ st, set }: { st: State; set: (p: Partial<State>) => void }) {
   return (
     <div style={{ width: '210px', display: 'flex', flexDirection: 'column', gap: '14px', paddingTop: '8px' }}>
-      <div style={{ ...micro('rgba(0,0,0,.4)') }}>jump to</div>
+      <div style={{ ...micro('rgba(0,0,0,.8)') }}>jump to</div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'flex-start' }}>
         {JUMPS.map(([v, label]) => (
           <button
@@ -488,7 +488,7 @@ function JumpTo({ st, set }: { st: State; set: (p: Partial<State>) => void }) {
       <div
         style={{
           font: '300 11px/1.6 var(--font-sans)',
-          color: 'rgba(0,0,0,.45)',
+          color: 'rgba(0,0,0,.8)',
           borderTop: '1px solid rgba(0,0,0,.09)',
           paddingTop: '12px',
           textWrap: 'pretty',

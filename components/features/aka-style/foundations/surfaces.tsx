@@ -23,7 +23,7 @@ export function SurfacesSection() {
                 />
               </Row>
               <Row name="--plate-mix" value="10% / 7%">
-                <span className="text-11 font-light text-muted-foreground/60">
+                <span className="text-11 font-light text-muted-foreground/75">
                   How much of the project&apos;s hue reaches the plate
                 </span>
               </Row>
@@ -34,7 +34,7 @@ export function SurfacesSection() {
                 />
               </Row>
             </Table>
-            <p className="mt-4 text-12 font-light leading-relaxed text-muted-foreground/70">
+            <p className="mt-4 text-12 font-light leading-relaxed text-muted-foreground/75">
               <span className="text-foreground/80">Dark is the reference.</span> Light is not the
               same number: a hue over a light ground shows up more readily than the same hue over a
               dark one, so light takes more mix to read as the same character. And{' '}
@@ -42,7 +42,7 @@ export function SurfacesSection() {
               light while it steps up in dark. It used to sit lighter than the background, which made
               every plate in light mode effectively invisible.
             </p>
-            <p className="mt-2 text-12 font-light leading-relaxed text-muted-foreground/70">
+            <p className="mt-2 text-12 font-light leading-relaxed text-muted-foreground/75">
               <span className="text-foreground/80">The mix is sRGB, not OKLCH.</span> The ground is
               achromatic but carries an explicit hue, and an OKLCH mix interpolates that channel: a
               green, a blue and a violet all came out pink. It is also why the plate ground is

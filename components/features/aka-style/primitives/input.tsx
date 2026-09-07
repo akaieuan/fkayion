@@ -10,31 +10,31 @@ export function InputSection() {
           <Spec
             name="Text fields"
             note="label above, hint below, never placeholder-as-label"
-            cls={`label  text-10 font-medium uppercase tracking-[0.14em] text-muted-foreground/60
-input  w-full rounded-lg border border-border bg-background px-3 py-2.5 text-13 text-foreground placeholder:text-muted-foreground/40 focus:border-foreground/30 focus:outline-none
-hint   mt-1.5 text-11 font-light text-muted-foreground/60`}
+            cls={`label  text-10 font-medium uppercase tracking-[0.14em] text-muted-foreground/75
+input  w-full rounded-lg border border-border bg-background px-3 py-2.5 text-13 text-foreground placeholder:text-muted-foreground/75 focus:border-foreground/30 focus:outline-none
+hint   mt-1.5 text-11 font-light text-muted-foreground/75`}
           >
             <div className="w-full max-w-sm space-y-4">
               <div>
                 <p className="aka-label">Email</p>
-                <div className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-13 text-muted-foreground/40">
+                <div className="mt-1.5 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-13 text-muted-foreground/75">
                   you@example.com
                 </div>
-                <p className="mt-1.5 text-11 font-light text-muted-foreground/60">
+                <p className="mt-1.5 text-11 font-light text-muted-foreground/75">
                   We reply within 48h.
                 </p>
               </div>
               <div>
                 <p className="aka-label">Message</p>
-                <div className="mt-1.5 h-20 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-13 text-muted-foreground/40">
+                <div className="mt-1.5 h-20 w-full rounded-lg border border-border bg-background px-3 py-2.5 text-13 text-muted-foreground/75">
                   Tell us about the project…
                 </div>
               </div>
               <div>
                 <p className="aka-label">Search</p>
                 <div className="mt-1.5 flex w-full items-center gap-2 rounded-lg border border-border bg-background px-3 py-2.5">
-                  <Search className="h-3.5 w-3.5 text-muted-foreground/40" aria-hidden />
-                  <span className="text-13 text-muted-foreground/40">Filter projects…</span>
+                  <Search className="h-3.5 w-3.5 text-muted-foreground/75" aria-hidden />
+                  <span className="text-13 text-muted-foreground/75">Filter projects…</span>
                 </div>
               </div>
             </div>
@@ -78,14 +78,14 @@ toggle  h-5 w-9 rounded-full border border-border bg-muted/40 → bg-foreground 
             name="Tabs"
             note="active carries the accent; the rest stay quiet"
             cls={`active   text-primary
-inactive text-muted-foreground/50 hover:text-foreground
+inactive text-muted-foreground/75 hover:text-foreground
 wrapper  flex flex-wrap items-center gap-x-1 gap-y-1 -ml-2.5`}
           >
             {['projects', 'writing', 'music', 'social'].map((t, i) => (
               <span
                 key={t}
                 className={`px-2.5 py-1 text-12 font-light tracking-wide ${
-                  i === 0 ? 'text-primary' : 'text-muted-foreground/50'
+                  i === 0 ? 'text-primary' : 'text-muted-foreground/75'
                 }`}
               >
                 {t}

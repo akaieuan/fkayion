@@ -15,8 +15,8 @@ still fires on a fixture that must trip it and passes its clean twin.
 
 **Law violations.** akaSTYLE states its rules as constraints rather than
 preferences specifically so they can be checked instead of argued about, and a
-constraint nothing checks is a preference. The check enforces seven of the
-eight mechanically:
+constraint nothing checks is a preference. The check enforces eight of the
+nine mechanically:
 
 - **Law 01**, one type scale: sizes are `text-10` through `text-20` and
   `text-display`; an arbitrary `text-[Npx]` or `text-[clamp(...)]` is a size the
@@ -36,6 +36,14 @@ eight mechanically:
 - **Law 07**, server by default, as a number: `CLIENT_BUDGET` in the script is
   the count of client files. Spending one means raising it in the same commit,
   with the reason in that commit.
+- **Law 09**, every ink clears its ground: a text modifier under its ink's
+  floor, `text-foreground/60` and `text-muted-foreground/75` today, or a
+  `color:` in the stylesheet mixed under it. The floors are computed from the
+  tokens in `globals.css` as the lowest step that reads at 4.5:1 on the page
+  in both themes, so a token that moves takes its floor with it, and the
+  ladder card on `/aka-style/foundations` must print them. Text on a tinted
+  ground, a chip or a card head, names its own ink rather than inheriting a
+  quiet one, because the floor is measured against the page.
 
 Law 08 is judgement, and the one to hold yourself to by hand:
 anything scroll-linked or animated writes a CSS variable or a data attribute,
@@ -87,7 +95,13 @@ art-layer list with the reason, before the push; there is no third option.
 every route the build prerendered through headless Chrome at 1280 and 375. It
 fails on a route that is not 200, a console error or thrown exception, a
 failed or 4xx request, or horizontal overflow at either width, and it writes a
-screenshot per route and two contact sheets to `.next/sweep/`. Run it before a
+screenshot per route and two contact sheets to `.next/sweep/`. It then runs
+axe-core over the page at both widths in both themes and fails on any WCAG 2.1
+AA violation, which is law 09 as rendered, and on the structural faults: content
+outside a landmark, a page without a `main` or an `h1`, a heading that skips a
+level, a control without a name, a landmark named twice. There is no
+allowlist; a replica paints its product's inks at the floor rather than under
+it, and a decorative effect hides its copies with `aria-hidden`. Run it before a
 push that touches shared vocabulary, the config, or the stylesheet: the style
 check proves the source follows the laws, and this proves the pages still
 stand. It starts its own `next start` on 7871; pass `--base` to sweep a server

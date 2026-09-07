@@ -69,7 +69,7 @@ export function LandingPage({
             onClick={() => onSetInput(s.prompt)}
             className="flex items-center gap-1.5 rounded-full border border-border bg-transparent text-muted-foreground text-[13px] px-4 py-2 cursor-pointer hover:bg-card hover:text-foreground transition-colors"
           >
-            <s.icon size={14} className="text-muted-foreground/60" />
+            <s.icon size={14} className="text-muted-foreground/75" />
             {s.label}
           </button>
         ))}

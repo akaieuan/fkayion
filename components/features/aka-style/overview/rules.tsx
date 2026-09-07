@@ -1,7 +1,7 @@
 import { card as cardCls } from '@/components/features/aka-style/shared'
 import { LAWS } from '@/lib/aka-style'
 
-/** The rules: eight laws stated as constraints. Moved verbatim from app/aka-style/page.tsx. */
+/** The rules: nine laws stated as constraints. Moved verbatim from app/aka-style/page.tsx. */
 export function RulesSection() {
   return (
         <section id="rules" className="scroll-mt-24">

@@ -22,7 +22,7 @@ export function ButtonsSection() {
             note="one primary per view"
             cls={`primary   aka-button
 secondary aka-button-secondary
-quiet     text-13 font-light text-muted-foreground/70 transition-colors hover:text-foreground`}
+quiet     text-13 font-light text-muted-foreground/75 transition-colors hover:text-foreground`}
           >
             <span className="aka-button">
               Primary action
@@ -32,10 +32,10 @@ quiet     text-13 font-light text-muted-foreground/70 transition-colors hover:te
               Secondary
               <ArrowUpRight className="h-4 w-4 opacity-70" aria-hidden />
             </span>
-            <span className="text-13 font-light text-muted-foreground/70 transition-colors hover:text-foreground">
+            <span className="text-13 font-light text-muted-foreground/75 transition-colors hover:text-foreground">
               Quiet link →
             </span>
-            <span className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-muted-foreground/40">
+            <span className="inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-medium text-muted-foreground/75">
               Disabled
             </span>
           </Spec>

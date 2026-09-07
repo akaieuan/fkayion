@@ -67,7 +67,7 @@ function ThemeToggle() {
     <button
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
       aria-label={`Switch to ${next.toLowerCase()}`}
-      className="group relative inline-flex items-center justify-center rounded-full text-foreground/50 transition-colors duration-200 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--select)]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      className="group relative inline-flex items-center justify-center rounded-full text-foreground/60 transition-colors duration-200 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--select)]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       <PixelDisc />
       {/* Named rather than implied. `aria-hidden` because the button's own
@@ -169,7 +169,7 @@ export function SiteHeader() {
   }
 
   const navTextActive = 'text-foreground/85'
-  const navTextInactive = 'text-foreground/40 hover:text-foreground/70'
+  const navTextInactive = 'text-foreground/60 hover:text-foreground/90'
   const logoText = 'text-foreground/80 hover:text-foreground'
 
   /** Inline so the bars follow the header's own token rather than `bg-foreground`, which used to desync from the theme during hydration. */
@@ -320,7 +320,7 @@ export function SiteHeader() {
             <span className="text-sm tracking-wide text-foreground/70">Menu</span>
             <button
               onClick={() => setMobileMenuOpen(false)}
-              className="transition-colors text-sm text-foreground/50 hover:text-foreground/80"
+              className="transition-colors text-sm text-foreground/60 hover:text-foreground/80"
             >
               Close
             </button>

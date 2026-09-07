@@ -22,7 +22,7 @@ export function HowTheseGetMadeSection() {
               },
             ].map((r) => (
               <div key={r.n} className="flex gap-4">
-                <span className="mt-0.5 shrink-0 font-mono text-11 text-muted-foreground/40">
+                <span className="mt-0.5 shrink-0 font-mono text-11 text-muted-foreground/75">
                   {r.n}
                 </span>
                 <div>

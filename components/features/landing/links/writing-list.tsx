@@ -58,11 +58,11 @@ export function WritingList({ items = LANDING_WRITING }: { items?: WritingEntry[
                 <span className="text-14 font-light tracking-tight text-foreground/85 underline decoration-transparent underline-offset-[5px] transition-colors duration-200 group-hover:text-foreground group-hover:decoration-foreground/30">
                   {row.title}
                 </span>
-                <span className="text-11 font-light text-muted-foreground/40">{row.type}</span>
+                <span className="text-11 font-light text-muted-foreground/75">{row.type}</span>
               </span>
               {/* The same sentence, for the screens that get no panel.
                   Server-rendered; the panel is the conditional half. */}
-              <span className="mt-0.5 block text-13 font-light leading-relaxed text-muted-foreground/55 md:hidden">
+              <span className="mt-0.5 block text-13 font-light leading-relaxed text-muted-foreground/75 md:hidden">
                 {row.description}
               </span>
             </>
