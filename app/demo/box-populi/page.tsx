@@ -76,14 +76,6 @@ export default function BoxPopuliProjectPage() {
         }
       />
       <PlainSummary path={PATH} />
-      {/*
-        The second figure, the Studio, goes here once its capture exists:
-        `components/features/demo/box-populi/studio-figure.tsx` is written and
-        waits on `public/box-populi/box-populi-studio.webp`, a screenshot of
-        /studio with the sidebar (Site settings, Home page, Artists page,
-        Contact page, Artists, Shows, Roles) and an artist or the Home page
-        open. Import it and render `<StudioFigure />` on this line.
-      */}
 
       <div className="mt-10 aka-prose">
         <WhatThisIsSection />
