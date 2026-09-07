@@ -107,30 +107,40 @@ const FRAME = 'aka-card-well aka-card-media overflow-hidden rounded-xl aspect-[2
 
 export function MarketingSiteSection() {
   return (
-    <section className="space-y-3">
-      <h2 className="aka-lead">The marketing site</h2>
-      <p>
-        The product was not the only surface I owned. Ubik&apos;s marketing site was mine end to
-        end: the argument it opens with, the copy, the structure, the paintings commissioned for
-        each capability, and the build. It was written in the order the product works. The problem
-        first, then how Ubik answered it, then twelve fields of use cases with worked examples in
-        each, and a models page that said what ran on the free plan.
-      </p>
-      <p>
-        The site is retired with the rest. The Wayback Machine kept a copy from April 2026, and
-        these are its pages;{' '}
-        <a
-          href={UBIK_MARKETING_ARCHIVE}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="aka-quiet-link"
-        >
-          the archived site
-        </a>{' '}
-        still opens.
-      </p>
+    <section>
+      {/* The copy is one spaced group; the strip is outside it, so a sibling rule cannot take its margin. */}
+      <div className="space-y-3">
+        <h2 className="aka-lead">The marketing site</h2>
+        <p>
+          The product was not the only surface I owned. Ubik&apos;s marketing site was mine end to
+          end: the argument it opens with, the copy, the structure, the paintings commissioned for
+          each capability, and the build. It was written in the order the product works. The problem
+          first, then how Ubik answered it, then twelve fields of use cases with worked examples in
+          each, and a models page that said what ran on the free plan.
+        </p>
+        <p>
+          The site is retired with the rest. The Wayback Machine kept a copy from April 2026, and
+          these are its pages;{' '}
+          <a
+            href={UBIK_MARKETING_ARCHIVE}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="aka-quiet-link"
+          >
+            the archived site
+          </a>{' '}
+          still opens.
+        </p>
+      </div>
 
-      <Carousel label="The Ubik marketing site" className="aka-breakout mt-6">
+      {/*
+        The strip takes the site's width from inside the column, then steps in
+        by the header's own inset at desktop so its edges land on the logo and
+        the nav rather than on the page's outer box. Under lg the breakout is
+        already the reading column, so there is nothing to step in from. The
+        48px above is what the site's other breakout figures take.
+      */}
+      <Carousel label="The Ubik marketing site" className="aka-breakout mt-12 lg:px-16">
         {SLIDES.map((s, i) => (
           <CarouselSlide key={s.caption} index={i + 1} total={SLIDES.length} caption={s.caption}>
             <div className={FRAME}>
