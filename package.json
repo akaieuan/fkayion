@@ -2,13 +2,16 @@
   "name": "fkayion",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
-    "prebuild": "node tools/aka-style-check.mjs --selftest && node tools/aka-style-check.mjs --strict",
+    "prebuild": "npm test && node tools/aka-style-check.mjs --selftest && node tools/aka-style-check.mjs --strict",
     "style:check": "node tools/aka-style-check.mjs",
     "site:sweep": "node tools/site-sweep.mjs",
     "portfolio:pdf": "node tools/portfolio-pdf.mjs",
@@ -38,6 +41,7 @@
     "@types/react-dom": "^18",
     "@types/three": "^0.174.0",
     "autoprefixer": "^10",
+    "axe-core": "^4.10.3",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.2.35",
     "postcss": "^8",

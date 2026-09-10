@@ -4,14 +4,18 @@ Next.js 14 App Router, TypeScript, Tailwind v3. Deployed from `main`.
 
 ## Before pushing
 
-Run the design-system check and act on what it says:
+Three gates, in this order. The first two run themselves on every build; the
+third is the one to remember.
 
 ```bash
+npm test          # the arithmetic and the helpers, ~0.1s
 npm run style:check
+npm run site:sweep # after a build, and only when the front end moved
 ```
 
-It reports three kinds of drift, and `npm run style:selftest` proves every rule
-still fires on a fixture that must trip it and passes its clean twin.
+The design-system check reports three kinds of drift, and
+`npm run style:selftest` proves every rule still fires on a fixture that must
+trip it and passes its clean twin.
 
 **Law violations.** akaSTYLE states its rules as constraints rather than
 preferences specifically so they can be checked instead of argued about, and a
@@ -86,9 +90,22 @@ The point is that the design system is a live specimen rather than a document
 about one. It only stays true if it is updated in the same commit as the thing
 it describes, not in a cleanup pass later.
 
-The check is strict and there is no backlog: `prebuild` runs the self-test and
-`--strict` before every `next build`, locally and on Vercel, so a build with a
-violation in it does not exist. A finding is fixed, or the file is moved to the
+The check is strict and there is no backlog: `prebuild` runs `npm test`, the
+self-test and `--strict` before every `next build`, locally and on Vercel, so a
+build with a violation in it does not exist.
+
+**The arithmetic, and the helpers.** `npm test` is Node's own runner over
+`lib/**/*.test.ts`. There is no test framework and no transform: Node runs the
+TypeScript, which is why `engines.node` is pinned at 24 and why a test may only
+import a module whose own imports resolve without the `@/` alias. What lives
+here is the logic that has no business needing a browser to check: the deck's
+scroll arithmetic, which shipped wrong twice and cost a screenshot-and-diff
+session each time before it was lifted out of the scroll handler, and the route
+helpers, where the full-screen list matches by prefix and the rail-less list
+matches exactly and swapping the two is invisible until a header lands on a
+demo's toolbar. A test written after the code proves nothing until it has been
+watched to fail, so a new one is checked by breaking the thing it covers,
+seeing red, and putting it back. A finding is fixed, or the file is moved to the
 art-layer list with the reason, before the push; there is no third option.
 
 **The front end, in a browser.** After a build, `npm run site:sweep` drives
@@ -106,6 +123,11 @@ push that touches shared vocabulary, the config, or the stylesheet: the style
 check proves the source follows the laws, and this proves the pages still
 stand. It starts its own `next start` on 7871; pass `--base` to sweep a server
 that is already running.
+
+It is the closest thing here to an end-to-end suite, and it proves the pages
+stand rather than that they work: nothing in it clicks. Interaction is still
+checked by hand, and a throwaway script that drives a control and asserts on
+the result belongs in this tool rather than in the scratchpad.
 
 ## Conventions
 
