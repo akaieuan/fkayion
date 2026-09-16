@@ -1,4 +1,5 @@
 import { JsonLd } from '@/components/seo/json-ld'
+import { LoopVideo } from '@/components/ui/loop-video'
 import { demoSchema } from '@/lib/demo-seo'
 import { label, PATH, metadata } from '@/components/features/demo/blockpad/shared'
 
@@ -48,19 +49,36 @@ export function UsingItSection() {
           <section className="space-y-3">
             <h2 className="aka-lead">Using it</h2>
             <p>
-              It runs as a menu bar item with no dock icon. Two hotkeys toggle the canvas:{' '}
-              <code className="aka-code">Ctrl+Opt+B</code> and{' '}
-              <code className="aka-code">Ctrl+Opt+Space</code>.
+              It runs as a menu bar item with no dock icon. You open it with{' '}
+              <code className="aka-code">Ctrl+Opt+Space</code>: press it and the canvas comes up over
+              whatever you are in, press it again and the canvas hides.{' '}
+              <code className="aka-code">Ctrl+Opt+B</code> does the same, as a second toggle.
             </p>
             <p className="aka-card-well p-4 text-14">
               <span className="text-foreground/85">
-                Heads up on <code className="aka-code">Ctrl+Opt+Space</code>.
+                If <code className="aka-code">Ctrl+Opt+Space</code> does nothing on your machine.
               </span>{' '}
               macOS ships that chord bound to &ldquo;Select next source in Input menu&rdquo;, and a
-              system binding beats an app&apos;s. On a clean machine it does nothing. Either use{' '}
-              <code className="aka-code">Ctrl+Opt+B</code>, which nothing else claims, or clear the
-              system one in System Settings, Keyboard, Keyboard Shortcuts, Input Sources.
+              system binding beats an app&apos;s. Clear it in System Settings, Keyboard, Keyboard
+              Shortcuts, Input Sources, or use <code className="aka-code">Ctrl+Opt+B</code>, which
+              nothing else claims.
             </p>
+
+            <figure className="!mt-5">
+              <div className="aka-card-well aka-card-media overflow-hidden">
+                <LoopVideo
+                  src="/blockpad/walkthrough"
+                  poster="/blockpad/walkthrough-poster.webp"
+                  width={1280}
+                  height={932}
+                  label="A walkthrough of the app: the colour picker with channel sliders and a hex field, the inspector rail, the arrow and freehand tools, and a component blockout placed on the canvas"
+                />
+              </div>
+              <figcaption className="mt-2 text-11 font-light text-muted-foreground/75">
+                A minute and three quarters in the app: the colour picker and its channel sliders,
+                the inspector rail, arrow and freehand, and a blockout dropped from the drawer.
+              </figcaption>
+            </figure>
 
             <p className={`${label} !mt-6`}>Tools</p>
             <KeyTable rows={tools} />

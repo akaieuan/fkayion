@@ -5,7 +5,7 @@ const done = [
   'Frame, rectangle, ellipse, diamond, arrow, line, freehand, text, eraser, pan',
   'Arbitrary hex on stroke and fill, numeric stroke width and corner radius, fill patterns, opacity, layer order',
   'Alignment guides, grid snap, marquee select, rigid-body multi-selection, undo/redo',
-  'A component drawer of thirty-two blockouts across Layout, Controls, Data and Feedback',
+  'A component drawer of thirty-six blockouts across Layout, Controls, Data, Feedback and Story',
   'Tree serialiser with run-collapsing, three payload modes, clipboard copy',
   'Crisp renderer by default, the sketch renderer one toggle away',
   'App icon generated in Core Graphics from the palette, MIT licensed',

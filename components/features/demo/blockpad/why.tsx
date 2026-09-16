@@ -1,3 +1,5 @@
+import { LoopVideo } from '@/components/ui/loop-video'
+
 /** Why it exists. Moved verbatim from app/demo/blockpad/page.tsx. */
 export function WhySection() {
   return (
@@ -22,8 +24,8 @@ export function WhySection() {
             </p>
             <p className="text-foreground/85">The cost is not the message. It is the rounds.</p>
             <p>
-              Blockpad is one hotkey and one canvas. <code className="aka-code">Ctrl+Opt+B</code>, drag
-              four boxes, <code className="aka-code">Cmd+Return</code>, paste. No model inside it, no
+              Blockpad is one hotkey and one canvas. <code className="aka-code">Ctrl+Opt+Space</code>,
+              drag four boxes, <code className="aka-code">Cmd+Return</code>, paste. No model inside it, no
               account, no subscription, nothing agent-initiated, and it never leaves your machine. It
               is a faster input device for one specific moment, and the constraint is the product.
             </p>
@@ -31,6 +33,22 @@ export function WhySection() {
               <span className="text-foreground/85">Loop target: six seconds</span>, with no mouse
               travel outside the canvas.
             </p>
+
+            <figure className="!mt-5">
+              <div className="aka-card-well aka-card-media overflow-hidden">
+                <LoopVideo
+                  src="/blockpad/loop"
+                  poster="/blockpad/loop-poster.webp"
+                  width={1280}
+                  height={724}
+                  label="The loop, end to end: Copy pressed in Blockpad over the editor, the window hides, a paste into the terminal, and the tree and image sit in the prompt"
+                />
+              </div>
+              <figcaption className="mt-2 text-11 font-light text-muted-foreground/75">
+                The loop, on film. Copy in Blockpad, paste in the terminal: the tree and the image
+                land in the prompt together. Eight seconds.
+              </figcaption>
+            </figure>
           </section>
   )
 }

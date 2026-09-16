@@ -97,7 +97,7 @@ const { targetId } = await bsend('Target.createTarget', { url: 'about:blank', wi
 const list = await fetch(`http://127.0.0.1:${dp}/json/list`).then((r) => r.json())
 const ws = new WebSocket(list.find((t) => t.id === targetId).webSocketDebuggerUrl); await new Promise((r) => (ws.onopen = r))
 let id = 0; const pend = new Map(); const events = []
-const send = (m, p = {}, ms = 25000) => Promise.race([
+const send = (m, p = {}, ms = 60000) => Promise.race([
   new Promise((res) => { const i = ++id; pend.set(i, res); ws.send(JSON.stringify({ id: i, method: m, params: p })) }),
   new Promise((_, rej) => setTimeout(() => rej(new Error(m + ' timed out')), ms)),
 ])
@@ -152,10 +152,18 @@ for (const route of routes) {
    * gets. The status, the overflow and the screenshot come from the light
    * load at each width; axe runs on all four.
    */
+  /*
+   * A stalled reply is a finding on that route, not the end of the run. On a
+   * loaded machine Chrome can take longer than the timeout to answer a resize
+   * or a script registration; letting that reject uncaught took the whole
+   * sweep down with it and lost every route already checked. The route is
+   * marked with the reason and the sweep moves on, so the report is complete
+   * either way and the exit code still says FAIL.
+   */
   for (const [w, h, mobile] of [[1280, 900, false], [375, 812, true]]) {
-    await viewport(w, h, mobile)
+    try { await viewport(w, h, mobile) } catch (e) { row.errors.push(`viewport@${w}: ` + e.message); continue }
     for (const theme of axe ? ['light', 'dark'] : ['light']) {
-      await setTheme(theme)
+      try { await setTheme(theme) } catch (e) { row.errors.push(`theme@${w}/${theme}: ` + e.message); continue }
       try { await send('Page.navigate', { url: base + route }) } catch (e) { row.errors.push(`navigate@${w}/${theme}: ` + e.message) }
       await new Promise((r) => setTimeout(r, 3000))
       if (theme === 'light') {

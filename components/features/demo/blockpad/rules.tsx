@@ -18,7 +18,7 @@ const rules = [
   },
   {
     h: 'The tree is the only contract.',
-    t: 'Everything the app can draw, including the thirty-two component blockouts, lands in the payload as plain blocks. Nothing gets a private representation the receiving agent would have to be taught.',
+    t: 'Everything the app can draw, including the thirty-six component blockouts, lands in the payload as plain blocks. Nothing gets a private representation the receiving agent would have to be taught.',
   },
 ]
 

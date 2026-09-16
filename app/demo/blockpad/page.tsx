@@ -12,6 +12,7 @@ import { RulesSection } from '@/components/features/demo/blockpad/rules'
 import { UsingItSection } from '@/components/features/demo/blockpad/using-it'
 import { GuidesSection } from '@/components/features/demo/blockpad/guides'
 import { StylingSection } from '@/components/features/demo/blockpad/styling'
+import { ComponentDrawerSection } from '@/components/features/demo/blockpad/component-drawer'
 import { DeparturesSection } from '@/components/features/demo/blockpad/departures'
 import { MarkSection } from '@/components/features/demo/blockpad/mark'
 import { WhyNativeSection } from '@/components/features/demo/blockpad/why-native'
@@ -100,6 +101,9 @@ export default function BlockpadPage() {
 
         {/* ------------------------------------------------------ colour */}
         <StylingSection />
+
+        {/* ------------------------------------------- the component drawer */}
+        <ComponentDrawerSection />
 
         {/* ------------------------------------------------ the redesign */}
         <DeparturesSection />
