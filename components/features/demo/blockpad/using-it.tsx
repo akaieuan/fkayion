@@ -1,7 +1,5 @@
-import { JsonLd } from '@/components/seo/json-ld'
 import { LoopVideo } from '@/components/ui/loop-video'
-import { demoSchema } from '@/lib/demo-seo'
-import { label, PATH, metadata } from '@/components/features/demo/blockpad/shared'
+import { label } from '@/components/features/demo/blockpad/shared'
 
 const tools: [string, string][] = [
   ['1 – 0', 'Tools, left to right along the dock'],
@@ -24,12 +22,6 @@ const canvas: [string, string][] = [
 function KeyTable({ rows }: { rows: [string, string][] }) {
   return (
     <div className="!mt-4 overflow-hidden rounded-xl border border-border/80">
-      <JsonLd
-        data={demoSchema(PATH, {
-          title: metadata.title as string,
-          description: metadata.description as string,
-        })}
-      />
       {rows.map(([k, v]) => (
         <div
           key={k}

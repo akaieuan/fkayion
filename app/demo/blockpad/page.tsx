@@ -1,10 +1,12 @@
 import { ArrowUpRight } from 'lucide-react'
 import { DemoImage } from '@/components/ui/demo-image'
+import { demoSchema } from '@/lib/demo-seo'
+import { JsonLd } from '@/components/seo/json-ld'
 import { BlockpadMark } from '@/components/ui/blockpad-mark'
 import { PlainSummary } from '@/components/ui/plain-summary'
 import { DemoShell } from '@/components/features/demo/demo-shell'
 import { WriteUpHeader } from '@/components/features/demo/write-up-header'
-import { PATH } from '@/components/features/demo/blockpad/shared'
+import { PATH, metadata } from '@/components/features/demo/blockpad/shared'
 import { WhySection } from '@/components/features/demo/blockpad/why'
 import { WhereItCameFromSection } from '@/components/features/demo/blockpad/where-it-came-from'
 import { PayloadSection } from '@/components/features/demo/blockpad/payload'
@@ -27,6 +29,12 @@ export { metadata } from '@/components/features/demo/blockpad/shared'
 export default function BlockpadPage() {
   return (
     <DemoShell>
+      <JsonLd
+        data={demoSchema(PATH, {
+          title: metadata.title as string,
+          description: metadata.description as string,
+        })}
+      />
       <WriteUpHeader
         kicker="Personal tool · macOS · MIT"
         title="Blockpad"
